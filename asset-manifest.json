@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/AGV-Inquiry-sheet/static/css/main.073c9b0a.css",
-    "main.js": "/AGV-Inquiry-sheet/static/js/main.367a5422.js",
-    "index.html": "/AGV-Inquiry-sheet/index.html",
-    "main.073c9b0a.css.map": "/AGV-Inquiry-sheet/static/css/main.073c9b0a.css.map",
-    "main.367a5422.js.map": "/AGV-Inquiry-sheet/static/js/main.367a5422.js.map"
+    "main.css": "./static/css/main.073c9b0a.css",
+    "main.js": "./static/js/main.367a5422.js",
+    "index.html": "./index.html",
+    "main.073c9b0a.css.map": "./static/css/main.073c9b0a.css.map",
+    "main.367a5422.js.map": "./static/js/main.367a5422.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
