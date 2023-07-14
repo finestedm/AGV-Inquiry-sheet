@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/agv-inquiry-sheet/static/css/main.073c9b0a.css",
+    "main.js": "/agv-inquiry-sheet/static/js/main.367a5422.js",
+    "index.html": "/agv-inquiry-sheet/index.html",
+    "main.073c9b0a.css.map": "/agv-inquiry-sheet/static/css/main.073c9b0a.css.map",
+    "main.367a5422.js.map": "/agv-inquiry-sheet/static/js/main.367a5422.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.367a5422.js"
+  ]
+}
