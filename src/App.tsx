@@ -9,7 +9,9 @@ export interface IFormData {
   company: string;
   sapNumber: number;
   industryName: string[]; // Add the industryName property
-
+  system: {
+    [key: string]: boolean;
+  };
 }
 
 export interface IFormProps {
@@ -24,7 +26,13 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
     contactPersonRole: '',
     company: '',
     sapNumber: 0,
-    industryName: []
+    industryName: [],
+    system: {
+      asrs: false,
+      lrkprk: false,
+      agv: false,
+      autovna: false
+    }
   });
 
   return [formData, setFormData];
