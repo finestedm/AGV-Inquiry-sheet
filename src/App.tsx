@@ -29,7 +29,7 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
     industryName: [],
     system: {
       asrs: false,
-      lrkprk: false,
+      'lrk&prk': false,
       agv: false,
       autovna: false
     }
