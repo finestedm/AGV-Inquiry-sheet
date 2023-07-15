@@ -100,6 +100,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
                   placeholder="41******"
                   name="sapNumber"
                   value={formData.sapNumber}
+                  defaultValue=''
                   onChange={handleInputChange}
                 />
                 <FormControl>

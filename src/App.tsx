@@ -7,7 +7,7 @@ export interface IFormData {
   contactPerson: string;
   contactPersonRole: string;
   company: string;
-  sapNumber: number;
+  sapNumber: number | null;
   industryName: string[]; // Add the industryName property
   system: {
     [key: string]: boolean;
@@ -25,7 +25,7 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
     contactPerson: '',
     contactPersonRole: '',
     company: '',
-    sapNumber: 0,
+    sapNumber: null,
     industryName: [],
     system: {
       asrs: false,
