@@ -5,13 +5,13 @@ import { IFormData, IFormProps } from "../App";
 const industries = ['Produkcja', 'Handel', 'Dostawca usług logistycznych', 'Branża farmaceutyczna', 'Branża napojowa', 'Branża odzieżowa', 'Branża chemiczna', 'Przemysł spożywczy', 'Automotive', 'Inna']
 
 const urlASRS =
-    'https://www.jungheinrich.cn/resource/image/540796/landscape_ratio16x10/750/469/4de74d221121a65bc7e0c08b6d4285da/1FA625729DA78A1AD6585E27F629F67B/stage-automatic-small-parts-storage.jpg';
-  const urlLRKPRK =
-    'https://www.jungheinrich.cn/resource/image/540918/landscape_ratio16x10/750/469/40bd0c110ea57c96e6b5a51e6d6728ed/1F26C0C524BFC81ADDA1253482D95F1A/stage-small-parts-storage-dynamic.jpg';
-  const urlAGV =
-    'https://www.jungheinrich.cn/resource/image/540798/landscape_ratio16x10/750/469/5207e5fdaf2ac8a1858bcdae07a44ab2/FE5BFAE61CB18BBD620473590B9B437E/stage-agv-system.jpg';
-  const urlAutoVNA =
-    'https://www.jungheinrich.cn/resource/image/541672/landscape_ratio16x10/750/469/c7d514ecb2cce052105a89c86396a92b/2F274C04399B4D9A89056F7A564042BA/stage-automated-high-rack-stacker.jpg';
+  'https://www.jungheinrich.cn/resource/image/540796/landscape_ratio16x10/750/469/4de74d221121a65bc7e0c08b6d4285da/1FA625729DA78A1AD6585E27F629F67B/stage-automatic-small-parts-storage.jpg';
+const urlLRKPRK =
+  'https://www.jungheinrich.cn/resource/image/540918/landscape_ratio16x10/750/469/40bd0c110ea57c96e6b5a51e6d6728ed/1F26C0C524BFC81ADDA1253482D95F1A/stage-small-parts-storage-dynamic.jpg';
+const urlAGV =
+  'https://www.jungheinrich.cn/resource/image/540798/landscape_ratio16x10/750/469/5207e5fdaf2ac8a1858bcdae07a44ab2/FE5BFAE61CB18BBD620473590B9B437E/stage-agv-system.jpg';
+const urlAutoVNA =
+  'https://www.jungheinrich.cn/resource/image/541672/landscape_ratio16x10/750/469/c7d514ecb2cce052105a89c86396a92b/2F274C04399B4D9A89056F7A564042BA/stage-automated-high-rack-stacker.jpg';
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -26,8 +26,8 @@ const MenuProps = {
 };
 
 export default function Form({ formData, setFormData }: IFormProps): JSX.Element {
-  
-  const [otherIndustrie, setOtherIndustrie] = useState<string>('')
+
+  const [otherIndustry, setOtherIndustry] = useState<string>('')
 
   //industry selection handling
   const handleChange = (event: SelectChangeEvent<typeof formData.industryName>) => {
@@ -48,7 +48,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     }));
   };
 
-  const handleIndustrieChange = (value:string) => {
+  const handleIndustryChange = (value: string) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       industryName: [...prevFormData.industryName, value],
@@ -57,83 +57,88 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
 
   if (formData) {
     return (
-    <Container component='form'>
-      <List component={Stack} spacing={4}>
-        {/* DANE JEDNOSTKI GOSPODARCZEJ */}
+      <Container component='form'>
+        <Grid container component={List} spacing={3}>
+          <Grid item xs={12} md={6}>
+            {/* DANE JEDNOSTKI GOSPODARCZEJ */}
         <ListItem>
-          <Stack spacing={2}>
-            <Typography variant="h4">Dane jednostki sprzedażowej:</Typography>
-            <TextField
-              label='Jednostka sprzedażowa'
-              name="salesUnit"
-              value={formData.salesUnit}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label='Osoba kontaktowa'
-              name="contactPerson"
-              value={formData.contactPerson}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label='Funkcja osoby kontaktowej'
-              name="contactPersonRole"
-              value={formData.contactPersonRole}
-              onChange={handleInputChange}
-            />
-          </Stack>
-        </ListItem>
-        {/* DANE KLIENTA */}
-        <ListItem>
-          <Stack spacing={2}>
-            <Typography variant="h4">Dane klienta:</Typography>
-            <TextField
-              label='Firma / klient'
-              name="company"
-              value={formData.company}
-              onChange={handleInputChange}
-            />
-            <TextField
-              label='Numer sap'
-              placeholder="41******"
-              name="sapNumber"
-              value={formData.sapNumber}
-              onChange={handleInputChange}
-            />
-            <FormControl>
-              <InputLabel id="demo-multiple-checkbox-label">Branża</InputLabel>
-              <Select
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
-                multiple
-                input={<OutlinedInput label="Industry" />}
-                value={formData.industryName}
-                onChange={handleChange}
-                renderValue={(selected) => selected.join(', ')}
-                MenuProps={MenuProps}
-              >
-                {industries.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    <Checkbox checked={formData.industryName.indexOf(name) > -1} />
-                    <ListItemText primary={name} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            {formData.industryName.includes('Inna') &&
+              <Stack spacing={2} sx={{ width: '100%' }}>
+                <Typography variant="h4">Dane jednostki sprzedażowej:</Typography>
                 <TextField
-                label="Inna branża"
-                name="Inna"
-                value={otherIndustrie}
-                onChange={(e) => setOtherIndustrie(e.target.value)}
-                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                  if (e.key === 'Enter') {
-                    handleIndustrieChange((e.target as HTMLInputElement).value);
-                  }
-                }}
-              />
-              }
-            <TextField
+                  fullWidth
+                  label='Jednostka sprzedażowa'
+                  name="salesUnit"
+                  value={formData.salesUnit}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  label='Osoba kontaktowa'
+                  name="contactPerson"
+                  value={formData.contactPerson}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  label='Funkcja osoby kontaktowej'
+                  name="contactPersonRole"
+                  value={formData.contactPersonRole}
+                  onChange={handleInputChange}
+                />
+              </Stack>
+            </ListItem>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            {/* DANE KLIENTA */}
+        <ListItem>
+              <Stack spacing={2} sx={{ width: '100%' }}>
+                <Typography variant="h4">Dane klienta:</Typography>
+                <TextField
+                  label='Firma / klient'
+                  name="company"
+                  value={formData.company}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  label='Numer sap'
+                  placeholder="41******"
+                  name="sapNumber"
+                  value={formData.sapNumber}
+                  defaultValue=''
+                  onChange={handleInputChange}
+                />
+                <FormControl>
+                  <InputLabel id="demo-multiple-checkbox-label">Branża</InputLabel>
+                  <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    multiple
+                    input={<OutlinedInput label="Industry" />}
+                    value={formData.industryName}
+                    onChange={handleChange}
+                    renderValue={(selected) => selected.join(', ')}
+                    MenuProps={MenuProps}
+                  >
+                    {industries.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <Checkbox checked={formData.industryName.indexOf(name) > -1} />
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {formData.industryName.includes('Inna') &&
+                  <TextField
+                    label="Inna branża"
+                    name="Inna"
+                    value={otherIndustry}
+                    onChange={(e) => setOtherIndustry(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleIndustryChange(((e.target as HTMLInputElement) as HTMLInputElement).value);
+                      }
+                    }}
+                  />
+                }
+                <TextField
               label='Adres'
               placeholder="Popularna 13B"
               name="addresss"
@@ -141,27 +146,30 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
               onChange={handleInputChange}
             />
           </Stack>
-        </ListItem>
-        {/* WYBÓR SYSTEMU */}
+            </ListItem>
+          </Grid>
+          <Grid item xs={12}>
+            {/* WYBÓR SYSTEMU */}
         <ListItem>
               <Stack spacing={2}>
                 <Typography variant="h4">Wybór systemu:</Typography>
                 <Box>
-                  <Grid container columnSpacing={2}>
+                  <Grid container spacing={3}>
                     <SystemIcon url={urlASRS} alt="ASRS" formData={formData} setFormData={setFormData} />
-                    <SystemIcon url={urlLRKPRK} alt="LRKPRK" formData={formData} setFormData={setFormData} />
+                    <SystemIcon url={urlLRKPRK} alt="LRK&PRK" formData={formData} setFormData={setFormData} />
                     <SystemIcon url={urlAGV} alt="AGV" formData={formData} setFormData={setFormData} />
                     <SystemIcon url={urlAutoVNA} alt="AutoVNA" formData={formData} setFormData={setFormData} />
                   </Grid>
                 </Box>
               </Stack>
             </ListItem>
-      </List>
-    </Container>
-  );
-} else {
-  return (<h2>hmm</h2>)
-}
+          </Grid>
+        </Grid>
+      </Container >
+    );
+  } else {
+    return (<h2>hmm</h2>)
+  }
 }
 
 function SystemIcon({ url, alt, formData, setFormData }: { url: string; alt: string; formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
@@ -178,7 +186,7 @@ function SystemIcon({ url, alt, formData, setFormData }: { url: string; alt: str
   };
 
   return (
-    <Grid item xs={3}>
+    <Grid item xs={6} sm={3}>
       <Checkbox
         sx={{ p: 0 }}
         {...label}
