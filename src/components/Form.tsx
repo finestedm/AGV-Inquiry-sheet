@@ -126,7 +126,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
                 onChange={(e) => setOtherIndustrie(e.target.value)}
                 onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                   if (e.key === 'Enter') {
-                    handleIndustrieChange(e.target.value);
+                    handleIndustrieChange((e.target as HTMLInputElement).value);
                   }
                 }}
               />
