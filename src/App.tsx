@@ -13,6 +13,10 @@ interface ICustomer {
   sapNumber: number | null;
   industryName: string[];
   address: string;
+  contactPerson: string;
+  contactPersonRole: string;
+  contactPersonPhone: string;
+  contactPersonMail: string;
 }
 
 interface ISystem {
@@ -46,6 +50,10 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       sapNumber: null,
       industryName: [],
       address: '',
+      contactPerson: '',
+      contactPersonRole: '',
+      contactPersonPhone: '',
+      contactPersonMail: '',
     },
     system: {
       asrs: false,

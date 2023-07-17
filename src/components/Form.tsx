@@ -1,7 +1,9 @@
-import { Box, Checkbox, Container, FormControl, Grid, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
+import { Box, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { IFormData, IFormProps } from "../App";
 import SystemSelector from "./SystemSelector";
+import PhoneIcon from '@mui/icons-material/Phone';
+import EmailIcon from '@mui/icons-material/Email';
 
 const industries = ['Produkcja', 'Handel', 'Dostawca usług logistycznych', 'Branża farmaceutyczna', 'Branża napojowa', 'Branża odzieżowa', 'Branża chemiczna', 'Przemysł spożywczy', 'Automotive', 'Inna']
 
@@ -135,6 +137,44 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
                     ))}
                   </Select>
                 </FormControl>
+                <TextField
+                  label='Osoba kontaktowa'
+                  name="customer.contactPerson"
+                  value={formData.customer.contactPerson}
+                  onChange={(e) => handleInputMethod('customer', 'contactPerson', e.target.value)}
+                />
+                <TextField
+                  label='Funkcja osoby kontaktowej'
+                  name="customer.contactPersonRole"
+                  value={formData.customer.contactPerson}
+                  onChange={(e) => handleInputMethod('customer', 'contactPersonRole', e.target.value)}
+                />
+                <TextField
+                  label='Numer kontaktowy'
+                  name="customer.contactPersonPhone"
+                  value={formData.customer.contactPersonPhone}
+                  onChange={(e) => handleInputMethod('customer', 'contactPersonPhone', e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        <PhoneIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  label='Adres email'
+                  name="customer.contactPersonMail"
+                  value={formData.customer.contactPersonMail}
+                  onChange={(e) => handleInputMethod('customer', 'contactPersonMail', e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        <EmailIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
                 {formData.customer.industryName.includes('Inna') &&
                   <TextField
                     label="Inna branża"
