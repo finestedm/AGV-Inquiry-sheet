@@ -2,18 +2,31 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import Form from './components/Form';
 import TopBar from './components/AppBar';
 
-export interface IFormData {
+interface ISales {
   salesUnit: string;
   contactPerson: string;
   contactPersonRole: string;
+}
+
+interface ICustomer {
   company: string;
   sapNumber: number | null;
-  industryName: string[]; // Add the industryName property
-  system: {
-    [key: string]: boolean;
-  };
+  industryName: string[];
   address: string;
-  
+}
+
+interface ISystem {
+  asrs: boolean;
+  'lrk&prk': boolean;
+  agv: boolean;
+  autovna: boolean;
+  [key: string]: boolean; // Add an index signature
+}
+
+export interface IFormData {
+  sales: ISales;
+  customer: ICustomer;
+  system: ISystem;
 }
 
 export interface IFormProps {
@@ -23,20 +36,23 @@ export interface IFormProps {
 
 function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] {
   const [formData, setFormData] = useState<IFormData>({
-    salesUnit: 'S1-PL',
-    contactPerson: '',
-    contactPersonRole: '',
-    company: '',
-    sapNumber: null,
-    industryName: [],
+    sales: {
+      salesUnit: 'S1-PL',
+      contactPerson: '',
+      contactPersonRole: '',
+    },
+    customer: {
+      company: '',
+      sapNumber: null,
+      industryName: [],
+      address: '',
+    },
     system: {
       asrs: false,
       'lrk&prk': false,
       agv: false,
       autovna: false
     },
-    address: '',
-
   });
 
   return [formData, setFormData];

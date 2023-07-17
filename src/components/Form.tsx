@@ -29,30 +29,34 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
 
   const [otherIndustry, setOtherIndustry] = useState<string>('')
 
-  //industry selection handling
-  const handleChange = (event: SelectChangeEvent<typeof formData.industryName>) => {
-    const {
-      target: { value },
-    } = event;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      industryName: typeof value === 'string' ? value.split(',') : value,
-    }));
+  // Universal handleInputMethod function
+  const handleInputMethod = <K extends keyof IFormData>(
+    topLevelKey: K,
+    fieldPath: keyof IFormData[K],
+    value: IFormData[K][keyof IFormData[K]]
+  ) => {
+    setFormData((prevFormData) => {
+      const newFormData = { ...prevFormData };
+
+      // Access the top-level key in the formData object
+      const topLevelObject = newFormData[topLevelKey];
+
+      // Update the field value
+      topLevelObject[fieldPath] = value;
+
+      return newFormData;
+    });
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
 
   const handleIndustryChange = (value: string) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      industryName: [...prevFormData.industryName, value],
-    }));
+    setFormData((prevFormData) => {
+      const newFormData = { ...prevFormData };
+
+      newFormData.customer.industryName = [...prevFormData.customer.industryName, value];
+
+      return newFormData;
+    });
   };
 
   if (formData) {
@@ -67,43 +71,43 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
                 <TextField
                   fullWidth
                   label='Jednostka sprzedażowa'
-                  name="salesUnit"
-                  value={formData.salesUnit}
-                  onChange={handleInputChange}
+                  name="sales.salesUnit"
+                  value={formData.sales.salesUnit}
+                  onChange={(e) => handleInputMethod('sales',  'salesUnit', e.target.value)}
                 />
                 <TextField
                   label='Osoba kontaktowa'
-                  name="contactPerson"
-                  value={formData.contactPerson}
-                  onChange={handleInputChange}
+                  name="sales.contactPerson"
+                  value={formData.sales.contactPerson}
+                  onChange={(e) => handleInputMethod('sales',  'contactPerson', e.target.value)}
                 />
                 <TextField
                   label='Funkcja osoby kontaktowej'
-                  name="contactPersonRole"
-                  value={formData.contactPersonRole}
-                  onChange={handleInputChange}
+                  name="sales.contactPersonRole"
+                  value={formData.sales.contactPersonRole}
+                  onChange={(e) => handleInputMethod('sales',  'contactPersonRole', e.target.value)}
                 />
               </Stack>
             </ListItem>
           </Grid>
           <Grid item xs={12} md={6}>
             {/* DANE KLIENTA */}
-        <ListItem>
+            <ListItem>
               <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h4">Dane klienta:</Typography>
                 <TextField
                   label='Firma / klient'
-                  name="company"
-                  value={formData.company}
-                  onChange={handleInputChange}
+                  name="customer.company"
+                  value={formData.customer.company}
+                  onChange={(e) => handleInputMethod('customer',  'company', e.target.value)}
                 />
                 <TextField
                   label='Numer sap'
                   placeholder="41******"
-                  name="sapNumber"
-                  value={formData.sapNumber}
+                  name="customer.sapNumber"
+                  value={formData.customer.sapNumber}
                   defaultValue=''
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputMethod('customer',  'sapNumber', e.target.value)}
                 />
                 <FormControl>
                   <InputLabel id="demo-multiple-checkbox-label">Branża</InputLabel>
@@ -112,20 +116,20 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
                     id="demo-multiple-checkbox"
                     multiple
                     input={<OutlinedInput label="Industry" />}
-                    value={formData.industryName}
-                    onChange={handleChange}
-                    renderValue={(selected) => selected.join(', ')}
+                    value={formData.customer.industryName}
+                    onChange={(e) => handleInputMethod('customer', 'industryName', e.target.value as string[])}
+                    renderValue={(selected) => (selected as string[]).join(', ')}
                     MenuProps={MenuProps}
                   >
                     {industries.map((name) => (
                       <MenuItem key={name} value={name}>
-                        <Checkbox checked={formData.industryName.indexOf(name) > -1} />
+                        <Checkbox checked={formData.customer.industryName.indexOf(name) > -1} />
                         <ListItemText primary={name} />
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
-                {formData.industryName.includes('Inna') &&
+                {formData.customer.industryName.includes('Inna') &&
                   <TextField
                     label="Inna branża"
                     name="Inna"
@@ -139,11 +143,11 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
                   />
                 }
                 <TextField
-              label='Adres'
-              placeholder="Popularna 13B"
-              name="addresss"
-              value={formData.address}
-              onChange={handleInputChange}
+                  label='Adres'
+                  placeholder="Popularna 13B"
+                  name="customer.address"
+                  value={formData.customer.address}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputMethod('customer',  'address', e.target.value)}
             />
           </Stack>
             </ListItem>
