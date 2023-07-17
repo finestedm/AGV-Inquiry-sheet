@@ -59,6 +59,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     return (
     <Container component='form'>
       <List component={Stack} spacing={4}>
+        {/* DANE JEDNOSTKI GOSPODARCZEJ */}
         <ListItem>
           <Stack spacing={2}>
             <Typography variant="h4">Dane jednostki sprzedażowej:</Typography>
@@ -82,6 +83,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
             />
           </Stack>
         </ListItem>
+        {/* DANE KLIENTA */}
         <ListItem>
           <Stack spacing={2}>
             <Typography variant="h4">Dane klienta:</Typography>
@@ -131,8 +133,16 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
                 }}
               />
               }
+            <TextField
+              label='Adres'
+              placeholder="Popularna 13B"
+              name="addresss"
+              value={formData.address}
+              onChange={handleInputChange}
+            />
           </Stack>
         </ListItem>
+        {/* WYBÓR SYSTEMU */}
         <ListItem>
               <Stack spacing={2}>
                 <Typography variant="h4">Wybór systemu:</Typography>

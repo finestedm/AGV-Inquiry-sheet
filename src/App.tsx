@@ -12,6 +12,8 @@ export interface IFormData {
   system: {
     [key: string]: boolean;
   };
+  address: string;
+  
 }
 
 export interface IFormProps {
@@ -32,7 +34,9 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       lrkprk: false,
       agv: false,
       autovna: false
-    }
+    },
+    address: '',
+
   });
 
   return [formData, setFormData];
