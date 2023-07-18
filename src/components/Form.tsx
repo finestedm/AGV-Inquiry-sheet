@@ -6,6 +6,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import { AppBar, Tab, Tabs } from "@mui/material";
 import { Stepper, Step, StepLabel } from "@mui/material";
+import FormStepper from "./FormStepper";
 
 const industries = ['Produkcja', 'Handel', 'Dostawca usług logistycznych', 'Branża farmaceutyczna', 'Branża napojowa', 'Branża odzieżowa', 'Branża chemiczna', 'Przemysł spożywczy', 'Automotive', 'Inna']
 
@@ -84,21 +85,8 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
   if (formData) {
     return (
       <Container component='form'>
-        <Stack spacing={3}>
-          <Stepper activeStep={activeStep} alternativeLabel>
-            {stepLabels.map((label, index) => (
-              <Step key={index}>
-                <StepLabel
-                  onClick={() => handleStepClick(index)}
-                  optional={null} // optional prop is required for the StepLabel component
-                  // completed={index < activeStep}
-                  sx={{ cursor: 'pointer' }} // Add cursor pointer style
-                >
-                  {label}
-                </StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+        <Stack spacing={3} sx={{mt: 5}}>
+          <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           <Box>
             {activeStep === 0 && (
               <Box>
