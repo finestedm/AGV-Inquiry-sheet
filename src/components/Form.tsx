@@ -41,15 +41,30 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
   const [otherIndustry, setOtherIndustry] = useState<string>('')
   const [activeStep, setActiveStep] = useState<number>(0);
   const stepLabels = ["Sales", "Customer", "System"];
+  const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setFadeOut(true);
+    setTimeout(() => {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setFadeOut(false);
+    }, 500); // Adjust the delay time (in milliseconds) as needed
   };
+  
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setFadeOut(true);
+    setTimeout(() => {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      setFadeOut(false);
+    }, 500); // Adjust the delay time (in milliseconds) as needed
   };
+  
   const handleStepClick = (step: number) => {
-    setActiveStep(step);
-  };
+    setFadeOut(true);
+    setTimeout(() => {
+      setActiveStep(step);
+      setFadeOut(false);
+    }, 500);
+  };  
 
 
   // Universal handleInputMethod function
@@ -85,11 +100,11 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
   if (formData) {
     return (
       <Container component='form'>
-        <Stack spacing={3} sx={{mt: 5}}>
+        <Stack spacing={3} sx={{my: 5}}>
           <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           <Box>
             {activeStep === 0 && (
-              <Box>
+              <Box className={fadeOut ? 'step fadeout' : 'step'}>
                 <Stack spacing={2} sx={{ width: '100%' }}>
                   <Typography variant="h4">Dane jednostki sprzedażowej:</Typography>
                   <TextField
@@ -115,7 +130,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
               </Box>
             )}
             {activeStep === 1 && (
-              <Box>
+              <Box className={fadeOut ? 'step fadeout' : 'step'}>
                 <Stack spacing={2} sx={{ width: '100%' }}>
                   <Typography variant="h4">Dane klienta:</Typography>
                   <TextField
@@ -214,7 +229,9 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
               </Box>
             )}
             {activeStep === 2 && (
-              <SystemSelector formData={formData} systems={systems} setFormData={setFormData} />
+              <Box className={fadeOut ? 'step fadeout' : 'step'}>
+                <SystemSelector formData={formData} systems={systems} setFormData={setFormData} />
+              </Box>
             )}
           </Box>
           <Box>
