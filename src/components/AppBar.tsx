@@ -38,7 +38,7 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
     return (
         <AppBar position="sticky" sx={{ backgroundColor: '#3c464b' }}>
             <Toolbar sx={{ py: 1, display: 'flex', justifyContent: 'space-between' }}>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/c/c8/Jungheinrich-Logo.svg' alt='JH_logo' style={{ height: '2rem' }} />
+                <img src='https://upload.wikimedia.org/wikipedia/commons/c/c8/Jungheinrich-Logo.svg' alt='JH_logo' style={{ height: '1.75rem' }} />
                 <Stack direction='row' spacing={2}>
                     <Button variant="outlined" onClick={() => saveDataToFile(formData)} >
                         <SaveIcon />

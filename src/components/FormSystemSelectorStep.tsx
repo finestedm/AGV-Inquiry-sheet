@@ -1,6 +1,7 @@
 import { Box, Checkbox, Grid, Stack, Typography } from "@mui/material";
 import { ISystems } from "./Form";
 import { IFormData } from "../App";
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function FormSystemSelectorStep({ systems, formData, setFormData }: { systems: ISystems; formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
     function SystemIcon({ url, alt, formData, setFormData }: { url: string; alt: string; formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
@@ -80,6 +81,8 @@ export default function FormSystemSelectorStep({ systems, formData, setFormData 
                       textAlign: 'center',
                     }}
                   >
+                    <CheckIcon style={{fontSize: '2rem'}}/>
+                    <br />
                     {alt}
                   </Typography>
                 </Box>
