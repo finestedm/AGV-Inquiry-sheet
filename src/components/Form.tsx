@@ -2,12 +2,9 @@ import { Box, Button, Checkbox, Container, FormControl, Grid, InputAdornment, In
 import { useState } from "react";
 import { IFormData, IFormProps } from "../App";
 import SystemSelector from "./SystemSelector";
-import PhoneIcon from '@mui/icons-material/Phone';
-import EmailIcon from '@mui/icons-material/Email';
 import FormStepper from "./FormStepper";
-import FormSalesUnit from "./FormSalesUnit";
-
-const industries = ['Produkcja', 'Handel', 'Dostawca usług logistycznych', 'Branża farmaceutyczna', 'Branża napojowa', 'Branża odzieżowa', 'Branża chemiczna', 'Przemysł spożywczy', 'Automotive', 'Inna']
+import FormSalesUnitStep from "./FormSalesUnitStep";
+import FormCustomerStep from "./FormCustomerStep";
 
 export interface ISystems {
   [key: string]: {
@@ -15,7 +12,6 @@ export interface ISystems {
     alt: string;
   };
 }
-
 
 const systems: ISystems = {
   ASRS: { url: 'https://www.jungheinrich.cn/resource/image/540796/landscape_ratio16x10/750/469/4de74d221121a65bc7e0c08b6d4285da/1FA625729DA78A1AD6585E27F629F67B/stage-automatic-small-parts-storage.jpg', alt: 'ASRS' },
@@ -32,21 +28,8 @@ export interface IHandleInputMethod {
   ): void;
 }
 
-//props for the insdustries select
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 export default function Form({ formData, setFormData }: IFormProps): JSX.Element {
 
-  const [otherIndustry, setOtherIndustry] = useState<string>('')
   const [activeStep, setActiveStep] = useState<number>(0);
   const stepLabels = ["Sales", "Customer", "System"];
   const [fadeOut, setFadeOut] = useState<boolean>(false);
@@ -89,17 +72,6 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     });
   };
 
-
-  const handleIndustryChange = (value: string) => {
-    setFormData((prevFormData) => {
-      const newFormData = { ...prevFormData };
-
-      newFormData.customer.industryName = [...prevFormData.customer.industryName, value];
-
-      return newFormData;
-    });
-  };
-
   if (formData) {
     return (
       <Container component='form'>
@@ -108,106 +80,12 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
           <Box>
             {activeStep === 0 && (
               <Box className={fadeOut ? 'step fadeout' : 'step'}>
-                <FormSalesUnit handleInputMethod={handleInputMethod} formData={formData}/>
+                <FormSalesUnitStep handleInputMethod={handleInputMethod} formData={formData}/>
               </Box>
             )}
             {activeStep === 1 && (
               <Box className={fadeOut ? 'step fadeout' : 'step'}>
-                <Stack spacing={2} sx={{ width: '100%' }}>
-                  <Typography variant="h4">Dane klienta:</Typography>
-                  <TextField
-                    label='Firma / klient'
-                    name="customer.company"
-                    value={formData.customer.company}
-                    onChange={(e) => handleInputMethod('customer', 'company', e.target.value)}
-                  />
-                  <TextField
-                    label='Numer sap'
-                    placeholder="41******"
-                    name="customer.sapNumber"
-                    value={formData.customer.sapNumber}
-                    defaultValue=''
-                    onChange={(e) => handleInputMethod('customer', 'sapNumber', e.target.value)}
-                  />
-                  <FormControl>
-                    <InputLabel id="demo-multiple-checkbox-label">Branża</InputLabel>
-                    <Select
-                      labelId="demo-multiple-checkbox-label"
-                      id="demo-multiple-checkbox"
-                      multiple
-                      input={<OutlinedInput label="Industry" />}
-                      value={formData.customer.industryName}
-                      onChange={(e) => handleInputMethod('customer', 'industryName', e.target.value as string[])}
-                      renderValue={(selected) => (selected as string[]).join(', ')}
-                      MenuProps={MenuProps}
-                    >
-                      {industries.map((name) => (
-                        <MenuItem key={name} value={name}>
-                          <Checkbox checked={formData.customer.industryName.indexOf(name) > -1} />
-                          <ListItemText primary={name} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  {formData.customer.industryName.includes('Inna') &&
-                    <TextField
-                      label="Inna branża"
-                      name="Inna"
-                      value={otherIndustry}
-                      onChange={(e) => setOtherIndustry(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          handleIndustryChange(((e.target as HTMLInputElement) as HTMLInputElement).value);
-                        }
-                      }}
-                    />
-                  }
-                  <TextField
-                    label='Osoba kontaktowa'
-                    name="customer.contactPerson"
-                    value={formData.customer.contactPerson}
-                    onChange={(e) => handleInputMethod('customer', 'contactPerson', e.target.value)}
-                  />
-                  <TextField
-                    label='Funkcja osoby kontaktowej'
-                    name="customer.contactPersonRole"
-                    value={formData.customer.contactPersonRole}
-                    onChange={(e) => handleInputMethod('customer', 'contactPersonRole', e.target.value)}
-                  />
-                  <TextField
-                    label='Numer kontaktowy'
-                    name="customer.contactPersonPhone"
-                    value={formData.customer.contactPersonPhone}
-                    onChange={(e) => handleInputMethod('customer', 'contactPersonPhone', e.target.value)}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="start">
-                          <PhoneIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <TextField
-                    label='Adres email'
-                    name="customer.contactPersonMail"
-                    value={formData.customer.contactPersonMail}
-                    onChange={(e) => handleInputMethod('customer', 'contactPersonMail', e.target.value)}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="start">
-                          <EmailIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <TextField
-                    label='Adres'
-                    placeholder="Popularna 13B"
-                    name="customer.address"
-                    value={formData.customer.address}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputMethod('customer', 'address', e.target.value)}
-                  />
-                </Stack>
+                <FormCustomerStep handleInputMethod={handleInputMethod} formData={formData} setFormData={setFormData}/>
               </Box>
             )}
             {activeStep === 2 && (

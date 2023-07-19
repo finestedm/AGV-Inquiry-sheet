@@ -2,7 +2,7 @@ import { Stack, TextField, Typography } from "@mui/material";
 import { IFormData } from "../App";
 import { IHandleInputMethod } from "./Form";
 
-export default function FormSalesUnit({formData, handleInputMethod}: {formData: IFormData, handleInputMethod: IHandleInputMethod}) {
+export default function FormSalesUnitStep({formData, handleInputMethod}: {formData: IFormData, handleInputMethod: IHandleInputMethod}) {
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
             <Typography variant="h4">Dane jednostki sprzedażowej:</Typography>

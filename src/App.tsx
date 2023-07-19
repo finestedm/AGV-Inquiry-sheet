@@ -28,6 +28,7 @@ interface ISystem {
 }
 
 export interface IFormData {
+  version: string;
   sales: ISales;
   customer: ICustomer;
   system: ISystem;
@@ -40,6 +41,7 @@ export interface IFormProps {
 
 function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] {
   const [formData, setFormData] = useState<IFormData>({
+    version: '230719beta',
     sales: {
       salesUnit: 'S1-PL',
       contactPerson: '',
