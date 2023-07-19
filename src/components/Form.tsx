@@ -4,9 +4,8 @@ import { IFormData, IFormProps } from "../App";
 import SystemSelector from "./SystemSelector";
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import { AppBar, Tab, Tabs } from "@mui/material";
-import { Stepper, Step, StepLabel } from "@mui/material";
 import FormStepper from "./FormStepper";
+import FormSalesUnit from "./FormSalesUnit";
 
 const industries = ['Produkcja', 'Handel', 'Dostawca usług logistycznych', 'Branża farmaceutyczna', 'Branża napojowa', 'Branża odzieżowa', 'Branża chemiczna', 'Przemysł spożywczy', 'Automotive', 'Inna']
 
@@ -17,11 +16,20 @@ export interface ISystems {
   };
 }
 
+
 const systems: ISystems = {
   ASRS: { url: 'https://www.jungheinrich.cn/resource/image/540796/landscape_ratio16x10/750/469/4de74d221121a65bc7e0c08b6d4285da/1FA625729DA78A1AD6585E27F629F67B/stage-automatic-small-parts-storage.jpg', alt: 'ASRS' },
   LRKPRK: { url: 'https://www.jungheinrich.cn/resource/image/540918/landscape_ratio16x10/750/469/40bd0c110ea57c96e6b5a51e6d6728ed/1F26C0C524BFC81ADDA1253482D95F1A/stage-small-parts-storage-dynamic.jpg', alt: 'LRK&PRK' },
   AGV: { url: 'https://www.jungheinrich.cn/resource/image/540798/landscape_ratio16x10/750/469/5207e5fdaf2ac8a1858bcdae07a44ab2/FE5BFAE61CB18BBD620473590B9B437E/stage-agv-system.jpg', alt: 'AGV' },
   AutoVNA: { url: 'https://www.jungheinrich.cn/resource/image/541672/landscape_ratio16x10/750/469/c7d514ecb2cce052105a89c86396a92b/2F274C04399B4D9A89056F7A564042BA/stage-automated-high-rack-stacker.jpg', alt: 'AutoVNA' }
+}
+
+export interface IHandleInputMethod {
+  <K extends keyof IFormData>(
+    topLevelKey: K,
+    fieldPath: keyof IFormData[K],
+    value: IFormData[K][keyof IFormData[K]]
+  ): void;
 }
 
 //props for the insdustries select
@@ -67,21 +75,16 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
   };  
 
 
-  // Universal handleInputMethod function
-  const handleInputMethod = <K extends keyof IFormData>(
-    topLevelKey: K,
-    fieldPath: keyof IFormData[K],
-    value: IFormData[K][keyof IFormData[K]]
-  ) => {
+  const handleInputMethod: IHandleInputMethod = function (topLevelKey, fieldPath, value) {
     setFormData((prevFormData) => {
       const newFormData = { ...prevFormData };
-
+  
       // Access the top-level key in the formData object
       const topLevelObject = newFormData[topLevelKey];
-
+  
       // Update the field value
       topLevelObject[fieldPath] = value;
-
+  
       return newFormData;
     });
   };
@@ -105,33 +108,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
           <Box>
             {activeStep === 0 && (
               <Box className={fadeOut ? 'step fadeout' : 'step'}>
-                <Stack spacing={2} sx={{ width: '100%' }}>
-                  <Typography variant="h4">Dane jednostki sprzedażowej:</Typography>
-                  <TextField
-                    fullWidth
-                    disabled
-                    label='Jednostka sprzedażowa'
-                    name="sales.salesUnit"
-                    value={formData.sales.salesUnit}
-                    onChange={(e) => handleInputMethod('sales', 'salesUnit', e.target.value)}
-                  />
-                  <TextField
-                    label='Osoba kontaktowa'
-                    name="sales.contactPerson"
-                    value={formData.sales.contactPerson}
-                    onChange={(e) => handleInputMethod('sales', 'contactPerson', e.target.value)}
-                    required
-                    error={formData.sales.contactPerson.length < 5}
-                    helperText={formData.sales.contactPerson.length < 5 ? 'Minimum length of 5 letters required' : ''}
-                  />
-
-                  <TextField
-                    label='Funkcja osoby kontaktowej'
-                    name="sales.contactPersonRole"
-                    value={formData.sales.contactPersonRole}
-                    onChange={(e) => handleInputMethod('sales', 'contactPersonRole', e.target.value)}
-                  />
-                </Stack>
+                <FormSalesUnit handleInputMethod={handleInputMethod} formData={formData}/>
               </Box>
             )}
             {activeStep === 1 && (
