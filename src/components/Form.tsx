@@ -1,10 +1,10 @@
 import { Box, Button, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { IFormData, IFormProps } from "../App";
-import SystemSelector from "./SystemSelector";
 import FormStepper from "./FormStepper";
 import FormSalesUnitStep from "./FormSalesUnitStep";
 import FormCustomerStep from "./FormCustomerStep";
+import FormSystemSelectorStep from "./FormSystemSelectorStep";
 
 export interface ISystems {
   [key: string]: {
@@ -78,21 +78,17 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
         <Stack spacing={3} sx={{my: 5}}>
           <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           <Box>
-            {activeStep === 0 && (
-              <Box className={fadeOut ? 'step fadeout' : 'step'}>
+            <Box className={fadeOut ? 'step fadeout' : 'step'}>
+              {activeStep === 0 && (
                 <FormSalesUnitStep handleInputMethod={handleInputMethod} formData={formData}/>
-              </Box>
-            )}
-            {activeStep === 1 && (
-              <Box className={fadeOut ? 'step fadeout' : 'step'}>
+              )}
+              {activeStep === 1 && (
                 <FormCustomerStep handleInputMethod={handleInputMethod} formData={formData} setFormData={setFormData}/>
-              </Box>
-            )}
-            {activeStep === 2 && (
-              <Box className={fadeOut ? 'step fadeout' : 'step'}>
-                <SystemSelector formData={formData} systems={systems} setFormData={setFormData} />
-              </Box>
-            )}
+              )}
+              {activeStep === 2 && (
+                <FormSystemSelectorStep formData={formData} systems={systems} setFormData={setFormData} />
+              )}
+            </Box>
           </Box>
           <Box>
             <Stack direction='row'>

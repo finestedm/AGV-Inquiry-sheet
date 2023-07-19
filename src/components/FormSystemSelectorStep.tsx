@@ -2,7 +2,7 @@ import { Box, Checkbox, Grid, Stack, Typography } from "@mui/material";
 import { ISystems } from "./Form";
 import { IFormData } from "../App";
 
-export default function SystemSelector({ systems, formData, setFormData }: { systems: ISystems; formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
+export default function FormSystemSelectorStep({ systems, formData, setFormData }: { systems: ISystems; formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
     function SystemIcon({ url, alt, formData, setFormData }: { url: string; alt: string; formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
         const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
       

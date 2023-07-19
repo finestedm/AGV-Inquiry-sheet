@@ -73,7 +73,7 @@ function App() {
 
   return (
     <div className="App">
-      <TopBar formData={formData} />
+      <TopBar formData={formData} setFormData={setFormData}/>
       <Form formData={formData} setFormData={setFormData} />
     </div>
   );
