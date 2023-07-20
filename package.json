@@ -16,6 +16,8 @@
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "file-saver": "^2.0.5",
+    "material-ui-phone-number-2": "^1.3.0",
+    "mui-tel-input": "^3.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-international-phone": "^2.3.1",

@@ -5,7 +5,7 @@ import { IHandleInputMethod } from "./Form";
 export default function FormSalesUnitStep({formData, handleInputMethod}: {formData: IFormData, handleInputMethod: IHandleInputMethod}) {
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
-            <Typography variant="h4">Dane jednostki sprzedażowej:</Typography>
+            <Typography variant="h4" textAlign='left'>Dane jednostki sprzedażowej:</Typography>
                 <TextField
                     fullWidth
                     disabled
