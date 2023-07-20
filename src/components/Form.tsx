@@ -5,6 +5,7 @@ import FormStepper from "./FormStepper";
 import FormSalesUnitStep from "./FormSalesUnitStep";
 import FormCustomerStep from "./FormCustomerStep";
 import FormSystemSelectorStep from "./FormSystemSelectorStep";
+import { useTranslation } from 'react-i18next';
 
 export interface ISystems {
   [key: string]: {
@@ -30,8 +31,10 @@ export interface IHandleInputMethod {
 
 export default function Form({ formData, setFormData }: IFormProps): JSX.Element {
 
+  const { t } = useTranslation();
+
   const [activeStep, setActiveStep] = useState<number>(0);
-  const stepLabels = ["Sales", "Customer", "System"];
+  const stepLabels = [t('steps-sales'), t('steps-customer'), t('steps-system')];
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
     setFadeOut(true);
@@ -40,7 +43,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
       setFadeOut(false);
     }, 500); // Adjust the delay time (in milliseconds) as needed
   };
-  
+
   const handleBack = () => {
     setFadeOut(true);
     setTimeout(() => {
@@ -48,26 +51,26 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
       setFadeOut(false);
     }, 500); // Adjust the delay time (in milliseconds) as needed
   };
-  
+
   const handleStepClick = (step: number) => {
     setFadeOut(true);
     setTimeout(() => {
       setActiveStep(step);
       setFadeOut(false);
     }, 500);
-  };  
+  };
 
 
   const handleInputMethod: IHandleInputMethod = function (topLevelKey, fieldPath, value) {
     setFormData((prevFormData) => {
       const newFormData = { ...prevFormData };
-  
+
       // Access the top-level key in the formData object
       const topLevelObject = newFormData[topLevelKey];
-  
+
       // Update the field value
       topLevelObject[fieldPath] = value;
-  
+
       return newFormData;
     });
   };
@@ -75,15 +78,15 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
   if (formData) {
     return (
       <Container component='form'>
-        <Stack spacing={3} sx={{my: 5}}>
+        <Stack spacing={3} sx={{ my: 5 }}>
           <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           <Box>
             <Box className={fadeOut ? 'step fadeout' : 'step'}>
               {activeStep === 0 && (
-                <FormSalesUnitStep handleInputMethod={handleInputMethod} formData={formData}/>
+                <FormSalesUnitStep handleInputMethod={handleInputMethod} formData={formData} />
               )}
               {activeStep === 1 && (
-                <FormCustomerStep handleInputMethod={handleInputMethod} formData={formData} setFormData={setFormData}/>
+                <FormCustomerStep handleInputMethod={handleInputMethod} formData={formData} setFormData={setFormData} />
               )}
               {activeStep === 2 && (
                 <FormSystemSelectorStep formData={formData} systems={systems} setFormData={setFormData} />
@@ -94,12 +97,12 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
             <Stack direction='row'>
               {activeStep !== 0 && (
                 <Button variant="contained" onClick={handleBack}>
-                  Back
+                  {t('ui-button-back')}
                 </Button>
               )}
               {activeStep < stepLabels.length - 1 && (
                 <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}>
-                  Next
+                  {t('ui-button-next')}
                 </Button>
               )}
             </Stack>

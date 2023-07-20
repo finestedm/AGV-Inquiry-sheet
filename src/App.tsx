@@ -4,14 +4,16 @@ import TopBar from './components/AppBar';
 import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import pl from './features/multilanguage/pl.json'
+import en from './features/multilanguage/en.json'
 
 // Configure i18next
 i18n
   .use(LanguageDetector)
   .init({
     resources: {
+      pl: { translation: pl },
       en: { translation: en },
-      es: { translation: es },
     },
     fallbackLng: 'en', // Fallback to English if the user's language is not supported
     debug: true, // Enable debug mode for development
@@ -20,6 +22,10 @@ i18n
     },
   });
 
+const handleLanguageChange = (value: string) => {
+  i18n.changeLanguage(value);
+};
+  
 interface ISales {
   salesUnit: string;
   contactPerson: string;
@@ -91,10 +97,10 @@ function App() {
 
   return (
     <I18nextProvider i18n={i18n}>
-    <div className="App">
-      <TopBar formData={formData} setFormData={setFormData}/>
-      <Form formData={formData} setFormData={setFormData} />
-    </div>
+      <div className="App">
+        <TopBar formData={formData} setFormData={setFormData}  />
+        <Form formData={formData} setFormData={setFormData} />
+      </div>
     </I18nextProvider>
   );
 }

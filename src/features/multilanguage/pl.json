@@ -1,0 +1,38 @@
+{
+    "customer-header": "Dane klienta",
+    "customer-company": "Firma / klient",
+    "customer-sap": "Numer sap",
+    "customer-industry": "Branża",
+    "customer-industry-other": "Inna branża",
+    "customer-contactperson": "Osoba kontaktowa",
+    "customer-contactperson-role": "Funkcja osoby kontaktowej",
+    "customer-contactperson-phone": "Telefon kontaktowy",
+    "customer-contactperson-mail": "Adres email",
+    "customer-address": "Adres",
+
+    "industry-production": "Produkcja",
+    "industry-trade": "Handel",
+    "industry-logistics": "Dostawca usług logistycznych",
+    "industry-pharmaceutical-industry": "Branża farmaceutyczna",
+    "industry-beverage-industry": "Branża napojowa",
+    "industry-clothing-industry": "Branża odzieżowa",
+    "industry-chemical-industry": "Branża chemiczna",
+    "industry-food-industry": "Przemysł spożywczy",
+    "industry-automotive": "Automotive",
+    "industry-other": "Inna",
+
+    "sales-header": "Dane jednostki sprzedażowej",
+    "sales-unit": "Jednostka sprzedażowa",
+    "sales-contactperson": "Osoba kontaktowa",
+    "sales-contactperson-role": "Funckcja osoby kontaktowej",
+
+    "steps-sales": "Jednostka sprzedażowa",
+    "steps-customer": "Klient",
+    "steps-system": "System",
+
+    "ui-button-back": "Wstecz",
+    "ui-button-next": "Dalej",
+    "ui-button-inquiry-load": "Wczytaj zapytanie",
+    "ui-button-inquiry-save": "Zapisz zapytanie"
+  }
+  
