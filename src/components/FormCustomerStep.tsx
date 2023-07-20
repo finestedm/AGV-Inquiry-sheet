@@ -1,9 +1,11 @@
-import { Checkbox, FormControl, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
+import { Box, Checkbox, FormControl, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
 import { IFormData } from "../App";
 import { IHandleInputMethod } from "./Form";
 import { useState, Dispatch, SetStateAction} from "react";
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
 
 const industries = ['Produkcja', 'Handel', 'Dostawca usług logistycznych', 'Branża farmaceutyczna', 'Branża napojowa', 'Branża odzieżowa', 'Branża chemiczna', 'Przemysł spożywczy', 'Automotive', 'Inna']
 
@@ -94,18 +96,11 @@ export default function FormCustomerStep({formData, handleInputMethod, setFormDa
                     value={formData.customer.contactPersonRole}
                     onChange={(e) => handleInputMethod('customer', 'contactPersonRole', e.target.value)}
                   />
-                  <TextField
-                    label='Numer kontaktowy'
-                    name="customer.contactPersonPhone"
+                  <PhoneInput
+                    style={{width: '100%'}}
+                    defaultCountry="pl"
                     value={formData.customer.contactPersonPhone}
-                    onChange={(e) => handleInputMethod('customer', 'contactPersonPhone', e.target.value)}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="start">
-                          <PhoneIcon />
-                        </InputAdornment>
-                      ),
-                    }}
+                    onChange={(e) => handleInputMethod('customer', 'contactPersonPhone', e)}
                   />
                   <TextField
                     label='Adres email'
