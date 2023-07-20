@@ -4,8 +4,8 @@ import { IHandleInputMethod } from "./Form";
 import { useState, Dispatch, SetStateAction} from "react";
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import { PhoneInput } from 'react-international-phone';
-import 'react-international-phone/style.css';
+import MuiPhoneNumber from 'material-ui-phone-number';
+
 
 const industries = ['Produkcja', 'Handel', 'Dostawca usług logistycznych', 'Branża farmaceutyczna', 'Branża napojowa', 'Branża odzieżowa', 'Branża chemiczna', 'Przemysł spożywczy', 'Automotive', 'Inna']
 
@@ -96,11 +96,9 @@ export default function FormCustomerStep({formData, handleInputMethod, setFormDa
                     value={formData.customer.contactPersonRole}
                     onChange={(e) => handleInputMethod('customer', 'contactPersonRole', e.target.value)}
                   />
-                  <PhoneInput
-                    style={{width: '100%'}}
-                    defaultCountry="pl"
-                    value={formData.customer.contactPersonPhone}
-                    onChange={(e) => handleInputMethod('customer', 'contactPersonPhone', e)}
+                  <MuiPhoneNumber 
+                  defaultCountry={'pl'} 
+                  onChange={(e) => console.log('customer', 'contactPersonPhone', e)}
                   />
                   <TextField
                     label='Adres email'
