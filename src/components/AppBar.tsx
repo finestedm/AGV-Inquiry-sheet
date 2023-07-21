@@ -6,6 +6,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 import { useTranslation } from 'react-i18next';
 import pl from '../images/poland.svg'
 import en from '../images/uk.svg'
+import jhLogo from '../images/JH_logo.png'
 
 function saveDataToFile(formData: IFormData) {
     const data = JSON.stringify(formData);
@@ -44,28 +45,30 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
     return (
         <AppBar position="sticky" sx={{ backgroundColor: '#3c464b' }}>
             <Toolbar sx={{ py: 1, display: 'flex', justifyContent: 'space-between' }}>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/c/c8/Jungheinrich-Logo.svg' alt='JH_logo' style={{ height: '1.75rem' }} />
+                <img src={jhLogo} alt='JH_logo' style={{ height: '1.75rem' }} />
                 <Stack direction='row' spacing={2}>
-                    <Select
-                        id="language-select"
-                        value={i18n.language}
-                        onChange={e => i18n.changeLanguage(e.target.value)}
-                        variant="outlined"
-                        size="small"
-                    >
-                        <MenuItem value="en" >
-                            <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                <img src={en} alt="english" />
-                                <Typography>English</Typography>
-                            </Stack>
-                        </MenuItem>
-                        <MenuItem value="pl">
-                            <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                <img src={pl} alt="polish" />
-                                <Typography>Polski</Typography>
-                            </Stack>
-                        </MenuItem>
-                    </Select>
+                    <FormControl>
+                        <Select
+                            id="language-select"
+                            value={i18n.language}
+                            onChange={e => i18n.changeLanguage(e.target.value)}
+                            variant="outlined"
+                            size="small"
+                        >
+                            <MenuItem value="en" >
+                                <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                    <img src={en} alt="english" />
+                                    <Typography>English</Typography>
+                                </Stack>
+                            </MenuItem>
+                            <MenuItem value="pl">
+                                <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                    <img src={pl} alt="polish" />
+                                    <Typography>Polski</Typography>
+                                </Stack>
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
                     <Button variant="outlined" onClick={() => saveDataToFile(formData)} >
                         <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                             <SaveIcon />
