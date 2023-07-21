@@ -1,4 +1,4 @@
-import { AppBar, Button, FormControl, InputLabel, MenuItem, Select, Stack, Toolbar, Typography, styled, useMediaQuery } from "@mui/material"
+import { AppBar, Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, Toolbar, Typography, styled, useMediaQuery } from "@mui/material"
 import { saveAs } from 'file-saver';
 import { IFormData } from "../App";
 import SaveIcon from '@mui/icons-material/Save';
@@ -42,7 +42,7 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
     const { t, i18n } = useTranslation();
 
     return (
-        <AppBar position="sticky" sx={{ backgroundColor: '#3c464b' }}>
+        <AppBar position="sticky" sx={{ backgroundColor: '#3c464b', height: 80 }}>
             <Toolbar sx={{ py: 1, display: 'flex', justifyContent: 'space-between' }}>
                 <img src='https://upload.wikimedia.org/wikipedia/commons/c/c8/Jungheinrich-Logo.svg' alt='JH_logo' style={{ height: '1.75rem' }} />
                 <Stack direction='row' spacing={2}>
@@ -54,10 +54,10 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
                         size="small"
                     >
                         <MenuItem value="en" >
-                            <img src={en} alt="english" height='16' />
+                            <Box className='flag-container'><img src={en} alt="english" /></Box>
                         </MenuItem>
                         <MenuItem value="pl">
-                            <img src={pl} alt="polish" height='16' />
+                           <Box className='flag-container'><img src={pl} alt="polish" /></Box>
                         </MenuItem>
                     </Select>
                     <Button variant="outlined" onClick={() => saveDataToFile(formData)} >
