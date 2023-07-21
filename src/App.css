@@ -67,18 +67,9 @@
   }
 }
 
-#language-select {
-  padding: 0;
-  margin: 0;
-}
-
 .flag-container>img {
   width: auto;
-  height: 100%;
+  height: 1rem;
   object-fit: cover; /* Use contain to maintain aspect ratio and fit within the container */
 }
 
-.flag-container {
-  height: 36px;
-  width: auto; 
-}

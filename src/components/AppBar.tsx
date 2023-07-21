@@ -54,10 +54,16 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
                         size="small"
                     >
                         <MenuItem value="en" >
-                            <Box className='flag-container'><img src={en} alt="english" /></Box>
+                            <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                <img src={en} alt="english" />
+                                <Typography>English</Typography>
+                            </Stack>
                         </MenuItem>
                         <MenuItem value="pl">
-                           <Box className='flag-container'><img src={pl} alt="polish" /></Box>
+                            <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                <img src={pl} alt="polish" />
+                                <Typography>Polski</Typography>
+                            </Stack>
                         </MenuItem>
                     </Select>
                     <Button variant="outlined" onClick={() => saveDataToFile(formData)} >
