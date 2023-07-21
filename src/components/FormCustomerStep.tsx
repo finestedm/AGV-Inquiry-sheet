@@ -47,9 +47,12 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
     });
   };
 
-  useEffect(() => {
-    console.log(formData.customer.industryName)
-  }, [formData.customer.industryName])
+  function isValidEmail() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(formData.customer.contactPersonMail);
+  };
+
+  const [isFieldTouched, setIsFieldTouched] = useState(false);
 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
@@ -126,7 +129,13 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         label={t('customer-contactperson-mail')}
         name="customer.contactPersonMail"
         value={formData.customer.contactPersonMail}
-        onChange={(e) => handleInputMethod('customer', 'contactPersonMail', e.target.value)}
+        placeholder={t('customer-contactperson-mail-placeholder')}
+        onChange={(e) => {
+          setIsFieldTouched(true);
+          handleInputMethod('customer', 'contactPersonMail', e.target.value)}
+        }
+        error={isFieldTouched && !isValidEmail()} // Show error only if the field is touched and email is invalid
+        helperText={isFieldTouched && !isValidEmail() ? t('sales-contactperson-mail-helpertext-valid') : ''}
         InputProps={{
           endAdornment: (
             <InputAdornment position="start">

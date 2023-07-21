@@ -8,6 +8,8 @@
     "customer-contactperson-role": "Contact Person Role",
     "customer-contactperson-phone": "Contact Person Phone",
     "customer-contactperson-mail": "Email Address",
+    "sales-contactperson-mail-helpertext-valid": "Wrong format",
+    "customer-contactperson-mail-placeholder": "john.doe@company.com",
     "customer-address": "Address",
   
     "industry-production": "Production",
@@ -25,6 +27,9 @@
     "sales-unit": "Sales Unit",
     "sales-contactperson": "Contact Person",
     "sales-contactperson-role": "Contact Person Role",
+    "sales-contactperson-placeholder": "John Doe",
+    "sales-contactperson-helpertext-length": "Name required",
+
   
     "steps-sales": "Sales Unit",
     "steps-customer": "Customer",

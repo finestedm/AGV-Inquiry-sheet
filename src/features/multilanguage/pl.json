@@ -8,6 +8,8 @@
     "customer-contactperson-role": "Funkcja osoby kontaktowej",
     "customer-contactperson-phone": "Telefon kontaktowy",
     "customer-contactperson-mail": "Adres email",
+    "sales-contactperson-mail-helpertext-valid": "Zły format",
+    "customer-contactperson-mail-placeholder": "jan.kowalski@firma.pl",
     "customer-address": "Adres",
 
     "industry-production": "Produkcja",
@@ -25,6 +27,8 @@
     "sales-unit": "Jednostka sprzedażowa",
     "sales-contactperson": "Osoba kontaktowa",
     "sales-contactperson-role": "Funckcja osoby kontaktowej",
+    "sales-contactperson-placeholder": "Jan Kowalski",
+    "sales-contactperson-helpertext-length": "Imię i nazwisko wymagane",
 
     "steps-sales": "Jednostka sprzedażowa",
     "steps-customer": "Klient",

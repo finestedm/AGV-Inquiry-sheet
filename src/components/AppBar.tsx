@@ -42,7 +42,7 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
     const { t, i18n } = useTranslation();
 
     return (
-        <AppBar position="sticky" sx={{ backgroundColor: '#3c464b', height: 80 }}>
+        <AppBar position="sticky" sx={{ backgroundColor: '#3c464b' }}>
             <Toolbar sx={{ py: 1, display: 'flex', justifyContent: 'space-between' }}>
                 <img src='https://upload.wikimedia.org/wikipedia/commons/c/c8/Jungheinrich-Logo.svg' alt='JH_logo' style={{ height: '1.75rem' }} />
                 <Stack direction='row' spacing={2}>
@@ -67,13 +67,17 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
                         </MenuItem>
                     </Select>
                     <Button variant="outlined" onClick={() => saveDataToFile(formData)} >
-                        <SaveIcon />
-                        {showSaveInquiryText && <Typography>{t('ui-button-inquiry-save')}</Typography>}
+                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                            <SaveIcon />
+                            {showSaveInquiryText && <Typography>{t('ui-button-inquiry-save')}</Typography>}
+                        </Stack>
                     </Button>
                     <Button variant="outlined" component="label">
-                        <UploadIcon />
-                        {showSaveInquiryText && <Typography>{t('ui-button-inquiry-load')}</Typography>}
-                        <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
+                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                            <UploadIcon />
+                            {showSaveInquiryText && <Typography>{t('ui-button-inquiry-load')}</Typography>}
+                            <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
+                        </Stack>
                     </Button>
                 </Stack>
             </Toolbar>

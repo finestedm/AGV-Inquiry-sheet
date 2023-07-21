@@ -24,8 +24,9 @@ export default function FormSalesUnitStep({ formData, handleInputMethod }: { for
                 value={formData.sales.contactPerson}
                 onChange={(e) => handleInputMethod('sales', 'contactPerson', e.target.value)}
                 required
+                placeholder={t('sales-contactperson-placeholder')}
                 error={formData.sales.contactPerson.length < 5}
-                helperText={formData.sales.contactPerson.length < 5 ? 'Minimum length of 5 letters required' : ''}
+                helperText={formData.sales.contactPerson.length < 5 ? t('sales-contactperson-helpertext-length') : ''}
             />
 
             <TextField
