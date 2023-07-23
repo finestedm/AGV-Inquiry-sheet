@@ -38,6 +38,8 @@
     "ui-button-back": "Back",
     "ui-button-next": "Next",
     "ui-button-inquiry-load": "Load Inquiry",
-    "ui-button-inquiry-save": "Save Inquiry"
+    "ui-button-inquiry-save": "Save Inquiry",
+    "ui-button-readmore": "Read more"
+
   }
   

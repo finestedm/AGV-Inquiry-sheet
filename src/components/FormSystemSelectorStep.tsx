@@ -1,105 +1,61 @@
-import { Box, Checkbox, Grid, Stack, Typography } from "@mui/material";
-import { ISystems } from "./Form";
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Checkbox, Grid, Stack, Typography } from "@mui/material";
+import SystemCard from "./SystemCard";
+import systems from "./SystemCard";
 import { IFormData } from "../App";
 import CheckIcon from '@mui/icons-material/Check';
+import { useTranslation } from 'react-i18next';
 
-export default function FormSystemSelectorStep({ systems, formData, setFormData }: { systems: ISystems; formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
-  function SystemIcon({ url, alt, label, formData, setFormData }: { url: string; alt: string, label: string, formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
-    const ariaLabel = { inputProps: { 'aria-label': 'Checkbox demo' } };
+export interface ISystem {
+  url: string;
+  alt: string;
+  label: string;
+  labelShort: string;
+  description: string;
+}
 
-    const handleSystemChange = (alt: string) => {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        system: {
-          ...prevFormData.system,
-          [alt.toLowerCase()]: !prevFormData.system[alt.toLowerCase()],
-        },
-      }));
-    };
 
-    return (
-      <Grid item xs={6} sm={3}>
-        <Checkbox
-          sx={{ p: 0 }}
-          {...ariaLabel}
-          checked={formData.system[alt.toLowerCase()]}
-          onChange={e => handleSystemChange(alt)}
-          icon={
-            <Box className="system-icon" style={{ width: '100%' }}>
-              <img
-                style={{
-                  filter: 'saturate(0%)',
-                  width: '100%',
-                  aspectRatio: '1/1',
-                  objectFit: 'cover',
-                  borderRadius: '.25rem',
-                  position: 'relative',
-                }}
-                src={url}
-                alt={alt}
-              />
-              <Typography
-                className="overlay-text"
-                variant="h5"
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  color: '#fff',
-                  textShadow: '0 0 .4rem black',
-                  textAlign: 'center',
-                }}
-              >
-                {label}
-              </Typography>
-            </Box>
-          }
-          checkedIcon={
-            <Box className="system-icon" style={{ width: '100%' }}>
-              <img
-                style={{
-                  width: '100%',
-                  aspectRatio: '1/1',
-                  objectFit: 'cover',
-                  borderRadius: '.25rem',
-                  position: 'relative',
-                }}
-                src={url}
-                alt={alt}
-              />
-              <Typography
-                className="overlay-text"
-                variant="h5"
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  color: '#fff',
-                  textShadow: '0 0 .4rem black',
-                  textAlign: 'center',
-                }}
-              >
-                <CheckIcon style={{ fontSize: '2rem' }} />
-                <br />
-                {alt}
-              </Typography>
-            </Box>
-          }
-        />
-      </Grid>
-    );
+export default function FormSystemSelectorStep({ formData, setFormData }: { formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
+  const { t } = useTranslation();
+
+  const systems: Record<string, ISystem> = {
+    ASRS: {
+      url: 'https://www.jungheinrich.cn/resource/image/540796/landscape_ratio16x10/750/469/4de74d221121a65bc7e0c08b6d4285da/1FA625729DA78A1AD6585E27F629F67B/stage-automatic-small-parts-storage.jpg',
+      alt: 'ASRS',
+      label: t('system-asrs-label'),
+      labelShort: t('system-asrs-labelshort'),
+      description: t('system-asrs-description')
+    },
+    LRKPRK: {
+      url: 'https://www.jungheinrich.cn/resource/image/540918/landscape_ratio16x10/750/469/40bd0c110ea57c96e6b5a51e6d6728ed/1F26C0C524BFC81ADDA1253482D95F1A/stage-small-parts-storage-dynamic.jpg',
+      alt: 'LRKPRK',
+      label: t('system-lrkprk-label'),
+      labelShort: t('system-lrkprk-labelshort'),
+      description: t('system-lrkprk-description')
+    },
+    AGV: {
+      url: 'https://www.jungheinrich.cn/resource/image/540798/landscape_ratio16x10/750/469/5207e5fdaf2ac8a1858bcdae07a44ab2/FE5BFAE61CB18BBD620473590B9B437E/stage-agv-system.jpg',
+      alt: 'AGV',
+      label: t('system-agv-label'),
+      labelShort: t('system-agv-labelshort'),
+      description: t('system-agv-description')
+    },
+    AutoVNA: {
+      url: 'https://www.jungheinrich.cn/resource/image/541672/landscape_ratio16x10/750/469/c7d514ecb2cce052105a89c86396a92b/2F274C04399B4D9A89056F7A564042BA/stage-automated-high-rack-stacker.jpg',
+      alt: 'AutoVNA',
+      label: t('system-autovna-label'),
+      labelShort: t('system-autovna-labelshort'),
+      description: t('system-autovna-description')
+    }
   }
 
   return (
     <Stack spacing={2}>
-      <Typography variant="h4" textAlign='left'>Wybór systemu:</Typography>
+      <Typography variant="h4" textAlign='left'>{t('steps-system-header')}</Typography>
       <Box>
         <Grid container spacing={3}>
           {
-            Object.entries(systems).map(([key, value]) => (
-              <SystemIcon url={value.url} alt={value.alt} label={value.label} formData={formData} setFormData={setFormData} />
+            Object.entries(systems).map(([key, system]) => (
+              <SystemCard system={system} formData={formData} setFormData={setFormData} />
             ))
           }
         </Grid>

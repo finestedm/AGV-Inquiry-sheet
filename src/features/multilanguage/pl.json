@@ -37,6 +37,12 @@
     "ui-button-back": "Wstecz",
     "ui-button-next": "Dalej",
     "ui-button-inquiry-load": "Wczytaj zapytanie",
-    "ui-button-inquiry-save": "Zapisz zapytanie"
+    "ui-button-inquiry-save": "Zapisz zapytanie",
+    "ui-button-readmore": "Dowiedz się więcej",
+
+    "system-asrs-label": "Automatyczne systemy magazynowe",
+    "system-asrs-labelshort": "ASRS",
+    "system-asrs-description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca."
+
   }
   
