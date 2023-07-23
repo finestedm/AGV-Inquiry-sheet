@@ -39,11 +39,12 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     t('steps-sales'), 
     t('steps-customer'), 
     t('steps-system'), 
-    formData.system.asrs ? t('steps-system-asrs') : null,
-    formData.system.lrkprk ? t('steps-system-lrkprk') : null,
-    formData.system.agv ? t('steps-system-agv') : null,
-    formData.system.autovna ? t('steps-system-autovna') : null,
-  ];
+    formData.system.asrs ? t('steps-system-asrs') : undefined,
+    formData.system.lrkprk ? t('steps-system-lrkprk') : undefined,
+    formData.system.agv ? t('steps-system-agv') : undefined,
+    formData.system.autovna ? t('steps-system-autovna') : undefined,
+  ].filter((label) => label !== undefined) as string[];
+
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
     setFadeOut(true);
@@ -88,7 +89,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     return (
       <Container component='form'>
         <Stack spacing={3} sx={{ my: 5 }}>
-          <FormStepper activeStep={activeStep} stepLabels={stepLabels.filter(step => step !== null)} handleStepClick={handleStepClick} />
+          <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           <Box>
             <Box className={fadeOut ? 'step fadeout' : 'step'}>
               {activeStep === 0 && (

@@ -99,7 +99,7 @@ export default function FormSystemSelectorStep({ systems, formData, setFormData 
         <Grid container spacing={3}>
           {
             Object.entries(systems).map(([key, value]) => (
-              <SystemIcon url={value.url} alt={value.alt} formData={formData} setFormData={setFormData} />
+              <SystemIcon url={value.url} alt={value.alt} label={value.label} formData={formData} setFormData={setFormData} />
             ))
           }
         </Grid>
