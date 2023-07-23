@@ -45,7 +45,7 @@ interface ICustomer {
 
 interface ISystem {
   asrs: boolean;
-  'lrk&prk': boolean;
+  lrkprk: boolean;
   agv: boolean;
   autovna: boolean;
   [key: string]: boolean; // Add an index signature
@@ -83,7 +83,7 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
     },
     system: {
       asrs: false,
-      'lrk&prk': false,
+      lrkprk: false,
       agv: false,
       autovna: false
     },

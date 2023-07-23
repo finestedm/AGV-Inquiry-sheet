@@ -4,8 +4,8 @@ import { IFormData } from "../App";
 import CheckIcon from '@mui/icons-material/Check';
 
 export default function FormSystemSelectorStep({ systems, formData, setFormData }: { systems: ISystems; formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
-  function SystemIcon({ url, alt, formData, setFormData }: { url: string; alt: string; formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
-    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+  function SystemIcon({ url, alt, label, formData, setFormData }: { url: string; alt: string, label: string, formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
+    const ariaLabel = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
     const handleSystemChange = (alt: string) => {
       setFormData((prevFormData) => ({
@@ -21,7 +21,7 @@ export default function FormSystemSelectorStep({ systems, formData, setFormData 
       <Grid item xs={6} sm={3}>
         <Checkbox
           sx={{ p: 0 }}
-          {...label}
+          {...ariaLabel}
           checked={formData.system[alt.toLowerCase()]}
           onChange={e => handleSystemChange(alt)}
           icon={
@@ -51,7 +51,7 @@ export default function FormSystemSelectorStep({ systems, formData, setFormData 
                   textAlign: 'center',
                 }}
               >
-                {alt}
+                {label}
               </Typography>
             </Box>
           }

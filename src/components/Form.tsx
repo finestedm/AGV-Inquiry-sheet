@@ -11,14 +11,15 @@ export interface ISystems {
   [key: string]: {
     url: string;
     alt: string;
+    label: string;
   };
 }
 
 const systems: ISystems = {
-  ASRS: { url: 'https://www.jungheinrich.cn/resource/image/540796/landscape_ratio16x10/750/469/4de74d221121a65bc7e0c08b6d4285da/1FA625729DA78A1AD6585E27F629F67B/stage-automatic-small-parts-storage.jpg', alt: 'ASRS' },
-  LRKPRK: { url: 'https://www.jungheinrich.cn/resource/image/540918/landscape_ratio16x10/750/469/40bd0c110ea57c96e6b5a51e6d6728ed/1F26C0C524BFC81ADDA1253482D95F1A/stage-small-parts-storage-dynamic.jpg', alt: 'LRK&PRK' },
-  AGV: { url: 'https://www.jungheinrich.cn/resource/image/540798/landscape_ratio16x10/750/469/5207e5fdaf2ac8a1858bcdae07a44ab2/FE5BFAE61CB18BBD620473590B9B437E/stage-agv-system.jpg', alt: 'AGV' },
-  AutoVNA: { url: 'https://www.jungheinrich.cn/resource/image/541672/landscape_ratio16x10/750/469/c7d514ecb2cce052105a89c86396a92b/2F274C04399B4D9A89056F7A564042BA/stage-automated-high-rack-stacker.jpg', alt: 'AutoVNA' }
+  ASRS: { url: 'https://www.jungheinrich.cn/resource/image/540796/landscape_ratio16x10/750/469/4de74d221121a65bc7e0c08b6d4285da/1FA625729DA78A1AD6585E27F629F67B/stage-automatic-small-parts-storage.jpg', alt: 'ASRS', label:'ASRS' },
+  LRKPRK: { url: 'https://www.jungheinrich.cn/resource/image/540918/landscape_ratio16x10/750/469/40bd0c110ea57c96e6b5a51e6d6728ed/1F26C0C524BFC81ADDA1253482D95F1A/stage-small-parts-storage-dynamic.jpg', alt: 'LRKPRK', label:'LRK&PRK' },
+  AGV: { url: 'https://www.jungheinrich.cn/resource/image/540798/landscape_ratio16x10/750/469/5207e5fdaf2ac8a1858bcdae07a44ab2/FE5BFAE61CB18BBD620473590B9B437E/stage-agv-system.jpg', alt: 'AGV', label:'AGV' },
+  AutoVNA: { url: 'https://www.jungheinrich.cn/resource/image/541672/landscape_ratio16x10/750/469/c7d514ecb2cce052105a89c86396a92b/2F274C04399B4D9A89056F7A564042BA/stage-automated-high-rack-stacker.jpg', alt: 'AutoVNA', label:'AutoVNA' }
 }
 
 export interface IHandleInputMethod {
@@ -34,7 +35,15 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
   const { t } = useTranslation();
 
   const [activeStep, setActiveStep] = useState<number>(0);
-  const stepLabels = [t('steps-sales'), t('steps-customer'), t('steps-system')];
+  const stepLabels = [
+    t('steps-sales'), 
+    t('steps-customer'), 
+    t('steps-system'), 
+    formData.system.asrs ? t('steps-system-asrs') : null,
+    formData.system.lrkprk ? t('steps-system-lrkprk') : null,
+    formData.system.agv ? t('steps-system-agv') : null,
+    formData.system.autovna ? t('steps-system-autovna') : null,
+  ];
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
     setFadeOut(true);
@@ -79,7 +88,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     return (
       <Container component='form'>
         <Stack spacing={3} sx={{ my: 5 }}>
-          <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
+          <FormStepper activeStep={activeStep} stepLabels={stepLabels.filter(step => step !== null)} handleStepClick={handleStepClick} />
           <Box>
             <Box className={fadeOut ? 'step fadeout' : 'step'}>
               {activeStep === 0 && (
