@@ -33,6 +33,12 @@
     "steps-sales": "Jednostka sprzedażowa",
     "steps-customer": "Klient",
     "steps-system": "System",
+    "steps-system-asrs": "ASRS",
+    "steps-system-lrkprk": "LRK / PRK",
+    "steps-system-agv": "AGV",
+    "steps-system-autovna": "AutoVNA",
+
+    "steps-system-header": "Wybór systemu:",
 
     "ui-button-back": "Wstecz",
     "ui-button-next": "Dalej",
@@ -42,7 +48,20 @@
 
     "system-asrs-label": "Automatyczne systemy magazynowe",
     "system-asrs-labelshort": "ASRS",
-    "system-asrs-description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca."
+    "system-asrs-description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca.",
+
+    "system-lrkprk-label": "Regały windowe i karuzelowe",
+    "system-lrkprk-labelshort": "LRK & PRK",
+    "system-lrkprk-description": "Z uwagi na modułową konstrukcję, zarówno przed jak i po montażu można dostosowywać wysokość regału LRK do bieżących potrzeb. Ponadto integracja regału w dowolny system zarządzania magazynem pozwala na uzyskanie jeszcze lepszej wydajności.",
+
+    "system-agv-label": "Wózki automatyczne AGV",
+    "system-agv-labelshort": "AGV",
+    "system-agv-description": "Wózki automatyczne AGV (z ang. Automated Guided Vehicles) to systemy transportowe pozwalające na zdalną obsługę. Wyposażono je w rozbudowany system czujników, który wykrywa wszelkie przeszkody wokół pojazdu. Modele AVG potrafią samodzielnie zwalniać, przyspieszać i reagować na niespodziewane czynniki pojawiające się podczas jazdy. W razie konieczności mogą całkowicie się zatrzymać.",
+
+    "system-autovna-label": "Automatyczne wózki do wąskich korytarzy roboczych",
+    "system-autovna-labelshort": "AutoVNA",
+    "system-autovna-description": "Automatyczne wózki wysokiego składowania doskonale sprawdzają się w zautomatyzowanym magazynie z wąskimi korytarzami roboczymi, w którym znajdują się także regały, oprogramowanie i urządzenia transportowe. Idealnie zintegrowane, efektywnie i bezpiecznie wykonują pracę przez 24 godziny na dobę."
+
 
   }
   

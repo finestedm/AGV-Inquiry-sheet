@@ -6,6 +6,8 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import pl from './features/multilanguage/pl.json'
 import en from './features/multilanguage/en.json'
+import theme from './theme';
+import { ThemeProvider } from '@mui/material';
 
 // Configure i18next
 i18n
@@ -25,7 +27,7 @@ i18n
 const handleLanguageChange = (value: string) => {
   i18n.changeLanguage(value);
 };
-  
+
 interface ISales {
   salesUnit: string;
   contactPerson: string;
@@ -92,15 +94,19 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
   return [formData, setFormData];
 }
 
+console.log(theme.palette)
+
 function App() {
   const [formData, setFormData] = useInitialFormData();
 
   return (
     <I18nextProvider i18n={i18n}>
-      <div className="App">
-        <TopBar formData={formData} setFormData={setFormData}  />
-        <Form formData={formData} setFormData={setFormData} />
-      </div>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <TopBar formData={formData} setFormData={setFormData} />
+          <Form formData={formData} setFormData={setFormData} />
+        </div>
+      </ThemeProvider>
     </I18nextProvider>
   );
 }
