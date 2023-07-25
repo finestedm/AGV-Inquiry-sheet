@@ -43,6 +43,7 @@ interface ICustomer {
   contactPersonRole: string;
   contactPersonPhone: string;
   contactPersonMail: string;
+  relations: number;
 }
 
 interface ISystem {
@@ -82,6 +83,7 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       contactPersonRole: '',
       contactPersonPhone: '',
       contactPersonMail: '',
+      relations: 0,
     },
     system: {
       asrs: false,

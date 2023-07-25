@@ -72,10 +72,10 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         onChange={(e) => handleInputMethod('customer', 'sapNumber', e.target.value)}
       />
       <FormControl>
-        <InputLabel id="demo-multiple-checkbox-label">{t('customer-industry')}</InputLabel>
+        <InputLabel id="customer-industry-label">{t('customer-industry')}</InputLabel>
         <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
+          labelId="customer-industry-label"
+          id="customer-industry"
           multiple
           input={<OutlinedInput label={t('customer-industry')} />}
           value={formData.customer.industryName}
@@ -151,6 +151,31 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         value={formData.customer.address}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputMethod('customer', 'address', e.target.value)}
       />
+      <FormControl>
+        <InputLabel id="customer-relations-label">{t('customer-relations')}</InputLabel>
+        <Select
+          labelId="customer-relations-label"
+          id="customer-relations"
+          input={<OutlinedInput label={t('customer-relations')} />}
+          value={formData.customer.relations}
+          onChange={(e) => handleInputMethod('customer', 'relations', e.target.value as number )}
+          renderValue={(selected) => (selected)}
+          MenuProps={MenuProps}
+        >
+            <MenuItem value={0}>
+              <ListItemText primary={t('customer-ralations-new')} />
+            </MenuItem>
+            <MenuItem value={1}>
+              <ListItemText primary={t('customer-ralations-jh')} />
+            </MenuItem>
+            <MenuItem value={2}>
+              <ListItemText primary={t('customer-ralations-jh-kam')} />
+            </MenuItem>
+            <MenuItem value={3}>
+              <ListItemText primary={t('customer-ralations-competitor')} />
+            </MenuItem>
+        </Select>
+      </FormControl>
     </Stack>
   )
 }
