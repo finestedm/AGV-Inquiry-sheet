@@ -1,4 +1,4 @@
-import { Box, Checkbox, FormControl, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
 import { IFormData } from "../App";
 import { IHandleInputMethod } from "./Form";
 import { useState, Dispatch, SetStateAction, useEffect } from "react";
@@ -132,7 +132,8 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         placeholder={t('customer-contactperson-mail-placeholder')}
         onChange={(e) => {
           setIsFieldTouched(true);
-          handleInputMethod('customer', 'contactPersonMail', e.target.value)}
+          handleInputMethod('customer', 'contactPersonMail', e.target.value)
+        }
         }
         error={isFieldTouched && !isValidEmail()} // Show error only if the field is touched and email is invalid
         helperText={isFieldTouched && !isValidEmail() ? t('customer-contactperson-mail-helpertext-valid') : ''}
@@ -158,24 +159,29 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           id="customer-relations"
           input={<OutlinedInput label={t('customer-relations')} />}
           value={formData.customer.relations}
-          onChange={(e) => handleInputMethod('customer', 'relations', e.target.value as number )}
+          onChange={(e) => handleInputMethod('customer', 'relations', e.target.value as string)}
           renderValue={(selected) => (selected)}
           MenuProps={MenuProps}
         >
-            <MenuItem value={0}>
-              <ListItemText primary={t('customer-ralations-new')} />
-            </MenuItem>
-            <MenuItem value={1}>
-              <ListItemText primary={t('customer-ralations-jh')} />
-            </MenuItem>
-            <MenuItem value={2}>
-              <ListItemText primary={t('customer-ralations-jh-kam')} />
-            </MenuItem>
-            <MenuItem value={3}>
-              <ListItemText primary={t('customer-ralations-competitor')} />
-            </MenuItem>
+          <MenuItem value={t('customer-ralations-new')}>{t('customer-ralations-new')}</MenuItem>
+          <MenuItem value={t('customer-ralations-jh')}>{t('customer-ralations-jh')}</MenuItem>
+          <MenuItem value={t('customer-ralations-jh-kam')}>{t('customer-ralations-jh-kam')}</MenuItem>
+          <MenuItem value={t('customer-ralations-competitor')}>{t('customer-ralations-competitor')}</MenuItem>
         </Select>
       </FormControl>
+      {formData.customer.relations === t('customer-ralations-jh') || formData.customer.relations === t('customer-ralations-jh-kam') &&
+        <Box>
+          <Typography variant="h6" textAlign='left'>{t('customer-ralations-ownproducts')}</Typography>
+          <TextField
+            id="forklift-input"
+            fullWidth
+            label="Number of Forklifts"
+            type="number"
+            value='12'
+          />
+        </Box>
+
+      }
     </Stack>
   )
 }
