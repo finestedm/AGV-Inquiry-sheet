@@ -1,4 +1,4 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography } from '@mui/material';
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { IFormData } from '../App';
 import { ISystem } from './FormSystemSelectorStep';
@@ -6,7 +6,9 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Height } from '@mui/icons-material';
 
 export default function SystemCard({ system, formData, setFormData }: { system: ISystem, formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
-    const ariaLabel = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+    const theme = useTheme()
+
 
     const handleSystemChange = (alt: string) => {
         setFormData((prevFormData) => ({
@@ -45,7 +47,7 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
                                 boxShadow: '0 .5rem 1rem'
                             }}
                         >
-                            <CheckCircleOutlineIcon color='secondary'  />
+                            <CheckCircleOutlineIcon sx={{color: theme.palette.success.main}}  />
                         </div>
                     )}
                     <CardMedia
@@ -65,7 +67,7 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="success">
                         {t('ui-button-readmore')}
                     </Button>
                 </CardActions>

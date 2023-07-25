@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, FormControl, InputLabel, MenuItem, Select, Stack, Toolbar, Typography, styled, useMediaQuery } from "@mui/material"
+import { AppBar, Avatar, Box, Button, Container, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
 import { saveAs } from 'file-saver';
 import { IFormData } from "../App";
 import SaveIcon from '@mui/icons-material/Save';
@@ -7,6 +7,9 @@ import { useTranslation } from 'react-i18next';
 import pl from '../images/poland.svg'
 import en from '../images/uk.svg'
 import jhLogo from '../images/JH_logo.png'
+import { SelectChangeEvent } from "@mui/material/Select";
+import MenuIcon from '@mui/icons-material/Menu';
+import React, { useState } from 'react';
 
 function saveDataToFile(formData: IFormData) {
     const data = JSON.stringify(formData);
@@ -40,50 +43,145 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
 
     const showSaveInquiryText = useMediaQuery('(min-width: 600px)');
 
+    const handleLanguageChange = (e: SelectChangeEvent<string>) => {
+        i18n.changeLanguage(e.target.value);
+    };
+
     const { t, i18n } = useTranslation();
 
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
     return (
-        <AppBar position="sticky" sx={{ backgroundColor: '#3c464b' }}>
-            <Toolbar sx={{ py: 1, display: 'flex', justifyContent: 'space-between' }}>
-                <img src={jhLogo} alt='JH_logo' style={{ height: '1.75rem' }} />
-                <Stack direction='row' spacing={2}>
-                    <FormControl>
-                        <Select
-                            id="language-select"
-                            value={i18n.language}
-                            onChange={e => i18n.changeLanguage(e.target.value)}
-                            variant="outlined"
-                            size="small"
+        <AppBar position="static" >
+            <Container maxWidth="xl">
+                <Toolbar disableGutters>
+                    <img src={jhLogo} height='25' alt='JH_logo' />
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end', alignContent: 'flex-end' }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
                         >
-                            <MenuItem value="en" >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            <MenuItem>
+                                <Select
+                                    id="language-select"
+                                    value={i18n.language}
+                                    onChange={handleLanguageChange}
+                                    variant="outlined"
+                                    size="small"
+                                >
+                                    <MenuItem value="en" >
+                                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                            <img src={en} alt="english" />
+                                            <Typography>English</Typography>
+                                        </Stack>
+                                    </MenuItem>
+                                    <MenuItem value="pl">
+                                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                            <img src={pl} alt="polish" />
+                                            <Typography>Polski</Typography>
+                                        </Stack>
+                                    </MenuItem>
+                                </Select>
+                            </MenuItem>
+                            <MenuItem onClick={() => saveDataToFile(formData)}>
+
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                    <img src={en} alt="english" />
-                                    <Typography>English</Typography>
+                                    <SaveIcon />
+                                    <Typography>{t('ui-button-inquiry-save')}</Typography>
                                 </Stack>
                             </MenuItem>
-                            <MenuItem value="pl">
+                            <MenuItem>
+
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                    <img src={pl} alt="polish" />
-                                    <Typography>Polski</Typography>
+                                    <UploadIcon />
+                                    <Typography>{t('ui-button-inquiry-load')}</Typography>
+                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
                                 </Stack>
                             </MenuItem>
-                        </Select>
-                    </FormControl>
-                    <Button variant="outlined" onClick={() => saveDataToFile(formData)} >
-                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                            <SaveIcon />
-                            {showSaveInquiryText && <Typography>{t('ui-button-inquiry-save')}</Typography>}
+                        </Menu>
+                    </Box>
+
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}>
+                        <Stack spacing={3} direction='row'>
+                            <FormControl sx={{ display: { xs: 'none', md: 'flex' } }}>
+                                <Select
+                                    id="language-select"
+                                    value={i18n.language}
+                                    onChange={handleLanguageChange}
+                                    variant="outlined"
+                                    size="small"
+                                >
+                                    <MenuItem value="en" >
+                                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                            <img src={en} alt="english" />
+                                            <Typography>English</Typography>
+                                        </Stack>
+                                    </MenuItem>
+                                    <MenuItem value="pl">
+                                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                            <img src={pl} alt="polish" />
+                                            <Typography>Polski</Typography>
+                                        </Stack>
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                            <Button variant="outlined" color='secondary' onClick={() => saveDataToFile(formData)} sx={{ display: { xs: 'none', md: 'flex' } }}>
+                                <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                    <SaveIcon />
+                                    <Typography>{t('ui-button-inquiry-save')}</Typography>
+                                </Stack>
+                            </Button>
+                            <Button variant="outlined" color='secondary' component="label" sx={{ display: { xs: 'none', md: 'flex' } }}>
+                                <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                    <UploadIcon />
+                                    <Typography>{t('ui-button-inquiry-load')}</Typography>
+                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
+                                </Stack>
+                            </Button>
                         </Stack>
-                    </Button>
-                    <Button variant="outlined" component="label">
-                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                            <UploadIcon />
-                            {showSaveInquiryText && <Typography>{t('ui-button-inquiry-load')}</Typography>}
-                            <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
-                        </Stack>
-                    </Button>
-                </Stack>
-            </Toolbar>
-        </AppBar>
+                    </Box>
+                </Toolbar>
+            </Container>
+        </AppBar >
     )
 }
