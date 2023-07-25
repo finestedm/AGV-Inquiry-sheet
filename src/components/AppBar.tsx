@@ -55,9 +55,6 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
-    };
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
@@ -69,7 +66,7 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
 
     return (
         <AppBar position="static" >
-            <Container maxWidth="xl">
+            <Container maxWidth="lg">
                 <Toolbar disableGutters>
                     <img src={jhLogo} height='25' alt='JH_logo' />
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end', alignContent: 'flex-end' }}>
