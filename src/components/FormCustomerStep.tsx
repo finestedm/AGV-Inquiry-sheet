@@ -135,7 +135,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           handleInputMethod('customer', 'contactPersonMail', e.target.value)}
         }
         error={isFieldTouched && !isValidEmail()} // Show error only if the field is touched and email is invalid
-        helperText={isFieldTouched && !isValidEmail() ? t('sales-contactperson-mail-helpertext-valid') : ''}
+        helperText={isFieldTouched && !isValidEmail() ? t('customer-contactperson-mail-helpertext-valid') : ''}
         InputProps={{
           endAdornment: (
             <InputAdornment position="start">

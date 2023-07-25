@@ -8,7 +8,7 @@
     "customer-contactperson-role": "Funkcja osoby kontaktowej",
     "customer-contactperson-phone": "Telefon kontaktowy",
     "customer-contactperson-mail": "Adres email",
-    "sales-contactperson-mail-helpertext-valid": "Zły format",
+    "customer-contactperson-mail-helpertext-valid": "Zły format",
     "customer-contactperson-mail-placeholder": "jan.kowalski@firma.pl",
     "customer-address": "Adres",
 
