@@ -40,11 +40,21 @@ interface ICustomer {
   contactPersonPhone: string;
   contactPersonMail: string;
   relations: string;
-  salesHistoryValue: number;
-  ownedForklifts: number;
-  ownedRacks: number;
+  salesHistoryValue: number | undefined;
+  ownedForklifts: number | undefined;
+  ownedRacks: number | undefined;
   ownedOther: string;
-  creditManagement: number;
+  creditManagement: number | undefined;
+}
+
+interface IProject {
+  goals: string;
+  supplyChain: string;
+  tender: boolean;
+  investmentLocation: string;
+  type: string;
+  consultingCompany: boolean;
+  competitor: boolean;
 }
 
 interface ISystem {
@@ -59,7 +69,9 @@ export interface IFormData {
   version: string;
   sales: ISales;
   customer: ICustomer;
+  project: IProject;
   system: ISystem;
+
 }
 
 export interface IFormProps {
@@ -85,11 +97,20 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       contactPersonPhone: '',
       contactPersonMail: '',
       relations: '',
-      salesHistoryValue: 0,
-      ownedForklifts: 0,
-      ownedRacks: 0,
+      salesHistoryValue: undefined,
+      ownedForklifts: undefined,
+      ownedRacks: undefined,
       ownedOther: '',
-      creditManagement: 0,
+      creditManagement: undefined,
+    },
+    project: {
+      goals: '',
+      supplyChain: '',
+      tender: false,
+      investmentLocation: '',
+      type: '',
+      consultingCompany: false,
+      competitor: false,
     },
     system: {
       asrs: false,

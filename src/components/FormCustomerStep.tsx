@@ -177,7 +177,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
             <MenuItem value={t('customer-relations-competitor')}>{t('customer-relations-competitor')}</MenuItem>
           </Select>
         </FormControl>
-        {formData.customer.relations === t('customer-relations-jh') || formData.customer.relations === t('customer-relations-jh-kam') &&
+        {(formData.customer.relations === t('customer-relations-jh') || formData.customer.relations === t('customer-relations-jh-kam')) &&
           <Box>
           <Grid container direction='row' spacing={2}>
             <Grid item xs={6} lg={4}>
@@ -220,8 +220,9 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         <TextField
         label={t('customer-relations-saleshistoryvalue')}
         name="customer.salesHistoryValue"
-        value={formData.customer.salesHistoryValue}
-        onChange={(e) => handleInputMethod('customer.salesHistoryValue', e.target.value)}
+        type="text"
+        value={formData.customer.salesHistoryValue === undefined ? '' : (Number(formData.customer.salesHistoryValue)).toLocaleString('en-US').replaceAll(',', ' ')}
+        onChange={(e) => handleInputMethod('customer.salesHistoryValue', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''))}
         InputProps={{
           // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
           endAdornment: <InputAdornment position="end">€ / rok</InputAdornment>,
@@ -230,8 +231,9 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         <TextField
         label={t('customer-relations-creditmanagement')}
         name="customer.creditmanagement"
-        value={formData.customer.creditManagement}
-        onChange={(e) => handleInputMethod('customer.creditManagement', e.target.value)}
+        type="text"
+        value={formData.customer.creditManagement === undefined ? '' : (Number(formData.customer.creditManagement)).toLocaleString('en-US').replaceAll(',', ' ')}
+        onChange={(e) => handleInputMethod('customer.creditManagement', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''))}
         InputProps={{
           // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
           endAdornment: <InputAdornment position="end">PLN brutto</InputAdornment>,

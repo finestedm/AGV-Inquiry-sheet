@@ -7,6 +7,7 @@ import FormCustomerStep from "./FormCustomerStep";
 import FormSystemSelectorStep from "./FormSystemSelectorStep";
 import { useTranslation } from 'react-i18next';
 import systems from './SystemCard'
+import FormProjectStep from "./FormProjectStep";
 
 export interface IHandleInputMethod {
   (path: string, value: any): void;
@@ -21,6 +22,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
   const stepLabels = [
     t('steps-sales'),
     t('steps-customer'),
+    t('steps-project'),
     t('steps-system'),
     formData.system.asrs ? t('steps-system-asrs') : undefined,
     formData.system.lrkprk ? t('steps-system-lrkprk') : undefined,
@@ -89,6 +91,9 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
                 <FormCustomerStep handleInputMethod={handleInputMethod} formData={formData} setFormData={setFormData} />
               )}
               {activeStep === 2 && (
+                <FormProjectStep handleInputMethod={handleInputMethod} formData={formData} />
+              )}
+              {activeStep === 3 && (
                 <FormSystemSelectorStep formData={formData} setFormData={setFormData} />
               )}
             </Box>
