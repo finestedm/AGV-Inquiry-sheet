@@ -49,7 +49,7 @@ interface ICustomer {
 
 interface IProject {
   goals: string;
-  supplyChain: string;
+  supplyChainParts: string[];
   tender: boolean;
   investmentLocation: string;
   type: string;
@@ -105,7 +105,7 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
     },
     project: {
       goals: '',
-      supplyChain: '',
+      supplyChainParts: [],
       tender: false,
       investmentLocation: '',
       type: '',
