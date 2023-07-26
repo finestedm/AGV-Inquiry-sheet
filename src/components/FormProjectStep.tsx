@@ -1,4 +1,4 @@
-import { Checkbox, FormControl, FormControlLabel, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, Typography } from "@mui/material";
+import { Box, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, Typography } from "@mui/material";
 import { IFormData } from "../App";
 import { IHandleInputMethod } from "./Form";
 import { useTranslation } from 'react-i18next';
@@ -27,7 +27,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                 onChange={(e) => handleInputMethod('project.goals', e.target.value)}
             />
             <FormControl>
-            <InputLabel id="project-supplyChainParts-label">{t('project-supplyChainParts')}</InputLabel>
+                <InputLabel id="project-supplyChainParts-label">{t('project-supplyChainParts')}</InputLabel>
                 <Select
                     labelId="project-supplyChainParts-label"
                     id="project-supplyChainParts"
@@ -39,26 +39,66 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                     MenuProps={MenuProps}
                 >
                     {supplyChainParts.map((name) => (
-                    <MenuItem key={name} value={name}>
-                        <Checkbox checked={formData.project.supplyChainParts.indexOf(name) > -1} />
-                        <ListItemText primary={name} />
-                    </MenuItem>
+                        <MenuItem key={name} value={name}>
+                            <Checkbox checked={formData.project.supplyChainParts.indexOf(name) > -1} />
+                            <ListItemText primary={name} />
+                        </MenuItem>
                     ))}
                 </Select>
             </FormControl>
-            <FormControlLabel
-                id="project-supplyChainParts" 
-                control={
-                    <Switch 
-                        checked={formData.project.tender}
-                        onChange={(e) => handleInputMethod('project.tender', e.target.checked)}                        
-                        inputProps={{ 'aria-label': 'controlled' }}
-                    />
-                }
-                labelPlacement="top" 
-                label={t('project-tender')} 
+            <TextField
+                fullWidth
+                label={t('project-investmentLocation')}
+                name="project.investmentLocation"
+                value={formData.project.investmentLocation}
+                onChange={(e) => handleInputMethod('project.investmentLocation', e.target.value)}
             />
-
+            <Box>
+                <Grid container  flex={1} justifyContent='space-between' spacing={2}>
+                    <Grid item >
+                        <FormControlLabel
+                            id="project-tender"
+                            control={
+                                <Switch
+                                    checked={formData.project.tender}
+                                    onChange={(e) => handleInputMethod('project.tender', e.target.checked)}
+                                    inputProps={{ 'aria-label': 'controlled' }}
+                                />
+                            }
+                            labelPlacement="start"
+                            label={t('project-tender')}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <FormControlLabel
+                            id="project-consultingCompany"
+                            control={
+                                <Switch
+                                    checked={formData.project.consultingCompany}
+                                    onChange={(e) => handleInputMethod('project.consultingCompany', e.target.checked)}
+                                    inputProps={{ 'aria-label': 'controlled' }}
+                                />
+                            }
+                            labelPlacement="start"
+                            label={t('project-consultingCompany')}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <FormControlLabel
+                            id="project-competitor"
+                            control={
+                                <Switch
+                                    checked={formData.project.competitor}
+                                    onChange={(e) => handleInputMethod('project.competitor', e.target.checked)}
+                                    inputProps={{ 'aria-label': 'controlled' }}
+                                />
+                            }
+                            labelPlacement="start"
+                            label={t('project-competitor')}
+                        />
+                    </Grid>
+                </Grid>
+            </Box>
         </Stack>
     )
 }
