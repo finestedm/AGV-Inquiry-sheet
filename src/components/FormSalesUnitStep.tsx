@@ -16,13 +16,13 @@ export default function FormSalesUnitStep({ formData, handleInputMethod }: { for
                 label={t('sales-unit')}
                 name="sales.salesUnit"
                 value={formData.sales.salesUnit}
-                onChange={(e) => handleInputMethod('sales', 'salesUnit', e.target.value)}
+                onChange={(e) => handleInputMethod('sales.salesUnit', e.target.value)}
             />
             <TextField
                 label={t('sales-contactperson')}
                 name="sales.contactPerson"
                 value={formData.sales.contactPerson}
-                onChange={(e) => handleInputMethod('sales', 'contactPerson', e.target.value)}
+                onChange={(e) => handleInputMethod('sales.contactPerson', e.target.value)}
                 required
                 placeholder={t('sales-contactperson-placeholder')}
                 error={formData.sales.contactPerson.length < 5}
@@ -33,7 +33,7 @@ export default function FormSalesUnitStep({ formData, handleInputMethod }: { for
                 label={t('sales-contactperson-role')}
                 name="sales.contactPersonRole"
                 value={formData.sales.contactPersonRole}
-                onChange={(e) => handleInputMethod('sales', 'contactPersonRole', e.target.value)}
+                onChange={(e) => handleInputMethod('sales.contactPersonRole', e.target.value)}
             />
         </Stack>
     )

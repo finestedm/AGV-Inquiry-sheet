@@ -63,7 +63,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           label={t('customer-company')}
           name="customer.company"
           value={formData.customer.company}
-          onChange={(e) => handleInputMethod('customer', 'company', e.target.value)}
+          onChange={(e) => handleInputMethod('customer.company', e.target.value)}
         />
         <TextField
           label={t('customer-sap')}
@@ -71,14 +71,14 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           name="customer.sapNumber"
           value={formData.customer.sapNumber}
           defaultValue=''
-          onChange={(e) => handleInputMethod('customer', 'sapNumber', e.target.value)}
+          onChange={(e) => handleInputMethod('customer.sapNumber', e.target.value)}
         />
         <TextField
           label={t('customer-address')}
           placeholder="Popularna 13B"
           name="customer.address"
           value={formData.customer.address}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputMethod('customer', 'address', e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputMethod('customer.address', e.target.value)}
         />
         </Stack>
         <Stack spacing={2}>
@@ -87,20 +87,20 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           label={t('customer-contactperson')}
           name="customer.contactPerson"
           value={formData.customer.contactPerson}
-          onChange={(e) => handleInputMethod('customer', 'contactPerson', e.target.value)}
+          onChange={(e) => handleInputMethod('customer.contactPerson', e.target.value)}
         />
         <TextField
           label={t('customer-contactperson-role')}
           name="customer.contactPersonRole"
           value={formData.customer.contactPersonRole}
-          onChange={(e) => handleInputMethod('customer', 'contactPersonRole', e.target.value)}
+          onChange={(e) => handleInputMethod('customer.contactPersonRole', e.target.value)}
         />
         <MuiTelInput
           label={t('customer-contactperson-phone')}
           defaultCountry="PL"
           continents={['EU']}
           value={formData.customer.contactPersonPhone}
-          onChange={(e) => handleInputMethod('customer', 'contactPersonPhone', e)}
+          onChange={(e) => handleInputMethod('customer.contactPersonPhone', e)}
           variant="outlined"
           fullWidth
         />
@@ -111,7 +111,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           placeholder={t('customer-contactperson-mail-placeholder')}
           onChange={(e) => {
             setIsFieldTouched(true);
-            handleInputMethod('customer', 'contactPersonMail', e.target.value)
+            handleInputMethod('customer.contactPersonMail', e.target.value)
           }
           }
           error={isFieldTouched && !isValidEmail()} // Show error only if the field is touched and email is invalid
@@ -135,7 +135,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
             multiple
             input={<OutlinedInput label={t('customer-industry')} />}
             value={formData.customer.industryName}
-            onChange={(e) => handleInputMethod('customer', 'industryName', e.target.value as string[])}
+            onChange={(e) => handleInputMethod('customer.industryName', e.target.value as string[])}
             renderValue={(selected) => (selected as string[]).join(', ')}
             MenuProps={MenuProps}
           >
@@ -167,7 +167,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
             id="customer-relations"
             input={<OutlinedInput label={t('customer-relations')} />}
             value={formData.customer.relations}
-            onChange={(e) => handleInputMethod('customer', 'relations', e.target.value as string)}
+            onChange={(e) => handleInputMethod('customer.relations', e.target.value as string)}
             renderValue={(selected) => (selected)}
             MenuProps={MenuProps}
           >
@@ -186,7 +186,8 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
                 fullWidth
                 label="Number of Forklifts"
                 type="number"
-                value='12'
+                value={formData.customer.ownedForklifts}
+                onChange={(e) => handleInputMethod('customer.ownedForklifts', e.target.value)}
               />
             </Grid>
             <Grid item xs={6} lg={4}>
@@ -195,7 +196,8 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
                 fullWidth
                 label="Number of Racks"
                 type="number"
-                value='12'
+                value={formData.customer.ownedRacks}
+                onChange={(e) => handleInputMethod('customer.ownedRacks', e.target.value)}
                 InputProps={{
                   // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
                   endAdornment: <InputAdornment position="end">m.p.</InputAdornment>,
@@ -208,12 +210,33 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
                 fullWidth
                 label="Inne produkty"
                 type="text"
-                value='eeee'            
+                value={formData.customer.ownedOther}
+                onChange={(e) => handleInputMethod('customer.ownedOther', e.target.value)}           
               />
             </Grid>
           </Grid>
           </Box>
         }
+        <TextField
+        label={t('customer-relations-saleshistoryvalue')}
+        name="customer.salesHistoryValue"
+        value={formData.customer.salesHistoryValue}
+        onChange={(e) => handleInputMethod('customer.salesHistoryValue', e.target.value)}
+        InputProps={{
+          // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
+          endAdornment: <InputAdornment position="end">€ / rok</InputAdornment>,
+        }} 
+        />
+        <TextField
+        label={t('customer-relations-creditmanagement')}
+        name="customer.creditmanagement"
+        value={formData.customer.creditManagement}
+        onChange={(e) => handleInputMethod('customer.creditManagement', e.target.value)}
+        InputProps={{
+          // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
+          endAdornment: <InputAdornment position="end">PLN brutto</InputAdornment>,
+        }} 
+        />
       </Stack>
     </Stack>
   )

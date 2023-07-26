@@ -9,12 +9,9 @@ import { useTranslation } from 'react-i18next';
 import systems from './SystemCard'
 
 export interface IHandleInputMethod {
-  <K extends keyof IFormData>(
-    topLevelKey: K,
-    fieldPath: keyof IFormData[K],
-    value: IFormData[K][keyof IFormData[K]]
-  ): void;
+  (path: string, value: any): void;
 }
+
 
 export default function Form({ formData, setFormData }: IFormProps): JSX.Element {
 
@@ -56,17 +53,24 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     }, 500);
   };
 
-
-  const handleInputMethod: IHandleInputMethod = function (topLevelKey, fieldPath, value) {
+  const handleInputMethod: IHandleInputMethod = function (path, value) {
     setFormData((prevFormData) => {
-      const newFormData = { ...prevFormData };
-
-      // Access the top-level key in the formData object
-      const topLevelObject = newFormData[topLevelKey];
-
-      // Update the field value
-      topLevelObject[fieldPath] = value;
-
+      const newFormData: IFormData = { ...prevFormData };
+      const keys = path.split('.');
+      let currentObject: any = newFormData;
+  
+      // Iterate through nested keys to access the nested property
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (currentObject[keys[i]] === undefined) {
+          // Create empty objects if they don't exist in the nested structure
+          currentObject[keys[i]] = {};
+        }
+        currentObject = currentObject[keys[i]];
+      }
+  
+      // Update the value of the nested property
+      currentObject[keys[keys.length - 1]] = value;
+  
       return newFormData;
     });
   };

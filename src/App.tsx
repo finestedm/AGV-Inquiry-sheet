@@ -24,10 +24,6 @@ i18n
     },
   });
 
-const handleLanguageChange = (value: string) => {
-  i18n.changeLanguage(value);
-};
-
 interface ISales {
   salesUnit: string;
   contactPerson: string;
@@ -44,6 +40,11 @@ interface ICustomer {
   contactPersonPhone: string;
   contactPersonMail: string;
   relations: string;
+  salesHistoryValue: number;
+  ownedForklifts: number;
+  ownedRacks: number;
+  ownedOther: string;
+  creditManagement: number;
 }
 
 interface ISystem {
@@ -84,6 +85,11 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       contactPersonPhone: '',
       contactPersonMail: '',
       relations: '',
+      salesHistoryValue: 0,
+      ownedForklifts: 0,
+      ownedRacks: 0,
+      ownedOther: '',
+      creditManagement: 0,
     },
     system: {
       asrs: false,
@@ -95,8 +101,6 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
 
   return [formData, setFormData];
 }
-
-console.log(theme.palette)
 
 function App() {
   const [formData, setFormData] = useInitialFormData();
