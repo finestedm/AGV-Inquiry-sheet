@@ -162,13 +162,13 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
                                     </MenuItem>
                                 </Select>
                             </FormControl>
-                            <Button variant="outlined" color='secondary' onClick={() => saveDataToFile(formData)} sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <Button variant="outlined" color='success' onClick={() => saveDataToFile(formData)} sx={{ display: { xs: 'none', md: 'flex' } }}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <SaveIcon />
                                     <Typography>{t('ui-button-inquiry-save')}</Typography>
                                 </Stack>
                             </Button>
-                            <Button variant="outlined" color='secondary' component="label" sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <Button variant="outlined" color='success' component="label" sx={{ display: { xs: 'none', md: 'flex' } }}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <UploadIcon />
                                     <Typography>{t('ui-button-inquiry-load')}</Typography>

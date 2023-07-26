@@ -74,7 +74,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
   if (formData) {
     return (
       <Container component='form'>
-        <Stack spacing={3} sx={{ my: 5 }}>
+        <Stack spacing={4} sx={{ my: 5 }}>
           <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           <Box>
             <Box className={fadeOut ? 'step fadeout' : 'step'}>
