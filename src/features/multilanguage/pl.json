@@ -60,7 +60,33 @@
 
     "system-autovna-label": "Automatyczne wózki do wąskich korytarzy roboczych",
     "system-autovna-labelshort": "AutoVNA",
-    "system-autovna-description": "Automatyczne wózki wysokiego składowania doskonale sprawdzają się w zautomatyzowanym magazynie z wąskimi korytarzami roboczymi, w którym znajdują się także regały, oprogramowanie i urządzenia transportowe. Idealnie zintegrowane, efektywnie i bezpiecznie wykonują pracę przez 24 godziny na dobę."
+    "system-autovna-description": "Automatyczne wózki wysokiego składowania doskonale sprawdzają się w zautomatyzowanym magazynie z wąskimi korytarzami roboczymi, w którym znajdują się także regały, oprogramowanie i urządzenia transportowe. Idealnie zintegrowane, efektywnie i bezpiecznie wykonują pracę przez 24 godziny na dobę.",
+
+    "project-header": "Informacje o projekcie",
+    "project-goals": "Cele projektu",
+    "project-supplyChainParts": "Automatyzacja obejmuje daną część łancucha dostaw",
+    "supplyChainParts-production": "Produkcja",
+    "supplyChainParts-storage": "Magazynowanie",
+    "supplyChainParts-distribution": "Dystrybucja",
+    "supplyChainParts-finishedGoods": "Produkty gotowe",
+    "supplyChainParts-components": "Komponenty",
+    "project-investmentLocation": "Lokalizacja inwestycji",
+    "project-tender": "Inwestycja w formie przetargu?",
+    "project-consultingCompany": "Prowadzona przez firmę konsultingową?",
+    "project-competitor": "Inni oferenci?",
+    "project-invenstmentType-new": "Nowy projekt",
+    "project-invenstmentType-expansion": "Rozbudowa",
+    "project-invenstmentType-modification": "Modyfikacja",
+    "project-invenstmentType-exchange": "Zamiana",
+    "project-invenstmentType-retrofit": "Retrofit",
+    "project-milestones-concept": "Data przedstawienia wstępnego zarysu",
+    "project-milestones-officialOffer": "Data oferty",
+    "project-milestones-order": "Data zamówienia",
+    "project-milestones-implementationStart": "Data rozpoczęcia wdrożenia",
+    "project-milestones-launch": "Data uruchomienia",
+    "project-subheader-investmentType": "Typ inwestycji",
+    "project-subheader-milestones": "Ramy czasowe",
+    "project-subheader-various": "Dane ogólne"
 
 
   }

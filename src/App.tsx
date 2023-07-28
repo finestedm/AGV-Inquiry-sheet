@@ -18,7 +18,7 @@ i18n
       en: { translation: en },
     },
     fallbackLng: 'en', // Fallback to English if the user's language is not supported
-    debug: true, // Enable debug mode for development
+    // debug: true, // Enable debug mode for development
     interpolation: {
       escapeValue: false, // React already escapes string, so no need to escape again
     },
@@ -52,9 +52,10 @@ interface IProject {
   supplyChainParts: string[];
   tender: boolean;
   investmentLocation: string;
-  type: string;
+  investmentType: string;
   consultingCompany: boolean;
   competitor: boolean;
+  milestones: IMilestones
 }
 
 interface ISystem {
@@ -72,6 +73,15 @@ export interface IFormData {
   project: IProject;
   system: ISystem;
 
+}
+
+export interface IMilestones {
+  concept: string;
+  officialOffer: string;
+  order: string;
+  implementationStart: string;
+  launch: string;
+  [key: string]: string; // Index signature
 }
 
 export interface IFormProps {
@@ -108,9 +118,26 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       supplyChainParts: [],
       tender: false,
       investmentLocation: '',
-      type: '',
+      investmentType: '',
       consultingCompany: false,
       competitor: false,
+      milestones: {
+        concept: (() => {
+          const currentDate = new Date();
+          const threeMonthsLater = new Date(currentDate);
+          threeMonthsLater.setMonth(currentDate.getMonth() + 1);
+          return threeMonthsLater.toISOString().slice(0, 10);
+        })(),
+        officialOffer: (() => {
+          const currentDate = new Date();
+          const threeMonthsLater = new Date(currentDate);
+          threeMonthsLater.setMonth(currentDate.getMonth() + 3);
+          return threeMonthsLater.toISOString().slice(0, 10);
+        })(),
+        order: new Date().toISOString().slice(0, 10),
+        implementationStart: new Date().toISOString().slice(0, 10),
+        launch: new Date().toISOString().slice(0, 10),
+      }
     },
     system: {
       asrs: false,

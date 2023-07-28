@@ -101,12 +101,12 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
           <Box>
             <Stack direction='row'>
               {activeStep !== 0 && (
-                <Button variant="contained" onClick={handleBack}>
+                <Button disableElevation variant="contained" onClick={handleBack}>
                   {t('ui-button-back')}
                 </Button>
               )}
               {activeStep < stepLabels.length - 1 && (
-                <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}>
+                <Button disableElevation variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}>
                   {t('ui-button-next')}
                 </Button>
               )}
