@@ -9,28 +9,28 @@ export default function FormSalesUnitStep({ formData, handleInputMethod }: { for
 
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
-            <Typography variant="h4" textAlign='left'>{t('sales-header')}</Typography>
+            <Typography variant="h4" textAlign='left'>{t('sales.header')}</Typography>
             <TextField
                 fullWidth
                 disabled
-                label={t('sales-unit')}
+                label={t('sales.unit')}
                 name="sales.salesUnit"
                 value={formData.sales.salesUnit}
                 onChange={(e) => handleInputMethod('sales.salesUnit', e.target.value)}
             />
             <TextField
-                label={t('sales-contactperson')}
+                label={t('sales.contactperson.name')}
                 name="sales.contactPerson"
                 value={formData.sales.contactPerson}
                 onChange={(e) => handleInputMethod('sales.contactPerson', e.target.value)}
                 required
-                placeholder={t('sales-contactperson-placeholder')}
+                placeholder={t('sales.contactperson.placeholder')}
                 error={formData.sales.contactPerson.length < 5}
-                helperText={formData.sales.contactPerson.length < 5 ? t('sales-contactperson-helpertext-length') : ''}
+                helperText={formData.sales.contactPerson.length < 5 ? t('sales.contactperson.helpertext.length') : ''}
             />
 
             <TextField
-                label={t('sales-contactperson-role')}
+                label={t('sales.contactperson.role')}
                 name="sales.contactPersonRole"
                 value={formData.sales.contactPersonRole}
                 onChange={(e) => handleInputMethod('sales.contactPersonRole', e.target.value)}

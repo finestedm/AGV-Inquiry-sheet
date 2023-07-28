@@ -20,14 +20,14 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
 
   const [activeStep, setActiveStep] = useState<number>(0);
   const stepLabels = [
-    t('steps-sales'),
-    t('steps-customer'),
-    t('steps-project'),
-    t('steps-system'),
-    formData.system.asrs ? t('steps-system-asrs') : undefined,
-    formData.system.lrkprk ? t('steps-system-lrkprk') : undefined,
-    formData.system.agv ? t('steps-system-agv') : undefined,
-    formData.system.autovna ? t('steps-system-autovna') : undefined,
+    t('steps.sales'),
+    t('steps.customer'),
+    t('steps.project'),
+    t('steps.system'),
+    formData.system.asrs ? t('steps.systems.asrs') : undefined,
+    formData.system.lrkprk ? t('steps.systems.lrkprk') : undefined,
+    formData.system.agv ? t('steps.systems.agv') : undefined,
+    formData.system.autovna ? t('steps.systems.autovna') : undefined,
   ].filter((label) => label !== undefined) as string[];
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
@@ -102,12 +102,12 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
             <Stack direction='row'>
               {activeStep !== 0 && (
                 <Button disableElevation variant="contained" onClick={handleBack}>
-                  {t('ui-button-back')}
+                  {t('ui.button.back')}
                 </Button>
               )}
               {activeStep < stepLabels.length - 1 && (
                 <Button disableElevation variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}>
-                  {t('ui-button-next')}
+                  {t('ui.button.next')}
                 </Button>
               )}
             </Stack>

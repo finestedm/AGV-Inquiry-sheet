@@ -1,93 +1,135 @@
 {
-    "customer-header": "Dane klienta",
-    "customer-company": "Firma / klient",
-    "customer-sap": "Numer sap",
-    "customer-industry": "Branża",
-    "customer-industry-other": "Inna branża",
-    "customer-contactperson": "Osoba kontaktowa",
-    "customer-contactperson-role": "Funkcja osoby kontaktowej",
-    "customer-contactperson-phone": "Telefon kontaktowy",
-    "customer-contactperson-mail": "Adres email",
-    "customer-contactperson-mail-helpertext-valid": "Zły format",
-    "customer-contactperson-mail-placeholder": "jan.kowalski@firma.pl",
-    "customer-address": "Adres",
-
-    "industry-production": "Produkcja",
-    "industry-trade": "Handel",
-    "industry-logistics": "Dostawca usług logistycznych",
-    "industry-pharmaceutical-industry": "Branża farmaceutyczna",
-    "industry-beverage-industry": "Branża napojowa",
-    "industry-clothing-industry": "Branża odzieżowa",
-    "industry-chemical-industry": "Branża chemiczna",
-    "industry-food-industry": "Przemysł spożywczy",
-    "industry-automotive": "Automotive",
-    "industry-other": "Inna",
-
-    "sales-header": "Dane jednostki sprzedażowej",
-    "sales-unit": "Jednostka sprzedażowa",
-    "sales-contactperson": "Osoba kontaktowa",
-    "sales-contactperson-role": "Funckcja osoby kontaktowej",
-    "sales-contactperson-placeholder": "Jan Kowalski",
-    "sales-contactperson-helpertext-length": "Imię i nazwisko wymagane",
-
-    "steps-sales": "Jednostka sprzedażowa",
-    "steps-customer": "Klient",
-    "steps-system": "System",
-    "steps-system-asrs": "ASRS",
-    "steps-system-lrkprk": "LRK / PRK",
-    "steps-system-agv": "AGV",
-    "steps-system-autovna": "AutoVNA",
-
-    "steps-system-header": "Wybór systemu:",
-
-    "ui-button-back": "Wstecz",
-    "ui-button-next": "Dalej",
-    "ui-button-inquiry-load": "Wczytaj zapytanie",
-    "ui-button-inquiry-save": "Zapisz zapytanie",
-    "ui-button-readmore": "Dowiedz się więcej",
-
-    "system-asrs-label": "Automatyczne systemy magazynowe",
-    "system-asrs-labelshort": "ASRS",
-    "system-asrs-description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca.",
-
-    "system-lrkprk-label": "Regały windowe i karuzelowe",
-    "system-lrkprk-labelshort": "LRK & PRK",
-    "system-lrkprk-description": "Z uwagi na modułową konstrukcję, zarówno przed jak i po montażu można dostosowywać wysokość regału LRK do bieżących potrzeb. Ponadto integracja regału w dowolny system zarządzania magazynem pozwala na uzyskanie jeszcze lepszej wydajności.",
-
-    "system-agv-label": "Wózki automatyczne AGV",
-    "system-agv-labelshort": "AGV",
-    "system-agv-description": "Wózki automatyczne AGV (z ang. Automated Guided Vehicles) to systemy transportowe pozwalające na zdalną obsługę. Wyposażono je w rozbudowany system czujników, który wykrywa wszelkie przeszkody wokół pojazdu. Modele AVG potrafią samodzielnie zwalniać, przyspieszać i reagować na niespodziewane czynniki pojawiające się podczas jazdy. W razie konieczności mogą całkowicie się zatrzymać.",
-
-    "system-autovna-label": "Automatyczne wózki do wąskich korytarzy roboczych",
-    "system-autovna-labelshort": "AutoVNA",
-    "system-autovna-description": "Automatyczne wózki wysokiego składowania doskonale sprawdzają się w zautomatyzowanym magazynie z wąskimi korytarzami roboczymi, w którym znajdują się także regały, oprogramowanie i urządzenia transportowe. Idealnie zintegrowane, efektywnie i bezpiecznie wykonują pracę przez 24 godziny na dobę.",
-
-    "project-header": "Informacje o projekcie",
-    "project-goals": "Cele projektu",
-    "project-supplyChainParts": "Automatyzacja obejmuje daną część łancucha dostaw",
-    "supplyChainParts-production": "Produkcja",
-    "supplyChainParts-storage": "Magazynowanie",
-    "supplyChainParts-distribution": "Dystrybucja",
-    "supplyChainParts-finishedGoods": "Produkty gotowe",
-    "supplyChainParts-components": "Komponenty",
-    "project-investmentLocation": "Lokalizacja inwestycji",
-    "project-tender": "Inwestycja w formie przetargu?",
-    "project-consultingCompany": "Prowadzona przez firmę konsultingową?",
-    "project-competitor": "Inni oferenci?",
-    "project-invenstmentType-new": "Nowy projekt",
-    "project-invenstmentType-expansion": "Rozbudowa",
-    "project-invenstmentType-modification": "Modyfikacja",
-    "project-invenstmentType-exchange": "Zamiana",
-    "project-invenstmentType-retrofit": "Retrofit",
-    "project-milestones-concept": "Data przedstawienia wstępnego zarysu",
-    "project-milestones-officialOffer": "Data oferty",
-    "project-milestones-order": "Data zamówienia",
-    "project-milestones-implementationStart": "Data rozpoczęcia wdrożenia",
-    "project-milestones-launch": "Data uruchomienia",
-    "project-subheader-investmentType": "Typ inwestycji",
-    "project-subheader-milestones": "Ramy czasowe",
-    "project-subheader-various": "Dane ogólne"
-
-
+  "customer": {
+    "header": "Dane klienta",
+    "company": "Firma / klient",
+    "sap": "Numer sap",
+    "industry": "Branża",
+    "industry.other": "Inna branża",
+    "contactperson": {
+      "name": "Imię i nazwisko",
+      "role": "Funkcja osoby kontaktowej",
+      "phone": "Telefon kontaktowy",
+      "mail": "Adres email",
+      "mail.helpertext.valid": "Zły format",
+      "mail.placeholder": "jan.kowalski@firma.pl"
+    },
+    "address": "Adres",
+    "subheader": {
+      "teleaddress": "Dane firmy",
+      "contactperson": "Osoba kontaktowa",
+      "businessdata": "Dane biznesowe"
+    },
+    "relations": {
+      "type": "Poziom współpracy",
+      "saleshistoryvalue": "Wartość obrotu z klientem / rok",
+      "creditmanagement": "Wartość kredytu kupieckiego",
+      "jh": "Klient JH",
+      "new": "Nowy klient",
+      "jh-kam": "Klient JH kamowy",
+      "competitor": "Klient konkurencji",
+      "input": {
+        "forklifts": "Ilość wózków JH",
+        "other": "inne produkty JH",
+        "racks": "Ilosć regałów JH"
+      }
+    }
+  },
+  "industry": {
+    "production": "Produkcja",
+    "trade": "Handel",
+    "logistics": "Dostawca usług logistycznych",
+    "pharmaceutical": "Branża farmaceutyczna",
+    "beverage": "Branża napojowa",
+    "clothing": "Branża odzieżowa",
+    "chemical": "Branża chemiczna",
+    "food": "Przemysł spożywczy",
+    "automotive": "Automotive",
+    "other": "Inna"
+  },
+  "sales": {
+    "header": "Dane jednostki sprzedażowej",
+    "unit": "Jednostka sprzedażowa",
+    "contactperson": {
+      "name": "Osoba kontaktowa",
+      "role": "Funkcja osoby kontaktowej",
+      "placeholder": "Jan Kowalski",
+      "helpertext": {
+        "length": "Imię i nazwisko wymagane"
+      }
+    }
+  },
+  "steps": {
+    "sales": "Jednostka sprzedażowa",
+    "customer": "Klient",
+    "system": "System",
+    "project": "Projekt",
+    "systems": {
+      "asrs": "ASRS",
+      "lrkprk": "LRK / PRK",
+      "agv": "AGV",
+      "autovna": "AutoVNA",
+      "header": "Wybór systemu:"
+    }
+  },
+  "ui": {
+    "button": {
+      "back": "Wstecz",
+      "next": "Dalej",
+      "inquiry": {
+        "load": "Wczytaj zapytanie",
+        "save": "Zapisz zapytanie"
+      },
+      "readmore": "Dowiedz się więcej"
+    }
+  },
+  "system": {
+    "asrs": {
+      "label": "Automatyczne systemy magazynowe",
+      "labelshort": "ASRS",
+      "description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca."
+    },
+    "lrkprk": {
+      "label": "Regały windowe i karuzelowe",
+      "labelshort": "LRK & PRK",
+      "description": "Z uwagi na modułową konstrukcję, zarówno przed jak i po montażu można dostosowywać wysokość regału LRK do bieżących potrzeb. Ponadto integracja regału w dowolny system zarządzania magazynem pozwala na uzyskanie jeszcze lepszej wydajności."
+    },
+    "agv": {
+      "label": "Wózki automatyczne AGV",
+      "labelshort": "AGV",
+      "description": "Wózki automatyczne AGV (z ang. Automated Guided Vehicles) to systemy transportowe pozwalające na zdalną obsługę. Wyposażono je w rozbudowany system czujników, który wykrywa wszelkie przeszkody wokół pojazdu. Modele AVG potrafią samodzielnie zwalniać, przyspieszać i reagować na niespodziewane czynniki pojawiające się podczas jazdy. W razie konieczności mogą całkowicie się zatrzymać."
+    },
+    "autovna": {
+      "label": "Automatyczne wózki do wąskich korytarzy roboczych",
+      "labelshort": "AutoVNA",
+      "description": "Automatyczne wózki wysokiego składowania doskonale sprawdzają się w zautomatyzowanym magazynie z wąskimi korytarzami roboczymi, w którym znajdują się także regały, oprogramowanie i urządzenia transportowe. Idealnie zintegrowane, efektywnie i bezpiecznie wykonują pracę przez 24 godziny na dobę."
+    }
+  },
+  "project": {
+    "header": "Informacje o projekcie",
+    "goals": "Cele projektu",
+    "supplyChainParts": "Automatyzacja obejmuje daną część łancucha dostaw",
+    "milestones": {
+      "concept": "Koncepcja",
+      "officialOffer": "Data oferty",
+      "order": "Data zamówienia",
+      "implementationStart": "Data rozpoczęcia wdrożenia",
+      "launch": "Data uruchomienia"
+    },
+    "investmentLocation": "Lokalizacja inwestycji",
+    "tender": "Inwestycja w formie przetargu?",
+    "consultingCompany": "Prowadzona przez firmę konsultingową?",
+    "competitor": "Inni oferenci",
+    "invenstmentType": {
+      "new": "Nowy projekt",
+      "expansion": "Rozbudowa",
+      "modification": "Modyfikacja",
+      "exchange": "Zamiana",
+      "retrofit": "Retrofit"
+    },
+    "subheader": {
+      "investmentType": "Typ inwestycji",
+      "milestones": "Ramy czasowe",
+      "various": "Dane ogólne"
+    }
   }
-  
+}

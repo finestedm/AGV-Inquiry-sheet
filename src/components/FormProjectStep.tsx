@@ -12,8 +12,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { CropLandscapeOutlined } from "@mui/icons-material";
-import { useState } from "react";
 
 export default function FormProjectStep({ formData, handleInputMethod }: { formData: IFormData, handleInputMethod: IHandleInputMethod }) {
 
@@ -21,49 +19,49 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
 
     const supplyChainParts = [
         {
-            name: t('supplyChainParts-production'),
+            name: t('supplyChainParts.production'),
             icon: <PrecisionManufacturingIcon />,
         },
         {
-            name: t('supplyChainParts-storage'),
+            name: t('supplyChainParts.storage'),
             icon: <WarehouseIcon />,
         },
         {
-            name: t('supplyChainParts-distribution'),
+            name: t('supplyChainParts.distribution'),
             icon: <LocalShippingIcon />,
         },
         {
-            name: t('supplyChainParts-finishedGoods'),
+            name: t('supplyChainParts.finishedGoods'),
             icon: <CheckroomIcon />,
         },
         {
-            name: t('supplyChainParts-components'),
+            name: t('supplyChainParts.components'),
             icon: <SettingsInputComponentIcon />,
         },
     ];
 
     const investmentTypes = [
-        t('project-invenstmentType-new'),
-        t('project-invenstmentType-expansion'),
-        t('project-invenstmentType-modification'),
-        t('project-invenstmentType-exchange'),
-        t('project-invenstmentType-retrofit'),
+        t('project.invenstmentType.new'),
+        t('project.invenstmentType.expansion'),
+        t('project.invenstmentType.modification'),
+        t('project.invenstmentType.exchange'),
+        t('project.invenstmentType.retrofit'),
     ];
 
     return (
         <Stack spacing={4}>
-            <Typography variant="h4" textAlign='left'>{t('project-header')}</Typography>
+            <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
             <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h6" textAlign='left'>{t('project-subheader-various')}</Typography>
+                <Typography variant="h6" textAlign='left'>{t('project.subheader.various')}</Typography>
                 <TextField
                     fullWidth
-                    label={t('project-goals')}
+                    label={t('project.goals')}
                     name="project.goals"
                     value={formData.project.goals}
                     onChange={(e) => handleInputMethod('project.goals', e.target.value)}
                 />
                 <FormControl>
-                    <InputLabel id="project-supplyChainParts-label">{t('project-supplyChainParts')}</InputLabel>
+                    <InputLabel id="project-supplyChainParts-label">{t('project.supplyChainParts')}</InputLabel>
                     <Select
                         labelId="project-supplyChainParts-label"
                         id="project-supplyChainParts"
@@ -87,7 +85,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                 </FormControl>
                 <TextField
                     fullWidth
-                    label={t('project-investmentLocation')}
+                    label={t('project.investmentLocation')}
                     name="project.investmentLocation"
                     value={formData.project.investmentLocation}
                     onChange={(e) => handleInputMethod('project.investmentLocation', e.target.value)}
@@ -105,7 +103,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                                     />
                                 }
                                 labelPlacement="start"
-                                label={t('project-tender')}
+                                label={t('project.tender')}
                             />
                         </Grid>
                         <Grid item>
@@ -119,7 +117,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                                     />
                                 }
                                 labelPlacement="start"
-                                label={t('project-consultingCompany')}
+                                label={t('project.consultingCompany')}
                             />
                         </Grid>
                         <Grid item>
@@ -133,14 +131,14 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                                     />
                                 }
                                 labelPlacement="start"
-                                label={t('project-competitor')}
+                                label={t('project.competitor')}
                             />
                         </Grid>
                     </Grid>
                 </Box>
             </Stack>
             <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h6" textAlign='left'>{t('project-subheader-investmentType')}</Typography>
+                <Typography variant="h6" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
                 <ToggleButtonGroup
                     sx={{ display: { xs: 'none', sm: 'flex' } }}
                     exclusive
@@ -178,16 +176,13 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                 </ToggleButtonGroup>
             </Stack>
             <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h6" textAlign='left'>{t('project-subheader-milestones')}</Typography>
+                <Typography variant="h6" textAlign='left'>{t('project.subheader.milestones')}</Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Stack direction='row' spacing={2}>
                         <DatePicker
-                            label={t('project-milestones-concept')}
+                            label={t('project.milestones.concept')}
                             value={dayjs(formData.project.milestones.concept)}
-                            onChange={(e) => {
-                                handleInputMethod('project.milestones.concept', dayjs(e).format('YYYY-MM-DD'))
-                                // validateDates()
-                            }}
+                            onChange={(e) => { handleInputMethod('project.milestones.concept', dayjs(e).format('YYYY-MM-DD')) }}
                             disablePast
                             slotProps={{
                                 textField: {
@@ -196,7 +191,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             }}
                         />
                         <DatePicker
-                            label={t('project-milestones-officialOffer')}
+                            label={t('project.milestones.officialOffer')}
                             value={dayjs(formData.project.milestones.officialOffer)}
                             onChange={(e) => handleInputMethod('project.milestones.officialOffer', dayjs(e).format('YYYY-MM-DD'))}
                             disablePast
@@ -207,7 +202,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             }}
                         />
                         <DatePicker
-                            label={t('project-milestones-order')}
+                            label={t('project.milestones.order')}
                             value={dayjs(formData.project.milestones.order)}
                             onChange={(e) => handleInputMethod('project.milestones.order', dayjs(e).format('YYYY-MM-DD'))}
                             disablePast
@@ -218,7 +213,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             }}
                         />
                         <DatePicker
-                            label={t('project-milestones-implementationStart')}
+                            label={t('project.milestones.implementationStart')}
                             value={dayjs(formData.project.milestones.implementationStart)}
                             onChange={(e) => handleInputMethod('project.milestones.implementationStart', dayjs(e).format('YYYY-MM-DD'))}
                             disablePast
@@ -229,7 +224,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             }}
                         />
                         <DatePicker
-                            label={t('project-milestones-launch')}
+                            label={t('project.milestones.launch')}
                             value={dayjs(formData.project.milestones.launch)}
                             onChange={(e) => handleInputMethod('project.milestones.launch', dayjs(e).format('YYYY-MM-DD'))}
                             disablePast

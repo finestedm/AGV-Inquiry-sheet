@@ -24,16 +24,16 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
   const { t } = useTranslation();
 
   const industries = [
-    t('industry-production'),
-    t('industry-trade'),
-    t('industry-logistics'),
-    t('industry-pharmaceutical-industry'),
-    t('industry-beverage-industry'),
-    t('industry-clothing-industry'),
-    t('industry-chemical-industry'),
-    t('industry-food-industry'),
-    t('industry-automotive'),
-    t('industry-other'),
+    t('industry.production'),
+    t('industry.trade'),
+    t('industry.logistics'),
+    t('industry.pharmaceutical'),
+    t('industry.beverage'),
+    t('industry.clothing'),
+    t('industry.chemical'),
+    t('industry.food'),
+    t('industry.automotive'),
+    t('industry.other'),
   ];
 
   const [otherIndustry, setOtherIndustry] = useState<string>('')
@@ -56,17 +56,17 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
 
   return (
     <Stack spacing={4}>
-      <Typography variant="h4" textAlign='left'>{t('customer-header')}</Typography>
+      <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
       <Stack spacing={2}>
-        <Typography variant="h6" textAlign='left'>{t('customer-subheader-teleaddress')}</Typography>
+        <Typography variant="h6" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
         <TextField
-          label={t('customer-company')}
+          label={t('customer.company')}
           name="customer.company"
           value={formData.customer.company}
           onChange={(e) => handleInputMethod('customer.company', e.target.value)}
         />
         <TextField
-          label={t('customer-sap')}
+          label={t('customer.sap')}
           placeholder="41******"
           name="customer.sapNumber"
           value={formData.customer.sapNumber}
@@ -74,7 +74,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           onChange={(e) => handleInputMethod('customer.sapNumber', e.target.value)}
         />
         <TextField
-          label={t('customer-address')}
+          label={t('customer.address')}
           placeholder="Popularna 13B"
           name="customer.address"
           value={formData.customer.address}
@@ -82,21 +82,21 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         />
         </Stack>
         <Stack spacing={2}>
-        <Typography variant="h6" textAlign='left'>{t('customer-subheader-contactperson')}</Typography>
+        <Typography variant="h6" textAlign='left'>{t('customer.subheader.contactperson')}</Typography>
         <TextField
-          label={t('customer-contactperson')}
+          label={t('customer.contactperson.name')}
           name="customer.contactPerson"
           value={formData.customer.contactPerson}
           onChange={(e) => handleInputMethod('customer.contactPerson', e.target.value)}
         />
         <TextField
-          label={t('customer-contactperson-role')}
+          label={t('customer.contactperson.role')}
           name="customer.contactPersonRole"
           value={formData.customer.contactPersonRole}
           onChange={(e) => handleInputMethod('customer.contactPersonRole', e.target.value)}
         />
         <MuiTelInput
-          label={t('customer-contactperson-phone')}
+          label={t('customer.contactperson.phone')}
           defaultCountry="PL"
           continents={['EU']}
           value={formData.customer.contactPersonPhone}
@@ -105,17 +105,17 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           fullWidth
         />
         <TextField
-          label={t('customer-contactperson-mail')}
+          label={t('customer.contactperson.mail')}
           name="customer.contactPersonMail"
           value={formData.customer.contactPersonMail}
-          placeholder={t('customer-contactperson-mail-placeholder')}
+          placeholder={t('customer.contactperson.mail.placeholder')}
           onChange={(e) => {
             setIsFieldTouched(true);
             handleInputMethod('customer.contactPersonMail', e.target.value)
           }
           }
           error={isFieldTouched && !isValidEmail()} // Show error only if the field is touched and email is invalid
-          helperText={isFieldTouched && !isValidEmail() ? t('customer-contactperson-mail-helpertext-valid') : ''}
+          helperText={isFieldTouched && !isValidEmail() ? t('customer.contactperson.mail.helpertext.valid') : ''}
           InputProps={{
             endAdornment: (
               <InputAdornment position="start">
@@ -126,14 +126,14 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         />
         </Stack>
         <Stack spacing={2}>
-        <Typography variant="h6" textAlign='left'>{t('customer-subheader-businessdata')}</Typography>
+        <Typography variant="h6" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
         <FormControl>
-          <InputLabel id="customer-industry-label">{t('customer-industry')}</InputLabel>
+          <InputLabel id="customer-industry-label">{t('customer.industry')}</InputLabel>
           <Select
             labelId="customer-industry-label"
             id="customer-industry"
             multiple
-            input={<OutlinedInput label={t('customer-industry')} />}
+            input={<OutlinedInput label={t('customer.industry')} />}
             value={formData.customer.industryName}
             onChange={(e) => handleInputMethod('customer.industryName', e.target.value as string[])}
             renderValue={(selected) => (selected as string[]).join(', ')}
@@ -147,9 +147,9 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
             ))}
           </Select>
         </FormControl>
-        {formData.customer.industryName.includes(t('industry-other')) &&
+        {formData.customer.industryName.includes(t('industry.other')) &&
           <TextField
-            label={t('customer-industry-other')}
+            label={t('customer.industry.other')}
             name="customer.industry-other"
             value={otherIndustry}
             onChange={(e) => setOtherIndustry(e.target.value)}
@@ -161,30 +161,30 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           />
         }
         <FormControl>
-          <InputLabel id="customer-relations-label">{t('customer-relations')}</InputLabel>
+          <InputLabel id="customer-relations-label">{t('customer.relations.type')}</InputLabel>
           <Select
             labelId="customer-relations-label"
             id="customer-relations"
-            input={<OutlinedInput label={t('customer-relations')} />}
+            input={<OutlinedInput label={t('customer.relations.type')} />}
             value={formData.customer.relations}
             onChange={(e) => handleInputMethod('customer.relations', e.target.value as string)}
             renderValue={(selected) => (selected)}
             MenuProps={MenuProps}
           >
-            <MenuItem value={t('customer-relations-new')}>{t('customer-relations-new')}</MenuItem>
-            <MenuItem value={t('customer-relations-jh')}>{t('customer-relations-jh')}</MenuItem>
-            <MenuItem value={t('customer-relations-jh-kam')}>{t('customer-relations-jh-kam')}</MenuItem>
-            <MenuItem value={t('customer-relations-competitor')}>{t('customer-relations-competitor')}</MenuItem>
+            <MenuItem value={t('customer.relations.new')}>{t('customer.relations.new')}</MenuItem>
+            <MenuItem value={t('customer.relations.jh')}>{t('customer.relations.jh')}</MenuItem>
+            <MenuItem value={t('customer.relations.jh-kam')}>{t('customer.relations.jh-kam')}</MenuItem>
+            <MenuItem value={t('customer.relations.competitor')}>{t('customer.relations.competitor')}</MenuItem>
           </Select>
         </FormControl>
-        {(formData.customer.relations === t('customer-relations-jh') || formData.customer.relations === t('customer-relations-jh-kam')) &&
+        {(formData.customer.relations === t('customer.relations.jh') || formData.customer.relations === t('customer.relations.jh-kam')) &&
           <Box>
           <Grid container direction='row' spacing={2}>
             <Grid item xs={6} lg={4}>
               <TextField
                 id="customer-relations-forklift-input"
                 fullWidth
-                label="Number of Forklifts"
+                label={t("customer.relations.input.forklifts")}
                 type="number"
                 value={formData.customer.ownedForklifts}
                 onChange={(e) => handleInputMethod('customer.ownedForklifts', e.target.value)}
@@ -194,7 +194,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
               <TextField
                 id="customer-relations-racks-input"
                 fullWidth
-                label="Number of Racks"
+                label={t("customer.relations.input.racks")}
                 type="number"
                 value={formData.customer.ownedRacks}
                 onChange={(e) => handleInputMethod('customer.ownedRacks', e.target.value)}
@@ -208,7 +208,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
               <TextField
                 id="customer-relations-other-input"
                 fullWidth
-                label="Inne produkty"
+                label={t("customer.relations.input.other")}
                 type="text"
                 value={formData.customer.ownedOther}
                 onChange={(e) => handleInputMethod('customer.ownedOther', e.target.value)}           
@@ -218,7 +218,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           </Box>
         }
         <TextField
-        label={t('customer-relations-saleshistoryvalue')}
+        label={t('customer.relations.saleshistoryvalue')}
         name="customer.salesHistoryValue"
         type="text"
         value={formData.customer.salesHistoryValue === undefined ? '' : (Number(formData.customer.salesHistoryValue)).toLocaleString('en-US').replaceAll(',', ' ')}
@@ -229,7 +229,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         }} 
         />
         <TextField
-        label={t('customer-relations-creditmanagement')}
+        label={t('customer.relations.creditmanagement')}
         name="customer.creditmanagement"
         type="text"
         value={formData.customer.creditManagement === undefined ? '' : (Number(formData.customer.creditManagement)).toLocaleString('en-US').replaceAll(',', ' ')}

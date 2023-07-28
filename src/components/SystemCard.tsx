@@ -68,7 +68,7 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
                 </CardActionArea>
                 <CardActions>
                     <Button size="small" color="success">
-                        {t('ui-button-readmore')}
+                        {t('ui.button.readmore')}
                     </Button>
                 </CardActions>
             </Card>
