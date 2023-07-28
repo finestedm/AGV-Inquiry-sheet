@@ -55,7 +55,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
   const [isFieldTouched, setIsFieldTouched] = useState(false);
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={5}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
       <Stack spacing={2}>
         <Typography variant="h6" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
@@ -80,8 +80,8 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           value={formData.customer.address}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputMethod('customer.address', e.target.value)}
         />
-        </Stack>
-        <Stack spacing={2}>
+      </Stack>
+      <Stack spacing={2}>
         <Typography variant="h6" textAlign='left'>{t('customer.subheader.contactperson')}</Typography>
         <TextField
           label={t('customer.contactperson.name')}
@@ -124,8 +124,8 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
             ),
           }}
         />
-        </Stack>
-        <Stack spacing={2}>
+      </Stack>
+      <Stack spacing={2}>
         <Typography variant="h6" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
         <FormControl>
           <InputLabel id="customer-industry-label">{t('customer.industry')}</InputLabel>
@@ -179,65 +179,65 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         </FormControl>
         {(formData.customer.relations === t('customer.relations.jh') || formData.customer.relations === t('customer.relations.jh-kam')) &&
           <Box>
-          <Grid container direction='row' spacing={2}>
-            <Grid item xs={6} lg={4}>
-              <TextField
-                id="customer-relations-forklift-input"
-                fullWidth
-                label={t("customer.relations.input.forklifts")}
-                type="number"
-                value={formData.customer.ownedForklifts}
-                onChange={(e) => handleInputMethod('customer.ownedForklifts', e.target.value)}
-              />
+            <Grid container direction='row' spacing={2}>
+              <Grid item xs={6} lg={4}>
+                <TextField
+                  id="customer-relations-forklift-input"
+                  fullWidth
+                  label={t("customer.relations.input.forklifts")}
+                  type="number"
+                  value={formData.customer.ownedForklifts}
+                  onChange={(e) => handleInputMethod('customer.ownedForklifts', e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6} lg={4}>
+                <TextField
+                  id="customer-relations-racks-input"
+                  fullWidth
+                  label={t("customer.relations.input.racks")}
+                  type="number"
+                  value={formData.customer.ownedRacks}
+                  onChange={(e) => handleInputMethod('customer.ownedRacks', e.target.value)}
+                  InputProps={{
+                    // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
+                    endAdornment: <InputAdornment position="end">m.p.</InputAdornment>,
+                  }}
+                />
+              </Grid>
+              <Grid item lg={4} xs={12}>
+                <TextField
+                  id="customer-relations-other-input"
+                  fullWidth
+                  label={t("customer.relations.input.other")}
+                  type="text"
+                  value={formData.customer.ownedOther}
+                  onChange={(e) => handleInputMethod('customer.ownedOther', e.target.value)}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={6} lg={4}>
-              <TextField
-                id="customer-relations-racks-input"
-                fullWidth
-                label={t("customer.relations.input.racks")}
-                type="number"
-                value={formData.customer.ownedRacks}
-                onChange={(e) => handleInputMethod('customer.ownedRacks', e.target.value)}
-                InputProps={{
-                  // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
-                  endAdornment: <InputAdornment position="end">m.p.</InputAdornment>,
-                }}            
-              />
-            </Grid>
-            <Grid item lg={4} xs={12}>
-              <TextField
-                id="customer-relations-other-input"
-                fullWidth
-                label={t("customer.relations.input.other")}
-                type="text"
-                value={formData.customer.ownedOther}
-                onChange={(e) => handleInputMethod('customer.ownedOther', e.target.value)}           
-              />
-            </Grid>
-          </Grid>
           </Box>
         }
         <TextField
-        label={t('customer.relations.saleshistoryvalue')}
-        name="customer.salesHistoryValue"
-        type="text"
-        value={formData.customer.salesHistoryValue === undefined ? '' : (Number(formData.customer.salesHistoryValue)).toLocaleString('en-US').replaceAll(',', ' ')}
-        onChange={(e) => handleInputMethod('customer.salesHistoryValue', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''))}
-        InputProps={{
-          // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
-          endAdornment: <InputAdornment position="end">€ / rok</InputAdornment>,
-        }} 
+          label={t('customer.relations.saleshistoryvalue')}
+          name="customer.salesHistoryValue"
+          type="text"
+          value={formData.customer.salesHistoryValue === undefined ? '' : (Number(formData.customer.salesHistoryValue)).toLocaleString('en-US').replaceAll(',', ' ')}
+          onChange={(e) => handleInputMethod('customer.salesHistoryValue', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''))}
+          InputProps={{
+            // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
+            endAdornment: <InputAdornment position="end">€ / rok</InputAdornment>,
+          }}
         />
         <TextField
-        label={t('customer.relations.creditmanagement')}
-        name="customer.creditmanagement"
-        type="text"
-        value={formData.customer.creditManagement === undefined ? '' : (Number(formData.customer.creditManagement)).toLocaleString('en-US').replaceAll(',', ' ')}
-        onChange={(e) => handleInputMethod('customer.creditManagement', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''))}
-        InputProps={{
-          // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
-          endAdornment: <InputAdornment position="end">PLN brutto</InputAdornment>,
-        }} 
+          label={t('customer.relations.creditmanagement')}
+          name="customer.creditmanagement"
+          type="text"
+          value={formData.customer.creditManagement === undefined ? '' : (Number(formData.customer.creditManagement)).toLocaleString('en-US').replaceAll(',', ' ')}
+          onChange={(e) => handleInputMethod('customer.creditManagement', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''))}
+          InputProps={{
+            // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
+            endAdornment: <InputAdornment position="end">PLN brutto</InputAdornment>,
+          }}
         />
       </Stack>
     </Stack>

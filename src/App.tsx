@@ -76,12 +76,12 @@ export interface IFormData {
 }
 
 export interface IMilestones {
-  concept: string;
-  officialOffer: string;
-  order: string;
-  implementationStart: string;
-  launch: string;
-  [key: string]: string; // Index signature
+  concept: Date;
+  officialOffer: Date;
+  order: Date;
+  implementationStart: Date;
+  launch: Date;
+  [key: string]: Date; // Index signature
 }
 
 export interface IFormProps {
@@ -126,17 +126,17 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
           const currentDate = new Date();
           const threeMonthsLater = new Date(currentDate);
           threeMonthsLater.setMonth(currentDate.getMonth() + 1);
-          return threeMonthsLater.toISOString().slice(0, 10);
+          return threeMonthsLater;
         })(),
         officialOffer: (() => {
           const currentDate = new Date();
           const threeMonthsLater = new Date(currentDate);
           threeMonthsLater.setMonth(currentDate.getMonth() + 3);
-          return threeMonthsLater.toISOString().slice(0, 10);
+          return threeMonthsLater;
         })(),
-        order: new Date().toISOString().slice(0, 10),
-        implementationStart: new Date().toISOString().slice(0, 10),
-        launch: new Date().toISOString().slice(0, 10),
+        order: new Date(),
+        implementationStart: new Date(),
+        launch: new Date(),
       }
     },
     system: {

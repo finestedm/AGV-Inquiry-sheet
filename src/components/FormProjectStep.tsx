@@ -49,7 +49,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
     ];
 
     return (
-        <Stack spacing={4}>
+        <Stack spacing={5}>
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h6" textAlign='left'>{t('project.subheader.various')}</Typography>
@@ -57,6 +57,8 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                     fullWidth
                     label={t('project.goals')}
                     name="project.goals"
+                    multiline
+                    rows={3}
                     value={formData.project.goals}
                     onChange={(e) => handleInputMethod('project.goals', e.target.value)}
                 />
@@ -181,6 +183,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                     <Stack direction='row' spacing={2}>
                         <DatePicker
                             label={t('project.milestones.concept')}
+                            format='DD-MM-YYYY'
                             value={dayjs(formData.project.milestones.concept)}
                             onChange={(e) => { handleInputMethod('project.milestones.concept', dayjs(e).format('YYYY-MM-DD')) }}
                             disablePast
@@ -192,8 +195,9 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                         />
                         <DatePicker
                             label={t('project.milestones.officialOffer')}
+                            format='DD-MM-YYYY'
                             value={dayjs(formData.project.milestones.officialOffer)}
-                            onChange={(e) => handleInputMethod('project.milestones.officialOffer', dayjs(e).format('YYYY-MM-DD'))}
+                            onChange={(e) => handleInputMethod('project.milestones.officialOffer', e)}
                             disablePast
                             slotProps={{
                                 textField: {
@@ -203,8 +207,9 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                         />
                         <DatePicker
                             label={t('project.milestones.order')}
+                            format='DD-MM-YYYY'
                             value={dayjs(formData.project.milestones.order)}
-                            onChange={(e) => handleInputMethod('project.milestones.order', dayjs(e).format('YYYY-MM-DD'))}
+                            onChange={(e) => handleInputMethod('project.milestones.order', e)}
                             disablePast
                             slotProps={{
                                 textField: {
@@ -214,8 +219,9 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                         />
                         <DatePicker
                             label={t('project.milestones.implementationStart')}
+                            format='DD-MM-YYYY'
                             value={dayjs(formData.project.milestones.implementationStart)}
-                            onChange={(e) => handleInputMethod('project.milestones.implementationStart', dayjs(e).format('YYYY-MM-DD'))}
+                            onChange={(e) => handleInputMethod('project.milestones.implementationStart', e)}
                             disablePast
                             slotProps={{
                                 textField: {
@@ -225,8 +231,9 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                         />
                         <DatePicker
                             label={t('project.milestones.launch')}
+                            format='DD-MM-YYYY'
                             value={dayjs(formData.project.milestones.launch)}
-                            onChange={(e) => handleInputMethod('project.milestones.launch', dayjs(e).format('YYYY-MM-DD'))}
+                            onChange={(e) => handleInputMethod('project.milestones.launch', e)}
                             disablePast
                             slotProps={{
                                 textField: {

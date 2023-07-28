@@ -2,13 +2,11 @@ import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip
 import { useTranslation } from 'react-i18next';
 import { IFormData } from '../App';
 import { ISystem } from './FormSystemSelectorStep';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { Height } from '@mui/icons-material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export default function SystemCard({ system, formData, setFormData }: { system: ISystem, formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
 
     const theme = useTheme()
-
 
     const handleSystemChange = (alt: string) => {
         setFormData((prevFormData) => ({
@@ -22,34 +20,30 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
 
     const { t } = useTranslation();
 
-    console.log(formData.system[(system.alt).toLowerCase()])
-
     return (
-        <Grid item xs={6} md={3}>
-            <Card>
+        <Grid item xs={12} md={6}>
+            <Card className={formData.system[(system.alt).toLowerCase()] ? 'selected-card' : ''} sx={{borderColor: formData.system[(system.alt).toLowerCase()] ? theme.palette.success.main : theme.palette.grey[200] }}>
                 <CardActionArea
                     sx={{ position: 'relative' }}
                     onClick={e => handleSystemChange(system.alt)}
                 >
-                    {formData.system[(system.alt).toLowerCase()] && (
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '1rem',
-                                right: '1rem',
-                                borderRadius: '5rem',
-                                height: '2rem',
-                                width: '2rem',
-                                backgroundColor: 'white',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                boxShadow: '0 .5rem 1rem'
-                            }}
-                        >
-                            <CheckCircleOutlineIcon sx={{color: theme.palette.success.main}}  />
-                        </div>
-                    )}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: '1rem',
+                            right: '1rem',
+                            borderRadius: '5rem',
+                            height: '2rem',
+                            width: '2rem',
+                            backgroundColor: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: theme.shadows[3]
+                        }}
+                    >
+                        {formData.system[(system.alt).toLowerCase()] && <CheckCircleIcon sx={{ color: theme.palette.success.main }} />}
+                    </div>
                     <CardMedia
                         component="img"
                         height="200"

@@ -30,6 +30,32 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     formData.system.autovna ? t('steps.systems.autovna') : undefined,
   ].filter((label) => label !== undefined) as string[];
 
+  const generateSteps = (formData: IFormData, handleInputMethod: IHandleInputMethod) => {
+    const steps = [
+      <FormSalesUnitStep key="sales" handleInputMethod={handleInputMethod} formData={formData} />,
+      <FormCustomerStep key="customer" handleInputMethod={handleInputMethod} formData={formData} setFormData={setFormData} />,
+      <FormProjectStep key="project" handleInputMethod={handleInputMethod} formData={formData} />,
+      <FormSystemSelectorStep key="system" formData={formData} setFormData={setFormData} />,
+    ];
+
+    if (formData.system.asrs) {
+      steps.push(<FormCustomerStep key="asrs" formData={formData} setFormData={setFormData} />);
+    }
+    if (formData.system.lrkprk) {
+      steps.push(<FormCustomerStep key="lrkprk" formData={formData} setFormData={setFormData} />);
+    }
+    if (formData.system.agv) {
+      steps.push(<FormCustomerStep key="agv" formData={formData} setFormData={setFormData} />);
+    }
+    if (formData.system.autovna) {
+      steps.push(<FormCustomerStep key="autovna" formData={formData} setFormData={setFormData} />);
+    }
+
+    return steps;
+  };
+
+  
+
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
     setFadeOut(true);
@@ -60,7 +86,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
       const newFormData: IFormData = { ...prevFormData };
       const keys = path.split('.');
       let currentObject: any = newFormData;
-  
+
       // Iterate through nested keys to access the nested property
       for (let i = 0; i < keys.length - 1; i++) {
         if (currentObject[keys[i]] === undefined) {
@@ -69,18 +95,20 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
         }
         currentObject = currentObject[keys[i]];
       }
-  
+
       // Update the value of the nested property
       currentObject[keys[keys.length - 1]] = value;
-  
+
       return newFormData;
     });
   };
 
+  const steps = generateSteps(formData, handleInputMethod);
+
   if (formData) {
     return (
       <Container component='form'>
-        <Stack spacing={4} sx={{ my: 5 }}>
+        <Stack spacing={6} sx={{ my: 5 }}>
           <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           <Box>
             <Box className={fadeOut ? 'step fadeout' : 'step'}>
@@ -96,17 +124,20 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
               {activeStep === 3 && (
                 <FormSystemSelectorStep formData={formData} setFormData={setFormData} />
               )}
+              <Box className={fadeOut ? 'step fadeout' : 'step'}>
+                {activeStep >= 0 && activeStep < steps.length && steps[activeStep]}
+              </Box>
             </Box>
           </Box>
           <Box>
             <Stack direction='row'>
               {activeStep !== 0 && (
-                <Button disableElevation variant="contained" onClick={handleBack}>
+                <Button variant="contained" onClick={handleBack}>
                   {t('ui.button.back')}
                 </Button>
               )}
               {activeStep < stepLabels.length - 1 && (
-                <Button disableElevation variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}>
+                <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}>
                   {t('ui.button.next')}
                 </Button>
               )}

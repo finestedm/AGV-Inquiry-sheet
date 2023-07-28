@@ -6,7 +6,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 import { useTranslation } from 'react-i18next';
 import pl from '../images/poland.svg'
 import en from '../images/uk.svg'
-import jhLogo from '../images/JH_logo.png'
+import jhLogo from '../images/Jungheinrich-Logo.svg'
 import { SelectChangeEvent } from "@mui/material/Select";
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
@@ -65,7 +65,7 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
     };
 
     return (
-        <AppBar position="static" >
+        <AppBar position="static" color='default' sx={{backgroundColor: 'white'}}>
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
                     <img src={jhLogo} height='25' alt='JH_logo' />
