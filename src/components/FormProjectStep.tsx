@@ -180,71 +180,81 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h6" textAlign='left'>{t('project.subheader.milestones')}</Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Stack direction='row' spacing={2}>
-                        <DatePicker
-                            label={t('project.milestones.concept')}
-                            format='DD-MM-YYYY'
-                            value={dayjs(formData.project.milestones.concept)}
-                            onChange={(e) => { handleInputMethod('project.milestones.concept', dayjs(e).format('YYYY-MM-DD')) }}
-                            disablePast
-                            slotProps={{
-                                textField: {
-                                    helperText: dayjs(formData.project.milestones.concept).isBefore(dayjs(new Date())) ? 'Data w przeszłości' : '',
-                                },
-                            }}
-                        />
-                        <DatePicker
-                            label={t('project.milestones.officialOffer')}
-                            format='DD-MM-YYYY'
-                            value={dayjs(formData.project.milestones.officialOffer)}
-                            onChange={(e) => handleInputMethod('project.milestones.officialOffer', e)}
-                            disablePast
-                            slotProps={{
-                                textField: {
-                                    helperText: dayjs(formData.project.milestones.officialOffer).isBefore(dayjs(formData.project.milestones.concept)) ? 'Data oferty przed datą koncepcji' : '',
-                                },
-                            }}
-                        />
-                        <DatePicker
-                            label={t('project.milestones.order')}
-                            format='DD-MM-YYYY'
-                            value={dayjs(formData.project.milestones.order)}
-                            onChange={(e) => handleInputMethod('project.milestones.order', e)}
-                            disablePast
-                            slotProps={{
-                                textField: {
-                                    helperText: dayjs(formData.project.milestones.order).isBefore(dayjs(formData.project.milestones.officialOffer)) ? 'Data zamówienia przed datą oferty' : '',
-                                },
-                            }}
-                        />
-                        <DatePicker
-                            label={t('project.milestones.implementationStart')}
-                            format='DD-MM-YYYY'
-                            value={dayjs(formData.project.milestones.implementationStart)}
-                            onChange={(e) => handleInputMethod('project.milestones.implementationStart', e)}
-                            disablePast
-                            slotProps={{
-                                textField: {
-                                    helperText: dayjs(formData.project.milestones.implementationStart).isBefore(dayjs(formData.project.milestones.order)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
-                                },
-                            }}
-                        />
-                        <DatePicker
-                            label={t('project.milestones.launch')}
-                            format='DD-MM-YYYY'
-                            value={dayjs(formData.project.milestones.launch)}
-                            onChange={(e) => handleInputMethod('project.milestones.launch', e)}
-                            disablePast
-                            slotProps={{
-                                textField: {
-                                    helperText: dayjs(formData.project.milestones.launch).isBefore(dayjs(formData.project.milestones.implementationStart)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
-                                },
-                            }}
-                        />
-                    </Stack>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6} sm={4}>
+                            <DatePicker
+                                label={t('project.milestones.concept')}
+                                format='DD-MM-YYYY'
+                                value={dayjs(formData.project.milestones.concept)}
+                                onChange={(e) => { handleInputMethod('project.milestones.concept', dayjs(e).format('YYYY-MM-DD')) }}
+                                disablePast
+                                slotProps={{
+                                    textField: {
+                                        helperText: dayjs(formData.project.milestones.concept).isBefore(dayjs(new Date())) ? 'Data w przeszłości' : '',
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={4}>
+                            <DatePicker
+                                label={t('project.milestones.officialOffer')}
+                                format='DD-MM-YYYY'
+                                value={dayjs(formData.project.milestones.officialOffer)}
+                                onChange={(e) => handleInputMethod('project.milestones.officialOffer', e)}
+                                disablePast
+                                slotProps={{
+                                    textField: {
+                                        helperText: dayjs(formData.project.milestones.officialOffer).isBefore(dayjs(formData.project.milestones.concept)) ? 'Data oferty przed datą koncepcji' : '',
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={4}>
+                            <DatePicker
+                                label={t('project.milestones.order')}
+                                format='DD-MM-YYYY'
+                                value={dayjs(formData.project.milestones.order)}
+                                onChange={(e) => handleInputMethod('project.milestones.order', e)}
+                                disablePast
+                                slotProps={{
+                                    textField: {
+                                        helperText: dayjs(formData.project.milestones.order).isBefore(dayjs(formData.project.milestones.officialOffer)) ? 'Data zamówienia przed datą oferty' : '',
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={4}>
+                            <DatePicker
+                                label={t('project.milestones.implementationStart')}
+                                format='DD-MM-YYYY'
+                                value={dayjs(formData.project.milestones.implementationStart)}
+                                onChange={(e) => handleInputMethod('project.milestones.implementationStart', e)}
+                                disablePast
+                                slotProps={{
+                                    textField: {
+                                        helperText: dayjs(formData.project.milestones.implementationStart).isBefore(dayjs(formData.project.milestones.order)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
+                                    },
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={4}>
+                            <DatePicker
+                                label={t('project.milestones.launch')}
+                                format='DD-MM-YYYY'
+                                value={dayjs(formData.project.milestones.launch)}
+                                onChange={(e) => handleInputMethod('project.milestones.launch', e)}
+                                disablePast
+                                slotProps={{
+                                    textField: {
+                                        helperText: dayjs(formData.project.milestones.launch).isBefore(dayjs(formData.project.milestones.implementationStart)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
+                                    },
+                                }}
+                            />
+                        </Grid>
+                    </Grid>
                 </LocalizationProvider>
             </Stack>
-        </Stack>
+        </Stack >
 
     )
 }
