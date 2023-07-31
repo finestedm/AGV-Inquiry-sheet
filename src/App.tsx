@@ -58,6 +58,30 @@ interface IProject {
   milestones: IMilestones
 }
 
+interface Iasrs {
+  selected: boolean;
+  workConditions: {
+    workDays: number;
+    shiftsPerDay: number;
+    hoursPerShift: number;
+    temperature: number;
+    humidity: number;
+    coldStore: boolean;
+    EX: boolean;
+    dangerousMaterials: boolean;
+    other: string;
+  },
+  building: {
+    new: boolean;
+    silo: boolean;
+    existingBuilding: {
+      height: number;
+      width: number;
+      length: number;
+    }
+  }
+}
+
 interface ISystem {
   asrs: boolean;
   lrkprk: boolean;

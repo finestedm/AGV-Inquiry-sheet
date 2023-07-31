@@ -8,6 +8,7 @@ import FormSystemSelectorStep from "./FormSystemSelectorStep";
 import { useTranslation } from 'react-i18next';
 import systems from './SystemCard'
 import FormProjectStep from "./FormProjectStep";
+import FormASRSStep from "./FormASRSStep";
 
 export interface IHandleInputMethod {
   (path: string, value: any): void;
@@ -39,16 +40,16 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     ];
 
     if (formData.system.asrs) {
-      steps.push(<FormCustomerStep key="asrs" formData={formData} setFormData={setFormData} />);
+      steps.push(<FormASRSStep key="asrs" data='asrs' formData={formData} setFormData={setFormData} />);
     }
     if (formData.system.lrkprk) {
-      steps.push(<FormCustomerStep key="lrkprk" formData={formData} setFormData={setFormData} />);
+      steps.push(<FormASRSStep key="lrkprk" data='lrkprk' formData={formData} setFormData={setFormData} />);
     }
     if (formData.system.agv) {
-      steps.push(<FormCustomerStep key="agv" formData={formData} setFormData={setFormData} />);
+      steps.push(<FormASRSStep key="agv" data='agv' formData={formData} setFormData={setFormData} />);
     }
     if (formData.system.autovna) {
-      steps.push(<FormCustomerStep key="autovna" formData={formData} setFormData={setFormData} />);
+      steps.push(<FormASRSStep key="autovna" data='autov' formData={formData} setFormData={setFormData} />);
     }
 
     return steps;
@@ -112,21 +113,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
           <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           <Box>
             <Box className={fadeOut ? 'step fadeout' : 'step'}>
-              {activeStep === 0 && (
-                <FormSalesUnitStep handleInputMethod={handleInputMethod} formData={formData} />
-              )}
-              {activeStep === 1 && (
-                <FormCustomerStep handleInputMethod={handleInputMethod} formData={formData} setFormData={setFormData} />
-              )}
-              {activeStep === 2 && (
-                <FormProjectStep handleInputMethod={handleInputMethod} formData={formData} />
-              )}
-              {activeStep === 3 && (
-                <FormSystemSelectorStep formData={formData} setFormData={setFormData} />
-              )}
-              <Box className={fadeOut ? 'step fadeout' : 'step'}>
                 {activeStep >= 0 && activeStep < steps.length && steps[activeStep]}
-              </Box>
             </Box>
           </Box>
           <Box>
