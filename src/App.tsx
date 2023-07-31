@@ -60,13 +60,15 @@ interface IProject {
 
 interface Iasrs {
   selected: boolean;
-  workConditions: {
+  workTime: {
     workDays: number;
     shiftsPerDay: number;
     hoursPerShift: number;
+  }
+  workConditions: {
     temperature: number;
     humidity: number;
-    coldStore: boolean;
+    freezer: boolean;
     EX: boolean;
     dangerousMaterials: boolean;
     other: string;
@@ -166,13 +168,15 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
     system: {
       asrs: {
         selected: false,
-        workConditions: {
+        workTime: {
           workDays: 0,
           shiftsPerDay: 0,
           hoursPerShift: 0,
+        },
+        workConditions: {
           temperature: 0,
           humidity: 0,
-          coldStore: false,
+          freezer: false,
           EX: false,
           dangerousMaterials: false,
           other: '',
@@ -189,13 +193,15 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       },
       lrkprk: {
         selected: false,
-        workConditions: {
+        workTime: {
           workDays: 0,
           shiftsPerDay: 0,
           hoursPerShift: 0,
+        },
+        workConditions: {
           temperature: 0,
           humidity: 0,
-          coldStore: false,
+          freezer: false,
           EX: false,
           dangerousMaterials: false,
           other: '',
@@ -212,13 +218,15 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       },
       agv: {
         selected: false,
-        workConditions: {
+        workTime: {
           workDays: 0,
           shiftsPerDay: 0,
           hoursPerShift: 0,
+        },
+        workConditions: {
           temperature: 0,
           humidity: 0,
-          coldStore: false,
+          freezer: false,
           EX: false,
           dangerousMaterials: false,
           other: '',
@@ -235,13 +243,15 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       },
       autovna: {
         selected: false,
-        workConditions: {
+        workTime: {
           workDays: 0,
           shiftsPerDay: 0,
           hoursPerShift: 0,
+        },
+        workConditions: {
           temperature: 0,
           humidity: 0,
-          coldStore: false,
+          freezer: false,
           EX: false,
           dangerousMaterials: false,
           other: '',
@@ -255,7 +265,7 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
             length: 0,
           }
         }
-      }
+      },
     },
   })
 

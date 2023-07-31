@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 export let theme = createTheme({})
 
 //shadows
-const shadowColor = 'hsla(220, 43%, 11%, 5%)'
+const shadowColor = 'hsla(220, 43%, 11%, 30%)'
 const shadowColor2 = 'hsla(220, 43%, 11%, 8%)'
 const shadowColor3 = 'hsla(220, 43%, 11%, 15%)'
 
