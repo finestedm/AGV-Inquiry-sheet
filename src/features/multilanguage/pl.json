@@ -86,6 +86,38 @@
     "asrs": {
       "label": "Automatyczne systemy magazynowe",
       "labelshort": "ASRS",
+      "description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca.",
+      "subheader": {
+        "workTime": "Czas pracy",
+        "workConditions": "Warunki pracy",
+        "building": "Budynek"
+      },
+      "workTime": {
+        "workDays": "Dni pracy w tygodniu",
+        "shiftsPerDay": "Liczba zmian na dzień",
+        "hoursPerShift": "Liczba godzin na zmianę",
+        "hoursPerWeek": "Godziny pracy na tydzień"
+      },
+      "workConditions": {
+        "temperature": "Temperatura",
+        "humidity": "Wilgotność",
+        "freezer": "Strefa chłodnicza",
+        "EX": "Strefa zagrożona wybuchem",
+        "dangerousMaterials": "Materiały niebezpieczne",
+        "other": "Inne uwagi"
+      },
+      "building": {
+        "new": "Nowy budynek",
+        "existing": "Istniejący",
+        "silo": "Magazyn silosowy",
+        "existingBuilding": {
+          "height": "Wysokość",
+          "width": "Szerokość",
+          "length": "Długość"
+        }
+      },
+      "label": "Automatyczne systemy magazynowe",
+      "labelshort": "ASRS",
       "description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca."
     },
     "lrkprk": {

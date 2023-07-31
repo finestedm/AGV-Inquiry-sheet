@@ -189,7 +189,7 @@ export default function FormASRSStep({ formData, handleInputMethod }: { formData
                                 />
                             }
                             labelPlacement="start"
-                            label={formData.system.asrs.building.new ? t('system.asrs.building.silo.new') : t('system.asrs.building.silo.existing')}
+                            label={formData.system.asrs.building.new ? t('system.asrs.building.new') : t('system.asrs.building.existing')}
                         />
                     </Grid>
                     <Grid item xs={6} lg={3}>
