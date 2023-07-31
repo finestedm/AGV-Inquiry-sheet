@@ -25,10 +25,10 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     t('steps.customer'),
     t('steps.project'),
     t('steps.system'),
-    formData.system.asrs ? t('steps.systems.asrs') : undefined,
-    formData.system.lrkprk ? t('steps.systems.lrkprk') : undefined,
-    formData.system.agv ? t('steps.systems.agv') : undefined,
-    formData.system.autovna ? t('steps.systems.autovna') : undefined,
+    formData.system.asrs.selected ? t('steps.systems.asrs') : undefined,
+    formData.system.lrkprk.selected ? t('steps.systems.lrkprk') : undefined,
+    formData.system.agv.selected ? t('steps.systems.agv') : undefined,
+    formData.system.autovna.selected ? t('steps.systems.autovna') : undefined,
   ].filter((label) => label !== undefined) as string[];
 
   const generateSteps = (formData: IFormData, handleInputMethod: IHandleInputMethod) => {
@@ -39,17 +39,17 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
       <FormSystemSelectorStep key="system" formData={formData} setFormData={setFormData} />,
     ];
 
-    if (formData.system.asrs) {
-      steps.push(<FormASRSStep key="asrs" data='asrs' formData={formData} setFormData={setFormData} />);
+    if (formData.system.asrs.selected) {
+      steps.push(<FormASRSStep key="asrs" formData={formData} handleInputMethod={handleInputMethod} />);
     }
-    if (formData.system.lrkprk) {
-      steps.push(<FormASRSStep key="lrkprk" data='lrkprk' formData={formData} setFormData={setFormData} />);
+    if (formData.system.lrkprk.selected) {
+      steps.push(<FormASRSStep key="lrkprk" formData={formData} handleInputMethod={handleInputMethod} />);
     }
-    if (formData.system.agv) {
-      steps.push(<FormASRSStep key="agv" data='agv' formData={formData} setFormData={setFormData} />);
+    if (formData.system.agv.selected) {
+      steps.push(<FormASRSStep key="agv" formData={formData} handleInputMethod={handleInputMethod} />);
     }
-    if (formData.system.autovna) {
-      steps.push(<FormASRSStep key="autovna" data='autov' formData={formData} setFormData={setFormData} />);
+    if (formData.system.autovna.selected) {
+      steps.push(<FormASRSStep key="autovna" formData={formData} handleInputMethod={handleInputMethod} />);
     }
 
     return steps;

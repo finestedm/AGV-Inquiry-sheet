@@ -31,7 +31,7 @@ interface ISales {
 }
 
 interface ICustomer {
-  company: string;
+  name: string;
   sapNumber: number | null;
   industryName: string[];
   address: string;
@@ -83,11 +83,11 @@ interface Iasrs {
 }
 
 interface ISystem {
-  asrs: boolean;
-  lrkprk: boolean;
-  agv: boolean;
-  autovna: boolean;
-  [key: string]: boolean; // Add an index signature
+  asrs: Iasrs;
+  lrkprk: Iasrs;
+  agv: Iasrs;
+  autovna: Iasrs;
+  [key: string]: Iasrs; // Add an index signature
 }
 
 export interface IFormData {
@@ -122,7 +122,7 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       contactPersonRole: '',
     },
     customer: {
-      company: '',
+      name: '',
       sapNumber: null,
       industryName: [],
       address: '',
@@ -164,12 +164,100 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
       }
     },
     system: {
-      asrs: false,
-      lrkprk: false,
-      agv: false,
-      autovna: false
+      asrs: {
+        selected: false,
+        workConditions: {
+          workDays: 0,
+          shiftsPerDay: 0,
+          hoursPerShift: 0,
+          temperature: 0,
+          humidity: 0,
+          coldStore: false,
+          EX: false,
+          dangerousMaterials: false,
+          other: '',
+        },
+        building: {
+          new: false,
+          silo: false,
+          existingBuilding: {
+            height: 0,
+            width: 0,
+            length: 0,
+          }
+        }
+      },
+      lrkprk: {
+        selected: false,
+        workConditions: {
+          workDays: 0,
+          shiftsPerDay: 0,
+          hoursPerShift: 0,
+          temperature: 0,
+          humidity: 0,
+          coldStore: false,
+          EX: false,
+          dangerousMaterials: false,
+          other: '',
+        },
+        building: {
+          new: false,
+          silo: false,
+          existingBuilding: {
+            height: 0,
+            width: 0,
+            length: 0,
+          }
+        }
+      },
+      agv: {
+        selected: false,
+        workConditions: {
+          workDays: 0,
+          shiftsPerDay: 0,
+          hoursPerShift: 0,
+          temperature: 0,
+          humidity: 0,
+          coldStore: false,
+          EX: false,
+          dangerousMaterials: false,
+          other: '',
+        },
+        building: {
+          new: false,
+          silo: false,
+          existingBuilding: {
+            height: 0,
+            width: 0,
+            length: 0,
+          }
+        }
+      },
+      autovna: {
+        selected: false,
+        workConditions: {
+          workDays: 0,
+          shiftsPerDay: 0,
+          hoursPerShift: 0,
+          temperature: 0,
+          humidity: 0,
+          coldStore: false,
+          EX: false,
+          dangerousMaterials: false,
+          other: '',
+        },
+        building: {
+          new: false,
+          silo: false,
+          existingBuilding: {
+            height: 0,
+            width: 0,
+            length: 0,
+          }
+        }
+      }
     },
-  });
+  })
 
   return [formData, setFormData];
 }

@@ -1,7 +1,7 @@
 {
   "customer": {
     "header": "Dane klienta",
-    "company": "Firma / klient",
+    "name": "Firma / klient",
     "sap": "Numer sap",
     "industry": "Branża",
     "industry.other": "Inna branża",

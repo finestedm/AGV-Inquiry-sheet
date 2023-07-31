@@ -13,16 +13,21 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
             ...prevFormData,
             system: {
                 ...prevFormData.system,
-                [alt.toLowerCase()]: !prevFormData.system[alt.toLowerCase()],
+                [alt.toLowerCase()]: {
+                    ...prevFormData.system[alt.toLowerCase()],
+                    selected: !prevFormData.system[alt.toLowerCase()].selected,
+                },
             },
         }));
     };
 
     const { t } = useTranslation();
 
+    const systemSelected = formData.system[(system.alt).toLowerCase()].selected
+
     return (
         <Grid item xs={12} md={6}>
-            <Card className={formData.system[(system.alt).toLowerCase()] ? 'selected-card' : ''} sx={{borderColor: formData.system[(system.alt).toLowerCase()] ? theme.palette.success.main : theme.palette.grey[200] }}>
+            <Card className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : theme.palette.grey[200] }}>
                 <CardActionArea
                     sx={{ position: 'relative' }}
                     onClick={e => handleSystemChange(system.alt)}
@@ -42,7 +47,7 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
                             boxShadow: theme.shadows[3]
                         }}
                     >
-                        {formData.system[(system.alt).toLowerCase()] && <CheckCircleIcon sx={{ color: theme.palette.success.main }} />}
+                        {systemSelected && <CheckCircleIcon sx={{ color: theme.palette.success.main }} />}
                     </div>
                     <CardMedia
                         component="img"

@@ -60,10 +60,10 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
       <Stack spacing={2}>
         <Typography variant="h6" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
         <TextField
-          label={t('customer.company')}
-          name="customer.company"
-          value={formData.customer.company}
-          onChange={(e) => handleInputMethod('customer.company', e.target.value)}
+          label={t('customer.name')}
+          name="customer.name"
+          value={formData.customer.name}
+          onChange={(e) => handleInputMethod('customer.name', e.target.value)}
         />
         <TextField
           label={t('customer.sap')}
