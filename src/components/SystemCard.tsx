@@ -62,16 +62,17 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
                     </CardMedia>
                     <CardContent>
                        
-                        <Accordion disableGutters elevation={0} square >
+                        <Accordion disableGutters elevation={0} square sx={{p: 0}}>
                             <AccordionSummary
+                                sx={{p: 0}}
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel2a-content"
                                 id="panel2a-header"
                                 >
-                                <Typography>{system.label}</Typography>
+                                <Typography variant='h6'>{system.label}</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography>
+                                <Typography align='left'>
                                     {system.description}
                                 </Typography>
                             </AccordionDetails>
