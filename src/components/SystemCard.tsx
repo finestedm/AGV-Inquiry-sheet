@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography, useTheme } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Divider, Grid, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { IFormData } from '../App';
 import { ISystem } from './FormSystemSelectorStep';
@@ -22,8 +22,6 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
             },
         }));
     };
-
-    const [descrptionExtended, setDescrptionExtended] = useState(false)
 
     const { t } = useTranslation();
 
@@ -60,34 +58,23 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
                         alt={system.alt}
                     >
                     </CardMedia>
-                    <CardContent>
-                       
-                        <Accordion disableGutters elevation={0} square sx={{p: 0}}>
-                            <AccordionSummary
-                                sx={{p: 0}}
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel2a-content"
-                                id="panel2a-header"
-                                >
-                                <Typography variant='h6'>{system.label}</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography align='left'>
-                                    {system.description}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-
-                    </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button 
-                        size="small" 
-                        color="success"
-                        onClick={() => setDescrptionExtended(!descrptionExtended)}
-                    >
-                        {t('ui.button.readmore')}
-                    </Button>
+                    <Accordion disableGutters elevation={0}>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel2a-content"
+                            id="panel2a-header"
+                        >
+                            <Typography variant='h6' align='left' sx={{color: systemSelected ? theme.palette.success.dark : theme.palette.text.primary}}>{system.label}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Divider sx={{mb: 3}}/>
+                            <Typography align='left' sx={{ color: systemSelected ? theme.palette.success.main : theme.palette.text.secondary }}>
+                                {system.description}
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
                 </CardActions>
             </Card>
         </Grid >

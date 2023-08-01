@@ -58,7 +58,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
     <Stack spacing={5}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
       <Stack spacing={2}>
-        <Typography variant="h6" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
+        <Typography variant="h5" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
         <TextField
           label={t('customer.name')}
           name="customer.name"
@@ -82,7 +82,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         />
       </Stack>
       <Stack spacing={2}>
-        <Typography variant="h6" textAlign='left'>{t('customer.subheader.contactperson')}</Typography>
+        <Typography variant="h5" textAlign='left'>{t('customer.subheader.contactperson')}</Typography>
         <TextField
           label={t('customer.contactperson.name')}
           name="customer.contactPerson"
@@ -126,7 +126,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
         />
       </Stack>
       <Stack spacing={2}>
-        <Typography variant="h6" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
+        <Typography variant="h5" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
         <FormControl>
           <InputLabel id="customer-industry-label">{t('customer.industry')}</InputLabel>
           <Select
@@ -187,7 +187,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
                   label={t("customer.relations.input.forklifts")}
                   type="number"
                   value={formData.customer.ownedForklifts}
-                  onChange={(e) => handleInputMethod('customer.ownedForklifts', e.target.value)}
+                  onChange={(e) => handleInputMethod('customer.ownedForklifts', Number(e.target.value))}
                 />
               </Grid>
               <Grid item xs={6} lg={4}>
@@ -197,7 +197,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
                   label={t("customer.relations.input.racks")}
                   type="number"
                   value={formData.customer.ownedRacks}
-                  onChange={(e) => handleInputMethod('customer.ownedRacks', e.target.value)}
+                  onChange={(e) => handleInputMethod('customer.ownedRacks', Number(e.target.value))}
                   InputProps={{
                     // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
                     endAdornment: <InputAdornment position="end">m.p.</InputAdornment>,
@@ -222,7 +222,10 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           name="customer.salesHistoryValue"
           type="text"
           value={formData.customer.salesHistoryValue === undefined ? '' : (Number(formData.customer.salesHistoryValue)).toLocaleString('en-US').replaceAll(',', ' ')}
-          onChange={(e) => handleInputMethod('customer.salesHistoryValue', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''))}
+          onChange={(e) => {
+            const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
+            hasDigits && handleInputMethod('customer.salesHistoryValue', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''));
+          }}
           InputProps={{
             // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
             endAdornment: <InputAdornment position="end">€ / rok</InputAdornment>,
@@ -233,7 +236,10 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
           name="customer.creditmanagement"
           type="text"
           value={formData.customer.creditManagement === undefined ? '' : (Number(formData.customer.creditManagement)).toLocaleString('en-US').replaceAll(',', ' ')}
-          onChange={(e) => handleInputMethod('customer.creditManagement', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''))}
+          onChange={(e) => {
+            const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
+            hasDigits && handleInputMethod('customer.creditManagement', e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, ''));
+          }}
           InputProps={{
             // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
             endAdornment: <InputAdornment position="end">PLN brutto</InputAdornment>,

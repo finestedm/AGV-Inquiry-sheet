@@ -11,50 +11,47 @@ export default function FormASRSStep({ formData, handleInputMethod }: { formData
         <Stack spacing={5}>
             <Typography variant="h4" textAlign='left'>{t('system.asrs.header')}</Typography>
             <Stack spacing={2}>
-                <Typography variant="h6" textAlign='left'>{t('system.asrs.subheader.workTime')}</Typography>
+                <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.workTime')}</Typography>
 
                 <Box>
                     <Grid container direction='row' spacing={2}>
                         <Grid item xs={6} sm={4} lg={3}>
-                            <TextField
-                                id="system-asrs.workTime.workDays"
-                                fullWidth
-                                label={t("system.asrs.workTime.workDay")}
-                                type="number"
+                            <Typography align="left">{t('system.asrs.workTime.workDays')}</Typography>
+                            <Slider
+                                sx={{ width: '95%' }}
+                                getAriaLabel={() => 'workDayse'}
                                 value={formData.system.asrs.workTime.workDays}
-                                onChange={(e) => handleInputMethod('system.asrs.workTime.workDays', e.target.value)}
-                                inputProps={{
-                                    min: 1,
-                                    max: 7,
-                                }}
+                                onChange={(e, v) => handleInputMethod('system.asrs.workTime.workDays', v)}
+                                valueLabelDisplay="auto"
+                                min={1}
+                                max={7}
+                                marks={[{ value: 1, label: '1' }, { value: 7, label: '7' }]}
                             />
                         </Grid>
                         <Grid item xs={6} sm={4} lg={3}>
-                            <TextField
-                                id="system-asrs.workTime.shiftsPerDay"
-                                fullWidth
-                                label={t("system.asrs.workTime.shiftsPerDay")}
-                                type="number"
+                            <Typography align="left">{t('system.asrs.workTime.shiftsPerDay')}</Typography>
+                            <Slider
+                                sx={{ width: '95%' }}
+                                getAriaLabel={() => 'shiftsPerDay'}
                                 value={formData.system.asrs.workTime.shiftsPerDay}
-                                onChange={(e) => handleInputMethod('system.asrs.workTime.shiftsPerDay', e.target.value)}
-                                inputProps={{
-                                    min: 1,
-                                    max: 3,
-                                }}
+                                onChange={(e, v) => handleInputMethod('system.asrs.workTime.shiftsPerDay', v)}
+                                valueLabelDisplay="auto"
+                                min={1}
+                                max={3}
+                                marks={[{ value: 1, label: '1' }, { value: 3, label: '3' }]}
                             />
                         </Grid>
                         <Grid item xs={6} sm={4} lg={3}>
-                            <TextField
-                                id="system-asrs.workTime.hoursPerShift"
-                                fullWidth
-                                label={t("system.asrs.workTime.hoursPerShift")}
-                                type="number"
+                            <Typography align="left">{t('system.asrs.workTime.hoursPerShift')}</Typography>
+                            <Slider
+                                sx={{ width: '95%' }}
+                                getAriaLabel={() => 'hoursPerShift'}
                                 value={formData.system.asrs.workTime.hoursPerShift}
-                                onChange={(e) => handleInputMethod('system.asrs.workTime.hoursPerShift', e.target.value)}
-                                inputProps={{
-                                    min: 1,
-                                    max: 8,
-                                }}
+                                onChange={(e, v) => handleInputMethod('system.asrs.workTime.hoursPerShift', v)}
+                                valueLabelDisplay="auto"
+                                min={1}
+                                max={8}
+                                marks={[{ value: 1, label: '1' }, { value: 8, label: '8' }]}
                             />
                         </Grid>
                         <Grid item xs={6} sm={12} lg={3}>
@@ -70,7 +67,7 @@ export default function FormASRSStep({ formData, handleInputMethod }: { formData
                 </Box>
             </Stack>
             <Stack spacing={2}>
-                <Typography variant="h6" textAlign='left'>{t('system.asrs.subheader.workConditions')}</Typography>
+                <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.workConditions')}</Typography>
                 <Box>
                     <Grid container direction='row' spacing={2}>
                         <Grid item xs={12} md={6}>
@@ -157,7 +154,7 @@ export default function FormASRSStep({ formData, handleInputMethod }: { formData
                 </Box>
             </Stack>
             <Stack spacing={2}>
-                <Box><Typography variant="h6" textAlign='left'>{t('system.asrs.subheader.building')}</Typography></Box>
+                <Box><Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.building')}</Typography></Box>
                 <Box><Grid container direction='row' spacing={2}>
                     <Grid item xs={12} lg={6}>
                         <Stack direction='row' alignItems='center'>

@@ -115,10 +115,7 @@
           "width": "Szerokość",
           "length": "Długość"
         }
-      },
-      "label": "Automatyczne systemy magazynowe",
-      "labelshort": "ASRS",
-      "description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca."
+      }
     },
     "lrkprk": {
       "label": "Regały windowe i karuzelowe",
@@ -150,7 +147,7 @@
     "investmentLocation": "Lokalizacja inwestycji",
     "tender": "Inwestycja w formie przetargu?",
     "consultingCompany": "Prowadzona przez firmę konsultingową?",
-    "competitor": "Inni oferenci",
+    "competitor": "Inni oferenci?",
     "invenstmentType": {
       "new": "Nowy projekt",
       "expansion": "Rozbudowa",
