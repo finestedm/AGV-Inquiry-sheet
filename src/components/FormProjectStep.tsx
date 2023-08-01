@@ -52,7 +52,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
         <Stack spacing={5}>
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
             <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h6" textAlign='left'>{t('project.subheader.various')}</Typography>
+                <Typography variant="h5" textAlign='left'>{t('project.subheader.various')}</Typography>
                 <TextField
                     fullWidth
                     label={t('project.goals')}
@@ -94,17 +94,17 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                 />
                 <Box>
                     <Grid container flex={1} justifyContent='space-between' spacing={2}>
-                        <Grid item >
+                        <Grid item>
                             <FormControlLabel
                                 id="project-tender"
                                 control={
-                                    <Switch
+                                    <Checkbox
                                         checked={formData.project.tender}
                                         onChange={(e) => handleInputMethod('project.tender', e.target.checked)}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
-                                labelPlacement="start"
+                                labelPlacement="end"
                                 label={t('project.tender')}
                             />
                         </Grid>
@@ -112,13 +112,13 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             <FormControlLabel
                                 id="project-consultingCompany"
                                 control={
-                                    <Switch
+                                    <Checkbox
                                         checked={formData.project.consultingCompany}
                                         onChange={(e) => handleInputMethod('project.consultingCompany', e.target.checked)}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
-                                labelPlacement="start"
+                                labelPlacement="end"
                                 label={t('project.consultingCompany')}
                             />
                         </Grid>
@@ -126,64 +126,65 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             <FormControlLabel
                                 id="project-competitor"
                                 control={
-                                    <Switch
+                                    <Checkbox
                                         checked={formData.project.competitor}
                                         onChange={(e) => handleInputMethod('project.competitor', e.target.checked)}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
-                                labelPlacement="start"
+                                labelPlacement="end"
                                 label={t('project.competitor')}
                             />
                         </Grid>
                     </Grid>
                 </Box>
             </Stack>
+                <Stack spacing={2} sx={{ width: '100%' }}>
+                    <Typography variant="h5" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
+                        <ToggleButtonGroup
+                        sx={{ display: { xs: 'none', sm: 'flex' } }}
+                        exclusive
+                        fullWidth
+                        aria-label="investment type buttons"
+                    >
+                        {investmentTypes.map((investmentType) => (
+                            <ToggleButton
+                                value={investmentType}
+                                key={investmentType}
+                                onClick={() => handleInputMethod('project.investmentType', investmentType)}
+                                selected={formData.project.investmentType === investmentType}
+                            >
+                                {investmentType}
+                            </ToggleButton>
+                        ))}
+                    </ToggleButtonGroup>
+                    <ToggleButtonGroup
+                        sx={{ display: { sm: 'none' } }}
+                        exclusive
+                        aria-label="investment type buttons"
+                        orientation="vertical"
+                        fullWidth
+                    >
+                        {investmentTypes.map((investmentType) => (
+                            <ToggleButton
+                                value={investmentType}
+                                key={investmentType}
+                                onClick={() => handleInputMethod('project.investmentType', investmentType)}
+                                selected={formData.project.investmentType === investmentType}
+                            >
+                                {investmentType}
+                            </ToggleButton>
+                        ))}
+                    </ToggleButtonGroup>
+                </Stack>
             <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h6" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
-                <ToggleButtonGroup
-                    sx={{ display: { xs: 'none', sm: 'flex' } }}
-                    exclusive
-                    fullWidth
-                    aria-label="investment type buttons"
-                >
-                    {investmentTypes.map((investmentType) => (
-                        <ToggleButton
-                            value={investmentType}
-                            key={investmentType}
-                            onClick={() => handleInputMethod('project.investmentType', investmentType)}
-                            selected={formData.project.investmentType === investmentType}
-                        >
-                            {investmentType}
-                        </ToggleButton>
-                    ))}
-                </ToggleButtonGroup>
-                <ToggleButtonGroup
-                    sx={{ display: { sm: 'none' } }}
-                    exclusive
-                    aria-label="investment type buttons"
-                    orientation="vertical"
-                    fullWidth
-                >
-                    {investmentTypes.map((investmentType) => (
-                        <ToggleButton
-                            value={investmentType}
-                            key={investmentType}
-                            onClick={() => handleInputMethod('project.investmentType', investmentType)}
-                            selected={formData.project.investmentType === investmentType}
-                        >
-                            {investmentType}
-                        </ToggleButton>
-                    ))}
-                </ToggleButtonGroup>
-            </Stack>
-            <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h6" textAlign='left'>{t('project.subheader.milestones')}</Typography>
+                <Typography variant="h5" textAlign='left'>{t('project.subheader.milestones')}</Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Box>
                         <Grid container spacing={2}>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
+                                    sx={{width: '100%'}}
                                     label={t('project.milestones.concept')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.concept)}
@@ -198,6 +199,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             </Grid>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
+                                    sx={{width: '100%'}}
                                     label={t('project.milestones.officialOffer')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.officialOffer)}
@@ -212,6 +214,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             </Grid>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
+                                    sx={{width: '100%'}}
                                     label={t('project.milestones.order')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.order)}
@@ -226,6 +229,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             </Grid>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
+                                    sx={{width: '100%'}}
                                     label={t('project.milestones.implementationStart')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.implementationStart)}
@@ -240,6 +244,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             </Grid>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
+                                    sx={{width: '100%'}}
                                     label={t('project.milestones.launch')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.launch)}

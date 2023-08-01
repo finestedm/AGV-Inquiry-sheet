@@ -1,8 +1,10 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography, useTheme } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { IFormData } from '../App';
 import { ISystem } from './FormSystemSelectorStep';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useState } from 'react';
 
 export default function SystemCard({ system, formData, setFormData }: { system: ISystem, formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
 
@@ -20,6 +22,8 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
             },
         }));
     };
+
+    const [descrptionExtended, setDescrptionExtended] = useState(false)
 
     const { t } = useTranslation();
 
@@ -57,16 +61,30 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
                     >
                     </CardMedia>
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="div" textAlign='left'>
-                            {system.label}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" textAlign='left'>
-                            {system.description}
-                        </Typography>
+                       
+                        <Accordion disableGutters elevation={0} square >
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel2a-content"
+                                id="panel2a-header"
+                                >
+                                <Typography>{system.label}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography>
+                                    {system.description}
+                                </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="success">
+                    <Button 
+                        size="small" 
+                        color="success"
+                        onClick={() => setDescrptionExtended(!descrptionExtended)}
+                    >
                         {t('ui.button.readmore')}
                     </Button>
                 </CardActions>
