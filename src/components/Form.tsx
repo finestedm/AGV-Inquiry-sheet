@@ -55,7 +55,7 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     return steps;
   };
 
-  
+
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
@@ -109,14 +109,16 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
   if (formData) {
     return (
       <Container component='form'>
-        <Stack spacing={6} sx={{ my: 5 }}>
-          <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
+        <Stack spacing={6} sx={{mb: 10}}>
           <Box>
-            <Box className={fadeOut ? 'step fadeout' : 'step'}>
-                {activeStep >= 0 && activeStep < steps.length && steps[activeStep]}
-            </Box>
+            <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           </Box>
           <Box>
+            <Box className={fadeOut ? 'step fadeout' : 'step'}>
+              {activeStep >= 0 && activeStep < steps.length && steps[activeStep]}
+            </Box>
+          </Box>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Stack direction='row'>
               {activeStep !== 0 && (
                 <Button variant="contained" onClick={handleBack}>
