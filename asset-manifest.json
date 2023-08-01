@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "./static/css/main.3b23960a.css",
-    "main.js": "./static/js/main.1004a0a3.js",
+    "main.js": "./static/js/main.6c186668.js",
     "static/media/Jungheinrich-Logo.svg": "./static/media/Jungheinrich-Logo.c6ef8d445a1c742af3c1afa8fdffbec8.svg",
     "static/media/uk.svg": "./static/media/uk.fd46970f89e3fbca473f57e811916ea0.svg",
     "index.html": "./index.html",
     "static/media/poland.svg": "./static/media/poland.4da5f094c814970e3a2878f68eb33c40.svg",
     "main.3b23960a.css.map": "./static/css/main.3b23960a.css.map",
-    "main.1004a0a3.js.map": "./static/js/main.1004a0a3.js.map"
+    "main.6c186668.js.map": "./static/js/main.6c186668.js.map"
   },
   "entrypoints": [
     "static/css/main.3b23960a.css",
-    "static/js/main.1004a0a3.js"
+    "static/js/main.6c186668.js"
   ]
 }
