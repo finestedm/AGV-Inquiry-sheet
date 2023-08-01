@@ -66,8 +66,8 @@ interface Iasrs {
     hoursPerShift: number;
   }
   workConditions: {
-    temperature: number;
-    humidity: number;
+    temperature: number[];
+    humidity: number[];
     freezer: boolean;
     EX: boolean;
     dangerousMaterials: boolean;
@@ -174,8 +174,8 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
           hoursPerShift: 0,
         },
         workConditions: {
-          temperature: 0,
-          humidity: 0,
+          temperature: [20, 30],
+          humidity: [0, 5],
           freezer: false,
           EX: false,
           dangerousMaterials: false,
@@ -199,8 +199,8 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
           hoursPerShift: 0,
         },
         workConditions: {
-          temperature: 0,
-          humidity: 0,
+          temperature: [20, 30],
+          humidity: [0, 5],
           freezer: false,
           EX: false,
           dangerousMaterials: false,
@@ -224,8 +224,8 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
           hoursPerShift: 0,
         },
         workConditions: {
-          temperature: 0,
-          humidity: 0,
+          temperature: [20, 30],
+          humidity: [0, 5],
           freezer: false,
           EX: false,
           dangerousMaterials: false,
@@ -249,8 +249,8 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
           hoursPerShift: 0,
         },
         workConditions: {
-          temperature: 0,
-          humidity: 0,
+          temperature: [20, 30],
+          humidity: [0, 5],
           freezer: false,
           EX: false,
           dangerousMaterials: false,
