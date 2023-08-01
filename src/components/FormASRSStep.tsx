@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { IFormData } from "../App";
-import { Box, Checkbox, FormControl, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography } from "@mui/material";
+import { Box, Checkbox, CircularProgress, FormControl, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography } from "@mui/material";
 import { IHandleInputMethod } from "./Form";
 import { useTranslation } from "react-i18next";
 
@@ -55,13 +55,15 @@ export default function FormASRSStep({ formData, handleInputMethod }: { formData
                             />
                         </Grid>
                         <Grid item xs={6} sm={12} lg={3}>
-                            <TextField
-                                id="system-asrs.workTime.hoursPerWeek"
-                                fullWidth
-                                label={t("system.asrs.workTime.hoursPerWeek")}
-                                disabled
-                                value={formData.system.asrs.workTime.shiftsPerDay * formData.system.asrs.workTime.hoursPerShift * formData.system.asrs.workTime.workDays}
-                            />
+                            <Typography align="left">{t('system.asrs.workTime.hoursPerWeek')}</Typography>
+
+                            <Stack direction='row'>
+                                <CircularProgress
+                                    variant="determinate"
+                                    value={(formData.system.asrs.workTime.shiftsPerDay * formData.system.asrs.workTime.hoursPerShift * formData.system.asrs.workTime.workDays) * 100 / 168}
+                                />
+                                {formData.system.asrs.workTime.shiftsPerDay * formData.system.asrs.workTime.hoursPerShift * formData.system.asrs.workTime.workDays}
+                            </Stack>
                         </Grid>
                     </Grid>
                 </Box>
