@@ -1,11 +1,17 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IFormData } from "../App";
-import { Box, Checkbox, CircularProgress, FormControl, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography } from "@mui/material";
+import { Box, Checkbox, CircularProgress, FormControl, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
 import { IHandleInputMethod } from "./Form";
 import { useTranslation } from "react-i18next";
 
 export default function FormASRSStep({ formData, handleInputMethod }: { formData: IFormData, handleInputMethod: IHandleInputMethod }) {
     const { t } = useTranslation();
+    const theme = useTheme();
+    const [circularValue, setCircularValue] = useState(0)
+
+    useEffect(() => {
+        setCircularValue(formData.system.asrs.workTime.shiftsPerDay * formData.system.asrs.workTime.hoursPerShift * formData.system.asrs.workTime.workDays)
+    }, [formData.system.asrs.workTime.shiftsPerDay, formData.system.asrs.workTime.hoursPerShift, formData.system.asrs.workTime.workDays ])
 
     return (
         <Stack spacing={5}>
@@ -58,11 +64,21 @@ export default function FormASRSStep({ formData, handleInputMethod }: { formData
                             <Typography align="left">{t('system.asrs.workTime.hoursPerWeek')}</Typography>
 
                             <Stack direction='row'>
+                                <Box sx={{ position: 'relative' }}>
                                 <CircularProgress
+                                    sx={{position: 'absolute', left: 0, color: theme.palette.grey[400]}}
+                                    thickness={6}
                                     variant="determinate"
-                                    value={(formData.system.asrs.workTime.shiftsPerDay * formData.system.asrs.workTime.hoursPerShift * formData.system.asrs.workTime.workDays) * 100 / 168}
+                                    value={100}
                                 />
-                                {formData.system.asrs.workTime.shiftsPerDay * formData.system.asrs.workTime.hoursPerShift * formData.system.asrs.workTime.workDays}
+                                <CircularProgress
+                                    sx={{color: circularValue < 80 ? theme.palette.error.main : theme.palette.success.main}}
+                                    thickness={6}
+                                    variant="determinate"
+                                    value={circularValue * 100 / 168}
+                                />
+                                </Box>
+                                {circularValue}
                             </Stack>
                         </Grid>
                     </Grid>
