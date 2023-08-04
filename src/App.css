@@ -32,6 +32,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -49,6 +50,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -62,6 +64,7 @@
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -70,6 +73,6 @@
 .flag-container>img {
   width: auto;
   height: 1rem;
-  object-fit: cover; /* Use contain to maintain aspect ratio and fit within the container */
+  object-fit: cover;
+  /* Use contain to maintain aspect ratio and fit within the container */
 }
-

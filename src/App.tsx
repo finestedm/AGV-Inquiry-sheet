@@ -8,6 +8,7 @@ import pl from './features/multilanguage/pl.json'
 import en from './features/multilanguage/en.json'
 import theme from './theme';
 import { ThemeProvider } from '@mui/material';
+import { Height } from '@mui/icons-material';
 
 // Configure i18next
 i18n
@@ -58,6 +59,22 @@ interface IProject {
   milestones: IMilestones
 }
 
+export interface ILoad {
+  name: string;
+  length: number;
+  width: number;
+  height: number;
+  L2: number;
+  W2: number;
+  W3: number;
+  weightMin: number;
+  weightMax: number;
+  overhang: boolean;
+  material: string;
+  loadSide: string;
+  secured: boolean;
+}
+
 interface Iasrs {
   selected: boolean;
   workTime: {
@@ -81,7 +98,8 @@ interface Iasrs {
       width: number;
       length: number;
     }
-  }
+  },
+  loads: ILoad[]
 }
 
 interface ISystem {
@@ -116,6 +134,23 @@ export interface IFormProps {
 }
 
 function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] {
+
+  const initialLoad: ILoad = {
+    name: "",
+    length: 0,
+    width: 0,
+    height: 0,
+    L2: 0,
+    W2: 0,
+    W3: 0,
+    weightMin: 0,
+    weightMax: 0,
+    overhang: false,
+    material: "",
+    loadSide: "",
+    secured: false,
+  };
+
   const [formData, setFormData] = useState<IFormData>({
     version: '230719beta',
     sales: {
@@ -167,7 +202,7 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
     },
     system: {
       asrs: {
-        selected: false,
+        selected: true,
         workTime: {
           workDays: 0,
           shiftsPerDay: 0,
@@ -189,7 +224,8 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
             width: 0,
             length: 0,
           }
-        }
+        },
+        loads: [initialLoad]
       },
       lrkprk: {
         selected: false,
@@ -214,7 +250,8 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
             width: 0,
             length: 0,
           }
-        }
+        },
+        loads: [initialLoad]
       },
       agv: {
         selected: false,
@@ -239,7 +276,8 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
             width: 0,
             length: 0,
           }
-        }
+        },
+        loads: [initialLoad]
       },
       autovna: {
         selected: false,
@@ -264,7 +302,8 @@ function useInitialFormData(): [IFormData, Dispatch<SetStateAction<IFormData>>] 
             width: 0,
             length: 0,
           }
-        }
+        },
+        loads: [initialLoad]
       },
     },
   })

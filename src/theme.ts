@@ -3,49 +3,36 @@ import { createTheme } from '@mui/material/styles';
 export let theme = createTheme({})
 
 //shadows
-const shadowColor = 'hsla(220, 43%, 11%, 30%)'
-const shadowColor2 = 'hsla(220, 43%, 11%, 8%)'
-const shadowColor3 = 'hsla(220, 43%, 11%, 15%)'
+const shadowColor1 = 'hsla(220, 43%, 11%, 8%)';
+const shadowColor2 = 'hsla(220, 43%, 11%, 15%)';
+const shadowColor3 = 'hsla(220, 43%, 11%, 30%)';
+const shadowColor4 = 'hsla(220, 43%, 11%, 50%)';
 
-const shadow1 = `0px 1px 2px ${shadowColor}`
-const shadow2 = `0px 2px 4px ${shadowColor2}`
-const shadow3 = `0px 5px 10px ${shadowColor2}`
-const shadow4 = `0px 8px 15px ${shadowColor2}`
-const shadow5 = `0px 10px 20px ${shadowColor3}`
-const shadow6 = `0px 12px 25px ${shadowColor3}`
-const shadow7 = `0px 15px 30px ${shadowColor3}`
-const shadow8 = `0px 18px 35px ${shadowColor3}`
-const shadow9 = `0px 20px 40px ${shadowColor3}`
-const shadow10 = `0px 23px 45px ${shadowColor3}`
+const shadow1 = `0px 1px 2px ${shadowColor1}`;
+const shadow2 = `0px 2px 4px ${shadowColor1}`;
+const shadow3 = `0px 4px 6px ${shadowColor1}`;
+const shadow4 = `0px 6px 8px ${shadowColor1}`;
+const shadow5 = `0px 8px 10px ${shadowColor2}`;
+const shadow6 = `0px 10px 12px ${shadowColor2}`;
+const shadow7 = `0px 12px 14px ${shadowColor2}`;
+const shadow8 = `0px 14px 16px ${shadowColor2}`;
+const shadow9 = `0px 16px 18px ${shadowColor2}`;
+const shadow10 = `0px 18px 20px ${shadowColor3}`;
+const shadow11 = `0px 20px 22px ${shadowColor3}`;
+const shadow12 = `0px 22px 24px ${shadowColor3}`;
+const shadow13 = `0px 24px 26px ${shadowColor3}`;
+const shadow14 = `0px 26px 28px ${shadowColor3}`;
+const shadow15 = `0px 28px 30px ${shadowColor3}`;
+const shadow16 = `0px 30px 32px ${shadowColor3}`;
+const shadow17 = `0px 32px 34px ${shadowColor3}`;
+const shadow18 = `0px 34px 36px ${shadowColor4}`;
+const shadow19 = `0px 36px 38px ${shadowColor4}`;
+const shadow20 = `0px 38px 40px ${shadowColor4}`;
+const shadow21 = `0px 40px 42px ${shadowColor4}`;
+const shadow22 = `0px 42px 44px ${shadowColor4}`;
+const shadow23 = `0px 44px 46px ${shadowColor4}`;
+const shadow24 = `0px 46px 48px ${shadowColor4}`;
 
-const shadowsArray = [
-    "none",
-    shadow1,
-    shadow2,
-    shadow3,
-    shadow4,
-    shadow5,
-    shadow6,
-    shadow7,
-    shadow8,
-    shadow9,
-    shadow10,
-    "none", // Add "none" for the missing levels
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-    "none",
-];
 
 //borders
 const borderStandard = `1px solid`
@@ -63,7 +50,12 @@ theme = createTheme({
         },
     },
 
-
+    typography: {
+        fontFamily: [
+            'Manrope', // Primary font
+            'sans-serif',
+        ].join(','),
+    },
 
     shadows: [
         "none",
@@ -77,20 +69,20 @@ theme = createTheme({
         shadow8,
         shadow9,
         shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
-        shadow10,
+        shadow11,
+        shadow12,
+        shadow13,
+        shadow14,
+        shadow15,
+        shadow16,
+        shadow17,
+        shadow18,
+        shadow19,
+        shadow20,
+        shadow21,
+        shadow22,
+        shadow23,
+        shadow24,
 
     ],
     components: {
@@ -110,7 +102,14 @@ theme = createTheme({
                 },
             },
         },
-        
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    minWidth: "10ch", // Customize the minimum width as per your requirement
+                },
+            },
+        },
+
     },
 });
 

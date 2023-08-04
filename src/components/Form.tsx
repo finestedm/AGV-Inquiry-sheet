@@ -1,6 +1,6 @@
 import { Box, Button, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { IFormData, IFormProps } from "../App";
+import { IFormData, IFormProps, ILoad } from "../App";
 import FormStepper from "./FormStepper";
 import FormSalesUnitStep from "./FormSalesUnitStep";
 import FormCustomerStep from "./FormCustomerStep";
@@ -13,7 +13,15 @@ import FormASRSStep from "./FormASRSStep";
 export interface IHandleInputMethod {
   (path: string, value: any): void;
 }
+export interface IHandleLoadChange {
+  (index: number, field: keyof ILoad, value: string | number | boolean): void;
+}
 
+type LoadFieldValue = string | number | boolean | { min: number; max: number };
+
+export interface IHandleAddLoad {
+  (): void;
+}
 
 export default function Form({ formData, setFormData }: IFormProps): JSX.Element {
 
@@ -40,16 +48,16 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     ];
 
     if (formData.system.asrs.selected) {
-      steps.push(<FormASRSStep key="asrs" formData={formData} handleInputMethod={handleInputMethod} />);
+      steps.push(<FormASRSStep key="asrs" formData={formData} handleInputMethod={handleInputMethod} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad} />);
     }
     if (formData.system.lrkprk.selected) {
-      steps.push(<FormASRSStep key="lrkprk" formData={formData} handleInputMethod={handleInputMethod} />);
+      steps.push(<FormASRSStep key="lrkprk" formData={formData} handleInputMethod={handleInputMethod} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad}/>);
     }
     if (formData.system.agv.selected) {
-      steps.push(<FormASRSStep key="agv" formData={formData} handleInputMethod={handleInputMethod} />);
+      steps.push(<FormASRSStep key="agv" formData={formData} handleInputMethod={handleInputMethod} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad}/>);
     }
     if (formData.system.autovna.selected) {
-      steps.push(<FormASRSStep key="autovna" formData={formData} handleInputMethod={handleInputMethod} />);
+      steps.push(<FormASRSStep key="autovna" formData={formData} handleInputMethod={handleInputMethod} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad}/>);
     }
 
     return steps;
@@ -104,12 +112,52 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
     });
   };
 
+  const handleLoadChange = (index: number, field: keyof ILoad, value: LoadFieldValue) => {
+    setFormData((prevFormData) => {
+      const newFormData: IFormData = { ...prevFormData };
+      newFormData.system.asrs.loads[index][field] = value as never;
+      return newFormData;
+    });
+  };
+
+  const handleAddLoad = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      system: {
+        ...prevFormData.system,
+        asrs: {
+          ...prevFormData.system.asrs,
+          loads: [
+            ...prevFormData.system.asrs.loads,
+            {
+              name: "",
+              length: 0,
+              width: 0,
+              height: 0,
+              L2: 0,
+              W2: 0,
+              W3: 0,
+              weightMin: 0,
+              weightMax: 0,
+              overhang: false,
+              material: "",
+              loadSide: "",
+              secured: false,
+            },
+          ],
+        },
+      },
+    }));
+  };
+
+
+
   const steps = generateSteps(formData, handleInputMethod);
 
   if (formData) {
     return (
       <Container component='form'>
-        <Stack spacing={6} sx={{mb: 10}}>
+        <Stack spacing={6} sx={{ mb: 10 }}>
           <Box>
             <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
           </Box>

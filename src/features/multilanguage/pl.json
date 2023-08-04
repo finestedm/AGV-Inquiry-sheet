@@ -79,18 +79,24 @@
         "load": "Wczytaj zapytanie",
         "save": "Zapisz zapytanie"
       },
+      "table": {
+        "newload": "Dodaj nowy ładunek"
+      },
       "readmore": "Dowiedz się więcej"
     }
   },
   "system": {
     "asrs": {
+      "header": "Dane systemu ASRS",
       "label": "Automatyczne systemy magazynowe",
       "labelshort": "ASRS",
       "description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca.",
+      "condensationWarning": "Uwaga: panujące warunki mogą powodowac kondensacje",
       "subheader": {
         "workTime": "Czas pracy",
         "workConditions": "Warunki pracy",
-        "building": "Budynek"
+        "building": "Budynek",
+        "loads": "Ładunki"  
       },
       "workTime": {
         "workDays": "Dni pracy w tygodniu",
