@@ -47,7 +47,7 @@ export default function FormASRSStep({ formData, handleInputMethod }: { formData
                                 marks={[{ value: 1, label: '1' }, { value: 3, label: '3' }]}
                             />
                         </Grid>
-                        <Grid item xs={6} sm={4} lg={3}>
+                        <Grid item xs={8} sm={4} lg={3}>
                             <Typography align="left">{t('system.asrs.workTime.hoursPerShift')}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
@@ -60,10 +60,10 @@ export default function FormASRSStep({ formData, handleInputMethod }: { formData
                                 marks={[{ value: 1, label: '1' }, { value: 8, label: '8' }]}
                             />
                         </Grid>
-                        <Grid item xs={6} sm={12} lg={3}>
+                        <Grid item xs={4} sm={12} lg={3}>
                             <Typography align="left">{t('system.asrs.workTime.hoursPerWeek')}</Typography>
 
-                            <Stack direction='row'>
+                            <Stack direction='row' justifyContent='center' alignItems='center'>
                                 <Box sx={{ position: 'relative' }}>
                                 <CircularProgress
                                     sx={{position: 'absolute', left: 0, color: theme.palette.grey[400]}}
@@ -78,7 +78,9 @@ export default function FormASRSStep({ formData, handleInputMethod }: { formData
                                     value={circularValue * 100 / 168}
                                 />
                                 </Box>
-                                {circularValue}
+                                <Box>
+                                    <Typography variant='h6'>{circularValue}</Typography>
+                                </Box>
                             </Stack>
                         </Grid>
                     </Grid>

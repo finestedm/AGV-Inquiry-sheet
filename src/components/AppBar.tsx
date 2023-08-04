@@ -124,14 +124,14 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
 
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <SaveIcon />
-                                    <Typography>{t('ui-button-inquiry-save')}</Typography>
+                                    <Typography>{t('ui.button.inquiry.save')}</Typography>
                                 </Stack>
                             </MenuItem>
                             <MenuItem>
 
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <UploadIcon />
-                                    <Typography>{t('ui-button-inquiry-load')}</Typography>
+                                    <Typography>{t('ui.button.inquiry.load')}</Typography>
                                     <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
                                 </Stack>
                             </MenuItem>
@@ -165,13 +165,13 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
                             <Button variant="outlined" color='success' onClick={() => saveDataToFile(formData)} sx={{ display: { xs: 'none', md: 'flex' } }}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <SaveIcon />
-                                    <Typography>{t('ui-button-inquiry-save')}</Typography>
+                                    <Typography>{t('ui.button.inquiry.save')}</Typography>
                                 </Stack>
                             </Button>
                             <Button variant="outlined" color='success' component="label" sx={{ display: { xs: 'none', md: 'flex' } }}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <UploadIcon />
-                                    <Typography>{t('ui-button-inquiry-load')}</Typography>
+                                    <Typography>{t('ui.button.inquiry.load')}</Typography>
                                     <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
                                 </Stack>
                             </Button>
