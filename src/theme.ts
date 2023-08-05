@@ -105,11 +105,17 @@ theme = createTheme({
         MuiInputBase: {
             styleOverrides: {
                 root: {
-                    minWidth: "10ch", // Customize the minimum width as per your requirement
+                    minWidth: "12ch", // Customize the minimum width as per your requirement
                 },
             },
         },
-
+        MuiTableCell: {
+            styleOverrides: {
+                root: {
+                    padding: '6px 6px', // Adjust the padding as per your requirements
+                },
+            },
+        },
     },
 });
 
