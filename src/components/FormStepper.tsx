@@ -1,5 +1,4 @@
-import { AppBar, Box, Button, Container, MobileStepper, Step, StepLabel, Stepper } from "@mui/material";
-import { useTransition } from "react";
+import { AppBar, Box, Button, Container, MobileStepper, Step, StepLabel, Stepper, useTheme } from "@mui/material";
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
@@ -10,25 +9,26 @@ interface FormStepperProps {
 }
 
 export default function FormStepper({ activeStep, stepLabels, handleStepClick }: FormStepperProps) {
+  const theme = useTheme()
   return (
     <Box>
       <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
         <AppBar
           position="fixed"
-          sx={{ top: 'auto', bottom: 0 }}
+          sx={{ top: 'auto', bottom: 0, borderTop: `1px solid ${theme.palette.grey[300]}` }}
         >
           <MobileStepper
-            variant="progress" // Use "dots" for dots style, "text" for text label style
+            variant="dots" // Use "dots" for dots style, "text" for text label style
             steps={stepLabels.length}
             position="static"
             activeStep={activeStep}
             nextButton={
-              <Button variant="contained" onClick={() => handleStepClick(activeStep + 1)}>
+              <Button onClick={() => handleStepClick(activeStep + 1)}>
                 <KeyboardArrowRight />
               </Button>
             }
             backButton={
-              <Button variant="contained" onClick={() => handleStepClick(activeStep - 1)}>
+              <Button onClick={() => handleStepClick(activeStep - 1)}>
                 <KeyboardArrowLeft />
               </Button>
             }

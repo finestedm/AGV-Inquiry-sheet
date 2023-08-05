@@ -18,7 +18,8 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                         <TableCell>L2</TableCell>
                         <TableCell>W2</TableCell>
                         <TableCell>W3</TableCell>
-                        <TableCell>Weight</TableCell>
+                        <TableCell>Weight min</TableCell>
+                        <TableCell>Weight max</TableCell>
                         <TableCell>Overhang</TableCell>
                         <TableCell>Material</TableCell>
                         <TableCell>Load side</TableCell>
@@ -67,6 +68,20 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                                     type="number"
                                     value={load.height}
                                     onChange={(e) => handleLoadChange(index, 'height', Number(e.target.value))}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                mm
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </TableCell>
+                            <TableCell>
+                                <TextField
+                                    type="number"
+                                    value={load.L2}
+                                    onChange={(e) => handleLoadChange(index, 'L2', Number(e.target.value))}
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
