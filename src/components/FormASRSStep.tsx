@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { IFormData } from "../App";
 import { Alert, Box, Checkbox, CircularProgress, Container, FormControl, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { IHandleAddLoad, IHandleInputMethod, IHandleLoadChange } from "./Form";
 import { useTranslation } from "react-i18next";
@@ -8,6 +7,7 @@ import { calculateDewPoint } from "../features/variousMethods/dewPointCalculatio
 import LoadTable from "./LoadTable";
 import LoadDimensionPcture from '../images/loadDimensionsPicture.png'
 import LoadDimensionPcture2 from '../images/loadDimensionsPicture2.png'
+import { IFormData } from "../features/interfaces";
 
 
 const criticalElectronicsTemperature = 8
@@ -298,8 +298,8 @@ export default function FormASRSStep({ formData, handleInputMethod, handleLoadCh
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.loads')}</Typography>
                 <Container>
-                    <img style={{width: '100%', maxWidth: 800}} src={LoadDimensionPcture} alt="load dimensions picture" />
-                    <img src={LoadDimensionPcture2} alt="load dimensions picture2" />
+                    <img style={{width: '100%', maxWidth: 800}} src={LoadDimensionPcture} alt="load dimensions" />
+                    <img src={LoadDimensionPcture2} alt="load dimensions 2" />
                 </Container>
                 <LoadTable loads={formData.system.asrs.loads} formData={formData} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad} />
             </Stack>

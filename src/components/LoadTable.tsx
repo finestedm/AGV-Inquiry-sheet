@@ -1,8 +1,8 @@
 import { Button, Checkbox, InputAdornment, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { IHandleAddLoad, IHandleLoadChange } from "./Form";
-import { IFormData, ILoad } from "../App";
 import { useTranslation } from "react-i18next";
 import { PlaylistAdd } from "@mui/icons-material";
+import { IFormData, ILoad } from "../features/interfaces";
 
 export default function LoadTable({ loads, formData, handleLoadChange, handleAddLoad }: { loads: ILoad[], formData: IFormData, handleLoadChange: IHandleLoadChange, handleAddLoad: IHandleAddLoad },) {
     const { t } = useTranslation()

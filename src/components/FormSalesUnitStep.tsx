@@ -1,7 +1,7 @@
 import { Stack, TextField, Typography } from "@mui/material";
-import { IFormData } from "../App";
 import { IHandleInputMethod } from "./Form";
 import { useTranslation } from 'react-i18next';
+import { IFormData } from "../features/interfaces";
 
 export default function FormSalesUnitStep({ formData, handleInputMethod }: { formData: IFormData, handleInputMethod: IHandleInputMethod }) {
 

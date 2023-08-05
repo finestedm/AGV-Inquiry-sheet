@@ -1,6 +1,5 @@
 import { AppBar, Avatar, Box, Button, Container, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
 import { saveAs } from 'file-saver';
-import { IFormData } from "../App";
 import SaveIcon from '@mui/icons-material/Save';
 import UploadIcon from '@mui/icons-material/Upload';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +9,7 @@ import jhLogo from '../images/Jungheinrich-Logo.svg'
 import { SelectChangeEvent } from "@mui/material/Select";
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
+import { IFormData } from "../features/interfaces";
 
 function saveDataToFile(formData: IFormData) {
     const data = JSON.stringify(formData);

@@ -1,6 +1,5 @@
 import { Box, Button, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { IFormData, IFormProps, ILoad } from "../App";
 import FormStepper from "./FormStepper";
 import FormSalesUnitStep from "./FormSalesUnitStep";
 import FormCustomerStep from "./FormCustomerStep";
@@ -9,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import systems from './SystemCard'
 import FormProjectStep from "./FormProjectStep";
 import FormASRSStep from "./FormASRSStep";
+import { IFormData, IFormProps, ILoad } from "../features/interfaces";
 
 export interface IHandleInputMethod {
   (path: string, value: any): void;

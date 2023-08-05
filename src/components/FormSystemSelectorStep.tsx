@@ -1,9 +1,9 @@
 import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Checkbox, Grid, Stack, Typography } from "@mui/material";
 import SystemCard from "./SystemCard";
 import systems from "./SystemCard";
-import { IFormData } from "../App";
 import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
+import { IFormData } from "../features/interfaces";
 
 export interface ISystem {
   url: string;

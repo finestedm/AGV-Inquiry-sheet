@@ -1,11 +1,11 @@
 import { Box, Button, Checkbox, FormControl, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
-import { IFormData } from "../App";
 import { IHandleInputMethod } from "./Form";
 import { useState, Dispatch, SetStateAction, useEffect } from "react";
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
 import { useTranslation } from 'react-i18next';
+import { IFormData } from "../features/interfaces";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;

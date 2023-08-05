@@ -1,10 +1,10 @@
 import { Accordion, AccordionDetails, AccordionSummary, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Divider, Grid, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { IFormData } from '../App';
 import { ISystem } from './FormSystemSelectorStep';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
+import { IFormData } from '../features/interfaces';
 
 export default function SystemCard({ system, formData, setFormData }: { system: ISystem, formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
 
