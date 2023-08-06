@@ -1,5 +1,4 @@
 import { Box, Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, TextFieldProps, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import { IHandleInputMethod } from "./Form";
 import { useTranslation } from 'react-i18next';
 import { MenuProps } from "./FormCustomerStep";
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
@@ -11,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { IFormData } from "../features/interfaces";
+import { IFormData, IHandleInputMethod } from "../features/interfaces";
 
 export default function FormProjectStep({ formData, handleInputMethod }: { formData: IFormData, handleInputMethod: IHandleInputMethod }) {
 

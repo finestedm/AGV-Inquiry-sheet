@@ -107,3 +107,17 @@ export interface IFormProps {
     formData: IFormData;
     setFormData: Dispatch<SetStateAction<IFormData>>;
 }
+
+
+export interface IHandleInputMethod {
+    (path: string, value: any): void;
+}
+export interface IHandleLoadChange {
+    (index: number, field: keyof ILoad, value: string | number | boolean): void;
+}
+
+export type LoadFieldValue = string | number | boolean | { min: number; max: number };
+
+export interface IHandleAddLoad {
+    (): void;
+}

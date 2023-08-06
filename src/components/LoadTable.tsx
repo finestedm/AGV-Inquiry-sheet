@@ -1,10 +1,10 @@
 import { Button, Checkbox, InputAdornment, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import { IHandleAddLoad, IHandleLoadChange } from "./Form";
 import { useTranslation } from "react-i18next";
 import { PlaylistAdd } from "@mui/icons-material";
-import { IFormData, ILoad } from "../features/interfaces";
+import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
+import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 
-export default function LoadTable({ loads, formData, handleLoadChange, handleAddLoad }: { loads: ILoad[], formData: IFormData, handleLoadChange: IHandleLoadChange, handleAddLoad: IHandleAddLoad },) {
+export default function LoadTable({ loads, handleLoadChange, handleAddLoad }: { loads: ILoad[], handleLoadChange: IHandleLoadChange, handleAddLoad: IHandleAddLoad },) {
     const { t } = useTranslation()
     return (
         <TableContainer>
@@ -27,7 +27,7 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {formData.system.asrs.loads.map((load, index) => (
+                    {loads.map((load, index) => (
                         <TableRow key={index}>
                             <TableCell>
                                 <TextField
@@ -38,7 +38,7 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                             <TableCell>
                                 <TextField
                                     type="number"
-                                    value={load.length}
+                                    value={trimLeadingZeros(load.length)}
                                     onChange={(e) => handleLoadChange(index, 'length', Number(e.target.value))}
                                     InputProps={{
                                         endAdornment: (
@@ -52,7 +52,7 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                             <TableCell>
                                 <TextField
                                     type="number"
-                                    value={load.width}
+                                    value={trimLeadingZeros(load.width)}
                                     onChange={(e) => handleLoadChange(index, 'width', Number(e.target.value))}
                                     InputProps={{
                                         endAdornment: (
@@ -66,7 +66,7 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                             <TableCell>
                                 <TextField
                                     type="number"
-                                    value={load.height}
+                                    value={trimLeadingZeros(load.height)}
                                     onChange={(e) => handleLoadChange(index, 'height', Number(e.target.value))}
                                     InputProps={{
                                         endAdornment: (
@@ -80,7 +80,7 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                             <TableCell>
                                 <TextField
                                     type="number"
-                                    value={load.L2}
+                                    value={trimLeadingZeros(load.L2)}
                                     onChange={(e) => handleLoadChange(index, 'L2', Number(e.target.value))}
                                     InputProps={{
                                         endAdornment: (
@@ -94,7 +94,7 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                             <TableCell>
                                 <TextField
                                     type="number"
-                                    value={load.W2}
+                                    value={trimLeadingZeros(load.W2)}
                                     onChange={(e) => handleLoadChange(index, 'W2', Number(e.target.value))}
                                     InputProps={{
                                         endAdornment: (
@@ -108,7 +108,7 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                             <TableCell>
                                 <TextField
                                     type="number"
-                                    value={load.W3}
+                                    value={trimLeadingZeros(load.W3)}
                                     onChange={(e) => handleLoadChange(index, 'W3', Number(e.target.value))}
                                     InputProps={{
                                         endAdornment: (
@@ -122,7 +122,7 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                             <TableCell>
                                 <TextField
                                     type="number"
-                                    value={load.weightMin}
+                                    value={trimLeadingZeros(load.weightMin)}
                                     onChange={(e) => handleLoadChange(index, 'weightMin', Number(e.target.value))}
                                     InputProps={{
                                         endAdornment: (
@@ -136,7 +136,7 @@ export default function LoadTable({ loads, formData, handleLoadChange, handleAdd
                             <TableCell>
                                 <TextField
                                     type="number"
-                                    value={load.weightMax}
+                                    value={trimLeadingZeros(load.weightMax)}
                                     onChange={(e) => handleLoadChange(index, 'weightMax', Number(e.target.value))}
                                     InputProps={{
                                         endAdornment: (

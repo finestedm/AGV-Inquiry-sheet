@@ -8,20 +8,8 @@ import { useTranslation } from 'react-i18next';
 import systems from './SystemCard'
 import FormProjectStep from "./FormProjectStep";
 import FormASRSStep from "./FormASRSStep";
-import { IFormData, IFormProps, ILoad } from "../features/interfaces";
+import { IFormData, IFormProps, IHandleInputMethod, ILoad, LoadFieldValue } from "../features/interfaces";
 
-export interface IHandleInputMethod {
-  (path: string, value: any): void;
-}
-export interface IHandleLoadChange {
-  (index: number, field: keyof ILoad, value: string | number | boolean): void;
-}
-
-type LoadFieldValue = string | number | boolean | { min: number; max: number };
-
-export interface IHandleAddLoad {
-  (): void;
-}
 
 export default function Form({ formData, setFormData }: IFormProps): JSX.Element {
 
