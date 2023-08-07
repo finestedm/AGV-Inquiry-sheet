@@ -108,6 +108,13 @@ export interface IFormProps {
     setFormData: Dispatch<SetStateAction<IFormData>>;
 }
 
+export interface ISystem {
+    url: string;
+    alt: string;
+    label: string;
+    labelShort: string;
+    description: string;
+}
 
 export interface IHandleInputMethod {
     (path: string, value: any): void;

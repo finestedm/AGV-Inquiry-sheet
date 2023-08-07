@@ -11,10 +11,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { IFormData, IHandleInputMethod } from "../features/interfaces";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../features/redux/store";
+import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 
-export default function FormProjectStep({ formData, handleInputMethod }: { formData: IFormData, handleInputMethod: IHandleInputMethod }) {
+export default function FormProjectStep(): JSX.Element {
 
     const { t } = useTranslation();
+    const formData = useSelector((state: RootState) => state.formData);
+    const dispatch = useDispatch();
 
     const supplyChainParts = [
         {
@@ -59,7 +64,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                     multiline
                     rows={3}
                     value={formData.project.goals}
-                    onChange={(e) => handleInputMethod('project.goals', e.target.value)}
+                    onChange={(e) => dispatch(handleInputMethod('project.goals', e.target.value))}
                 />
                 <FormControl>
                     <InputLabel id="project-supplyChainParts-label">{t('project.supplyChainParts')}</InputLabel>
@@ -69,7 +74,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                         multiple
                         input={<OutlinedInput label={t('project-supplyChainParts')} />}
                         value={formData.project.supplyChainParts}
-                        onChange={(e) => handleInputMethod('project.supplyChainParts', e.target.value as string[])}
+                        onChange={(e) => dispatch(handleInputMethod('project.supplyChainParts', e.target.value))}
                         renderValue={(selected) => (selected as string[]).join(', ')}
                         MenuProps={MenuProps}
                     >
@@ -89,7 +94,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                     label={t('project.investmentLocation')}
                     name="project.investmentLocation"
                     value={formData.project.investmentLocation}
-                    onChange={(e) => handleInputMethod('project.investmentLocation', e.target.value)}
+                    onChange={(e) => dispatch(handleInputMethod('project.investmentLocation', e.target.value))}
                 />
                 <Box>
                     <Grid container flex={1} justifyContent='space-between' spacing={2}>
@@ -99,7 +104,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                                 control={
                                     <Checkbox
                                         checked={formData.project.tender}
-                                        onChange={(e) => handleInputMethod('project.tender', e.target.checked)}
+                                        onChange={(e) => dispatch(handleInputMethod('project.tender', e.target.value))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
@@ -113,7 +118,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                                 control={
                                     <Checkbox
                                         checked={formData.project.consultingCompany}
-                                        onChange={(e) => handleInputMethod('project.consultingCompany', e.target.checked)}
+                                        onChange={(e) => dispatch(handleInputMethod('project.consultingCompany', e.target.value))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
@@ -127,7 +132,7 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                                 control={
                                     <Checkbox
                                         checked={formData.project.competitor}
-                                        onChange={(e) => handleInputMethod('project.competitor', e.target.checked)}
+                                        onChange={(e) => dispatch(handleInputMethod('project.competitor', e.target.value))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
@@ -138,44 +143,44 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                     </Grid>
                 </Box>
             </Stack>
-                <Stack spacing={2} sx={{ width: '100%' }}>
-                    <Typography variant="h5" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
-                        <ToggleButtonGroup
-                        sx={{ display: { xs: 'none', sm: 'flex' } }}
-                        exclusive
-                        fullWidth
-                        aria-label="investment type buttons"
-                    >
-                        {investmentTypes.map((investmentType) => (
-                            <ToggleButton
-                                value={investmentType}
-                                key={investmentType}
-                                onClick={() => handleInputMethod('project.investmentType', investmentType)}
-                                selected={formData.project.investmentType === investmentType}
-                            >
-                                {investmentType}
-                            </ToggleButton>
-                        ))}
-                    </ToggleButtonGroup>
-                    <ToggleButtonGroup
-                        sx={{ display: { sm: 'none' } }}
-                        exclusive
-                        aria-label="investment type buttons"
-                        orientation="vertical"
-                        fullWidth
-                    >
-                        {investmentTypes.map((investmentType) => (
-                            <ToggleButton
-                                value={investmentType}
-                                key={investmentType}
-                                onClick={() => handleInputMethod('project.investmentType', investmentType)}
-                                selected={formData.project.investmentType === investmentType}
-                            >
-                                {investmentType}
-                            </ToggleButton>
-                        ))}
-                    </ToggleButtonGroup>
-                </Stack>
+            <Stack spacing={2} sx={{ width: '100%' }}>
+                <Typography variant="h5" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
+                <ToggleButtonGroup
+                    sx={{ display: { xs: 'none', sm: 'flex' } }}
+                    exclusive
+                    fullWidth
+                    aria-label="investment type buttons"
+                >
+                    {investmentTypes.map((investmentType) => (
+                        <ToggleButton
+                            value={investmentType}
+                            key={investmentType}
+                            onClick={() => dispatch(handleInputMethod('project.investmentType', investmentType))}
+                            selected={formData.project.investmentType === investmentType}
+                        >
+                            {investmentType}
+                        </ToggleButton>
+                    ))}
+                </ToggleButtonGroup>
+                <ToggleButtonGroup
+                    sx={{ display: { sm: 'none' } }}
+                    exclusive
+                    aria-label="investment type buttons"
+                    orientation="vertical"
+                    fullWidth
+                >
+                    {investmentTypes.map((investmentType) => (
+                        <ToggleButton
+                            value={investmentType}
+                            key={investmentType}
+                            onClick={() => dispatch(handleInputMethod('project.investmentType', investmentType))}
+                            selected={formData.project.investmentType === investmentType}
+                        >
+                            {investmentType}
+                        </ToggleButton>
+                    ))}
+                </ToggleButtonGroup>
+            </Stack>
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.milestones')}</Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -183,11 +188,11 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                         <Grid container spacing={2}>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
-                                    sx={{width: '100%'}}
+                                    sx={{ width: '100%' }}
                                     label={t('project.milestones.concept')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.concept)}
-                                    onChange={(e) => { handleInputMethod('project.milestones.concept', dayjs(e).format('YYYY-MM-DD')) }}
+                                    onChange={(e) => { dispatch(handleInputMethod('project.milestones.concept', dayjs(e).format('YYYY-MM-DD'))) }}
                                     disablePast
                                     slotProps={{
                                         textField: {
@@ -198,11 +203,11 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             </Grid>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
-                                    sx={{width: '100%'}}
+                                    sx={{ width: '100%' }}
                                     label={t('project.milestones.officialOffer')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.officialOffer)}
-                                    onChange={(e) => handleInputMethod('project.milestones.officialOffer', e)}
+                                    onChange={(e) => dispatch(handleInputMethod('project.milestones.officialOffer', e))}
                                     disablePast
                                     slotProps={{
                                         textField: {
@@ -213,11 +218,11 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             </Grid>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
-                                    sx={{width: '100%'}}
+                                    sx={{ width: '100%' }}
                                     label={t('project.milestones.order')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.order)}
-                                    onChange={(e) => handleInputMethod('project.milestones.order', e)}
+                                    onChange={(e) => dispatch(handleInputMethod('project.milestones.order', e))}
                                     disablePast
                                     slotProps={{
                                         textField: {
@@ -228,11 +233,11 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             </Grid>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
-                                    sx={{width: '100%'}}
+                                    sx={{ width: '100%' }}
                                     label={t('project.milestones.implementationStart')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.implementationStart)}
-                                    onChange={(e) => handleInputMethod('project.milestones.implementationStart', e)}
+                                    onChange={(e) => dispatch(handleInputMethod('project.milestones.implementationStart', e))}
                                     disablePast
                                     slotProps={{
                                         textField: {
@@ -243,11 +248,11 @@ export default function FormProjectStep({ formData, handleInputMethod }: { formD
                             </Grid>
                             <Grid item xs={6} sm={4}>
                                 <DatePicker
-                                    sx={{width: '100%'}}
+                                    sx={{ width: '100%' }}
                                     label={t('project.milestones.launch')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.launch)}
-                                    onChange={(e) => handleInputMethod('project.milestones.launch', e)}
+                                    onChange={(e) => dispatch(handleInputMethod('project.milestones.launch', e))}
                                     disablePast
                                     slotProps={{
                                         textField: {

@@ -5,6 +5,9 @@ import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
 import { useTranslation } from 'react-i18next';
 import { IFormData, IHandleInputMethod } from "../features/interfaces";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../features/redux/store";
+import { setFormData } from "../features/redux/reducers/formDataSlice";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -18,9 +21,12 @@ export const MenuProps = {
   },
 };
 
-export default function FormCustomerStep({ formData, handleInputMethod, setFormData }: { formData: IFormData, handleInputMethod: IHandleInputMethod, setFormData: Dispatch<SetStateAction<IFormData>> }) {
+export default function FormCustomerStep(): JSX.Element {
 
   const { t } = useTranslation();
+
+  const formData = useSelector((state: RootState) => state.formData);
+  const dispatch = useDispatch();
 
   const industries = [
     t('industry.production'),
@@ -37,7 +43,7 @@ export default function FormCustomerStep({ formData, handleInputMethod, setFormD
 
   const [otherIndustry, setOtherIndustry] = useState<string>('')
   const handleIndustryChange = (value: string) => {
-    setFormData((prevFormData) => {
+    setFormData((prevFormData: IFormData) => {
       const newFormData = { ...prevFormData };
 
       newFormData.customer.industryName = [...prevFormData.customer.industryName, value];

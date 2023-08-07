@@ -3,18 +3,10 @@ import SystemCard from "./SystemCard";
 import systems from "./SystemCard";
 import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
-import { IFormData } from "../features/interfaces";
+import { IFormData, ISystem } from "../features/interfaces";
+import { RootState } from "../features/redux/store";
 
-export interface ISystem {
-  url: string;
-  alt: string;
-  label: string;
-  labelShort: string;
-  description: string;
-}
-
-
-export default function FormSystemSelectorStep({ formData, setFormData }: { formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
+export default function FormSystemSelectorStep(): JSX.Element {
   const { t } = useTranslation();
 
   const systems: Record<string, ISystem> = {
@@ -55,7 +47,7 @@ export default function FormSystemSelectorStep({ formData, setFormData }: { form
         <Grid container spacing={3}>
           {
             Object.entries(systems).map(([key, system]) => (
-              <SystemCard system={system} formData={formData} setFormData={setFormData} />
+              <SystemCard system={system} />
             ))
           }
         </Grid>

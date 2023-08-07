@@ -181,26 +181,26 @@ const formDataSlice = createSlice({
     name: 'formData',
     initialState: initialFormDataState,
     reducers: {
-        setFormData: (state, action) => {
+        setFormData: (state: any, action: { payload: any; }) => {
             return { ...state, ...action.payload };
         },
-        handleInputMethod: (state, action: PayloadAction<{ path: string; value: any }>) => {
+        handleInputMethod: (state: any, action: PayloadAction<{ path: string; value: any }>) => {
             const { path, value } = action.payload;
             const keys = path.split('.');
             let currentObject: any = state;
-      
+
             for (let i = 0; i < keys.length - 1; i++) {
-              if (currentObject[keys[i]] === undefined) {
-                currentObject[keys[i]] = {};
-              }
-              currentObject = currentObject[keys[i]];
+                if (currentObject[keys[i]] === undefined) {
+                    currentObject[keys[i]] = {};
+                }
+                currentObject = currentObject[keys[i]];
             }
-      
+
             currentObject[keys[keys.length - 1]] = value;
-          },
-      
-          // Reducer for handling adding a new load
-        handleAddLoad: (state) => {
+        },
+
+        // Reducer for handling adding a new load
+        handleAddLoad: (state: { system: { asrs: { loads: any[]; }; }; }) => {
             const newLoad: ILoad = {
                 name: "",
                 length: 0,
@@ -216,13 +216,24 @@ const formDataSlice = createSlice({
                 loadSide: "",
                 secured: false,
             };
-      
+
             const newLoads = [...state.system.asrs.loads, newLoad];
             state.system.asrs.loads = newLoads;
+        },
+
+        handleSystemChange: (state: { system: { [x: string]: any; }; }, action: PayloadAction<string>) => {
+            const alt = action.payload.toLowerCase();
+            const system = state.system[alt];
+            if (system) {
+                state.system[alt] = {
+                    ...system,
+                    selected: !system.selected,
+                };
+            }
         }
         // ... add other reducers here if needed
     },
 });
 
-export const { handleInputMethod, handleAddLoad } = formDataSlice.actions;
+export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange } = formDataSlice.actions;
 export default formDataSlice.reducer;

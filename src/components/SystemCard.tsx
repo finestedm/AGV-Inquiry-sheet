@@ -1,27 +1,18 @@
 import { Accordion, AccordionDetails, AccordionSummary, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Divider, Grid, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { ISystem } from './FormSystemSelectorStep';
+import { ISystem } from '../features/interfaces';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useState } from 'react';
-import { IFormData } from '../features/interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../features/redux/store';
+import { handleSystemChange } from '../features/redux/reducers/formDataSlice';
 
-export default function SystemCard({ system, formData, setFormData }: { system: ISystem, formData: IFormData; setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
+export default function SystemCard({ system }: { system: ISystem }) {
 
     const theme = useTheme()
 
-    const handleSystemChange = (alt: string) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            system: {
-                ...prevFormData.system,
-                [alt.toLowerCase()]: {
-                    ...prevFormData.system[alt.toLowerCase()],
-                    selected: !prevFormData.system[alt.toLowerCase()].selected,
-                },
-            },
-        }));
-    };
+    const formData = useSelector((state: RootState) => state.formData);
+    const dispatch = useDispatch();
 
     const { t } = useTranslation();
 
@@ -32,7 +23,7 @@ export default function SystemCard({ system, formData, setFormData }: { system: 
             <Card className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : theme.palette.grey[200] }}>
                 <CardActionArea
                     sx={{ position: 'relative' }}
-                    onClick={e => handleSystemChange(system.alt)}
+                    onClick={e => dispatch(handleSystemChange(system.alt))}
                 >
                     <div
                         style={{
