@@ -9,11 +9,15 @@ import systems from './SystemCard'
 import FormProjectStep from "./FormProjectStep";
 import FormASRSStep from "./FormASRSStep";
 import { IFormData, IFormProps, IHandleInputMethod, ILoad, LoadFieldValue } from "../features/interfaces";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from "../features/redux/store";
 
 
-export default function Form({ formData, setFormData }: IFormProps): JSX.Element {
+export default function Form(): JSX.Element {
 
   const { t } = useTranslation();
+
+  const formData = useSelector((state: RootState) => state.formData);
 
   const [activeStep, setActiveStep] = useState<number>(0);
   const stepLabels = [
@@ -29,23 +33,23 @@ export default function Form({ formData, setFormData }: IFormProps): JSX.Element
 
   const generateSteps = (formData: IFormData, handleInputMethod: IHandleInputMethod) => {
     const steps = [
-      <FormSalesUnitStep key="sales" handleInputMethod={handleInputMethod} formData={formData} />,
-      <FormCustomerStep key="customer" handleInputMethod={handleInputMethod} formData={formData} setFormData={setFormData} />,
-      <FormProjectStep key="project" handleInputMethod={handleInputMethod} formData={formData} />,
-      <FormSystemSelectorStep key="system" formData={formData} setFormData={setFormData} />,
+      <FormSalesUnitStep key="sales"  />,
+      <FormCustomerStep key="customer" />,
+      <FormProjectStep key="project"  />,
+      <FormSystemSelectorStep key="system" />,
     ];
 
     if (formData.system.asrs.selected) {
-      steps.push(<FormASRSStep key="asrs" formData={formData} handleInputMethod={handleInputMethod} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad} />);
+      steps.push(<FormASRSStep key="asrs" />);
     }
     if (formData.system.lrkprk.selected) {
-      steps.push(<FormASRSStep key="lrkprk" formData={formData} handleInputMethod={handleInputMethod} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad}/>);
+      steps.push(<FormASRSStep key="lrkprk" />);
     }
     if (formData.system.agv.selected) {
-      steps.push(<FormASRSStep key="agv" formData={formData} handleInputMethod={handleInputMethod} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad}/>);
+      steps.push(<FormASRSStep key="agv" />);
     }
     if (formData.system.autovna.selected) {
-      steps.push(<FormASRSStep key="autovna" formData={formData} handleInputMethod={handleInputMethod} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad}/>);
+      steps.push(<FormASRSStep key="autovna" />);
     }
 
     return steps;
