@@ -3,9 +3,12 @@ import { useTranslation } from "react-i18next";
 import { PlaylistAdd } from "@mui/icons-material";
 import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
+import { handleAddLoad } from "../features/redux/reducers/formDataSlice";
+import { useDispatch } from "react-redux";
 
-export default function LoadTable({ loads, handleLoadChange, handleAddLoad }: { loads: ILoad[], handleLoadChange: IHandleLoadChange, handleAddLoad: IHandleAddLoad },) {
+export default function LoadTable({ loads }: { loads: ILoad[] },) {
     const { t } = useTranslation()
+    const dispatch = useDispatch();
     return (
         <TableContainer>
             <Table size="small">
@@ -180,7 +183,7 @@ export default function LoadTable({ loads, handleLoadChange, handleAddLoad }: { 
                     ))}
                     <TableRow>
                         <TableCell colSpan={6}>
-                            <Button onClick={handleAddLoad}><PlaylistAdd />{t('ui.button.table.newload')}</Button>
+                            <Button onClick={dispatch(handleAddLoad)}><PlaylistAdd />{t('ui.button.table.newload')}</Button>
 
                         </TableCell>
                     </TableRow>

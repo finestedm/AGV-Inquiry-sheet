@@ -14,7 +14,7 @@ import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 
 const criticalElectronicsTemperature = 8
 
-export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: { key: string, handleLoadChange: IHandleLoadChange, handleAddLoad: IHandleAddLoad }) {
+export default function FormASRSStep({ key }: { key: string}) {
     const { t } = useTranslation();
     const theme = useTheme();
     const [circularValue, setCircularValue] = useState(0)
@@ -306,7 +306,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                     <img style={{ width: '100%', maxWidth: 800 }} src={LoadDimensionPicture} alt="load dimensions" />
                     <img src={LoadDimensionPicture2} alt="load dimensions 2" />
                 </Container>
-                <LoadTable loads={formData.system.asrs.loads} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad} />
+                <LoadTable loads={formData.system.asrs.loads} />
             </Stack>
         </Stack >
     )
