@@ -77,7 +77,7 @@ export interface Iasrs {
     loads: ILoad[]
 }
 
-export interface ISystem {
+export interface ISystems {
     asrs: Iasrs;
     lrkprk: Iasrs;
     agv: Iasrs;
@@ -90,7 +90,7 @@ export interface IFormData {
     sales: ISales;
     customer: ICustomer;
     project: IProject;
-    system: ISystem;
+    system: ISystems;
 
 }
 

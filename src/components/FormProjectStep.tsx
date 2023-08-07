@@ -64,7 +64,7 @@ export default function FormProjectStep(): JSX.Element {
                     multiline
                     rows={3}
                     value={formData.project.goals}
-                    onChange={(e) => dispatch(handleInputMethod('project.goals', e.target.value))}
+                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.goals', value: e.target.value }))}
                 />
                 <FormControl>
                     <InputLabel id="project-supplyChainParts-label">{t('project.supplyChainParts')}</InputLabel>
@@ -74,7 +74,7 @@ export default function FormProjectStep(): JSX.Element {
                         multiple
                         input={<OutlinedInput label={t('project-supplyChainParts')} />}
                         value={formData.project.supplyChainParts}
-                        onChange={(e) => dispatch(handleInputMethod('project.supplyChainParts', e.target.value))}
+                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))}
                         renderValue={(selected) => (selected as string[]).join(', ')}
                         MenuProps={MenuProps}
                     >
@@ -94,8 +94,8 @@ export default function FormProjectStep(): JSX.Element {
                     label={t('project.investmentLocation')}
                     name="project.investmentLocation"
                     value={formData.project.investmentLocation}
-                    onChange={(e) => dispatch(handleInputMethod('project.investmentLocation', e.target.value))}
-                />
+                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.investmentLocation', value: e.target.value }))}
+                    />
                 <Box>
                     <Grid container flex={1} justifyContent='space-between' spacing={2}>
                         <Grid item>
@@ -104,7 +104,7 @@ export default function FormProjectStep(): JSX.Element {
                                 control={
                                     <Checkbox
                                         checked={formData.project.tender}
-                                        onChange={(e) => dispatch(handleInputMethod('project.tender', e.target.value))}
+                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.tender', value: e.target.value }))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
@@ -118,7 +118,7 @@ export default function FormProjectStep(): JSX.Element {
                                 control={
                                     <Checkbox
                                         checked={formData.project.consultingCompany}
-                                        onChange={(e) => dispatch(handleInputMethod('project.consultingCompany', e.target.value))}
+                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.consultingCompany', value: e.target.value }))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
@@ -132,7 +132,7 @@ export default function FormProjectStep(): JSX.Element {
                                 control={
                                     <Checkbox
                                         checked={formData.project.competitor}
-                                        onChange={(e) => dispatch(handleInputMethod('project.competitor', e.target.value))}
+                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.competitor', value: e.target.value }))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
@@ -155,7 +155,7 @@ export default function FormProjectStep(): JSX.Element {
                         <ToggleButton
                             value={investmentType}
                             key={investmentType}
-                            onClick={() => dispatch(handleInputMethod('project.investmentType', investmentType))}
+                            onClick={() => dispatch(handleInputMethod({ path: 'project.investmentType', value: investmentType }))}
                             selected={formData.project.investmentType === investmentType}
                         >
                             {investmentType}
@@ -173,7 +173,7 @@ export default function FormProjectStep(): JSX.Element {
                         <ToggleButton
                             value={investmentType}
                             key={investmentType}
-                            onClick={() => dispatch(handleInputMethod('project.investmentType', investmentType))}
+                            onClick={() => dispatch(handleInputMethod({ path: 'project.investmentType', value: investmentType }))}
                             selected={formData.project.investmentType === investmentType}
                         >
                             {investmentType}
@@ -192,7 +192,7 @@ export default function FormProjectStep(): JSX.Element {
                                     label={t('project.milestones.concept')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.concept)}
-                                    onChange={(e) => { dispatch(handleInputMethod('project.milestones.concept', dayjs(e).format('YYYY-MM-DD'))) }}
+                                    onChange={(e) => { dispatch(handleInputMethod({ path: 'project.milestones.concept', value: dayjs(e).format('YYYY-MM-DD') })) }}
                                     disablePast
                                     slotProps={{
                                         textField: {
@@ -207,7 +207,7 @@ export default function FormProjectStep(): JSX.Element {
                                     label={t('project.milestones.officialOffer')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.officialOffer)}
-                                    onChange={(e) => dispatch(handleInputMethod('project.milestones.officialOffer', e))}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.officialOffer', value: e }))}
                                     disablePast
                                     slotProps={{
                                         textField: {
@@ -222,7 +222,7 @@ export default function FormProjectStep(): JSX.Element {
                                     label={t('project.milestones.order')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.order)}
-                                    onChange={(e) => dispatch(handleInputMethod('project.milestones.order', e))}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.order', value: e }))}
                                     disablePast
                                     slotProps={{
                                         textField: {
@@ -237,7 +237,7 @@ export default function FormProjectStep(): JSX.Element {
                                     label={t('project.milestones.implementationStart')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.implementationStart)}
-                                    onChange={(e) => dispatch(handleInputMethod('project.milestones.implementationStart', e))}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.implementationStart', value: e }))}
                                     disablePast
                                     slotProps={{
                                         textField: {
@@ -252,7 +252,7 @@ export default function FormProjectStep(): JSX.Element {
                                     label={t('project.milestones.launch')}
                                     format='DD-MM-YYYY'
                                     value={dayjs(formData.project.milestones.launch)}
-                                    onChange={(e) => dispatch(handleInputMethod('project.milestones.launch', e))}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.launch', value: e }))}
                                     disablePast
                                     slotProps={{
                                         textField: {

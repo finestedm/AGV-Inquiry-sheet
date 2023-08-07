@@ -11,6 +11,7 @@ import FormASRSStep from "./FormASRSStep";
 import { IFormData, IFormProps, IHandleInputMethod, ILoad, LoadFieldValue } from "../features/interfaces";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
+import { handleInputMethod, setFormData } from "../features/redux/reducers/formDataSlice";
 
 
 export default function Form(): JSX.Element {
@@ -31,11 +32,12 @@ export default function Form(): JSX.Element {
     formData.system.autovna.selected ? t('steps.systems.autovna') : undefined,
   ].filter((label) => label !== undefined) as string[];
 
-  const generateSteps = (formData: IFormData, handleInputMethod: IHandleInputMethod) => {
+  const generateSteps = (formData: IFormData) => {
+
     const steps = [
-      <FormSalesUnitStep key="sales"  />,
+      <FormSalesUnitStep key="sales" />,
       <FormCustomerStep key="customer" />,
-      <FormProjectStep key="project"  />,
+      <FormProjectStep key="project" />,
       <FormSystemSelectorStep key="system" />,
     ];
 
@@ -82,69 +84,8 @@ export default function Form(): JSX.Element {
     }, 500);
   };
 
-  const handleInputMethod: IHandleInputMethod = function (path, value) {
-    setFormData((prevFormData) => {
-      const newFormData: IFormData = { ...prevFormData };
-      const keys = path.split('.');
-      let currentObject: any = newFormData;
 
-      // Iterate through nested keys to access the nested property
-      for (let i = 0; i < keys.length - 1; i++) {
-        if (currentObject[keys[i]] === undefined) {
-          // Create empty objects if they don't exist in the nested structure
-          currentObject[keys[i]] = {};
-        }
-        currentObject = currentObject[keys[i]];
-      }
-
-      // Update the value of the nested property
-      currentObject[keys[keys.length - 1]] = value;
-
-      return newFormData;
-    });
-  };
-
-  const handleLoadChange = (index: number, field: keyof ILoad, value: LoadFieldValue) => {
-    setFormData((prevFormData) => {
-      const newFormData: IFormData = { ...prevFormData };
-      newFormData.system.asrs.loads[index][field] = value as never;
-      return newFormData;
-    });
-  };
-
-  const handleAddLoad = () => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      system: {
-        ...prevFormData.system,
-        asrs: {
-          ...prevFormData.system.asrs,
-          loads: [
-            ...prevFormData.system.asrs.loads,
-            {
-              name: "",
-              length: 0,
-              width: 0,
-              height: 0,
-              L2: 0,
-              W2: 0,
-              W3: 0,
-              weightMin: 0,
-              weightMax: 0,
-              overhang: false,
-              material: "",
-              loadSide: "",
-              secured: false,
-            },
-          ],
-        },
-      },
-    }));
-  };
-
-
-
-  const steps = generateSteps(formData, handleInputMethod);
+  const steps = generateSteps(formData);
 
   if (formData) {
     return (

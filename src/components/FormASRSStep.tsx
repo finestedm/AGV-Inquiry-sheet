@@ -40,7 +40,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'workDayse'}
                                 value={formData.system.asrs.workTime.workDays}
-                                onChange={(e, v) => dispatch(handleInputMethod('system.asrs.workTime.workDays', v))}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workTime.workDays', value: v }))}
                                 valueLabelDisplay="auto"
                                 min={1}
                                 max={7}
@@ -53,7 +53,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'shiftsPerDay'}
                                 value={formData.system.asrs.workTime.shiftsPerDay}
-                                onChange={(e, v) => dispatch(handleInputMethod('system.asrs.workTime.shiftsPerDay', v))}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workTime.shiftsPerDay', value: v }))}
                                 valueLabelDisplay="auto"
                                 min={1}
                                 max={3}
@@ -66,7 +66,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'hoursPerShift'}
                                 value={formData.system.asrs.workTime.hoursPerShift}
-                                onChange={(e, v) => dispatch(handleInputMethod('system.asrs.workTime.hoursPerShift', v))}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workTime.hoursPerShift', value: v }))}
                                 valueLabelDisplay="auto"
                                 min={1}
                                 max={8}
@@ -114,7 +114,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'Temperature range'}
                                 value={formData.system.asrs.workConditions.temperature}
-                                onChange={(e, v) => dispatch(handleInputMethod('system.asrs.workConditions.temperature', v))}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.temperature', value: v }))}
                                 valueLabelDisplay="auto"
                                 min={-30}
                                 max={60}
@@ -127,7 +127,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'Humidity range'}
                                 value={formData.system.asrs.workConditions.humidity}
-                                onChange={(e, v) => dispatch(handleInputMethod('system.asrs.workConditions.humidity', v))}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.humidity', value: v }))}
                                 valueLabelDisplay="auto"
                                 min={0}
                                 max={100}
@@ -148,7 +148,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                         control={
                                             <Checkbox
                                                 checked={formData.system.asrs.workConditions.freezer || formData.system.asrs.workConditions.temperature[0] < 0}
-                                                onChange={(e) => dispatch(handleInputMethod('system.asrs.workConditions.freezer', e.target.checked))}
+                                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.freezer', value: e.target.checked }))}
                                                 inputProps={{ 'aria-label': 'controlled' }}
                                             />
                                         }
@@ -160,7 +160,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                         control={
                                             <Checkbox
                                                 checked={formData.system.asrs.workConditions.EX}
-                                                onChange={(e) => dispatch(handleInputMethod('system.asrs.workConditions.EX', e.target.checked))}
+                                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.EX', value: e.target.checked }))}
                                                 inputProps={{ 'aria-label': 'controlled' }}
                                             />
                                         }
@@ -172,7 +172,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                         control={
                                             <Checkbox
                                                 checked={formData.system.asrs.workConditions.dangerousMaterials}
-                                                onChange={(e) => dispatch(handleInputMethod('system.asrs.workConditions.dangerousMaterials', e.target.checked))}
+                                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.dangerousMaterials', value: e.target.checked }))}
                                                 inputProps={{ 'aria-label': 'controlled' }}
                                             />
                                         }
@@ -190,7 +190,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                 multiline
                                 rows={4}
                                 value={formData.system.asrs.workConditions.other}
-                                onChange={(e) => dispatch(handleInputMethod('system.asrs.workConditions.other', e.target.value))}
+                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.other', value: e.target.value }))}
                             />
                         </Grid>
                     </Grid>
@@ -204,7 +204,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                             <Typography>{t('system.asrs.building.existing')}</Typography>
                             <Switch
                                 checked={formData.system.asrs.building.new}
-                                onChange={(e) => dispatch(handleInputMethod('system.asrs.building.new', e.target.checked))}
+                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.new', value: e.target.checked }))}
                                 inputProps={{ 'aria-label': 'controlled' }}
                             />
                             <Typography>{t('system.asrs.building.new')}</Typography>
@@ -216,7 +216,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                             control={
                                 <Checkbox
                                     checked={formData.system.asrs.building.silo}
-                                    onChange={(e) => dispatch(handleInputMethod('system.asrs.building.silo', e.target.checked))}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.silo', value: e.target.checked }))}
                                     inputProps={{ 'aria-label': 'controlled' }}
                                 />
                             }
@@ -236,7 +236,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                     label={t("system.asrs.building.existingBuilding.height")}
                                     type="number"
                                     value={formData.system.asrs.building.existingBuilding.height}
-                                    onChange={(e) => dispatch(handleInputMethod('system.asrs.building.existingBuilding.height', e.target.value))}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.existingBuilding.height', value: e.target.value }))}
                                     inputProps={{
                                         min: 1,
                                         max: 30,
@@ -259,7 +259,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                     label={t("system.asrs.building.existingBuilding.width")}
                                     type="number"
                                     value={formData.system.asrs.building.existingBuilding.width}
-                                    onChange={(e) => dispatch(handleInputMethod('system.asrs.building.existingBuilding.width', e.target.value))}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.existingBuilding.width', value: e.target.value }))}
                                     inputProps={{
                                         min: 5,
                                         max: 1000,
@@ -281,7 +281,7 @@ export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: {
                                     label={t("system.asrs.building.existingBuilding.length")}
                                     type="number"
                                     value={formData.system.asrs.building.existingBuilding.length}
-                                    onChange={(e) => dispatch(handleInputMethod('system.asrs.building.existingBuilding.length', e.target.value))}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.existingBuilding.length', value: e.target.value }))}
                                     inputProps={{
                                         min: 5,
                                         max: 1000,
