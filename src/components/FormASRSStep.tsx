@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { AcUnit, Warning, Whatshot } from "@mui/icons-material";
 import { calculateDewPoint } from "../features/variousMethods/dewPointCalculation";
 import LoadTable from "./LoadTable";
-import LoadDimensionPcture from '../images/loadDimensionsPicture.png'
-import LoadDimensionPcture2 from '../images/loadDimensionsPicture2.png'
+import LoadDimensionPicture from '../images/loadDimensionsPicture.png'
+import LoadDimensionPicture2 from '../images/loadDimensionsPicture2.png'
 import { IFormData, IHandleAddLoad, IHandleInputMethod, IHandleLoadChange } from "../features/interfaces";
 
 
@@ -297,8 +297,8 @@ export default function FormASRSStep({ formData, handleInputMethod, handleLoadCh
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.loads')}</Typography>
                 <Container>
-                    <img style={{width: '100%', maxWidth: 800}} src={LoadDimensionPcture} alt="load dimensions" />
-                    <img src={LoadDimensionPcture2} alt="load dimensions 2" />
+                    <img style={{width: '100%', maxWidth: 800}} src={LoadDimensionPicture} alt="load dimensions" />
+                    <img src={LoadDimensionPicture2} alt="load dimensions 2" />
                 </Container>
                 <LoadTable loads={formData.system.asrs.loads} handleLoadChange={handleLoadChange} handleAddLoad={handleAddLoad} />
             </Stack>
