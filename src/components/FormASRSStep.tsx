@@ -14,7 +14,7 @@ import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 
 const criticalElectronicsTemperature = 8
 
-export default function FormASRSStep({ handleLoadChange, handleAddLoad }: { handleLoadChange: IHandleLoadChange, handleAddLoad: IHandleAddLoad }) {
+export default function FormASRSStep({ key, handleLoadChange, handleAddLoad }: { key: string, handleLoadChange: IHandleLoadChange, handleAddLoad: IHandleAddLoad }) {
     const { t } = useTranslation();
     const theme = useTheme();
     const [circularValue, setCircularValue] = useState(0)

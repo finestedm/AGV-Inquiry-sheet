@@ -10,6 +10,9 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
 import { IFormData } from "../features/interfaces";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../features/redux/store";
+import { setFormData } from "../features/redux/reducers/formDataSlice";
 
 function saveDataToFile(formData: IFormData) {
     const data = JSON.stringify(formData);
@@ -39,7 +42,7 @@ function loadFile(e: React.ChangeEvent<HTMLInputElement>, formData: IFormData, s
     }
 }
 
-export default function TopBar({ formData, setFormData }: { formData: IFormData, setFormData: React.Dispatch<React.SetStateAction<IFormData>> }) {
+export default function TopBar(): JSX.Element {
 
     const showSaveInquiryText = useMediaQuery('(min-width: 600px)');
 
@@ -48,6 +51,9 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
     };
 
     const { t, i18n } = useTranslation();
+
+    const formData = useSelector((state: RootState) => state.formData);
+    const dispatch = useDispatch();
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -132,7 +138,7 @@ export default function TopBar({ formData, setFormData }: { formData: IFormData,
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <UploadIcon />
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
+                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, dispatch(setFormData))} />
                                 </Stack>
                             </MenuItem>
                         </Menu>
