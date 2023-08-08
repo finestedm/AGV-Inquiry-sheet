@@ -27,7 +27,7 @@ export default function FormCustomerStep(): JSX.Element {
   const formData = useSelector((state: RootState) => state.formData);
   const dispatch = useDispatch();
 
-  const industries = [
+  const industries: string[] = [
     t('industry.production'),
     t('industry.trade'),
     t('industry.logistics'),
@@ -145,7 +145,7 @@ export default function FormCustomerStep(): JSX.Element {
           >
             {industries.map((name) => (
               <MenuItem key={name} value={name}>
-                <Checkbox checked={formData.customer.industryName.indexOf(name) > -1} />
+                <Checkbox checked={formData.customer.industryName.includes(name)} />
                 <ListItemText primary={name} />
               </MenuItem>
             ))}
@@ -159,7 +159,7 @@ export default function FormCustomerStep(): JSX.Element {
             onChange={(e) => setOtherIndustry(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                dispatch(handleIndustryChange(((e.target as HTMLInputElement) as HTMLInputElement).value));
+                dispatch(handleIndustryChange(e.target.value));
               }
             }}
           />
@@ -228,7 +228,7 @@ export default function FormCustomerStep(): JSX.Element {
           value={formData.customer.salesHistoryValue === undefined ? '' : (Number(formData.customer.salesHistoryValue)).toLocaleString('en-US').replaceAll(',', ' ')}
           onChange={(e) => {
             const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
-            hasDigits && dispatch(handleInputMethod({path:'customer.salesHistoryValue', value: e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, '')}));
+            hasDigits && dispatch(handleInputMethod({ path: 'customer.salesHistoryValue', value: e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, '') }));
           }}
           InputProps={{
             // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,

@@ -109,6 +109,7 @@ export interface IFormProps {
 }
 
 export interface ISystem {
+    [key: string]: string;
     url: string;
     alt: string;
     label: string;

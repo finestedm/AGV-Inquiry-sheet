@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../features/redux/store';
 import { handleSystemChange } from '../features/redux/reducers/formDataSlice';
 
-export default function SystemCard({ system }: { system: ISystem }) {
+export default function SystemCard({ system }: { system: ISystem }): JSX.Element {
 
     const theme = useTheme()
 
@@ -16,8 +16,8 @@ export default function SystemCard({ system }: { system: ISystem }) {
 
     const { t } = useTranslation();
 
-    const systemSelected = formData.system[(system.alt).toLowerCase()].selected
-
+    const systemSelected = formData.system.asrs.selected;
+    
     return (
         <Grid item xs={12} md={6}>
             <Card className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : theme.palette.grey[200] }}>

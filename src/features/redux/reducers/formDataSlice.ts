@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ILoad } from '../../interfaces';
+import { ILoad, LoadFieldValue } from '../../interfaces';
 
 const initialLoad: ILoad = {
     name: "",
@@ -230,10 +230,21 @@ const formDataSlice = createSlice({
                     selected: !system.selected,
                 };
             }
-        }
+        },
+
+        handleLoadChange: (
+            state: typeof initialFormDataState, // Specify the type of your state
+            action: PayloadAction<{ index: number; field: keyof ILoad; value: LoadFieldValue }>
+        ) => {
+            const { index, field, value } = action.payload;
+            const newFormData = { ...state };
+            newFormData.system.asrs.loads[index][field] = value as never;
+            return newFormData;
+        },
+
         // ... add other reducers here if needed
     },
 });
 
-export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange } = formDataSlice.actions;
+export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange} = formDataSlice.actions;
 export default formDataSlice.reducer;
