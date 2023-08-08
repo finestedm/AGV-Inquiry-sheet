@@ -4,10 +4,14 @@ import { PlaylistAdd } from "@mui/icons-material";
 import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import { handleAddLoad, handleLoadChange } from "../features/redux/reducers/formDataSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../features/redux/store";
 
-export default function LoadTable({ loads }: { loads: ILoad[] },) {
+export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
+
+    const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
+
     const dispatch = useDispatch();
     return (
         <TableContainer>
@@ -30,7 +34,7 @@ export default function LoadTable({ loads }: { loads: ILoad[] },) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {loads.map((load, index) => (
+                    {selectedSystemLoads.map((load, index) => (
                         <TableRow key={index}>
                             <TableCell>
                                 <TextField
@@ -183,7 +187,7 @@ export default function LoadTable({ loads }: { loads: ILoad[] },) {
                     ))}
                     <TableRow>
                         <TableCell colSpan={6}>
-                            <Button onClick={() => dispatch(handleAddLoad)}><PlaylistAdd />{t('ui.button.table.newload')}</Button>
+                            <Button onClick={() => dispatch(handleAddLoad(selectedSystem))}><PlaylistAdd />{t('ui.button.table.newload')}</Button>
 
                         </TableCell>
                     </TableRow>

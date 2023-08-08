@@ -306,7 +306,7 @@ export default function FormASRSStep({ key }: { key: string}) {
                     <img style={{ width: '100%', maxWidth: 800 }} src={LoadDimensionPicture} alt="load dimensions" />
                     <img src={LoadDimensionPicture2} alt="load dimensions 2" />
                 </Container>
-                <LoadTable loads={formData.system.asrs.loads} />
+                <LoadTable selectedSystem='asrs' />
             </Stack>
         </Stack >
     )

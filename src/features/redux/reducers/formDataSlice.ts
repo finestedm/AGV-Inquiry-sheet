@@ -200,9 +200,15 @@ const formDataSlice = createSlice({
         },
 
         // Reducer for handling adding a new load
-        handleAddLoad: (state: { system: { asrs: { loads: any[]; }; }; }) => {
+        handleAddLoad: (
+            state: IFormData, // Use the correct type for state
+            action: PayloadAction<string> // PayloadAction with the system name
+        ) => {
+            const { payload: systemName } = action; // Get the system name from the payload
+
+            // Create a new load
             const newLoad: ILoad = {
-                name: "",
+                name: '',
                 length: 0,
                 width: 0,
                 height: 0,
@@ -212,13 +218,26 @@ const formDataSlice = createSlice({
                 weightMin: 0,
                 weightMax: 0,
                 overhang: false,
-                material: "",
-                loadSide: "",
+                material: '',
+                loadSide: '',
                 secured: false,
             };
 
-            const newLoads = [...state.system.asrs.loads, newLoad];
-            state.system.asrs.loads = newLoads;
+            // Determine the appropriate system to update
+            const updatedSystemKey = systemName.toLowerCase();
+            const updatedSystemLoads = state.system[updatedSystemKey].loads.concat(newLoad);
+
+            // Update the state with the new loads
+            return {
+                ...state,
+                system: {
+                    ...state.system,
+                    [updatedSystemKey]: {
+                        ...state.system[updatedSystemKey],
+                        loads: updatedSystemLoads,
+                    },
+                },
+            };
         },
 
         handleSystemChange: (state: { system: { [x: string]: any; }; }, action: PayloadAction<string>) => {
@@ -233,14 +252,26 @@ const formDataSlice = createSlice({
         },
 
         handleLoadChange: (
-            state: typeof initialFormDataState, // Specify the type of your state
-            action: PayloadAction<{ index: number; field: keyof ILoad; value: LoadFieldValue }>
+            state: IFormData, // Use the correct type for state
+            action: PayloadAction<{ index: number; field: keyof ILoad; value: number | string | boolean }>
         ) => {
             const { index, field, value } = action.payload;
-            const newFormData = { ...state };
-            newFormData.system.asrs.loads[index][field] = value as never;
-            return newFormData;
+
+            // Create a deep copy of the state using Immer and update the necessary value
+            return {
+                ...state,
+                system: {
+                    ...state.system,
+                    asrs: {
+                        ...state.system.asrs,
+                        loads: state.system.asrs.loads.map((load, i) =>
+                            i === index ? { ...load, [field]: value } : load
+                        ),
+                    },
+                },
+            };
         },
+
 
         handleIndustryChange: (state, action) => {
             const { industryName, value } = action.payload;
