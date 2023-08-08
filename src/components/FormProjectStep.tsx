@@ -104,7 +104,7 @@ export default function FormProjectStep(): JSX.Element {
                                 control={
                                     <Checkbox
                                         checked={formData.project.tender}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.tender', value: e.target.value }))}
+                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.tender', value: e.target.checked }))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
@@ -118,7 +118,7 @@ export default function FormProjectStep(): JSX.Element {
                                 control={
                                     <Checkbox
                                         checked={formData.project.consultingCompany}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.consultingCompany', value: e.target.value }))}
+                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.consultingCompany', value: e.target.checked }))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }
@@ -132,7 +132,7 @@ export default function FormProjectStep(): JSX.Element {
                                 control={
                                     <Checkbox
                                         checked={formData.project.competitor}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.competitor', value: e.target.value }))}
+                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.competitor', value: e.target.checked }))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                 }

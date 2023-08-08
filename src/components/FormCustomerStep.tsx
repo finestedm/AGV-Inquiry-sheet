@@ -4,9 +4,10 @@ import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
 import { useTranslation } from 'react-i18next';
 import { IFormData } from "../features/interfaces";
+import { Dispatch } from 'redux'
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
-import { handleInputMethod, setFormData } from "../features/redux/reducers/formDataSlice";
+import { handleIndustryChange, handleInputMethod, setFormData } from "../features/redux/reducers/formDataSlice";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -41,15 +42,6 @@ export default function FormCustomerStep(): JSX.Element {
   ];
 
   const [otherIndustry, setOtherIndustry] = useState<string>('')
-  const handleIndustryChange = (value: string) => {
-    setFormData((prevFormData: IFormData) => {
-      const newFormData = { ...prevFormData };
-
-      newFormData.customer.industryName = [...prevFormData.customer.industryName, value];
-
-      return newFormData;
-    });
-  };
 
   function isValidEmail() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -159,7 +151,7 @@ export default function FormCustomerStep(): JSX.Element {
             onChange={(e) => setOtherIndustry(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                dispatch(handleIndustryChange(e.target.value));
+                dispatch(handleIndustryChange({ industryName: formData.customer.industryName, value: (e.target as HTMLInputElement).value }));
               }
             }}
           />

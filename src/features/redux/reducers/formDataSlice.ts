@@ -242,9 +242,14 @@ const formDataSlice = createSlice({
             return newFormData;
         },
 
+        handleIndustryChange: (state, action) => {
+            const { industryName, value } = action.payload;
+            state.customer.industryName = [...industryName, value];
+        },
+
         // ... add other reducers here if needed
     },
 });
 
-export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange} = formDataSlice.actions;
+export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange } = formDataSlice.actions;
 export default formDataSlice.reducer;
