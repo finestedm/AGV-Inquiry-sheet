@@ -46,7 +46,7 @@ export interface ILoad {
     weightMax: number;
     overhang: boolean;
     material: string;
-    loadSide: string;
+    loadSide: boolean;
     secured: boolean;
 }
 
@@ -82,7 +82,7 @@ export interface ISystems {
     lrkprk: Iasrs;
     agv: Iasrs;
     autovna: Iasrs;
-    [key: string]: Iasrs; // Add an index signature
+    [key: string]: Iasrs; 
 }
 
 export interface IFormData {
@@ -103,10 +103,6 @@ export interface IMilestones {
     [key: string]: Date; // Index signature
 }
 
-export interface IFormProps {
-    formData: IFormData;
-    setFormData: Dispatch<SetStateAction<IFormData>>;
-}
 
 export interface ISystem {
     [key: string]: string;

@@ -170,8 +170,8 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                 <Stack direction='row' alignItems='center'>
                                     <Typography>W</Typography>
                                     <Switch
-                                        checked={load.loadSide === "L"}
-                                        onChange={() => dispatch(handleLoadChange({ index, field: 'loadSide', value: load.loadSide === 'W' ? 'L' : "W" }))}
+                                        checked={load.loadSide}
+                                        onChange={() => dispatch(handleLoadChange({ index, field: 'loadSide', value: !load.loadSide }))}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                     <Typography>L</Typography>

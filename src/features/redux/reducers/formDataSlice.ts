@@ -13,7 +13,7 @@ const initialLoad: ILoad = {
     weightMax: 0,
     overhang: false,
     material: "",
-    loadSide: "",
+    loadSide: false,
     secured: false,
 };
 
@@ -219,7 +219,7 @@ const formDataSlice = createSlice({
                 weightMax: 0,
                 overhang: false,
                 material: '',
-                loadSide: '',
+                loadSide: false,
                 secured: false,
             };
 

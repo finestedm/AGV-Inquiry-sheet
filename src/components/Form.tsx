@@ -5,14 +5,11 @@ import FormSalesUnitStep from "./FormSalesUnitStep";
 import FormCustomerStep from "./FormCustomerStep";
 import FormSystemSelectorStep from "./FormSystemSelectorStep";
 import { useTranslation } from 'react-i18next';
-import systems from './SystemCard'
 import FormProjectStep from "./FormProjectStep";
 import FormASRSStep from "./FormASRSStep";
-import { IFormData, IFormProps, IHandleInputMethod, ILoad, LoadFieldValue } from "../features/interfaces";
+import { IFormData } from "../features/interfaces";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
-import { handleInputMethod, setFormData } from "../features/redux/reducers/formDataSlice";
-
 
 export default function Form(): JSX.Element {
 
