@@ -3,7 +3,7 @@ import { useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
 import { useTranslation } from 'react-i18next';
-import { IFormData, IHandleInputMethod } from "../features/interfaces";
+import { IFormData } from "../features/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleInputMethod, setFormData } from "../features/redux/reducers/formDataSlice";

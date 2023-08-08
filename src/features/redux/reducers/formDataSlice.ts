@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ILoad, LoadFieldValue } from '../../interfaces';
+import { IFormData, ILoad, LoadFieldValue } from '../../interfaces';
 
 const initialLoad: ILoad = {
     name: "",
@@ -17,7 +17,7 @@ const initialLoad: ILoad = {
     secured: false,
 };
 
-const initialFormDataState = {
+const initialFormDataState: IFormData = {
 
     version: '230719beta',
     sales: {
