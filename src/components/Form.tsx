@@ -10,6 +10,7 @@ import FormASRSStep from "./FormASRSStep";
 import { IFormData } from "../features/interfaces";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
+import ScrollButton from "./MobileScrollButton";
 
 export default function Form(): JSX.Element {
 
@@ -111,6 +112,7 @@ export default function Form(): JSX.Element {
             </Stack>
           </Box>
         </Stack>
+        <ScrollButton />
       </Container >
     );
   } else {
