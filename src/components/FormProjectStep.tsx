@@ -53,7 +53,7 @@ export default function FormProjectStep(): JSX.Element {
     ];
 
     return (
-        <Stack spacing={5}>
+        <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.various')}</Typography>

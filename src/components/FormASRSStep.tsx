@@ -1,12 +1,11 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Alert, Box, Checkbox, CircularProgress, Container, FormControl, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Alert, Box, Checkbox, CircularProgress, Container, FormControl, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { AcUnit, Warning, Whatshot } from "@mui/icons-material";
 import { calculateDewPoint } from "../features/variousMethods/dewPointCalculation";
 import LoadTable from "./LoadTable";
 import LoadDimensionPicture from '../images/loadDimensionsPicture.png'
 import LoadDimensionPicture2 from '../images/loadDimensionsPicture2.png'
-import { IFormData, IHandleAddLoad, IHandleInputMethod, IHandleLoadChange } from "../features/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
@@ -14,7 +13,7 @@ import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 
 const criticalElectronicsTemperature = 8
 
-export default function FormASRSStep({ key }: { key: string}) {
+export default function FormASRSStep(): JSX.Element {
     const { t } = useTranslation();
     const theme = useTheme();
     const [circularValue, setCircularValue] = useState(0)
@@ -26,8 +25,10 @@ export default function FormASRSStep({ key }: { key: string}) {
         setCircularValue(formData.system.asrs.workTime.shiftsPerDay * formData.system.asrs.workTime.hoursPerShift * formData.system.asrs.workTime.workDays)
     }, [formData.system.asrs.workTime.shiftsPerDay, formData.system.asrs.workTime.hoursPerShift, formData.system.asrs.workTime.workDays])
 
+    const minimalReasonableWeekWorkHours = 60
+
     return (
-        <Stack spacing={5}>
+        <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('system.asrs.header')}</Typography>
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.workTime')}</Typography>
@@ -85,17 +86,22 @@ export default function FormASRSStep({ key }: { key: string}) {
                                         value={100}
                                     />
                                     <CircularProgress
-                                        sx={{ color: circularValue < 80 ? theme.palette.error.main : theme.palette.success.main }}
+                                        sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.main : theme.palette.success.main }}
                                         thickness={6}
                                         variant="determinate"
                                         value={circularValue * 100 / 168}
                                     />
                                 </Box>
                                 <Stack direction='row'>
-                                    <Typography variant='h5'>
+                                    <Typography
+                                        variant='h5'
+                                        sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.main : theme.palette.primary.main }}
+                                    >
                                         {circularValue}
                                     </Typography>
-                                    <Typography color={theme.palette.text.secondary}>
+                                    <Typography
+                                        sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.light : theme.palette.primary.light }}
+                                    >
                                         h
                                     </Typography>
                                 </Stack>
@@ -134,7 +140,7 @@ export default function FormASRSStep({ key }: { key: string}) {
                                 marks={[{ value: 0, label: '0%' }, { value: 100, label: '100%' }]}
                             />
                         </Grid>
-                        {(calculateDewPoint(formData.system.asrs.workConditions.temperature[0], formData.system.asrs.workConditions.humidity[1]) <= criticalElectronicsTemperature) && (
+                        {((formData.system.asrs.workConditions.humidity[1] > 15 && calculateDewPoint(formData.system.asrs.workConditions.temperature[0], formData.system.asrs.workConditions.humidity[1]) <= criticalElectronicsTemperature)) && (
                             <Grid item xs={12}>
                                 <Alert id='system.asrs.condendartionWarning' severity="warning">{t('system.asrs.condensationWarning')}</Alert>
                             </Grid>
@@ -143,7 +149,6 @@ export default function FormASRSStep({ key }: { key: string}) {
                             <Box>
                                 <Stack>
                                     <FormControlLabel
-                                        sx={{ width: '100%' }}
                                         id="system-asrs-workConditions-freezer"
                                         control={
                                             <Checkbox
@@ -198,34 +203,29 @@ export default function FormASRSStep({ key }: { key: string}) {
             </Stack>
             <Stack spacing={2}>
                 <Box><Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.building')}</Typography></Box>
-                <Box><Grid container direction='row' spacing={2}>
-                    <Grid item xs={12} lg={6}>
-                        <Stack direction='row' alignItems='center'>
-                            <Typography>{t('system.asrs.building.existing')}</Typography>
-                            <Switch
-                                checked={formData.system.asrs.building.new}
-                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.new', value: e.target.checked }))}
+                <Stack direction='row' alignItems='center'>
+                    <Typography>{t('system.asrs.building.existing')}</Typography>
+                    <Switch
+                        checked={formData.system.asrs.building.new}
+                        onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.new', value: e.target.checked }))}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                    <Typography>{t('system.asrs.building.new')}</Typography>
+                </Stack>
+                <Stack>
+                    <FormControlLabel
+                        id="system-asrs-building-silo"
+                        control={
+                            <Checkbox
+                                checked={formData.system.asrs.building.silo}
+                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.silo', value: e.target.checked }))}
                                 inputProps={{ 'aria-label': 'controlled' }}
                             />
-                            <Typography>{t('system.asrs.building.new')}</Typography>
-                        </Stack>
-                    </Grid>
-                    <Grid item>
-                        <FormControlLabel
-                            id="system-asrs-building-silo"
-                            control={
-                                <Checkbox
-                                    checked={formData.system.asrs.building.silo}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.silo', value: e.target.checked }))}
-                                    inputProps={{ 'aria-label': 'controlled' }}
-                                />
-                            }
-                            labelPlacement="end"
-                            label={t('system.asrs.building.silo')}
-                        />
-                    </Grid>
-                </Grid>
-                </Box>
+                        }
+                        labelPlacement="end"
+                        label={t('system.asrs.building.silo')}
+                    />
+                </Stack>
                 <Box>
                     {!formData.system.asrs.building.silo &&
                         <Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>

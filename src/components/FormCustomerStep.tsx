@@ -51,7 +51,7 @@ export default function FormCustomerStep(): JSX.Element {
   const [isFieldTouched, setIsFieldTouched] = useState(false);
 
   return (
-    <Stack spacing={5}>
+    <Stack spacing={8}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
       <Stack spacing={2}>
         <Typography variant="h5" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>

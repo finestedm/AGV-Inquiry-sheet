@@ -16,8 +16,8 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
 
     const { t } = useTranslation();
 
-    const systemSelected = formData.system.asrs.selected;
-    
+    const systemSelected = formData.system[system.alt].selected;
+
     return (
         <Grid item xs={12} md={6}>
             <Card className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : theme.palette.grey[200] }}>
@@ -57,10 +57,10 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                             aria-controls="panel2a-content"
                             id="panel2a-header"
                         >
-                            <Typography variant='h6' align='left' sx={{color: systemSelected ? theme.palette.success.dark : theme.palette.text.primary}}>{system.label}</Typography>
+                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.success.dark : theme.palette.text.primary }}>{system.label}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Divider sx={{mb: 3}}/>
+                            <Divider sx={{ mb: 3 }} />
                             <Typography align='left' sx={{ color: systemSelected ? theme.palette.success.main : theme.palette.text.secondary }}>
                                 {system.description}
                             </Typography>
