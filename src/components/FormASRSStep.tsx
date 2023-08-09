@@ -9,6 +9,7 @@ import LoadDimensionPicture2 from '../images/loadDimensionsPicture2.png'
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
+import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 
 
 const criticalElectronicsTemperature = 8
@@ -235,7 +236,7 @@ export default function FormASRSStep(): JSX.Element {
                                     fullWidth
                                     label={t("system.asrs.building.existingBuilding.height")}
                                     type="number"
-                                    value={formData.system.asrs.building.existingBuilding.height}
+                                    value={trimLeadingZeros(formData.system.asrs.building.existingBuilding.height)}
                                     onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.existingBuilding.height', value: e.target.value }))}
                                     inputProps={{
                                         min: 1,
@@ -258,7 +259,7 @@ export default function FormASRSStep(): JSX.Element {
                                     fullWidth
                                     label={t("system.asrs.building.existingBuilding.width")}
                                     type="number"
-                                    value={formData.system.asrs.building.existingBuilding.width}
+                                    value={trimLeadingZeros(formData.system.asrs.building.existingBuilding.width)}
                                     onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.existingBuilding.width', value: e.target.value }))}
                                     inputProps={{
                                         min: 5,
@@ -280,7 +281,7 @@ export default function FormASRSStep(): JSX.Element {
                                     fullWidth
                                     label={t("system.asrs.building.existingBuilding.length")}
                                     type="number"
-                                    value={formData.system.asrs.building.existingBuilding.length}
+                                    value={trimLeadingZeros(formData.system.asrs.building.existingBuilding.length)}
                                     onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.existingBuilding.length', value: e.target.value }))}
                                     inputProps={{
                                         min: 5,

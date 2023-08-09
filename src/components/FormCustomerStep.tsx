@@ -8,6 +8,7 @@ import { Dispatch } from 'redux'
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleIndustryChange, handleInputMethod, setFormData } from "../features/redux/reducers/formDataSlice";
+import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -182,8 +183,12 @@ export default function FormCustomerStep(): JSX.Element {
                   fullWidth
                   label={t("customer.relations.input.forklifts")}
                   type="number"
-                  value={formData.customer.ownedForklifts}
+                  value={trimLeadingZeros(Number(formData.customer.ownedForklifts))}
                   onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedForklifts', value: Number(e.target.value) }))}
+                  InputProps={{
+                    // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
+                    endAdornment: <InputAdornment position="end">szt.</InputAdornment>,
+                  }}
                 />
               </Grid>
               <Grid item xs={6} lg={4}>
@@ -192,7 +197,7 @@ export default function FormCustomerStep(): JSX.Element {
                   fullWidth
                   label={t("customer.relations.input.racks")}
                   type="number"
-                  value={formData.customer.ownedRacks}
+                  value={trimLeadingZeros(Number(formData.customer.ownedRacks))}
                   onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedRacks', value: Number(e.target.value) }))}
                   InputProps={{
                     // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
