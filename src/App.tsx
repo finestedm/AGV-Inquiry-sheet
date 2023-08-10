@@ -9,10 +9,9 @@ import en from './features/multilanguage/en.json'
 import theme, { themeDark } from './theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { IFormData, ILoad } from './features/interfaces';
-import { Provider } from 'react-redux';
-import store, { RootState } from './features/redux/store';
 import MobileScrollButton from './components/MobileScrollButton';
 import { useSelector } from 'react-redux';
+import { RootState } from './features/redux/store';
 
 // Configure i18next
 i18n
@@ -30,20 +29,18 @@ i18n
   });
 
 function App() {
-
+  const darkMode = useSelector((state: RootState) => state.darkMode)
 
   return (
     <I18nextProvider i18n={i18n}>
-      <Provider store={store}>
-        <ThemeProvider theme={themeDark}>
-          <CssBaseline />
-          <div className="App">
-            <TopBar />
-            <Form />
-            <MobileScrollButton />
-          </div>
-        </ThemeProvider>
-      </Provider>
+      <ThemeProvider theme={darkMode ? themeDark : theme}>
+        <CssBaseline />
+        <div className="App">
+          <TopBar />
+          <Form />
+          <MobileScrollButton />
+        </div>
+      </ThemeProvider>
     </I18nextProvider>
   );
 }

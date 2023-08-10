@@ -73,7 +73,7 @@ export default function TopBar(): JSX.Element {
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" color='default'>
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
                     <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />

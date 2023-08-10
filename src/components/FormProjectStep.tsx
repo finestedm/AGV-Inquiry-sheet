@@ -155,7 +155,7 @@ export default function FormProjectStep(): JSX.Element {
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
                 <ToggleButtonGroup
                     sx={{ display: { xs: 'none', sm: 'flex' } }}
-                    color='success'
+                    color='primary'
                     exclusive
                     fullWidth
                     aria-label="investment type buttons"
@@ -302,13 +302,13 @@ export default function FormProjectStep(): JSX.Element {
                         </Stack>
                         {formData.project.it.existingSystem.present &&
                             <ToggleButtonGroup
-                                sx={{ display: { xs: 'none', sm: 'flex' } }}
                                 exclusive
                                 fullWidth
                                 aria-label="existing it system buttons"
                             >
                                 {existingSystems.map((existingSystem) => (
                                     <ToggleButton
+                                        color='primary'
                                         value={existingSystems.indexOf(existingSystem)}
                                         key={existingSystem}
                                         onClick={() => dispatch(handleInputMethod({ path: 'project.it.existingSystem.name', value: existingSystems.indexOf(existingSystem) }))}
