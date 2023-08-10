@@ -51,7 +51,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                     </CardMedia>
                 </CardActionArea>
                 <CardActions>
-                    <Accordion disableGutters elevation={0}>
+                    <Accordion disableGutters elevation={0} sx={{backgroundColor: 'transparent'}}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel2a-content"

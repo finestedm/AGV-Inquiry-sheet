@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { setFormData } from "../features/redux/reducers/formDataSlice";
 import DarkModeSwitch from "./DarkModeSwitch";
+import jhLogoDark from '../images/JH_logo.png'
 
 function saveDataToFile(formData: IFormData) {
     const data = JSON.stringify(formData);
@@ -45,6 +46,8 @@ function loadFile(e: React.ChangeEvent<HTMLInputElement>, formData: IFormData, s
 
 export default function TopBar(): JSX.Element {
 
+    const theme = useTheme();
+
     const handleLanguageChange = (e: SelectChangeEvent<string>) => {
         i18n.changeLanguage(e.target.value);
     };
@@ -73,7 +76,7 @@ export default function TopBar(): JSX.Element {
         <AppBar position="static">
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
-                    <img src={jhLogo} height='25' alt='JH_logo' />
+                    <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end', alignContent: 'flex-end' }}>
                         <IconButton
                             size="large"
