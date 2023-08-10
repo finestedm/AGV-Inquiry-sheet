@@ -147,34 +147,7 @@ export const themeDark = createTheme({
         ].join(','),
     },
 
-    shadows: [
-        "none",
-        shadow1,
-        shadow2,
-        shadow3,
-        shadow4,
-        shadow5,
-        shadow6,
-        shadow7,
-        shadow8,
-        shadow9,
-        shadow10,
-        shadow11,
-        shadow12,
-        shadow13,
-        shadow14,
-        shadow15,
-        shadow16,
-        shadow17,
-        shadow18,
-        shadow19,
-        shadow20,
-        shadow21,
-        shadow22,
-        shadow23,
-        shadow24,
 
-    ],
     components: {
         MuiCard: {
             styleOverrides: {

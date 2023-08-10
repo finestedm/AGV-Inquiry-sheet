@@ -15,7 +15,7 @@ export default function FormStepper({ activeStep, stepLabels, handleStepClick }:
       <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
         <AppBar
           position="fixed"
-          sx={{ top: 'auto', bottom: 0, borderTop: `1px solid ${theme.palette.grey[300]}` }}
+          sx={{ top: 'auto', bottom: 0, borderTop: `1px solid` }}
         >
           <MobileStepper
             variant="dots" // Use "dots" for dots style, "text" for text label style
