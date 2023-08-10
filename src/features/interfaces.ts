@@ -1,9 +1,18 @@
-import { Dispatch, SetStateAction } from "react";
-
 export interface ISales {
     salesUnit: string;
     contactPerson: string;
     contactPersonRole: string;
+}
+
+export interface IIt {
+    processesDescription: string;
+    existingSystem: {
+        present: boolean;
+        name: number;
+        existingOther: string;
+    };
+    wmsNeeded: boolean;
+    additionalInformation: string;
 }
 
 export interface ICustomer {
@@ -31,7 +40,8 @@ export interface IProject {
     investmentType: string;
     consultingCompany: boolean;
     competitor: boolean;
-    milestones: IMilestones
+    milestones: IMilestones;
+    it: IIt;
 }
 
 export interface ILoad {

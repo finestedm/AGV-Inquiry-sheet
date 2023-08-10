@@ -52,6 +52,13 @@ export default function FormProjectStep(): JSX.Element {
         t('project.invenstmentType.retrofit'),
     ];
 
+
+    const existingSystems = [
+        t('project.it.existingSystem.label.SAP-WM'),
+        t('project.it.existingSystem.label.SAP-EWM'),
+        t('project.it.existingSystem.label.other'),
+    ];
+
     return (
         <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
@@ -95,7 +102,7 @@ export default function FormProjectStep(): JSX.Element {
                     name="project.investmentLocation"
                     value={formData.project.investmentLocation}
                     onChange={(e) => dispatch(handleInputMethod({ path: 'project.investmentLocation', value: e.target.value }))}
-                    />
+                />
                 <Box>
                     <Grid container flex={1} justifyContent='space-between' spacing={2}>
                         <Grid item>
@@ -264,6 +271,83 @@ export default function FormProjectStep(): JSX.Element {
                         </Grid>
                     </Box>
                 </LocalizationProvider>
+            </Stack>
+            <Stack spacing={2}>
+                <Typography variant="h5" textAlign='left'>{t('project.subheader.it')}</Typography>
+                <Box>
+                    <Stack spacing={2}>
+                        <TextField
+                            fullWidth
+                            label={t('project.it.processesDescription')}
+                            name="project.it.processesDescription"
+                            value={formData.project.it.processesDescription}
+                            onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.processesDescription', value: e.target.value }))}
+                        />
+                        <Stack>
+                            <FormControlLabel
+                                id="project.it.existingSystem"
+                                control={
+                                    <Checkbox
+                                        checked={formData.project.it.existingSystem.present}
+                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.existingSystem.present', value: e.target.checked }))}
+                                        inputProps={{ 'aria-label': 'controlled' }}
+                                    />
+                                }
+                                labelPlacement="end"
+                                label={t('project.it.existingSystem.present')}
+                            />
+                        </Stack>
+                        {formData.project.it.existingSystem.present &&
+                            <ToggleButtonGroup
+                                sx={{ display: { xs: 'none', sm: 'flex' } }}
+                                exclusive
+                                fullWidth
+                                aria-label="existing it system buttons"
+                            >
+                                {existingSystems.map((existingSystem) => (
+                                    <ToggleButton
+                                        value={existingSystems.indexOf(existingSystem)}
+                                        key={existingSystem}
+                                        onClick={() => dispatch(handleInputMethod({ path: 'project.it.existingSystem.name', value: existingSystems.indexOf(existingSystem) }))}
+                                        selected={formData.project.it.existingSystem.name === existingSystems.indexOf(existingSystem)}
+                                    >
+                                        {existingSystem}
+                                    </ToggleButton>
+                                ))}
+                            </ToggleButtonGroup>
+                        }
+                        {(formData.project.it.existingSystem.present && formData.project.it.existingSystem.name === 2) &&
+                            <TextField
+                                fullWidth
+                                label={t('project.it.existingSystem.existingOther')}
+                                name="project.it.existingSystem.existingOther"
+                                value={formData.project.it.existingSystem.existingOther}
+                                onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.existingSystem.existingOther', value: e.target.value }))}
+                            />
+                        }
+                        <Stack>
+                            <FormControlLabel
+                                id="project.it.wmsNeeded"
+                                control={
+                                    <Checkbox
+                                        checked={formData.project.it.wmsNeeded}
+                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.wmsNeeded', value: e.target.checked }))}
+                                        inputProps={{ 'aria-label': 'controlled' }}
+                                    />
+                                }
+                                labelPlacement="end"
+                                label={t('project.it.wmsNeeded')}
+                            />
+                        </Stack>
+                        <TextField
+                            fullWidth
+                            label={t('project.it.additionalInformation')}
+                            name="project.it.additionalInformation"
+                            value={formData.project.it.additionalInformation}
+                            onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.additionalInformation', value: e.target.value }))}
+                        />
+                    </Stack>
+                </Box>
             </Stack>
         </Stack >
 

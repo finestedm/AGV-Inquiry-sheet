@@ -96,7 +96,7 @@
         "workTime": "Czas pracy",
         "workConditions": "Warunki pracy",
         "building": "Budynek",
-        "loads": "Ładunki"  
+        "loads": "Ładunki"
       },
       "workTime": {
         "workDays": "Dni pracy w tygodniu",
@@ -150,6 +150,21 @@
       "implementationStart": "Data rozpoczęcia wdrożenia",
       "launch": "Data uruchomienia"
     },
+    "it": {
+      "processesDescription": "Opis procesów",
+      "existingSystem": {
+        "present": "Czy występuje system WMS?",
+        "name": "Jaki system występuje?",
+        "existingOther": "Inny",
+        "label": {
+          "SAP-WM": "SAP-WM",
+          "SAP-EWM": "SAP-EWM",
+          "other": "Inny"
+        }
+      },
+      "wmsNeeded": "Czy wymagany jest WMS?",
+      "additionalInformation": "Inne informacje"
+    },
     "investmentLocation": "Lokalizacja inwestycji",
     "tender": "Inwestycja w formie przetargu?",
     "consultingCompany": "Prowadzona przez firmę konsultingową?",
@@ -164,7 +179,8 @@
     "subheader": {
       "investmentType": "Typ inwestycji",
       "milestones": "Ramy czasowe",
-      "various": "Dane ogólne"
+      "various": "Dane ogólne",
+      "it": "IT oraz informacje o procesie"
     }
   }
 }

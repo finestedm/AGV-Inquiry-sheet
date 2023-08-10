@@ -65,6 +65,16 @@ const initialFormDataState: IFormData = {
             order: new Date(),
             implementationStart: new Date(),
             launch: new Date(),
+        },
+        it: {
+            processesDescription: '',
+            existingSystem: {
+                present: false,
+                name: 0,
+                existingOther: ''
+            },
+            wmsNeeded: false,
+            additionalInformation: ''
         }
     },
     system: {
