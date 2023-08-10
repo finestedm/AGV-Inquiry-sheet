@@ -1,4 +1,4 @@
-import { Button, Checkbox, InputAdornment, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button, Checkbox, InputAdornment, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { PlaylistAdd } from "@mui/icons-material";
 import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
@@ -9,6 +9,7 @@ import { RootState } from "../features/redux/store";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
+    const theme = useTheme();
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
 
@@ -38,12 +39,14 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                         <TableRow key={index}>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     value={load.name}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'name', value: e.target.value }))}
                                 />
                             </TableCell>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     type="number"
                                     value={trimLeadingZeros(load.length)}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'length', value: Number(e.target.value) }))}
@@ -58,6 +61,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </TableCell>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     type="number"
                                     value={trimLeadingZeros(load.width)}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'width', value: Number(e.target.value) }))}
@@ -72,6 +76,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </TableCell>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     type="number"
                                     value={trimLeadingZeros(load.height)}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'height', value: Number(e.target.value) }))}
@@ -86,6 +91,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </TableCell>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     type="number"
                                     value={trimLeadingZeros(load.L2)}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'L2', value: Number(e.target.value) }))}
@@ -100,6 +106,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </TableCell>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     type="number"
                                     value={trimLeadingZeros(load.W2)}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'W2', value: Number(e.target.value) }))}
@@ -114,6 +121,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </TableCell>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     type="number"
                                     value={trimLeadingZeros(load.W3)}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'W3', value: Number(e.target.value) }))}
@@ -128,6 +136,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </TableCell>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     type="number"
                                     value={trimLeadingZeros(load.weightMin)}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'weightMin', value: Number(e.target.value) }))}
@@ -142,6 +151,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </TableCell>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     type="number"
                                     value={trimLeadingZeros(load.weightMax)}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'weightMax', value: Number(e.target.value) }))}
@@ -162,6 +172,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </TableCell>
                             <TableCell>
                                 <TextField
+                                    size="small"
                                     value={load.material}
                                     onChange={(e) => dispatch(handleLoadChange({ index, field: 'material', value: e.target.value }))}
                                 />

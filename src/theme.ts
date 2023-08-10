@@ -116,6 +116,96 @@ theme = createTheme({
                 },
             },
         },
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: theme.palette.background.default
+                }
+            }
+        }
+    },
+});
+
+export const themeDark = createTheme({
+    palette: {
+        mode: 'dark',
+        primary: {
+            main: '#a2cbe0',
+        },
+        secondary: {
+            main: '#ffb900',
+        },
+        success: {
+            main: '#1aa5c9',
+        },
+    },
+
+    typography: {
+        fontFamily: [
+            'Manrope', // Primary font
+            'sans-serif',
+        ].join(','),
+    },
+
+    shadows: [
+        "none",
+        shadow1,
+        shadow2,
+        shadow3,
+        shadow4,
+        shadow5,
+        shadow6,
+        shadow7,
+        shadow8,
+        shadow9,
+        shadow10,
+        shadow11,
+        shadow12,
+        shadow13,
+        shadow14,
+        shadow15,
+        shadow16,
+        shadow17,
+        shadow18,
+        shadow19,
+        shadow20,
+        shadow21,
+        shadow22,
+        shadow23,
+        shadow24,
+
+    ],
+    components: {
+        MuiCard: {
+            styleOverrides: {
+                root: {
+                    boxShadow: shadow5,
+                    border: borderStandard,
+                    borderColor: theme.palette.grey[800]
+                },
+            },
+        },
+        MuiCardContent: {
+            styleOverrides: {
+                root: {
+                    padding: '1.25rem',
+                },
+            },
+        },
+        MuiInputBase: {
+            styleOverrides: {
+                root: {
+                    minWidth: "12ch", // Customize the minimum width as per your requirement
+                },
+            },
+        },
+        MuiTableCell: {
+            styleOverrides: {
+                root: {
+                    padding: '6px 6px', // Adjust the padding as per your requirements
+                },
+            },
+        },
     },
 });
 

@@ -20,7 +20,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
 
     return (
         <Grid item xs={12} md={6}>
-            <Card className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : theme.palette.grey[200] }}>
+            <Card className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : 'transparent' }}>
                 <CardActionArea
                     sx={{ position: 'relative' }}
                     onClick={e => dispatch(handleSystemChange(system.alt))}
@@ -33,7 +33,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                             borderRadius: '5rem',
                             height: '2rem',
                             width: '2rem',
-                            backgroundColor: 'white',
+                            backgroundColor: theme.palette.background.default,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -57,7 +57,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                             aria-controls="panel2a-content"
                             id="panel2a-header"
                         >
-                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.success.dark : theme.palette.text.primary }}>{system.label}</Typography>
+                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.success.main : theme.palette.text.primary }}>{system.label}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Divider sx={{ mb: 3 }} />

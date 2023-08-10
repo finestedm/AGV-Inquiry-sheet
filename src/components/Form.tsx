@@ -11,10 +11,12 @@ import { IFormData } from "../features/interfaces";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
 import ScrollButton from "./MobileScrollButton";
+import { useTheme } from "@emotion/react";
 
 export default function Form(): JSX.Element {
 
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const formData = useSelector((state: RootState) => state.formData);
 

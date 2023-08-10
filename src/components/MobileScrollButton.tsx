@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import Fab from '@mui/material/Fab';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import '../style/MobileScrollButton.css'; // Import the CSS file for your animations
+import { useTheme } from '@mui/material';
 
 const ScrollButton = () => {
     const [buttonClass, setButtonClass] = useState('scroll-button');
+    const theme = useTheme();
 
     const handleScroll = () => {
         if (window.scrollY > 200) { // Adjust the threshold value as needed

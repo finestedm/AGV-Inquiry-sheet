@@ -1,4 +1,4 @@
-import { Stack, TextField, Typography } from "@mui/material";
+import { Stack, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { IFormData, IHandleInputMethod } from "../features/interfaces";
 import { RootState } from "../features/redux/store";
@@ -8,6 +8,7 @@ import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 export default function FormSalesUnitStep(): JSX.Element {
 
     const { t } = useTranslation();
+    const theme = useTheme();
 
     const formData = useSelector((state: RootState) => state.formData);
     const dispatch = useDispatch()

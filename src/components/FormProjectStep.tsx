@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, TextFieldProps, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, TextFieldProps, ToggleButton, ToggleButtonGroup, Typography, useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { MenuProps } from "./FormCustomerStep";
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
@@ -18,6 +18,7 @@ import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 export default function FormProjectStep(): JSX.Element {
 
     const { t } = useTranslation();
+    const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData);
     const dispatch = useDispatch();
 

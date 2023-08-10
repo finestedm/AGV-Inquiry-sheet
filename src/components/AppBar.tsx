@@ -13,6 +13,7 @@ import { IFormData } from "../features/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { setFormData } from "../features/redux/reducers/formDataSlice";
+import DarkModeSwitch from "./DarkModeSwitch";
 
 function saveDataToFile(formData: IFormData) {
     const data = JSON.stringify(formData);
@@ -44,8 +45,6 @@ function loadFile(e: React.ChangeEvent<HTMLInputElement>, formData: IFormData, s
 
 export default function TopBar(): JSX.Element {
 
-    const showSaveInquiryText = useMediaQuery('(min-width: 600px)');
-
     const handleLanguageChange = (e: SelectChangeEvent<string>) => {
         i18n.changeLanguage(e.target.value);
     };
@@ -71,7 +70,7 @@ export default function TopBar(): JSX.Element {
     };
 
     return (
-        <AppBar position="static" color='default' sx={{backgroundColor: 'white'}}>
+        <AppBar position="static">
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
                     <img src={jhLogo} height='25' alt='JH_logo' />
@@ -134,12 +133,14 @@ export default function TopBar(): JSX.Element {
                                 </Stack>
                             </MenuItem>
                             <MenuItem>
-
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <UploadIcon />
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
                                     <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, dispatch(setFormData))} />
                                 </Stack>
+                            </MenuItem>
+                            <MenuItem>
+                                <DarkModeSwitch />
                             </MenuItem>
                         </Menu>
                     </Box>
@@ -168,6 +169,7 @@ export default function TopBar(): JSX.Element {
                                     </MenuItem>
                                 </Select>
                             </FormControl>
+                            <DarkModeSwitch />
                             <Button variant="outlined" color='success' onClick={() => saveDataToFile(formData)} sx={{ display: { xs: 'none', md: 'flex' } }}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <SaveIcon />

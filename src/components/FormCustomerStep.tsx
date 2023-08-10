@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
@@ -25,6 +25,7 @@ export const MenuProps = {
 export default function FormCustomerStep(): JSX.Element {
 
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const formData = useSelector((state: RootState) => state.formData);
   const dispatch = useDispatch();

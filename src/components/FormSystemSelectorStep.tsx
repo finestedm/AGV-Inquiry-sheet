@@ -1,10 +1,11 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography, useTheme } from "@mui/material";
 import SystemCard from "./SystemCard";
 import { useTranslation } from 'react-i18next';
 import { ISystem } from "../features/interfaces";
 
 export default function FormSystemSelectorStep(): JSX.Element {
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const systems: ISystem[] = [
     {
