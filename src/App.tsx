@@ -11,6 +11,7 @@ import { ThemeProvider } from '@mui/material';
 import { IFormData, ILoad } from './features/interfaces';
 import { Provider } from 'react-redux';
 import store from './features/redux/store';
+import MobileScrollButton from './components/MobileScrollButton';
 
 // Configure i18next
 i18n
@@ -36,6 +37,7 @@ function App() {
           <div className="App">
             <TopBar  />
             <Form />
+            <MobileScrollButton />
           </div>
         </ThemeProvider>
       </Provider>

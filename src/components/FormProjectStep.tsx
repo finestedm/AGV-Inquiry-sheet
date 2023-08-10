@@ -154,6 +154,7 @@ export default function FormProjectStep(): JSX.Element {
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
                 <ToggleButtonGroup
                     sx={{ display: { xs: 'none', sm: 'flex' } }}
+                    color='success'
                     exclusive
                     fullWidth
                     aria-label="investment type buttons"
@@ -175,6 +176,7 @@ export default function FormProjectStep(): JSX.Element {
                     aria-label="investment type buttons"
                     orientation="vertical"
                     fullWidth
+                    color='success'
                 >
                     {investmentTypes.map((investmentType) => (
                         <ToggleButton
