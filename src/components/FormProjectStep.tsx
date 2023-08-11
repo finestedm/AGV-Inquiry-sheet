@@ -14,6 +14,7 @@ import { IFormData, IHandleInputMethod } from "../features/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
+import WarehouseLayout from "./Warehouse";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -351,6 +352,7 @@ export default function FormProjectStep(): JSX.Element {
                         />
                     </Stack>
                 </Box>
+                <WarehouseLayout />
             </Stack>
         </Stack >
 
