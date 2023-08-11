@@ -109,6 +109,7 @@ export default function TopBar(): JSX.Element {
                             <MenuItem>
                                 <Select
                                     id="language-select"
+                                    fullWidth
                                     value={i18n.language}
                                     onChange={handleLanguageChange}
                                     variant="outlined"
@@ -129,21 +130,18 @@ export default function TopBar(): JSX.Element {
                                 </Select>
                             </MenuItem>
                             <MenuItem onClick={() => saveDataToFile(formData)}>
-
-                                <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                    <SaveIcon />
+                                <Button fullWidth variant="outlined" className='save-button' startIcon={<SaveIcon />} >
                                     <Typography>{t('ui.button.inquiry.save')}</Typography>
-                                </Stack>
+                                </Button>
                             </MenuItem>
                             <MenuItem>
-                                <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                    <UploadIcon />
+                                <Button fullWidth variant="outlined" className='upload-button' startIcon={<UploadIcon />}>
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
                                     <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, dispatch(setFormData))} />
-                                </Stack>
+                                </Button>
                             </MenuItem>
                             <MenuItem>
-                                <DarkModeSwitch />
+                                <DarkModeSwitch fullWidth={true} />
                             </MenuItem>
                         </Menu>
                     </Box>
@@ -172,16 +170,14 @@ export default function TopBar(): JSX.Element {
                                     </MenuItem>
                                 </Select>
                             </FormControl>
-                            <DarkModeSwitch />
-                            <Button variant="outlined" color='success' onClick={() => saveDataToFile(formData)} sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <DarkModeSwitch fullWidth={false} />
+                            <Button variant="outlined" color='success' onClick={() => saveDataToFile(formData)} sx={{ display: { xs: 'none', md: 'flex' } }} startIcon={<SaveIcon />}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                    <SaveIcon />
                                     <Typography>{t('ui.button.inquiry.save')}</Typography>
                                 </Stack>
                             </Button>
-                            <Button variant="outlined" color='success' component="label" sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <Button variant="outlined" color='success' component="label" sx={{ display: { xs: 'none', md: 'flex' } }} startIcon={<UploadIcon />}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                    <UploadIcon />
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
                                     <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
                                 </Stack>
