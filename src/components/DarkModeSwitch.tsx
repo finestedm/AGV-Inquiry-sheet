@@ -21,14 +21,14 @@ export default function DarkModeSwitch({ fullWidth }: { fullWidth: boolean }): J
       variant='outlined'
       onClick={() => dispatch(toggleDarkMode())}
       startIcon={
-        <Collapse orientation="horizontal" collapsedSize={0}
+        <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
           in={darkMode}
         >
           <LightModeIcon />
         </Collapse>
       }
       endIcon={
-        <Collapse orientation="horizontal" collapsedSize={0}
+        <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
           in={!darkMode}
         >
           <DarkModeIcon />
