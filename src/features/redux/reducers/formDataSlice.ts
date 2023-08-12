@@ -1,20 +1,41 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFormData, ILoad, LoadFieldValue } from '../../interfaces';
+import { IFormData, ILoad, ILoadsTypes, LoadFieldValue } from '../../interfaces';
 
-const initialLoad: ILoad = {
-    name: "",
-    length: 0,
-    width: 0,
-    height: 0,
-    L2: 0,
-    W2: 0,
-    W3: 0,
-    weightMin: 0,
-    weightMax: 0,
-    overhang: false,
-    material: "",
-    loadSide: false,
-    secured: false,
+const initialLoads: ILoadsTypes = {
+    empty: {
+        name: "",
+        length: 0,
+        width: 0,
+        height: 0,
+        L2: 0,
+        W2: 0,
+        W3: 0,
+        H2: 0,
+        H3: 0,
+        weightMin: 0,
+        weightMax: 0,
+        overhang: false,
+        material: "",
+        loadSide: false,
+        secured: false,
+    },
+    europallet: {
+        name: 'Europallet',
+        length: 1200,
+        width: 800,
+        height: 0,
+        L2: 1200,
+        W2: 800,
+        W3: 600,
+        H2: 144,
+        H3: 100,
+        weightMin: 0,
+        weightMax: 1500,
+        overhang: false,
+        material: "",
+        loadSide: false,
+        secured: false,
+    }
 };
 
 const initialFormDataState: IFormData = {
@@ -102,7 +123,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [initialLoad]
+            loads: [initialLoads.empty]
         },
         lrkprk: {
             selected: false,
@@ -128,7 +149,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [initialLoad]
+            loads: [initialLoads.empty]
         },
         agv: {
             selected: false,
@@ -154,7 +175,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [initialLoad]
+            loads: [initialLoads.empty]
         },
         autovna: {
             selected: false,
@@ -180,7 +201,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [initialLoad]
+            loads: [initialLoads.empty]
         }
     },
 }
@@ -225,6 +246,8 @@ const formDataSlice = createSlice({
                 L2: 0,
                 W2: 0,
                 W3: 0,
+                H2: 0,
+                H3: 0,
                 weightMin: 0,
                 weightMax: 0,
                 overhang: false,

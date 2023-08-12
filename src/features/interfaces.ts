@@ -52,12 +52,18 @@ export interface ILoad {
     L2: number;
     W2: number;
     W3: number;
+    H2: number;
+    H3: number;
     weightMin: number;
     weightMax: number;
     overhang: boolean;
     material: string;
     loadSide: boolean;
     secured: boolean;
+}
+
+export interface ILoadsTypes {
+    [key: string]: ILoad;
 }
 
 export interface Iasrs {
