@@ -1,42 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFormData, ILoad, ILoadsTypes, LoadFieldValue } from '../../interfaces';
-
-const initialLoads: ILoadsTypes = {
-    empty: {
-        name: "",
-        length: 0,
-        width: 0,
-        height: 0,
-        L2: 0,
-        W2: 0,
-        W3: 0,
-        H2: 0,
-        H3: 0,
-        weightMin: 0,
-        weightMax: 0,
-        overhang: false,
-        material: "",
-        loadSide: false,
-        secured: false,
-    },
-    europallet: {
-        name: 'Europallet',
-        length: 1200,
-        width: 800,
-        height: 0,
-        L2: 1200,
-        W2: 800,
-        W3: 600,
-        H2: 144,
-        H3: 100,
-        weightMin: 0,
-        weightMax: 1500,
-        overhang: false,
-        material: "",
-        loadSide: false,
-        secured: false,
-    }
-};
+import { loadsToAdd } from '../../../data/typicalLoadSizes';
 
 const initialFormDataState: IFormData = {
 
@@ -123,7 +87,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [initialLoads.empty]
+            loads: [loadsToAdd.empty]
         },
         lrkprk: {
             selected: false,
@@ -149,7 +113,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [initialLoads.empty]
+            loads: [loadsToAdd.empty]
         },
         agv: {
             selected: false,
@@ -175,7 +139,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [initialLoads.empty]
+            loads: [loadsToAdd.empty]
         },
         autovna: {
             selected: false,
@@ -201,7 +165,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [initialLoads.empty]
+            loads: [loadsToAdd.empty]
         }
     },
 }
@@ -232,35 +196,16 @@ const formDataSlice = createSlice({
 
         // Reducer for handling adding a new load
         handleAddLoad: (
-            state: IFormData, // Use the correct type for state
-            action: PayloadAction<string> // PayloadAction with the system name
+            state: IFormData,
+            action: PayloadAction<{ systemName: string; loadType: string }>
         ) => {
-            const { payload: systemName } = action; // Get the system name from the payload
-
-            // Create a new load
-            const newLoad: ILoad = {
-                name: '',
-                length: 0,
-                width: 0,
-                height: 0,
-                L2: 0,
-                W2: 0,
-                W3: 0,
-                H2: 0,
-                H3: 0,
-                weightMin: 0,
-                weightMax: 0,
-                overhang: false,
-                material: '',
-                loadSide: false,
-                secured: false,
-            };
-
-            // Determine the appropriate system to update
+            const { systemName, loadType } = action.payload;
+        
+            const newLoad: ILoad = loadsToAdd[loadType];
+        
             const updatedSystemKey = systemName.toLowerCase();
             const updatedSystemLoads = state.system[updatedSystemKey].loads.concat(newLoad);
-
-            // Update the state with the new loads
+        
             return {
                 ...state,
                 system: {
@@ -272,6 +217,7 @@ const formDataSlice = createSlice({
                 },
             };
         },
+        
 
         handleSystemChange: (state: { system: { [x: string]: any; }; }, action: PayloadAction<string>) => {
             const alt = action.payload.toLowerCase();

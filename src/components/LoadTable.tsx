@@ -1,36 +1,41 @@
-import { Button, Checkbox, InputAdornment, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
+import { Button, ButtonGroup, Checkbox, ClickAwayListener, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { PlaylistAdd } from "@mui/icons-material";
+import { ArrowDropDownCircleOutlined, PlaylistAdd } from "@mui/icons-material";
 import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import { handleAddLoad, handleLoadChange } from "../features/redux/reducers/formDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
+import React, { useEffect, useRef, useState } from "react";
+import { loadsToAdd } from "../data/typicalLoadSizes";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef(null); // Create a ref for the anchor element
+    const [selectedIndex, setSelectedIndex] = useState<string>('empty');
 
-    const loadsToAdd = {
-        euro: {
-            name: 'Europallet',
-            length: 1200,
-            width: 800,
-            height: 0,
-            L2: 1200,
-            W2: 800,
-            W3: 600,
-            H2: 144,
-            H3: 100,
-            weightMin: 0,
-            weightMax: 1500,
-            overhang: false,
-            material: "",
-            loadSide: false,
-            secured: false,
-        }
-    }
+    const handleClick = () => {
+        dispatch(handleAddLoad({ systemName: selectedSystem, loadType: selectedIndex }));
+        setOpen(false);
+    };
+
+    useEffect(() => console.log(anchorRef), [anchorRef])
+
+    const handleMenuItemClick = (
+        event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+        index: string
+    ) => {
+        setSelectedIndex(index);
+        setOpen(false);
+    };
+
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
 
     const dispatch = useDispatch();
     return (
@@ -252,12 +257,43 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button
-                onClick={() => dispatch(handleAddLoad(selectedSystem))}
-            >
-                <PlaylistAdd />
-                {t('ui.button.table.newload')}
-            </Button>
+            <div>
+                <ButtonGroup variant="outlined" ref={anchorRef} aria-label="split button">
+                    <Button
+                        size="small"
+                        aria-controls={open ? 'split-button-menu' : undefined}
+                        aria-expanded={open ? 'true' : undefined}
+                        aria-label="select load type"
+                        aria-haspopup="menu"
+                        onClick={handleToggle}
+                    >
+                        {loadsToAdd[selectedIndex]?.label}
+                        <ArrowDropDownIcon />
+                    </Button>
+                    <Button onClick={handleClick}>{t('ui.button.addNewLoad')}<PlaylistAdd /></Button>
+                </ButtonGroup>
+                <Popper
+                    open={open}
+                    anchorEl={anchorRef.current} // Use anchorRef.current here
+                    role={undefined}
+                    transition
+                    disablePortal
+                >
+                    <Paper>
+                        <MenuList autoFocusItem id="split-button-menu">
+                            {Object.keys(loadsToAdd).map((option) => (
+                                <MenuItem
+                                    key={option}
+                                    selected={option === selectedIndex}
+                                    onClick={(event) => handleMenuItemClick(event, option)}
+                                >
+                                    {loadsToAdd[option].label}
+                                </MenuItem>
+                            ))}
+                        </MenuList>
+                    </Paper>
+                </Popper>
+            </div>
         </>
     )
 }

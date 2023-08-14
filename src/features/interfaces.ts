@@ -45,6 +45,7 @@ export interface IProject {
 }
 
 export interface ILoad {
+    label: string;
     name: string;
     length: number;
     width: number;
