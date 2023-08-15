@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Checkbox, ClickAwayListener, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { ArrowDropDownCircleOutlined, PlaylistAdd } from "@mui/icons-material";
 import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
@@ -26,8 +26,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     useEffect(() => console.log(anchorRef), [anchorRef])
 
     const handleMenuItemClick = (
-        event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-        index: string
+        event: SelectChangeEvent<string>, index: string
     ) => {
         setSelectedIndex(index);
         setOpen(false);
@@ -257,43 +256,30 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     </TableBody>
                 </Table>
             </TableContainer>
-            <div>
+            <Box>
                 <ButtonGroup variant="outlined" ref={anchorRef} aria-label="split button">
-                    <Button
+
+                    <Select
                         size="small"
-                        aria-controls={open ? 'split-button-menu' : undefined}
-                        aria-expanded={open ? 'true' : undefined}
-                        aria-label="select load type"
-                        aria-haspopup="menu"
-                        onClick={handleToggle}
+                        value={loadsToAdd.selectedIndex?.label}
+                        onChange={(event) => handleMenuItemClick(event, event.target.value)}
+                        inputProps={{
+                            name: 'load-type',
+                            id: 'load-type-select',
+                        }}
                     >
-                        {loadsToAdd[selectedIndex]?.label}
-                        <ArrowDropDownIcon />
-                    </Button>
+                        {Object.keys(loadsToAdd).map((option) => (
+                            <MenuItem key={option} value={option}>
+                                {loadsToAdd[option].label}
+                            </MenuItem>
+                        ))}
+                    </Select>
+
                     <Button onClick={handleClick}>{t('ui.button.addNewLoad')}<PlaylistAdd /></Button>
+
                 </ButtonGroup>
-                <Popper
-                    open={open}
-                    anchorEl={anchorRef.current} // Use anchorRef.current here
-                    role={undefined}
-                    transition
-                    disablePortal
-                >
-                    <Paper>
-                        <MenuList autoFocusItem id="split-button-menu">
-                            {Object.keys(loadsToAdd).map((option) => (
-                                <MenuItem
-                                    key={option}
-                                    selected={option === selectedIndex}
-                                    onClick={(event) => handleMenuItemClick(event, option)}
-                                >
-                                    {loadsToAdd[option].label}
-                                </MenuItem>
-                            ))}
-                        </MenuList>
-                    </Paper>
-                </Popper>
-            </div>
+
+            </Box>
         </>
     )
 }
