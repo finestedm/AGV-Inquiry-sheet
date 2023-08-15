@@ -14,27 +14,19 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     const { t } = useTranslation()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
-    const [open, setOpen] = useState(false);
-    const anchorRef = useRef(null); // Create a ref for the anchor element
     const [selectedIndex, setSelectedIndex] = useState<string>('empty');
 
     const handleClick = () => {
         dispatch(handleAddLoad({ systemName: selectedSystem, loadType: selectedIndex }));
-        setOpen(false);
     };
 
-    useEffect(() => console.log(anchorRef), [anchorRef])
 
     const handleMenuItemClick = (
         event: SelectChangeEvent<string>, index: string
     ) => {
         setSelectedIndex(index);
-        setOpen(false);
     };
 
-    const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
-    };
 
     const dispatch = useDispatch();
     return (
@@ -257,7 +249,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 </Table>
             </TableContainer>
             <Box>
-                <ButtonGroup variant="outlined" ref={anchorRef} aria-label="split button">
+                <ButtonGroup variant="outlined" aria-label="split button">
 
                     <Select
                         size="small"
