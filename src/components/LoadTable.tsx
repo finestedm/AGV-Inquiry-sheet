@@ -61,6 +61,8 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             <TableCell>L2</TableCell>
                             <TableCell>W2</TableCell>
                             <TableCell>W3</TableCell>
+                            <TableCell>H2</TableCell>
+                            <TableCell>H3</TableCell>
                             <TableCell>Weight min</TableCell>
                             <TableCell>Weight max</TableCell>
                             <TableCell>Overhang</TableCell>
