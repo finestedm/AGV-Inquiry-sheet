@@ -1,4 +1,4 @@
-import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, Grow, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { ArrowDropDownCircleOutlined, PlaylistAdd } from "@mui/icons-material";
 import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
@@ -16,17 +16,36 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const [selectedIndex, setSelectedIndex] = useState<string>('empty');
 
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef<HTMLDivElement>(null);
+
     const handleClick = () => {
         dispatch(handleAddLoad({ systemName: selectedSystem, loadType: selectedIndex }));
     };
 
 
     const handleMenuItemClick = (
-        event: SelectChangeEvent<string>, index: string
+        event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+        index: string,
     ) => {
         setSelectedIndex(index);
+        setOpen(false);
     };
 
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+
+    const handleClose = (event: Event) => {
+        if (
+            anchorRef.current &&
+            anchorRef.current.contains(event.target as HTMLElement)
+        ) {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     const dispatch = useDispatch();
     return (
@@ -248,30 +267,57 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Box>
-                <ButtonGroup variant="outlined" aria-label="split button">
 
-                    <Select
-                        size="small"
-                        value={loadsToAdd.selectedIndex?.label}
-                        onChange={(event) => handleMenuItemClick(event, event.target.value)}
-                        inputProps={{
-                            name: 'load-type',
-                            id: 'load-type-select',
+            <ButtonGroup variant="outlined" ref={anchorRef} aria-label="split button">
+                <Button
+                    aria-controls={open ? 'split-button-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-label="select merge strategy"
+                    aria-haspopup="menu"
+                    onClick={handleToggle}
+                >
+                    {loadsToAdd[selectedIndex]?.label}
+                    <ArrowDropDownIcon />
+                </Button>
+                <Button onClick={handleClick} endIcon={<PlaylistAdd/>}>{t('ui.button.addNewLoad')} </Button>
+            </ButtonGroup>
+            <Popper
+                sx={{
+                    zIndex: 1,
+                }}
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
+            >
+                {({ TransitionProps, placement }) => (
+                    <Grow
+                        {...TransitionProps}
+                        style={{
+                            transformOrigin:
+                                placement === 'bottom' ? 'center top' : 'center bottom',
                         }}
                     >
-                        {Object.keys(loadsToAdd).map((option) => (
-                            <MenuItem key={option} value={option}>
-                                {loadsToAdd[option].label}
-                            </MenuItem>
-                        ))}
-                    </Select>
-
-                    <Button onClick={handleClick}>{t('ui.button.addNewLoad')}<PlaylistAdd /></Button>
-
-                </ButtonGroup>
-
-            </Box>
+                        <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                                <MenuList id="split-button-menu" autoFocusItem>
+                                    {Object.keys(loadsToAdd).map((option) => (
+                                        <MenuItem
+                                            key={option}
+                                            value={option}
+                                            selected={option === selectedIndex}
+                                            onClick={(e) => handleMenuItemClick(e, option)}
+                                        >
+                                            {loadsToAdd[option].label}
+                                        </MenuItem>
+                                    ))}
+                                </MenuList>
+                            </ClickAwayListener>
+                        </Paper>
+                    </Grow>
+                )}
+            </Popper>
         </>
     )
 }
