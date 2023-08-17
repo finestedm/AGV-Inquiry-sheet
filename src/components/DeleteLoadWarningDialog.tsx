@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { handleDeleteLoad } from "../features/redux/reducers/formDataSlice";
@@ -26,17 +26,27 @@ export default function DeleteLoadWarningDialog() {
                 <DialogContentText id="alert-dialog-description">
                     {t("ui.dialog.loadDelete.description")}
                 </DialogContentText>
+                <Stack direction='row' spacing={2} sx={{mt: 4}}>
+                    <Button
+                        variant="outlined"
+                        onClick={() => dispatch(deleteLoadDialogOpen(false))}
+                        autoFocus
+                    >
+                        {t("ui.dialog.loadDelete.cancel")}
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => {
+                            dispatch(handleDeleteLoad(deleteLoadDialog.indexToDelete))
+                            dispatch(deleteLoadDialogOpen(false))
+                        }
+                        }
+                    >
+                        {t("ui.dialog.loadDelete.confirm")}
+                    </Button>
+                </Stack>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={() => dispatch(deleteLoadDialogOpen(false))} autoFocus>{t("ui.dialog.loadDelete.cancel")}</Button>
-                <Button
-                    onClick={() => {
-                        dispatch(handleDeleteLoad(deleteLoadDialog.indexToDelete))
-                        dispatch(deleteLoadDialogOpen(false))
-                    }
-                    }
-                >{t("ui.dialog.loadDelete.confirm")}</Button>
-            </DialogActions>
         </Dialog>
     )
 }
