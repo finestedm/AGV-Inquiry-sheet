@@ -51,18 +51,18 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                     </CardMedia>
                 </CardActionArea>
                 <CardActions>
-                    <Accordion disableGutters elevation={0} sx={{backgroundColor: 'transparent'}}>
+                    <Accordion disableGutters elevation={0} sx={{ backgroundColor: 'transparent' }}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel2a-content"
                             id="panel2a-header"
                         >
-                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.success.main : theme.palette.text.primary }}>{system.label}</Typography>
+                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.success.main : theme.palette.text.primary }}>{t(`${system.label}`)}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Divider sx={{ mb: 3 }} />
                             <Typography align='left' sx={{ color: systemSelected ? theme.palette.success.main : theme.palette.text.secondary }}>
-                                {system.description}
+                                {t(`${system.description}`)}
                             </Typography>
                         </AccordionDetails>
                     </Accordion>

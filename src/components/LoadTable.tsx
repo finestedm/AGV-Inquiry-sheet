@@ -54,6 +54,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 <Table size="small">
                     <TableHead>
                         <TableRow>
+                            <TableCell>№</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Length</TableCell>
                             <TableCell>Width</TableCell>
@@ -74,6 +75,9 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     <TableBody>
                         {selectedSystemLoads.map((load, index) => (
                             <TableRow key={index}>
+                                <TableCell>
+                                    <Typography>{index+1}</Typography>
+                                </TableCell>
                                 <TableCell>
                                     <TextField
                                         size="small"
