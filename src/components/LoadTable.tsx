@@ -3,12 +3,14 @@ import { useTranslation } from "react-i18next";
 import { ArrowDropDownCircleOutlined, PlaylistAdd } from "@mui/icons-material";
 import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
-import { handleAddLoad, handleLoadChange } from "../features/redux/reducers/formDataSlice";
+import { handleAddLoad, handleDeleteLoad, handleLoadChange } from "../features/redux/reducers/formDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import React, { useEffect, useRef, useState } from "react";
 import { loadsToAdd } from "../data/typicalLoadSizes";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/reducers/deleteLoadDialogSlice";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -70,13 +72,14 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             <TableCell>Material</TableCell>
                             <TableCell>Load side</TableCell>
                             <TableCell>Secured</TableCell>
+                            <TableCell>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {selectedSystemLoads.map((load, index) => (
                             <TableRow key={index}>
                                 <TableCell>
-                                    <Typography>{index+1}</Typography>
+                                    <Typography>{index + 1}</Typography>
                                 </TableCell>
                                 <TableCell>
                                     <TextField
@@ -265,11 +268,17 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'secured', value: e.target.checked }))}
                                     />
                                 </TableCell>
+                                <TableCell>
+                                    <Button>
+                                        <DeleteIcon onClick={() => {
+                                            dispatch(setLoadIndexToDelete(index))
+                                            dispatch(deleteLoadDialogOpen(true))
+                                        }}
+                                        />
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         ))}
-                        <TableRow>
-
-                        </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -285,7 +294,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     {loadsToAdd[selectedIndex]?.label}
                     <ArrowDropDownIcon />
                 </Button>
-                <Button onClick={handleClick} endIcon={<PlaylistAdd/>}>{t('ui.button.addNewLoad')} </Button>
+                <Button onClick={handleClick} endIcon={<PlaylistAdd />}>{t('ui.button.addNewLoad')} </Button>
             </ButtonGroup>
             <Popper
                 sx={{

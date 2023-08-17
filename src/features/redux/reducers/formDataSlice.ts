@@ -170,8 +170,6 @@ const initialFormDataState: IFormData = {
     },
 }
 
-
-
 const formDataSlice = createSlice({
     name: 'formData',
     initialState: initialFormDataState,
@@ -200,12 +198,12 @@ const formDataSlice = createSlice({
             action: PayloadAction<{ systemName: string; loadType: string }>
         ) => {
             const { systemName, loadType } = action.payload;
-        
+
             const newLoad: ILoad = loadsToAdd[loadType];
-        
+
             const updatedSystemKey = systemName.toLowerCase();
             const updatedSystemLoads = state.system[updatedSystemKey].loads.concat(newLoad);
-        
+
             return {
                 ...state,
                 system: {
@@ -217,7 +215,7 @@ const formDataSlice = createSlice({
                 },
             };
         },
-        
+
 
         handleSystemChange: (state: { system: { [x: string]: any; }; }, action: PayloadAction<string>) => {
             const alt = action.payload.toLowerCase();
@@ -251,6 +249,26 @@ const formDataSlice = createSlice({
             };
         },
 
+        handleDeleteLoad: (
+            state: IFormData,
+            action: PayloadAction<number>
+        ) => {
+            const loadIndexToDelete = action.payload;
+
+            // Create a deep copy of the state using Immer and remove the load at the specified index
+            const newState = {
+                ...state,
+                system: {
+                    ...state.system,
+                    asrs: {
+                        ...state.system.asrs,
+                        loads: state.system.asrs.loads.filter((load, i) => i !== loadIndexToDelete),
+                    },
+                },
+            };
+            return newState;
+        },
+
 
         handleIndustryChange: (state, action) => {
             const { industryName, value } = action.payload;
@@ -261,5 +279,5 @@ const formDataSlice = createSlice({
     },
 });
 
-export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange } = formDataSlice.actions;
+export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad } = formDataSlice.actions;
 export default formDataSlice.reducer;
