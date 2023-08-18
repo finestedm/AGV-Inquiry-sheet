@@ -82,7 +82,16 @@
       "table": {
         "newload": "Dodaj nowy ładunek"
       },
-      "readmore": "Dowiedz się więcej"
+      "readmore": "Dowiedz się więcej",
+      "addNewLoad": "Dodaj nowy nośnik"
+    },
+    "dialog": {
+      "loadDelete": {
+        "title": "Uwaga",
+        "description": "Czy na pewno chcesz usunąć ten ładunek?",
+        "cancel": "Anuluj",
+        "confirm": "Potwierdź usunięcie"
+      }
     }
   },
   "system": {
@@ -181,6 +190,18 @@
       "milestones": "Ramy czasowe",
       "various": "Dane ogólne",
       "it": "IT oraz informacje o procesie"
+    }
+  },
+  "loadTable": {
+    "header": {},
+    "loadContainerMaterial": {
+      "wood": "Drewniana",
+      "metal": "Metalowa",
+      "plastic": "Plastikowa"
+    },
+    "loadsToAdd": {
+      "empty": "bez danych",
+      "euro": "EuroPaleta"
     }
   }
 }

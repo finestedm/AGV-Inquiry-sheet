@@ -1,8 +1,8 @@
 import { ILoadsTypes } from "../features/interfaces";
 
 export const loadsToAdd: ILoadsTypes = {
-    euro: {
-        label: 'Europallet',
+    'euro': {
+        label: 'loadTable.loadsToAdd.euro',
         name: 'Europallet',
         length: 1200,
         width: 800,
@@ -15,12 +15,12 @@ export const loadsToAdd: ILoadsTypes = {
         weightMin: 0,
         weightMax: 1500,
         overhang: false,
-        material: "",
+        material: -1,
         loadSide: false,
         secured: false,
     },
     empty: {
-        label: 'empty',
+        label: 'loadTable.loadsToAdd.empty',
         name: "",
         length: 0,
         width: 0,
@@ -33,7 +33,7 @@ export const loadsToAdd: ILoadsTypes = {
         weightMin: 0,
         weightMax: 0,
         overhang: false,
-        material: "",
+        material: -1,
         loadSide: false,
         secured: false,
     },

@@ -1,4 +1,4 @@
-import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, Grow, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, Grow, IconButton, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { ArrowDropDownCircleOutlined, PlaylistAdd } from "@mui/icons-material";
 import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
@@ -11,6 +11,7 @@ import { loadsToAdd } from "../data/typicalLoadSizes";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/reducers/deleteLoadDialogSlice";
+import { loadContainerMaterials } from "../data/loadContainerMaterials";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -245,11 +246,15 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
+                                    <Select
                                         size="small"
                                         value={load.material}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'material', value: e.target.value }))}
-                                    />
+                                    >
+                                        {loadContainerMaterials.map(material => (
+                                            <MenuItem value={loadContainerMaterials.indexOf(material)}>{t(`${material}`)}</MenuItem>
+                                        ))}
+                                    </Select>
                                 </TableCell>
                                 <TableCell>
                                     <Stack direction='row' alignItems='center'>
@@ -269,21 +274,21 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <Button>
-                                        <DeleteIcon onClick={() => {
+                                    <IconButton
+                                        onClick={() => {
                                             dispatch(setLoadIndexToDelete(index))
                                             dispatch(deleteLoadDialogOpen(true))
-                                        }}
-                                        />
-                                    </Button>
+                                        }}>
+                                        <DeleteIcon />
+                                    </IconButton>
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer >
 
-            <ButtonGroup variant="outlined" ref={anchorRef} aria-label="split button">
+            <ButtonGroup variant="outlined" aria-label="split button">
                 <Button
                     aria-controls={open ? 'split-button-menu' : undefined}
                     aria-expanded={open ? 'true' : undefined}
@@ -291,7 +296,8 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     aria-haspopup="menu"
                     onClick={handleToggle}
                 >
-                    {loadsToAdd[selectedIndex]?.label}
+                    {t(`${loadsToAdd[selectedIndex]?.label}`)}
+                    <Box ref={anchorRef} />
                     <ArrowDropDownIcon />
                 </Button>
                 <Button onClick={handleClick} endIcon={<PlaylistAdd />}>{t('ui.button.addNewLoad')} </Button>
@@ -324,7 +330,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                             selected={option === selectedIndex}
                                             onClick={(e) => handleMenuItemClick(e, option)}
                                         >
-                                            {loadsToAdd[option].label}
+                                            {t(`${loadsToAdd[option].label}`)}
                                         </MenuItem>
                                     ))}
                                 </MenuList>

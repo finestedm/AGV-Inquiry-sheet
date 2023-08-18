@@ -26,14 +26,8 @@ export default function DeleteLoadWarningDialog() {
                 <DialogContentText id="alert-dialog-description">
                     {t("ui.dialog.loadDelete.description")}
                 </DialogContentText>
-                <Stack direction='row' spacing={2} sx={{mt: 4}}>
-                    <Button
-                        variant="outlined"
-                        onClick={() => dispatch(deleteLoadDialogOpen(false))}
-                        autoFocus
-                    >
-                        {t("ui.dialog.loadDelete.cancel")}
-                    </Button>
+                <Stack direction='row' flex={1} justifyContent='space-between' spacing={2} sx={{ mt: 4 }}>
+
                     <Button
                         variant="outlined"
                         color="error"
@@ -44,6 +38,13 @@ export default function DeleteLoadWarningDialog() {
                         }
                     >
                         {t("ui.dialog.loadDelete.confirm")}
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        onClick={() => dispatch(deleteLoadDialogOpen(false))}
+                        autoFocus
+                    >
+                        {t("ui.dialog.loadDelete.cancel")}
                     </Button>
                 </Stack>
             </DialogContent>
