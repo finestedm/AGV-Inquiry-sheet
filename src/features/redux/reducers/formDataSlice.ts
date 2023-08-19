@@ -281,3 +281,4 @@ const formDataSlice = createSlice({
 
 export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad } = formDataSlice.actions;
 export default formDataSlice.reducer;
+export { initialFormDataState }
