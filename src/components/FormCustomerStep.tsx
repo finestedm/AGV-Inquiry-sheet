@@ -62,7 +62,7 @@ export default function FormCustomerStep(): JSX.Element {
       }}
       validateOnChange={true}
     >
-      {({ values, errors, setFieldValue }) => (
+      {({ values, errors, setFieldValue, touched}) => (
         <Form>
           <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
@@ -77,8 +77,8 @@ export default function FormCustomerStep(): JSX.Element {
                   setFieldValue('customer.name', e.target.value);
                   dispatch(handleInputMethod({ path: 'customer.name', value: e.target.value }));
                 }}
-                error={Boolean(errors.customer?.name)}
-                helperText={errors.customer?.name}
+                error={isFieldTouched && Boolean(errors.customer?.name)}
+                helperText={isFieldTouched && errors.customer?.name}
               />
               <Field
                 as={TextField}
@@ -90,8 +90,8 @@ export default function FormCustomerStep(): JSX.Element {
                   setFieldValue('customer.sapNumber', e.target.value);
                   dispatch(handleInputMethod({ path: 'customer.sapNumber', value: e.target.value }));
                 }}
-                error={Boolean(errors.customer?.sapNumber)}
-                helperText={errors.customer?.sapNumber}
+                error={isFieldTouched && Boolean(errors.customer?.sapNumber)}
+                helperText={isFieldTouched && errors.customer?.sapNumber}
               />
               <TextField
                 label={t('customer.address')}
@@ -271,10 +271,8 @@ export default function FormCustomerStep(): JSX.Element {
               />
             </Stack>
           </Stack>
-          <Button type="submit">fsffsdf</Button>
         </Form>
       )}
-
     </Formik>
   )
 }
