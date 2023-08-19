@@ -3,8 +3,6 @@ import { useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
 import { useTranslation } from 'react-i18next';
-import { IFormData } from "../features/interfaces";
-import { Dispatch } from 'redux'
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleIndustryChange, handleInputMethod, setFormData } from "../features/redux/reducers/formDataSlice";
@@ -25,7 +23,6 @@ export const MenuProps = {
 export default function FormCustomerStep(): JSX.Element {
 
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const formData = useSelector((state: RootState) => state.formData);
   const dispatch = useDispatch();
