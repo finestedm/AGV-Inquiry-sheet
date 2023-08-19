@@ -77,8 +77,8 @@ export default function FormCustomerStep(): JSX.Element {
                   setFieldValue('customer.name', e.target.value);
                   dispatch(handleInputMethod({ path: 'customer.name', value: e.target.value }));
                 }}
-                error={isFieldTouched && Boolean(errors.customer?.name)}
-                helperText={isFieldTouched && errors.customer?.name}
+                error={touched.customer?.name && Boolean(errors.customer?.name)}
+                helperText={touched.customer?.name && errors.customer?.name}
               />
               <Field
                 as={TextField}
@@ -90,15 +90,21 @@ export default function FormCustomerStep(): JSX.Element {
                   setFieldValue('customer.sapNumber', e.target.value);
                   dispatch(handleInputMethod({ path: 'customer.sapNumber', value: e.target.value }));
                 }}
-                error={isFieldTouched && Boolean(errors.customer?.sapNumber)}
-                helperText={isFieldTouched && errors.customer?.sapNumber}
+                error={touched.customer?.sapNumber && Boolean(errors.customer?.sapNumber)}
+                helperText={touched.customer?.sapNumber && errors.customer?.sapNumber}
               />
-              <TextField
+              <Field
+                as={TextField}
                 label={t('customer.address')}
                 placeholder="Popularna 13B"
                 name="customer.address"
                 value={formData.customer.address}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(handleInputMethod({ path: 'customer.address', value: e.target.value }))}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  setFieldValue('customer.address', e.target.value);
+                  dispatch(handleInputMethod({ path: 'customer.address', value: e.target.value }));
+                }}
+                error={touched.customer?.address && Boolean(errors.customer?.address)}
+                helperText={touched.customer?.address && errors.customer?.address}
               />
             </Stack>
             <Stack spacing={2}>
