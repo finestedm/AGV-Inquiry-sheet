@@ -11,12 +11,12 @@ import { IFormData } from "../features/interfaces";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
 import ScrollButton from "./MobileScrollButton";
-import { useTheme } from "@emotion/react";
+import { Formik, useFormikContext } from 'formik';
+import validationSchema from "../features/formValidation/formValidation";
 
 export default function Form(): JSX.Element {
 
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const formData = useSelector((state: RootState) => state.formData);
 
@@ -57,6 +57,15 @@ export default function Form(): JSX.Element {
     return steps;
   };
 
+  // const { isValid } = useFormikContext(); // Access Formik context to get isValid
+
+  // const isCurrentStepValid = () => {
+  //   if (activeStep >= 0 && activeStep < steps.length) {
+  //     const stepValidation = validationSchema[steps.]; // Get the validation schema for the current step
+  //     return stepValidation.isValidSync(formData); // Check if current step's fields are valid
+  //   }
+  //   return true; // By default, allow navigation if step is out of bounds
+  // };
 
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);

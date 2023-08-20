@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormHelperText, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
@@ -8,7 +8,6 @@ import { RootState } from "../features/redux/store";
 import { handleIndustryChange, handleInputMethod, initialFormDataState, setFormData } from "../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import { Field, Form, Formik } from 'formik'
-import { object, string } from 'yup'
 import validationSchema from "../features/formValidation/formValidation";
 
 //props for the insdustries select
@@ -45,13 +44,6 @@ export default function FormCustomerStep(): JSX.Element {
 
   const [otherIndustry, setOtherIndustry] = useState<string>('')
 
-  function isValidEmail() {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(formData.customer.contactPersonMail);
-  };
-
-  const [isFieldTouched, setIsFieldTouched] = useState(false);
-
 
   return (
     <Formik
@@ -62,7 +54,7 @@ export default function FormCustomerStep(): JSX.Element {
       }}
       validateOnChange={true}
     >
-      {({ values, errors, setFieldValue, touched}) => (
+      {({ values, errors, setFieldValue, touched }) => (
         <Form>
           <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
@@ -130,18 +122,18 @@ export default function FormCustomerStep(): JSX.Element {
                 variant="outlined"
                 fullWidth
               />
-              <TextField
+              <Field
+                as={TextField}
                 label={t('customer.contactperson.mail')}
                 name="customer.contactPersonMail"
                 value={formData.customer.contactPersonMail}
                 placeholder={t('customer.contactperson.mail.placeholder')}
-                onChange={(e) => {
-                  setIsFieldTouched(true);
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  setFieldValue('customer.contactPersonMail', e.target.value);
                   dispatch(handleInputMethod({ path: 'customer.contactPersonMail', value: e.target.value }))
-                }
-                }
-                error={isFieldTouched && !isValidEmail()} // Show error only if the field is touched and email is invalid
-                helperText={isFieldTouched && !isValidEmail() ? t('customer.contactperson.mail.helpertext.valid') : ''}
+                }}
+                error={touched.customer?.contactPersonMail && Boolean(errors.customer?.contactPersonMail)} // Show error only if the field is touched and email is invalid
+                helperText={touched.customer?.contactPersonMail && t(`${errors.customer?.contactPersonMail}`)}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="start">
@@ -155,15 +147,21 @@ export default function FormCustomerStep(): JSX.Element {
               <Typography variant="h5" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
               <FormControl>
                 <InputLabel id="customer-industry-label">{t('customer.industry')}</InputLabel>
-                <Select
+                <Field
+                  as={Select}
                   labelId="customer-industry-label"
-                  id="customer-industry"
+                  id="customer-industryName"
+                  name='customer.industryName'
                   multiple
                   input={<OutlinedInput label={t('customer.industry')} />}
                   value={formData.customer.industryName}
-                  onChange={(e) => dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value as string[] }))}
-                  renderValue={(selected) => (selected as string[]).join(', ')}
+                  onChange={(e: { target: { value: string[]; }; }) => {
+                    setFieldValue('customer.industryName', e.target.value);
+                    dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value }))
+                  }}
+                  renderValue={(selected: string[]) => selected.join(', ')}
                   MenuProps={MenuProps}
+                  error={touched.customer?.industryName && Boolean(errors.customer?.industryName)}
                 >
                   {industries.map((name) => (
                     <MenuItem key={name} value={name}>
@@ -171,12 +169,13 @@ export default function FormCustomerStep(): JSX.Element {
                       <ListItemText primary={name} />
                     </MenuItem>
                   ))}
-                </Select>
+                </Field>
+                {touched.customer?.industryName && errors.customer?.industryName && <FormHelperText>{t(`${errors.customer?.industryName}`)}</ FormHelperText>}
               </FormControl>
               {formData.customer.industryName.includes(t('industry.other')) &&
                 <TextField
-                  label={t('customer.industry.other')}
-                  name="customer.industry-other"
+                  label={t('customer.industryName.other')}
+                  name="customer.industryName-other"
                   value={otherIndustry}
                   onChange={(e) => setOtherIndustry(e.target.value)}
                   onKeyDown={(e) => {
@@ -188,20 +187,27 @@ export default function FormCustomerStep(): JSX.Element {
               }
               <FormControl>
                 <InputLabel id="customer-relations-label">{t('customer.relations.type')}</InputLabel>
-                <Select
+                <Field
+                  as={Select}
                   labelId="customer-relations-label"
-                  id="customer-relations"
+                  id="customer.relations"
+                  name='customer.relations'
                   input={<OutlinedInput label={t('customer.relations.type')} />}
                   value={formData.customer.relations}
-                  onChange={(e) => dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))}
-                  renderValue={(selected) => (selected)}
+                  onChange={(e: { target: { value: string; }; }) => {
+                    dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))
+                    setFieldValue('customer.relations', e.target.value);
+                  }}
+                  renderValue={(selected: any) => (selected)}
                   MenuProps={MenuProps}
+                  error={touched.customer?.relations && Boolean(errors.customer?.relations)}
                 >
                   <MenuItem value={t('customer.relations.new')}>{t('customer.relations.new')}</MenuItem>
                   <MenuItem value={t('customer.relations.jh')}>{t('customer.relations.jh')}</MenuItem>
                   <MenuItem value={t('customer.relations.jh-kam')}>{t('customer.relations.jh-kam')}</MenuItem>
                   <MenuItem value={t('customer.relations.competitor')}>{t('customer.relations.competitor')}</MenuItem>
-                </Select>
+                </Field>
+                {touched.customer?.relations && errors.customer?.relations && <FormHelperText>{t(`${errors.customer?.relations}`)}</ FormHelperText>}
               </FormControl>
               {(formData.customer.relations === t('customer.relations.jh') || formData.customer.relations === t('customer.relations.jh-kam')) &&
                 <Box>

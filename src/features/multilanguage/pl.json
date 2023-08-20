@@ -203,5 +203,21 @@
       "empty": "bez danych",
       "euro": "EuroPaleta"
     }
+  },
+  "helperText": {
+    "customer": {
+      "address": {
+        "required": "Adres wymagany"
+      },
+      "contactPersonMail": {
+        "format": "Zły format"
+      },
+      "industryName": {
+        "number": "Wybierz co najmniej jedną branżę"
+      },
+      "relations": {
+        "number": "Wybierz typ relacji"
+      }
+    }
   }
 }
