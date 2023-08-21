@@ -206,8 +206,14 @@
   },
   "helperText": {
     "customer": {
+      "name": {
+        "required": "Nazwa firmy wymagana"
+      },
       "address": {
         "required": "Adres wymagany"
+      },
+      "sapNumber": {
+        "format": "Numer SAP musi zaczynać się od 4 i mieć 8 cyfr"
       },
       "contactPersonMail": {
         "format": "Zły format"

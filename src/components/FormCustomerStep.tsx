@@ -23,6 +23,7 @@ export const MenuProps = {
 };
 
 export default function FormCustomerStep(): JSX.Element {
+  const theme = useTheme()
 
   const { t } = useTranslation();
 
@@ -70,7 +71,7 @@ export default function FormCustomerStep(): JSX.Element {
                   dispatch(handleInputMethod({ path: 'customer.name', value: e.target.value }));
                 }}
                 error={touched.customer?.name && Boolean(errors.customer?.name)}
-                helperText={touched.customer?.name && errors.customer?.name}
+                helperText={touched.customer?.name && t(`${errors.customer?.name}`)}
               />
               <Field
                 as={TextField}
@@ -83,7 +84,7 @@ export default function FormCustomerStep(): JSX.Element {
                   dispatch(handleInputMethod({ path: 'customer.sapNumber', value: e.target.value }));
                 }}
                 error={touched.customer?.sapNumber && Boolean(errors.customer?.sapNumber)}
-                helperText={touched.customer?.sapNumber && errors.customer?.sapNumber}
+                helperText={touched.customer?.sapNumber && t(`${errors.customer?.sapNumber}`)}
               />
               <Field
                 as={TextField}
@@ -96,7 +97,7 @@ export default function FormCustomerStep(): JSX.Element {
                   dispatch(handleInputMethod({ path: 'customer.address', value: e.target.value }));
                 }}
                 error={touched.customer?.address && Boolean(errors.customer?.address)}
-                helperText={touched.customer?.address && errors.customer?.address}
+                helperText={touched.customer?.address && t(`${errors.customer?.address}`)}
               />
             </Stack>
             <Stack spacing={2}>
@@ -170,7 +171,7 @@ export default function FormCustomerStep(): JSX.Element {
                     </MenuItem>
                   ))}
                 </Field>
-                {touched.customer?.industryName && errors.customer?.industryName && <FormHelperText>{t(`${errors.customer?.industryName}`)}</ FormHelperText>}
+                {touched.customer?.industryName && errors.customer?.industryName && <FormHelperText error>{t(`${errors.customer?.industryName}`)}</ FormHelperText>}
               </FormControl>
               {formData.customer.industryName.includes(t('industry.other')) &&
                 <TextField
@@ -207,7 +208,7 @@ export default function FormCustomerStep(): JSX.Element {
                   <MenuItem value={t('customer.relations.jh-kam')}>{t('customer.relations.jh-kam')}</MenuItem>
                   <MenuItem value={t('customer.relations.competitor')}>{t('customer.relations.competitor')}</MenuItem>
                 </Field>
-                {touched.customer?.relations && errors.customer?.relations && <FormHelperText>{t(`${errors.customer?.relations}`)}</ FormHelperText>}
+                {touched.customer?.relations && errors.customer?.relations && <FormHelperText error>{t(`${errors.customer?.relations}`)}</ FormHelperText>}
               </FormControl>
               {(formData.customer.relations === t('customer.relations.jh') || formData.customer.relations === t('customer.relations.jh-kam')) &&
                 <Box>
