@@ -14,6 +14,13 @@ const validationSchema = Yup.object({
     relations: Yup.string().required('helperText.customer.relations.number'),
 
   }),
+  sales: Yup.object({}),
+  project: Yup.object({}),
+  system: Yup.object({}),
+  lrkprk: Yup.object({}),
+  agv: Yup.object({}),
+  autovna: Yup.object({}),
+  asrs: Yup.object({})
 
   // Define validation rules for other fields
 })

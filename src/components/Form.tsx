@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormStepper from "./FormStepper";
 import FormSalesUnitStep from "./FormSalesUnitStep";
 import FormCustomerStep from "./FormCustomerStep";
@@ -8,11 +8,12 @@ import { useTranslation } from 'react-i18next';
 import FormProjectStep from "./FormProjectStep";
 import FormASRSStep from "./FormASRSStep";
 import { IFormData } from "../features/interfaces";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
 import ScrollButton from "./MobileScrollButton";
-import { Formik, useFormikContext } from 'formik';
 import validationSchema from "../features/formValidation/formValidation";
+import { useFormikContext } from "formik";
+
 
 export default function Form(): JSX.Element {
 
@@ -20,53 +21,66 @@ export default function Form(): JSX.Element {
 
   const formData = useSelector((state: RootState) => state.formData);
 
-  const [activeStep, setActiveStep] = useState<number>(0);
-  const stepLabels = [
-    t('steps.sales'),
-    t('steps.customer'),
-    t('steps.project'),
-    t('steps.system'),
-    formData.system.asrs.selected ? t('steps.systems.asrs') : undefined,
-    formData.system.lrkprk.selected ? t('steps.systems.lrkprk') : undefined,
-    formData.system.agv.selected ? t('steps.systems.agv') : undefined,
-    formData.system.autovna.selected ? t('steps.systems.autovna') : undefined,
-  ].filter((label) => label !== undefined) as string[];
+  const [stepsCombined, setStepsCombined] = useState<{ [key: string]: { label: string, component: React.ReactNode } }>({
+    sales: {
+      label: t('steps.sales'), component: <FormSalesUnitStep key="sales" />
+    },
+    customer: {
+      label: t('steps.customer'), component: <FormCustomerStep key="customer" />
+    },
+    project: {
+      label: t('steps.project'), component: <FormProjectStep key="project" />
+    },
+    system: {
+      label: t('steps.system'), component: <FormSystemSelectorStep key="system" />
+    },
+  })
 
-  const generateSteps = (formData: IFormData) => {
-
-    const steps = [
-      <FormSalesUnitStep key="sales" />,
-      <FormCustomerStep key="customer" />,
-      <FormProjectStep key="project" />,
-      <FormSystemSelectorStep key="system" />,
-    ];
+  useEffect(() => {
+    const newSteps = { ...stepsCombined };
 
     if (formData.system.asrs.selected) {
-      steps.push(<FormASRSStep key="asrs" />);
+      newSteps.asrs = {
+        label: t("steps.systems.asrs"),
+        component: <FormASRSStep key="asrs" />,
+      };
+    } else {
+      delete newSteps.asrs; // Remove the key if system is deselected
     }
+
     if (formData.system.lrkprk.selected) {
-      steps.push(<FormASRSStep key="lrkprk" />);
+      newSteps.lrkprk = {
+        label: t("steps.systems.lrkprk"),
+        component: <FormASRSStep key="lrkprk" />,
+      };
+    } else {
+      delete newSteps.lrkprk; // Remove the key if system is deselected
     }
+
     if (formData.system.agv.selected) {
-      steps.push(<FormASRSStep key="agv" />);
+      newSteps.agv = {
+        label: t("steps.systems.agv"),
+        component: <FormASRSStep key="agv" />,
+      };
+    } else {
+      delete newSteps.agv; // Remove the key if system is deselected
     }
+
     if (formData.system.autovna.selected) {
-      steps.push(<FormASRSStep key="autovna" />);
+      newSteps.autovna = {
+        label: t("steps.systems.autovna"),
+        component: <FormASRSStep key="autovna" />,
+      };
+    } else {
+      delete newSteps.autovna; // Remove the key if system is deselected
     }
 
-    return steps;
-  };
+    setStepsCombined(newSteps);
+  }, [formData]);
 
-  // const { isValid } = useFormikContext(); // Access Formik context to get isValid
 
-  // const isCurrentStepValid = () => {
-  //   if (activeStep >= 0 && activeStep < steps.length) {
-  //     const stepValidation = validationSchema[steps.]; // Get the validation schema for the current step
-  //     return stepValidation.isValidSync(formData); // Check if current step's fields are valid
-  //   }
-  //   return true; // By default, allow navigation if step is out of bounds
-  // };
-
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const stepLabels = Object.values(stepsCombined).map((step) => step.label);
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
@@ -94,7 +108,7 @@ export default function Form(): JSX.Element {
   };
 
 
-  const steps = generateSteps(formData);
+  const steps = Object.values(stepsCombined).map((step) => step.component);
 
   if (formData) {
     return (
