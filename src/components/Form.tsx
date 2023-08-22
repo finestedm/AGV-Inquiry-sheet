@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "./FormStepper";
 import FormSalesUnitStep from "./FormSalesUnitStep";
 import FormCustomerStep from "./FormCustomerStep";
@@ -12,10 +12,12 @@ import { useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
 import ScrollButton from "./MobileScrollButton";
 import validationSchema from "../features/formValidation/formValidation";
-import { useFormikContext } from "formik";
+import { Field, Form as FormikForm, Formik, FormikProps } from 'formik'
+import { initialFormDataState } from "../features/redux/reducers/formDataSlice";
 
 
 export default function Form(): JSX.Element {
+
 
   const { t } = useTranslation();
 
@@ -59,38 +61,38 @@ export default function Form(): JSX.Element {
         component: <FormSystemSelectorStep key="system" />
       }
     ];
-  
+
     if (formData.system.asrs.selected) {
       newSteps.push({
         label: t("steps.systems.asrs"),
         component: <FormASRSStep key="asrs" />,
       });
     }
-  
+
     if (formData.system.lrkprk.selected) {
       newSteps.push({
         label: t("steps.systems.lrkprk"),
         component: <FormASRSStep key="lrkprk" />,
       });
     }
-  
+
     if (formData.system.agv.selected) {
       newSteps.push({
         label: t("steps.systems.agv"),
         component: <FormASRSStep key="agv" />,
       });
     }
-  
+
     if (formData.system.autovna.selected) {
       newSteps.push({
         label: t("steps.systems.autovna"),
         component: <FormASRSStep key="autovna" />,
       });
     }
-  
+
     setStepsCombined(newSteps);
   }, [formData]);
-  
+
 
   const [activeStep, setActiveStep] = useState<number>(0);
   const stepLabels = stepsCombined.map((step) => step.label);
@@ -125,33 +127,48 @@ export default function Form(): JSX.Element {
 
   if (formData) {
     return (
-      <Container component='form'>
-        <Stack spacing={6} sx={{ mb: 10 }}>
-          <Box>
-            <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
-          </Box>
-          <Box>
-            <Box className={fadeOut ? 'step fadeout' : 'step'}>
-              {activeStep >= 0 && activeStep < steps.length && steps[activeStep]}
-            </Box>
-          </Box>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <Stack direction='row'>
-              {activeStep !== 0 && (
-                <Button variant="contained" onClick={handleBack}>
-                  {t('ui.button.back')}
-                </Button>
-              )}
-              {activeStep < stepLabels.length - 1 && (
-                <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}>
-                  {t('ui.button.next')}
-                </Button>
-              )}
-            </Stack>
-          </Box>
-        </Stack>
-        <ScrollButton />
-      </Container >
+      <Formik
+        initialValues={initialFormDataState}
+        validationSchema={validationSchema}
+        onSubmit={(values, formikHelpers) => {
+          console.log(values, formikHelpers)
+        }}
+        validateOnChange={true}
+      >
+        {(formikProps: FormikProps<IFormData>) => (
+          <FormikForm>
+            <Container component='form'>
+              <Stack spacing={6} sx={{ mb: 10 }}>
+                <Box>
+                  <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
+                </Box>
+                {stepsCombined.map((step, index) => (
+                  <div key={index} className={fadeOut ? 'step fadeout' : 'step'}>
+                    {activeStep >= 0 && activeStep < steps.length && (
+                      step.component
+                    )}
+                  </div>
+                ))}
+                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                  <Stack direction='row'>
+                    {activeStep !== 0 && (
+                      <Button variant="contained" onClick={handleBack}>
+                        {t('ui.button.back')}
+                      </Button>
+                    )}
+                    {activeStep < stepLabels.length - 1 && (
+                      <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}>
+                        {t('ui.button.next')}
+                      </Button>
+                    )}
+                  </Stack>
+                </Box>
+              </Stack>
+              <ScrollButton />
+            </Container >
+          </FormikForm>
+        )}
+      </Formik>
     );
   } else {
     return (<h2>hmm</h2>)
