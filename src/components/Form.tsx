@@ -142,13 +142,14 @@ export default function Form(): JSX.Element {
                 <Box>
                   <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
                 </Box>
-                {stepsCombined.map((step, index) => (
+                {stepsCombined[activeStep].component}
+                {/* {stepsCombined.map((step, index) => (
                   <div key={index} className={fadeOut ? 'step fadeout' : 'step'}>
                     {activeStep >= 0 && activeStep < steps.length && (
                       step.component
                     )}
                   </div>
-                ))}
+                ))} */}
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
                     {activeStep !== 0 && (
