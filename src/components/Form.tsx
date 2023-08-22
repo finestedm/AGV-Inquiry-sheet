@@ -101,10 +101,8 @@ export default function Form(): JSX.Element {
   const handleNext = () => {
     setFadeOut(true);
     setTimeout(() => {
-      if (stepValidations[activeStep]) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setFadeOut(false);
-      }
     }, 500); // Adjust the delay time (in milliseconds) as needed
   };
 
@@ -124,12 +122,7 @@ export default function Form(): JSX.Element {
     }, 500);
   };
 
-  const [stepValidations, setStepValidations] = useState<boolean[]>(
-    stepsCombined.map(() => false)
-  );
-
-  const steps = stepsCombined.map((step) => step.component);
-
+  
   if (formData) {
     return (
       <Formik
