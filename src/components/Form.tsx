@@ -101,8 +101,10 @@ export default function Form(): JSX.Element {
   const handleNext = () => {
     setFadeOut(true);
     setTimeout(() => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setFadeOut(false);
+      if (stepValidations[activeStep]) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setFadeOut(false);
+      }
     }, 500); // Adjust the delay time (in milliseconds) as needed
   };
 
@@ -122,6 +124,9 @@ export default function Form(): JSX.Element {
     }, 500);
   };
 
+  const [stepValidations, setStepValidations] = useState<boolean[]>(
+    stepsCombined.map(() => false)
+  );
 
   const steps = stepsCombined.map((step) => step.component);
 
@@ -142,14 +147,9 @@ export default function Form(): JSX.Element {
                 <Box>
                   <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
                 </Box>
-                {stepsCombined[activeStep].component}
-                {/* {stepsCombined.map((step, index) => (
-                  <div key={index} className={fadeOut ? 'step fadeout' : 'step'}>
-                    {activeStep >= 0 && activeStep < steps.length && (
-                      step.component
-                    )}
-                  </div>
-                ))} */}
+                <div className={fadeOut ? 'step fadeout' : 'step'}>
+                  {stepsCombined[activeStep].component}
+                </div>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
                     {activeStep !== 0 && (
@@ -158,7 +158,9 @@ export default function Form(): JSX.Element {
                       </Button>
                     )}
                     {activeStep < stepLabels.length - 1 && (
-                      <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}>
+                      <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}
+                        disabled={!!formikProps.errors.customer}
+                      >
                         {t('ui.button.next')}
                       </Button>
                     )}
