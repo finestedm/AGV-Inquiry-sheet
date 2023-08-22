@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleIndustryChange, handleInputMethod, initialFormDataState, setFormData } from "../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
-import { Field, Form, Formik } from 'formik'
+import { Field, Form, Formik, FormikProps } from 'formik'
 import validationSchema from "../features/formValidation/formValidation";
+import { IFormData } from "../features/interfaces";
+import CustomTextField from "./CustomTextField";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -55,49 +57,26 @@ export default function FormCustomerStep(): JSX.Element {
       }}
       validateOnChange={true}
     >
-      {({ values, errors, setFieldValue, touched }) => (
+      {(formikProps) => (
         <Form>
           <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
             <Stack spacing={2}>
               <Typography variant="h5" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
-              <Field
-                as={TextField}
-                label={t('customer.name')}
-                name="customer.name"
-                value={formData.customer.name}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setFieldValue('customer.name', e.target.value);
-                  dispatch(handleInputMethod({ path: 'customer.name', value: e.target.value }));
-                }}
-                error={touched.customer?.name && Boolean(errors.customer?.name)}
-                helperText={touched.customer?.name && t(`${errors.customer?.name}`)}
+              <CustomTextField
+                fieldName="customer.name"
+                field={formikProps.getFieldProps('customer.name')} // Pass field props
+                form={formikProps} // Pass formikProps
               />
-              <Field
-                as={TextField}
-                label={t('customer.sap')}
-                placeholder="41******"
-                name="customer.sapNumber"
-                value={formData.customer.sapNumber}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setFieldValue('customer.sapNumber', e.target.value);
-                  dispatch(handleInputMethod({ path: 'customer.sapNumber', value: e.target.value }));
-                }}
-                error={touched.customer?.sapNumber && Boolean(errors.customer?.sapNumber)}
-                helperText={touched.customer?.sapNumber && t(`${errors.customer?.sapNumber}`)}
+              <CustomTextField
+                fieldName="customer.sapNumber"
+                field={formikProps.getFieldProps('customer.sapNumber')} // Pass field props
+                form={formikProps} // Pass formikProps
               />
-              <Field
-                as={TextField}
-                label={t('customer.address')}
-                placeholder="Popularna 13B"
-                name="customer.address"
-                value={formData.customer.address}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setFieldValue('customer.address', e.target.value);
-                  dispatch(handleInputMethod({ path: 'customer.address', value: e.target.value }));
-                }}
-                error={touched.customer?.address && Boolean(errors.customer?.address)}
-                helperText={touched.customer?.address && t(`${errors.customer?.address}`)}
+              <CustomTextField
+                fieldName="customer.address"
+                field={formikProps.getFieldProps('customer.address')} // Pass field props
+                form={formikProps} // Pass formikProps
               />
             </Stack>
             <Stack spacing={2}>
@@ -123,25 +102,10 @@ export default function FormCustomerStep(): JSX.Element {
                 variant="outlined"
                 fullWidth
               />
-              <Field
-                as={TextField}
-                label={t('customer.contactperson.mail')}
-                name="customer.contactPersonMail"
-                value={formData.customer.contactPersonMail}
-                placeholder={t('customer.contactperson.mail.placeholder')}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setFieldValue('customer.contactPersonMail', e.target.value);
-                  dispatch(handleInputMethod({ path: 'customer.contactPersonMail', value: e.target.value }))
-                }}
-                error={touched.customer?.contactPersonMail && Boolean(errors.customer?.contactPersonMail)} // Show error only if the field is touched and email is invalid
-                helperText={touched.customer?.contactPersonMail && t(`${errors.customer?.contactPersonMail}`)}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      <EmailIcon />
-                    </InputAdornment>
-                  ),
-                }}
+              <CustomTextField
+                fieldName="customer.contactPersonMail"
+                field={formikProps.getFieldProps('customer.contactPersonMail')} // Pass field props
+                form={formikProps} // Pass formikProps
               />
             </Stack>
             <Stack spacing={2}>
@@ -157,12 +121,12 @@ export default function FormCustomerStep(): JSX.Element {
                   input={<OutlinedInput label={t('customer.industry')} />}
                   value={formData.customer.industryName}
                   onChange={(e: { target: { value: string[]; }; }) => {
-                    setFieldValue('customer.industryName', e.target.value);
+                    formikProps.setFieldValue('customer.industryName', e.target.value);
                     dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value }))
                   }}
                   renderValue={(selected: string[]) => selected.join(', ')}
                   MenuProps={MenuProps}
-                  error={touched.customer?.industryName && Boolean(errors.customer?.industryName)}
+                  error={formikProps.touched.customer?.industryName && Boolean(formikProps.errors.customer?.industryName)}
                 >
                   {industries.map((name) => (
                     <MenuItem key={name} value={name}>
@@ -171,7 +135,7 @@ export default function FormCustomerStep(): JSX.Element {
                     </MenuItem>
                   ))}
                 </Field>
-                {touched.customer?.industryName && errors.customer?.industryName && <FormHelperText error>{t(`${errors.customer?.industryName}`)}</ FormHelperText>}
+                {formikProps.touched.customer?.industryName && formikProps.errors.customer?.industryName && <FormHelperText error>{t(`${formikProps.errors.customer?.industryName}`)}</ FormHelperText>}
               </FormControl>
               {formData.customer.industryName.includes(t('industry.other')) &&
                 <TextField
@@ -197,18 +161,18 @@ export default function FormCustomerStep(): JSX.Element {
                   value={formData.customer.relations}
                   onChange={(e: { target: { value: string; }; }) => {
                     dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))
-                    setFieldValue('customer.relations', e.target.value);
+                    formikProps.setFieldValue('customer.relations', e.target.value);
                   }}
                   renderValue={(selected: any) => (selected)}
                   MenuProps={MenuProps}
-                  error={touched.customer?.relations && Boolean(errors.customer?.relations)}
+                  error={formikProps.touched.customer?.relations && Boolean(formikProps.errors.customer?.relations)}
                 >
                   <MenuItem value={t('customer.relations.new')}>{t('customer.relations.new')}</MenuItem>
                   <MenuItem value={t('customer.relations.jh')}>{t('customer.relations.jh')}</MenuItem>
                   <MenuItem value={t('customer.relations.jh-kam')}>{t('customer.relations.jh-kam')}</MenuItem>
                   <MenuItem value={t('customer.relations.competitor')}>{t('customer.relations.competitor')}</MenuItem>
                 </Field>
-                {touched.customer?.relations && errors.customer?.relations && <FormHelperText error>{t(`${errors.customer?.relations}`)}</ FormHelperText>}
+                {formikProps.touched.customer?.relations && formikProps.errors.customer?.relations && <FormHelperText error>{t(`${formikProps.errors.customer?.relations}`)}</ FormHelperText>}
               </FormControl>
               {(formData.customer.relations === t('customer.relations.jh') || formData.customer.relations === t('customer.relations.jh-kam')) &&
                 <Box>

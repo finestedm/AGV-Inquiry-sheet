@@ -2,17 +2,16 @@
   "customer": {
     "header": "Dane klienta",
     "name": "Firma / klient",
-    "sap": "Numer sap",
+    "sapNumber": "Numer sap",
     "industry": "Branża",
     "industry.other": "Inna branża",
     "contactperson": {
       "name": "Imię i nazwisko",
       "role": "Funkcja osoby kontaktowej",
       "phone": "Telefon kontaktowy",
-      "mail": "Adres email",
-      "mail.helpertext.valid": "Zły format",
-      "mail.placeholder": "jan.kowalski@firma.pl"
+      "mail": "Adres email"
     },
+    "contactPersonMail": "Adres email",
     "address": "Adres",
     "subheader": {
       "teleaddress": "Dane firmy",

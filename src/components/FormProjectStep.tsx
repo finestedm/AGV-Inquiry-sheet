@@ -10,7 +10,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { IFormData, IHandleInputMethod } from "../features/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
