@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
 import ScrollButton from "./MobileScrollButton";
 import validationSchema from "../features/formValidation/formValidation";
-import { Field, Form as FormikForm, Formik, FormikProps } from 'formik'
+import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors } from 'formik'
 import { initialFormDataState } from "../features/redux/reducers/formDataSlice";
 
 
@@ -23,41 +23,49 @@ export default function Form(): JSX.Element {
 
   const formData = useSelector((state: RootState) => state.formData);
 
-  const [stepsCombined, setStepsCombined] = useState<{ label: string, component: React.ReactNode }[]>([
+  const [stepsCombined, setStepsCombined] = useState<{ label: string, untranslated: string, component: React.ReactNode }[]>([
     {
       label: t('steps.sales'),
+      untranslated: "sales",
       component: <FormSalesUnitStep key="sales" />
     },
     {
       label: t('steps.customer'),
+      untranslated: "customer",
       component: <FormCustomerStep key="customer" />
     },
     {
       label: t('steps.project'),
+      untranslated: "project",
       component: <FormProjectStep key="project" />
     },
     {
       label: t('steps.system'),
+      untranslated: "system",
       component: <FormSystemSelectorStep key="system" />
     }
   ]);
 
   useEffect(() => {
-    const newSteps: { label: string, component: React.ReactNode }[] = [
+    const newSteps: { label: string, untranslated: string, component: React.ReactNode }[] = [
       {
         label: t('steps.sales'),
+        untranslated: "sales",
         component: <FormSalesUnitStep key="sales" />
       },
       {
         label: t('steps.customer'),
+        untranslated: "customer",
         component: <FormCustomerStep key="customer" />
       },
       {
         label: t('steps.project'),
+        untranslated: "project",
         component: <FormProjectStep key="project" />
       },
       {
         label: t('steps.system'),
+        untranslated: "system",
         component: <FormSystemSelectorStep key="system" />
       }
     ];
@@ -65,6 +73,7 @@ export default function Form(): JSX.Element {
     if (formData.system.asrs.selected) {
       newSteps.push({
         label: t("steps.systems.asrs"),
+        untranslated: "asrs",
         component: <FormASRSStep key="asrs" />,
       });
     }
@@ -72,6 +81,7 @@ export default function Form(): JSX.Element {
     if (formData.system.lrkprk.selected) {
       newSteps.push({
         label: t("steps.systems.lrkprk"),
+        untranslated: "lrkprk",
         component: <FormASRSStep key="lrkprk" />,
       });
     }
@@ -79,6 +89,7 @@ export default function Form(): JSX.Element {
     if (formData.system.agv.selected) {
       newSteps.push({
         label: t("steps.systems.agv"),
+        untranslated: "agv",
         component: <FormASRSStep key="agv" />,
       });
     }
@@ -86,6 +97,7 @@ export default function Form(): JSX.Element {
     if (formData.system.autovna.selected) {
       newSteps.push({
         label: t("steps.systems.autovna"),
+        untranslated: "autovna",
         component: <FormASRSStep key="autovna" />,
       });
     }
@@ -95,14 +107,21 @@ export default function Form(): JSX.Element {
 
 
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [activeStepName, setActiveStepName] = useState<string>('');
+
+  useEffect(() => {
+    setActiveStepName(stepsCombined[activeStep].untranslated.toLowerCase())
+
+  }, [activeStep])
+
   const stepLabels = stepsCombined.map((step) => step.label);
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
     setFadeOut(true);
     setTimeout(() => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setFadeOut(false);
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setFadeOut(false);
     }, 500); // Adjust the delay time (in milliseconds) as needed
   };
 
@@ -122,7 +141,7 @@ export default function Form(): JSX.Element {
     }, 500);
   };
 
-  
+
   if (formData) {
     return (
       <Formik
@@ -146,13 +165,14 @@ export default function Form(): JSX.Element {
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
                     {activeStep !== 0 && (
-                      <Button variant="contained" onClick={handleBack}>
+                      <Button variant="contained" onClick={() => console.log(Object.keys(formikProps.errors).includes(activeStepName))
+                      }>
                         {t('ui.button.back')}
                       </Button>
                     )}
                     {activeStep < stepLabels.length - 1 && (
                       <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}
-                        disabled={!!formikProps.errors.customer}
+                        disabled={((Object.keys(formikProps.errors)).includes(activeStepName))}
                       >
                         {t('ui.button.next')}
                       </Button>
