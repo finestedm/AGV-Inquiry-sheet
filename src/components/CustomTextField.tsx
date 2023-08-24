@@ -5,10 +5,11 @@ import { FieldProps } from 'formik';
 
 interface CustomFieldProps extends Partial<FieldProps> {
   fieldName: string;
+  required?: boolean;
 }
 
 export default function CustomTextField(props: CustomFieldProps) {
-  const { fieldName, field, form, ...rest } = props;
+  const { fieldName, required, field, form, ...rest } = props;
 
   const [firstPart, secondPart]: string[] = fieldName.split('.');
 
@@ -24,13 +25,14 @@ export default function CustomTextField(props: CustomFieldProps) {
 
   const errors = form?.errors as any; // Cast form.errors to 'any'
 
-  const errorValue = touchedValue && Boolean(errors?.[firstPart]?.[secondPart]);
+  const errorValue = Boolean(errors?.[firstPart]?.[secondPart]);
   const helperTextValue = touchedValue && errors?.[firstPart]?.[secondPart] ? t(`${errors[firstPart][secondPart]}`) : '';
 
   return (
     <TextField
       {...field}
       {...rest}
+      required={required}
       variant="outlined"
       label={t(`${fieldName}`)}
       onChange={handleChange}

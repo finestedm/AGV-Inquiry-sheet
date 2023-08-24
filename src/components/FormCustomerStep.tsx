@@ -56,6 +56,7 @@ export default function FormCustomerStep(): JSX.Element {
       <Stack spacing={2}>
         <Typography variant="h5" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
         <CustomTextField
+          required
           fieldName="customer.name"
           field={formikProps.getFieldProps('customer.name')} // Pass field props
           form={formikProps} // Pass formikProps
@@ -66,6 +67,7 @@ export default function FormCustomerStep(): JSX.Element {
           form={formikProps} // Pass formikProps
         />
         <CustomTextField
+          required
           fieldName="customer.address"
           field={formikProps.getFieldProps('customer.address')} // Pass field props
           form={formikProps} // Pass formikProps
@@ -105,6 +107,7 @@ export default function FormCustomerStep(): JSX.Element {
         <FormControl>
           <InputLabel id="customer-industry-label">{t('customer.industry')}</InputLabel>
           <Field
+            required
             as={Select}
             labelId="customer-industry-label"
             id="customer-industryName"
@@ -118,7 +121,7 @@ export default function FormCustomerStep(): JSX.Element {
             }}
             renderValue={(selected: string[]) => selected.join(', ')}
             MenuProps={MenuProps}
-            error={formikProps.touched.customer?.industryName && Boolean(formikProps.errors.customer?.industryName)}
+            error={Boolean(formikProps.errors.customer?.industryName)}
           >
             {industries.map((name) => (
               <MenuItem key={name} value={name}>
@@ -131,6 +134,7 @@ export default function FormCustomerStep(): JSX.Element {
         </FormControl>
         {formData.customer.industryName.includes(t('industry.other')) &&
           <TextField
+            required
             label={t('customer.industryName.other')}
             name="customer.industryName-other"
             value={otherIndustry}
@@ -146,6 +150,7 @@ export default function FormCustomerStep(): JSX.Element {
           <InputLabel id="customer-relations-label">{t('customer.relations.type')}</InputLabel>
           <Field
             as={Select}
+            required
             labelId="customer-relations-label"
             id="customer.relations"
             name='customer.relations'
@@ -157,7 +162,7 @@ export default function FormCustomerStep(): JSX.Element {
             }}
             renderValue={(selected: any) => (selected)}
             MenuProps={MenuProps}
-            error={formikProps.touched.customer?.relations && Boolean(formikProps.errors.customer?.relations)}
+            error={Boolean(formikProps.errors.customer?.relations)}
           >
             <MenuItem value={t('customer.relations.new')}>{t('customer.relations.new')}</MenuItem>
             <MenuItem value={t('customer.relations.jh')}>{t('customer.relations.jh')}</MenuItem>

@@ -1,6 +1,9 @@
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
+  sales: Yup.object({
+    contactPerson: Yup.string().required('helperText.sales.contactPerson.required'),
+  }),
   customer: Yup.object({
     name: Yup.string().required('helperText.customer.name.required'),
     sapNumber: Yup.string()
@@ -12,9 +15,7 @@ const validationSchema = Yup.object({
       .notRequired(),
     industryName: Yup.array().min(1, 'helperText.customer.industryName.number'),
     relations: Yup.string().required('helperText.customer.relations.number'),
-
   }),
-
   // Define validation rules for other fields
 })
 

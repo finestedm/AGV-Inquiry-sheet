@@ -118,12 +118,20 @@ export default function Form(): JSX.Element {
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
-    setFadeOut(true);
-    setTimeout(() => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setFadeOut(false);
-    }, 500); // Adjust the delay time (in milliseconds) as needed
-  };
+
+    const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
+    if (elementsWithAriaInvalid.length > 0) {
+      const element = elementsWithAriaInvalid[0];
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } else {
+      setFadeOut(true);
+      setTimeout(() => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setFadeOut(false);
+      }, 500); // Adjust the delay time (in milliseconds) as needed
+    };
+  }
 
   const handleBack = () => {
     setFadeOut(true);
@@ -134,12 +142,19 @@ export default function Form(): JSX.Element {
   };
 
   const handleStepClick = (step: number) => {
-    setFadeOut(true);
-    setTimeout(() => {
-      setActiveStep(step);
-      setFadeOut(false);
-    }, 500);
-  };
+    const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
+    if (elementsWithAriaInvalid.length > 0) {
+      const element = elementsWithAriaInvalid[0];
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } else {
+      setFadeOut(true);
+      setTimeout(() => {
+        setActiveStep(step);
+        setFadeOut(false);
+      }, 500);
+    };
+  }
 
 
   if (formData) {
@@ -148,8 +163,8 @@ export default function Form(): JSX.Element {
         initialValues={initialFormDataState}
         validationSchema={validationSchema}
         onSubmit={(values, formikHelpers) => {
-          console.log(values, formikHelpers)
         }}
+        validateOnMount={true}
         validateOnChange={true}
       >
         {(formikProps: FormikProps<IFormData>) => (
