@@ -22,27 +22,6 @@ function saveDataToFile(formData: IFormData) {
     saveAs(blob, 'data.json');
 };
 
-function loadFile(e: React.ChangeEvent<HTMLInputElement>, formData: IFormData, setFormData: React.Dispatch<React.SetStateAction<IFormData>>) {
-    const file = e.target.files?.[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            try {
-                const loadedData = JSON.parse(event.target?.result as string);
-                // Check if the loaded version matches the tool version
-                if (loadedData.version === formData.version) {
-                    setFormData(loadedData);
-                } else {
-                    alert(`Invalid file version (file version: ${loadedData.version}. Tool version: ${formData.version}.). Please select a valid file.`);
-                }
-            } catch (error) {
-                console.error('Error parsing loaded file:', error);
-                alert('Error parsing loaded file. Please select a valid file.');
-            }
-        };
-        reader.readAsText(file);
-    }
-}
 
 export default function TopBar(): JSX.Element {
 
@@ -71,6 +50,28 @@ export default function TopBar(): JSX.Element {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    function loadFile(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const loadedData = JSON.parse(event.target?.result as string);
+                    // Check if the loaded version matches the tool version
+                    if (loadedData.version === formData.version) {
+                        dispatch(setFormData(loadedData));
+                    } else {
+                        alert(`Invalid file version (file version: ${loadedData.version}. Tool version: ${formData.version}.). Please select a valid file.`);
+                    }
+                } catch (error) {
+                    console.error('Error parsing loaded file:', error);
+                    alert('Error parsing loaded file. Please select a valid file.');
+                }
+            };
+            reader.readAsText(file);
+        }
+    }
 
     return (
         <AppBar position="static" color='default'>
@@ -137,7 +138,7 @@ export default function TopBar(): JSX.Element {
                             <MenuItem>
                                 <Button fullWidth variant="outlined" className='upload-button' startIcon={<UploadIcon />}>
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, dispatch(setFormData))} />
+                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e)} />
                                 </Button>
                             </MenuItem>
                             <MenuItem>
@@ -179,7 +180,7 @@ export default function TopBar(): JSX.Element {
                             <Button variant="outlined" color='success' component="label" sx={{ display: { xs: 'none', md: 'flex' } }} startIcon={<UploadIcon />}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
+                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e)} />
                                 </Stack>
                             </Button>
                         </Stack>
