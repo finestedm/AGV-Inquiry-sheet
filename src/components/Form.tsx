@@ -165,14 +165,13 @@ export default function Form(): JSX.Element {
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
                     {activeStep !== 0 && (
-                      <Button variant="contained" onClick={() => console.log(Object.keys(formikProps.errors).includes(activeStepName))
-                      }>
+                      <Button variant="contained" onClick={handleBack}>
                         {t('ui.button.back')}
                       </Button>
                     )}
                     {activeStep < stepLabels.length - 1 && (
                       <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}
-                        disabled={!((Object.keys(formikProps.touched)).includes(activeStepName)) || ((Object.keys(formikProps.errors)).includes(activeStepName))}
+                        disabled={!!(formikProps.errors[activeStepName])}
                       >
                         {t('ui.button.next')}
                       </Button>
