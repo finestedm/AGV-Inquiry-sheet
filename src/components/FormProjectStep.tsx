@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, TextFieldProps, ToggleButton, ToggleButtonGroup, Typography, useTheme } from "@mui/material";
+import { Box, Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, TextFieldProps, ToggleButton, ToggleButtonGroup, Typography, useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { MenuProps } from "./FormCustomerStep";
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
@@ -13,12 +13,14 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
-import { FormikProps, useFormikContext, Field} from 'formik'
+import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../features/interfaces";
+import CustomTextField from "./CustomTextField";
 
 export default function FormProjectStep(): JSX.Element {
 
     const { t } = useTranslation();
+    const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData);
     const dispatch = useDispatch();
     const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
@@ -76,9 +78,10 @@ export default function FormProjectStep(): JSX.Element {
                     onChange={(e) => dispatch(handleInputMethod({ path: 'project.goals', value: e.target.value }))}
                 />
                 <FormControl>
-                    <InputLabel id="project.supplyChainParts.label">{t('project.supplyChainParts')}</InputLabel>
+                    <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts')}</InputLabel>
                     <Field
                         as={Select}
+                        required
                         labelId="project.supplyChainParts.label"
                         id="project.supplyChainParts"
                         name="project.supplyChainParts"
@@ -91,6 +94,7 @@ export default function FormProjectStep(): JSX.Element {
                         }}
                         renderValue={(selected: string[]) => selected.join(', ')}
                         MenuProps={MenuProps}
+                        error={Boolean(formikProps.errors.project?.supplyChainParts)}
                     >
                         {supplyChainParts.map((supplyChainPart) => (
                             <MenuItem key={supplyChainPart.name} value={supplyChainPart.name}>
@@ -101,14 +105,14 @@ export default function FormProjectStep(): JSX.Element {
                                 </Stack>
                             </MenuItem>
                         ))}
+                        {formikProps.touched.project?.supplyChainParts && formikProps.errors.project?.supplyChainParts && <FormHelperText error>{t(`${formikProps.errors.project?.supplyChainParts}`)}</ FormHelperText>}
                     </Field>
                 </FormControl>
-                <TextField
-                    fullWidth
-                    label={t('project.investmentLocation')}
-                    name="project.investmentLocation"
-                    value={formData.project.investmentLocation}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.investmentLocation', value: e.target.value }))}
+                <CustomTextField
+                    required
+                    fieldName="project.investmentLocation"
+                    field={formikProps.getFieldProps('project.investmentLocation')} // Pass field props
+                    form={formikProps} // Pass formikProps
                 />
                 <Box>
                     <Grid container flex={1} justifyContent='space-between' spacing={2}>
@@ -160,17 +164,21 @@ export default function FormProjectStep(): JSX.Element {
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
                 <ToggleButtonGroup
-                    sx={{ display: { xs: 'none', sm: 'flex' } }}
+                    sx={{ display: { xs: 'none', sm: 'flex' }}}
                     color='primary'
                     exclusive
                     fullWidth
                     aria-label="investment type buttons"
+                    onChange={(e, v) => {
+                        dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
+                        formikProps.setFieldValue('project.investmentType', v);
+                    }}
                 >
                     {investmentTypes.map((investmentType) => (
                         <ToggleButton
+                            sx={{color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
                             value={investmentType}
                             key={investmentType}
-                            onClick={() => dispatch(handleInputMethod({ path: 'project.investmentType', value: investmentType }))}
                             selected={formData.project.investmentType === investmentType}
                         >
                             {investmentType}
@@ -183,19 +191,23 @@ export default function FormProjectStep(): JSX.Element {
                     aria-label="investment type buttons"
                     orientation="vertical"
                     fullWidth
-                    color='success'
+                    color='primary'
+                    onChange={(e, v) => {
+                        dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
+                        formikProps.setFieldValue('project.investmentType', v);
+                    }}
                 >
                     {investmentTypes.map((investmentType) => (
                         <ToggleButton
                             value={investmentType}
                             key={investmentType}
-                            onClick={() => dispatch(handleInputMethod({ path: 'project.investmentType', value: investmentType }))}
                             selected={formData.project.investmentType === investmentType}
                         >
                             {investmentType}
                         </ToggleButton>
                     ))}
                 </ToggleButtonGroup>
+                {formikProps.errors.project?.investmentType && <FormHelperText error>{t(`${formikProps.errors.project?.investmentType}`)}</ FormHelperText>}
             </Stack>
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.milestones')}</Typography>

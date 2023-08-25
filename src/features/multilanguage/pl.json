@@ -150,7 +150,7 @@
   "project": {
     "header": "Informacje o projekcie",
     "goals": "Cele projektu",
-    "supplyChainParts": "Automatyzacja obejmuje daną część łancucha dostaw",
+    "supplyChainParts": "Automatyzacja obejmuje:",
     "milestones": {
       "concept": "Koncepcja",
       "officialOffer": "Data oferty",
@@ -227,6 +227,12 @@
     "project": {
       "supplyChainParts": {
         "number": "Wybierz co najmniej jedną część łańcucha dostaw"
+      },
+      "investmentLocation": {
+        "required": "Podaj gdzie realizowana będzie inwestycja"
+      },
+      "investmentType": {
+        "required": "Pole wymagane"
       }
     }
   }

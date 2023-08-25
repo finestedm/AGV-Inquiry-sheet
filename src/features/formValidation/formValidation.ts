@@ -17,7 +17,10 @@ const validationSchema = Yup.object({
     relations: Yup.string().required('helperText.customer.relations.number'),
   }),
   project: Yup.object({
-    supplyChainParts: Yup.array().min(1, 'helperText.customer.industryName.number')
+    supplyChainParts: Yup.array().min(1, 'helperText.project.industryName.number'),
+    investmentLocation: Yup.string().required('helperText.project.investmentLocation.required'),
+    investmentType: Yup.string().required('helperText.project.investmentType.required')
+
   })
   // Define validation rules for other fields
 })
