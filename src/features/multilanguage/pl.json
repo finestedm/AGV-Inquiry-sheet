@@ -48,14 +48,7 @@
   "sales": {
     "header": "Dane jednostki sprzedażowej",
     "unit": "Jednostka sprzedażowa",
-    "contactperson": {
-      "name": "Osoba kontaktowa",
-      "role": "Funkcja osoby kontaktowej",
-      "placeholder": "Jan Kowalski",
-      "helpertext": {
-        "length": "Imię i nazwisko wymagane"
-      }
-    }
+    "contactPerson": "Osoba kontaktowa ze strony JH"
   },
   "steps": {
     "sales": "Jednostka sprzedażowa",
@@ -204,6 +197,11 @@
     }
   },
   "helperText": {
+    "sales": {
+      "contactPerson": {
+        "required": "Podaj osobę wprowadzającą dane"
+      }
+    },
     "customer": {
       "name": {
         "required": "Nazwa firmy wymagana"
