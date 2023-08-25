@@ -13,13 +13,15 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
+import { FormikProps, useFormikContext, Field} from 'formik'
+import { IFormData } from "../features/interfaces";
 
 export default function FormProjectStep(): JSX.Element {
 
     const { t } = useTranslation();
-    const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData);
     const dispatch = useDispatch();
+    const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
 
     const supplyChainParts = [
         {
@@ -53,7 +55,7 @@ export default function FormProjectStep(): JSX.Element {
     ];
 
 
-    const existingSystems = [
+    const existingWMS = [
         t('project.it.existingSystem.label.SAP-WM'),
         t('project.it.existingSystem.label.SAP-EWM'),
         t('project.it.existingSystem.label.other'),
@@ -74,15 +76,20 @@ export default function FormProjectStep(): JSX.Element {
                     onChange={(e) => dispatch(handleInputMethod({ path: 'project.goals', value: e.target.value }))}
                 />
                 <FormControl>
-                    <InputLabel id="project-supplyChainParts-label">{t('project.supplyChainParts')}</InputLabel>
-                    <Select
-                        labelId="project-supplyChainParts-label"
-                        id="project-supplyChainParts"
+                    <InputLabel id="project.supplyChainParts.label">{t('project.supplyChainParts')}</InputLabel>
+                    <Field
+                        as={Select}
+                        labelId="project.supplyChainParts.label"
+                        id="project.supplyChainParts"
+                        name="project.supplyChainParts"
                         multiple
                         input={<OutlinedInput label={t('project-supplyChainParts')} />}
                         value={formData.project.supplyChainParts}
-                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))}
-                        renderValue={(selected) => (selected as string[]).join(', ')}
+                        onChange={(e: { target: { value: any; }; }) => {
+                            dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))
+                            formikProps.setFieldValue('project.supplyChainParts', e.target.value);
+                        }}
+                        renderValue={(selected: string[]) => selected.join(', ')}
                         MenuProps={MenuProps}
                     >
                         {supplyChainParts.map((supplyChainPart) => (
@@ -94,7 +101,7 @@ export default function FormProjectStep(): JSX.Element {
                                 </Stack>
                             </MenuItem>
                         ))}
-                    </Select>
+                    </Field>
                 </FormControl>
                 <TextField
                     fullWidth
@@ -305,13 +312,13 @@ export default function FormProjectStep(): JSX.Element {
                                 fullWidth
                                 aria-label="existing it system buttons"
                             >
-                                {existingSystems.map((existingSystem) => (
+                                {existingWMS.map((existingSystem) => (
                                     <ToggleButton
                                         color='primary'
-                                        value={existingSystems.indexOf(existingSystem)}
+                                        value={existingWMS.indexOf(existingSystem)}
                                         key={existingSystem}
-                                        onClick={() => dispatch(handleInputMethod({ path: 'project.it.existingSystem.name', value: existingSystems.indexOf(existingSystem) }))}
-                                        selected={formData.project.it.existingSystem.name === existingSystems.indexOf(existingSystem)}
+                                        onClick={() => dispatch(handleInputMethod({ path: 'project.it.existingSystem.name', value: existingWMS.indexOf(existingSystem) }))}
+                                        selected={formData.project.it.existingSystem.name === existingWMS.indexOf(existingSystem)}
                                     >
                                         {existingSystem}
                                     </ToggleButton>

@@ -223,6 +223,11 @@
       "relations": {
         "number": "Wybierz typ relacji"
       }
+    },
+    "project": {
+      "supplyChainParts": {
+        "number": "Wybierz co najmniej jedną część łańcucha dostaw"
+      }
     }
   }
 }

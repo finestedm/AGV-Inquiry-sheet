@@ -25,7 +25,6 @@ export const MenuProps = {
 };
 
 export default function FormCustomerStep(): JSX.Element {
-  const theme = useTheme()
 
   const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
 
