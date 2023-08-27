@@ -179,6 +179,13 @@ export const themeDark = createTheme({
                 },
             },
         },
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    boxShadow: 'none'
+                }
+            }
+        }
     },
 });
 

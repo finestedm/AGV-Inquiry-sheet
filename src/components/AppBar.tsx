@@ -15,34 +15,8 @@ import { RootState } from "../features/redux/store";
 import { setFormData } from "../features/redux/reducers/formDataSlice";
 import DarkModeSwitch from "./DarkModeSwitch";
 import jhLogoDark from '../images/JH_logo.png'
+import { openSnackbar } from "../features/redux/reducers/snackBarSlice";
 
-function saveDataToFile(formData: IFormData) {
-    const data = JSON.stringify(formData);
-    const blob = new Blob([data], { type: 'application/json' });
-    saveAs(blob, 'data.json');
-};
-
-function loadFile(e: React.ChangeEvent<HTMLInputElement>, formData: IFormData, setFormData: React.Dispatch<React.SetStateAction<IFormData>>) {
-    const file = e.target.files?.[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            try {
-                const loadedData = JSON.parse(event.target?.result as string);
-                // Check if the loaded version matches the tool version
-                if (loadedData.version === formData.version) {
-                    setFormData(loadedData);
-                } else {
-                    alert(`Invalid file version (file version: ${loadedData.version}. Tool version: ${formData.version}.). Please select a valid file.`);
-                }
-            } catch (error) {
-                console.error('Error parsing loaded file:', error);
-                alert('Error parsing loaded file. Please select a valid file.');
-            }
-        };
-        reader.readAsText(file);
-    }
-}
 
 export default function TopBar(): JSX.Element {
 
@@ -55,6 +29,7 @@ export default function TopBar(): JSX.Element {
     const { t, i18n } = useTranslation();
 
     const formData = useSelector((state: RootState) => state.formData);
+    const snackBarState = useSelector((state: RootState) => state.snackBar);
     const dispatch = useDispatch();
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -71,6 +46,36 @@ export default function TopBar(): JSX.Element {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    function saveDataToFile(formData: IFormData) {
+        const data = JSON.stringify(formData);
+        const blob = new Blob([data], { type: 'application/json' });
+        saveAs(blob, 'data.json');
+    };
+    
+    function loadFile(e: React.ChangeEvent<HTMLInputElement>, formData: IFormData, setFormData: React.Dispatch<React.SetStateAction<IFormData>>) {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const loadedData = JSON.parse(event.target?.result as string);
+                    // Check if the loaded version matches the tool version
+                    if (loadedData.version === formData.version) {
+                        setFormData(loadedData);
+                        dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoaded'), severity: 'success' }));
+                    } else {
+                        alert(`Invalid file version (file version: ${loadedData.version}. Tool version: ${formData.version}.). Please select a valid file.`);
+                    }
+                } catch (error) {
+                    console.error('Error parsing loaded file:', error);
+                    alert('Error parsing loaded file. Please select a valid file.');
+                }
+            };
+            reader.readAsText(file);
+        }
+    }
+    
 
     return (
         <AppBar position="static" color='default'>

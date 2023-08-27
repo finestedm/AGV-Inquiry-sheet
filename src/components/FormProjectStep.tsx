@@ -16,6 +16,7 @@ import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../features/interfaces";
 import CustomTextField from "./CustomTextField";
+import CustomDatePicker from "./customDatePicker";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -164,7 +165,7 @@ export default function FormProjectStep(): JSX.Element {
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
                 <ToggleButtonGroup
-                    sx={{ display: { xs: 'none', sm: 'flex' }}}
+                    sx={{ display: { xs: 'none', sm: 'flex' } }}
                     color='primary'
                     exclusive
                     fullWidth
@@ -176,7 +177,7 @@ export default function FormProjectStep(): JSX.Element {
                 >
                     {investmentTypes.map((investmentType) => (
                         <ToggleButton
-                            sx={{color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
+                            sx={{ color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
                             value={investmentType}
                             key={investmentType}
                             selected={formData.project.investmentType === investmentType}

@@ -13,6 +13,7 @@ import MobileScrollButton from './components/MobileScrollButton';
 import { useSelector } from 'react-redux';
 import { RootState } from './features/redux/store';
 import DeleteLoadWarningDialog from './components/DeleteLoadWarningDialog';
+import SimpleSnackbar from './components/SnackBar';
 
 // Configure i18next
 i18n
@@ -37,6 +38,7 @@ function App() {
       <ThemeProvider theme={darkMode ? themeDark : theme}>
         <CssBaseline />
         <div className="App">
+          <SimpleSnackbar />
           <DeleteLoadWarningDialog />
           <TopBar />
           <Form />
