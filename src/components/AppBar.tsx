@@ -16,6 +16,7 @@ import { setFormData } from "../features/redux/reducers/formDataSlice";
 import DarkModeSwitch from "./DarkModeSwitch";
 import jhLogoDark from '../images/JH_logo.png'
 import { openSnackbar } from "../features/redux/reducers/snackBarSlice";
+import dayjs from "dayjs";
 
 
 export default function TopBar(): JSX.Element {
@@ -50,9 +51,11 @@ export default function TopBar(): JSX.Element {
     function saveDataToFile(formData: IFormData) {
         const data = JSON.stringify(formData);
         const blob = new Blob([data], { type: 'application/json' });
-        saveAs(blob, 'data.json');
+        const fileName = `${formData.customer.name}-${dayjs().format('YYYY-MM-DD-HH-mm')}.json`;
+        saveAs(blob, fileName);
+        dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')} ${fileName}`, severity: 'success' }));
     };
-    
+
     function loadFile(e: React.ChangeEvent<HTMLInputElement>, formData: IFormData, setFormData: React.Dispatch<React.SetStateAction<IFormData>>) {
         const file = e.target.files?.[0];
         if (file) {
@@ -66,16 +69,17 @@ export default function TopBar(): JSX.Element {
                         dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoaded'), severity: 'success' }));
                     } else {
                         alert(`Invalid file version (file version: ${loadedData.version}. Tool version: ${formData.version}.). Please select a valid file.`);
+                        dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoadError.wrongVersion'), severity: 'error' }));
                     }
                 } catch (error) {
                     console.error('Error parsing loaded file:', error);
-                    alert('Error parsing loaded file. Please select a valid file.');
+                    dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoadError.other'), severity: 'error' }));
                 }
             };
             reader.readAsText(file);
         }
     }
-    
+
 
     return (
         <AppBar position="static" color='default'>
