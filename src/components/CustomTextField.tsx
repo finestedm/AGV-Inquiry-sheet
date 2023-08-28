@@ -2,6 +2,8 @@ import React, { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextField } from "@mui/material";
 import { FieldProps } from 'formik';
+import { useDispatch } from 'react-redux';
+import { handleInputMethod } from '../features/redux/reducers/formDataSlice';
 
 interface CustomFieldProps extends Partial<FieldProps> {
   fieldName: string;
@@ -14,9 +16,11 @@ export default function CustomTextField(props: CustomFieldProps) {
   const [firstPart, secondPart]: string[] = fieldName.split('.');
 
   const { t } = useTranslation();
+  const dispatch = useDispatch()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (form) {
+      dispatch(handleInputMethod({ path: fieldName, value: e.target.value }))
       form.setFieldValue(fieldName, e.target.value);
     }
   };

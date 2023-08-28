@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../features/redux/store';
 import { useDispatch } from 'react-redux';
 import { closeSnackbar } from '../features/redux/reducers/snackBarSlice';
-import { Alert, AlertColor, Button, IconButton, LinearProgress } from '@mui/material';
+import { Alert, AlertColor, Box, Button, IconButton, LinearProgress } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -35,6 +35,7 @@ export default function SimpleSnackbar() {
 
     return (
         <Snackbar
+            ClickAwayListenerProps={{}}
             open={snackBarState.open}
             autoHideDuration={10000}
             onClose={() => dispatch(closeSnackbar())}
@@ -44,7 +45,7 @@ export default function SimpleSnackbar() {
                 severity={snackBarState.severity as AlertColor}
             >
                 {snackBarState.message}
-                <LinearProgress variant="determinate" value={progress} />
+                <LinearProgress sx={{ position: 'absolute', bottom: 0, left: 0, width: '100%', borderRadius: '0 0 1rem 1rem' }} color={snackBarState.severity === 'success' ? 'success' : 'error'} variant="determinate" value={progress} />
             </Alert>
         </Snackbar>
     )

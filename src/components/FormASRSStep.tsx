@@ -95,7 +95,7 @@ export default function FormASRSStep(): JSX.Element {
                                 </Box>
                                 <Stack direction='row'>
                                     <Typography
-                                        variant='h5'
+                                        variant='h4'
                                         sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.main : theme.palette.primary.main }}
                                     >
                                         {circularValue}

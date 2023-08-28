@@ -9,7 +9,6 @@ import jhLogo from '../images/Jungheinrich-Logo.svg'
 import { SelectChangeEvent } from "@mui/material/Select";
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
-import { IFormData } from "../features/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { setFormData } from "../features/redux/reducers/formDataSlice";
@@ -30,7 +29,6 @@ export default function TopBar(): JSX.Element {
     const { t, i18n } = useTranslation();
 
     const formData = useSelector((state: RootState) => state.formData);
-    const snackBarState = useSelector((state: RootState) => state.snackBar);
     const dispatch = useDispatch();
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -48,7 +46,7 @@ export default function TopBar(): JSX.Element {
         setAnchorElUser(null);
     };
 
-    function saveDataToFile(formData: IFormData) {
+    function saveDataToFile() {
         const data = JSON.stringify(formData);
         const blob = new Blob([data], { type: 'application/json' });
         const fileName = `${formData.customer.name}-${dayjs().format('YYYY-MM-DD-HH-mm')}.json`;
@@ -56,7 +54,7 @@ export default function TopBar(): JSX.Element {
         dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')} ${fileName}`, severity: 'success' }));
     };
 
-    function loadFile(e: React.ChangeEvent<HTMLInputElement>, formData: IFormData, setFormData: React.Dispatch<React.SetStateAction<IFormData>>) {
+    function loadFile(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
@@ -65,10 +63,9 @@ export default function TopBar(): JSX.Element {
                     const loadedData = JSON.parse(event.target?.result as string);
                     // Check if the loaded version matches the tool version
                     if (loadedData.version === formData.version) {
-                        setFormData(loadedData);
+                        dispatch(setFormData(loadedData));
                         dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoaded'), severity: 'success' }));
                     } else {
-                        alert(`Invalid file version (file version: ${loadedData.version}. Tool version: ${formData.version}.). Please select a valid file.`);
                         dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoadError.wrongVersion'), severity: 'error' }));
                     }
                 } catch (error) {
@@ -138,7 +135,7 @@ export default function TopBar(): JSX.Element {
                                     </MenuItem>
                                 </Select>
                             </MenuItem>
-                            <MenuItem onClick={() => saveDataToFile(formData)}>
+                            <MenuItem onClick={() => saveDataToFile()}>
                                 <Button fullWidth variant="outlined" className='save-button' startIcon={<SaveIcon />} >
                                     <Typography>{t('ui.button.inquiry.save')}</Typography>
                                 </Button>
@@ -146,7 +143,7 @@ export default function TopBar(): JSX.Element {
                             <MenuItem>
                                 <Button fullWidth variant="outlined" className='upload-button' startIcon={<UploadIcon />}>
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, dispatch(setFormData))} />
+                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e)} />
                                 </Button>
                             </MenuItem>
                             <MenuItem>
@@ -180,7 +177,7 @@ export default function TopBar(): JSX.Element {
                                 </Select>
                             </FormControl>
                             <DarkModeSwitch fullWidth={false} />
-                            <Button variant="outlined" color='success' onClick={() => saveDataToFile(formData)} sx={{ display: { xs: 'none', md: 'flex' } }} startIcon={<SaveIcon />}>
+                            <Button variant="outlined" color='success' onClick={() => saveDataToFile()} sx={{ display: { xs: 'none', md: 'flex' } }} startIcon={<SaveIcon />}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <Typography>{t('ui.button.inquiry.save')}</Typography>
                                 </Stack>
@@ -188,7 +185,7 @@ export default function TopBar(): JSX.Element {
                             <Button variant="outlined" color='success' component="label" sx={{ display: { xs: 'none', md: 'flex' } }} startIcon={<UploadIcon />}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e, formData, setFormData)} />
+                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e)} />
                                 </Stack>
                             </Button>
                         </Stack>

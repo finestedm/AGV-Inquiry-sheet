@@ -15,12 +15,12 @@ const snackbarSlice = createSlice({
             state.message = action.payload.message;
             state.severity = action.payload.severity || 'success';
             state.openedTimestamp = Date.now();
-            state.autoHideDuration = action.payload.autoHideDuration || 6000;
+            state.autoHideDuration = action.payload.autoHideDuration || 10000;
         },
         closeSnackbar: (state) => {
             state.open = false;
-            state.message = '';
-            state.severity = 'success';
+            // state.message = '';
+            // state.severity = 'success';
         },
     },
 });
