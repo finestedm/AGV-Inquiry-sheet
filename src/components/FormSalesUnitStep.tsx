@@ -1,21 +1,13 @@
-import { Stack, TextField, Typography, useTheme } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 import { useTranslation } from 'react-i18next';
-import { IFormData, IHandleInputMethod } from "../features/interfaces";
-import { RootState } from "../features/redux/store";
-import { useDispatch, useSelector } from 'react-redux';
-import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
+import { FormikProps, useFormikContext } from 'formik'; // Import Formik components
 import CustomTextField from "./CustomTextField";
-import { FormikProps, useFormikContext } from 'formik'
+import { IFormData } from "../features/interfaces";
 
 export default function FormSalesUnitStep(): JSX.Element {
-
     const { t } = useTranslation();
-
-    const formData = useSelector((state: RootState) => state.formData);
-    const dispatch = useDispatch()
-
     const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
-
+    console.log(formikProps.values)
     return (
         <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('sales.header')}</Typography>
@@ -26,20 +18,19 @@ export default function FormSalesUnitStep(): JSX.Element {
                     disabled
                     label={t('sales.unit')}
                     name="sales.salesUnit"
-                    value={formData.sales.salesUnit}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'sales.salesUnit', value: e.target.value }))}
+                    value={formikProps.values.sales.salesUnit}
+                    onChange={formikProps.handleChange} // Use handleChange from formikProps
                 />
                 <CustomTextField
                     required
                     fieldName="sales.contactPerson"
-                    field={formikProps.getFieldProps('sales.contactPerson')} // Pass field props
-                    form={formikProps} // Pass formikProps
+                    field={formikProps.getFieldProps('sales.contactPerson')} // Use getFieldProps from formikProps
                 />
                 <TextField
                     label={t('sales.contactperson.role')}
                     name="sales.contactPersonRole"
-                    value={formData.sales.contactPersonRole}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'sales.contactPersonRole', value: e.target.value }))}
+                    value={formikProps.values.sales.contactPersonRole}
+                    onChange={formikProps.handleChange} // Use handleChange from formikProps
                 />
             </Stack>
         </Stack>

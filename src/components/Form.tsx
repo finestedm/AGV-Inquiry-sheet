@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
 import ScrollButton from "./MobileScrollButton";
 import validationSchema from "../features/formValidation/formValidation";
-import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors } from 'formik'
+import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors, useFormik } from 'formik'
 import { initialFormDataState } from "../features/redux/reducers/formDataSlice";
 
 
@@ -155,7 +155,6 @@ export default function Form(): JSX.Element {
       }, 500);
     };
   }
-
 
   if (formData) {
     return (
