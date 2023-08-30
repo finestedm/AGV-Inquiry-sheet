@@ -112,8 +112,6 @@ export default function FormProjectStep(): JSX.Element {
                 <CustomTextField
                     required
                     fieldName="project.investmentLocation"
-                    field={formikProps.getFieldProps('project.investmentLocation')} // Pass field props
-                    form={formikProps} // Pass formikProps
                 />
                 <Box>
                     <Grid container flex={1} justifyContent='space-between' spacing={2}>

@@ -156,16 +156,21 @@ export default function Form(): JSX.Element {
     };
   }
 
+  const [formikValues, setFormikValues] = useState(formData);
+  useEffect(() => {
+    setFormikValues(formData);
+  }, [formData]);
 
   if (formData) {
     return (
       <Formik
-        initialValues={initialFormDataState}
+        initialValues={formikValues}
         validationSchema={validationSchema}
         onSubmit={(values, formikHelpers) => {
         }}
         // validateOnMount={true}
         validateOnChange={true}
+        enableReinitialize
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>

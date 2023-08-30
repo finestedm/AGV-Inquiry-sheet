@@ -32,8 +32,6 @@ export default function FormSalesUnitStep(): JSX.Element {
                 <CustomTextField
                     required
                     fieldName="sales.contactPerson"
-                    field={formikProps.getFieldProps('sales.contactPerson')} // Pass field props
-                    form={formikProps} // Pass formikProps
                 />
                 <TextField
                     label={t('sales.contactperson.role')}

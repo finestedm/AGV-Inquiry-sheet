@@ -1,48 +1,44 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { TextField } from "@mui/material";
-import { FieldProps } from 'formik';
+import { TextField } from '@mui/material';
+import { Field, FieldInputProps, FieldProps, useFormikContext } from 'formik';
 import { useDispatch } from 'react-redux';
 import { handleInputMethod } from '../features/redux/reducers/formDataSlice';
 
-interface CustomFieldProps extends Partial<FieldProps> {
+interface CustomFieldProps {
   fieldName: string;
   required?: boolean;
 }
 
 export default function CustomTextField(props: CustomFieldProps) {
-  const { fieldName, required, field, form, ...rest } = props;
-
-  const [firstPart, secondPart]: string[] = fieldName.split('.');
-
+  const { fieldName, required } = props;
   const { t } = useTranslation();
+  const formikProps = useFormikContext();
   const dispatch = useDispatch()
+  const field: FieldInputProps<any> = formikProps.getFieldProps(fieldName)
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (form) {
-      dispatch(handleInputMethod({ path: fieldName, value: e.target.value }))
-      form.setFieldValue(fieldName, e.target.value);
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+
+    // Update Formik field value
+    formikProps.handleChange(e);
+
+    // Update formData field using Redux dispatch
+    dispatch(handleInputMethod({ path: fieldName, value: newValue }));
   };
-
-  const touchedValue = form?.touched[firstPart] && typeof form.touched[firstPart] === 'object' && (form.touched[firstPart] as any)[secondPart];
-
-  const errors = form?.errors as any; // Cast form.errors to 'any'
-
-  const errorValue = Boolean(errors?.[firstPart]?.[secondPart]);
-  const helperTextValue = touchedValue && errors?.[firstPart]?.[secondPart] ? t(`${errors[firstPart][secondPart]}`) : '';
+  console.log(formikProps.errors)
 
   return (
-    <TextField
-      {...field}
-      {...rest}
+    <Field
+      as={TextField}
+      name={fieldName}
       required={required}
       variant="outlined"
       label={t(`${fieldName}`)}
+      value={field.value}
       onChange={handleChange}
-      error={errorValue}
-      helperText={helperTextValue}
+      // error={formikProps.errors?.[fieldName]}
+      // helperText={helperTextValue}
     />
   );
-};
-
+}
