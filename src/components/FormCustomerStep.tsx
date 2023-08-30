@@ -48,7 +48,7 @@ export default function FormCustomerStep(): JSX.Element {
 
   const [otherIndustry, setOtherIndustry] = useState<string>('')
 
-
+  console.log(formikProps.values)
   return (
     <Stack spacing={8}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
@@ -57,10 +57,8 @@ export default function FormCustomerStep(): JSX.Element {
         <CustomTextField
           required
           fieldName="customer.name"
-          field={formikProps.getFieldProps('customer.name')} // Pass field props
-          form={formikProps} // Pass formikProps
         />
-        <CustomTextField
+        {/* <CustomTextField
           fieldName="customer.sapNumber"
           field={formikProps.getFieldProps('customer.sapNumber')} // Pass field props
           form={formikProps} // Pass formikProps
@@ -70,7 +68,7 @@ export default function FormCustomerStep(): JSX.Element {
           fieldName="customer.address"
           field={formikProps.getFieldProps('customer.address')} // Pass field props
           form={formikProps} // Pass formikProps
-        />
+        /> */}
       </Stack>
       <Stack spacing={2}>
         <Typography variant="h5" textAlign='left'>{t('customer.subheader.contactperson')}</Typography>
@@ -97,8 +95,6 @@ export default function FormCustomerStep(): JSX.Element {
         />
         <CustomTextField
           fieldName="customer.contactPersonMail"
-          field={formikProps.getFieldProps('customer.contactPersonMail')} // Pass field props
-          form={formikProps} // Pass formikProps
         />
       </Stack>
       <Stack spacing={2}>

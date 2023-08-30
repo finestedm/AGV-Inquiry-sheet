@@ -159,12 +159,13 @@ export default function Form(): JSX.Element {
   if (formData) {
     return (
       <Formik
-        initialValues={initialFormDataState}
+        initialValues={formData}
         validationSchema={validationSchema}
         onSubmit={(values, formikHelpers) => {
         }}
         // validateOnMount={true}
         validateOnChange={true}
+        enableReinitialize
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
