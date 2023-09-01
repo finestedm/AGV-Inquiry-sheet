@@ -25,13 +25,10 @@ export default function FormSalesUnitStep(): JSX.Element {
                     required
                     fieldName="sales.contactPerson"
                 />
-                <TextField
-                    label={t('sales.contactperson.role')}
-                    name="sales.contactPersonRole"
-                    value={formikProps.values.sales.contactPersonRole}
-                    onChange={formikProps.handleChange} // Use handleChange from formikProps
+                <CustomTextField
+                    fieldName="sales.contactPersonRole"
                 />
-            </Stack>
+                </Stack>
         </Stack>
     )
 }

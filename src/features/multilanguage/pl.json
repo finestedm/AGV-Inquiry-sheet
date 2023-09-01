@@ -48,7 +48,8 @@
   "sales": {
     "header": "Dane jednostki sprzedażowej",
     "unit": "Jednostka sprzedażowa",
-    "contactPerson": "Osoba kontaktowa ze strony JH"
+    "contactPerson": "Osoba kontaktowa ze strony JH",
+    "contactPersonRole": "Stanowisko osoby kontaktowej JH"
   },
   "steps": {
     "sales": "Jednostka sprzedażowa",
