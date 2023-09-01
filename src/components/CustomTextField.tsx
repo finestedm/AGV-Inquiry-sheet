@@ -17,6 +17,14 @@ export default function CustomTextField(props: CustomFieldProps) {
   const dispatch = useDispatch()
   const field: FieldInputProps<any> = formikProps.getFieldProps(fieldName)
 
+  const [firstPart, secondPart]: string[] = fieldName.split('.');
+  const errors = formikProps?.errors as any; // Cast form.errors to 'any'
+  const touched = formikProps?.touched as any; // Cast form.errors to 'any'
+
+  const errorValue = Boolean(errors?.[firstPart]?.[secondPart]);
+  const touchedValue = touched?.[firstPart]?.[secondPart]
+  const helperTextValue = touchedValue && errors?.[firstPart]?.[secondPart] ? t(`${errors[firstPart][secondPart]}`) : '';
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
 
@@ -37,8 +45,8 @@ export default function CustomTextField(props: CustomFieldProps) {
       label={t(`${fieldName}`)}
       value={field.value}
       onChange={handleChange}
-      // error={formikProps.errors?.[fieldName]}
-      // helperText={helperTextValue}
+      error={errorValue}
+      helperText={helperTextValue}
     />
   );
 }
