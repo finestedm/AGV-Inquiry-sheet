@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
+import CustomTextField from "./CustomTextField";
 
 
 const criticalElectronicsTemperature = 8
@@ -189,14 +190,10 @@ export default function FormASRSStep(): JSX.Element {
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <TextField
-                                id="system-asrs.workConditions.other"
-                                fullWidth
-                                label={t("system.asrs.workConditions.other")}
+                            <CustomTextField
+                                fieldName="system-asrs.workConditions.other"
                                 multiline
                                 rows={4}
-                                value={formData.system.asrs.workConditions.other}
-                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.other', value: e.target.value }))}
                             />
                         </Grid>
                     </Grid>
