@@ -48,7 +48,6 @@ export default function FormCustomerStep(): JSX.Element {
 
   const [otherIndustry, setOtherIndustry] = useState<string>('')
 
-  console.log(formikProps.values)
   return (
     <Stack spacing={8}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
@@ -58,32 +57,22 @@ export default function FormCustomerStep(): JSX.Element {
           required
           fieldName="customer.name"
         />
-        {/* <CustomTextField
+        <CustomTextField
           fieldName="customer.sapNumber"
-          field={formikProps.getFieldProps('customer.sapNumber')} // Pass field props
-          form={formikProps} // Pass formikProps
         />
         <CustomTextField
           required
           fieldName="customer.address"
-          field={formikProps.getFieldProps('customer.address')} // Pass field props
-          form={formikProps} // Pass formikProps
-        /> */}
+        />
       </Stack>
       <Stack spacing={2}>
         <Typography variant="h5" textAlign='left'>{t('customer.subheader.contactperson')}</Typography>
-        <TextField
-          label={t('customer.contactperson.name')}
-          name="customer.contactPerson"
-          value={formData.customer.contactPerson}
-          onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPerson', value: e.target.value }))}
+        <CustomTextField
+          fieldName="customer.contactPerson"
         />
-        <TextField
-          label={t('customer.contactperson.role')}
-          name="customer.contactPersonRole"
-          value={formData.customer.contactPersonRole}
-          onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonRole', value: e.target.value }))}
-        />
+        <CustomTextField
+          fieldName="customer.contactPersonRole"
+        />        
         <MuiTelInput
           label={t('customer.contactperson.phone')}
           defaultCountry="PL"

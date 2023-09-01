@@ -16,7 +16,6 @@ import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../features/interfaces";
 import CustomTextField from "./CustomTextField";
-import CustomDatePicker from "./customDatePicker";
 
 export default function FormProjectStep(): JSX.Element {
 
