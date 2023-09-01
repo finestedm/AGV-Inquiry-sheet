@@ -4,14 +4,10 @@ import { TextField } from '@mui/material';
 import { Field, FieldInputProps, FieldProps, useFormikContext } from 'formik';
 import { useDispatch } from 'react-redux';
 import { handleInputMethod } from '../features/redux/reducers/formDataSlice';
+import { ICustomFieldProps } from '../features/interfaces';
 
-interface CustomFieldProps {
-  fieldName: string;
-  required?: boolean;
-}
-
-export default function CustomTextField(props: CustomFieldProps) {
-  const { fieldName, required } = props;
+export default function CustomTextField(props: ICustomFieldProps) {
+  const { fieldName, required, multiline, rows } = props;
   const { t } = useTranslation();
   const formikProps = useFormikContext();
   const dispatch = useDispatch()
@@ -34,11 +30,12 @@ export default function CustomTextField(props: CustomFieldProps) {
     // Update formData field using Redux dispatch
     dispatch(handleInputMethod({ path: fieldName, value: newValue }));
   };
-  console.log(formikProps.errors)
 
   return (
     <Field
       as={TextField}
+      multiline={multiline}
+      rows={rows}
       name={fieldName}
       required={required}
       variant="outlined"

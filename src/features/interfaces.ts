@@ -142,3 +142,11 @@ export type LoadFieldValue = string | number | boolean ;
 export interface IHandleAddLoad {
     (): void;
 }
+
+export interface ICustomFieldProps {
+    fieldName: string;
+    required?: boolean;
+    multiline?: boolean
+    rows?: number;
+  }
+  

@@ -68,14 +68,10 @@ export default function FormProjectStep(): JSX.Element {
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.various')}</Typography>
-                <TextField
-                    fullWidth
-                    label={t('project.goals')}
-                    name="project.goals"
+                <CustomTextField
+                    fieldName="project.goals"
                     multiline
                     rows={3}
-                    value={formData.project.goals}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.goals', value: e.target.value }))}
                 />
                 <FormControl>
                     <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts')}</InputLabel>
@@ -295,12 +291,8 @@ export default function FormProjectStep(): JSX.Element {
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.it')}</Typography>
                 <Box>
                     <Stack spacing={2}>
-                        <TextField
-                            fullWidth
-                            label={t('project.it.processesDescription')}
-                            name="project.it.processesDescription"
-                            value={formData.project.it.processesDescription}
-                            onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.processesDescription', value: e.target.value }))}
+                        <CustomTextField
+                            fieldName="project.it.processesDescription"
                         />
                         <Stack>
                             <FormControlLabel
@@ -336,12 +328,8 @@ export default function FormProjectStep(): JSX.Element {
                             </ToggleButtonGroup>
                         }
                         {(formData.project.it.existingSystem.present && formData.project.it.existingSystem.name === 2) &&
-                            <TextField
-                                fullWidth
-                                label={t('project.it.existingSystem.existingOther')}
-                                name="project.it.existingSystem.existingOther"
-                                value={formData.project.it.existingSystem.existingOther}
-                                onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.existingSystem.existingOther', value: e.target.value }))}
+                            <CustomTextField
+                                fieldName="project.it.existingSystem.existingOther"
                             />
                         }
                         <Stack>
@@ -358,12 +346,8 @@ export default function FormProjectStep(): JSX.Element {
                                 label={t('project.it.wmsNeeded')}
                             />
                         </Stack>
-                        <TextField
-                            fullWidth
-                            label={t('project.it.additionalInformation')}
-                            name="project.it.additionalInformation"
-                            value={formData.project.it.additionalInformation}
-                            onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.additionalInformation', value: e.target.value }))}
+                        <CustomTextField
+                            fieldName="project.it.additionalInformation"
                         />
                     </Stack>
                 </Box>

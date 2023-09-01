@@ -7,7 +7,6 @@ import { IFormData } from "../features/interfaces";
 export default function FormSalesUnitStep(): JSX.Element {
     const { t } = useTranslation();
     const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
-    console.log(formikProps.values)
     return (
         <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('sales.header')}</Typography>
