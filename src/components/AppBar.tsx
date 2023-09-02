@@ -53,9 +53,9 @@ export default function TopBar(): JSX.Element {
         saveAs(blob, fileName);
         dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')} ${fileName}`, severity: 'success' }));
     };
-
-    function loadFile(e: React.ChangeEvent<HTMLInputElement>) {
-        const file = e.target.files?.[0];
+    function loadFile(e: React.FormEvent<HTMLInputElement>) {
+        const fileInput = e.target as HTMLInputElement;
+        const file = fileInput.files?.[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (event) => {
@@ -74,6 +74,8 @@ export default function TopBar(): JSX.Element {
                 }
             };
             reader.readAsText(file);
+            // Clear the input value to allow selecting the same file again
+            fileInput.value = '';
         }
     }
 
@@ -141,10 +143,27 @@ export default function TopBar(): JSX.Element {
                                 </Button>
                             </MenuItem>
                             <MenuItem>
-                                <Button fullWidth variant="outlined" className='upload-button' startIcon={<UploadIcon />}>
+                                <Button
+                                    fullWidth
+                                    variant="outlined"
+                                    className='upload-button'
+                                    startIcon={<UploadIcon />}
+                                    onClick={() => {
+                                        const fileInput = document.getElementById('file-input') as HTMLInputElement;
+                                        if (fileInput) {
+                                            fileInput.click();
+                                        }
+                                    }}
+                                >
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e)} />
                                 </Button>
+                                <input
+                                    type="file"
+                                    accept=".json"
+                                    id="file-input" // Assign an id to the input element
+                                    style={{ display: 'none' }} // Hide the input element with CSS
+                                    onInput={(e) => loadFile(e)}
+                                />
                             </MenuItem>
                             <MenuItem>
                                 <DarkModeSwitch fullWidth={true} />
@@ -185,7 +204,7 @@ export default function TopBar(): JSX.Element {
                             <Button variant="outlined" color='success' component="label" sx={{ display: { xs: 'none', md: 'flex' } }} startIcon={<UploadIcon />}>
                                 <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                     <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                    <input type="file" accept=".json" hidden onChange={(e) => loadFile(e)} />
+                                    <input type="file" accept=".json" hidden onInput={(e) => loadFile(e)} />
                                 </Stack>
                             </Button>
                         </Stack>
