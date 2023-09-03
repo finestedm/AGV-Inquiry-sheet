@@ -7,7 +7,7 @@ import { handleInputMethod } from '../features/redux/reducers/formDataSlice';
 import { ICustomFieldProps } from '../features/interfaces';
 
 export default function CustomTextField(props: ICustomFieldProps) {
-  const { fieldName, required, multiline, rows } = props;
+  const { fieldName, required, multiline, rows, fullWidth } = props;
   const { t } = useTranslation();
   const formikProps = useFormikContext();
   const dispatch = useDispatch()
@@ -34,6 +34,7 @@ export default function CustomTextField(props: ICustomFieldProps) {
   return (
     <Field
       as={TextField}
+      fullWidth={fullWidth}
       multiline={multiline}
       rows={rows}
       name={fieldName}

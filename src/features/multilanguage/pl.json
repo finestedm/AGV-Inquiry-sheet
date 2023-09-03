@@ -4,13 +4,9 @@
     "name": "Firma / klient",
     "sapNumber": "Numer sap",
     "industry": "Branża",
-    "industry.other": "Inna branża",
-    "contactperson": {
-      "name": "Imię i nazwisko",
-      "role": "Funkcja osoby kontaktowej",
-      "phone": "Telefon kontaktowy",
-      "mail": "Adres email"
-    },
+    "industryName.other": "Podaj inną branżę",
+    "contactPerson": "Imię i nazwisko",
+    "contactPersonRole": "Stanowisko osoby kontaktowej",
     "contactPersonMail": "Adres email",
     "address": "Adres",
     "subheader": {

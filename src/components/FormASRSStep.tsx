@@ -191,7 +191,8 @@ export default function FormASRSStep(): JSX.Element {
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <CustomTextField
-                                fieldName="system-asrs.workConditions.other"
+                                fieldName="system.asrs.workConditions.other"
+                                fullWidth
                                 multiline
                                 rows={4}
                             />
