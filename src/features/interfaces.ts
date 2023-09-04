@@ -148,6 +148,7 @@ export interface ICustomFieldProps {
     required?: boolean;
     multiline?: boolean
     rows?: number;
-    fullWidth?: boolean
+    fullWidth?: boolean;
+    disabled?: boolean;
   }
   
