@@ -105,7 +105,8 @@
         "workTime": "Czas pracy",
         "workConditions": "Warunki pracy",
         "building": "Budynek",
-        "loads": "Ładunki"
+        "loads": "Ładunki",
+        "flow": "Przepływ"
       },
       "workTime": {
         "workDays": "Dni pracy w tygodniu",

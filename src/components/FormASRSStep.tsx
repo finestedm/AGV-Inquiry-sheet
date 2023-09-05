@@ -309,6 +309,9 @@ export default function FormASRSStep(): JSX.Element {
                 </Container>
                 <LoadTable selectedSystem='asrs' />
             </Stack>
+            <Stack spacing={2}>
+                <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.flow')}</Typography>
+            </Stack>
         </Stack >
     )
 }
