@@ -63,10 +63,10 @@ export interface ILoad {
     secured: boolean;
 }
 
-export interface IStation {
+export interface IFlow {
     stationType: string;
     stationSource: string;
-    stationTarger: string;
+    stationTarget: string;
     flowAverage: number;
     flowPeak: number;
     loadType: number;
@@ -102,7 +102,7 @@ export interface Iasrs {
         }
     },
     loads: ILoad[];
-    flow: IStation[]
+    flow: IFlow[]
 }
 
 export interface ISystems {

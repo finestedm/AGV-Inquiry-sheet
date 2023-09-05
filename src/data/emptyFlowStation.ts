@@ -1,8 +1,8 @@
-export const emptyFlowStation =
+export const emptyFlow =
 {
     stationType: '',
     stationSource: '',
-    stationTarger: '',
+    stationTarget: '',
     flowAverage: 0,
     flowPeak: 0,
     loadType: 0,

@@ -11,6 +11,7 @@ import { RootState } from "../features/redux/store";
 import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import CustomTextField from "./CustomTextField";
+import FlowTable from "./FlowTable";
 
 
 const criticalElectronicsTemperature = 8
@@ -309,6 +310,8 @@ export default function FormASRSStep(): JSX.Element {
             </Stack>
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.flow')}</Typography>
+                <FlowTable selectedSystem='asrs' />
+
             </Stack>
         </Stack >
     )

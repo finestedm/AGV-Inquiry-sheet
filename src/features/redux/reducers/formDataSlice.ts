@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFormData, ILoad, ILoadsTypes, LoadFieldValue } from '../../interfaces';
+import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue } from '../../interfaces';
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
-import { emptyFlowStation } from '../../../data/emptyFlowStation';
+import { emptyFlow } from '../../../data/emptyFlowStation';
 
 const initialFormDataState: IFormData = {
 
@@ -89,7 +89,7 @@ const initialFormDataState: IFormData = {
                 }
             },
             loads: [loadsToAdd.empty],
-            flow: [emptyFlowStation]
+            flow: [emptyFlow]
         },
         lrkprk: {
             selected: false,
@@ -116,7 +116,7 @@ const initialFormDataState: IFormData = {
                 }
             },
             loads: [loadsToAdd.empty],
-            flow: [emptyFlowStation]
+            flow: [emptyFlow]
 
         },
         agv: {
@@ -144,7 +144,7 @@ const initialFormDataState: IFormData = {
                 }
             },
             loads: [loadsToAdd.empty],
-            flow: [emptyFlowStation]
+            flow: [emptyFlow]
 
         },
         autovna: {
@@ -172,7 +172,7 @@ const initialFormDataState: IFormData = {
                 }
             },
             loads: [loadsToAdd.empty],
-            flow: [emptyFlowStation]
+            flow: [emptyFlow]
 
         }
     },
@@ -219,6 +219,27 @@ const formDataSlice = createSlice({
                     [updatedSystemKey]: {
                         ...state.system[updatedSystemKey],
                         loads: updatedSystemLoads,
+                    },
+                },
+            };
+        },
+
+        handleAddFlow: (
+            state: IFormData,
+            action: PayloadAction<{ systemName: string; }>
+        ) => {
+            const { systemName } = action.payload;
+
+            const updatedSystemKey = systemName.toLowerCase();
+            const updatedSystemStations = state.system[updatedSystemKey].flow.concat(emptyFlow);
+
+            return {
+                ...state,
+                system: {
+                    ...state.system,
+                    [updatedSystemKey]: {
+                        ...state.system[updatedSystemKey],
+                        flow: updatedSystemStations,
                     },
                 },
             };
@@ -277,6 +298,44 @@ const formDataSlice = createSlice({
             return newState;
         },
 
+        handleFlowChange: (
+            state: IFormData,
+            action: PayloadAction<{ index: number; field: keyof IFlow; value: number | string }>
+        ): IFormData => {
+            const { index, field, value } = action.payload;
+
+            return {
+                ...state,
+                system: {
+                    ...state.system,
+                    asrs: {
+                        ...state.system.asrs,
+                        flow: state.system.asrs.flow.map((flow, i) =>
+                            i === index ? { ...flow, [field]: value } : flow
+                        ),
+                    },
+                },
+            };
+        },
+
+        handleDeleteFlow: (
+            state: IFormData,
+            action: PayloadAction<number>
+        ): IFormData => {
+            const flowIndexToDelete = action.payload;
+
+            return {
+                ...state,
+                system: {
+                    ...state.system,
+                    asrs: {
+                        ...state.system.asrs,
+                        flow: state.system.asrs.flow.filter((_, i) => i !== flowIndexToDelete),
+                    },
+                },
+            };
+        },
+
 
         handleIndustryChange: (state, action) => {
             const { industryName, value } = action.payload;
@@ -287,6 +346,6 @@ const formDataSlice = createSlice({
     },
 });
 
-export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad } = formDataSlice.actions;
+export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange } = formDataSlice.actions;
 export default formDataSlice.reducer;
 export { initialFormDataState }
