@@ -19,8 +19,10 @@ const snackbarSlice = createSlice({
         },
         closeSnackbar: (state) => {
             state.open = false;
-            // state.message = '';
-            // state.severity = 'success';
+            setTimeout(() => {
+                state.message = '';
+                state.severity = 'success';
+            }, 1000);
         },
     },
 });
