@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { Box, Button, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { handleAddFlow, handleFlowChange } from "../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
+import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -51,14 +52,14 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                                 <TableCell>
                                     <TextField
                                         size="small"
-                                        value={flow.flowAverage}
+                                        value={trimLeadingZeros(flow.flowAverage)}
                                         onChange={(e) => dispatch(handleFlowChange({ index, field: 'flowAverage', value: e.target.value }))}
                                     />
                                 </TableCell>
                                 <TableCell>
                                     <TextField
                                         size="small"
-                                        value={flow.flowPeak}
+                                        value={trimLeadingZeros(flow.flowPeak)}
                                         onChange={(e) => dispatch(handleFlowChange({ index, field: 'flowPeak', value: e.target.value }))}
                                     />
                                 </TableCell>
@@ -70,13 +71,12 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                                     >
                                         {selectedSystemLoads.map((load, loadIndex) => (
                                             <MenuItem key={loadIndex} value={loadIndex}>
-                                                <Stack direction='row' alignItems='center'>
+                                                <Stack >
                                                     <Typography mr={1}>
                                                         {load.name}
                                                     </Typography>
-                                                    <br />
                                                     <Typography fontSize='65%' color='text.secondary' >
-                                                        {load.width} x {load.length} x {load.height}, {load.weightMax} kg
+                                                        {load.length} x {load.width} x  {load.height}, {load.weightMax} kg
                                                     </Typography>
                                                 </Stack>
 
@@ -87,7 +87,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                                 <TableCell>
                                     <TextField
                                         size="small"
-                                        value={flow.workTime}
+                                        value={trimLeadingZeros(flow.workTime)}
                                         onChange={(e) => dispatch(handleFlowChange({ index, field: 'workTime', value: e.target.value }))}
                                     />
                                 </TableCell>
