@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Form from './components/Form';
 import TopBar from './components/AppBar';
 import { I18nextProvider } from 'react-i18next';
@@ -14,6 +14,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from './features/redux/store';
 import DeleteLoadWarningDialog from './components/DeleteLoadWarningDialog';
 import SimpleSnackbar from './components/SnackBar';
+import { useDispatch } from 'react-redux';
+import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './features/localStorage/handleLocalStorage';
+import { setFormData } from './features/redux/reducers/formDataSlice';
 
 // Configure i18next
 i18n
@@ -32,6 +35,39 @@ i18n
 
 function App() {
   const darkMode = useSelector((state: RootState) => state.darkMode)
+  const formData = useSelector((state: RootState) => state.formData);
+  const dispatch = useDispatch();
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  //
+  //loading and saving data from localStorage
+  //
+  useEffect(() => {
+    const savedData = loadFormDataFromLocalStorage();
+    if (savedData) {
+      // Check if the loaded version matches the app version before setting the formData
+      if (savedData.version === formData.version) {
+        console.log('loading')
+        dispatch(setFormData(savedData));
+        setInitialLoad(false); // Set initialLoad to false after loading
+      } else {
+        // Handle version mismatch or other errors if needed
+      }
+    }
+  }, []);
+
+  // Save data to localStorage whenever formData changes
+  useEffect(() => {
+    if (!initialLoad) {
+      saveFormDataToLocalStorage(formData);
+    }
+  }, [formData, initialLoad]);
+
+  //
+  //loading and saving data from localStorage
+  //
+
+  //
 
   return (
     <I18nextProvider i18n={i18n}>

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFormData, ILoad, ILoadsTypes, LoadFieldValue } from '../../interfaces';
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
+import { emptyFlowStation } from '../../../data/emptyFlowStation';
 
 const initialFormDataState: IFormData = {
 
@@ -87,7 +88,8 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [loadsToAdd.empty]
+            loads: [loadsToAdd.empty],
+            flow: [emptyFlowStation]
         },
         lrkprk: {
             selected: false,
@@ -113,7 +115,9 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [loadsToAdd.empty]
+            loads: [loadsToAdd.empty],
+            flow: [emptyFlowStation]
+
         },
         agv: {
             selected: false,
@@ -139,7 +143,9 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [loadsToAdd.empty]
+            loads: [loadsToAdd.empty],
+            flow: [emptyFlowStation]
+
         },
         autovna: {
             selected: false,
@@ -165,7 +171,9 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [loadsToAdd.empty]
+            loads: [loadsToAdd.empty],
+            flow: [emptyFlowStation]
+
         }
     },
 }
