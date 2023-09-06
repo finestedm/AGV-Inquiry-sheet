@@ -11,14 +11,10 @@ export default function FormSalesUnitStep(): JSX.Element {
         <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('sales.header')}</Typography>
             <Stack spacing={2}>
-                <TextField
-                    fullWidth
-                    required
+                <CustomTextField
                     disabled
-                    label={t('sales.unit')}
-                    name="sales.salesUnit"
-                    value={formikProps.values.sales.salesUnit}
-                    onChange={formikProps.handleChange} // Use handleChange from formikProps
+                    required
+                    fieldName="sales.salesUnit"
                 />
                 <CustomTextField
                     required

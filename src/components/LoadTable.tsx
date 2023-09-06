@@ -59,8 +59,8 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                         <TableRow>
                             <TableCell>№</TableCell>
                             <TableCell>Name</TableCell>
-                            <TableCell>Length</TableCell>
-                            <TableCell>Width</TableCell>
+                            <TableCell>Length (L1)</TableCell>
+                            <TableCell>Width (W1)</TableCell>
                             <TableCell>Height</TableCell>
                             <TableCell>L2</TableCell>
                             <TableCell>W2</TableCell>
@@ -241,7 +241,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                 </TableCell>
                                 <TableCell>
                                     <Checkbox
-                                        checked={load.overhang}
+                                        checked={load.overhang || load.length > load.L2 || load.width > load.W2} // auto check if the load dimensions are bigger than pallet dimensions
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'overhang', value: e.target.checked }))}
                                     />
                                 </TableCell>
