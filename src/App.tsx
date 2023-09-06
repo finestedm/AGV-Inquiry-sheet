@@ -8,7 +8,6 @@ import pl from './features/multilanguage/pl.json'
 import en from './features/multilanguage/en.json'
 import theme, { themeDark } from './theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { IFormData, ILoad } from './features/interfaces';
 import MobileScrollButton from './components/MobileScrollButton';
 import { useSelector } from 'react-redux';
 import { RootState } from './features/redux/store';

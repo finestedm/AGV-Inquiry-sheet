@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, Container, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
+import { AppBar, Avatar, Box, Button, ButtonGroup, Container, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
 import { saveAs } from 'file-saver';
 import SaveIcon from '@mui/icons-material/Save';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -11,10 +11,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
-import { setFormData } from "../features/redux/reducers/formDataSlice";
+import { initialFormDataState, setFormData } from "../features/redux/reducers/formDataSlice";
 import DarkModeSwitch from "./DarkModeSwitch";
 import jhLogoDark from '../images/JH_logo.png'
 import { openSnackbar } from "../features/redux/reducers/snackBarSlice";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import dayjs from "dayjs";
 
 
@@ -137,6 +138,9 @@ export default function TopBar(): JSX.Element {
                                     </MenuItem>
                                 </Select>
                             </MenuItem>
+                            <MenuItem>
+                                <DarkModeSwitch fullWidth={true} />
+                            </MenuItem>
                             <MenuItem onClick={() => saveDataToFile()}>
                                 <Button fullWidth variant="outlined" className='save-button' startIcon={<SaveIcon />} >
                                     <Typography>{t('ui.button.inquiry.save')}</Typography>
@@ -165,8 +169,10 @@ export default function TopBar(): JSX.Element {
                                     onInput={(e) => loadFile(e)}
                                 />
                             </MenuItem>
-                            <MenuItem>
-                                <DarkModeSwitch fullWidth={true} />
+                            <MenuItem onClick={() => dispatch(setFormData(initialFormDataState))}>
+                                <Button fullWidth variant="outlined" startIcon={<DeleteOutlineIcon />} color='error'>
+                                    <Typography>{t('ui.button.inquiry.clear')}</Typography>
+                                </Button>
                             </MenuItem>
                         </Menu>
                     </Box>
@@ -196,17 +202,36 @@ export default function TopBar(): JSX.Element {
                                 </Select>
                             </FormControl>
                             <DarkModeSwitch fullWidth={false} />
-                            <Button variant="outlined" color='success' onClick={() => saveDataToFile()} sx={{ display: { xs: 'none', md: 'flex' } }} startIcon={<SaveIcon />}>
-                                <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                    <Typography>{t('ui.button.inquiry.save')}</Typography>
-                                </Stack>
-                            </Button>
-                            <Button variant="outlined" color='success' component="label" sx={{ display: { xs: 'none', md: 'flex' } }} startIcon={<UploadIcon />}>
-                                <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
-                                    <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                    <input type="file" accept=".json" hidden onInput={(e) => loadFile(e)} />
-                                </Stack>
-                            </Button>
+                            <ButtonGroup variant="outlined" color='success' sx={{ display: { xs: 'none', md: 'flex' } }}>
+                                <Button onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
+                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                        <Typography>{t('ui.button.inquiry.save')}</Typography>
+                                    </Stack>
+                                </Button>
+                                <Button startIcon={<UploadIcon />}>
+                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' onClick={() => {
+                                        const fileInput = document.getElementById('file-input') as HTMLInputElement;
+                                        if (fileInput) {
+                                            fileInput.click();
+                                        }
+                                    }}>
+
+                                        <Typography>{t('ui.button.inquiry.load')}</Typography>
+                                        <input
+                                            type="file"
+                                            accept=".json"
+                                            id="file-input" // Assign an id to the input element
+                                            style={{ display: 'none' }} // Hide the input element with CSS
+                                            onInput={(e) => loadFile(e)}
+                                        />
+                                    </Stack>
+                                </Button>
+                                <Button startIcon={<DeleteOutlineIcon />} color='error' onClick={() => dispatch(setFormData(initialFormDataState))}>
+                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                        <Typography>{t('ui.button.inquiry.clear')}</Typography>
+                                    </Stack>
+                                </Button>
+                            </ButtonGroup>
                         </Stack>
                     </Box>
                 </Toolbar>
