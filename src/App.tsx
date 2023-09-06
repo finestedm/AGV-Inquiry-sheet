@@ -56,12 +56,17 @@ function App() {
     }
   }, []);
 
+  // on first render set the initialLoad to false
+  useEffect(() => {
+      setInitialLoad(false);
+  }, []);
+
   // Save data to localStorage whenever formData changes
   useEffect(() => {
     if (!initialLoad) {
       saveFormDataToLocalStorage(formData);
     }
-  }, [formData, initialLoad]);
+  }, [formData]);
 
   //
   //loading and saving data from localStorage

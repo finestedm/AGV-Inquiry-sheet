@@ -126,6 +126,7 @@ export default function Form(): JSX.Element {
 
     } else {
       setFadeOut(true);
+      window.scrollTo({top: 0,behavior: 'smooth'});
       setTimeout(() => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setFadeOut(false);
@@ -135,6 +136,7 @@ export default function Form(): JSX.Element {
 
   const handleBack = () => {
     setFadeOut(true);
+    window.scrollTo({top: 0,behavior: 'smooth'});
     setTimeout(() => {
       setActiveStep((prevActiveStep) => prevActiveStep - 1);
       setFadeOut(false);
@@ -149,6 +151,7 @@ export default function Form(): JSX.Element {
 
     } else {
       setFadeOut(true);
+      window.scrollTo({top: 0,behavior: 'smooth'});
       setTimeout(() => {
         setActiveStep(step);
         setFadeOut(false);
