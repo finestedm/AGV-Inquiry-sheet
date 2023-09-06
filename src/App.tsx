@@ -47,7 +47,6 @@ function App() {
     if (savedData) {
       // Check if the loaded version matches the app version before setting the formData
       if (savedData.version === formData.version) {
-        console.log('loading')
         dispatch(setFormData(savedData));
         setInitialLoad(false); // Set initialLoad to false after loading
       } else {
