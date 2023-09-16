@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "./FormStepper";
 import FormSalesUnitStep from "./FormSalesUnitStep";
@@ -14,6 +14,7 @@ import ScrollButton from "./MobileScrollButton";
 import validationSchema from "../features/formValidation/formValidation";
 import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors, useFormik } from 'formik'
 import { initialFormDataState } from "../features/redux/reducers/formDataSlice";
+import MobileFormStepper from "./MobileFormStepper";
 
 
 export default function Form(): JSX.Element {
@@ -126,7 +127,7 @@ export default function Form(): JSX.Element {
 
     } else {
       setFadeOut(true);
-      window.scrollTo({top: 0,behavior: 'smooth'});
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setFadeOut(false);
@@ -136,7 +137,7 @@ export default function Form(): JSX.Element {
 
   const handleBack = () => {
     setFadeOut(true);
-    window.scrollTo({top: 0,behavior: 'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
       setActiveStep((prevActiveStep) => prevActiveStep - 1);
       setFadeOut(false);
@@ -151,7 +152,7 @@ export default function Form(): JSX.Element {
 
     } else {
       setFadeOut(true);
-      window.scrollTo({top: 0,behavior: 'smooth'});
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => {
         setActiveStep(step);
         setFadeOut(false);
@@ -172,14 +173,16 @@ export default function Form(): JSX.Element {
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
-            <Container component='form'>
-              <Stack spacing={6} sx={{ mb: 10 }}>
-                <Box>
+            <Container component='form' maxWidth='xl'>
+              <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
+                <Grid container spacing={6} direction='row'>
                   <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
-                </Box>
-                <div className={fadeOut ? 'step fadeout' : 'step'}>
-                  {stepsCombined[activeStep].component}
-                </div>
+                  <Grid item xs>
+                    <Card elevation={1} className={fadeOut ? 'step fadeout' : 'step'} sx={{ p: 3 }}>
+                      {stepsCombined[activeStep].component}
+                    </Card>
+                  </Grid>
+                </Grid>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
                     {activeStep !== 0 && (
@@ -198,6 +201,7 @@ export default function Form(): JSX.Element {
                 </Box>
               </Stack>
               <ScrollButton />
+              <MobileFormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
             </Container >
           </FormikForm>
         )}

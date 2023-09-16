@@ -83,7 +83,7 @@ export default function TopBar(): JSX.Element {
 
     return (
         <AppBar position="static" color='default'>
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end', alignContent: 'flex-end' }}>

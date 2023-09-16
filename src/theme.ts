@@ -48,6 +48,9 @@ theme = createTheme({
         success: {
             main: '#0082A4',
         },
+        background: {
+            default: '#fafafb'
+        }
     },
 
     typography: {
@@ -89,7 +92,7 @@ theme = createTheme({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    boxShadow: shadow5,
+                    // boxShadow: shadow5,
                     border: borderStandard,
                     borderColor: theme.palette.grey[200]
                 },
