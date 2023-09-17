@@ -20,7 +20,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
 
     return (
         <Grid item xs={12} md={6}>
-            <Card elevation={0} className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : theme.palette.divider }}>
+            <Card elevation={2} className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : theme.palette.divider, boxShadow: 'none' }}>
                 <CardActionArea
                     sx={{ position: 'relative' }}
                     onClick={e => dispatch(handleSystemChange(system.alt))}
