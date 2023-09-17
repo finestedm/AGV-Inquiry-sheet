@@ -11,16 +11,14 @@ interface LoadTableCustomTextFieldProps {
 }
 
 const CustomTextField = styled(TextField)({
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            border: 'none',
-        },
-        padding: 0,
-        margin: 0
-    },
-    "& .MuiOutlinedInput-input": {
-        padding: 0 // <-- added zero padding instruction
-      }
+    // '& .MuiOutlinedInput-root': {
+    //     '& fieldset': {
+    //         border: 'none',
+    //     },
+    // },
+    // "& .MuiOutlinedInput-input": {
+    //     padding: 0 // <-- added zero padding instruction
+    //   }
 });
 
 function LoadTableCustomTextField({ type, value, onChange, endAdornment, }: LoadTableCustomTextFieldProps) {
