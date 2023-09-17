@@ -12,6 +12,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/reducers/deleteLoadDialogSlice";
 import { loadContainerMaterials } from "../data/loadContainerMaterials";
+import LoadTableCustomTextField from "./LoadTableCustomeTexField";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -52,9 +53,9 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
 
     const dispatch = useDispatch();
     return (
-        <>
+        <Box>
             <TableContainer>
-                <Table size="small">
+                <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>№</TableCell>
@@ -83,160 +84,89 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                     <Typography>{index + 1}</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         value={load.name}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'name', value: e.target.value }))}
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.length)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'length', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    mm
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.width)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'width', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    mm
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.height)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'height', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    mm
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.L2)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'L2', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    mm
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.W2)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'W2', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    mm
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.W3)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'W3', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    mm
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.H2)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'H2', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    mm
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.H3)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'H3', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    mm
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.weightMin)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'weightMin', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    kg
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <TextField
-                                        size="small"
+                                    <LoadTableCustomTextField
                                         type="number"
                                         value={trimLeadingZeros(load.weightMax)}
                                         onChange={(e) => dispatch(handleLoadChange({ index, field: 'weightMax', value: Number(e.target.value) }))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    kg
-                                                </InputAdornment>
-                                            ),
-                                        }}
+                                        // endAdornment='mm'
                                     />
                                 </TableCell>
                                 <TableCell>
@@ -339,6 +269,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     </Grow>
                 )}
             </Popper>
-        </>
+        </Box>
     )
 }

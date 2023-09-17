@@ -302,10 +302,10 @@ export default function FormASRSStep(): JSX.Element {
             </Stack>
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.loads')}</Typography>
-                <Container>
+                <Box>
                     <img style={{ width: '100%', maxWidth: 800 }} src={LoadDimensionPicture} alt="load dimensions" />
                     <img src={LoadDimensionPicture2} alt="load dimensions 2" />
-                </Container>
+                </Box>
                 <LoadTable selectedSystem='asrs' />
             </Stack>
             <Stack spacing={2}>
