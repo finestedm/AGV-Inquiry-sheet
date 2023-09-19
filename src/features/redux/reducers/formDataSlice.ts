@@ -257,27 +257,12 @@ const formDataSlice = createSlice({
             }
         },
 
-        handleLoadChange: (
-            state: IFormData, // Use the correct type for state
-            action: PayloadAction<{ index: number; field: keyof ILoad; value: number | string | boolean }>
-        ) => {
-            const { index, field, value } = action.payload;
-
-            // Create a deep copy of the state using Immer and update the necessary value
-            return {
-                ...state,
-                system: {
-                    ...state.system,
-                    asrs: {
-                        ...state.system.asrs,
-                        loads: state.system.asrs.loads.map((load, i) =>
-                            i === index ? { ...load, [field]: value } : load
-                        ),
-                    },
-                },
-            };
-        },
-
+        handleLoadChange: (state, action) => {
+            const { newRow, selectedSystem } = action.payload;
+          
+            // Replace the old load object with the new one at the specified index
+            state.system[selectedSystem].loads[newRow.id - 1] = newRow;
+          },
         handleDeleteLoad: (
             state: IFormData,
             action: PayloadAction<number>

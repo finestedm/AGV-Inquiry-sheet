@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Card, Container, Grid, MobileStepper, Step, StepLabel, Stepper, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Card, Container, Grid, MobileStepper, Paper, Step, StepLabel, Stepper, useTheme } from "@mui/material";
 
 interface FormStepperProps {
   activeStep: number;
@@ -9,7 +9,7 @@ interface FormStepperProps {
 export default function FormStepper({ activeStep, stepLabels, handleStepClick }: FormStepperProps) {
   return (
     <Grid item xs='auto' sx={{ display: { xs: 'none', md: 'block' } }}>
-      <Card elevation={1} sx={{ p: 3, position: 'sticky', top: 48 }}>
+      <Paper elevation={1} sx={{ p: 3, position: 'sticky', top: 48 }}>
         <Stepper activeStep={activeStep} orientation="vertical">
           {stepLabels.map((label, index) => (
             <Step key={index}>
@@ -24,7 +24,7 @@ export default function FormStepper({ activeStep, stepLabels, handleStepClick }:
             </Step>
           ))}
         </Stepper>
-      </Card>
+      </Paper>
     </Grid>
   );
 }

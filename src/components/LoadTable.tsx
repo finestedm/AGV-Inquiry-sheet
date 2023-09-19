@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/reducers/deleteLoadDialogSlice";
 import { loadContainerMaterials } from "../data/loadContainerMaterials";
 import LoadTableCustomTextField from "./LoadTableCustomeTexField";
+import { DataGrid, GridCellEditStopReasons, MuiEvent } from "@mui/x-data-grid";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -51,172 +52,85 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
         setOpen(false);
     };
 
+    const rows = selectedSystemLoads.map((load, index) => ({
+        id: index + 1, // Sequential number starting from 1
+        name: load.name,
+        length: load.length,
+        width: load.width,
+        height: load.height,
+        L2: load.L2,
+        W2: load.W2,
+        W3: load.W3,
+        H2: load.H2,
+        H3: load.H3,
+        weightMin: load.weightMin,
+        weightMax: load.weightMax,
+        overhang: load.overhang,
+        material: load.material,
+        loadSide: load.loadSide,
+        secured: load.secured,
+    }));
+
     const dispatch = useDispatch();
     return (
         <Box>
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>№</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Length (L1)</TableCell>
-                            <TableCell>Width (W1)</TableCell>
-                            <TableCell>Height</TableCell>
-                            <TableCell>L2</TableCell>
-                            <TableCell>W2</TableCell>
-                            <TableCell>W3</TableCell>
-                            <TableCell>H2</TableCell>
-                            <TableCell>H3</TableCell>
-                            <TableCell>Weight min</TableCell>
-                            <TableCell>Weight max</TableCell>
-                            <TableCell>Overhang</TableCell>
-                            <TableCell>Material</TableCell>
-                            <TableCell>Load side</TableCell>
-                            <TableCell>Secured</TableCell>
-                            <TableCell>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {selectedSystemLoads.map((load, index) => (
-                            <TableRow key={index}>
-                                <TableCell>
-                                    <Typography>{index + 1}</Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        value={load.name}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'name', value: e.target.value }))}
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.length)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'length', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.width)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'width', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.height)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'height', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.L2)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'L2', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.W2)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'W2', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.W3)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'W3', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.H2)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'H2', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.H3)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'H3', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.weightMin)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'weightMin', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <LoadTableCustomTextField
-                                        type="number"
-                                        value={trimLeadingZeros(load.weightMax)}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'weightMax', value: Number(e.target.value) }))}
-                                        // endAdornment='mm'
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Checkbox
-                                        checked={load.overhang || load.length > load.L2 || load.width > load.W2} // auto check if the load dimensions are bigger than pallet dimensions
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'overhang', value: e.target.checked }))}
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Select
-                                        size="small"
-                                        value={load.material}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'material', value: e.target.value }))}
-                                    >
-                                        {loadContainerMaterials.map(material => (
-                                            <MenuItem value={loadContainerMaterials.indexOf(material)}>{t(`${material}`)}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </TableCell>
-                                <TableCell>
-                                    <Stack direction='row' alignItems='center'>
-                                        <Typography>W</Typography>
-                                        <Switch
-                                            checked={load.loadSide}
-                                            onChange={() => dispatch(handleLoadChange({ index, field: 'loadSide', value: !load.loadSide }))}
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                        />
-                                        <Typography>L</Typography>
-                                    </Stack>
-                                </TableCell>
-                                <TableCell>
-                                    <Checkbox
-                                        checked={load.secured}
-                                        onChange={(e) => dispatch(handleLoadChange({ index, field: 'secured', value: e.target.checked }))}
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <IconButton
-                                        onClick={() => {
-                                            dispatch(setLoadIndexToDelete(index))
-                                            dispatch(deleteLoadDialogOpen(true))
-                                        }}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer >
+            <DataGrid
+                rows={rows}
+                columns={[
+                    { field: "id", headerName: "№", width: 50 },
+                    { field: "name", headerName: "Name", width: 200, editable: true },
+                    { field: "length", headerName: "Length (L1)", width: 100, editable: true },
+                    { field: "width", headerName: "Width (W1)", width: 100, editable: true },
+                    { field: "height", headerName: "Height", width: 100, editable: true },
+                    { field: "L2", headerName: "L2", width: 100, editable: true },
+                    { field: "W2", headerName: "W2", width: 100, editable: true },
+                    { field: "W3", headerName: "W3", width: 100, editable: true },
+                    { field: "H2", headerName: "H2", width: 100, editable: true },
+                    { field: "H3", headerName: "H3", width: 100, editable: true },
+                    { field: "weightMin", headerName: "Weight min", width: 100, editable: true },
+                    { field: "weightMax", headerName: "Weight max", width: 100, editable: true },
+                    // {
+                    //     field: 'overhang',
+                    //     headerName: 'Overhang',
+                    //     width: 150,
+                    //     renderCell: (params => {
+                    //         <Checkbox
+                    //             checked={params.value}
+                    //             // onChange={(e) => dispatch(handleLoadChange({ index: params.id, field: "length", value: Number(e.target.value) }))}
+                    //         />
+                    //     }), 
+                    // },
+                    // {
+                    //     field: 'material',
+                    //     headerName: 'Material',
+                    //     width: 150,
+                    //     renderCell: MaterialCellRenderer, // Use the custom renderer for this column
+                    // },
+                    // {
+                    //     field: 'loadSide',
+                    //     headerName: 'Load Side',
+                    //     width: 150,
+                    //     renderCell: LoadSideCellRenderer, // Use the custom renderer for this column
+                    // },
+                    // {
+                    //     field: 'secured',
+                    //     headerName: 'Secured',
+                    //     width: 150,
+                    //     renderCell: SecuredCellRenderer, // Use the custom renderer for this column
+                    // },
+                    // Add other columns here...
+                ]}
+                
+                processRowUpdate={(newRow) => {
+                  
+                    dispatch(handleLoadChange({ newRow, selectedSystem }));        
+                    
+                    // Return the updated row with isNew set to false
+                    return { ...newRow, isNew: false };
+                  }}
+
+            // Add other Data Grid props as needed...
+            />
 
             <ButtonGroup variant="outlined" aria-label="split button">
                 <Button
