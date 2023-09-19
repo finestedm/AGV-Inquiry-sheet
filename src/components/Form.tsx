@@ -177,10 +177,10 @@ export default function Form(): JSX.Element {
               <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
                 <Grid container spacing={6} direction='row'>
                   <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
-                  <Grid item xs>
-                    <Paper className={fadeOut ? 'step fadeout' : 'step'} sx={{ p: 3 }}>
+                  <Grid item xs md={8} lg={9}>
+                    <Box className={fadeOut ? 'step fadeout' : 'step'}>
                       {stepsCombined[activeStep].component}
-                    </Paper>
+                    </Box>
                   </Grid>
                 </Grid>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

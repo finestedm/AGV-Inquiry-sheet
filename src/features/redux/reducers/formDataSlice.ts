@@ -259,28 +259,15 @@ const formDataSlice = createSlice({
 
         handleLoadChange: (state, action) => {
             const { newRow, selectedSystem } = action.payload;
-          
+
             // Replace the old load object with the new one at the specified index
             state.system[selectedSystem].loads[newRow.id - 1] = newRow;
-          },
-        handleDeleteLoad: (
-            state: IFormData,
-            action: PayloadAction<number>
-        ) => {
-            const loadIndexToDelete = action.payload;
+        },
 
-            // Create a deep copy of the state using Immer and remove the load at the specified index
-            const newState = {
-                ...state,
-                system: {
-                    ...state.system,
-                    asrs: {
-                        ...state.system.asrs,
-                        loads: state.system.asrs.loads.filter((load, i) => i !== loadIndexToDelete),
-                    },
-                },
-            };
-            return newState;
+        handleDeleteLoad: (state: IFormData, action: PayloadAction<ILoad[]>) => {
+            const newLoads = action.payload;
+
+            state.system.asrs.loads = newLoads;
         },
 
         handleFlowChange: (

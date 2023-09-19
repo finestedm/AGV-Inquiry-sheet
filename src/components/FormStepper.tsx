@@ -8,8 +8,8 @@ interface FormStepperProps {
 
 export default function FormStepper({ activeStep, stepLabels, handleStepClick }: FormStepperProps) {
   return (
-    <Grid item xs='auto' sx={{ display: { xs: 'none', md: 'block' } }}>
-      <Paper elevation={1} sx={{ p: 3, position: 'sticky', top: 48 }}>
+    <Grid item xs sx={{ display: { xs: 'none', md: 'block' } }}>
+      <Card elevation={1} sx={{ p: 3, position: 'sticky', top: 48 }}>
         <Stepper activeStep={activeStep} orientation="vertical">
           {stepLabels.map((label, index) => (
             <Step key={index}>
@@ -24,7 +24,7 @@ export default function FormStepper({ activeStep, stepLabels, handleStepClick }:
             </Step>
           ))}
         </Stepper>
-      </Paper>
+      </Card>
     </Grid>
   );
 }

@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/reducers/deleteLoadDialogSlice";
 import { loadContainerMaterials } from "../data/loadContainerMaterials";
 import LoadTableCustomTextField from "./LoadTableCustomeTexField";
-import { DataGrid, GridCellEditStopReasons, MuiEvent } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridRowId, MuiEvent } from "@mui/x-data-grid";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -27,7 +27,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     const handleClick = () => {
         dispatch(handleAddLoad({ systemName: selectedSystem, loadType: selectedIndex }));
     };
-
 
     const handleMenuItemClick = (
         event: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -71,6 +70,31 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
         secured: load.secured,
     }));
 
+    const handleDeleteClick = (id: GridRowId) => () => {
+        const updatedLoads = rows
+            .filter((row) => row.id !== id)
+            .map((load) => ({
+                id: load.id,
+                name: load.name,
+                length: load.length,
+                width: load.width,
+                height: load.height,
+                L2: load.L2,
+                W2: load.W2,
+                W3: load.W3,
+                H2: load.H2,
+                H3: load.H3,
+                weightMin: load.weightMin,
+                weightMax: load.weightMax,
+                overhang: load.overhang,
+                material: load.material,
+                loadSide: load.loadSide,
+                secured: load.secured,
+                label: "", // Add the 'label' property here if it's required by ILoad
+            }));
+        dispatch(handleDeleteLoad(updatedLoads));
+    };
+
     const dispatch = useDispatch();
     return (
         <Box>
@@ -98,7 +122,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     //             checked={params.value}
                     //             // onChange={(e) => dispatch(handleLoadChange({ index: params.id, field: "length", value: Number(e.target.value) }))}
                     //         />
-                    //     }), 
+                    //     }),
                     // },
                     // {
                     //     field: 'material',
@@ -118,16 +142,34 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     //     width: 150,
                     //     renderCell: SecuredCellRenderer, // Use the custom renderer for this column
                     // },
+                    {
+                        field: 'actions',
+                        type: 'actions',
+                        headerName: 'Actions',
+                        width: 100,
+                        cellClassName: 'actions',
+                        getActions: ({ id }) => {
+                            return [
+                                <GridActionsCellItem
+                                    icon={<DeleteIcon />}
+                                    label="Delete"
+                                    onClick={handleDeleteClick(id)}
+                                    color="inherit"
+                                />,
+                            ];
+                        }
+                    }
                     // Add other columns here...
                 ]}
-                
-                processRowUpdate={(newRow) => {
-                  
-                    dispatch(handleLoadChange({ newRow, selectedSystem }));        
-                    
+
+                processRowUpdate={(newRow: any) => {
+                    dispatch(handleLoadChange({ newRow, selectedSystem }));
+
                     // Return the updated row with isNew set to false
                     return { ...newRow, isNew: false };
-                  }}
+                }}
+
+
 
             // Add other Data Grid props as needed...
             />

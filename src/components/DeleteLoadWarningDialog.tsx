@@ -32,7 +32,7 @@ export default function DeleteLoadWarningDialog() {
                         variant="outlined"
                         color="error"
                         onClick={() => {
-                            dispatch(handleDeleteLoad(deleteLoadDialog.indexToDelete))
+                            // dispatch(handleDeleteLoad(deleteLoadDialog.indexToDelete))
                             dispatch(deleteLoadDialogOpen(false))
                         }
                         }
