@@ -20,7 +20,8 @@ export default function DarkModeSwitch({ fullWidth }: { fullWidth: boolean }): J
   return (
     <Button
       fullWidth={fullWidth}
-      variant='outlined'
+      variant='text'
+      size='small'
       onClick={() => dispatch(setDarkMode(!darkMode))}
       startIcon={
         <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}

@@ -184,7 +184,6 @@ export default function TopBar(): JSX.Element {
                                     id="language-select"
                                     value={i18n.language}
                                     onChange={handleLanguageChange}
-                                    variant="outlined"
                                     size="small"
                                 >
                                     <MenuItem value="en" >
@@ -202,7 +201,7 @@ export default function TopBar(): JSX.Element {
                                 </Select>
                             </FormControl>
                             <DarkModeSwitch fullWidth={false} />
-                            <ButtonGroup variant="outlined" color='success' sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <ButtonGroup variant="text" size='small' color='primary' sx={{ display: { xs: 'none', md: 'flex' } }}>
                                 <Button onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
                                     <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                         <Typography>{t('ui.button.inquiry.save')}</Typography>
