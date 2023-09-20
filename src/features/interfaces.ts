@@ -59,7 +59,7 @@ export interface ILoad {
     weightMax: number;
     overhang: boolean;
     material: number;
-    loadSide: boolean;
+    loadSide: 0 | 1;
     secured: boolean;
 }
 

@@ -14,6 +14,7 @@ import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/re
 import { loadContainerMaterials } from "../data/loadContainerMaterials";
 import LoadTableCustomTextField from "./LoadTableCustomeTexField";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
+import { text } from "stream/consumers";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -103,12 +104,12 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     const dispatch = useDispatch();
 
     return (
-        <Box>
+        <Box sx={{minHeight: '10rem'}}>
             <DataGrid
                 rows={rows}
                 columns={[
                     { field: "id", headerName: "№", width: 50, type: 'number' },
-                    { field: "name", headerName: "Name", width: 200, editable: true, type: 'string' },
+                    { field: "name", headerName: "Name", width: 175, editable: true, type: 'string' },
                     { field: "length", headerName: "Length (L1)", width: 100, editable: true, type: 'number' },
                     { field: "width", headerName: "Width (W1)", width: 100, editable: true, type: 'number' },
                     { field: "height", headerName: "Height", width: 100, editable: true, type: 'number' },
@@ -120,37 +121,30 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     { field: "weightMin", headerName: "Weight min", width: 100, editable: true, type: 'number' },
                     { field: "weightMax", headerName: "Weight max", width: 100, editable: true, type: 'number' },
                     { field: "overhang", headerName: "Overhang", width: 100, editable: true, type: 'boolean' },
-
-                    // {
-                    //     field: 'overhang',
-                    //     headerName: 'Overhang',
-                    //     width: 150,
-                    //     renderCell: (params => {
-                    //         <Checkbox
-                    //             checked={params.value}
-                    //             // onChange={(e) => dispatch(handleLoadChange({ index: params.id, field: "length", value: Number(e.target.value) }))}
-                    //         />
-                    //     }),
-                    // },
-                    // {
-                    //     field: 'material',
-                    //     headerName: 'Material',
-                    //     width: 150,
-                    //     renderCell: MaterialCellRenderer, // Use the custom renderer for this column
-                    // },
-                    // {
-                    //     field: 'loadSide',
-                    //     headerName: 'Load Side',
-                    //     width: 150,
-                    //     renderCell: LoadSideCellRenderer, // Use the custom renderer for this column
-                    // },
-                    // {
-                    //     field: 'secured',
-                    //     headerName: 'Secured',
-                    //     width: 150,
-                    //     renderCell: SecuredCellRenderer, // Use the custom renderer for this column
-                    // },
-                    // Add other columns here...
+                    {
+                        field: 'material',
+                        headerName: 'Material',
+                        width: 125,
+                        editable: true,
+                        type: 'singleSelect',
+                        valueOptions: [
+                            { value: 0, label: t('loadTable.loadContainerMaterial.wood') },
+                            { value: 1, label: t('loadTable.loadContainerMaterial.plastic') },
+                            { value: 2, label: t('loadTable.loadContainerMaterial.metal') }
+                        ]
+                    },
+                    {
+                        field: 'loadSide',
+                        headerName: 'Load Side',
+                        width: 100,
+                        editable: true,
+                        type: 'singleSelect',
+                        valueOptions: [
+                            { value: 0, label: 'W' },
+                            { value: 1, label: 'L' }
+                        ]
+                    },
+                    { field: 'secured', headerName: 'Load Secured', width: 100, editable: true, type: 'boolean' },
                 ]}
 
                 processRowUpdate={(newRow: any) => {
@@ -158,7 +152,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     // Return the updated row with isNew set to false
                     return { ...newRow, isNew: false };
                 }}
-
                 disableRowSelectionOnClick
                 checkboxSelection
                 slots={{
@@ -173,7 +166,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </Button>
                             <ButtonGroup variant='contained' aria-label="split button">
                                 <Button
-                                    
+
                                 >
                                     {t('ui.button.selectNewLoad')}
                                 </Button>
@@ -229,6 +222,19 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             </Popper>
                         </GridToolbarContainer>
                     ),
+                    noRowsOverlay: () => (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                height: '100%',
+                            }}
+                        >
+                            <Typography variant="h6">Add first load. <Typography color='text.secondary'>You can use predefined ones!</Typography></Typography>
+                        </Box>
+                    )
                 }}
                 onRowSelectionModelChange={(newRowSelectionModel) => { setRowSelectionModel(newRowSelectionModel) }}
                 rowSelectionModel={rowSelectionModel}

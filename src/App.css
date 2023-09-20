@@ -77,3 +77,6 @@
   /* Use contain to maintain aspect ratio and fit within the container */
 }
 
+.MuiDataGrid-overlayWrapper {
+  min-height: 5rem !important
+}
