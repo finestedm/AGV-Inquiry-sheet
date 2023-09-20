@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/reducers/deleteLoadDialogSlice";
 import { loadContainerMaterials } from "../data/loadContainerMaterials";
 import LoadTableCustomTextField from "./LoadTableCustomeTexField";
-import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridRowId, MuiEvent } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridRowId, GridToolbarContainer, MuiEvent } from "@mui/x-data-grid";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -101,18 +101,20 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
             <DataGrid
                 rows={rows}
                 columns={[
-                    { field: "id", headerName: "№", width: 50 },
-                    { field: "name", headerName: "Name", width: 200, editable: true },
-                    { field: "length", headerName: "Length (L1)", width: 100, editable: true },
-                    { field: "width", headerName: "Width (W1)", width: 100, editable: true },
-                    { field: "height", headerName: "Height", width: 100, editable: true },
-                    { field: "L2", headerName: "L2", width: 100, editable: true },
-                    { field: "W2", headerName: "W2", width: 100, editable: true },
-                    { field: "W3", headerName: "W3", width: 100, editable: true },
-                    { field: "H2", headerName: "H2", width: 100, editable: true },
-                    { field: "H3", headerName: "H3", width: 100, editable: true },
-                    { field: "weightMin", headerName: "Weight min", width: 100, editable: true },
-                    { field: "weightMax", headerName: "Weight max", width: 100, editable: true },
+                    { field: "id", headerName: "№", width: 50, type: 'number' },
+                    { field: "name", headerName: "Name", width: 200, editable: true, type: 'string' },
+                    { field: "length", headerName: "Length (L1)", width: 100, editable: true, type: 'number' },
+                    { field: "width", headerName: "Width (W1)", width: 100, editable: true, type: 'number' },
+                    { field: "height", headerName: "Height", width: 100, editable: true, type: 'number' },
+                    { field: "L2", headerName: "L2", width: 100, editable: true, type: 'number' },
+                    { field: "W2", headerName: "W2", width: 100, editable: true, type: 'number' },
+                    { field: "W3", headerName: "W3", width: 100, editable: true, type: 'number' },
+                    { field: "H2", headerName: "H2", width: 100, editable: true, type: 'number' },
+                    { field: "H3", headerName: "H3", width: 100, editable: true, type: 'number' },
+                    { field: "weightMin", headerName: "Weight min", width: 100, editable: true, type: 'number' },
+                    { field: "weightMax", headerName: "Weight max", width: 100, editable: true, type: 'number' },
+                    { field: "overhang", headerName: "Overhang", width: 100, editable: true, type: 'boolean' },
+
                     // {
                     //     field: 'overhang',
                     //     headerName: 'Overhang',
@@ -164,67 +166,73 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
 
                 processRowUpdate={(newRow: any) => {
                     dispatch(handleLoadChange({ newRow, selectedSystem }));
-
                     // Return the updated row with isNew set to false
                     return { ...newRow, isNew: false };
                 }}
 
-
-
+                disableRowSelectionOnClick
+                checkboxSelection
+                // hideFooterPagination
+                slots={{
+                    pagination: () => (
+                        <GridToolbarContainer>
+                            <ButtonGroup variant='contained' aria-label="split button">
+                                <Button
+                                    aria-controls={open ? 'split-button-menu' : undefined}
+                                    aria-expanded={open ? 'true' : undefined}
+                                    aria-label="add loads"
+                                    aria-haspopup="menu"
+                                    onClick={handleToggle}
+                                >
+                                    {t(`${loadsToAdd[selectedIndex]?.label}`)}
+                                    <Box ref={anchorRef} />
+                                    <ArrowDropDownIcon />
+                                </Button>
+                                <Button onClick={handleClick} endIcon={<PlaylistAdd />}>{t('ui.button.addNewLoad')} </Button>
+                            </ButtonGroup>
+                            <Popper
+                                sx={{
+                                    zIndex: 1,
+                                }}
+                                open={open}
+                                anchorEl={anchorRef.current}
+                                role={undefined}
+                                transition
+                                disablePortal
+                            >
+                                {({ TransitionProps, placement }) => (
+                                    <Grow
+                                        {...TransitionProps}
+                                        style={{
+                                            transformOrigin:
+                                                placement === 'bottom' ? 'center top' : 'center bottom',
+                                        }}
+                                    >
+                                        <Paper>
+                                            <ClickAwayListener onClickAway={handleClose}>
+                                                <MenuList id="split-button-menu" autoFocusItem>
+                                                    {Object.keys(loadsToAdd).map((option) => (
+                                                        <MenuItem
+                                                            key={option}
+                                                            value={option}
+                                                            selected={option === selectedIndex}
+                                                            onClick={(e) => handleMenuItemClick(e, option)}
+                                                        >
+                                                            {t(`${loadsToAdd[option].label}`)}
+                                                        </MenuItem>
+                                                    ))}
+                                                </MenuList>
+                                            </ClickAwayListener>
+                                        </Paper>
+                                    </Grow>
+                                )}
+                            </Popper>
+                        </GridToolbarContainer>
+                    ),
+                }}
             // Add other Data Grid props as needed...
             />
 
-            <ButtonGroup variant="outlined" aria-label="split button">
-                <Button
-                    aria-controls={open ? 'split-button-menu' : undefined}
-                    aria-expanded={open ? 'true' : undefined}
-                    aria-label="select merge strategy"
-                    aria-haspopup="menu"
-                    onClick={handleToggle}
-                >
-                    {t(`${loadsToAdd[selectedIndex]?.label}`)}
-                    <Box ref={anchorRef} />
-                    <ArrowDropDownIcon />
-                </Button>
-                <Button onClick={handleClick} endIcon={<PlaylistAdd />}>{t('ui.button.addNewLoad')} </Button>
-            </ButtonGroup>
-            <Popper
-                sx={{
-                    zIndex: 1,
-                }}
-                open={open}
-                anchorEl={anchorRef.current}
-                role={undefined}
-                transition
-                disablePortal
-            >
-                {({ TransitionProps, placement }) => (
-                    <Grow
-                        {...TransitionProps}
-                        style={{
-                            transformOrigin:
-                                placement === 'bottom' ? 'center top' : 'center bottom',
-                        }}
-                    >
-                        <Paper>
-                            <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList id="split-button-menu" autoFocusItem>
-                                    {Object.keys(loadsToAdd).map((option) => (
-                                        <MenuItem
-                                            key={option}
-                                            value={option}
-                                            selected={option === selectedIndex}
-                                            onClick={(e) => handleMenuItemClick(e, option)}
-                                        >
-                                            {t(`${loadsToAdd[option].label}`)}
-                                        </MenuItem>
-                                    ))}
-                                </MenuList>
-                            </ClickAwayListener>
-                        </Paper>
-                    </Grow>
-                )}
-            </Popper>
         </Box>
     )
 }
