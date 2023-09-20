@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/reducers/deleteLoadDialogSlice";
 import { loadContainerMaterials } from "../data/loadContainerMaterials";
 import LoadTableCustomTextField from "./LoadTableCustomeTexField";
-import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridRowId, GridToolbarContainer, MuiEvent } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -70,9 +70,9 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
         secured: load.secured,
     }));
 
-    const handleDeleteClick = (id: GridRowId) => () => {
+    const handleDeleteSelected = () => {
         const updatedLoads = rows
-            .filter((row) => row.id !== id)
+            .filter((row) => !rowSelectionModel.includes(row.id))
             .map((load) => ({
                 id: load.id,
                 name: load.name,
@@ -92,10 +92,16 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 secured: load.secured,
                 label: "", // Add the 'label' property here if it's required by ILoad
             }));
+
         dispatch(handleDeleteLoad(updatedLoads));
+        setRowSelectionModel([])
     };
 
+
+    const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
+
     const dispatch = useDispatch();
+
     return (
         <Box>
             <DataGrid
@@ -144,23 +150,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     //     width: 150,
                     //     renderCell: SecuredCellRenderer, // Use the custom renderer for this column
                     // },
-                    {
-                        field: 'actions',
-                        type: 'actions',
-                        headerName: 'Actions',
-                        width: 100,
-                        cellClassName: 'actions',
-                        getActions: ({ id }) => {
-                            return [
-                                <GridActionsCellItem
-                                    icon={<DeleteIcon />}
-                                    label="Delete"
-                                    onClick={handleDeleteClick(id)}
-                                    color="inherit"
-                                />,
-                            ];
-                        }
-                    }
                     // Add other columns here...
                 ]}
 
@@ -172,11 +161,22 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
 
                 disableRowSelectionOnClick
                 checkboxSelection
-                // hideFooterPagination
                 slots={{
                     pagination: () => (
                         <GridToolbarContainer>
+                            <Button
+                                variant="contained"
+                                color="error"
+                                disabled={rowSelectionModel.length === 0}
+                                onClick={handleDeleteSelected}
+                                endIcon={<DeleteIcon />}>{t('ui.button.deleteSelectedLoads')}
+                            </Button>
                             <ButtonGroup variant='contained' aria-label="split button">
+                                <Button
+                                    
+                                >
+                                    {t('ui.button.selectNewLoad')}
+                                </Button>
                                 <Button
                                     aria-controls={open ? 'split-button-menu' : undefined}
                                     aria-expanded={open ? 'true' : undefined}
@@ -188,7 +188,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                     <Box ref={anchorRef} />
                                     <ArrowDropDownIcon />
                                 </Button>
-                                <Button onClick={handleClick} endIcon={<PlaylistAdd />}>{t('ui.button.addNewLoad')} </Button>
+                                <Button onClick={handleClick} endIcon={<PlaylistAdd />} />
                             </ButtonGroup>
                             <Popper
                                 sx={{
@@ -230,6 +230,9 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                         </GridToolbarContainer>
                     ),
                 }}
+                onRowSelectionModelChange={(newRowSelectionModel) => { setRowSelectionModel(newRowSelectionModel) }}
+                rowSelectionModel={rowSelectionModel}
+
             // Add other Data Grid props as needed...
             />
 
