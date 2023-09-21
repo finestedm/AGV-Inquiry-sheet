@@ -25,6 +25,8 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLDivElement>(null);
 
+    const theme = useTheme();
+
     const handleClick = () => {
         dispatch(handleAddLoad({ systemName: selectedSystem, loadType: selectedIndex }));
     };
@@ -108,19 +110,19 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
             <DataGrid
                 rows={rows}
                 columns={[
-                    { field: "id", headerName: "№", minWidth: 50, flex: 1, type: 'number' },
-                    { field: "name", headerName: "Name", minWidth: 130, flex: 1, editable: true, type: 'string' },
-                    { field: "length", headerName: "Length (L1)", minWidth: 90, flex: 1, editable: true, type: 'number' },
-                    { field: "width", headerName: "Width (W1)", minWidth: 90, flex: 1, editable: true, type: 'number' },
-                    { field: "height", headerName: "Height", minWidth: 80, flex: 1, editable: true, type: 'number' },
-                    { field: "L2", headerName: "L2", minWidth: 60, flex: 1, editable: true, type: 'number' },
-                    { field: "W2", headerName: "W2", minWidth: 60, flex: 1, editable: true, type: 'number' },
-                    { field: "W3", headerName: "W3", minWidth: 60, flex: 1, editable: true, type: 'number' },
-                    { field: "H2", headerName: "H2", minWidth: 60, flex: 1, editable: true, type: 'number' },
-                    { field: "H3", headerName: "H3", minWidth: 60, flex: 1, editable: true, type: 'number' },
-                    { field: "weightMin", headerName: "Weight min", minWidth: 100, flex: 1, editable: true, type: 'number' },
-                    { field: "weightMax", headerName: "Weight max", minWidth: 100, flex: 1, editable: true, type: 'number' },
-                    { field: "overhang", headerName: "Overhang", minWidth: 80, flex: 1, editable: true, type: 'boolean' },
+                    { field: "id", headerName: "№", width: 50, type: 'number' },
+                    { field: "name", headerName: "Name", minWidth: 130, editable: true, type: 'string' },
+                    { field: "length", headerName: "Length (L1)", minWidth: 90, editable: true, type: 'number' },
+                    { field: "width", headerName: "Width (W1)", minWidth: 90, editable: true, type: 'number' },
+                    { field: "height", headerName: "Height", minWidth: 80, editable: true, type: 'number' },
+                    { field: "L2", headerName: "L2", minWidth: 60, editable: true, type: 'number' },
+                    { field: "W2", headerName: "W2", minWidth: 60, editable: true, type: 'number' },
+                    { field: "W3", headerName: "W3", minWidth: 60, editable: true, type: 'number' },
+                    { field: "H2", headerName: "H2", minWidth: 60, editable: true, type: 'number' },
+                    { field: "H3", headerName: "H3", minWidth: 60, editable: true, type: 'number' },
+                    { field: "weightMin", headerName: "Weight min", minWidth: 100, editable: true, type: 'number' },
+                    { field: "weightMax", headerName: "Weight max", minWidth: 100, editable: true, type: 'number' },
+                    { field: "overhang", headerName: "Overhang", minWidth: 80, editable: true, type: 'boolean' },
                     {
                         field: 'material',
                         headerName: 'Material',
@@ -154,6 +156,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 }}
                 disableRowSelectionOnClick
                 checkboxSelection
+                density='compact'
                 slots={{
                     pagination: () => (
                         <GridToolbarContainer>
