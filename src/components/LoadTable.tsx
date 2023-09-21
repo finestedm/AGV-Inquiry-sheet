@@ -104,23 +104,23 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     const dispatch = useDispatch();
 
     return (
-        <Box sx={{minHeight: '10rem'}}>
+        <Box sx={{ minHeight: '10rem' }}>
             <DataGrid
                 rows={rows}
                 columns={[
-                    { field: "id", headerName: "№", width: 50, type: 'number' },
-                    { field: "name", headerName: "Name", width: 175, editable: true, type: 'string' },
-                    { field: "length", headerName: "Length (L1)", width: 100, editable: true, type: 'number' },
-                    { field: "width", headerName: "Width (W1)", width: 100, editable: true, type: 'number' },
-                    { field: "height", headerName: "Height", width: 100, editable: true, type: 'number' },
-                    { field: "L2", headerName: "L2", width: 100, editable: true, type: 'number' },
-                    { field: "W2", headerName: "W2", width: 100, editable: true, type: 'number' },
-                    { field: "W3", headerName: "W3", width: 100, editable: true, type: 'number' },
-                    { field: "H2", headerName: "H2", width: 100, editable: true, type: 'number' },
-                    { field: "H3", headerName: "H3", width: 100, editable: true, type: 'number' },
-                    { field: "weightMin", headerName: "Weight min", width: 100, editable: true, type: 'number' },
-                    { field: "weightMax", headerName: "Weight max", width: 100, editable: true, type: 'number' },
-                    { field: "overhang", headerName: "Overhang", width: 100, editable: true, type: 'boolean' },
+                    { field: "id", headerName: "№", minWidth: 50, flex: 1, type: 'number' },
+                    { field: "name", headerName: "Name", minWidth: 130, flex: 1, editable: true, type: 'string' },
+                    { field: "length", headerName: "Length (L1)", minWidth: 90, flex: 1, editable: true, type: 'number' },
+                    { field: "width", headerName: "Width (W1)", minWidth: 90, flex: 1, editable: true, type: 'number' },
+                    { field: "height", headerName: "Height", minWidth: 80, flex: 1, editable: true, type: 'number' },
+                    { field: "L2", headerName: "L2", minWidth: 60, flex: 1, editable: true, type: 'number' },
+                    { field: "W2", headerName: "W2", minWidth: 60, flex: 1, editable: true, type: 'number' },
+                    { field: "W3", headerName: "W3", minWidth: 60, flex: 1, editable: true, type: 'number' },
+                    { field: "H2", headerName: "H2", minWidth: 60, flex: 1, editable: true, type: 'number' },
+                    { field: "H3", headerName: "H3", minWidth: 60, flex: 1, editable: true, type: 'number' },
+                    { field: "weightMin", headerName: "Weight min", minWidth: 100, flex: 1, editable: true, type: 'number' },
+                    { field: "weightMax", headerName: "Weight max", minWidth: 100, flex: 1, editable: true, type: 'number' },
+                    { field: "overhang", headerName: "Overhang", minWidth: 80, flex: 1, editable: true, type: 'boolean' },
                     {
                         field: 'material',
                         headerName: 'Material',
@@ -136,7 +136,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     {
                         field: 'loadSide',
                         headerName: 'Load Side',
-                        width: 100,
+                        width: 90,
                         editable: true,
                         type: 'singleSelect',
                         valueOptions: [
@@ -157,19 +157,33 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 slots={{
                     pagination: () => (
                         <GridToolbarContainer>
-                            <Button
-                                variant="contained"
-                                color="error"
-                                disabled={rowSelectionModel.length === 0}
-                                onClick={handleDeleteSelected}
-                                endIcon={<DeleteIcon />}>{t('ui.button.deleteSelectedLoads')}
-                            </Button>
-                            <ButtonGroup variant='contained' aria-label="split button">
-                                <Button
+                            {(rowSelectionModel.length > 0) ?
+                                <Box>
+                                    <Box display={{ xs: 'none', md: 'block' }}>
+                                        <Button
+                                            size="small"
+                                            variant="contained"
+                                            color="error"
+                                            onClick={handleDeleteSelected}
+                                            endIcon={<DeleteIcon />}
+                                        >
+                                            {t('ui.button.deleteSelectedLoads')}
+                                        </Button>
+                                    </Box>
+                                    <Box display={{ xs: 'inline-block', md: 'none' }}>
+                                        <IconButton
+                                            size="small"
+                                            color="error"
+                                            onClick={handleDeleteSelected}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Box>
+                                </Box>
 
-                                >
-                                    {t('ui.button.selectNewLoad')}
-                                </Button>
+                                : ''
+                            }
+                            <ButtonGroup variant='contained' size="small" aria-label="split button">
                                 <Button
                                     aria-controls={open ? 'split-button-menu' : undefined}
                                     aria-expanded={open ? 'true' : undefined}
@@ -181,7 +195,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                     <Box ref={anchorRef} />
                                     <ArrowDropDownIcon />
                                 </Button>
-                                <Button onClick={handleClick} endIcon={<PlaylistAdd />} />
+                                <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewLoad')}</Box></Button>
                             </ButtonGroup>
                             <Popper
                                 sx={{
@@ -242,6 +256,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
             // Add other Data Grid props as needed...
             />
 
-        </Box>
+        </Box >
     )
 }

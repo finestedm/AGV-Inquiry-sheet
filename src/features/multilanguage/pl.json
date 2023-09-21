@@ -73,7 +73,8 @@
         "newload": "Dodaj nowy ładunek"
       },
       "readmore": "Dowiedz się więcej",
-      "addNewLoad": "Dodaj nowy nośnik"
+      "addNewLoad": "Dodaj",
+      "deleteSelectedLoads": "Usuń wybrane"
     },
     "dialog": {
       "loadDelete": {
