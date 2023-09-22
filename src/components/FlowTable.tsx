@@ -53,9 +53,18 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                             editable: true,
                             type: 'singleSelect',
                             valueOptions: selectedSystemLoads.map((load, index) => ({
-                                value: index, 
-                                label: load.label,
-                            }))
+                                value: index,
+                                label:
+                                    (<Stack >
+                                        <Typography mr={1}>
+                                            {load.name}
+                                        </Typography>
+                                        <Typography fontSize='65%' color='text.secondary' >
+                                            {load.length} x {load.width} x  {load.height}, {load.weightMax} kg
+                                        </Typography>
+                                    </Stack>)
+                            })),
+                            renderCell: (params) => <span>{params.formattedValue}</span>
                         },
                         { field: "workTime", headerName: "workTime", minWidth: 130, editable: true, type: 'number' },
                     ]}
@@ -74,12 +83,12 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                             <GridToolbarContainer>
                                 {(rowSelectionModel.length > 0) ?
                                     <Box>
-                        
+
                                     </Box>
 
                                     : ''
                                 }
-                                
+
                             </GridToolbarContainer>
                         ),
                         noRowsOverlay: () => (
@@ -92,7 +101,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                                     height: '100%',
                                 }}
                             >
-                                <Typography variant="h6">Add first load. <Typography color='text.secondary'>You can use predefined ones!</Typography></Typography>
+                                <Typography variant="h6">Add first flow.</Typography>
                             </Box>
                         )
                     }}
@@ -101,98 +110,9 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
 
                 // Add other Data Grid props as needed...
                 />
-                <TableContainer>
-                    <Table size="small">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Stage №</TableCell>
-                                <TableCell>Pickup station</TableCell>
-                                <TableCell>Unload Station</TableCell>
-                                <TableCell>Average LU / h</TableCell>
-                                <TableCell>Peak LU / h</TableCell>
-                                <TableCell>Load type</TableCell>
-                                <TableCell>Work time</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {selectedSystemFlow.map((flow, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>
-                                        <Typography>{index + 1}</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            size="small"
-                                            value={flow.stationSource}
-                                            onChange={(e) => dispatch(handleFlowChange({ index, field: 'stationSource', value: e.target.value }))}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            size="small"
-                                            value={flow.stationTarget}
-                                            onChange={(e) => dispatch(handleFlowChange({ index, field: 'stationTarget', value: e.target.value }))}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            size="small"
-                                            value={trimLeadingZeros(flow.flowAverage)}
-                                            onChange={(e) => dispatch(handleFlowChange({ index, field: 'flowAverage', value: e.target.value }))}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            size="small"
-                                            value={trimLeadingZeros(flow.flowPeak)}
-                                            onChange={(e) => dispatch(handleFlowChange({ index, field: 'flowPeak', value: e.target.value }))}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Select
-                                            size="small"
-                                            value={flow.stationType}
-                                            onChange={(e) => dispatch(handleFlowChange({ index, field: 'stationType', value: e.target.value }))}
-                                        >
-                                            {selectedSystemLoads.map((load, loadIndex) => (
-                                                <MenuItem key={loadIndex} value={loadIndex}>
-                                                    <Stack >
-                                                        <Typography mr={1}>
-                                                            {load.name}
-                                                        </Typography>
-                                                        <Typography fontSize='65%' color='text.secondary' >
-                                                            {load.length} x {load.width} x  {load.height}, {load.weightMax} kg
-                                                        </Typography>
-                                                    </Stack>
-
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            size="small"
-                                            value={trimLeadingZeros(flow.workTime)}
-                                            onChange={(e) => dispatch(handleFlowChange({ index, field: 'workTime', value: e.target.value }))}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <IconButton
-                                            onClick={() => {
-                                                // dispatch(setLoadIndexToDelete(index))
-                                                // dispatch(deleteLoadDialogOpen(true))
-                                            }}>
-                                            {/* <DeleteIcon /> */}
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer >
-                <Box textAlign='left'>
+                {/* <Box textAlign='left'>
                     <Button variant='outlined' onClick={() => dispatch(handleAddFlow({ systemName: selectedSystem }))} endIcon={<PlaylistAdd />}>{t('ui.button.addNewFlow')} </Button >
-                </Box>
+                </Box> */}
             </>
         )
     } else {
