@@ -76,6 +76,9 @@
       "addNewLoad": "Dodaj",
       "deleteSelectedLoads": "Usuń wybrane"
     },
+    "switch": {
+      "darkMode": "Tryb nocny"
+    },
     "dialog": {
       "loadDelete": {
         "title": "Uwaga",

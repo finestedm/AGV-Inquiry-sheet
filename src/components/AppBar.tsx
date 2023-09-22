@@ -137,9 +137,7 @@ export default function TopBar(): JSX.Element {
                                     </MenuItem>
                                 </Select>
                             </MenuItem>
-                            <MenuItem>
-                                <DarkModeSwitch fullWidth={true} />
-                            </MenuItem>
+                                <DarkModeSwitch mobile={true} />
                             <Divider />
                             <MenuItem onClick={() => saveDataToFile()}>
                                 <ListItemIcon><SaveIcon /></ListItemIcon>
@@ -193,7 +191,7 @@ export default function TopBar(): JSX.Element {
                                     </MenuItem>
                                 </Select>
                             </FormControl>
-                            <DarkModeSwitch fullWidth={false} />
+                            <DarkModeSwitch />
                             <ButtonGroup variant="text" size='small' color='primary' sx={{ display: { xs: 'none', md: 'flex' } }}>
                                 <Button onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
                                     <Stack direction='row' flex={1} spacing={1} alignItems='center' >
