@@ -170,12 +170,11 @@ export default function TopBar(): JSX.Element {
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}>
                         <Stack spacing={3} direction='row'>
-                            <FormControl sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <FormControl size='small' sx={{ display: { xs: 'none', md: 'flex' } }}>
                                 <Select
                                     id="language-select"
                                     value={i18n.language}
                                     onChange={handleLanguageChange}
-                                    size="small"
                                 >
                                     <MenuItem value="en" >
                                         <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
@@ -192,7 +191,6 @@ export default function TopBar(): JSX.Element {
                                 </Select>
                             </FormControl>
                             <DarkModeSwitch />
-                            <ButtonGroup variant="text" size='small' color='primary' sx={{ display: { xs: 'none', md: 'flex' } }}>
                                 <Button onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
                                     <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                         <Typography>{t('ui.button.inquiry.save')}</Typography>
@@ -221,7 +219,6 @@ export default function TopBar(): JSX.Element {
                                         <Typography>{t('ui.button.inquiry.clear')}</Typography>
                                     </Stack>
                                 </Button>
-                            </ButtonGroup>
                         </Stack>
                     </Box>
                 </Toolbar>

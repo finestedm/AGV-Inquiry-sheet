@@ -270,24 +270,11 @@ const formDataSlice = createSlice({
             state.system.asrs.loads = newLoads;
         },
 
-        handleFlowChange: (
-            state: IFormData,
-            action: PayloadAction<{ index: number; field: keyof IFlow; value: number | string }>
-        ): IFormData => {
-            const { index, field, value } = action.payload;
+        handleFlowChange: (state, action) => {
+            const { newRow, selectedSystem } = action.payload;
 
-            return {
-                ...state,
-                system: {
-                    ...state.system,
-                    asrs: {
-                        ...state.system.asrs,
-                        flow: state.system.asrs.flow.map((flow, i) =>
-                            i === index ? { ...flow, [field]: value } : flow
-                        ),
-                    },
-                },
-            };
+            // Replace the old load object with the new one at the specified index
+            state.system[selectedSystem].flow[newRow.id - 1] = newRow;
         },
 
         handleDeleteFlow: (
