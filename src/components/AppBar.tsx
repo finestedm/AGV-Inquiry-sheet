@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, ButtonGroup, Container, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
+import { AppBar, Avatar, Box, Button, ButtonGroup, Container, Divider, FormControl, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
 import { saveAs } from 'file-saver';
 import SaveIcon from '@mui/icons-material/Save';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -89,7 +89,6 @@ export default function TopBar(): JSX.Element {
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end', alignContent: 'flex-end' }}>
                         <IconButton
                             size="large"
-                            aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
@@ -141,26 +140,21 @@ export default function TopBar(): JSX.Element {
                             <MenuItem>
                                 <DarkModeSwitch fullWidth={true} />
                             </MenuItem>
+                            <Divider />
                             <MenuItem onClick={() => saveDataToFile()}>
-                                <Button fullWidth variant="outlined" className='save-button' startIcon={<SaveIcon />} >
-                                    <Typography>{t('ui.button.inquiry.save')}</Typography>
-                                </Button>
+                                <ListItemIcon><SaveIcon /></ListItemIcon>
+                                <ListItemText>{t('ui.button.inquiry.save')}</ListItemText>
                             </MenuItem>
-                            <MenuItem>
-                                <Button
-                                    fullWidth
-                                    variant="outlined"
-                                    className='upload-button'
-                                    startIcon={<UploadIcon />}
-                                    onClick={() => {
-                                        const fileInput = document.getElementById('file-input') as HTMLInputElement;
-                                        if (fileInput) {
-                                            fileInput.click();
-                                        }
-                                    }}
-                                >
-                                    <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                </Button>
+                            <MenuItem
+                                onClick={() => {
+                                    const fileInput = document.getElementById('file-input') as HTMLInputElement;
+                                    if (fileInput) {
+                                        fileInput.click();
+                                    }
+                                }}
+                            >
+                                <ListItemIcon><UploadIcon /></ListItemIcon>
+                                <ListItemText>{t('ui.button.inquiry.load')}</ListItemText>
                                 <input
                                     type="file"
                                     accept=".json"
@@ -169,10 +163,9 @@ export default function TopBar(): JSX.Element {
                                     onInput={(e) => loadFile(e)}
                                 />
                             </MenuItem>
-                            <MenuItem onClick={() => dispatch(setFormData(initialFormDataState))}>
-                                <Button fullWidth variant="outlined" startIcon={<DeleteOutlineIcon />} color='error'>
-                                    <Typography>{t('ui.button.inquiry.clear')}</Typography>
-                                </Button>
+                            <MenuItem onClick={() => dispatch(setFormData(initialFormDataState))} sx={{ color: theme.palette.error.main }}>
+                                <ListItemIcon ><DeleteOutlineIcon sx={{ color: theme.palette.error.main }} /></ListItemIcon>
+                                <ListItemText>{t('ui.button.inquiry.clear')}</ListItemText>
                             </MenuItem>
                         </Menu>
                     </Box>

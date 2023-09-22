@@ -202,6 +202,7 @@
       "plastic": "Plastikowa"
     },
     "loadsToAdd": {
+      "placeholder": "Wybierz ładunek",
       "empty": "bez danych",
       "euro": "EuroPaleta",
       "klt_600x400": "Pojemnik KLT 600x400",

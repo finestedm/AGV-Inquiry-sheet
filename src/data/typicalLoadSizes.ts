@@ -1,6 +1,24 @@
 import { ILoadsTypes } from "../features/interfaces";
 
 export const loadsToAdd: ILoadsTypes = {
+    'placeholder': {
+        label: 'loadTable.loadsToAdd.placeholder',
+        name: 'placeholder',
+        length: 0,
+        width: 0,
+        height: 0,
+        L2: 0,
+        W2: 0,
+        W3: 0,
+        H2: 0,
+        H3: 0,
+        weightMin: 0,
+        weightMax: 0,
+        overhang: false,
+        material: 0,
+        loadSide: 0,
+        secured: false,
+    },
     'euro': {
         label: 'loadTable.loadsToAdd.euro',
         name: 'Europallet',

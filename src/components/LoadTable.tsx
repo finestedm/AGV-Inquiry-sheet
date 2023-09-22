@@ -20,7 +20,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     const { t } = useTranslation()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
-    const [selectedIndex, setSelectedIndex] = useState<string>('empty');
+    const [selectedIndex, setSelectedIndex] = useState<string>('placeholder');
 
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -100,6 +100,10 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
         setRowSelectionModel([])
     };
 
+    const [isMobile, setIsMobile] = useState<boolean>(false)
+    useEffect(() => {
+        navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false)
+    }, [])
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
@@ -112,17 +116,17 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 columns={[
                     { field: "id", headerName: "№", width: 50, type: 'number' },
                     { field: "name", headerName: "Name", minWidth: 130, editable: true, type: 'string' },
-                    { field: "length", headerName: "Length (L1)", minWidth: 90, editable: true, type: 'number' },
-                    { field: "width", headerName: "Width (W1)", minWidth: 90, editable: true, type: 'number' },
+                    { field: "length", headerName: "L1", minWidth: 90, editable: true, type: 'number' },
+                    { field: "width", headerName: "W1", minWidth: 90, editable: true, type: 'number' },
                     { field: "height", headerName: "Height", minWidth: 80, editable: true, type: 'number' },
                     { field: "L2", headerName: "L2", minWidth: 60, editable: true, type: 'number' },
                     { field: "W2", headerName: "W2", minWidth: 60, editable: true, type: 'number' },
                     { field: "W3", headerName: "W3", minWidth: 60, editable: true, type: 'number' },
                     { field: "H2", headerName: "H2", minWidth: 60, editable: true, type: 'number' },
                     { field: "H3", headerName: "H3", minWidth: 60, editable: true, type: 'number' },
-                    { field: "weightMin", headerName: "Weight min", minWidth: 100, editable: true, type: 'number' },
-                    { field: "weightMax", headerName: "Weight max", minWidth: 100, editable: true, type: 'number' },
-                    { field: "overhang", headerName: "Overhang", minWidth: 80, editable: true, type: 'boolean' },
+                    { field: "weightMin", headerName: "Weight min", minWidth: 125, editable: true, type: 'number' },
+                    { field: "weightMax", headerName: "Weight max", minWidth: 125, editable: true, type: 'number' },
+                    { field: "overhang", headerName: "Overhang", minWidth: 100, editable: true, type: 'boolean' },
                     {
                         field: 'material',
                         headerName: 'Material',
@@ -156,6 +160,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 }}
                 disableRowSelectionOnClick
                 checkboxSelection
+                disableColumnMenu={isMobile}
                 density='compact'
                 slots={{
                     pagination: () => (
@@ -198,7 +203,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                     <Box ref={anchorRef} />
                                     <ArrowDropDownIcon />
                                 </Button>
-                                <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewLoad')}</Box></Button>
+                                <Button onClick={handleClick} disabled={loadsToAdd[selectedIndex].name === 'placeholder'} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewLoad')}</Box></Button>
                             </ButtonGroup>
                             <Popper
                                 sx={{
