@@ -45,6 +45,7 @@ export interface IProject {
 }
 
 export interface ILoad {
+    id: number | undefined;
     label: string;
     name: string;
     length: number;

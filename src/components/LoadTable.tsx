@@ -15,6 +15,7 @@ import { loadContainerMaterials } from "../data/loadContainerMaterials";
 import LoadTableCustomTextField from "./LoadTableCustomeTexField";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { text } from "stream/consumers";
+import generateRandomId from "../features/variousMethods/generateRandomId";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -55,7 +56,8 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     };
 
     const rows = selectedSystemLoads.map((load, index) => ({
-        id: index + 1, // Sequential number starting from 1
+        index: index + 1, // Sequential number starting from 1
+        id: load.id,
         name: load.name,
         length: load.length,
         width: load.width,
@@ -75,7 +77,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
 
     const handleDeleteSelected = () => {
         const updatedLoads = rows
-            .filter((row) => !rowSelectionModel.includes(row.id))
+            .filter((row) => row.id && !rowSelectionModel.includes(row.id))
             .map((load) => ({
                 id: load.id,
                 name: load.name,
@@ -114,7 +116,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
             <DataGrid
                 rows={rows}
                 columns={[
-                    { field: "id", headerName: "№", width: 50, type: 'number' },
+                    { field: "index", headerName: "№", width: 50, type: 'number' },
                     { field: "name", headerName: "Name", minWidth: 130, editable: true, type: 'string' },
                     { field: "length", headerName: "L1", minWidth: 90, editable: true, type: 'number' },
                     { field: "width", headerName: "W1", minWidth: 90, editable: true, type: 'number' },

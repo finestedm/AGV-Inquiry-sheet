@@ -1,7 +1,9 @@
 import { ILoadsTypes } from "../features/interfaces";
 
+
 export const loadsToAdd: ILoadsTypes = {
     'placeholder': {
+        id: undefined,
         label: 'loadTable.loadsToAdd.placeholder',
         name: 'placeholder',
         length: 0,
@@ -20,6 +22,7 @@ export const loadsToAdd: ILoadsTypes = {
         secured: false,
     },
     'euro': {
+        id: undefined,
         label: 'loadTable.loadsToAdd.euro',
         name: 'Europallet',
         length: 1200,
@@ -38,6 +41,7 @@ export const loadsToAdd: ILoadsTypes = {
         secured: false,
     },
     empty: {
+        id: undefined,
         label: 'loadTable.loadsToAdd.empty',
         name: "",
         length: 0,
@@ -56,6 +60,7 @@ export const loadsToAdd: ILoadsTypes = {
         secured: false,
     },
     'klt_600x400': {
+        id: undefined,
         label: 'loadTable.loadsToAdd.klt_600x400',
         name: 'KLT 600x400 Box',
         length: 600,
@@ -74,6 +79,7 @@ export const loadsToAdd: ILoadsTypes = {
         secured: false,
     },
     'us_standard': {
+        id: undefined,
         label: 'loadTable.loadsToAdd.us_standard',
         name: 'US Standard Pallet',
         length: 1219.2,  // 48 inches converted to mm
@@ -92,6 +98,7 @@ export const loadsToAdd: ILoadsTypes = {
         secured: false,
     },
     'half_euro': {
+        id: undefined,
         label: 'loadTable.loadsToAdd.half_euro',
         name: 'Half Euro Pallet',
         length: 800,
@@ -110,6 +117,7 @@ export const loadsToAdd: ILoadsTypes = {
         secured: false,
     },
     'industrial_1200x1000': {
+        id: undefined,
         label: 'loadTable.loadsToAdd.industrial_1200x1000',
         name: 'Industrial Pallet 1200x1000',
         length: 1200,
@@ -128,6 +136,7 @@ export const loadsToAdd: ILoadsTypes = {
         secured: false,
     },
     'industrial_1200x1200': {
+        id: undefined,
         label: 'loadTable.loadsToAdd.industrial_1200x1200',
         name: 'Industrial Pallet 1200x1200',
         length: 1200,
@@ -146,6 +155,7 @@ export const loadsToAdd: ILoadsTypes = {
         secured: false,
     },
     'gitterbox_1235x835': {
+        id: undefined,
         label: 'loadTable.loadsToAdd.gitterbox_1235x835',
         name: 'Gitterbox 1235x835',
         length: 1235,
@@ -163,6 +173,4 @@ export const loadsToAdd: ILoadsTypes = {
         loadSide: 0,
         secured: false,
     },
-
-
 }

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue } from '../../interfaces';
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/emptyFlowStation';
+import generateRandomId from '../../variousMethods/generateRandomId';
 
 const initialFormDataState: IFormData = {
 
@@ -88,7 +89,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [loadsToAdd.empty],
+            loads: [],
             flow: [emptyFlow]
         },
         lrkprk: {
@@ -115,7 +116,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [loadsToAdd.empty],
+            loads: [],
             flow: [emptyFlow]
 
         },
@@ -143,7 +144,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [loadsToAdd.empty],
+            loads: [],
             flow: [emptyFlow]
 
         },
@@ -171,7 +172,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                 }
             },
-            loads: [loadsToAdd.empty],
+            loads: [],
             flow: [emptyFlow]
 
         }
@@ -207,7 +208,8 @@ const formDataSlice = createSlice({
         ) => {
             const { systemName, loadType } = action.payload;
 
-            const newLoad: ILoad = loadsToAdd[loadType];
+            let newLoad: ILoad = loadsToAdd[loadType];
+            newLoad = {...newLoad, id: generateRandomId()}
 
             const updatedSystemKey = systemName.toLowerCase();
             const updatedSystemLoads = state.system[updatedSystemKey].loads.concat(newLoad);

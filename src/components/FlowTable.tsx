@@ -6,7 +6,7 @@ import { Box, Button, ButtonGroup, IconButton, MenuItem, Select, Stack, Table, T
 import { handleAddFlow, handleFlowChange } from "../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
-import { DataGrid, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
+import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: string },) {
@@ -49,11 +49,11 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                         {
                             field: "loadType",
                             headerName: "Load Type",
-                            minWidth: 130,
+                            minWidth: 150,
                             editable: true,
                             type: 'singleSelect',
-                            valueOptions: selectedSystemLoads.map((load, index) => ({
-                                value: index,
+                            valueOptions: selectedSystemLoads.map((load) => ({
+                                value: load.id,
                                 label:
                                     (<Stack >
                                         <Typography mr={1}>
@@ -64,7 +64,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                                         </Typography>
                                     </Stack>)
                             })),
-                            renderCell: (params) => <span>{params.formattedValue}</span>
+                            renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
                         { field: "workTime", headerName: "workTime", minWidth: 130, editable: true, type: 'number' },
                     ]}
@@ -83,7 +83,26 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                             <GridToolbarContainer>
                                 {(rowSelectionModel.length > 0) ?
                                     <Box>
-
+                                        <Box display={{ xs: 'none', md: 'block' }}>
+                                            <Button
+                                                size="small"
+                                                variant="contained"
+                                                color="error"
+                                                // onClick={handleDeleteSelected}
+                                                endIcon={<GridDeleteIcon />}
+                                            >
+                                                {t('ui.button.deleteSelectedLoads')}
+                                            </Button>
+                                        </Box>
+                                        <Box display={{ xs: 'inline-block', md: 'none' }}>
+                                            <IconButton
+                                                size="small"
+                                                color="error"
+                                                // onClick={handleDeleteSelected}
+                                            >
+                                                <GridDeleteIcon />
+                                            </IconButton>
+                                        </Box>
                                     </Box>
 
                                     : ''
