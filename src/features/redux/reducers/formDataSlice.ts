@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue } from '../../interfaces';
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
-import { emptyFlow } from '../../../data/emptyFlowStation';
+import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
 
 const initialFormDataState: IFormData = {
@@ -266,10 +266,10 @@ const formDataSlice = createSlice({
             state.system[selectedSystem].loads[newRow.id - 1] = newRow;
         },
 
-        handleDeleteLoad: (state: IFormData, action: PayloadAction<ILoad[]>) => {
-            const newLoads = action.payload;
+        handleDeleteLoad: (state: IFormData, action: PayloadAction<{ updatedLoads: ILoad[]; selectedSystem: string }>) => {
+            const { updatedLoads, selectedSystem } = action.payload;
 
-            state.system.asrs.loads = newLoads;
+            state.system[selectedSystem].loads = updatedLoads;
         },
 
         handleFlowChange: (state, action) => {
@@ -279,24 +279,11 @@ const formDataSlice = createSlice({
             state.system[selectedSystem].flow[newRow.id - 1] = newRow;
         },
 
-        handleDeleteFlow: (
-            state: IFormData,
-            action: PayloadAction<number>
-        ): IFormData => {
-            const flowIndexToDelete = action.payload;
+        handleDeleteFlow: (state: IFormData, action: PayloadAction<{ updatedFlows: IFlow[]; selectedSystem: string }>) => {
+            const { updatedFlows, selectedSystem } = action.payload;
 
-            return {
-                ...state,
-                system: {
-                    ...state.system,
-                    asrs: {
-                        ...state.system.asrs,
-                        flow: state.system.asrs.flow.filter((_, i) => i !== flowIndexToDelete),
-                    },
-                },
-            };
+            state.system[selectedSystem].flow = updatedFlows;
         },
-
 
         handleIndustryChange: (state, action) => {
             const { industryName, value } = action.payload;

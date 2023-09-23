@@ -65,7 +65,7 @@ export interface ILoad {
 }
 
 export interface IFlow {
-    stationType: string;
+    stationType: number;
     stationSource: string;
     stationTarget: string;
     flowAverage: number;

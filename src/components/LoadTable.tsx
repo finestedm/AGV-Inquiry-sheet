@@ -98,7 +98,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 label: "", // Add the 'label' property here if it's required by ILoad
             }));
 
-        dispatch(handleDeleteLoad(updatedLoads));
+        dispatch(handleDeleteLoad({ updatedLoads, selectedSystem }));
         setRowSelectionModel([])
     };
 

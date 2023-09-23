@@ -74,7 +74,9 @@
       },
       "readmore": "Dowiedz się więcej",
       "addNewLoad": "Dodaj",
-      "deleteSelectedLoads": "Usuń wybrane"
+      "deleteSelectedLoads": "Usuń wybrane",
+      "addNewFlow": "Dodaj" 
+
     },
     "switch": {
       "darkMode": "Tryb nocny"
@@ -214,6 +216,14 @@
       "industial_1200x1000": "Przemysłowa 1200x1000",
       "industial_1200x1200": "Przemysłowa 1200x1200",
       "gitterbox_1235x835": "Gitterbox"
+    }
+  },
+  "flowTable": {
+    "flowStationTypes": {
+      "floor": "podłoga",
+      "conveyor": "przenośnik",
+      "pallet wrapper": "owijarka palet",
+      "rack": "regał"
     }
   },
   "helperText": {

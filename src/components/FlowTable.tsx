@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { useDispatch } from "react-redux";
 import { Box, Button, ButtonGroup, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import { handleAddFlow, handleFlowChange } from "../features/redux/reducers/formDataSlice";
+import { handleAddFlow, handleDeleteFlow, handleFlowChange } from "../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { flowStationTypes } from "../data/flowStations";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -27,6 +28,24 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
         loadType: load.loadType
     }));
 
+    const handleDeleteSelected = () => {
+        const updatedFlows = rows
+            .filter((row) => !rowSelectionModel.includes(row.id))
+            .map((flow) => ({
+                id: flow.id,
+                stationSource: flow.stationSource,
+                stationTarget: flow.stationTarget,
+                stationType: flow.stationType,
+                flowAverage: flow.flowAverage,
+                flowPeak: flow.flowPeak,
+                workTime: flow.workTime,
+                loadType: flow.loadType
+            }));
+
+        dispatch(handleDeleteFlow({ updatedFlows, selectedSystem }));
+        setRowSelectionModel([])
+    };
+
     const [isMobile, setIsMobile] = useState<boolean>(false)
     useEffect(() => {
         navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false)
@@ -43,7 +62,19 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                         { field: "id", headerName: "Stage", width: 50, type: 'number' },
                         { field: "stationSource", headerName: "Pickup station", minWidth: 130, editable: true, type: 'string' },
                         { field: "stationTarget", headerName: "Unload station", minWidth: 130, editable: true, type: 'string' },
-                        { field: "stationType", headerName: "Station Type", minWidth: 130, editable: true, type: 'singleSelect' },
+                        {
+                            field: "stationType",
+                            headerName: "Station Type",
+                            minWidth: 130,
+                            editable: true,
+                            type: 'singleSelect',
+                            valueOptions: flowStationTypes
+                                .sort()
+                                .map(flowStationType => ({
+                                    value: flowStationTypes.indexOf(flowStationType),
+                                    label: t(`flowTable.flowStationTypes.${flowStationType}`)
+                                }))
+                        },
                         { field: "flowAverage", headerName: "Average material flow", minWidth: 130, editable: true, type: 'number' },
                         { field: "flowPeak", headerName: "Peak material flow", minWidth: 130, editable: true, type: 'number' },
                         {
@@ -88,7 +119,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                                                 size="small"
                                                 variant="contained"
                                                 color="error"
-                                                // onClick={handleDeleteSelected}
+                                                onClick={handleDeleteSelected}
                                                 endIcon={<GridDeleteIcon />}
                                             >
                                                 {t('ui.button.deleteSelectedLoads')}
@@ -98,7 +129,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                                             <IconButton
                                                 size="small"
                                                 color="error"
-                                                // onClick={handleDeleteSelected}
+                                                onClick={handleDeleteSelected}
                                             >
                                                 <GridDeleteIcon />
                                             </IconButton>
@@ -107,7 +138,14 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
 
                                     : ''
                                 }
-
+                                <Button
+                                    size="small"
+                                    variant='contained'
+                                    onClick={() => dispatch(handleAddFlow({ systemName: selectedSystem }))}
+                                    endIcon={<PlaylistAdd />}
+                                >
+                                    {t('ui.button.addNewFlow')}
+                                </Button >
                             </GridToolbarContainer>
                         ),
                         noRowsOverlay: () => (

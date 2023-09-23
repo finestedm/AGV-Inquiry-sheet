@@ -1,6 +1,6 @@
 export const emptyFlow =
 {
-    stationType: '',
+    stationType: -1 ,
     stationSource: '',
     stationTarget: '',
     flowAverage: 0,
@@ -8,3 +8,10 @@ export const emptyFlow =
     loadType: 0,
     workTime: 0
 }
+
+export const flowStationTypes = [
+    'floor',
+    'conveyor',
+    'pallet wrapper',
+    'rack',
+]
