@@ -209,7 +209,7 @@ const formDataSlice = createSlice({
             const { systemName, loadType } = action.payload;
 
             let newLoad: ILoad = loadsToAdd[loadType];
-            newLoad = {...newLoad, id: generateRandomId()}
+            newLoad = { ...newLoad, id: generateRandomId() }
 
             const updatedSystemKey = systemName.toLowerCase();
             const updatedSystemLoads = state.system[updatedSystemKey].loads.concat(newLoad);
@@ -262,8 +262,11 @@ const formDataSlice = createSlice({
         handleLoadChange: (state, action) => {
             const { newRow, selectedSystem } = action.payload;
 
-            // Replace the old load object with the new one at the specified index
-            state.system[selectedSystem].loads[newRow.id - 1] = newRow;
+            const loadIndex = state.system[selectedSystem].loads.findIndex((load) => load.id === newRow.id);
+            if (loadIndex !== -1) {
+                // If a matching load is found, replace it with the new row
+                state.system[selectedSystem].loads[loadIndex] = newRow;
+            }
         },
 
         handleDeleteLoad: (state: IFormData, action: PayloadAction<{ updatedLoads: ILoad[]; selectedSystem: string }>) => {
@@ -281,7 +284,6 @@ const formDataSlice = createSlice({
 
         handleDeleteFlow: (state: IFormData, action: PayloadAction<{ updatedFlows: IFlow[]; selectedSystem: string }>) => {
             const { updatedFlows, selectedSystem } = action.payload;
-
             state.system[selectedSystem].flow = updatedFlows;
         },
 
