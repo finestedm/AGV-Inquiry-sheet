@@ -118,17 +118,17 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 columns={[
                     { field: "index", headerName: "№", width: 50, type: 'number' },
                     { field: "name", headerName: "Name", minWidth: 130, editable: true, type: 'string' },
-                    { field: "length", headerName: "L1", minWidth: 90, editable: true, type: 'number' },
-                    { field: "width", headerName: "W1", minWidth: 90, editable: true, type: 'number' },
-                    { field: "height", headerName: "Height", minWidth: 80, editable: true, type: 'number' },
-                    { field: "L2", headerName: "L2", minWidth: 60, editable: true, type: 'number' },
-                    { field: "W2", headerName: "W2", minWidth: 60, editable: true, type: 'number' },
-                    { field: "W3", headerName: "W3", minWidth: 60, editable: true, type: 'number' },
-                    { field: "H2", headerName: "H2", minWidth: 60, editable: true, type: 'number' },
-                    { field: "H3", headerName: "H3", minWidth: 60, editable: true, type: 'number' },
+                    { field: "length", headerName: "L1", minWidth: 90, editable: true, type: 'number', description: 'Load length in mm' },
+                    { field: "width", headerName: "W1", minWidth: 90, editable: true, type: 'number', description: 'Load width in mm' },
+                    { field: "height", headerName: "Height", minWidth: 80, editable: true, type: 'number', description: 'Load height in mm' },
+                    { field: "L2", headerName: "L2", minWidth: 60, editable: true, type: 'number', description: 'Pallet length in mm' },
+                    { field: "W2", headerName: "W2", minWidth: 60, editable: true, type: 'number', description: 'Pallet width in mm' },
+                    { field: "W3", headerName: "W3", minWidth: 60, editable: true, type: 'number', description: 'Pallet opening width in mm' },
+                    { field: "H2", headerName: "H2", minWidth: 60, editable: true, type: 'number', description: 'Pallet height in mm' },
+                    { field: "H3", headerName: "H3", minWidth: 60, editable: true, type: 'number', description: 'Pallet opening height in mm' },
                     { field: "weightMin", headerName: "Weight min", minWidth: 125, editable: true, type: 'number' },
                     { field: "weightMax", headerName: "Weight max", minWidth: 125, editable: true, type: 'number' },
-                    { field: "overhang", headerName: "Overhang", minWidth: 100, editable: true, type: 'boolean' },
+                    { field: "overhang", headerName: "Overhang", minWidth: 100, editable: true, type: 'boolean', description: 'Is the load bigger than the pallet?'},
                     {
                         field: 'material',
                         headerName: 'Material',
@@ -152,7 +152,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                             { value: 1, label: 'L' }
                         ]
                     },
-                    { field: 'secured', headerName: 'Load Secured', width: 100, editable: true, type: 'boolean' },
+                    { field: 'secured', headerName: 'Load Secured', width: 100, editable: true, type: 'boolean', description: 'Is the load secured on pallet (wrapped)?' },
                 ]}
 
                 processRowUpdate={(newRow: any) => {

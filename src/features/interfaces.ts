@@ -71,7 +71,7 @@ export interface IFlow {
     flowAverage: number;
     flowPeak: number;
     loadType: number;
-    workTime: number;
+    distance: number;
     bidirectional: boolean;
 }
 

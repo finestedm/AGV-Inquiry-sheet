@@ -23,7 +23,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
         stationType: flow.stationType,
         flowAverage: flow.flowAverage,
         flowPeak: flow.flowPeak,
-        workTime: flow.workTime,
+        distance: flow.distance,
         loadType: flow.loadType,
         bidirectional: flow.bidirectional
     }));
@@ -38,7 +38,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                 stationType: flow.stationType,
                 flowAverage: flow.flowAverage,
                 flowPeak: flow.flowPeak,
-                workTime: flow.workTime,
+                distance: flow.distance,
                 loadType: flow.loadType,
                 bidirectional: flow.bidirectional
             }));
@@ -61,8 +61,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                     rows={rows}
                     columns={[
                         { field: "id", headerName: "Stage", width: 50, type: 'number' },
-                        { field: "stationSource", headerName: "Pickup station", minWidth: 130, editable: true, type: 'string' },
-                        { field: "stationTarget", headerName: "Unload station", minWidth: 130, editable: true, type: 'string' },
+                        { field: "stationSource", headerName: "Pickup station", minWidth: 130, editable: true, type: 'string', description: 'Station where load is picked up' },
+                        { field: "stationTarget", headerName: "Unload station", minWidth: 130, editable: true, type: 'string', description: 'Station where load is left' },
                         { field: "flowAverage", headerName: "Average material flow", minWidth: 130, editable: true, type: 'number' },
                         { field: "flowPeak", headerName: "Peak material flow", minWidth: 130, editable: true, type: 'number' },
                         {
@@ -71,6 +71,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                             minWidth: 150,
                             editable: true,
                             type: 'singleSelect',
+                            description: 'Type of loads used on this stage',
                             valueOptions: selectedSystemLoads.map((load) => ({
                                 value: load.id,
                                 label:
@@ -85,8 +86,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
-                        { field: "workTime", headerName: "workTime", minWidth: 130, editable: true, type: 'number' },
-                        { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean' },
+                        { field: "distance", headerName: "Distance", minWidth: 130, editable: true, type: 'number', description: 'Distance to travel between pickup station and target station' },
+                        { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?'},
                     ]}
 
                     processRowUpdate={(newRow: any) => {

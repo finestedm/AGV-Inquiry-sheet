@@ -6,6 +6,6 @@ export const emptyFlow =
     flowAverage: 0,
     flowPeak: 0,
     loadType: 0,
-    workTime: 0,
+    distance: 0,
     bidirectional: false
 }
