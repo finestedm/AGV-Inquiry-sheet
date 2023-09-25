@@ -8,7 +8,6 @@ import { PlaylistAdd } from "@mui/icons-material";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { flowStationTypes } from "../data/flowStations";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -17,15 +16,16 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const dispatch = useDispatch();
 
-    const rows = selectedSystemFlow.map((load, index) => ({
+    const rows = selectedSystemFlow.map((flow, index) => ({
         id: index + 1, // Sequential number starting from 1
-        stationSource: load.stationSource,
-        stationTarget: load.stationTarget,
-        stationType: load.stationType,
-        flowAverage: load.flowAverage,
-        flowPeak: load.flowPeak,
-        workTime: load.workTime,
-        loadType: load.loadType
+        stationSource: flow.stationSource,
+        stationTarget: flow.stationTarget,
+        stationType: flow.stationType,
+        flowAverage: flow.flowAverage,
+        flowPeak: flow.flowPeak,
+        workTime: flow.workTime,
+        loadType: flow.loadType,
+        bidirectional: flow.bidirectional
     }));
 
     const handleDeleteSelected = () => {
@@ -39,7 +39,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                 flowAverage: flow.flowAverage,
                 flowPeak: flow.flowPeak,
                 workTime: flow.workTime,
-                loadType: flow.loadType
+                loadType: flow.loadType,
+                bidirectional: flow.bidirectional
             }));
 
         dispatch(handleDeleteFlow({ updatedFlows, selectedSystem }));
@@ -62,19 +63,6 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                         { field: "id", headerName: "Stage", width: 50, type: 'number' },
                         { field: "stationSource", headerName: "Pickup station", minWidth: 130, editable: true, type: 'string' },
                         { field: "stationTarget", headerName: "Unload station", minWidth: 130, editable: true, type: 'string' },
-                        {
-                            field: "stationType",
-                            headerName: "Station Type",
-                            minWidth: 130,
-                            editable: true,
-                            type: 'singleSelect',
-                            valueOptions: flowStationTypes
-                                .sort()
-                                .map(flowStationType => ({
-                                    value: flowStationTypes.indexOf(flowStationType),
-                                    label: t(`flowTable.flowStationTypes.${flowStationType}`)
-                                }))
-                        },
                         { field: "flowAverage", headerName: "Average material flow", minWidth: 130, editable: true, type: 'number' },
                         { field: "flowPeak", headerName: "Peak material flow", minWidth: 130, editable: true, type: 'number' },
                         {
@@ -98,6 +86,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
                         { field: "workTime", headerName: "workTime", minWidth: 130, editable: true, type: 'number' },
+                        { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean' },
                     ]}
 
                     processRowUpdate={(newRow: any) => {

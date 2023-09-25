@@ -72,6 +72,7 @@ export interface IFlow {
     flowPeak: number;
     loadType: number;
     workTime: number;
+    bidirectional: boolean;
 }
 
 export interface ILoadsTypes {

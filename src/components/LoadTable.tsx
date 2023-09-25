@@ -227,7 +227,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                                     >
                                         <Paper>
                                             <ClickAwayListener onClickAway={handleClose}>
-                                                <MenuList id="split-button-menu" autoFocusItem>
+                                                <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
                                                     {Object.keys(loadsToAdd).map((option) => (
                                                         <MenuItem
                                                             key={option}
