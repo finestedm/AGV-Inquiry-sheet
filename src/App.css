@@ -80,3 +80,13 @@
 .MuiDataGrid-overlayWrapper {
   min-height: 5rem !important
 }
+
+@media only screen and (max-width: 800px) {
+  .MuiSlider-root {
+    pointer-events: none !important;
+  }
+
+  .MuiSlider-thumb {
+    pointer-events: all !important
+  }
+}
