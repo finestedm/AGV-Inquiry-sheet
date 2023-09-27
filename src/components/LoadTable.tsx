@@ -14,13 +14,15 @@ import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/re
 import { loadContainerMaterials } from "../data/loadContainerMaterials";
 import LoadTableCustomTextField from "./LoadTableCustomeTexField";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
-import { text } from "stream/consumers";
-import generateRandomId from "../features/variousMethods/generateRandomId";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
+    const selectedSystemFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
+    const deleteLoadDialogOpen = useSelector((state: RootState) => state.deleteLoadDialog.open);
+    const dispatch = useDispatch();
+
     const [selectedIndex, setSelectedIndex] = useState<string>('placeholder');
 
     const [open, setOpen] = React.useState(false);
@@ -73,43 +75,34 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
         material: load.material,
         loadSide: load.loadSide,
         secured: load.secured,
+        label: '',
     }));
 
-    const handleDeleteSelected = () => {
-        const updatedLoads = rows
-            .filter((row) => row.id && !rowSelectionModel.includes(row.id))
-            .map((load) => ({
-                id: load.id,
-                name: load.name,
-                length: load.length,
-                width: load.width,
-                height: load.height,
-                L2: load.L2,
-                W2: load.W2,
-                W3: load.W3,
-                H2: load.H2,
-                H3: load.H3,
-                weightMin: load.weightMin,
-                weightMax: load.weightMax,
-                overhang: load.overhang,
-                material: load.material,
-                loadSide: load.loadSide,
-                secured: load.secured,
-                label: "", // Add the 'label' property here if it's required by ILoad
-            }));
+    function handleDeleteSelected() {
+        const updatedLoads = rows.filter((row) => row.id && !rowSelectionModel.includes(row.id))
 
-        dispatch(handleDeleteLoad({ updatedLoads, selectedSystem }));
+        const isLoadUsedInFlows = selectedSystemFlows.some(flow => rowSelectionModel.includes(flow.loadType));
+
+        if (isLoadUsedInFlows) {
+            console.log('ten ładunek jest używany!')
+        } else {
+            console.log('ten ładunek mozn usunac!')
+
+
+        }
+        // dispatch(deleteLoadDialogOpen(true))
+
+        // dispatch(handleDeleteLoad({ updatedLoads, selectedSystem }));
         setRowSelectionModel([])
-    };
 
+    };
+    
     const [isMobile, setIsMobile] = useState<boolean>(false)
     useEffect(() => {
         navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false)
     }, [])
-
+    
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
-
-    const dispatch = useDispatch();
 
     return (
         <Box sx={{ minHeight: '10rem' }}>
