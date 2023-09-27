@@ -156,9 +156,23 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                 ]}
 
                 processRowUpdate={(newRow: any) => {
-                    dispatch(handleLoadChange({ newRow, selectedSystem }));
-                    // Return the updated row with isNew set to false
-                    return { ...newRow, isNew: false };
+                    const trimmedRow = {
+                        ...newRow,
+                        length: trimLeadingZeros(newRow.length),
+                        width: trimLeadingZeros(newRow.width),
+                        height: trimLeadingZeros(newRow.height),
+                        L2: trimLeadingZeros(newRow.L2),
+                        W2: trimLeadingZeros(newRow.W2),
+                        W3: trimLeadingZeros(newRow.W3),
+                        H2: trimLeadingZeros(newRow.H2),
+                        H3: trimLeadingZeros(newRow.H3),
+                        weightMin: trimLeadingZeros(newRow.weightMin),
+                        weightMax: trimLeadingZeros(newRow.weightMax),
+                      };
+                    
+                      dispatch(handleLoadChange({ newRow: trimmedRow, selectedSystem }));
+                      // Return the updated row with isNew set to false
+                      return { ...trimmedRow, isNew: false };
                 }}
                 disableRowSelectionOnClick
                 checkboxSelection
