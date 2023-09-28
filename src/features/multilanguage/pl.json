@@ -84,9 +84,10 @@
     "dialog": {
       "loadDelete": {
         "title": "Uwaga",
-        "description": "Czy na pewno chcesz usunąć ten ładunek?",
+        "description1": "Ten ładunek jest użyty w którymś z przepywów w tabeli 'Przepływy'.",
+        "description2": "Czy na pewno chcesz go usunąć?",
         "cancel": "Anuluj",
-        "confirm": "Potwierdź usunięcie"
+        "confirm": "Tak, usuń"
       }
     },
     "snackBar": {

@@ -10,7 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { loadsToAdd } from "../data/typicalLoadSizes";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deleteLoadDialogOpen, setLoadIndexToDelete } from "../features/redux/reducers/deleteLoadDialogSlice";
+import { updateDeleteLoadDialog } from "../features/redux/reducers/deleteLoadDialogSlice";
 import { loadContainerMaterials } from "../data/loadContainerMaterials";
 import LoadTableCustomTextField from "./LoadTableCustomeTexField";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
@@ -20,7 +20,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const selectedSystemFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
-    const deleteLoadDialogOpen = useSelector((state: RootState) => state.deleteLoadDialog.open);
+    const deleteLoadWarningDialogOpen = useSelector((state: RootState) => state.deleteLoadDialog.open);
     const dispatch = useDispatch();
 
     const [selectedIndex, setSelectedIndex] = useState<string>('placeholder');
@@ -84,24 +84,18 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
         const isLoadUsedInFlows = selectedSystemFlows.some(flow => rowSelectionModel.includes(flow.loadType));
 
         if (isLoadUsedInFlows) {
-            console.log('ten ładunek jest używany!')
+            dispatch(updateDeleteLoadDialog({ open: true, updatedLoads, selectedSystem })) // we set the updatedLoads and selected system as a temp value as we wait for the user to take action
+            setRowSelectionModel([])
         } else {
-            console.log('ten ładunek mozn usunac!')
-
-
+            dispatch(handleDeleteLoad({ updatedLoads, selectedSystem }));
         }
-        // dispatch(deleteLoadDialogOpen(true))
-
-        // dispatch(handleDeleteLoad({ updatedLoads, selectedSystem }));
-        setRowSelectionModel([])
-
     };
-    
+
     const [isMobile, setIsMobile] = useState<boolean>(false)
     useEffect(() => {
         navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false)
     }, [])
-    
+
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
     return (
@@ -121,7 +115,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
                     { field: "H3", headerName: "H3", minWidth: 60, editable: true, type: 'number', description: 'Pallet opening height in mm' },
                     { field: "weightMin", headerName: "Weight min", minWidth: 125, editable: true, type: 'number' },
                     { field: "weightMax", headerName: "Weight max", minWidth: 125, editable: true, type: 'number' },
-                    { field: "overhang", headerName: "Overhang", minWidth: 100, editable: true, type: 'boolean', description: 'Is the load bigger than the pallet?'},
+                    { field: "overhang", headerName: "Overhang", minWidth: 100, editable: true, type: 'boolean', description: 'Is the load bigger than the pallet?' },
                     {
                         field: 'material',
                         headerName: 'Material',

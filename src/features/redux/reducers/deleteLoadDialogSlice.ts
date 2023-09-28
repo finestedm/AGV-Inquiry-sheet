@@ -1,25 +1,34 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
+import { ILoad } from '../../interfaces';
+
+interface IdeleteLoadDialogSlice {
+    open: boolean;
+    temporaryUpdatedLoads: ILoad[];
+    temporarySelectedSystem: string;
+}
+
+const initialState: IdeleteLoadDialogSlice = {
+    open: false,
+    temporaryUpdatedLoads: [], // Initialize with an empty array of ILoad
+    temporarySelectedSystem: ''
+};
 
 const deleteLoadDialogSlice = createSlice({
     name: 'deleteLoadDialog',
-    initialState: {
-        open: false,
-        indexToDelete: -1, // Initialize with a value that won't match any valid index
-    },
+    initialState,
     reducers: {
-        deleteLoadDialogOpen: (state, action: PayloadAction<boolean>) => {
-            state.open = action.payload;
+        updateDeleteLoadDialog: (state, action: PayloadAction<{ open: boolean; updatedLoads: ILoad[]; selectedSystem: string }>) => {
+            state.open = action.payload.open;
+            state.temporaryUpdatedLoads = action.payload.updatedLoads;  // this state holds temp value until user takes action
+            state.temporarySelectedSystem = action.payload.selectedSystem;// this state holds temp value until user takes action
 
-            // If dialog is closed, also clear the indexToDelete
-            if (!action.payload) {
-                state.indexToDelete = -1;
+            // If dialog is closed, also clear the temporaryUpdatedLoads
+            if (!action.payload.open) {
+                state.temporaryUpdatedLoads = [];
             }
-        },
-        setLoadIndexToDelete: (state, action: PayloadAction<number>) => {
-            state.indexToDelete = action.payload;
         },
     },
 });
 
-export const { deleteLoadDialogOpen, setLoadIndexToDelete } = deleteLoadDialogSlice.actions;
+export const { updateDeleteLoadDialog } = deleteLoadDialogSlice.actions;
 export default deleteLoadDialogSlice.reducer;

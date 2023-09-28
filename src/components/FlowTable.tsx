@@ -8,6 +8,8 @@ import { PlaylistAdd } from "@mui/icons-material";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import EastIcon from '@mui/icons-material/East';
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: string },) {
     const { t } = useTranslation()
@@ -87,7 +89,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: string }
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
                         { field: "distance", headerName: "Distance", minWidth: 130, editable: true, type: 'number', description: 'Distance to travel between pickup station and target station' },
-                        { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?'},
+                        { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?', valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{ params.value }</>}
                     ]}
 
                     processRowUpdate={(newRow: any) => {

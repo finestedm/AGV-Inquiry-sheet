@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { handleDeleteLoad } from "../features/redux/reducers/formDataSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
-import { deleteLoadDialogOpen } from "../features/redux/reducers/deleteLoadDialogSlice";
+import { updateDeleteLoadDialog } from "../features/redux/reducers/deleteLoadDialogSlice";
 
 export default function DeleteLoadWarningDialog() {
     const { t } = useTranslation()
@@ -15,7 +15,7 @@ export default function DeleteLoadWarningDialog() {
     return (
         <Dialog
             open={deleteLoadDialog.open}
-            onClose={() => dispatch(deleteLoadDialogOpen(false))}
+            onClose={() => dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: '' }))}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
@@ -24,7 +24,7 @@ export default function DeleteLoadWarningDialog() {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    {t("ui.dialog.loadDelete.description")}
+                    {t("ui.dialog.loadDelete.description1")} <br />  {t("ui.dialog.loadDelete.description2")}
                 </DialogContentText>
                 <Stack direction='row' flex={1} justifyContent='space-between' spacing={2} sx={{ mt: 4 }}>
 
@@ -32,16 +32,15 @@ export default function DeleteLoadWarningDialog() {
                         variant="outlined"
                         color="error"
                         onClick={() => {
-                            // dispatch(handleDeleteLoad(deleteLoadDialog.indexToDelete))
-                            dispatch(deleteLoadDialogOpen(false))
-                        }
-                        }
+                            dispatch(handleDeleteLoad({ updatedLoads: deleteLoadDialog.temporaryUpdatedLoads, selectedSystem: deleteLoadDialog.temporarySelectedSystem }));
+                            dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: '' }))
+                        }}
                     >
                         {t("ui.dialog.loadDelete.confirm")}
                     </Button>
                     <Button
-                        variant="outlined"
-                        onClick={() => dispatch(deleteLoadDialogOpen(false))}
+                        variant="text"
+                        onClick={() => dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: '' }))}
                         autoFocus
                     >
                         {t("ui.dialog.loadDelete.cancel")}
