@@ -113,7 +113,8 @@
         "workConditions": "Warunki pracy",
         "building": "Budynek",
         "loads": "Ładunki",
-        "flow": "Przepływ"
+        "flow": "Przepływy",
+        "capacity": "Pojemność"
       },
       "workTime": {
         "workDays": "Dni pracy w tygodniu",

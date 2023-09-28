@@ -1,8 +1,6 @@
 import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, Grow, IconButton, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { ArrowDropDownCircleOutlined, PlaylistAdd } from "@mui/icons-material";
-import { IFormData, IHandleAddLoad, IHandleLoadChange, ILoad } from "../features/interfaces";
-import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import { handleAddLoad, handleDeleteLoad, handleLoadChange } from "../features/redux/reducers/formDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
@@ -11,8 +9,6 @@ import { loadsToAdd } from "../data/typicalLoadSizes";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { updateDeleteLoadDialog } from "../features/redux/reducers/deleteLoadDialogSlice";
-import { loadContainerMaterials } from "../data/loadContainerMaterials";
-import LoadTableCustomTextField from "./LoadTableCustomeTexField";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
@@ -20,7 +16,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const selectedSystemFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
-    const deleteLoadWarningDialogOpen = useSelector((state: RootState) => state.deleteLoadDialog.open);
     const dispatch = useDispatch();
 
     const [selectedIndex, setSelectedIndex] = useState<string>('placeholder');
@@ -75,6 +70,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
         material: load.material,
         loadSide: load.loadSide,
         secured: load.secured,
+        capacity: load.capacity,
         label: '',
     }));
 

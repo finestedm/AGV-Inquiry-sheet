@@ -62,6 +62,7 @@ export interface ILoad {
     material: number;
     loadSide: 0 | 1;
     secured: boolean;
+    capacity: number;
 }
 
 export interface IFlow {

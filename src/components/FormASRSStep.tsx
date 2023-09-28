@@ -12,11 +12,14 @@ import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import CustomTextField from "./CustomTextField";
 import FlowTable from "./FlowTable";
+import CapacityTable from "./CapacityTable";
 
 
 const criticalElectronicsTemperature = 8
 
 export default function FormASRSStep(): JSX.Element {
+    const selectedSystem = 'asrs'
+
     const { t } = useTranslation();
     const theme = useTheme();
     const [circularValue, setCircularValue] = useState(0)
@@ -25,26 +28,26 @@ export default function FormASRSStep(): JSX.Element {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setCircularValue(formData.system.asrs.workTime.shiftsPerDay * formData.system.asrs.workTime.hoursPerShift * formData.system.asrs.workTime.workDays)
-    }, [formData.system.asrs.workTime.shiftsPerDay, formData.system.asrs.workTime.hoursPerShift, formData.system.asrs.workTime.workDays])
+        setCircularValue(formData.system[selectedSystem].workTime.shiftsPerDay * formData.system[selectedSystem].workTime.hoursPerShift * formData.system[selectedSystem].workTime.workDays)
+    }, [formData.system[selectedSystem].workTime.shiftsPerDay, formData.system[selectedSystem].workTime.hoursPerShift, formData.system[selectedSystem].workTime.workDays])
 
     const minimalReasonableWeekWorkHours = 60
 
     return (
         <Stack spacing={8}>
-            <Typography variant="h4" textAlign='left'>{t('system.asrs.header')}</Typography>
+            <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
             <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.workTime')}</Typography>
+                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.workTime`)}</Typography>
 
                 <Box>
                     <Grid container direction='row' spacing={2}>
                         <Grid item xs={12} sm={4} lg={3}>
-                            <Typography align="left">{t('system.asrs.workTime.workDays')}</Typography>
+                            <Typography align="left">{t(`system.${selectedSystem}.workTime.workDays`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
-                                getAriaLabel={() => 'workDayse'}
-                                value={formData.system.asrs.workTime.workDays}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workTime.workDays', value: v }))}
+                                getAriaLabel={() => 'workDays'}
+                                value={formData.system[selectedSystem].workTime.workDays}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.workDays`, value: v }))}
                                 valueLabelDisplay="auto"
                                 min={1}
                                 max={7}
@@ -52,12 +55,12 @@ export default function FormASRSStep(): JSX.Element {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4} lg={3}>
-                            <Typography align="left">{t('system.asrs.workTime.shiftsPerDay')}</Typography>
+                            <Typography align="left">{t(`system.${selectedSystem}.workTime.shiftsPerDay`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'shiftsPerDay'}
-                                value={formData.system.asrs.workTime.shiftsPerDay}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workTime.shiftsPerDay', value: v }))}
+                                value={formData.system[selectedSystem].workTime.shiftsPerDay}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.shiftsPerDay`, value: v }))}
                                 valueLabelDisplay="auto"
                                 min={1}
                                 max={3}
@@ -65,12 +68,12 @@ export default function FormASRSStep(): JSX.Element {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4} lg={3}>
-                            <Typography align="left">{t('system.asrs.workTime.hoursPerShift')}</Typography>
+                            <Typography align="left">{t(`system.${selectedSystem}.workTime.hoursPerShift`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'hoursPerShift'}
-                                value={formData.system.asrs.workTime.hoursPerShift}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workTime.hoursPerShift', value: v }))}
+                                value={formData.system[selectedSystem].workTime.hoursPerShift}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.hoursPerShift`, value: v }))}
                                 valueLabelDisplay="auto"
                                 min={1}
                                 max={8}
@@ -78,7 +81,7 @@ export default function FormASRSStep(): JSX.Element {
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} lg={3}>
-                            <Typography align="left">{t('system.asrs.workTime.hoursPerWeek')}</Typography>
+                            <Typography align="left">{t(`system.${selectedSystem}.workTime.hoursPerWeek`)}</Typography>
 
                             <Stack direction='row' justifyContent='space-evenly' alignItems='center' sx={{ p: '.25rem' }}>
                                 <Box sx={{ position: 'relative' }} >
@@ -114,16 +117,16 @@ export default function FormASRSStep(): JSX.Element {
                 </Box>
             </Stack>
             <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.workConditions')}</Typography>
+                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.workConditions`)}</Typography>
                 <Box>
                     <Grid container direction='row' spacing={2}>
                         <Grid item xs={12} md={6}>
-                            <Typography align="left">{t('system.asrs.workConditions.temperature')}</Typography>
+                            <Typography align="left">{t(`system.${selectedSystem}.workConditions.temperature`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'Temperature range'}
-                                value={formData.system.asrs.workConditions.temperature}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.temperature', value: v }))}
+                                value={formData.system[selectedSystem].workConditions.temperature}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.temperature`, value: v }))}
                                 valueLabelDisplay="auto"
                                 min={-30}
                                 max={60}
@@ -131,21 +134,21 @@ export default function FormASRSStep(): JSX.Element {
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <Typography align="left">{t('system.asrs.workConditions.humidity')}</Typography>
+                            <Typography align="left">{t(`system.${selectedSystem}.workConditions.humidity`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'Humidity range'}
-                                value={formData.system.asrs.workConditions.humidity}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.humidity', value: v }))}
+                                value={formData.system[selectedSystem].workConditions.humidity}
+                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.humidity`, value: v }))}
                                 valueLabelDisplay="auto"
                                 min={0}
                                 max={100}
                                 marks={[{ value: 0, label: '0%' }, { value: 100, label: '100%' }]}
                             />
                         </Grid>
-                        {((formData.system.asrs.workConditions.humidity[1] > 15 && calculateDewPoint(formData.system.asrs.workConditions.temperature[0], formData.system.asrs.workConditions.humidity[1]) <= criticalElectronicsTemperature)) && (
+                        {((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[1]) <= criticalElectronicsTemperature)) && (
                             <Grid item xs={12}>
-                                <Alert id='system.asrs.condendartionWarning' severity="warning">{t('system.asrs.condensationWarning')}</Alert>
+                                <Alert id='system.asrs.condendartionWarning' severity="warning">{t(`system.${selectedSystem}.condensationWarning`)}</Alert>
                             </Grid>
                         )}
                         <Grid item xs={12} md={6}>
@@ -155,37 +158,37 @@ export default function FormASRSStep(): JSX.Element {
                                         id="system-asrs-workConditions-freezer"
                                         control={
                                             <Checkbox
-                                                checked={formData.system.asrs.workConditions.freezer || formData.system.asrs.workConditions.temperature[0] < 0}
-                                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.freezer', value: e.target.checked }))}
+                                                checked={formData.system[selectedSystem].workConditions.freezer || formData.system[selectedSystem].workConditions.temperature[0] < 0}
+                                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.freezer`, value: e.target.checked }))}
                                                 inputProps={{ 'aria-label': 'controlled' }}
                                             />
                                         }
                                         labelPlacement="end"
-                                        label={<>{t('system.asrs.workConditions.freezer')} <AcUnit fontSize="small" /></>}
+                                        label={<>{t(`system.${selectedSystem}.workConditions.freezer`)} <AcUnit fontSize="small" /></>}
                                     />
                                     <FormControlLabel
                                         id="system-asrs-workConditions-EX"
                                         control={
                                             <Checkbox
-                                                checked={formData.system.asrs.workConditions.EX}
-                                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.EX', value: e.target.checked }))}
+                                                checked={formData.system[selectedSystem].workConditions.EX}
+                                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.EX`, value: e.target.checked }))}
                                                 inputProps={{ 'aria-label': 'controlled' }}
                                             />
                                         }
                                         labelPlacement="end"
-                                        label={<>{t('system.asrs.workConditions.EX')} <Warning fontSize="small" /></>}
+                                        label={<>{t(`system.${selectedSystem}.workConditions.EX`)} <Warning fontSize="small" /></>}
                                     />
                                     <FormControlLabel
                                         id="system-asrs-workConditions-dangerousMaterials"
                                         control={
                                             <Checkbox
-                                                checked={formData.system.asrs.workConditions.dangerousMaterials}
-                                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.workConditions.dangerousMaterials', value: e.target.checked }))}
+                                                checked={formData.system[selectedSystem].workConditions.dangerousMaterials}
+                                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.dangerousMaterials`, value: e.target.checked }))}
                                                 inputProps={{ 'aria-label': 'controlled' }}
                                             />
                                         }
                                         labelPlacement="end"
-                                        label={<>{t('system.asrs.workConditions.dangerousMaterials')} <Whatshot fontSize="small" /></>}
+                                        label={<>{t(`system.${selectedSystem}.workConditions.dangerousMaterials`)} <Whatshot fontSize="small" /></>}
                                     />
                                 </Stack>
                             </Box>
@@ -202,41 +205,41 @@ export default function FormASRSStep(): JSX.Element {
                 </Box>
             </Stack>
             <Stack spacing={2}>
-                <Box><Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.building')}</Typography></Box>
+                <Box><Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.building`)}</Typography></Box>
                 <Stack direction='row' alignItems='center'>
-                    <Typography>{t('system.asrs.building.existing')}</Typography>
+                    <Typography>{t(`system.${selectedSystem}.building.existing`)}</Typography>
                     <Switch
-                        checked={formData.system.asrs.building.new}
-                        onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.new', value: e.target.checked }))}
+                        checked={formData.system[selectedSystem].building.new}
+                        onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.new`, value: e.target.checked }))}
                         inputProps={{ 'aria-label': 'controlled' }}
                     />
-                    <Typography>{t('system.asrs.building.new')}</Typography>
+                    <Typography>{t(`system.${selectedSystem}.building.new`)}</Typography>
                 </Stack>
                 <Stack>
                     <FormControlLabel
                         id="system-asrs-building-silo"
                         control={
                             <Checkbox
-                                checked={formData.system.asrs.building.silo}
-                                onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.silo', value: e.target.checked }))}
+                                checked={formData.system[selectedSystem].building.silo}
+                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.silo`, value: e.target.checked }))}
                                 inputProps={{ 'aria-label': 'controlled' }}
                             />
                         }
                         labelPlacement="end"
-                        label={t('system.asrs.building.silo')}
+                        label={t(`system.${selectedSystem}.building.silo`)}
                     />
                 </Stack>
                 <Box>
-                    {!formData.system.asrs.building.silo &&
+                    {!formData.system[selectedSystem].building.silo &&
                         <Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
                             <Grid item xs>
                                 <TextField
                                     id="system.asrs.building.existingBuilding.height"
                                     fullWidth
-                                    label={t("system.asrs.building.existingBuilding.height")}
+                                    label={t(`system.${selectedSystem}.building.existingBuilding.height`)}
                                     type="number"
-                                    value={trimLeadingZeros(formData.system.asrs.building.existingBuilding.height)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.existingBuilding.height', value: e.target.value }))}
+                                    value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.height)}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.height`, value: e.target.value }))}
                                     inputProps={{
                                         min: 1,
                                         max: 30,
@@ -256,10 +259,10 @@ export default function FormASRSStep(): JSX.Element {
                                 <TextField
                                     id="system.asrs.building.existingBuilding.width"
                                     fullWidth
-                                    label={t("system.asrs.building.existingBuilding.width")}
+                                    label={t(`system.${selectedSystem}.building.existingBuilding.width`)}
                                     type="number"
-                                    value={trimLeadingZeros(formData.system.asrs.building.existingBuilding.width)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.existingBuilding.width', value: e.target.value }))}
+                                    value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width)}
+                                    onChange={(e) => dispatch(handleInputMethod({ path:`system.${selectedSystem}.building.existingBuilding.width`, value: e.target.value }))}
                                     inputProps={{
                                         min: 5,
                                         max: 1000,
@@ -278,10 +281,10 @@ export default function FormASRSStep(): JSX.Element {
                                 <TextField
                                     id="system.asrs.building.existingBuilding.length"
                                     fullWidth
-                                    label={t("system.asrs.building.existingBuilding.length")}
+                                    label={t(`system.${selectedSystem}.building.existingBuilding.length`)}
                                     type="number"
-                                    value={trimLeadingZeros(formData.system.asrs.building.existingBuilding.length)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'system.asrs.building.existingBuilding.length', value: e.target.value }))}
+                                    value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.length)}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: e.target.value }))}
                                     inputProps={{
                                         min: 5,
                                         max: 1000,
@@ -295,22 +298,26 @@ export default function FormASRSStep(): JSX.Element {
                                     }}
                                 />
                             </Grid>
-                            {/* <Box sx={{border: '3px solid black', width: '100%', aspectRatio: formData.system.asrs.building.existingBuilding.length / formData.system.asrs.building.existingBuilding.width}} /> */}
+                            {/* <Box sx={{border: '3px solid black', width: '100%', aspectRatio: formData.system[selectedSystem].building.existingBuilding.length / formData.system[selectedSystem].building.existingBuilding.width}} /> */}
                         </Grid>
                     }
                 </Box>
             </Stack>
             <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.loads')}</Typography>
+                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.loads`)}</Typography>
                 <Box>
                     <img style={{ width: '100%', maxWidth: 800 }} src={LoadDimensionPicture} alt="load dimensions" />
                     <img src={LoadDimensionPicture2} alt="load dimensions 2" />
                 </Box>
-                <LoadTable selectedSystem='asrs' />
+                <LoadTable selectedSystem={selectedSystem} />
             </Stack>
             <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t('system.asrs.subheader.flow')}</Typography>
-                <FlowTable selectedSystem='asrs' />
+                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.capacity`)}</Typography>
+                <CapacityTable selectedSystem={selectedSystem} />
+            </Stack>
+            <Stack spacing={2}>
+                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.flow`)}</Typography>
+                <FlowTable selectedSystem={selectedSystem} />
             </Stack>
         </Stack >
     )
