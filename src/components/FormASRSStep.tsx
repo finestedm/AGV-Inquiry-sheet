@@ -13,9 +13,8 @@ import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import CustomTextField from "./CustomTextField";
 import FlowTable from "./FlowTable";
 import CapacityTable from "./CapacityTable";
-
-
-const criticalElectronicsTemperature = 8
+import { criticalElectronicsTemperature } from "../data/criticalElectronicsTemperature";
+import { minimalReasonableWeekWorkHours } from "../data/minimalReasonableWeekWorkHours";
 
 export default function FormASRSStep(): JSX.Element {
     const selectedSystem = 'asrs'
@@ -30,8 +29,6 @@ export default function FormASRSStep(): JSX.Element {
     useEffect(() => {
         setCircularValue(formData.system[selectedSystem].workTime.shiftsPerDay * formData.system[selectedSystem].workTime.hoursPerShift * formData.system[selectedSystem].workTime.workDays)
     }, [formData.system[selectedSystem].workTime.shiftsPerDay, formData.system[selectedSystem].workTime.hoursPerShift, formData.system[selectedSystem].workTime.workDays])
-
-    const minimalReasonableWeekWorkHours = 60
 
     return (
         <Stack spacing={8}>
