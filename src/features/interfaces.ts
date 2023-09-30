@@ -105,7 +105,8 @@ export interface Iasrs {
         }
     },
     loads: ILoad[];
-    flow: IFlow[]
+    flow: IFlow[];
+    [key: string]: any;
 }
 
 export interface ISystems {

@@ -8,17 +8,16 @@ import LoadDimensionPicture from '../images/loadDimensionsPicture.png'
 import LoadDimensionPicture2 from '../images/loadDimensionsPicture2.png'
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
-import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
+import { handleInputMethod, initialFormDataState } from "../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import CustomTextField from "./CustomTextField";
 import FlowTable from "./FlowTable";
 import CapacityTable from "./CapacityTable";
 import { criticalElectronicsTemperature } from "../data/criticalElectronicsTemperature";
 import { minimalReasonableWeekWorkHours } from "../data/minimalReasonableWeekWorkHours";
+import { Iasrs } from "../features/interfaces";
 
 export default function FormSystemStep({ selectedSystem }: { selectedSystem: string }): JSX.Element {
-
-    console.log(selectedSystem)
 
     const { t } = useTranslation();
     const theme = useTheme();
@@ -32,11 +31,21 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: str
     }, [formData.system[selectedSystem].workTime.shiftsPerDay, formData.system[selectedSystem].workTime.hoursPerShift, formData.system[selectedSystem].workTime.workDays])
 
 
+    //this below part will check if other system have changed stated of the subcomponent and based on that render a copy data button
+    function hasOtherSystemStateChanged({ subpart }: { subpart: keyof Iasrs }) {
+        const otherSystems = Object.keys(formData.system).filter(system => system !== selectedSystem);
+
+        return otherSystems.some(system => {
+            // Check if workConditions state has changed in any other system
+            return JSON.stringify(formData.system[system][subpart]) !== JSON.stringify(initialFormDataState.system[system][subpart]);
+        });
+    };
+
     function WorkTimeComponent() {
         return (
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t(`system.subheader.workTime`)}</Typography>
-
+                {/* {hasOtherSystemStateChanged({ subpart: 'workConditions' }) ? 'yeeees' : 'nooo'} */}
                 <Box>
                     <Grid container direction='row' spacing={2}>
                         <Grid item xs={12} sm={4} lg={3}>
@@ -136,12 +145,12 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: str
                                 marks={[{ value: -30, label: '-30°C' }, { value: 0, label: '0°C' }, { value: 60, label: '60°C' }]}
                             />
                             {(selectedSystem === 'lrkprk') && (formData.system[selectedSystem].workConditions.temperature[0] <= 5) && (
-                            <Grid item xs={12}>
-                                <Alert id='system.lrkprk.temperatureWarning' severity="error">{t(`system.lrkprk.temperatureWarning`)}</Alert>
-                            </Grid>
-                        )}
+                                <Grid item xs={12}>
+                                    <Alert id='system.lrkprk.temperatureWarning' severity="error">{t(`system.lrkprk.temperatureWarning`)}</Alert>
+                                </Grid>
+                            )}
                         </Grid>
-                        
+
                         <Grid item xs={12} md={6}>
                             <Typography align="left">{t(`system.workConditions.humidity`)}</Typography>
                             <Slider
