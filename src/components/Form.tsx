@@ -6,7 +6,7 @@ import FormCustomerStep from "./FormCustomerStep";
 import FormSystemSelectorStep from "./FormSystemSelectorStep";
 import { useTranslation } from 'react-i18next';
 import FormProjectStep from "./FormProjectStep";
-import FormASRSStep from "./FormASRSStep";
+import FormASRSStep from "./FormSystemStep";
 import { IFormData } from "../features/interfaces";
 import { useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
@@ -75,7 +75,7 @@ export default function Form(): JSX.Element {
       newSteps.push({
         label: t("steps.systems.asrs"),
         untranslated: "asrs",
-        component: <FormASRSStep key="asrs" />,
+        component: <FormASRSStep key="asrs" selectedSystem='asrs' />,
       });
     }
 
@@ -83,7 +83,7 @@ export default function Form(): JSX.Element {
       newSteps.push({
         label: t("steps.systems.lrkprk"),
         untranslated: "lrkprk",
-        component: <FormASRSStep key="lrkprk" />,
+        component: <FormASRSStep key="lrkprk" selectedSystem='lrkprk'/>,
       });
     }
 
@@ -91,7 +91,7 @@ export default function Form(): JSX.Element {
       newSteps.push({
         label: t("steps.systems.agv"),
         untranslated: "agv",
-        component: <FormASRSStep key="agv" />,
+        component: <FormASRSStep key="agv" selectedSystem='agv'/>,
       });
     }
 
@@ -99,7 +99,7 @@ export default function Form(): JSX.Element {
       newSteps.push({
         label: t("steps.systems.autovna"),
         untranslated: "autovna",
-        component: <FormASRSStep key="autovna" />,
+        component: <FormASRSStep key="autovna" selectedSystem='autovna'/>,
       });
     }
 

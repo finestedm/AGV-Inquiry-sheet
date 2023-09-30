@@ -52,6 +52,9 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: stri
                         width: 125,
                         flex: 1,
                         type: 'string',
+                        valueGetter: params => (
+                            (selectedSystemLoads.filter((load) => load.id === params.id))[0].name
+                        ),
                         renderCell: params => (
                             <Grid container alignItems="center  ">
                                 <Grid item mr={1}>

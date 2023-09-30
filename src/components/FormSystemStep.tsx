@@ -16,8 +16,9 @@ import CapacityTable from "./CapacityTable";
 import { criticalElectronicsTemperature } from "../data/criticalElectronicsTemperature";
 import { minimalReasonableWeekWorkHours } from "../data/minimalReasonableWeekWorkHours";
 
-export default function FormASRSStep(): JSX.Element {
-    const selectedSystem = 'asrs'
+export default function FormSystemStep({ selectedSystem }: { selectedSystem: string }): JSX.Element {
+
+    console.log(selectedSystem)
 
     const { t } = useTranslation();
     const theme = useTheme();
@@ -34,12 +35,12 @@ export default function FormASRSStep(): JSX.Element {
     function WorkTimeComponent() {
         return (
             <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.workTime`)}</Typography>
+                <Typography variant="h5" textAlign='left'>{t(`system.subheader.workTime`)}</Typography>
 
                 <Box>
                     <Grid container direction='row' spacing={2}>
                         <Grid item xs={12} sm={4} lg={3}>
-                            <Typography align="left">{t(`system.${selectedSystem}.workTime.workDays`)}</Typography>
+                            <Typography align="left">{t(`system.workTime.workDays`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'workDays'}
@@ -52,7 +53,7 @@ export default function FormASRSStep(): JSX.Element {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4} lg={3}>
-                            <Typography align="left">{t(`system.${selectedSystem}.workTime.shiftsPerDay`)}</Typography>
+                            <Typography align="left">{t(`system.workTime.shiftsPerDay`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'shiftsPerDay'}
@@ -65,7 +66,7 @@ export default function FormASRSStep(): JSX.Element {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4} lg={3}>
-                            <Typography align="left">{t(`system.${selectedSystem}.workTime.hoursPerShift`)}</Typography>
+                            <Typography align="left">{t(`system.workTime.hoursPerShift`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'hoursPerShift'}
@@ -78,7 +79,7 @@ export default function FormASRSStep(): JSX.Element {
                             />
                         </Grid>
                         <Grid item xs={12} sm={12} lg={3}>
-                            <Typography align="left">{t(`system.${selectedSystem}.workTime.hoursPerWeek`)}</Typography>
+                            <Typography align="left">{t(`system.workTime.hoursPerWeek`)}</Typography>
 
                             <Stack direction='row' justifyContent='space-evenly' alignItems='center' sx={{ p: '.25rem' }}>
                                 <Box sx={{ position: 'relative' }} >
@@ -119,11 +120,11 @@ export default function FormASRSStep(): JSX.Element {
     function WorkConditionsComponent() {
         return (
             <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.workConditions`)}</Typography>
+                <Typography variant="h5" textAlign='left'>{t(`system.subheader.workConditions`)}</Typography>
                 <Box>
                     <Grid container direction='row' spacing={2}>
                         <Grid item xs={12} md={6}>
-                            <Typography align="left">{t(`system.${selectedSystem}.workConditions.temperature`)}</Typography>
+                            <Typography align="left">{t(`system.workConditions.temperature`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'Temperature range'}
@@ -134,9 +135,15 @@ export default function FormASRSStep(): JSX.Element {
                                 max={60}
                                 marks={[{ value: -30, label: '-30°C' }, { value: 0, label: '0°C' }, { value: 60, label: '60°C' }]}
                             />
+                            {(selectedSystem === 'lrkprk') && (formData.system[selectedSystem].workConditions.temperature[0] <= 5) && (
+                            <Grid item xs={12}>
+                                <Alert id='system.lrkprk.temperatureWarning' severity="error">{t(`system.lrkprk.temperatureWarning`)}</Alert>
+                            </Grid>
+                        )}
                         </Grid>
+                        
                         <Grid item xs={12} md={6}>
-                            <Typography align="left">{t(`system.${selectedSystem}.workConditions.humidity`)}</Typography>
+                            <Typography align="left">{t(`system.workConditions.humidity`)}</Typography>
                             <Slider
                                 sx={{ width: '95%' }}
                                 getAriaLabel={() => 'Humidity range'}
@@ -150,7 +157,7 @@ export default function FormASRSStep(): JSX.Element {
                         </Grid>
                         {((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[1]) <= criticalElectronicsTemperature)) && (
                             <Grid item xs={12}>
-                                <Alert id='system.asrs.condendartionWarning' severity="warning">{t(`system.${selectedSystem}.condensationWarning`)}</Alert>
+                                <Alert id='system.asrs.condendartionWarning' severity="warning">{t(`system.condensationWarning`)}</Alert>
                             </Grid>
                         )}
                         <Grid item xs={12} md={6}>
@@ -166,7 +173,7 @@ export default function FormASRSStep(): JSX.Element {
                                             />
                                         }
                                         labelPlacement="end"
-                                        label={<>{t(`system.${selectedSystem}.workConditions.freezer`)} <AcUnit fontSize="small" /></>}
+                                        label={<>{t(`system.workConditions.freezer`)} <AcUnit fontSize="small" /></>}
                                     />
                                     <FormControlLabel
                                         id="system-asrs-workConditions-EX"
@@ -178,7 +185,7 @@ export default function FormASRSStep(): JSX.Element {
                                             />
                                         }
                                         labelPlacement="end"
-                                        label={<>{t(`system.${selectedSystem}.workConditions.EX`)} <Warning fontSize="small" /></>}
+                                        label={<>{t(`system.workConditions.EX`)} <Warning fontSize="small" /></>}
                                     />
                                     <FormControlLabel
                                         id="system-asrs-workConditions-dangerousMaterials"
@@ -190,7 +197,7 @@ export default function FormASRSStep(): JSX.Element {
                                             />
                                         }
                                         labelPlacement="end"
-                                        label={<>{t(`system.${selectedSystem}.workConditions.dangerousMaterials`)} <Whatshot fontSize="small" /></>}
+                                        label={<>{t(`system.workConditions.dangerousMaterials`)} <Whatshot fontSize="small" /></>}
                                     />
                                 </Stack>
                             </Box>
@@ -212,30 +219,32 @@ export default function FormASRSStep(): JSX.Element {
     function BuildingComponent() {
         return (
             <Stack spacing={2}>
-                <Box><Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.building`)}</Typography></Box>
+                <Box><Typography variant="h5" textAlign='left'>{t(`system.subheader.building`)}</Typography></Box>
                 <Stack direction='row' alignItems='center'>
-                    <Typography>{t(`system.${selectedSystem}.building.existing`)}</Typography>
+                    <Typography>{t(`system.building.existing`)}</Typography>
                     <Switch
                         checked={formData.system[selectedSystem].building.new}
                         onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.new`, value: e.target.checked }))}
                         inputProps={{ 'aria-label': 'controlled' }}
                     />
-                    <Typography>{t(`system.${selectedSystem}.building.new`)}</Typography>
+                    <Typography>{t(`system.building.new`)}</Typography>
                 </Stack>
-                <Stack>
-                    <FormControlLabel
-                        id="system-asrs-building-silo"
-                        control={
-                            <Checkbox
-                                checked={formData.system[selectedSystem].building.silo}
-                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.silo`, value: e.target.checked }))}
-                                inputProps={{ 'aria-label': 'controlled' }}
-                            />
-                        }
-                        labelPlacement="end"
-                        label={t(`system.${selectedSystem}.building.silo`)}
-                    />
-                </Stack>
+                {(selectedSystem === 'asrs') &&
+                    <Stack>
+                        <FormControlLabel
+                            id="system-asrs-building-silo"
+                            control={
+                                <Checkbox
+                                    checked={formData.system[selectedSystem].building.silo}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.silo`, value: e.target.checked }))}
+                                    inputProps={{ 'aria-label': 'controlled' }}
+                                />
+                            }
+                            labelPlacement="end"
+                            label={t(`system.building.silo`)}
+                        />
+                    </Stack>
+                }
                 <Box>
                     {!formData.system[selectedSystem].building.silo &&
                         <Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
@@ -243,7 +252,7 @@ export default function FormASRSStep(): JSX.Element {
                                 <TextField
                                     id="system.asrs.building.existingBuilding.height"
                                     fullWidth
-                                    label={t(`system.${selectedSystem}.building.existingBuilding.height`)}
+                                    label={t(`system.building.existingBuilding.height`)}
                                     type="number"
                                     value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.height)}
                                     onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.height`, value: e.target.value }))}
@@ -266,7 +275,7 @@ export default function FormASRSStep(): JSX.Element {
                                 <TextField
                                     id="system.asrs.building.existingBuilding.width"
                                     fullWidth
-                                    label={t(`system.${selectedSystem}.building.existingBuilding.width`)}
+                                    label={t(`system.building.existingBuilding.width`)}
                                     type="number"
                                     value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width)}
                                     onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: e.target.value }))}
@@ -288,7 +297,7 @@ export default function FormASRSStep(): JSX.Element {
                                 <TextField
                                     id="system.asrs.building.existingBuilding.length"
                                     fullWidth
-                                    label={t(`system.${selectedSystem}.building.existingBuilding.length`)}
+                                    label={t(`system.building.existingBuilding.length`)}
                                     type="number"
                                     value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.length)}
                                     onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: e.target.value }))}
@@ -316,12 +325,17 @@ export default function FormASRSStep(): JSX.Element {
     function LoadsComponent() {
         return (
             <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.loads`)}</Typography>
+                <Typography variant="h5" textAlign='left'>{t(`system.subheader.loads`)}</Typography>
                 <Box>
                     <img style={{ width: '100%', maxWidth: 800 }} src={LoadDimensionPicture} alt="load dimensions" />
                     <img src={LoadDimensionPicture2} alt="load dimensions 2" />
                 </Box>
                 <LoadTable selectedSystem={selectedSystem} />
+                {(selectedSystem === ('asrs' || 'agv' || 'autovna')) && (formData.system[selectedSystem].loads.length > 1) && (
+                    <Grid item xs={12}>
+                        <Alert id='system.manyLoadsWarning' severity="warning">{t(`system.manyLoadsWarning`)}</Alert>
+                    </Grid>
+                )}
             </Stack>
         )
     }
@@ -329,7 +343,7 @@ export default function FormASRSStep(): JSX.Element {
     function CapacityComponent() {
         return (
             <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.capacity`)}</Typography>
+                <Typography variant="h5" textAlign='left'>{t(`system.subheader.capacity`)}</Typography>
                 <CapacityTable selectedSystem={selectedSystem} />
             </Stack>
         )
@@ -338,7 +352,7 @@ export default function FormASRSStep(): JSX.Element {
     function FlowsComponent() {
         return (
             <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.flow`)}</Typography>
+                <Typography variant="h5" textAlign='left'>{t(`system.subheader.flow`)}</Typography>
                 <FlowTable selectedSystem={selectedSystem} />
             </Stack>
         )
@@ -351,8 +365,8 @@ export default function FormASRSStep(): JSX.Element {
             <WorkConditionsComponent />
             <BuildingComponent />
             <LoadsComponent />
-            <CapacityComponent />
-            <FlowsComponent />
+            {(selectedSystem === ('asrs' || 'lrkprk')) && <CapacityComponent />}
+            {(selectedSystem === ('agv' || 'autovna')) && <FlowsComponent />}
         </Stack >
     )
 }
