@@ -1,4 +1,4 @@
-import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, Grow, IconButton, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, Grid, Grow, IconButton, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { handleAddLoad, handleDeleteLoad, handleLoadChange } from "../features/redux/reducers/formDataSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,18 +53,24 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: stri
                         flex: 1,
                         type: 'string',
                         renderCell: params => (
-                            <Stack direction='row' spacing={1} alignItems='center'>
-                                <Typography>
-                                    {(selectedSystemLoads.filter(load => load.id === params.id))[0].name}
-                                </Typography>
-                                <Typography fontSize='65%' color='text.secondary' >
-                                    {(selectedSystemLoads.filter(load => load.id === params.id))[0].length} x {(selectedSystemLoads.filter(load => load.id === params.id))[0].width} x  {(selectedSystemLoads.filter(load => load.id === params.id))[0].height}, {(selectedSystemLoads.filter(load => load.id === params.id))[0].weightMax} kg
-                                </Typography>
-
-                            </Stack>
+                            <Grid container alignItems="center  ">
+                                <Grid item mr={1}>
+                                    <Typography>
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].name}
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography fontSize="65%" color="text.secondary" p={0}>
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].length} x{" "}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].width} x{" "}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].height},{" "}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].weightMax} kg
+                                    </Typography>
+                                </Grid>
+                            </Grid>
                         )
                     },
-                    { field: "capacity", headerName: "Capacity", minWidth: 150, editable: true, type: 'number', description: 'How many loads should the installation store?' },
+                    { field: "capacity", headerName: "Capacity", minWidth: 125, editable: true, type: 'number', description: 'How many loads should the installation store?' },
                 ]}
                 processRowUpdate={(newRow: any) => {
                     dispatch(handleLoadChange({ newRow, selectedSystem }));

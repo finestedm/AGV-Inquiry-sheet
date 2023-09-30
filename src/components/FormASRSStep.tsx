@@ -30,9 +30,9 @@ export default function FormASRSStep(): JSX.Element {
         setCircularValue(formData.system[selectedSystem].workTime.shiftsPerDay * formData.system[selectedSystem].workTime.hoursPerShift * formData.system[selectedSystem].workTime.workDays)
     }, [formData.system[selectedSystem].workTime.shiftsPerDay, formData.system[selectedSystem].workTime.hoursPerShift, formData.system[selectedSystem].workTime.workDays])
 
-    return (
-        <Stack spacing={8}>
-            <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
+
+    function WorkTimeComponent() {
+        return (
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.workTime`)}</Typography>
 
@@ -113,6 +113,11 @@ export default function FormASRSStep(): JSX.Element {
                     </Grid>
                 </Box>
             </Stack>
+        )
+    }
+
+    function WorkConditionsComponent() {
+        return (
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.workConditions`)}</Typography>
                 <Box>
@@ -201,6 +206,11 @@ export default function FormASRSStep(): JSX.Element {
                     </Grid>
                 </Box>
             </Stack>
+        )
+    }
+
+    function BuildingComponent() {
+        return (
             <Stack spacing={2}>
                 <Box><Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.building`)}</Typography></Box>
                 <Stack direction='row' alignItems='center'>
@@ -259,7 +269,7 @@ export default function FormASRSStep(): JSX.Element {
                                     label={t(`system.${selectedSystem}.building.existingBuilding.width`)}
                                     type="number"
                                     value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path:`system.${selectedSystem}.building.existingBuilding.width`, value: e.target.value }))}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: e.target.value }))}
                                     inputProps={{
                                         min: 5,
                                         max: 1000,
@@ -300,6 +310,11 @@ export default function FormASRSStep(): JSX.Element {
                     }
                 </Box>
             </Stack>
+        )
+    }
+
+    function LoadsComponent() {
+        return (
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.loads`)}</Typography>
                 <Box>
@@ -308,14 +323,36 @@ export default function FormASRSStep(): JSX.Element {
                 </Box>
                 <LoadTable selectedSystem={selectedSystem} />
             </Stack>
+        )
+    }
+
+    function CapacityComponent() {
+        return (
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.capacity`)}</Typography>
                 <CapacityTable selectedSystem={selectedSystem} />
             </Stack>
+        )
+    }
+
+    function FlowsComponent() {
+        return (
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t(`system.${selectedSystem}.subheader.flow`)}</Typography>
                 <FlowTable selectedSystem={selectedSystem} />
             </Stack>
+        )
+    }
+
+    return (
+        <Stack spacing={8}>
+            <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
+            <WorkTimeComponent />
+            <WorkConditionsComponent />
+            <BuildingComponent />
+            <LoadsComponent />
+            <CapacityComponent />
+            <FlowsComponent />
         </Stack >
     )
 }
