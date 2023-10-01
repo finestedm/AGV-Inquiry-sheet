@@ -16,6 +16,7 @@ import SimpleSnackbar from './components/SnackBar';
 import { useDispatch } from 'react-redux';
 import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './features/localStorage/handleLocalStorage';
 import { setFormData } from './features/redux/reducers/formDataSlice';
+import CopyOtherSystemDataDropdown from './components/CopyOtherSystemDataDropdown';
 
 // Configure i18next
 i18n
@@ -82,6 +83,7 @@ function App() {
           <TopBar />
           <Form />
           <MobileScrollButton />
+          <CopyOtherSystemDataDropdown selectedSystem='asrs' />
         </div>
       </ThemeProvider>
     </I18nextProvider>
