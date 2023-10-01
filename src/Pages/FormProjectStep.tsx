@@ -15,7 +15,7 @@ import { RootState } from "../features/redux/store";
 import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../features/interfaces";
-import CustomTextField from "./CustomTextField";
+import CustomTextField from "../components/CustomTextField";
 
 export default function FormProjectStep(): JSX.Element {
 

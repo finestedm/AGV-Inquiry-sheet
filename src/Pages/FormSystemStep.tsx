@@ -3,16 +3,16 @@ import { Alert, Box, Checkbox, CircularProgress, Container, FormControl, FormCon
 import { useTranslation } from "react-i18next";
 import { AcUnit, Warning, Whatshot } from "@mui/icons-material";
 import { calculateDewPoint } from "../features/variousMethods/dewPointCalculation";
-import LoadTable from "./LoadTable";
+import LoadTable from "../components/LoadTable";
 import LoadDimensionPicture from '../images/loadDimensionsPicture.png'
 import LoadDimensionPicture2 from '../images/loadDimensionsPicture2.png'
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { handleInputMethod, initialFormDataState } from "../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
-import CustomTextField from "./CustomTextField";
-import FlowTable from "./FlowTable";
-import CapacityTable from "./CapacityTable";
+import CustomTextField from "../components/CustomTextField";
+import FlowTable from "../components/FlowTable";
+import CapacityTable from "../components/CapacityTable";
 import { criticalElectronicsTemperature } from "../data/criticalElectronicsTemperature";
 import { minimalReasonableWeekWorkHours } from "../data/minimalReasonableWeekWorkHours";
 import { Iasrs } from "../features/interfaces";

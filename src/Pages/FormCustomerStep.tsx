@@ -10,7 +10,7 @@ import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
 import { Field, Form, Formik, FormikProps, useFormikContext } from 'formik'
 import validationSchema from "../features/formValidation/formValidation";
 import { IFormData } from "../features/interfaces";
-import CustomTextField from "./CustomTextField";
+import CustomTextField from "../components/CustomTextField";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -72,7 +72,7 @@ export default function FormCustomerStep(): JSX.Element {
         />
         <CustomTextField
           fieldName="customer.contactPersonRole"
-        />        
+        />
         <MuiTelInput
           label={t('customer.contactperson.phone')}
           defaultCountry="PL"

@@ -1,12 +1,12 @@
 import { Box, Button, Card, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "./FormStepper";
-import FormSalesUnitStep from "./FormSalesUnitStep";
-import FormCustomerStep from "./FormCustomerStep";
-import FormSystemSelectorStep from "./FormSystemSelectorStep";
+import FormSalesUnitStep from "../Pages/FormSalesUnitStep";
+import FormCustomerStep from "../Pages/FormCustomerStep";
+import FormSystemSelectorStep from "../Pages/FormSystemSelectorStep";
 import { useTranslation } from 'react-i18next';
-import FormProjectStep from "./FormProjectStep";
-import FormASRSStep from "./FormSystemStep";
+import FormProjectStep from "../Pages/FormProjectStep";
+import FormASRSStep from "../Pages/FormSystemStep";
 import { IFormData } from "../features/interfaces";
 import { useSelector } from 'react-redux';
 import { RootState } from "../features/redux/store";
@@ -83,7 +83,7 @@ export default function Form(): JSX.Element {
       newSteps.push({
         label: t("steps.systems.lrkprk"),
         untranslated: "lrkprk",
-        component: <FormASRSStep key="lrkprk" selectedSystem='lrkprk'/>,
+        component: <FormASRSStep key="lrkprk" selectedSystem='lrkprk' />,
       });
     }
 
@@ -91,7 +91,7 @@ export default function Form(): JSX.Element {
       newSteps.push({
         label: t("steps.systems.agv"),
         untranslated: "agv",
-        component: <FormASRSStep key="agv" selectedSystem='agv'/>,
+        component: <FormASRSStep key="agv" selectedSystem='agv' />,
       });
     }
 
@@ -99,7 +99,7 @@ export default function Form(): JSX.Element {
       newSteps.push({
         label: t("steps.systems.autovna"),
         untranslated: "autovna",
-        component: <FormASRSStep key="autovna" selectedSystem='autovna'/>,
+        component: <FormASRSStep key="autovna" selectedSystem='autovna' />,
       });
     }
 

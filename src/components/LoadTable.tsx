@@ -23,8 +23,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLDivElement>(null);
 
-    const theme = useTheme();
-
     const handleClick = () => {
         dispatch(handleAddLoad({ systemName: selectedSystem, loadType: selectedIndex }));
     };
