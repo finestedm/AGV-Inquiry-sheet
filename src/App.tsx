@@ -83,7 +83,6 @@ function App() {
           <TopBar />
           <Form />
           <MobileScrollButton />
-          <CopyOtherSystemDataDropdown selectedSystem='asrs' />
         </div>
       </ThemeProvider>
     </I18nextProvider>

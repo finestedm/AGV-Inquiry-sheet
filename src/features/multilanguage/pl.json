@@ -75,8 +75,7 @@
       "readmore": "Dowiedz się więcej",
       "addNewLoad": "Dodaj",
       "deleteSelectedLoads": "Usuń wybrane",
-      "addNewFlow": "Dodaj" 
-
+      "addNewFlow": "Dodaj"
     },
     "switch": {
       "darkMode": "Tryb nocny"
@@ -99,6 +98,9 @@
         },
         "fileSaved": "Plik zapisano jako: "
       }
+    },
+    "tooltip": {
+      "copyOtherSystemData": "Skopiuj dane z innego systemu"
     }
   },
   "system": {

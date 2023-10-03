@@ -16,6 +16,7 @@ import CapacityTable from "../components/CapacityTable";
 import { criticalElectronicsTemperature } from "../data/criticalElectronicsTemperature";
 import { minimalReasonableWeekWorkHours } from "../data/minimalReasonableWeekWorkHours";
 import { Iasrs } from "../features/interfaces";
+import CopyOtherSystemDataButton from "../components/CopyOtherSystemDataDropdown";
 
 export default function FormSystemStep({ selectedSystem }: { selectedSystem: string }): JSX.Element {
 
@@ -369,7 +370,10 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: str
 
     return (
         <Stack spacing={8}>
-            <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
+            <Stack direction='row' justifyContent='space-between'>
+                <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
+                <CopyOtherSystemDataButton selectedSystem={selectedSystem} />
+            </Stack>
             <WorkTimeComponent />
             <WorkConditionsComponent />
             <BuildingComponent />
