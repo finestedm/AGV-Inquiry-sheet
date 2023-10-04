@@ -22,12 +22,10 @@ import { useTranslation } from "react-i18next";
 import { RootState } from "../../features/redux/store";
 import { useSelector } from "react-redux";
 import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
+import { ISystems } from "../../features/interfaces";
 
-interface CopyOtherSystemDataProps {
-    selectedSystem: string;
-}
 
-export default function CopyOtherSystemDataButton({ selectedSystem }: CopyOtherSystemDataProps): JSX.Element {
+export default function CopyOtherSystemDataButton({ selectedSystem }: {selectedSystem: keyof ISystems}): JSX.Element {
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
 
     const { t } = useTranslation();
@@ -53,30 +51,26 @@ export default function CopyOtherSystemDataButton({ selectedSystem }: CopyOtherS
 interface CopyOtherSystemDataDialogProps {
     isOpen: boolean;
     handleClose: () => void;
-    selectedSystem: string;
+    selectedSystem: keyof ISystems;
 }
 
 function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem, }: CopyOtherSystemDataDialogProps): JSX.Element {
     const formData = useSelector((state: RootState) => state.formData);
 
     // Track the selected part for each system
-    const [selectedParts, setSelectedParts] = useState<Record<string, string>>({});
+    const [selectedParts, setSelectedParts] = useState({});
 
     const { t } = useTranslation();
 
-    function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: string) {
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: keyof ISystems) {
         setSelectedParts((prevSelectedParts) => ({
             ...prevSelectedParts,
             [system]: event.target.value,
         }));
     };
 
-    useEffect(() => {
-        console.log(selectedParts)
-    }, [selectedParts])
-
     const isPartUnchanged = (
-        system: string,
+        system: keyof ISystems,
         part: string,
         initialFormData: any
     ) => {
@@ -86,45 +80,45 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem, }: Cop
         );
     };
 
-    const systems = Object.keys(formData.system).filter(system => system !== selectedSystem);
-    const parts = Object.keys(initialFormDataState.system[selectedSystem]);
+    // const systems: keyof ISystems = Object.keys(formData.system)
+    // const parts = Object.keys(initialFormDataState.system[selectedSystem]);
 
-    function generateTableRows() {
+    // function generateTableRows() {
 
-        const dataRows = parts
-            .filter((part) => {
-                return systems.some(
-                    (system) => !isPartUnchanged(system, part, initialFormDataState)
-                );
-            })
-            .map((part) => (
-                <TableRow key={part}>
-                    <TableCell>{part}</TableCell>
-                    {systems.map((system) => (
-                        <TableCell key={system}>
-                            <FormControlLabel
-                                control={
-                                    <Radio
-                                        checked={selectedParts[system] === part}
-                                        onChange={(e) => handleChange(e, system)}
-                                        disabled={isPartUnchanged(system, part, initialFormDataState)}
-                                    />
-                                }
-                                label=""
-                            />
-                        </TableCell>
-                    ))}
-                </TableRow>
-            ));
+    //     const dataRows = parts
+    //         .filter((part) => {
+    //             return systems.some(
+    //                 (system) => !isPartUnchanged(system, part, initialFormDataState)
+    //             );
+    //         })
+    //         .map((part) => (
+    //             <TableRow key={part}>
+    //                 <TableCell>{part}</TableCell>
+    //                 {systems.map((system) => (
+    //                     <TableCell key={system}>
+    //                         <FormControlLabel
+    //                             control={
+    //                                 <Radio
+    //                                     checked={selectedParts[system] === part}
+    //                                     onChange={(e) => handleChange(e, system)}
+    //                                     disabled={isPartUnchanged(system, part, initialFormDataState)}
+    //                                 />
+    //                             }
+    //                             label=""
+    //                         />
+    //                     </TableCell>
+    //                 ))}
+    //             </TableRow>
+    //         ));
 
-        return [dataRows];
-    }
+    //     return [dataRows];
+    // }
 
 
 
     return (
         <Dialog open={isOpen} onClose={handleClose}>
-            <DialogTitle>{t("ui.dialog.copyDialog.title")}</DialogTitle>
+            {/* <DialogTitle>{t("ui.dialog.copyDialog.title")}</DialogTitle>
             <DialogContent>
                 <TableContainer>
                     <Table>
@@ -147,7 +141,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem, }: Cop
                 <Button color="secondary" onClick={() => console.log(selectedParts)}>
                     {t("ui.button.copyDialog.accept")}
                 </Button>
-            </DialogActions>
+            </DialogActions> */}
         </Dialog>
     );
 }

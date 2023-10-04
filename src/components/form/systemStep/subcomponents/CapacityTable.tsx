@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import React, { useEffect, useRef, useState } from "react";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
+import { ISystems } from "../../../../features/interfaces";
 
-export default function CapacityTable({ selectedSystem }: { selectedSystem: string },) {
+export default function CapacityTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
@@ -52,9 +53,9 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: stri
                         width: 125,
                         flex: 1,
                         type: 'string',
-                        valueGetter: params => (
-                            (selectedSystemLoads.filter((load) => load.id === params.id))[0].name
-                        ),
+                        // valueGetter: params => (
+                        //     (selectedSystemLoads.filter((load) => load.id === params.id))[0].name
+                        // ),
                         renderCell: params => (
                             <Grid container alignItems="center  ">
                                 <Grid item mr={1}>

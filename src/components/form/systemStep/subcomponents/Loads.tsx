@@ -1,14 +1,13 @@
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Alert, Box, Checkbox, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
+import { Alert, Box, Checkbox, Collapse, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
 import LoadDimensionPicture from '../../../../images/loadDimensionsPicture.png'
 import LoadDimensionPicture2 from '../../../../images/loadDimensionsPicture2.png'
 import LoadTable from "./LoadTable";
+import { ISystems } from "../../../../features/interfaces";
 
-export default function Loads({ selectedSystem }: { selectedSystem: string }) {
+export default function Loads({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData);
     const { t } = useTranslation();
@@ -21,11 +20,11 @@ export default function Loads({ selectedSystem }: { selectedSystem: string }) {
                 <img src={LoadDimensionPicture2} alt="load dimensions 2" />
             </Box>
             <LoadTable selectedSystem={selectedSystem} />
-            {(selectedSystem === ('asrs' || 'agv' || 'autovna')) && (formData.system[selectedSystem].loads.length > 1) && (
-                <Grid item xs={12}>
+            <Grid item xs={12}>
+                <Collapse in={(selectedSystem === ('asrs' || 'agv' || 'autovna')) && (formData.system[selectedSystem].loads.length > 1)} >
                     <Alert id='system.manyLoadsWarning' severity="warning">{t(`system.manyLoadsWarning`)}</Alert>
-                </Grid>
-            )}
-        </Stack>
+                </Collapse>
+            </Grid>
+        </Stack >
     )
 }

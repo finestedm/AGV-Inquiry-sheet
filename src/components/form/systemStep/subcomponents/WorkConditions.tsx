@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Alert, Box, Checkbox, FormControlLabel, Grid, Slider, Stack, Typography, useTheme } from "@mui/material";
+import { Alert, Box, Checkbox, Collapse, FormControlLabel, Grid, Slider, Stack, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
@@ -9,8 +9,10 @@ import { calculateDewPoint } from "../../../../features/variousMethods/dewPointC
 import { AcUnit, Warning, Whatshot } from "@mui/icons-material";
 import CustomTextField from "../../CustomTextField";
 import { criticalElectronicsTemperature } from "../../../../data/criticalElectronicsTemperature";
+import theme from "../../../../theme";
+import { ISystems } from "../../../../features/interfaces";
 
-export default function WorkConditions({ selectedSystem }: { selectedSystem: string }) {
+export default function WorkConditions({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData);
     const dispatch = useDispatch();
@@ -53,11 +55,11 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: str
                             marks={[{ value: 0, label: '0%' }, { value: 100, label: '100%' }]}
                         />
                     </Grid>
-                    {((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[1]) <= criticalElectronicsTemperature)) && (
-                        <Grid item xs={12}>
-                            <Alert id='system.asrs.condendartionWarning' severity="warning">{t(`system.condensationWarning`)}</Alert>
-                        </Grid>
-                    )}
+                    <Grid item xs={12}>
+                        <Collapse in={((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[0]) <= criticalElectronicsTemperature))} collapsedSize={0}>
+                            <Alert sx={{ border: `1px solid ${theme.palette.warning.light}` }} id='system.asrs.condendartionWarning' severity="warning">{t(`system.condensationWarning`)}</Alert>
+                        </Collapse>
+                    </Grid>
                     <Grid item xs={12} md={6}>
                         <Box>
                             <Stack>

@@ -1,6 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Divider, Grid, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { ISystem } from '../../features/interfaces';
+import { ISystem, ISystems } from '../../features/interfaces';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useDispatch, useSelector } from 'react-redux';

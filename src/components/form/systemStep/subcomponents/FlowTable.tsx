@@ -10,8 +10,9 @@ import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer }
 import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
+import { ISystems } from "../../../../features/interfaces";
 
-export default function FlowTable({ selectedSystem }: { selectedSystem: string },) {
+export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
 
     const selectedSystemFlow = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);

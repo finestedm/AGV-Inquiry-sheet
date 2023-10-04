@@ -8,7 +8,7 @@ import { RootState } from "../../../features/redux/store";
 import { handleInputMethod, initialFormDataState } from "../../../features/redux/reducers/formDataSlice";
 import FlowTable from "./subcomponents/FlowTable";
 import CapacityTable from "./subcomponents/CapacityTable";
-import { Iasrs } from "../../../features/interfaces";
+import { ISystems, Iasrs } from "../../../features/interfaces";
 import CopyOtherSystemDataButton from "../CopyOtherSystemDataDropdown";
 import WorkTime from "./subcomponents/WorkTime";
 import WorkConditions from "./subcomponents/WorkConditions";
@@ -17,7 +17,7 @@ import Loads from "./subcomponents/Loads";
 import Capacity from "./subcomponents/Capacity";
 import Flows from "./subcomponents/Flows";
 
-export default function FormSystemStep({ selectedSystem }: { selectedSystem: string }): JSX.Element {
+export default function FormSystemStep({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
 
     const { t } = useTranslation();
 

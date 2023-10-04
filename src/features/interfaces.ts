@@ -114,7 +114,6 @@ export interface ISystems {
     lrkprk: Iasrs;
     agv: Iasrs;
     autovna: Iasrs;
-    [key: string]: Iasrs; 
 }
 
 export interface IFormData {
@@ -139,7 +138,7 @@ export interface IMilestones {
 export interface ISystem {
     [key: string]: string;
     url: string;
-    alt: string;
+    alt: keyof ISystems;
     label: string;
     labelShort: string;
     description: string;

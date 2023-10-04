@@ -15,7 +15,7 @@ export default function DeleteLoadWarningDialog() {
     return (
         <Dialog
             open={deleteLoadDialog.open}
-            onClose={() => dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: '' }))}
+            onClose={() => dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: undefined }))}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
@@ -32,15 +32,17 @@ export default function DeleteLoadWarningDialog() {
                         variant="outlined"
                         color="error"
                         onClick={() => {
-                            dispatch(handleDeleteLoad({ updatedLoads: deleteLoadDialog.temporaryUpdatedLoads, selectedSystem: deleteLoadDialog.temporarySelectedSystem }));
-                            dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: '' }))
+                            if (deleteLoadDialog.temporarySelectedSystem) {
+                                dispatch(handleDeleteLoad({ updatedLoads: deleteLoadDialog.temporaryUpdatedLoads, selectedSystem: deleteLoadDialog.temporarySelectedSystem }));
+                                dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: undefined }))
+                            }
                         }}
                     >
                         {t("ui.dialog.loadDelete.confirm")}
                     </Button>
                     <Button
                         variant="text"
-                        onClick={() => dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: '' }))}
+                        onClick={() => dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: undefined }))}
                         autoFocus
                     >
                         {t("ui.dialog.loadDelete.cancel")}

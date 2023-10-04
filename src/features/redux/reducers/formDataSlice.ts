@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue } from '../../interfaces';
+import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems } from '../../interfaces';
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
@@ -204,43 +204,38 @@ const formDataSlice = createSlice({
         // Reducer for handling adding a new load
         handleAddLoad: (
             state: IFormData,
-            action: PayloadAction<{ systemName: string; loadType: string }>
+            action: PayloadAction<{ systemName: keyof ISystems; loadType: string }>
         ) => {
             const { systemName, loadType } = action.payload;
 
             let newLoad: ILoad = loadsToAdd[loadType];
             newLoad = { ...newLoad, id: generateRandomId() }
 
-            const updatedSystemKey = systemName.toLowerCase();
-            const updatedSystemLoads = state.system[updatedSystemKey].loads.concat(newLoad);
+            const updatedSystemLoads = state.system[systemName].loads.concat(newLoad);
 
             return {
                 ...state,
                 system: {
                     ...state.system,
-                    [updatedSystemKey]: {
-                        ...state.system[updatedSystemKey],
+                    [systemName]: {
+                        ...state.system[systemName],
                         loads: updatedSystemLoads,
                     },
                 },
             };
         },
 
-        handleAddFlow: (
-            state: IFormData,
-            action: PayloadAction<{ systemName: string; }>
-        ) => {
+        handleAddFlow: (state: IFormData, action: PayloadAction<{ systemName: keyof ISystems; }>) => {
             const { systemName } = action.payload;
 
-            const updatedSystemKey = systemName.toLowerCase();
-            const updatedSystemStations = state.system[updatedSystemKey].flow.concat(emptyFlow);
+            const updatedSystemStations = state.system[systemName].flow.concat(emptyFlow);
 
             return {
                 ...state,
                 system: {
                     ...state.system,
-                    [updatedSystemKey]: {
-                        ...state.system[updatedSystemKey],
+                    [systemName]: {
+                        ...state.system[systemName],
                         flow: updatedSystemStations,
                     },
                 },
@@ -259,7 +254,8 @@ const formDataSlice = createSlice({
             }
         },
 
-        handleLoadChange: (state, action) => {
+        handleLoadChange: (state: IFormData, action: PayloadAction<{ newRow: any, selectedSystem: keyof ISystems; }>) => {
+
             const { newRow, selectedSystem } = action.payload;
 
             const loadIndex = state.system[selectedSystem].loads.findIndex((load) => load.id === newRow.id);
@@ -269,20 +265,20 @@ const formDataSlice = createSlice({
             }
         },
 
-        handleDeleteLoad: (state: IFormData, action: PayloadAction<{ updatedLoads: ILoad[]; selectedSystem: string }>) => {
+        handleDeleteLoad: (state: IFormData, action: PayloadAction<{ updatedLoads: ILoad[]; selectedSystem: keyof ISystems }>) => {
             const { updatedLoads, selectedSystem } = action.payload;
 
             state.system[selectedSystem].loads = updatedLoads;
         },
 
-        handleFlowChange: (state, action) => {
+        handleFlowChange:  (state: IFormData, action: PayloadAction<{ newRow: any, selectedSystem: keyof ISystems; }>) => {
             const { newRow, selectedSystem } = action.payload;
 
             // Replace the old load object with the new one at the specified index
             state.system[selectedSystem].flow[newRow.id - 1] = newRow;
         },
 
-        handleDeleteFlow: (state: IFormData, action: PayloadAction<{ updatedFlows: IFlow[]; selectedSystem: string }>) => {
+        handleDeleteFlow: (state: IFormData, action: PayloadAction<{ updatedFlows: IFlow[]; selectedSystem: keyof ISystems }>) => {
             const { updatedFlows, selectedSystem } = action.payload;
             state.system[selectedSystem].flow = updatedFlows;
         },

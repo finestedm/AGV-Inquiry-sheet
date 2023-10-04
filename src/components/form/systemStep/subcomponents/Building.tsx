@@ -6,8 +6,9 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
+import { ISystems } from "../../../../features/interfaces";
 
-export default function Building({ selectedSystem }: { selectedSystem: string }) {
+export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData);
     const dispatch = useDispatch();

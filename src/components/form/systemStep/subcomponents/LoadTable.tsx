@@ -10,8 +10,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { updateDeleteLoadDialog } from "../../../../features/redux/reducers/deleteLoadDialogSlice";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
+import { ISystems } from "../../../../features/interfaces";
 
-export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {
+export default function LoadTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
@@ -81,6 +82,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: string }
             dispatch(updateDeleteLoadDialog({ open: true, updatedLoads, selectedSystem })) // we set the updatedLoads and selected system as a temp value as we wait for the user to take action
             setRowSelectionModel([])
         } else {
+            console.log(updatedLoads, selectedSystem)
             dispatch(handleDeleteLoad({ updatedLoads, selectedSystem }));
         }
     };
