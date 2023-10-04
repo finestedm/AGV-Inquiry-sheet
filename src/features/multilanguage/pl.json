@@ -69,6 +69,10 @@
         "save": "Zapisz zapytanie",
         "clear": "Wymaż dane"
       },
+      "copyDialog": {
+        "accept": "Tak, skopiuj dane",
+        "cancel": "Anuluj"
+      },
       "table": {
         "newload": "Dodaj nowy ładunek"
       },
@@ -87,10 +91,13 @@
         "description2": "Czy na pewno chcesz go usunąć?",
         "cancel": "Anuluj",
         "confirm": "Tak, usuń"
+      },
+      "copyDialog": {
+        "title": "Wybierz dane do skopiowania z innego systemu"
       }
     },
     "snackBar": {
-      "message":{
+      "message": {
         "fileLoaded": "Wczytano plik",
         "fileLoadError": {
           "other": "Błąd wczytywania pliku",
@@ -101,70 +108,74 @@
     },
     "tooltip": {
       "copyOtherSystemData": "Skopiuj dane z innego systemu"
+    },
+    "table": {
+      "head": {
+        "part": "część"
+      }
     }
   },
   "system": {
-      "condensationWarning": "Uwaga: panujące warunki mogą powodowac kondensacje",
-      "manyLoadsWarning": "Uwaga: Duże różnice pomiędzy wymiarami ładunków mogą być problematyczne dla wybranego systemu.",
-      "subheader": {
-        "workTime": "Czas pracy",
-        "workConditions": "Warunki pracy",
-        "building": "Budynek",
-        "loads": "Ładunki",
-        "flow": "Przepływy",
-        "capacity": "Pojemność"
-      },
-      "workTime": {
-        "workDays": "Dni pracy w tygodniu",
-        "shiftsPerDay": "Liczba zmian na dzień",
-        "hoursPerShift": "Liczba godzin na zmianę",
-        "hoursPerWeek": "Godziny pracy na tydzień"
-      },
-      "workConditions": {
-        "temperature": "Temperatura",
-        "humidity": "Wilgotność",
-        "freezer": "Strefa chłodnicza",
-        "EX": "Strefa zagrożona wybuchem",
-        "dangerousMaterials": "Materiały niebezpieczne",
-        "other": "Inne uwagi"
-      },
-      "building": {
-        "new": "Nowy budynek",
-        "existing": "Istniejący",
-        "silo": "Magazyn silosowy",
-        "existingBuilding": {
-          "height": "Wysokość",
-          "width": "Szerokość",
-          "length": "Długość"
-        }
-      },
-      "asrs": {
-        "header": "Dane systemu ASRS",
-        "label": "Automatyczne systemy magazynowe",
-        "labelshort": "ASRS",
-        "description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca."
-      },
-      "lrkprk": {
-        "header": "Dane regałów automatycznych",
-        "label": "Regały windowe i karuzelowe",
-        "labelshort": "LRK & PRK",
-        "description": "Z uwagi na modułową konstrukcję, zarówno przed jak i po montażu można dostosowywać wysokość regału LRK do bieżących potrzeb. Ponadto integracja regału w dowolny system zarządzania magazynem pozwala na uzyskanie jeszcze lepszej wydajności.",
-        "temperatureWarning": "Regały automatyczne nie mogą pracować w temperaturze poniżej 5C"
-      },
-      "agv": {
-        "header": "Dane wózków automatycznych",
-        "label": "Wózki automatyczne AGV",
-        "labelshort": "AGV",
-        "description": "Wózki automatyczne AGV (z ang. Automated Guided Vehicles) to systemy transportowe pozwalające na zdalną obsługę. Wyposażono je w rozbudowany system czujników, który wykrywa wszelkie przeszkody wokół pojazdu. Modele AVG potrafią samodzielnie zwalniać, przyspieszać i reagować na niespodziewane czynniki pojawiające się podczas jazdy. W razie konieczności mogą całkowicie się zatrzymać."
-      },
-      "autovna": {
-        "header": "Dane systemu AutoVNA",
-        "label": "Automatyczne wózki do wąskich korytarzy roboczych",
-        "labelshort": "AutoVNA",
-        "description": "Automatyczne wózki wysokiego składowania doskonale sprawdzają się w zautomatyzowanym magazynie z wąskimi korytarzami roboczymi, w którym znajdują się także regały, oprogramowanie i urządzenia transportowe. Idealnie zintegrowane, efektywnie i bezpiecznie wykonują pracę przez 24 godziny na dobę."
+    "condensationWarning": "Uwaga: panujące warunki mogą powodowac kondensacje",
+    "manyLoadsWarning": "Uwaga: Duże różnice pomiędzy wymiarami ładunków mogą być problematyczne dla wybranego systemu.",
+    "subheader": {
+      "workTime": "Czas pracy",
+      "workConditions": "Warunki pracy",
+      "building": "Budynek",
+      "loads": "Ładunki",
+      "flow": "Przepływy",
+      "capacity": "Pojemność"
+    },
+    "workTime": {
+      "workDays": "Dni pracy w tygodniu",
+      "shiftsPerDay": "Liczba zmian na dzień",
+      "hoursPerShift": "Liczba godzin na zmianę",
+      "hoursPerWeek": "Godziny pracy na tydzień"
+    },
+    "workConditions": {
+      "temperature": "Temperatura",
+      "humidity": "Wilgotność",
+      "freezer": "Strefa chłodnicza",
+      "EX": "Strefa zagrożona wybuchem",
+      "dangerousMaterials": "Materiały niebezpieczne",
+      "other": "Inne uwagi"
+    },
+    "building": {
+      "new": "Nowy budynek",
+      "existing": "Istniejący",
+      "silo": "Magazyn silosowy",
+      "existingBuilding": {
+        "height": "Wysokość",
+        "width": "Szerokość",
+        "length": "Długość"
+      }
+    },
+    "asrs": {
+      "header": "Dane systemu ASRS",
+      "label": "Automatyczne systemy magazynowe",
+      "labelshort": "ASRS",
+      "description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca."
+    },
+    "lrkprk": {
+      "header": "Dane regałów automatycznych",
+      "label": "Regały windowe i karuzelowe",
+      "labelshort": "LRK & PRK",
+      "description": "Z uwagi na modułową konstrukcję, zarówno przed jak i po montażu można dostosowywać wysokość regału LRK do bieżących potrzeb. Ponadto integracja regału w dowolny system zarządzania magazynem pozwala na uzyskanie jeszcze lepszej wydajności.",
+      "temperatureWarning": "Regały automatyczne nie mogą pracować w temperaturze poniżej 5C"
+    },
+    "agv": {
+      "header": "Dane wózków automatycznych",
+      "label": "Wózki automatyczne AGV",
+      "labelshort": "AGV",
+      "description": "Wózki automatyczne AGV (z ang. Automated Guided Vehicles) to systemy transportowe pozwalające na zdalną obsługę. Wyposażono je w rozbudowany system czujników, który wykrywa wszelkie przeszkody wokół pojazdu. Modele AVG potrafią samodzielnie zwalniać, przyspieszać i reagować na niespodziewane czynniki pojawiające się podczas jazdy. W razie konieczności mogą całkowicie się zatrzymać."
+    },
+    "autovna": {
+      "header": "Dane systemu AutoVNA",
+      "label": "Automatyczne wózki do wąskich korytarzy roboczych",
+      "labelshort": "AutoVNA",
+      "description": "Automatyczne wózki wysokiego składowania doskonale sprawdzają się w zautomatyzowanym magazynie z wąskimi korytarzami roboczymi, w którym znajdują się także regały, oprogramowanie i urządzenia transportowe. Idealnie zintegrowane, efektywnie i bezpiecznie wykonują pracę przez 24 godziny na dobę."
     }
   },
-    
   "project": {
     "header": "Informacje o projekcie",
     "goals": "Cele projektu",

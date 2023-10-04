@@ -1,7 +1,7 @@
 import { Box, Grid, Stack, Typography, useTheme } from "@mui/material";
-import SystemCard from "../components/SystemCard";
+import SystemCard from "../SystemCard";
 import { useTranslation } from 'react-i18next';
-import availableSystems from "../data/availableSystems";
+import availableSystems from "../../../data/availableSystems";
 
 export default function FormSystemSelectorStep(): JSX.Element {
 

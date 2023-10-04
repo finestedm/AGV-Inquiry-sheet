@@ -1,14 +1,14 @@
 import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, Grow, IconButton, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { ArrowDropDownCircleOutlined, PlaylistAdd } from "@mui/icons-material";
-import { handleAddLoad, handleDeleteLoad, handleLoadChange } from "../features/redux/reducers/formDataSlice";
+import { handleAddLoad, handleDeleteLoad, handleLoadChange } from "../../../../features/redux/reducers/formDataSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../features/redux/store";
+import { RootState } from "../../../../features/redux/store";
 import React, { useEffect, useRef, useState } from "react";
-import { loadsToAdd } from "../data/typicalLoadSizes";
+import { loadsToAdd } from "../../../../data/typicalLoadSizes";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { updateDeleteLoadDialog } from "../features/redux/reducers/deleteLoadDialogSlice";
+import { updateDeleteLoadDialog } from "../../../../features/redux/reducers/deleteLoadDialogSlice";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: string },) {

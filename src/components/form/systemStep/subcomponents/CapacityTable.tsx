@@ -1,8 +1,8 @@
 import { Box, Button, ButtonBase, ButtonGroup, Checkbox, ClickAwayListener, Grid, Grow, IconButton, InputAdornment, Menu, MenuItem, MenuList, Paper, Popper, Select, SelectChangeEvent, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { handleAddLoad, handleDeleteLoad, handleLoadChange } from "../features/redux/reducers/formDataSlice";
+import { handleAddLoad, handleDeleteLoad, handleLoadChange } from "../../../../features/redux/reducers/formDataSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../features/redux/store";
+import { RootState } from "../../../../features/redux/store";
 import React, { useEffect, useRef, useState } from "react";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 

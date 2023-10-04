@@ -1,8 +1,8 @@
 import { Stack, TextField, Typography } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { FormikProps, useFormikContext } from 'formik'; // Import Formik components
-import CustomTextField from "../components/CustomTextField";
-import { IFormData } from "../features/interfaces";
+import CustomTextField from "../CustomTextField";
+import { IFormData } from "../../../features/interfaces";
 
 export default function FormSalesUnitStep(): JSX.Element {
     const { t } = useTranslation();

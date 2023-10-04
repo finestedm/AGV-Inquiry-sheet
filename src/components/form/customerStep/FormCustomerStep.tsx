@@ -4,13 +4,13 @@ import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../features/redux/store";
-import { handleIndustryChange, handleInputMethod, initialFormDataState, setFormData } from "../features/redux/reducers/formDataSlice";
-import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
+import { RootState } from "../../../features/redux/store";
+import { handleIndustryChange, handleInputMethod, initialFormDataState, setFormData } from "../../../features/redux/reducers/formDataSlice";
+import trimLeadingZeros from "../../../features/variousMethods/trimLeadingZero";
 import { Field, Form, Formik, FormikProps, useFormikContext } from 'formik'
-import validationSchema from "../features/formValidation/formValidation";
-import { IFormData } from "../features/interfaces";
-import CustomTextField from "../components/CustomTextField";
+import validationSchema from "../../../features/formValidation/formValidation";
+import { IFormData } from "../../../features/interfaces";
+import CustomTextField from "../CustomTextField";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;

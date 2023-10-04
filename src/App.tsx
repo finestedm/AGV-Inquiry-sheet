@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import Form from './components/Form';
+import Form from './components/form/Form';
 import TopBar from './components/AppBar';
 import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18next';
@@ -11,12 +11,12 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import MobileScrollButton from './components/MobileScrollButton';
 import { useSelector } from 'react-redux';
 import { RootState } from './features/redux/store';
-import DeleteLoadWarningDialog from './components/DeleteLoadWarningDialog';
+import DeleteLoadWarningDialog from './components/form/systemStep/subcomponents/DeleteLoadWarningDialog';
 import SimpleSnackbar from './components/SnackBar';
 import { useDispatch } from 'react-redux';
 import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './features/localStorage/handleLocalStorage';
 import { setFormData } from './features/redux/reducers/formDataSlice';
-import CopyOtherSystemDataDropdown from './components/CopyOtherSystemDataDropdown';
+import CopyOtherSystemDataDropdown from './components/form/CopyOtherSystemDataDropdown';
 
 // Configure i18next
 i18n
@@ -57,7 +57,7 @@ function App() {
 
   // on first render set the initialLoad to false
   useEffect(() => {
-      setInitialLoad(false);
+    setInitialLoad(false);
   }, []);
 
   // Save data to localStorage whenever formData changes

@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { TextField } from '@mui/material';
 import { Field, FieldInputProps, FieldProps, useFormikContext } from 'formik';
 import { useDispatch } from 'react-redux';
-import { handleInputMethod } from '../features/redux/reducers/formDataSlice';
-import { ICustomFieldProps } from '../features/interfaces';
+import { handleInputMethod } from '../../features/redux/reducers/formDataSlice';
+import { ICustomFieldProps } from '../../features/interfaces';
 
 export default function CustomTextField(props: ICustomFieldProps) {
   const { fieldName, required, multiline, rows, fullWidth, disabled } = props;

@@ -8,8 +8,8 @@ import { PickerChangeHandlerContext } from '@mui/x-date-pickers/internals/hooks/
 import { DateValidationError } from '@mui/x-date-pickers';
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { useDispatch } from 'react-redux';
-import { handleInputMethod } from '../features/redux/reducers/formDataSlice';
-import { IFormData } from '../features/interfaces';
+import { handleInputMethod } from '../../features/redux/reducers/formDataSlice';
+import { IFormData } from '../../features/interfaces';
 
 export default function CustomDatePicker({ label, value, helperText, minDate, maxDate }: { label: string, value: Date | dayjs.Dayjs, helperText: undefined | FormikErrors<Date>, minDate: Date | dayjs.Dayjs, maxDate?: Date | dayjs.Dayjs, }) {
     const { t } = useTranslation();

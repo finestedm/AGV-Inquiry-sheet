@@ -1,10 +1,10 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { handleDeleteLoad } from "../features/redux/reducers/formDataSlice";
+import { handleDeleteLoad } from "../../../../features/redux/reducers/formDataSlice";
 import { useSelector } from "react-redux";
-import { RootState } from "../features/redux/store";
-import { updateDeleteLoadDialog } from "../features/redux/reducers/deleteLoadDialogSlice";
+import { RootState } from "../../../../features/redux/store";
+import { updateDeleteLoadDialog } from "../../../../features/redux/reducers/deleteLoadDialogSlice";
 
 export default function DeleteLoadWarningDialog() {
     const { t } = useTranslation()

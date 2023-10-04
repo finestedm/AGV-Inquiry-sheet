@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, TextFieldProps, ToggleButton, ToggleButtonGroup, Typography, useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
-import { MenuProps } from "./FormCustomerStep";
+import { MenuProps } from "../customerStep/FormCustomerStep";
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -11,11 +11,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../features/redux/store";
-import { handleInputMethod } from "../features/redux/reducers/formDataSlice";
+import { RootState } from "../../../features/redux/store";
+import { handleInputMethod } from "../../../features/redux/reducers/formDataSlice";
 import { FormikProps, useFormikContext, Field } from 'formik'
-import { IFormData } from "../features/interfaces";
-import CustomTextField from "../components/CustomTextField";
+import { IFormData } from "../../../features/interfaces";
+import CustomTextField from "../CustomTextField";
 
 export default function FormProjectStep(): JSX.Element {
 

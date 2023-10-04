@@ -1,20 +1,20 @@
 import { Box, Button, Card, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
-import FormStepper from "./FormStepper";
-import FormSalesUnitStep from "../Pages/FormSalesUnitStep";
-import FormCustomerStep from "../Pages/FormCustomerStep";
-import FormSystemSelectorStep from "../Pages/FormSystemSelectorStep";
+import FormStepper from "../FormStepper";
+import FormSalesUnitStep from "./salesUnitStep/FormSalesUnitStep";
+import FormCustomerStep from "./customerStep/FormCustomerStep";
+import FormSystemSelectorStep from "./systemSelectorStep/FormSystemSelectorStep";
 import { useTranslation } from 'react-i18next';
-import FormProjectStep from "../Pages/FormProjectStep";
-import FormASRSStep from "../Pages/FormSystemStep";
-import { IFormData } from "../features/interfaces";
+import FormProjectStep from "./projectStep/FormProjectStep";
+import FormASRSStep from "./systemStep/FormSystemStep";
+import { IFormData } from "../../features/interfaces";
 import { useSelector } from 'react-redux';
-import { RootState } from "../features/redux/store";
-import ScrollButton from "./MobileScrollButton";
-import validationSchema from "../features/formValidation/formValidation";
+import { RootState } from "../../features/redux/store";
+import ScrollButton from "../MobileScrollButton";
+import validationSchema from "../../features/formValidation/formValidation";
 import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors, useFormik } from 'formik'
-import { initialFormDataState } from "../features/redux/reducers/formDataSlice";
-import MobileFormStepper from "./MobileFormStepper";
+import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
+import MobileFormStepper from "../MobileFormStepper";
 
 
 export default function Form(): JSX.Element {
