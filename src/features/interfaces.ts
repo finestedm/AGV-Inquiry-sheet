@@ -122,7 +122,7 @@ export interface IFormData {
     customer: ICustomer;
     project: IProject;
     system: ISystems;
-    [key: string]: string | object
+    // [key: string]: string | object
 }
 
 export interface IMilestones {

@@ -192,7 +192,7 @@ export default function Form(): JSX.Element {
                     )}
                     {activeStep < stepLabels.length - 1 && (
                       <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}
-                        disabled={!!(formikProps.errors[activeStepName])}
+                        disabled={!!Object.keys(formikProps.errors).includes(activeStepName)}
                       >
                         {t('ui.button.next')}
                       </Button>

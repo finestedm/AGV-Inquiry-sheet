@@ -22,10 +22,10 @@ import { useTranslation } from "react-i18next";
 import { RootState } from "../../features/redux/store";
 import { useSelector } from "react-redux";
 import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
-import { ISystems } from "../../features/interfaces";
+import { IFormData, ISystems } from "../../features/interfaces";
 
 
-export default function CopyOtherSystemDataButton({ selectedSystem }: {selectedSystem: keyof ISystems}): JSX.Element {
+export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
 
     const { t } = useTranslation();
@@ -69,18 +69,11 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem, }: Cop
         }));
     };
 
-    const isPartUnchanged = (
-        system: keyof ISystems,
-        part: string,
-        initialFormData: any
-    ) => {
-        return (
-            JSON.stringify(formData.system[system][part]) ===
-            JSON.stringify(initialFormData.system[system][part])
-        );
+    function isPartUnchanged(system: keyof ISystems, part: string, initialFormData: IFormData) {
+        return formData.system[system][part] === initialFormData.system[system][part];
     };
 
-    // const systems: keyof ISystems = Object.keys(formData.system)
+    const systems: string[] = Object.keys(formData.system);
     // const parts = Object.keys(initialFormDataState.system[selectedSystem]);
 
     // function generateTableRows() {
