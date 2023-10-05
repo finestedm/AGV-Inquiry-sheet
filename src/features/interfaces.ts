@@ -136,7 +136,7 @@ export interface IMilestones {
 
 
 export interface ISystem {
-    [key: string]: string;
+    // [key: string]: string;
     url: string;
     alt: keyof ISystems;
     label: string;
