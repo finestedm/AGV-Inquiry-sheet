@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 import { RootState } from "../../features/redux/store";
 import { useSelector } from "react-redux";
 import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
-import { IFormData, ISystems } from "../../features/interfaces";
+import { IFormData, ISystems, Iasrs } from "../../features/interfaces";
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
@@ -58,55 +58,84 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     const formData = useSelector((state: RootState) => state.formData);
 
     // Track the selected part for each system
-    const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]?: string }>({});
+    const [selectedParts, setSelectedParts] = useState<{ [part: keyof Iasrs]: keyof ISystems }>({});
 
-    useEffect(() => console.log(selectedParts), [selectedParts])
+    // useEffect(() => console.log(selectedParts), [selectedParts])
 
     const { t } = useTranslation();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: keyof ISystems) {
-        console.log(event.target)
-        setSelectedParts((prevSelectedParts) => ({
-            ...prevSelectedParts, [system]: event.target.value,
-        }));
+        const selectedPart = event.target.value;
+
+        setSelectedParts((prevSelectedParts) => {
+            const updatedParts = { ...prevSelectedParts };
+            updatedParts[selectedPart] = system;
+            return updatedParts;
+        });
     }
 
-    function isPartUnchanged(system: keyof ISystems, part: string, initialFormData: IFormData) {
-        return formData.system[system][part] === initialFormData.system[system][part];
+    function isPartUnchanged(system: keyof ISystems, part: keyof Iasrs, initialFormData: IFormData) {
+        console.log(formData.system[system][part], initialFormData.system[system][part])
+        return (formData.system[system][part] === initialFormData.system[system][part]);
     }
 
     const systems: ISystems = formData.system;
     const parts = Object.keys(initialFormDataState.system[selectedSystem]);
 
     function generateTableRows() {
-        const dataRows = parts
-            .filter((part) => {
-                return systems[selectedSystem] && !isPartUnchanged(selectedSystem, part, initialFormDataState);
-            })
-            .map((part) => (
-                <TableRow key={part}>
-                    <TableCell>{part}</TableCell>
-                    {Object.keys(systems).map((system) => (
-                        system !== selectedSystem && (
-                            <TableCell key={system}>
-                                <FormControlLabel
-                                    control={
-                                        <Radio
-                                            value={part}
-                                            checked={selectedParts[system as keyof ISystems] === part}
-                                            onChange={(e) => handleChange(e, system as keyof ISystems)}
-                                            disabled={isPartUnchanged(system as keyof ISystems, part, initialFormDataState)}
-                                        />
-                                    }
-                                    label=""
-                                />
-                            </TableCell>
-                        )
-                    ))}
+        const dataRows = (
+            <>
+                {/* Header row with part names and systems */}
+                <TableRow>
+                    <TableCell>{t("ui.table.head.part")}</TableCell>
+                    {Object.keys(systems)
+                        .filter((systemKey) => systemKey !== selectedSystem)
+                        .filter((systemKey) => systems[systemKey as keyof ISystems].selected)
+                        .filter((systemKey) => parts.some((part) => !isPartUnchanged(systemKey as keyof ISystems, part, initialFormDataState)))
+                        .map((systemKey) => (
+                            <TableCell key={systemKey}>{systemKey}</TableCell>
+                        ))}
                 </TableRow>
-            ));
+    
+                {/* Rows with radio buttons for each part */}
+                {parts
+                    .filter((part) => part !== "selected")
+                    .map((part) => (
+                        <TableRow key={part}>
+                            <TableCell>{part}</TableCell>
+                            {Object.keys(systems)
+                                .filter((systemKey) => systemKey !== selectedSystem)
+                                .filter((systemKey) => systems[systemKey as keyof ISystems].selected)
+                                .filter((systemKey) => !isPartUnchanged(systemKey as keyof ISystems, part, initialFormDataState))
+                                .map((systemKey) => {
+                                    const system = systemKey as keyof ISystems;
+    
+                                    return (
+                                        <TableCell key={system}>
+                                            <FormControlLabel
+                                                control={
+                                                    <Radio
+                                                        value={part}
+                                                        checked={selectedParts[part] === system}
+                                                        onChange={(e) => handleChange(e, system)}
+                                                        disabled={isPartUnchanged(system, part, initialFormDataState)}
+                                                    />
+                                                }
+                                                label=""
+                                            />
+                                        </TableCell>
+                                    );
+                                })}
+                        </TableRow>
+                    ))}
+            </>
+        );
+    
         return dataRows;
     }
+    
+    
+
 
     return (
         <Dialog open={isOpen} onClose={handleClose}>
@@ -114,16 +143,6 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
             <DialogContent>
                 <TableContainer>
                     <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>{t("ui.table.head.part")}</TableCell>
-                                {Object.keys(systems)
-                                    .filter(system => system !== selectedSystem)
-                                    .map(system => (
-                                        <TableCell>{system}</TableCell>
-                                    ))}
-                            </TableRow>
-                        </TableHead>
                         <TableBody>{generateTableRows()}</TableBody>
                     </Table>
                 </TableContainer>

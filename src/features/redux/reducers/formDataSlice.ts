@@ -183,7 +183,7 @@ const formDataSlice = createSlice({
     name: 'formData',
     initialState: initialFormDataState,
     reducers: {
-        setFormData: (state: any, action: { payload: any; }) => {
+        setFormData: (state: any, action: { payload: IFormData; }) => {
             return { ...state, ...action.payload };
         },
         handleInputMethod: (state: any, action: PayloadAction<{ path: string; value: any }>) => {
