@@ -104,7 +104,7 @@ export default function Form(): JSX.Element {
     }
 
     setStepsCombined(newSteps);
-  }, [formData]);
+  }, [formData, t]);
 
 
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -179,7 +179,7 @@ export default function Form(): JSX.Element {
                   <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
                   <Grid item xs md={8} lg={9}>
                     <Box className={fadeOut ? 'step fadeout' : 'step'}>
-                      {stepsCombined[activeStep].component}
+                      {stepsCombined[activeStep]?.component}
                     </Box>
                   </Grid>
                 </Grid>

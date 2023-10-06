@@ -23,7 +23,8 @@ import { useTranslation } from "react-i18next";
 import { RootState } from "../../features/redux/store";
 import { useSelector } from "react-redux";
 import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
-import { IFormData, ISystems } from "../../features/interfaces";
+import { IFormData, ISystemData, ISystems } from "../../features/interfaces";
+import availableSystems from "../../data/availableSystems";
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
@@ -60,33 +61,39 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     // Track the selected part for each system
     const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]?: string }>({});
 
-    useEffect(() => console.log(selectedParts), [selectedParts])
+    // useEffect(() => console.log(selectedParts), [selectedParts])
 
     const { t } = useTranslation();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: keyof ISystems) {
-        console.log(event.target)
         setSelectedParts((prevSelectedParts) => ({
             ...prevSelectedParts, [system]: event.target.value,
         }));
     }
 
-    function isPartUnchanged(system: keyof ISystems, part: string, initialFormData: IFormData) {
-        return formData.system[system][part] === initialFormData.system[system][part];
+
+    const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>).filter(system => system !== selectedSystem);
+    const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected');
+
+    function isPartUnchanged(part: keyof ISystemData, systemToCheck?: keyof ISystems) {
+        const systemsToCheck = systemToCheck ? [systemToCheck] : Object.keys(formData.system) as Array<keyof ISystems>;
+
+        return systemsToCheck.every(system => {
+            // the stringify below is needed for some weird reason - when loading localstorage data it is not recognized as the same as initialFormDataState even though it is virtually the same! JS in it's peak
+            return JSON.stringify(formData.system[system][part]) === JSON.stringify(initialFormDataState.system[system][part]);
+        });
     }
 
-    const systems: ISystems = formData.system;
-    const parts = Object.keys(initialFormDataState.system[selectedSystem]);
 
     function generateTableRows() {
         const dataRows = parts
             .filter((part) => {
-                return systems[selectedSystem] && !isPartUnchanged(selectedSystem, part, initialFormDataState);
+                return !isPartUnchanged(part);
             })
             .map((part) => (
                 <TableRow key={part}>
-                    <TableCell>{part}</TableCell>
-                    {Object.keys(systems).map((system) => (
+                    <TableCell>{t(`system.subheader.${part}`)}</TableCell>
+                    {systems.map((system) => (
                         system !== selectedSystem && (
                             <TableCell key={system}>
                                 <FormControlLabel
@@ -95,7 +102,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                                             value={part}
                                             checked={selectedParts[system as keyof ISystems] === part}
                                             onChange={(e) => handleChange(e, system as keyof ISystems)}
-                                            disabled={isPartUnchanged(system as keyof ISystems, part, initialFormDataState)}
+                                            disabled={isPartUnchanged(part, system)}
                                         />
                                     }
                                     label=""
@@ -117,11 +124,9 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                         <TableHead>
                             <TableRow>
                                 <TableCell>{t("ui.table.head.part")}</TableCell>
-                                {Object.keys(systems)
-                                    .filter(system => system !== selectedSystem)
-                                    .map(system => (
-                                        <TableCell>{system}</TableCell>
-                                    ))}
+                                {systems.map(system => (
+                                    <TableCell>{t(`${availableSystems.filter(avSys => avSys.alt === system)[0].labelShort}`)}</TableCell>
+                                ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>{generateTableRows()}</TableBody>

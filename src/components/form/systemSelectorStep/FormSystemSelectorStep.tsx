@@ -8,11 +8,7 @@ import { RootState } from "../../../features/redux/store";
 export default function FormSystemSelectorStep(): JSX.Element {
 
   const { t } = useTranslation()
-  const systems = useSelector((state:RootState) => state.formData.system)
-
-  Object.entries(systems).map((system, data) => (
-    console.log(system, data)
-  ))
+  const systems = useSelector((state: RootState) => state.formData.system)
 
   return (
     <Stack spacing={2}>
@@ -21,8 +17,8 @@ export default function FormSystemSelectorStep(): JSX.Element {
         <Grid container spacing={3}>
           {
             availableSystems.map(system => (
-             <SystemCard system={system} />
-           ))
+              <SystemCard system={system} />
+            ))
           }
         </Grid>
       </Box>
