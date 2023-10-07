@@ -59,9 +59,9 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     const formData = useSelector((state: RootState) => state.formData);
 
     // Track the selected part for each system
-    const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]?: string }>({});
+    const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]?: keyof ISystemData }>({});
 
-    // useEffect(() => console.log(selectedParts), [selectedParts])
+    useEffect(() => console.log(selectedParts), [selectedParts])
 
     const { t } = useTranslation();
 
