@@ -72,7 +72,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     }
 
 
-    const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>).filter(system => system !== selectedSystem);
+    const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>);
     const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected');
 
     function isPartUnchanged(part: keyof ISystemData, systemToCheck?: keyof ISystems) {
@@ -94,21 +94,24 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                 <TableRow key={part}>
                     <TableCell>{t(`system.subheader.${part}`)}</TableCell>
                     {systems.map((system) => (
-                        system !== selectedSystem && (
+                        system === selectedSystem ?
                             <TableCell key={system}>
-                                <FormControlLabel
-                                    control={
-                                        <Radio
-                                            value={part}
-                                            checked={selectedParts[system as keyof ISystems] === part}
-                                            onChange={(e) => handleChange(e, system as keyof ISystems)}
-                                            disabled={isPartUnchanged(part, system)}
-                                        />
-                                    }
-                                    label=""
+                                <Radio
+                                    value={part}
+                                    checked={selectedParts[system as keyof ISystems] === part}
+                                    onChange={(e) => handleChange(e, system as keyof ISystems)}
                                 />
                             </TableCell>
-                        )
+                            :
+                            <TableCell key={system}>
+                                <Radio
+                                    value={part}
+                                    checked={selectedParts[system as keyof ISystems] === part}
+                                    onChange={(e) => handleChange(e, system as keyof ISystems)}
+                                    disabled={isPartUnchanged(part, system)}
+                                />
+                            </TableCell>
+
                     ))}
                 </TableRow>
             ));
@@ -125,7 +128,10 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                             <TableRow>
                                 <TableCell>{t("ui.table.head.part")}</TableCell>
                                 {systems.map(system => (
-                                    <TableCell>{t(`${availableSystems.filter(avSys => avSys.alt === system)[0].labelShort}`)}</TableCell>
+                                    system === selectedSystem ?
+                                        <TableCell>{t('ui.dialog.copyDialog.noChange')}</TableCell>
+                                        :
+                                        <TableCell>{t(`${availableSystems.filter(avSys => avSys.alt === system)[0].labelShort}`)}</TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>

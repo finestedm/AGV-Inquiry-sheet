@@ -93,7 +93,8 @@
         "confirm": "Tak, usuń"
       },
       "copyDialog": {
-        "title": "Wybierz dane do skopiowania z innego systemu"
+        "title": "Wybierz dane do skopiowania z innego systemu",
+        "noChange": "Bez zmian"
       }
     },
     "snackBar": {
