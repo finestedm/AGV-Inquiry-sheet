@@ -19,7 +19,7 @@ import CustomTextField from "../CustomTextField";
 import { Gantt, Task } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
 import { ViewMode } from "gantt-task-react";
-import GanntGraph from "./subcomponents/GanntGraph";
+import GanntGraph from "./subcomponents/GanttGraph";
 
 export default function FormProjectStep(): JSX.Element {
 
