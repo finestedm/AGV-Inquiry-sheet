@@ -38,20 +38,30 @@ const initialFormDataState: IFormData = {
         competitor: false,
         milestones: {
             concept: (() => {
-                const currentDate = new Date();
-                const threeMonthsLater = new Date(currentDate);
-                threeMonthsLater.setMonth(currentDate.getMonth() + 1);
-                return threeMonthsLater;
+                const startDate = new Date();
+                const endDate = new Date(startDate);
+                endDate.setMonth(startDate.getMonth() + 1);
+                return { start: startDate, end: endDate };
             })(),
             officialOffer: (() => {
-                const currentDate = new Date();
-                const threeMonthsLater = new Date(currentDate);
-                threeMonthsLater.setMonth(currentDate.getMonth() + 3);
-                return threeMonthsLater;
+                const startDate = new Date();
+                startDate.setMonth(startDate.getMonth() + 1);
+                const endDate = new Date(startDate);
+                endDate.setMonth(startDate.getMonth() + 3);
+                return { start: startDate, end: endDate };
             })(),
-            order: new Date(),
-            implementationStart: new Date(),
-            launch: new Date(),
+            order: {
+                start: new Date(new Date().getFullYear(), new Date().getMonth() + 6, new Date().getDate()),
+                end: new Date(new Date().getFullYear(), new Date().getMonth() + 6, new Date().getDate())
+            },
+            implementation: {
+                start: new Date(new Date().getFullYear(), new Date().getMonth() + 12, new Date().getDate()),
+                end: new Date(new Date().getFullYear(), new Date().getMonth() + 18, new Date().getDate())
+            },
+            launch: {
+                start: new Date(new Date().getFullYear(), new Date().getMonth() + 18, new Date().getDate()),
+                end: new Date(new Date().getFullYear(), new Date().getMonth() + 18, new Date().getDate())
+            },
         },
         it: {
             processesDescription: '',

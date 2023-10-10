@@ -125,13 +125,17 @@ export interface IFormData {
     // [key: string]: string | object
 }
 
+export interface IMIlestoneDate {
+    start: Date;
+    end: Date;
+}
+
 export interface IMilestones {
-    concept: Date;
-    officialOffer: Date;
-    order: Date;
-    implementationStart: Date;
-    launch: Date;
-    [key: string]: Date; // Index signature
+    concept: IMIlestoneDate;
+    officialOffer: IMIlestoneDate;
+    order: IMIlestoneDate;
+    implementation: IMIlestoneDate;
+    launch: IMIlestoneDate;
 }
 
 

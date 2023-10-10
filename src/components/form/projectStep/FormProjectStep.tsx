@@ -218,12 +218,12 @@ export default function FormProjectStep(): JSX.Element {
                                     sx={{ width: '100%' }}
                                     label={t('project.milestones.concept')}
                                     format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.concept)}
-                                    onChange={(e) => { dispatch(handleInputMethod({ path: 'project.milestones.concept', value: dayjs(e).format('YYYY-MM-DD') })) }}
+                                    value={dayjs(formData.project.milestones.concept.end)}
+                                    onChange={(e) => { dispatch(handleInputMethod({ path: 'project.milestones.concept.end', value: dayjs(e).format('YYYY-MM-DD') })) }}
                                     disablePast
                                     slotProps={{
                                         textField: {
-                                            helperText: dayjs(formData.project.milestones.concept).isBefore(dayjs(new Date())) ? 'Data w przeszłości' : '',
+                                            helperText: dayjs(formData.project.milestones.concept.end).isBefore(dayjs(new Date())) ? 'Data w przeszłości' : '',
                                         },
                                     }}
                                 />
@@ -233,12 +233,12 @@ export default function FormProjectStep(): JSX.Element {
                                     sx={{ width: '100%' }}
                                     label={t('project.milestones.officialOffer')}
                                     format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.officialOffer)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.officialOffer', value: e }))}
+                                    value={dayjs(formData.project.milestones.officialOffer.end)}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.officialOffer.end', value: e }))}
                                     disablePast
                                     slotProps={{
                                         textField: {
-                                            helperText: dayjs(formData.project.milestones.officialOffer).isBefore(dayjs(formData.project.milestones.concept)) ? 'Data oferty przed datą koncepcji' : '',
+                                            helperText: dayjs(formData.project.milestones.officialOffer.start).isBefore(dayjs(formData.project.milestones.concept.end)) ? 'Data oferty przed datą koncepcji' : '',
                                         },
                                     }}
                                 />
@@ -248,12 +248,12 @@ export default function FormProjectStep(): JSX.Element {
                                     sx={{ width: '100%' }}
                                     label={t('project.milestones.order')}
                                     format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.order)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.order', value: e }))}
+                                    value={dayjs(formData.project.milestones.order.end)}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.order.end', value: e }))}
                                     disablePast
                                     slotProps={{
                                         textField: {
-                                            helperText: dayjs(formData.project.milestones.order).isBefore(dayjs(formData.project.milestones.officialOffer)) ? 'Data zamówienia przed datą oferty' : '',
+                                            helperText: dayjs(formData.project.milestones.order.end).isBefore(dayjs(formData.project.milestones.officialOffer.end)) ? 'Data zamówienia przed datą oferty' : '',
                                         },
                                     }}
                                 />
@@ -263,12 +263,12 @@ export default function FormProjectStep(): JSX.Element {
                                     sx={{ width: '100%' }}
                                     label={t('project.milestones.implementationStart')}
                                     format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.implementationStart)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.implementationStart', value: e }))}
+                                    value={dayjs(formData.project.milestones.implementation.end)}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.implementation.end', value: e }))}
                                     disablePast
                                     slotProps={{
                                         textField: {
-                                            helperText: dayjs(formData.project.milestones.implementationStart).isBefore(dayjs(formData.project.milestones.order)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
+                                            helperText: dayjs(formData.project.milestones.implementation.start).isBefore(dayjs(formData.project.milestones.order.end)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
                                         },
                                     }}
                                 />
@@ -278,12 +278,12 @@ export default function FormProjectStep(): JSX.Element {
                                     sx={{ width: '100%' }}
                                     label={t('project.milestones.launch')}
                                     format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.launch)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.launch', value: e }))}
+                                    value={dayjs(formData.project.milestones.launch.end)}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.launch.end', value: e }))}
                                     disablePast
                                     slotProps={{
                                         textField: {
-                                            helperText: dayjs(formData.project.milestones.launch).isBefore(dayjs(formData.project.milestones.implementationStart)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
+                                            helperText: dayjs(formData.project.milestones.launch.start).isBefore(dayjs(formData.project.milestones.implementation.end)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
                                         },
                                     }}
                                 />

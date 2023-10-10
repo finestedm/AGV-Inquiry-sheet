@@ -14,10 +14,10 @@ export default function GanntGraph() {
     const dispatch = useDispatch();
 
     const milestones: Task[] = (() => {
-        return Object.entries(formData.project.milestones).map(([name, date], index, array) => {
-            const start = index > 0 ? new Date(array[index - 1][1]) : new Date();
-            const end = new Date(date);
-            return { id: name, name: t(`project.milestones.${name}`), start, end, type: 'task', progress: 0 };
+        return Object.entries(formData.project.milestones).map(([name, date]) => {
+            const start = new Date(date.start);
+            const end = new Date(date.end);
+            return { id: name, name: t(`project.milestones.${name}`), start, end, type: (name === 'order' || name === 'launch') ? 'milestone' : 'task', progress: 0 };
         });
     })();
 
@@ -30,9 +30,11 @@ export default function GanntGraph() {
                 listCellWidth=''
                 onDateChange={task => {
                     const { id, start, end } = task;
-                    const path = `project.milestones.${id}`
-                    console.log(id, start, end)
-                    dispatch(handleInputMethod({ path, value: end }));
+                    const pathStart = `project.milestones.${id}.start`
+                    const pathEnd = `project.milestones.${id}.end`
+                    console.log(pathStart, start)
+                    dispatch(handleInputMethod({ path: pathStart, value: start }));
+                    dispatch(handleInputMethod({ path: pathEnd, value: end }));
                 }}
             />
         </Box>
