@@ -90,3 +90,9 @@
     pointer-events: all !important
   }
 }
+
+._3eULf {
+  border-radius: .5rem;
+  overflow: hidden;
+  width: 100%;
+}

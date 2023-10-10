@@ -11,7 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
-import { initialFormDataState, setFormData } from "../features/redux/reducers/formDataSlice";
+import { initialFormDataState, resetFormData, setFormData } from "../features/redux/reducers/formDataSlice";
 import DarkModeSwitch from "./DarkModeSwitch";
 import jhLogoDark from '../images/JH_logo.png'
 import { openSnackbar } from "../features/redux/reducers/snackBarSlice";
@@ -161,7 +161,7 @@ export default function TopBar(): JSX.Element {
                                     onInput={(e) => loadFile(e)}
                                 />
                             </MenuItem>
-                            <MenuItem onClick={() => dispatch(setFormData(initialFormDataState))} sx={{ color: theme.palette.error.main }}>
+                            <MenuItem onClick={() => dispatch(resetFormData())} sx={{ color: theme.palette.error.main }}>
                                 <ListItemIcon ><DeleteOutlineIcon sx={{ color: theme.palette.error.main }} /></ListItemIcon>
                                 <ListItemText>{t('ui.button.inquiry.clear')}</ListItemText>
                             </MenuItem>
@@ -214,7 +214,7 @@ export default function TopBar(): JSX.Element {
                                         />
                                     </Stack>
                                 </Button>
-                                <Button startIcon={<DeleteOutlineIcon />} color='error' onClick={() => dispatch(setFormData(initialFormDataState))}>
+                                <Button startIcon={<DeleteOutlineIcon />} color='error' onClick={() => dispatch(resetFormData())}>
                                     <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                         <Typography>{t('ui.button.inquiry.clear')}</Typography>
                                     </Stack>

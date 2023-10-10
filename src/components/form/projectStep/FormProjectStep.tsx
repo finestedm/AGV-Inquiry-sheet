@@ -16,6 +16,9 @@ import { handleInputMethod } from "../../../features/redux/reducers/formDataSlic
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
+import { Gantt, Task } from "gantt-task-react";
+import "gantt-task-react/dist/index.css";
+import { ViewMode } from "gantt-task-react";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -62,6 +65,14 @@ export default function FormProjectStep(): JSX.Element {
         t('project.it.existingSystem.label.SAP-EWM'),
         t('project.it.existingSystem.label.other'),
     ];
+
+    const milestones: Task[] = (() => {
+        return Object.entries(formData.project.milestones).map(([name, date], index, array) => {
+            const start = index > 0 ? new Date(array[index - 1][1]) : new Date();
+            const end = new Date(date);
+            return { id: name, name: t(`project.milestones.${name}`), start, end, type: 'task', progress: 0 };
+        });
+    })();
 
     return (
         <Stack spacing={8}>
@@ -286,6 +297,20 @@ export default function FormProjectStep(): JSX.Element {
                         </Grid>
                     </Box>
                 </LocalizationProvider>
+                <Box display='flex' sx={{ borderRadius: theme.shape.borderRadius }}>
+                    <Gantt
+                        tasks={milestones}
+                        barCornerRadius={theme.shape.borderRadius}
+                        viewMode={'Month' as ViewMode}
+                        listCellWidth=''
+                        onDateChange={task => {
+                            const { id, start } = task;
+                            const path = `project.milestones.${id}`
+                            dispatch(handleInputMethod({ path, value: start }));
+                        }}
+                    // onDateChange={handleDateChange}
+                    />
+                </Box>
             </Stack>
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.it')}</Typography>

@@ -186,6 +186,9 @@ const formDataSlice = createSlice({
         setFormData: (state: any, action: { payload: IFormData; }) => {
             return { ...state, ...action.payload };
         },
+        resetFormData: () => {
+            return initialFormDataState;
+        },
         handleInputMethod: (state: any, action: PayloadAction<{ path: string; value: any }>) => {
             const { path, value } = action.payload;
             const keys = path.split('.');
@@ -271,7 +274,7 @@ const formDataSlice = createSlice({
             state.system[selectedSystem].loads = updatedLoads;
         },
 
-        handleFlowChange:  (state: IFormData, action: PayloadAction<{ newRow: any, selectedSystem: keyof ISystems; }>) => {
+        handleFlowChange: (state: IFormData, action: PayloadAction<{ newRow: any, selectedSystem: keyof ISystems; }>) => {
             const { newRow, selectedSystem } = action.payload;
 
             // Replace the old load object with the new one at the specified index
@@ -292,6 +295,6 @@ const formDataSlice = createSlice({
     },
 });
 
-export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange } = formDataSlice.actions;
+export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange, resetFormData } = formDataSlice.actions;
 export default formDataSlice.reducer;
 export { initialFormDataState }

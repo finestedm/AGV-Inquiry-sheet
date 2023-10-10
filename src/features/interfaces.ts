@@ -80,7 +80,7 @@ export interface ILoadsTypes {
     [key: string]: ILoad;
 }
 
-export interface Iasrs {
+export interface ISystemData {
     selected: boolean;
     workTime: {
         workDays: number;
@@ -106,13 +106,14 @@ export interface Iasrs {
     },
     loads: ILoad[];
     flow: IFlow[];
+    // [key: string]: any;
 }
 
 export interface ISystems {
-    asrs: Iasrs;
-    lrkprk: Iasrs;
-    agv: Iasrs;
-    autovna: Iasrs;
+    asrs: ISystemData;
+    lrkprk: ISystemData;
+    agv: ISystemData;
+    autovna: ISystemData;
 }
 
 export interface IFormData {

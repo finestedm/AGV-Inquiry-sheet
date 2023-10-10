@@ -1,14 +1,6 @@
 import { Alert, Box, Checkbox, CircularProgress, Container, FormControl, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import LoadTable from "./subcomponents/LoadTable";
-import LoadDimensionPicture from '../images/loadDimensionsPicture.png'
-import LoadDimensionPicture2 from '../images/loadDimensionsPicture2.png'
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../features/redux/store";
-import { handleInputMethod, initialFormDataState } from "../../../features/redux/reducers/formDataSlice";
-import FlowTable from "./subcomponents/FlowTable";
-import CapacityTable from "./subcomponents/CapacityTable";
-import { ISystems, Iasrs } from "../../../features/interfaces";
+import { ISystems } from "../../../features/interfaces";
 import CopyOtherSystemDataButton from "../CopyOtherSystemDataDropdown";
 import WorkTime from "./subcomponents/WorkTime";
 import WorkConditions from "./subcomponents/WorkConditions";
