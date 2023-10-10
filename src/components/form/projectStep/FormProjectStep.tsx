@@ -308,7 +308,6 @@ export default function FormProjectStep(): JSX.Element {
                             const path = `project.milestones.${id}`
                             dispatch(handleInputMethod({ path, value: start }));
                         }}
-                    // onDateChange={handleDateChange}
                     />
                 </Box>
             </Stack>
