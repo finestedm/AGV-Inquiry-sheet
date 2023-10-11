@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems } from '../../interfaces';
+import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilestones } from '../../interfaces';
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
@@ -214,6 +214,59 @@ const formDataSlice = createSlice({
             currentObject[keys[keys.length - 1]] = value;
         },
 
+        // In your reducer file
+
+        handleDateChanges: (state, action) => {
+            const { id, start, end } = action.payload;
+
+            // Apply your rules here based on task dependencies, etc.
+            // For example, update the launch task based on the end of implementation
+            if (id === 'implementation') {
+                const launchTask = state.project.milestones.launch;
+                // Update launch task's date based on the end of implementation
+                return {
+                    ...state,
+                    project: {
+                        ...state.project,
+                        milestones: {
+                            ...state.project.milestones,
+                            implementation: {
+                                ...state.project.milestones[id as keyof IMilestones],
+                                start: start,
+                                end: end,
+                            },
+                            launch: {
+                                ...launchTask,
+                                start: end,
+                                end: end,
+                            },
+                        },
+                    },
+                };
+            }
+
+            // Update other tasks here based on your rules
+
+            // If no rules apply, simply update the task's date
+            return {
+                ...state,
+                project: {
+                    ...state.project,
+                    milestones: {
+                        ...state.project.milestones,
+                        [id]: {
+                            ...state.project.milestones[id as keyof IMilestones],
+                            start: start,
+                            end: end,
+                        },
+                    },
+                },
+            };
+
+            // ... other cases ...
+        },
+
+
         // Reducer for handling adding a new load
         handleAddLoad: (
             state: IFormData,
@@ -305,6 +358,6 @@ const formDataSlice = createSlice({
     },
 });
 
-export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange, resetFormData } = formDataSlice.actions;
+export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange, resetFormData, handleDateChanges } = formDataSlice.actions;
 export default formDataSlice.reducer;
 export { initialFormDataState }

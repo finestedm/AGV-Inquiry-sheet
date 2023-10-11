@@ -1,6 +1,6 @@
 import { Box, useTheme, ButtonGroup, Button, IconButton } from "@mui/material";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
-import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
+import { handleDateChanges, handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
@@ -44,10 +44,7 @@ export default function GanttGraph(): JSX.Element {
                 listCellWidth="0"
                 onDateChange={(task: Task) => {
                     const { id, start, end } = task;
-                    const pathStart = `project.milestones.${id}.start`
-                    const pathEnd = `project.milestones.${id}.end`
-                    dispatch(handleInputMethod({ path: pathStart, value: start }));
-                    dispatch(handleInputMethod({ path: pathEnd, value: end }));
+                    dispatch(handleDateChanges({ id, start, end }));
                 }}
             />
             <Box position='absolute' top='10%' right={25}>
