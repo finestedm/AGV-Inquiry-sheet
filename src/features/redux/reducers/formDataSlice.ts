@@ -245,6 +245,34 @@ const formDataSlice = createSlice({
                 };
             }
 
+            if (id === 'order') {
+                // Update implementation task's date based on the date of order
+                return {
+                    ...state,
+                    project: {
+                        ...state.project,
+                        milestones: {
+                            ...state.project.milestones,
+                            order: {
+                                ...state.project.milestones[id as keyof IMilestones],
+                                start: start,
+                                end: end,
+                            },
+                            implementation: {
+                                ...state.project.milestones.implementation,
+                                start: end,
+                                end: new Date(new Date(start).setMonth(new Date(start).getMonth() + 8)),
+                            },
+                            launch: {
+                                ...state.project.milestones.launch,
+                                start: new Date(new Date(start).setMonth(new Date(start).getMonth() + 8)),
+                                end: new Date(new Date(start).setMonth(new Date(start).getMonth() + 8)),
+                            },
+                        },
+                    },
+                };
+            }
+
             // Update other tasks here based on your rules
 
             // If no rules apply, simply update the task's date

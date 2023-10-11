@@ -7,6 +7,8 @@ import { RootState } from "../../../../features/redux/store";
 import { useDispatch } from "react-redux";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export default function GanttGraph(): JSX.Element {
 
@@ -14,6 +16,8 @@ export default function GanttGraph(): JSX.Element {
     const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData);
     const dispatch = useDispatch();
+    const [columnsWidth, setColumnWidth] = useState<number>(40)
+    const [viewTaskList, setViewTaskList] = useState<boolean>(true)
 
     const milestones: Task[] = (() => {
         return Object.entries(formData.project.milestones).map(([name, date]) => {
@@ -27,7 +31,7 @@ export default function GanttGraph(): JSX.Element {
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
                 progress: 0,
                 isDisabled: name === 'launch',
-                styles: {backgroundColor: (name === 'order' || name === 'launch') ? theme.palette.secondary.main :  theme.palette.primary.main }
+                styles: { backgroundColor: (name === 'order' || name === 'launch') ? theme.palette.secondary.main : theme.palette.primary.main },
             };
         });
     })();
@@ -41,24 +45,26 @@ export default function GanttGraph(): JSX.Element {
                 preStepsCount={0}
                 locale='pl'
                 fontSize=".75rem"
-                listCellWidth="0"
+                listCellWidth={viewTaskList ? '100px' : ""}
+                columnWidth={columnsWidth}
                 onDateChange={(task: Task) => {
                     const { id, start, end } = task;
                     dispatch(handleDateChanges({ id, start, end }));
                 }}
             />
             <Box position='absolute' top='10%' right={25}>
-            <SizeEditButtons />
+                <SizeEditButtons columnsWidth={columnsWidth} setColumnWidth={setColumnWidth} viewTaskList={viewTaskList} setViewTaskList={setViewTaskList} />
             </Box>
         </Box>
     )
 }
 
-function SizeEditButtons() {
+function SizeEditButtons({ columnsWidth, setColumnWidth, viewTaskList, setViewTaskList }: { columnsWidth: number, setColumnWidth: Dispatch<SetStateAction<number>>, viewTaskList: boolean, setViewTaskList: Dispatch<SetStateAction<boolean>>  }) {
     return (
-        <ButtonGroup variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
-          <Button> <AddIcon /> </Button>
-          <Button> <RemoveIcon /> </Button>
+        <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+            <Button onClick={() => setColumnWidth(columnsWidth + 5)}> <AddIcon /> </Button>
+            <Button onClick={() => setColumnWidth(columnsWidth - 5)}> <RemoveIcon /> </Button>
+            <Button onClick={() => setViewTaskList(!viewTaskList)}> <ViewListIcon /> </Button>
         </ButtonGroup>
     )
 }
