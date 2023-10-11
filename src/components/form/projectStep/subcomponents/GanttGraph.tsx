@@ -1,12 +1,14 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, ButtonGroup, Button, IconButton } from "@mui/material";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { useDispatch } from "react-redux";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
-export default function GanttGraph() {
+export default function GanttGraph(): JSX.Element {
 
     const { t } = useTranslation();
     const theme = useTheme();
@@ -23,13 +25,15 @@ export default function GanttGraph() {
                 start,
                 end,
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
-                progress: 0
+                progress: 0,
+                isDisabled: name === 'launch',
+                styles: {backgroundColor: (name === 'order' || name === 'launch') ? theme.palette.secondary.main :  theme.palette.primary.main }
             };
         });
     })();
 
     return (
-        <Box>
+        <Box position='relative'>
             <Gantt
                 tasks={milestones}
                 barCornerRadius={theme.shape.borderRadius}
@@ -37,7 +41,7 @@ export default function GanttGraph() {
                 preStepsCount={0}
                 locale='pl'
                 fontSize=".75rem"
-                listCellWidth='0'
+                listCellWidth="0"
                 onDateChange={(task: Task) => {
                     const { id, start, end } = task;
                     const pathStart = `project.milestones.${id}.start`
@@ -46,6 +50,18 @@ export default function GanttGraph() {
                     dispatch(handleInputMethod({ path: pathEnd, value: end }));
                 }}
             />
+            <Box position='absolute' top='10%' right={25}>
+            <SizeEditButtons />
+            </Box>
         </Box>
+    )
+}
+
+function SizeEditButtons() {
+    return (
+        <ButtonGroup variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+          <Button> <AddIcon /> </Button>
+          <Button> <RemoveIcon /> </Button>
+        </ButtonGroup>
     )
 }
