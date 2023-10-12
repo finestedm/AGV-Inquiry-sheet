@@ -1,4 +1,4 @@
-import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack } from "@mui/material";
+import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import { handleDateChanges, handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,10 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { DatePicker, LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
+import { IMilestones } from "../../../../features/interfaces";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function GanttGraph(): JSX.Element {
 
@@ -19,6 +23,18 @@ export default function GanttGraph(): JSX.Element {
     const [columnsWidth, setColumnWidth] = useState<number>(40)
     const [viewTaskList, setViewTaskList] = useState<boolean>(true)
     const [viewMode, setViewMode] = useState<string>('Month')
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    const [dateEditDialogOpen, setDateEditDialogOpen] = useState(false);
+
+    function handledateEditDialogOpen(task: Task) {
+        setSelectedTask(task);
+        setDateEditDialogOpen(true);
+    };
+
+    function handleDialogClose() {
+        setDateEditDialogOpen(false);
+        setSelectedTask(null);
+    }
 
     const milestones: Task[] = (() => {
         return Object.entries(formData.project.milestones).map(([name, date]) => {
@@ -33,6 +49,7 @@ export default function GanttGraph(): JSX.Element {
                 progress: 0,
                 isDisabled: name === 'launch',
                 styles: { backgroundColor: (name === 'order' || name === 'launch') ? theme.palette.secondary.main : theme.palette.primary.main },
+
             };
         });
     })();
@@ -48,14 +65,17 @@ export default function GanttGraph(): JSX.Element {
                 fontSize=".75rem"
                 listCellWidth={viewTaskList ? '100px' : ""}
                 columnWidth={columnsWidth}
+                TooltipContent={CustomTooltip}
                 onDateChange={(task: Task) => {
                     const { id, start, end } = task;
                     dispatch(handleDateChanges({ id, start, end }));
                 }}
+                onDoubleClick={(task: Task) => handledateEditDialogOpen(task)}
             />
             <Box position='absolute' top='10%' right={25}>
                 <SizeEditButtons columnsWidth={columnsWidth} setColumnWidth={setColumnWidth} viewTaskList={viewTaskList} setViewTaskList={setViewTaskList} viewMode={viewMode} setViewMode={setViewMode} />
             </Box>
+            <DateEditDialog selectedTask={selectedTask} dateEditDialogOpen={dateEditDialogOpen} handleDialogClose={handleDialogClose} />
         </Box>
     )
 }
@@ -76,4 +96,61 @@ function SizeEditButtons({ columnsWidth, setColumnWidth, viewTaskList, setViewTa
 
         </Stack>
     )
+}
+
+function CustomTooltip({ task, fontFamily }: { task: Task; fontFamily: string }) {
+    const theme = useTheme();
+    return (
+        <Paper sx={{ backgroundColor: theme.palette.background.default }} elevation={2}>
+            <Stack spacing={1} p={2}>
+                <Typography>{task.name}</Typography>
+                <Typography fontSize='75%'>{`${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`}</Typography>
+            </Stack>
+        </Paper>
+    );
+};
+
+function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }: { selectedTask: Task | null, dateEditDialogOpen: boolean, handleDialogClose: () => void }) {
+    const dispatch = useDispatch();
+    const { t } = useTranslation();
+    const formData = useSelector((state: RootState) => state.formData);
+    const taskId = selectedTask?.id as keyof IMilestones
+
+    if (selectedTask) {
+        return (
+            <Dialog maxWidth='lg' open={dateEditDialogOpen} onClose={handleDialogClose}>
+                <DialogTitle>{t("Select Dates")}</DialogTitle>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DialogContent>
+                        <Stack spacing={2} direction='row'>
+                            <StaticDatePicker
+                                slotProps={{
+                                    actionBar: {
+                                        actions: []
+                                    },
+                                }}
+                                disablePast
+                                value={dayjs(formData.project.milestones[taskId].start)}
+                                onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: selectedTask.end }))}
+                            />
+                            <StaticDatePicker
+                                slotProps={{
+                                    actionBar: {
+                                        actions: []
+                                    }
+                                }}
+                                disablePast
+                                value={dayjs(formData.project.milestones[taskId].end)}
+                                onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: selectedTask.start, end: date }))}
+                            />
+                        </Stack>
+                    </DialogContent>
+                </LocalizationProvider>
+            </Dialog>
+        )
+    } else {
+        return (
+            <h6>error</h6>
+        )
+    }
 }
