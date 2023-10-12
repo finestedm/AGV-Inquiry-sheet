@@ -1,4 +1,4 @@
-import { Box, useTheme, ButtonGroup, Button, IconButton } from "@mui/material";
+import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack } from "@mui/material";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import { handleDateChanges, handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { useTranslation } from "react-i18next";
@@ -18,6 +18,7 @@ export default function GanttGraph(): JSX.Element {
     const dispatch = useDispatch();
     const [columnsWidth, setColumnWidth] = useState<number>(40)
     const [viewTaskList, setViewTaskList] = useState<boolean>(true)
+    const [viewMode, setViewMode] = useState<string>('Month')
 
     const milestones: Task[] = (() => {
         return Object.entries(formData.project.milestones).map(([name, date]) => {
@@ -37,11 +38,11 @@ export default function GanttGraph(): JSX.Element {
     })();
 
     return (
-        <Box position='relative'>
+        <Box position='relative' className='ganntchart-container'>
             <Gantt
                 tasks={milestones}
                 barCornerRadius={theme.shape.borderRadius}
-                viewMode={'Month' as ViewMode}
+                viewMode={viewMode as ViewMode}
                 preStepsCount={0}
                 locale='pl'
                 fontSize=".75rem"
@@ -53,18 +54,26 @@ export default function GanttGraph(): JSX.Element {
                 }}
             />
             <Box position='absolute' top='10%' right={25}>
-                <SizeEditButtons columnsWidth={columnsWidth} setColumnWidth={setColumnWidth} viewTaskList={viewTaskList} setViewTaskList={setViewTaskList} />
+                <SizeEditButtons columnsWidth={columnsWidth} setColumnWidth={setColumnWidth} viewTaskList={viewTaskList} setViewTaskList={setViewTaskList} viewMode={viewMode} setViewMode={setViewMode} />
             </Box>
         </Box>
     )
 }
 
-function SizeEditButtons({ columnsWidth, setColumnWidth, viewTaskList, setViewTaskList }: { columnsWidth: number, setColumnWidth: Dispatch<SetStateAction<number>>, viewTaskList: boolean, setViewTaskList: Dispatch<SetStateAction<boolean>>  }) {
+function SizeEditButtons({ columnsWidth, setColumnWidth, viewTaskList, setViewTaskList, viewMode, setViewMode }: { columnsWidth: number, setColumnWidth: Dispatch<SetStateAction<number>>, viewTaskList: boolean, setViewTaskList: Dispatch<SetStateAction<boolean>>, viewMode: string, setViewMode: Dispatch<SetStateAction<string>> }) {
     return (
-        <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
-            <Button onClick={() => setColumnWidth(columnsWidth + 5)}> <AddIcon /> </Button>
-            <Button onClick={() => setColumnWidth(columnsWidth - 5)}> <RemoveIcon /> </Button>
-            <Button onClick={() => setViewTaskList(!viewTaskList)}> <ViewListIcon /> </Button>
-        </ButtonGroup>
+        <Stack direction='row' spacing={2} className="ganttchart-edit-buttons">
+            <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+                <Button onClick={() => setColumnWidth(columnsWidth + 5)}> <AddIcon /> </Button>
+                <Button onClick={() => setColumnWidth(columnsWidth - 5)}> <RemoveIcon /> </Button>
+                <Button onClick={() => setViewTaskList(!viewTaskList)}> <ViewListIcon /> </Button>
+            </ButtonGroup>
+            <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+                <Button onClick={() => setViewMode("Week")} variant='contained' color={viewMode === "Week" ? "info" : "primary"}>Week</Button>
+                <Button onClick={() => setViewMode("Month")} variant='contained' color={viewMode === "Month" ? "info" : "primary"}>Month</Button>
+                <Button onClick={() => setViewMode("Year")} variant='contained' color={viewMode === "Year" ? "info" : "primary"}>Year</Button>
+            </ButtonGroup>
+
+        </Stack>
     )
 }
