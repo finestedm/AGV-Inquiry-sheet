@@ -13,6 +13,7 @@ import { DatePicker, LocalizationProvider, StaticDatePicker } from "@mui/x-date-
 import { IMilestones } from "../../../../features/interfaces";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import 'dayjs/locale/pl';
 
 export default function GanttGraph(): JSX.Element {
 
@@ -116,11 +117,11 @@ function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }:
     const formData = useSelector((state: RootState) => state.formData);
     const taskId = selectedTask?.id as keyof IMilestones
 
-    if (selectedTask) {
+    if (selectedTask && formData.project.milestones[taskId]) {
         return (
             <Dialog maxWidth='lg' open={dateEditDialogOpen} onClose={handleDialogClose}>
                 <DialogTitle>{t("Select Dates")}</DialogTitle>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
                     <DialogContent>
                         <Stack spacing={2} direction='row'>
                             <StaticDatePicker
@@ -131,17 +132,17 @@ function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }:
                                 }}
                                 disablePast
                                 value={dayjs(formData.project.milestones[taskId].start)}
-                                onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: selectedTask.end }))}
+                                onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
                             />
                             <StaticDatePicker
                                 slotProps={{
                                     actionBar: {
                                         actions: []
-                                    }
+                                    },
                                 }}
                                 disablePast
                                 value={dayjs(formData.project.milestones[taskId].end)}
-                                onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: selectedTask.start, end: date }))}
+                                onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
                             />
                         </Stack>
                     </DialogContent>
@@ -150,7 +151,7 @@ function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }:
         )
     } else {
         return (
-            <h6>error</h6>
+            null
         )
     }
 }

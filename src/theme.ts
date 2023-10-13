@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { deDE, plPL } from '@mui/x-date-pickers/locales';
 
 export let theme = createTheme({})
 
@@ -125,9 +126,11 @@ theme = createTheme({
                     backgroundColor: theme.palette.background.default
                 }
             }
-        }
+        },
     },
-});
+},
+    plPL
+);
 
 export const themeDark = createTheme({
     palette: {
@@ -190,6 +193,8 @@ export const themeDark = createTheme({
             }
         }
     },
-});
+},
+    plPL
+);
 
 export default theme

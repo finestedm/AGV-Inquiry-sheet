@@ -109,3 +109,12 @@
 .ganntchart-container:hover .ganttchart-edit-buttons {
   opacity: 1;
 }
+
+.MuiGrid-root.MuiGrid-container.MuiPickersToolbar-content.css-jhsfre-MuiGrid-root-MuiPickersToolbar-content {
+  visibility: collapse;
+}
+
+.MuiPickersToolbar-root.MuiPickersLayout-toolbar.css-1eurbeq-MuiPickersToolbar-root-MuiDatePickerToolbar-root {
+  visibility: collapse;
+
+}

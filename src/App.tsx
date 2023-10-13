@@ -16,7 +16,6 @@ import SimpleSnackbar from './components/SnackBar';
 import { useDispatch } from 'react-redux';
 import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './features/localStorage/handleLocalStorage';
 import { setFormData } from './features/redux/reducers/formDataSlice';
-import CopyOtherSystemDataDropdown from './components/form/CopyOtherSystemDataDropdown';
 
 // Configure i18next
 i18n
