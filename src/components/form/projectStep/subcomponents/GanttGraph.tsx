@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import EditIcon from '@mui/icons-material/Edit';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DatePicker, LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { IMilestones } from "../../../../features/interfaces";
@@ -56,8 +57,44 @@ export default function GanttGraph(): JSX.Element {
         });
     })();
 
+    function CustomListTable({ tasks, setSelectedTask, selectedTaskId, rowHeight, }: { tasks: Task[]; setSelectedTask: (taskId: string) => void; selectedTaskId: string; rowHeight: number }) {
+
+        const theme = useTheme();
+        return (
+            <TableContainer component={Paper} elevation={1} sx={{ border: 1, borderRight: 0, borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`, borderColor: theme.palette.divider, minWidth: '350px' }} >
+                <Table>
+                    <TableHead sx={{ height: rowHeight }}>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Date Range</TableCell>
+                            <TableCell>Edit</TableCell>
+
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {tasks.map((task) => (
+                            <TableRow
+                                key={task.id}
+                                onClick={() => setSelectedTask(task.id)}
+                                selected={task.id === selectedTaskId}
+                                style={{ height: rowHeight }}
+                            >
+                                <TableCell><Typography fontSize='85%'>{task.name}</Typography></TableCell>
+                                <TableCell><Typography fontSize='85%'>{`${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`}</Typography></TableCell>
+                                <TableCell><IconButton size='small' onClick={() => handledateEditDialogOpen(task)}><EditIcon /></IconButton></TableCell>
+
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        );
+    }
+
+
+
     return (
-        <Box position='relative' className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} sx={{borderColor: theme.palette.divider}}>
+        <Box position='relative' className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} sx={{ borderColor: theme.palette.divider }}>
             <Gantt
                 tasks={milestones}
                 barCornerRadius={theme.shape.borderRadius}
@@ -122,31 +159,6 @@ function CustomTaskListHeader({ headerHeight }: { headerHeight: number }) {
         null
     );
 };
-
-function CustomListTable({ tasks, setSelectedTask, selectedTaskId, rowHeight, }: { tasks: Task[]; setSelectedTask: (taskId: string) => void; selectedTaskId: string; rowHeight: number }) {
-
-    const theme = useTheme();
-    return (
-        <TableContainer component={Paper} elevation={1} sx={{ border: 1, borderRight: 0, borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`, borderColor: theme.palette.divider, minWidth: '350px' }} >
-            <Table>
-                <TableHead sx={{ height: rowHeight }}>
-                    <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Date Range</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {tasks.map((task) => (
-                        <TableRow key={task.id} onClick={() => setSelectedTask(task.id)} selected={task.id === selectedTaskId} style={{ height: rowHeight }}>
-                            <TableCell><Typography fontSize='85%'>{task.name}</Typography></TableCell>
-                            <TableCell><Typography fontSize='85%'>{`${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`}</Typography></TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
-}
 
 
 function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }: { selectedTask: Task | null, dateEditDialogOpen: boolean, handleDialogClose: () => void }) {
