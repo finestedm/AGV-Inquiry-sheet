@@ -106,7 +106,7 @@
   transition: all .5s ease;
 }
 
-.ganntchart-container:hover .ganttchart-edit-buttons {
+.ganttchart-container:hover .ganttchart-edit-buttons {
   opacity: 1;
 }
 
@@ -118,6 +118,33 @@
   visibility: collapse;
 }
 
-.ganntchart-container  tbody .MuiTableRow-root:last-child .MuiTableCell-root {
+.ganttchart-container  tbody .MuiTableRow-root:last-child .MuiTableCell-root,
+.ganttchart-container-dark  tbody .MuiTableRow-root:last-child .MuiTableCell-root
+{
   border-bottom: none;
+}
+
+.ganttchart-container ._2dZTy {
+  fill: white
+}
+
+.ganttchart-container-dark ._2dZTy,
+.ganttchart-container-dark ._35nLX {
+  fill: #1f1f1f;
+  color: #fff
+}
+
+/* row line */
+
+.ganttchart-container ._3rUKi {
+  stroke: rgba(224, 224, 224, 1);
+  
+}
+
+.ganttchart-container-dark ._3rUKi,
+.ganttchart-container-dark ._RuwuK
+{
+  stroke: rgba(255, 255, 255, 0.12);
+  color: #fff
+
 }

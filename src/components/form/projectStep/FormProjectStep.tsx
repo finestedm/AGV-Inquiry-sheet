@@ -207,7 +207,7 @@ export default function FormProjectStep(): JSX.Element {
             </Stack>
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.milestones')}</Typography>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <Box>
                         <Grid container spacing={2}>
                             <Grid item xs={6} sm={4}>
@@ -287,7 +287,7 @@ export default function FormProjectStep(): JSX.Element {
                             </Grid>
                         </Grid>
                     </Box>
-                </LocalizationProvider>
+                </LocalizationProvider> */}
                 <GanntGraph />
             </Stack>
             <Stack spacing={2}>

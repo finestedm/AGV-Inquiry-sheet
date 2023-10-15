@@ -57,7 +57,7 @@ export default function GanttGraph(): JSX.Element {
     })();
 
     return (
-        <Box position='relative' className='ganntchart-container' sx={{borderColor: theme.palette.divider}}>
+        <Box position='relative' className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} sx={{borderColor: theme.palette.divider}}>
             <Gantt
                 tasks={milestones}
                 barCornerRadius={theme.shape.borderRadius}
