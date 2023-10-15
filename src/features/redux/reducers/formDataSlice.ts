@@ -223,7 +223,18 @@ const formDataSlice = createSlice({
             // For example, update the launch task based on the end of implementation
             if (id === 'implementation') {
                 const launchTask = state.project.milestones.launch;
-                // Update launch task's date based on the end of implementation
+                const implementationStartDate = new Date(start);
+                const implementationEndDate = new Date(end);
+
+                // Check if the difference is less than 8 months
+                const timeDiff = implementationEndDate.getTime() - implementationStartDate.getTime();
+                const monthsDiff = timeDiff / (1000 * 3600 * 24 * 30);
+
+                if (monthsDiff < 8) {
+                    // Set the end date based on the adjusted start date
+                    implementationEndDate.setMonth(implementationStartDate.getMonth() + 8);
+                }
+
                 return {
                     ...state,
                     project: {
@@ -232,18 +243,19 @@ const formDataSlice = createSlice({
                             ...state.project.milestones,
                             implementation: {
                                 ...state.project.milestones[id as keyof IMilestones],
-                                start: start,
-                                end: end,
+                                start: implementationStartDate,
+                                end: implementationEndDate,
                             },
                             launch: {
                                 ...launchTask,
-                                start: end,
-                                end: end,
+                                start: implementationEndDate,
+                                end: implementationEndDate,
                             },
                         },
                     },
                 };
             }
+
 
             if (id === 'order') {
                 // Update implementation task's date based on the date of order
