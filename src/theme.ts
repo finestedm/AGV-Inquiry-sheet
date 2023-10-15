@@ -51,7 +51,11 @@ theme = createTheme({
         },
         background: {
             default: '#fafafb'
+        },
+        info: {
+            main: '#006580'
         }
+
     },
 
     typography: {
@@ -144,6 +148,9 @@ export const themeDark = createTheme({
         success: {
             main: '#1aa5c9',
         },
+        info: {
+            main: '#006580'
+        }
     },
 
     typography: {
