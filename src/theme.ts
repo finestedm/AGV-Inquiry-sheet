@@ -57,6 +57,9 @@ theme = createTheme({
         }
 
     },
+    shape: {
+        borderRadius: theme.shape.borderRadius * 3
+    },
 
     typography: {
         fontFamily: [
@@ -94,12 +97,19 @@ theme = createTheme({
 
     ],
     components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: theme.shape.borderRadius * 10
+                }
+            }
+        },
         MuiCard: {
             styleOverrides: {
                 root: {
                     // boxShadow: shadow5,
                     border: borderStandard,
-                    borderColor: theme.palette.grey[200]
+                    borderColor: theme.palette.grey[200],
                 },
             },
         },
@@ -152,6 +162,9 @@ export const themeDark = createTheme({
             main: '#006580'
         }
     },
+    shape: {
+        borderRadius: theme.shape.borderRadius
+    },
 
     typography: {
         fontFamily: [
@@ -162,6 +175,13 @@ export const themeDark = createTheme({
 
 
     components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: theme.shape.borderRadius * 10
+                }
+            }
+        },
         MuiCard: {
             styleOverrides: {
                 root: {
