@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.0491965d.css",
-    "main.js": "./static/js/main.ca12b572.js",
+    "main.css": "./static/css/main.2f684fc2.css",
+    "main.js": "./static/js/main.17b52eda.js",
     "static/media/loadDimensionsPicture.png": "./static/media/loadDimensionsPicture.cfa0d91392f12dca884e.png",
     "static/media/JH_logo.png": "./static/media/JH_logo.7ecf36beead9d3783c6b.png",
     "static/media/loadDimensionsPicture2.png": "./static/media/loadDimensionsPicture2.cfbfd9a24fdef4b47c29.png",
@@ -9,11 +9,11 @@
     "static/media/Jungheinrich-Logo.svg": "./static/media/Jungheinrich-Logo.c6ef8d445a1c742af3c1afa8fdffbec8.svg",
     "static/media/uk.svg": "./static/media/uk.fd46970f89e3fbca473f57e811916ea0.svg",
     "static/media/poland.svg": "./static/media/poland.4da5f094c814970e3a2878f68eb33c40.svg",
-    "main.0491965d.css.map": "./static/css/main.0491965d.css.map",
-    "main.ca12b572.js.map": "./static/js/main.ca12b572.js.map"
+    "main.2f684fc2.css.map": "./static/css/main.2f684fc2.css.map",
+    "main.17b52eda.js.map": "./static/js/main.17b52eda.js.map"
   },
   "entrypoints": [
-    "static/css/main.0491965d.css",
-    "static/js/main.ca12b572.js"
+    "static/css/main.2f684fc2.css",
+    "static/js/main.17b52eda.js"
   ]
 }
