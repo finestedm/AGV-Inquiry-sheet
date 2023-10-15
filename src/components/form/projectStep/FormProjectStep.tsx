@@ -16,9 +16,6 @@ import { handleInputMethod } from "../../../features/redux/reducers/formDataSlic
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
-import { Gantt, Task } from "gantt-task-react";
-import "gantt-task-react/dist/index.css";
-import { ViewMode } from "gantt-task-react";
 import GanntGraph from "./subcomponents/GanttGraph";
 
 export default function FormProjectStep(): JSX.Element {

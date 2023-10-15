@@ -92,7 +92,7 @@
 }
 
 ._3eULf {
-  border-radius: .5rem;
+  border-radius: .25rem ;
   overflow: hidden;
   width: 100%;
 }
@@ -116,5 +116,8 @@
 
 .MuiPickersToolbar-root.MuiPickersLayout-toolbar.css-1eurbeq-MuiPickersToolbar-root-MuiDatePickerToolbar-root {
   visibility: collapse;
+}
 
+.ganntchart-container  tbody .MuiTableRow-root:last-child .MuiTableCell-root {
+  border-bottom: none;
 }

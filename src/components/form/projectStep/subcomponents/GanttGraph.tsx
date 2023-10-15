@@ -1,4 +1,5 @@
-import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import "gantt-task-react/dist/index.css";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import { handleDateChanges, handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { useTranslation } from "react-i18next";
@@ -56,17 +57,22 @@ export default function GanttGraph(): JSX.Element {
     })();
 
     return (
-        <Box position='relative' className='ganntchart-container'>
+        <Box position='relative' className='ganntchart-container' sx={{borderColor: theme.palette.divider}}>
             <Gantt
                 tasks={milestones}
                 barCornerRadius={theme.shape.borderRadius}
+                barBackgroundSelectedColor={theme.palette.secondary.main}
+                arrowIndent={40}
+                todayColor={theme.palette.divider}
                 viewMode={viewMode as ViewMode}
-                preStepsCount={0}
+                // preStepsCount={0}
                 locale='pl'
                 fontSize=".75rem"
                 listCellWidth={viewTaskList ? '100px' : ""}
                 columnWidth={columnsWidth}
                 TooltipContent={CustomTooltip}
+                TaskListHeader={CustomTaskListHeader}
+                TaskListTable={CustomListTable}
                 onDateChange={(task: Task) => {
                     const { id, start, end } = task;
                     dispatch(handleDateChanges({ id, start, end }));
@@ -102,7 +108,7 @@ function SizeEditButtons({ columnsWidth, setColumnWidth, viewTaskList, setViewTa
 function CustomTooltip({ task, fontFamily }: { task: Task; fontFamily: string }) {
     const theme = useTheme();
     return (
-        <Paper sx={{ backgroundColor: theme.palette.background.default }} elevation={2}>
+        <Paper sx={{ backgroundColor: theme.palette.background.default }} elevation={8}>
             <Stack spacing={1} p={2}>
                 <Typography>{task.name}</Typography>
                 <Typography fontSize='75%'>{`${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`}</Typography>
@@ -110,6 +116,38 @@ function CustomTooltip({ task, fontFamily }: { task: Task; fontFamily: string })
         </Paper>
     );
 };
+
+function CustomTaskListHeader({ headerHeight }: { headerHeight: number }) {
+    return (
+        null
+    );
+};
+
+function CustomListTable({ tasks, setSelectedTask, selectedTaskId, rowHeight, }: { tasks: Task[]; setSelectedTask: (taskId: string) => void; selectedTaskId: string; rowHeight: number }) {
+
+    const theme = useTheme();
+    return (
+        <TableContainer component={Paper} elevation={1} sx={{ border: 1, borderRight: 0, borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`, borderColor: theme.palette.divider, minWidth: '350px' }} >
+            <Table>
+                <TableHead sx={{ height: rowHeight }}>
+                    <TableRow>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Date Range</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {tasks.map((task) => (
+                        <TableRow key={task.id} onClick={() => setSelectedTask(task.id)} selected={task.id === selectedTaskId} style={{ height: rowHeight }}>
+                            <TableCell><Typography fontSize='85%'>{task.name}</Typography></TableCell>
+                            <TableCell><Typography fontSize='85%'>{`${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`}</Typography></TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
+}
+
 
 function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }: { selectedTask: Task | null, dateEditDialogOpen: boolean, handleDialogClose: () => void }) {
     const dispatch = useDispatch();
