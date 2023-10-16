@@ -106,7 +106,8 @@
   transition: all .5s ease;
 }
 
-.ganttchart-container:hover .ganttchart-edit-buttons {
+.ganttchart-container:hover .ganttchart-edit-buttons,
+.ganttchart-container-dark:hover .ganttchart-edit-buttons {
   opacity: 1;
 }
 

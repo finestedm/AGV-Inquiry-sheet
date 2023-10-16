@@ -1,4 +1,4 @@
-import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Grid } from "@mui/material";
 import "gantt-task-react/dist/index.css";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import { handleDateChanges, handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
@@ -135,19 +135,22 @@ export default function GanttGraph(): JSX.Element {
 
 function SizeEditButtons({ columnsWidth, setColumnWidth, viewTaskList, setViewTaskList, viewMode, setViewMode }: { columnsWidth: number, setColumnWidth: Dispatch<SetStateAction<number>>, viewTaskList: boolean, setViewTaskList: Dispatch<SetStateAction<boolean>>, viewMode: string, setViewMode: Dispatch<SetStateAction<string>> }) {
     return (
-        <Stack direction='row' spacing={2} className="ganttchart-edit-buttons">
-            <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
-                <Button onClick={() => setColumnWidth(columnsWidth + 5)}> <AddIcon /> </Button>
-                <Button onClick={() => setColumnWidth(columnsWidth - 5)}> <RemoveIcon /> </Button>
-                <Button onClick={() => setViewTaskList(!viewTaskList)}> <ViewListIcon /> </Button>
-            </ButtonGroup>
-            <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
-                <Button onClick={() => setViewMode("Week")} variant='contained' color={viewMode === "Week" ? "info" : "primary"}>Week</Button>
-                <Button onClick={() => setViewMode("Month")} variant='contained' color={viewMode === "Month" ? "info" : "primary"}>Month</Button>
-                <Button onClick={() => setViewMode("Year")} variant='contained' color={viewMode === "Year" ? "info" : "primary"}>Year</Button>
-            </ButtonGroup>
-
-        </Stack>
+        <Grid container spacing={2} className="ganttchart-edit-buttons">
+            <Grid item xs>
+                <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+                    <Button onClick={() => setColumnWidth(columnsWidth + 5)}> <AddIcon /> </Button>
+                    <Button onClick={() => setColumnWidth(columnsWidth - 5)}> <RemoveIcon /> </Button>
+                    <Button onClick={() => setViewTaskList(!viewTaskList)}> <ViewListIcon /> </Button>
+                </ButtonGroup>
+            </Grid>
+            <Grid item xs>
+                <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+                    <Button onClick={() => setViewMode("Week")} variant='contained' color={viewMode === "Week" ? "info" : "primary"}>Week</Button>
+                    <Button onClick={() => setViewMode("Month")} variant='contained' color={viewMode === "Month" ? "info" : "primary"}>Month</Button>
+                    <Button onClick={() => setViewMode("Year")} variant='contained' color={viewMode === "Year" ? "info" : "primary"}>Year</Button>
+                </ButtonGroup>
+            </Grid>
+        </Grid>
     )
 }
 
