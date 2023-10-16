@@ -80,7 +80,16 @@ export default function GanttGraph(): JSX.Element {
                                 style={{ height: rowHeight }}
                             >
                                 <TableCell><Typography fontSize='85%'>{task.name}</Typography></TableCell>
-                                <TableCell><Typography fontSize='85%'>{`${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`}</Typography></TableCell>
+                                <TableCell>
+                                    <Typography fontSize='85%'>
+                                        {
+                                            task.type === 'milestone' ?
+                                                task.start.toLocaleDateString()
+                                                :
+                                                `${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`
+                                        }
+                                    </Typography>
+                                </TableCell>
                                 <TableCell><IconButton size='small' onClick={() => handledateEditDialogOpen(task)}><EditIcon /></IconButton></TableCell>
 
                             </TableRow>
@@ -148,7 +157,13 @@ function CustomTooltip({ task, fontFamily }: { task: Task; fontFamily: string })
         <Paper sx={{ backgroundColor: theme.palette.background.default }} elevation={8}>
             <Stack spacing={1} p={2}>
                 <Typography>{task.name}</Typography>
-                <Typography fontSize='75%'>{`${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`}</Typography>
+                <Typography fontSize='75%'>
+                    {task.type === 'milestone' ?
+                        task.start.toLocaleDateString()
+                        :
+                        `${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`
+                    }
+                </Typography>
             </Stack>
         </Paper>
     );
