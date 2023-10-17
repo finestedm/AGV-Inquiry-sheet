@@ -1,4 +1,4 @@
-import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Grid, useMediaQuery } from "@mui/material";
+import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Grid, useMediaQuery, Toolbar, AppBar } from "@mui/material";
 import "gantt-task-react/dist/index.css";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import { handleDateChanges, handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
@@ -192,19 +192,21 @@ function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }:
     if (selectedTask && formData.project.milestones[taskId]) {
         return (
             <Dialog fullScreen={fullScreen} maxWidth='lg' open={dateEditDialogOpen} onClose={handleDialogClose}>
-                <DialogTitle>
-                    <Stack direction='row' spacing={2} flex={1} alignItems='start' justifyContent='space-between'>
-                        <Typography variant="h4" >
-                            {t(`${selectedTask.name}`)}
-                        </Typography>
-                        <IconButton
-                            color="inherit"
-                            onClick={handleDialogClose}
-                            aria-label="close"
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                    </Stack>
+                <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
+                    <Toolbar>
+                        <Stack direction='row' spacing={2} flex={1} alignItems='start' justifyContent='space-between'>
+                            <Typography variant="h4" >
+                                {t(`${selectedTask.name}`)}
+                            </Typography>
+                            <IconButton
+                                color="inherit"
+                                onClick={handleDialogClose}
+                                aria-label="close"
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                        </Stack>
+                    </Toolbar>
                 </DialogTitle>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
                     <DialogContent>
@@ -213,11 +215,10 @@ function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }:
                                 <Stack spacing={1}>
                                     <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.start')}</Typography>
                                     <DateCalendar
-                                        sx={{ padding: 0, margin: 0 }}
                                         displayWeekNumber
                                         disablePast
-                                        views={['month', 'year']}
-                                        openTo="month"
+                                        // views={['month', 'year']}
+                                        // openTo="month"
                                         value={dayjs(formData.project.milestones[taskId].start)}
                                         onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
                                     />
@@ -229,8 +230,8 @@ function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }:
                                     <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.end')}</Typography>
                                     <DateCalendar
                                         displayWeekNumber
-                                        views={['month', 'year']}
-                                        openTo="month"
+                                        // views={['month', 'year']}
+                                        // openTo="month"
                                         disablePast
                                         value={dayjs(formData.project.milestones[taskId].end)}
                                         onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
