@@ -95,6 +95,11 @@
       "copyDialog": {
         "title": "Wybierz dane do skopiowania z innego systemu",
         "noChange": "Bez zmian"
+      },
+      "ganttGraph": {
+        "selectDates": "Zmień daty dla: ",
+        "start": "początkowa",
+        "end": "końcowa"
       }
     },
     "snackBar": {

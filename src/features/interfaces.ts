@@ -155,7 +155,7 @@ export interface IHandleLoadChange {
     (index: number, field: keyof ILoad, value: string | number | boolean): void;
 }
 
-export type LoadFieldValue = string | number | boolean ;
+export type LoadFieldValue = string | number | boolean;
 
 export interface IHandleAddLoad {
     (): void;
@@ -168,5 +168,4 @@ export interface ICustomFieldProps {
     rows?: number;
     fullWidth?: boolean;
     disabled?: boolean;
-  }
-  
+}

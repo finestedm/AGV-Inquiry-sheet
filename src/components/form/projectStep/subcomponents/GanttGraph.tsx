@@ -11,7 +11,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import EditIcon from '@mui/icons-material/Edit';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { DatePicker, LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
+import { DateCalendar, DatePicker, LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { IMilestones } from "../../../../features/interfaces";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -188,30 +188,32 @@ function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }:
     if (selectedTask && formData.project.milestones[taskId]) {
         return (
             <Dialog maxWidth='lg' open={dateEditDialogOpen} onClose={handleDialogClose}>
-                <DialogTitle>{t("Select Dates")}</DialogTitle>
+                <DialogTitle component={Typography} variant="h5">{`${t("ui.dialog.ganttGraph.selectDates")} ${t(`${selectedTask.name}`) }`}</DialogTitle>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
                     <DialogContent>
-                        <Stack spacing={2} direction='row'>
-                            <StaticDatePicker
-                                slotProps={{
-                                    actionBar: {
-                                        actions: []
-                                    },
-                                }}
-                                disablePast
-                                value={dayjs(formData.project.milestones[taskId].start)}
-                                onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
-                            />
-                            <StaticDatePicker
-                                slotProps={{
-                                    actionBar: {
-                                        actions: []
-                                    },
-                                }}
-                                disablePast
-                                value={dayjs(formData.project.milestones[taskId].end)}
-                                onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
-                            />
+                        <Stack spacing={2} direction='row' mt={3}>
+                            <Stack spacing={1}>
+                                <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.start')}</Typography>
+                                <DateCalendar
+                                    displayWeekNumber
+                                    disablePast
+                                    views={['month', 'year']}
+                                    openTo="month"
+                                    value={dayjs(formData.project.milestones[taskId].start)}
+                                    onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
+                                />
+                            </Stack>
+                            <Stack spacing={1}>
+                                <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.end')}</Typography>
+                                <DateCalendar
+                                    displayWeekNumber
+                                    views={['month', 'year']}
+                                    openTo="month"
+                                    disablePast
+                                    value={dayjs(formData.project.milestones[taskId].end)}
+                                    onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
+                                />
+                            </Stack>
                         </Stack>
                     </DialogContent>
                 </LocalizationProvider>
