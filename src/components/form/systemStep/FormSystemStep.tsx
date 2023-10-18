@@ -17,7 +17,7 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: key
         <Stack spacing={8}>
             <Stack direction='row' justifyContent='space-between'>
                 <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
-                {/* <CopyOtherSystemDataButton selectedSystem={selectedSystem} /> */}
+                <CopyOtherSystemDataButton selectedSystem={selectedSystem} />
             </Stack>
             <WorkTime selectedSystem={selectedSystem} />
             <WorkConditions selectedSystem={selectedSystem} />

@@ -17,6 +17,11 @@ import {
     Tooltip,
     IconButton,
     Box,
+    Toolbar,
+    Typography,
+    useMediaQuery,
+    useTheme,
+    Stack,
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useTranslation } from "react-i18next";
@@ -25,13 +30,17 @@ import { useSelector } from "react-redux";
 import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
 import { IFormData, ISystemData, ISystems } from "../../features/interfaces";
 import availableSystems from "../../data/availableSystems";
+import CloseIcon from '@mui/icons-material/Close';
+
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
 
     const { t } = useTranslation();
 
-    const handleClose = () => { setCopyOtherSystemDataDialogOpen(false) };
+    function handleClose() {
+        setCopyOtherSystemDataDialogOpen(false)
+    };
 
     return (
         <Box>
@@ -61,9 +70,10 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     // Track the selected part for each system
     const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]?: keyof ISystemData }>({});
 
-    // useEffect(() => console.log(selectedParts), [selectedParts])
+    useEffect(() => console.log(selectedParts), [selectedParts])
 
     const { t } = useTranslation();
+    const theme = useTheme();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: keyof ISystems) {
         setSelectedParts((prevSelectedParts) => ({
@@ -119,12 +129,26 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
         return dataRows;
     }
 
-
-
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
     return (
-        <Dialog open={isOpen} onClose={handleClose}>
-            <DialogTitle>{t("ui.dialog.copyDialog.title")}</DialogTitle>
+        <Dialog fullScreen={fullScreen} maxWidth='lg' open={isOpen} onClose={handleClose}>
+            <DialogTitle>
+                <Stack direction='row' spacing={2} flex={1} alignItems='start' justifyContent='space-between'>
+
+                    <Typography variant="h5" >
+
+                        {t("ui.dialog.copyDialog.title")}
+                    </Typography>
+                    <IconButton
+                        color="inherit"
+                        onClick={handleClose}
+                        aria-label="close"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </Stack>
+            </DialogTitle>
             <DialogContent>
                 <TableContainer>
                     <Table>
