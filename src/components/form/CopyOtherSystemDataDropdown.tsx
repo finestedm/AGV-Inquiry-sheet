@@ -1,17 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Radio, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, IconButton, Box, Typography, useMediaQuery, useTheme, Stack } from "@mui/material";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControlLabel,
+    Radio,
+    RadioGroup,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Tooltip,
+    IconButton,
+    Box,
+    Toolbar,
+    Typography,
+    useMediaQuery,
+    useTheme,
+    Stack,
+} from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useTranslation } from "react-i18next";
 import { RootState } from "../../features/redux/store";
 import { useSelector } from "react-redux";
 import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
-import { ISystemData, ISystems } from "../../features/interfaces";
+import { IFormData, ISystemData, ISystems } from "../../features/interfaces";
 import availableSystems from "../../data/availableSystems";
 import CloseIcon from '@mui/icons-material/Close';
+import { text } from "stream/consumers";
 
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
-
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
 
     const { t } = useTranslation();
@@ -46,7 +69,14 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     const formData = useSelector((state: RootState) => state.formData);
 
     // Track the selected part for each system
-    const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]?: keyof ISystemData }>({});
+
+    const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]: string[] }>({
+        asrs: [],
+        lrkprk: [],
+        agv: [],
+        autovna: []
+    });
+
 
     useEffect(() => console.log(selectedParts), [selectedParts])
 
@@ -54,10 +84,41 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     const theme = useTheme();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: keyof ISystems) {
-        setSelectedParts((prevSelectedParts) => ({
-            ...prevSelectedParts, [system]: event.target.value,
-        }));
+        const selectedPart = event.target.value;
+
+        // if system is the currently selected system then remove the part from all other systems selected part arrays
+        if (system === selectedSystem) {
+            setSelectedParts((prevSelectedParts) => {
+                const updatedParts = { ...prevSelectedParts };
+                systems.forEach((system) => {
+                    updatedParts[system] = updatedParts[system].filter((part) => part !== selectedPart);
+                });
+                return updatedParts;
+            })
+        } else { // if it is other system the add the part to the other system array
+            setSelectedParts((prevSelectedParts) => {
+                const updatedParts = { ...prevSelectedParts };
+
+                // Remove the selected part from other systems
+                systems.forEach((otherSystem) => {
+                    if (otherSystem !== system) {
+                        updatedParts[otherSystem] = updatedParts[otherSystem].filter((part) => part !== selectedPart);
+                    }
+                });
+
+                // Check if the selected part is already in the current system
+                const isPartInSystem = updatedParts[system].includes(selectedPart);
+
+                // Add or update the selected part in the current system only if it's not already there
+                if (!isPartInSystem) {
+                    updatedParts[system] = [...updatedParts[system], selectedPart];
+                }
+
+                return updatedParts;
+            });
+        }
     }
+
 
 
     const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>);
@@ -80,16 +141,15 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
             })
             .map((part) => (
                 <TableRow key={part}>
-                    <TableCell>{t(`system.subheader.${part}`)}</TableCell>
+                    <TableCell sx={{ borderRight: 1, borderColor: theme.palette.divider }}><Typography color={!systems.some((otherSystem) => selectedParts[otherSystem].includes(part)) ? 'text.secondary' : 'text.primary'}>{t(`system.subheader.${part}`)}</Typography></TableCell>
                     {systems
                         .filter(system => system === selectedSystem)
-                        .map((system) => (
+                        .map(system => (
                             <TableCell key={system}>
                                 <Radio
                                     value={part}
-                                    checked={selectedParts[system as keyof ISystems] === part}
+                                    checked={!systems.some((otherSystem) => selectedParts[otherSystem].includes(part))}
                                     onChange={(e) => handleChange(e, system as keyof ISystems)}
-                                    disabled={isPartUnchanged(part, system)}
                                 />
                             </TableCell>
                         ))
@@ -99,14 +159,14 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                         .map((system) => (
                             <TableCell key={system}>
                                 <Radio
+                                    color='secondary'
                                     value={part}
-                                    checked={selectedParts[system as keyof ISystems] === part}
+                                    checked={selectedParts[system as keyof ISystems].includes(part)}
                                     onChange={(e) => handleChange(e, system as keyof ISystems)}
                                     disabled={isPartUnchanged(part, system)}
                                 />
                             </TableCell>
-                        ))
-                    }
+                        ))}
                 </TableRow>
             ))
 
@@ -117,11 +177,9 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
 
     return (
         <Dialog fullScreen={fullScreen} maxWidth='lg' open={isOpen} onClose={handleClose}>
-            <DialogTitle>
+            <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
                 <Stack direction='row' spacing={2} flex={1} alignItems='start' justifyContent='space-between'>
-
-                    <Typography variant="h5" >
-
+                    <Typography variant="h4" >
                         {t("ui.dialog.copyDialog.title")}
                     </Typography>
                     <IconButton
@@ -135,20 +193,22 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
             </DialogTitle>
             <DialogContent>
                 <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>{t("ui.table.head.part")}</TableCell>
-                                <TableCell>{t('ui.dialog.copyDialog.noChange')}</TableCell>
-                                {systems
-                                    .filter(system => system !== selectedSystem)
-                                    .map(system => (
-                                        <TableCell>{t(`${availableSystems.filter(avSys => avSys.alt === system)[0].labelShort}`)}</TableCell>
-                                    ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>{generateTableRows()}</TableBody>
-                    </Table>
+                    <Box mt={2} >
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell><Typography fontWeight='medium'>{t("ui.table.head.part")}</Typography></TableCell>
+                                    <TableCell><Typography fontWeight='medium'>{t('ui.dialog.copyDialog.noChange')}</Typography></TableCell>
+                                    {systems
+                                        .filter(system => system !== selectedSystem)
+                                        .map(system => (
+                                            <TableCell><Typography fontWeight='medium'>{t(`${availableSystems.filter(avSys => avSys.alt === system)[0].labelShort}`)}</Typography></TableCell>
+                                        ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>{generateTableRows()}</TableBody>
+                        </Table>
+                    </Box>
                 </TableContainer>
             </DialogContent>
             <DialogActions>
