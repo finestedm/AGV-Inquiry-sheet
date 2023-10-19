@@ -169,3 +169,8 @@ export interface ICustomFieldProps {
     fullWidth?: boolean;
     disabled?: boolean;
 }
+
+export interface CopySystemDataPayload {
+    selectedSystem: keyof ISystems;
+    selectedParts: { [key in keyof ISystems]: (keyof ISystemData)[] };
+}

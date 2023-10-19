@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilestones } from '../../interfaces';
+import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilestones, ISystemData, CopySystemDataPayload } from '../../interfaces';
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
@@ -394,10 +394,36 @@ const formDataSlice = createSlice({
             state.customer.industryName = [...industryName, value];
         },
 
+        handleCopySystemData: (state, action: PayloadAction<CopySystemDataPayload>) => {
+
+
+            const { selectedSystem, selectedParts } = action.payload;
+            // Iterate over selected parts for the selected system
+            Object.keys(state.system).forEach((otherSystemKey) => {
+                const otherSystem = otherSystemKey as keyof ISystems;
+
+                // Check if the current system is not the selected system
+                if (otherSystem !== selectedSystem) {
+                    // Iterate over selected parts in the current system
+                    selectedParts[otherSystem].forEach((part) => {
+                        console.log(state.system[selectedSystem][part])
+                        // Copy data from other systems to the selected system based on the selected part
+                        state.system[selectedSystem][part] = {
+                            //i don't have time for this shit... ignore these    
+                            // @ts-ignore
+                            ...state.system[selectedSystem][part],
+                                // @ts-ignore
+                            ...state.system[otherSystem][part], // Add type assertion here
+                        };
+                    });
+                }
+            });
+        },
+
         // ... add other reducers here if needed
     },
 });
 
-export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange, resetFormData, handleDateChanges } = formDataSlice.actions;
+export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange, resetFormData, handleDateChanges, handleCopySystemData } = formDataSlice.actions;
 export default formDataSlice.reducer;
 export { initialFormDataState }

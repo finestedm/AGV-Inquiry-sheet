@@ -27,10 +27,11 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useTranslation } from "react-i18next";
 import { RootState } from "../../features/redux/store";
 import { useSelector } from "react-redux";
-import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
+import { handleCopySystemData, initialFormDataState } from "../../features/redux/reducers/formDataSlice";
 import { IFormData, ISystemData, ISystems } from "../../features/interfaces";
 import availableSystems from "../../data/availableSystems";
 import CloseIcon from '@mui/icons-material/Close';
+import { useDispatch } from "react-redux";
 
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
@@ -70,21 +71,23 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     const formData = useSelector((state: RootState) => state.formData);
     const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>);
     const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected');
-    // Track the selected part for each system
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+    const dispatch = useDispatch();
 
-    const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]: string[] }>({
+    const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]: (keyof ISystemData)[] }>({
         asrs: [],
         lrkprk: [],
         agv: [],
-        autovna: []
+        autovna: [],
+
     });
 
-    useEffect(() => console.log(selectedParts), [selectedParts])
-
-    
+    useEffect(() => {
+        console.log(selectedParts)
+    }, [selectedParts])
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: keyof ISystems) {
-        const selectedPart = event.target.value;
+        const selectedPart = event.target.value as keyof ISystemData;
 
         // if system is the currently selected system then remove the part from all other systems selected part arrays
         if (system === selectedSystem) {
@@ -107,11 +110,11 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                 });
 
                 // Check if the selected part is already in the current system
-                const isPartInSystem = updatedParts[system].includes(selectedPart);
+                const isPartInSystem = updatedParts[system].includes(selectedPart as keyof ISystemData);
 
                 // Add or update the selected part in the current system only if it's not already there
                 if (!isPartInSystem) {
-                    updatedParts[system] = [...updatedParts[system], selectedPart];
+                    updatedParts[system] = [...updatedParts[system], selectedPart as keyof ISystemData];
                 }
 
                 return updatedParts;
@@ -170,8 +173,6 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
         return dataRows;
     }
 
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-
     return (
         <Dialog fullScreen={fullScreen} maxWidth='lg' open={isOpen} onClose={handleClose}>
             <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
@@ -212,7 +213,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                 <Button color="primary" onClick={handleClose}>
                     {t("ui.button.copyDialog.cancel")}
                 </Button>
-                <Button color="info" onClick={() => console.log(selectedParts)}>
+                <Button color="info" onClick={() => dispatch(handleCopySystemData({selectedSystem, selectedParts}))}>
                     {t("ui.button.copyDialog.accept")}
                 </Button>
             </DialogActions>
