@@ -31,7 +31,6 @@ import { initialFormDataState } from "../../features/redux/reducers/formDataSlic
 import { IFormData, ISystemData, ISystems } from "../../features/interfaces";
 import availableSystems from "../../data/availableSystems";
 import CloseIcon from '@mui/icons-material/Close';
-import { text } from "stream/consumers";
 
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
@@ -66,8 +65,11 @@ interface CopyOtherSystemDataDialogProps {
 }
 
 function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: CopyOtherSystemDataDialogProps): JSX.Element {
+    const { t } = useTranslation();
+    const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData);
-
+    const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>);
+    const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected');
     // Track the selected part for each system
 
     const [selectedParts, setSelectedParts] = useState<{ [key in keyof ISystems]: string[] }>({
@@ -77,11 +79,9 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
         autovna: []
     });
 
-
     useEffect(() => console.log(selectedParts), [selectedParts])
 
-    const { t } = useTranslation();
-    const theme = useTheme();
+    
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: keyof ISystems) {
         const selectedPart = event.target.value;
@@ -121,9 +121,6 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
 
 
 
-    const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>);
-    const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected');
-
     function isPartUnchanged(part: keyof ISystemData, systemToCheck?: keyof ISystems) {
         const systemsToCheck = systemToCheck ? [systemToCheck] : Object.keys(formData.system) as Array<keyof ISystems>;
 
@@ -141,7 +138,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
             })
             .map((part) => (
                 <TableRow key={part}>
-                    <TableCell sx={{ borderRight: 1, borderColor: theme.palette.divider }}><Typography color={!systems.some((otherSystem) => selectedParts[otherSystem].includes(part)) ? 'text.secondary' : 'text.primary'}>{t(`system.subheader.${part}`)}</Typography></TableCell>
+                    <TableCell sx={{ borderRight: 1, borderColor: theme.palette.divider }}><Typography variant="body2" color={!systems.some((otherSystem) => selectedParts[otherSystem].includes(part)) ? 'text.secondary' : 'text.primary'}>{t(`system.subheader.${part}`)}</Typography></TableCell>
                     {systems
                         .filter(system => system === selectedSystem)
                         .map(system => (
@@ -159,7 +156,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                         .map((system) => (
                             <TableCell key={system}>
                                 <Radio
-                                    color='secondary'
+                                    color='success'
                                     value={part}
                                     checked={selectedParts[system as keyof ISystems].includes(part)}
                                     onChange={(e) => handleChange(e, system as keyof ISystems)}
@@ -197,12 +194,12 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell><Typography fontWeight='medium'>{t("ui.table.head.part")}</Typography></TableCell>
-                                    <TableCell><Typography fontWeight='medium'>{t('ui.dialog.copyDialog.noChange')}</Typography></TableCell>
+                                    <TableCell><Typography fontWeight={600} variant="body2">{t("ui.table.head.part")}</Typography></TableCell>
+                                    <TableCell><Typography fontWeight={600} variant="body2">{t('ui.dialog.copyDialog.noChange')}</Typography></TableCell>
                                     {systems
                                         .filter(system => system !== selectedSystem)
                                         .map(system => (
-                                            <TableCell><Typography fontWeight='medium'>{t(`${availableSystems.filter(avSys => avSys.alt === system)[0].labelShort}`)}</Typography></TableCell>
+                                            <TableCell><Typography fontWeight={600} variant="body2">{t(`${availableSystems.filter(avSys => avSys.alt === system)[0].labelShort}`)}</Typography></TableCell>
                                         ))}
                                 </TableRow>
                             </TableHead>
@@ -215,7 +212,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                 <Button color="primary" onClick={handleClose}>
                     {t("ui.button.copyDialog.cancel")}
                 </Button>
-                <Button color="secondary" onClick={() => console.log(selectedParts)}>
+                <Button color="info" onClick={() => console.log(selectedParts)}>
                     {t("ui.button.copyDialog.accept")}
                 </Button>
             </DialogActions>

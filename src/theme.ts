@@ -53,7 +53,7 @@ theme = createTheme({
             default: '#fafafb'
         },
         info: {
-            main: '#006580'
+            main: '#2a7f93'
         }
 
     },
