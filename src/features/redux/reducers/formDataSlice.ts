@@ -406,15 +406,19 @@ const formDataSlice = createSlice({
                 if (otherSystem !== selectedSystem) {
                     // Iterate over selected parts in the current system
                     selectedParts[otherSystem].forEach((part) => {
-                        console.log(state.system[selectedSystem][part])
-                        // Copy data from other systems to the selected system based on the selected part
-                        state.system[selectedSystem][part] = {
-                            //i don't have time for this shit... ignore these    
-                            // @ts-ignore
-                            ...state.system[selectedSystem][part],
+                        if (part === 'loads') {
+                            state.system[selectedSystem][part] = [...state.system[otherSystem][part]];
+                        } else {
+
+                            // Copy data from other systems to the selected system based on the selected part
+                            state.system[selectedSystem][part] = {
+                                //i don't have time for this shit... ignore these    
                                 // @ts-ignore
-                            ...state.system[otherSystem][part], // Add type assertion here
-                        };
+                                ...state.system[selectedSystem][part],
+                                // @ts-ignore
+                                ...state.system[otherSystem][part], // Add type assertion here
+                            };
+                        }
                     });
                 }
             });
