@@ -407,7 +407,13 @@ const formDataSlice = createSlice({
                     // Iterate over selected parts in the current system
                     selectedParts[otherSystem].forEach((part) => {
                         if (part === 'loads') {
-                            state.system[selectedSystem][part] = [...state.system[otherSystem][part]];
+                            if (Array.isArray(state.system[otherSystem][part])) {
+                                state.system[selectedSystem][part] = state.system[otherSystem][part].map(load => ({ ...load }));
+                            }
+                        } else if (part === 'flow') {
+                            if (Array.isArray(state.system[otherSystem][part])) {
+                                state.system[selectedSystem][part] = state.system[otherSystem][part].map(flow => ({ ...flow }));
+                            }
                         } else {
 
                             // Copy data from other systems to the selected system based on the selected part

@@ -70,7 +70,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData);
     const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>);
-    const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected');
+    const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected' && key !== 'flow');
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
     const dispatch = useDispatch();
 

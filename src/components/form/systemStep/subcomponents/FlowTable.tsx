@@ -19,6 +19,10 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        console.log(selectedSystemFlow)
+    }, [selectedSystemFlow])
+
     const rows = selectedSystemFlow.map((flow, index) => ({
         id: index + 1, // Sequential number starting from 1
         stationSource: flow.stationSource,
@@ -29,7 +33,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
         distance: flow.distance,
         loadType: flow.loadType,
         bidirectional: flow.bidirectional
-    }));
+    })) || {};
 
     const handleDeleteSelected = () => {
         const updatedFlows = rows
