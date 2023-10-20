@@ -8,7 +8,6 @@ import { RootState } from "../../../features/redux/store";
 export default function FormSystemSelectorStep(): JSX.Element {
 
   const { t } = useTranslation()
-  const systems = useSelector((state: RootState) => state.formData.system)
 
   return (
     <Stack spacing={2}>

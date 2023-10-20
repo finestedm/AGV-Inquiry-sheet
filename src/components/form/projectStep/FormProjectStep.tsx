@@ -23,6 +23,7 @@ export default function FormProjectStep(): JSX.Element {
     const { t } = useTranslation();
     const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData);
+    const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
     const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
 
@@ -57,14 +58,12 @@ export default function FormProjectStep(): JSX.Element {
         t('project.invenstmentType.retrofit'),
     ];
 
-
     const existingWMS = [
         t('project.it.existingSystem.label.SAP-WM'),
         t('project.it.existingSystem.label.SAP-EWM'),
         t('project.it.existingSystem.label.other'),
     ];
 
-    
     return (
         <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
@@ -79,6 +78,7 @@ export default function FormProjectStep(): JSX.Element {
                     <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts')}</InputLabel>
                     <Field
                         as={Select}
+                        disabled={!editMode}
                         required
                         labelId="project.supplyChainParts.label"
                         id="project.supplyChainParts"
@@ -115,6 +115,7 @@ export default function FormProjectStep(): JSX.Element {
                         <Grid item>
                             <FormControlLabel
                                 id="project-tender"
+                                disabled={!editMode}
                                 control={
                                     <Checkbox
                                         checked={formData.project.tender}
@@ -129,6 +130,7 @@ export default function FormProjectStep(): JSX.Element {
                         <Grid item>
                             <FormControlLabel
                                 id="project-consultingCompany"
+                                disabled={!editMode}
                                 control={
                                     <Checkbox
                                         checked={formData.project.consultingCompany}
@@ -143,6 +145,7 @@ export default function FormProjectStep(): JSX.Element {
                         <Grid item>
                             <FormControlLabel
                                 id="project-competitor"
+                                disabled={!editMode}
                                 control={
                                     <Checkbox
                                         checked={formData.project.competitor}
@@ -162,6 +165,7 @@ export default function FormProjectStep(): JSX.Element {
                 <ToggleButtonGroup
                     sx={{ display: { xs: 'none', sm: 'flex' } }}
                     color='primary'
+                    disabled={!editMode}
                     exclusive
                     fullWidth
                     aria-label="investment type buttons"
@@ -184,6 +188,7 @@ export default function FormProjectStep(): JSX.Element {
                 <ToggleButtonGroup
                     sx={{ display: { sm: 'none' } }}
                     exclusive
+                    disabled={!editMode}
                     aria-label="investment type buttons"
                     orientation="vertical"
                     fullWidth
@@ -300,6 +305,7 @@ export default function FormProjectStep(): JSX.Element {
                         <Stack>
                             <FormControlLabel
                                 id="project.it.existingSystem"
+                                disabled={!editMode}
                                 control={
                                     <Checkbox
                                         checked={formData.project.it.existingSystem.present}
@@ -314,6 +320,7 @@ export default function FormProjectStep(): JSX.Element {
                         {formData.project.it.existingSystem.present &&
                             <ToggleButtonGroup
                                 exclusive
+                                disabled={!editMode}
                                 fullWidth
                                 aria-label="existing it system buttons"
                             >
@@ -338,6 +345,7 @@ export default function FormProjectStep(): JSX.Element {
                         <Stack>
                             <FormControlLabel
                                 id="project.it.wmsNeeded"
+                                disabled={!editMode}
                                 control={
                                     <Checkbox
                                         checked={formData.project.it.wmsNeeded}

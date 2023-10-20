@@ -82,7 +82,8 @@
       "addNewFlow": "Dodaj"
     },
     "switch": {
-      "darkMode": "Tryb nocny"
+      "darkMode": "Tryb nocny",
+      "editMode": "Tryb edycji"
     },
     "dialog": {
       "loadDelete": {

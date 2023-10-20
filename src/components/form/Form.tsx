@@ -19,10 +19,11 @@ import MobileFormStepper from "../MobileFormStepper";
 
 export default function Form(): JSX.Element {
 
-
   const { t } = useTranslation();
 
   const formData = useSelector((state: RootState) => state.formData);
+  const editMode = useSelector((state: RootState) => state.editMode);
+
 
   const [stepsCombined, setStepsCombined] = useState<{ label: string, untranslated: string, component: React.ReactNode }[]>([
     {
@@ -121,7 +122,7 @@ export default function Form(): JSX.Element {
   const handleNext = () => {
 
     const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
-    if (elementsWithAriaInvalid.length > 0) {
+    if (editMode && elementsWithAriaInvalid.length > 0) {
       const element = elementsWithAriaInvalid[0];
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
@@ -146,7 +147,7 @@ export default function Form(): JSX.Element {
 
   const handleStepClick = (step: number) => {
     const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
-    if (elementsWithAriaInvalid.length > 0) {
+    if (editMode && elementsWithAriaInvalid.length > 0) {
       const element = elementsWithAriaInvalid[0];
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
@@ -170,6 +171,7 @@ export default function Form(): JSX.Element {
         // validateOnMount={true}
         validateOnChange={true}
         enableReinitialize
+        
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
@@ -192,7 +194,7 @@ export default function Form(): JSX.Element {
                     )}
                     {activeStep < stepLabels.length - 1 && (
                       <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}
-                        disabled={!!Object.keys(formikProps.errors).includes(activeStepName)}
+                        disabled={editMode && !!Object.keys(formikProps.errors).includes(activeStepName)}
                       >
                         {t('ui.button.next')}
                       </Button>

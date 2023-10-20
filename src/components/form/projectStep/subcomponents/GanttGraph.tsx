@@ -24,6 +24,7 @@ export default function GanttGraph(): JSX.Element {
     const { t } = useTranslation();
     const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData);
+    const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
     const [columnsWidth, setColumnWidth] = useState<number>(40)
     const [viewTaskList, setViewTaskList] = useState<boolean>(true)
@@ -32,8 +33,10 @@ export default function GanttGraph(): JSX.Element {
     const [dateEditDialogOpen, setDateEditDialogOpen] = useState(false);
 
     function handledateEditDialogOpen(task: Task) {
-        setSelectedTask(task);
-        setDateEditDialogOpen(true);
+        if (editMode) {
+            setSelectedTask(task);
+            setDateEditDialogOpen(true);
+        }
     };
 
     function handleDialogClose() {
@@ -52,7 +55,7 @@ export default function GanttGraph(): JSX.Element {
                 end,
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
                 progress: 0,
-                isDisabled: name === 'launch',
+                isDisabled: !editMode || name === 'launch',
                 styles: { backgroundColor: (name === 'order' || name === 'launch') ? theme.palette.secondary.main : theme.palette.primary.main },
 
             };
@@ -69,8 +72,7 @@ export default function GanttGraph(): JSX.Element {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Date Range</TableCell>
-                            <TableCell>Edit</TableCell>
-
+                            {editMode && <TableCell>Edit</TableCell>}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -92,8 +94,9 @@ export default function GanttGraph(): JSX.Element {
                                         }
                                     </Typography>
                                 </TableCell>
-                                <TableCell><IconButton size='small' onClick={() => handledateEditDialogOpen(task)}><EditIcon /></IconButton></TableCell>
-
+                                {editMode &&
+                                    <TableCell><IconButton size='small' onClick={() => handledateEditDialogOpen(task)}><EditIcon /></IconButton></TableCell>
+                                }
                             </TableRow>
                         ))}
                     </TableBody>

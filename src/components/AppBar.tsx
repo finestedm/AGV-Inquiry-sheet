@@ -17,6 +17,7 @@ import jhLogoDark from '../images/JH_logo.png'
 import { openSnackbar } from "../features/redux/reducers/snackBarSlice";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import dayjs from "dayjs";
+import EditModeSwitch from "./EditModeSwitch";
 
 
 export default function TopBar(): JSX.Element {
@@ -137,7 +138,8 @@ export default function TopBar(): JSX.Element {
                                     </MenuItem>
                                 </Select>
                             </MenuItem>
-                                <DarkModeSwitch mobile={true} />
+                            <DarkModeSwitch mobile={true} />
+                            <EditModeSwitch mobile={true} />
                             <Divider />
                             <MenuItem onClick={() => saveDataToFile()}>
                                 <ListItemIcon><SaveIcon /></ListItemIcon>
@@ -191,34 +193,35 @@ export default function TopBar(): JSX.Element {
                                 </Select>
                             </FormControl>
                             <DarkModeSwitch />
-                                <Button onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
-                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
-                                        <Typography>{t('ui.button.inquiry.save')}</Typography>
-                                    </Stack>
-                                </Button>
-                                <Button startIcon={<UploadIcon />}>
-                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' onClick={() => {
-                                        const fileInput = document.getElementById('file-input') as HTMLInputElement;
-                                        if (fileInput) {
-                                            fileInput.click();
-                                        }
-                                    }}>
+                            <EditModeSwitch />
+                            <Button onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
+                                <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                    <Typography>{t('ui.button.inquiry.save')}</Typography>
+                                </Stack>
+                            </Button>
+                            <Button startIcon={<UploadIcon />}>
+                                <Stack direction='row' flex={1} spacing={1} alignItems='center' onClick={() => {
+                                    const fileInput = document.getElementById('file-input') as HTMLInputElement;
+                                    if (fileInput) {
+                                        fileInput.click();
+                                    }
+                                }}>
 
-                                        <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                        <input
-                                            type="file"
-                                            accept=".json"
-                                            id="file-input" // Assign an id to the input element
-                                            style={{ display: 'none' }} // Hide the input element with CSS
-                                            onInput={(e) => loadFile(e)}
-                                        />
-                                    </Stack>
-                                </Button>
-                                <Button startIcon={<DeleteOutlineIcon />} color='error' onClick={() => dispatch(resetFormData())}>
-                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
-                                        <Typography>{t('ui.button.inquiry.clear')}</Typography>
-                                    </Stack>
-                                </Button>
+                                    <Typography>{t('ui.button.inquiry.load')}</Typography>
+                                    <input
+                                        type="file"
+                                        accept=".json"
+                                        id="file-input" // Assign an id to the input element
+                                        style={{ display: 'none' }} // Hide the input element with CSS
+                                        onInput={(e) => loadFile(e)}
+                                    />
+                                </Stack>
+                            </Button>
+                            <Button startIcon={<DeleteOutlineIcon />} color='error' onClick={() => dispatch(resetFormData())}>
+                                <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                    <Typography>{t('ui.button.inquiry.clear')}</Typography>
+                                </Stack>
+                            </Button>
                         </Stack>
                     </Box>
                 </Toolbar>

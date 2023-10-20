@@ -5,12 +5,15 @@ import { Field, FieldInputProps, FieldProps, useFormikContext } from 'formik';
 import { useDispatch } from 'react-redux';
 import { handleInputMethod } from '../../features/redux/reducers/formDataSlice';
 import { ICustomFieldProps } from '../../features/interfaces';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../features/redux/store';
 
 export default function CustomTextField(props: ICustomFieldProps) {
   const { fieldName, required, multiline, rows, fullWidth, disabled } = props;
   const { t } = useTranslation();
   const formikProps = useFormikContext();
   const dispatch = useDispatch()
+  const editMode = useSelector((state: RootState) => state.editMode)
   const field: FieldInputProps<any> = formikProps.getFieldProps(fieldName)
 
   const [firstPart, secondPart]: string[] = fieldName.split('.');
@@ -37,7 +40,7 @@ export default function CustomTextField(props: ICustomFieldProps) {
       fullWidth={fullWidth}
       multiline={multiline}
       rows={rows}
-      disabled={disabled}
+      disabled={disabled || !editMode}
       name={fieldName}
       required={required}
       variant="outlined"

@@ -12,6 +12,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
     const theme = useTheme()
 
     const formData = useSelector((state: RootState) => state.formData);
+    const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
 
     const { t } = useTranslation();
@@ -41,6 +42,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
             <Card elevation={2} className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : theme.palette.divider, boxShadow: 'none', backgroundColor: systemSelected ? generateBackgroundColor(.025) : theme.palette.background.default }}>
                 <CardActionArea
                     sx={{ position: 'relative' }}
+                    disabled={!editMode}
                     onClick={e => dispatch(handleSystemChange(system.alt))}
                 >
                     <div

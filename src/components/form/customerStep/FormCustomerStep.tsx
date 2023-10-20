@@ -31,6 +31,8 @@ export default function FormCustomerStep(): JSX.Element {
   const { t } = useTranslation();
 
   const formData = useSelector((state: RootState) => state.formData);
+  const editMode = useSelector((state: RootState) => state.editMode)
+
   const dispatch = useDispatch();
 
   const industries: string[] = [
@@ -80,6 +82,7 @@ export default function FormCustomerStep(): JSX.Element {
           value={formData.customer.contactPersonPhone}
           onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonPhone', value: e }))}
           variant="outlined"
+          disabled={!editMode}
           fullWidth
         />
         <CustomTextField
@@ -92,6 +95,7 @@ export default function FormCustomerStep(): JSX.Element {
           <InputLabel id="customer-industry-label">{t('customer.industry')}</InputLabel>
           <Field
             required
+            disabled={!editMode}
             as={Select}
             labelId="customer-industry-label"
             id="customer-industryName"
@@ -122,6 +126,7 @@ export default function FormCustomerStep(): JSX.Element {
             label={t('customer.industryName.other')}
             name="customer.industryName-other"
             value={otherIndustry}
+            disabled={!editMode}
             onChange={(e) => setOtherIndustry(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -134,6 +139,7 @@ export default function FormCustomerStep(): JSX.Element {
           <InputLabel id="customer-relations-label">{t('customer.relations.type')}</InputLabel>
           <Field
             as={Select}
+            disabled={!editMode}
             required
             labelId="customer-relations-label"
             id="customer.relations"
@@ -162,6 +168,7 @@ export default function FormCustomerStep(): JSX.Element {
                 <TextField
                   id="customer-relations-forklift-input"
                   fullWidth
+                  disabled={!editMode}
                   label={t("customer.relations.input.forklifts")}
                   type="number"
                   value={trimLeadingZeros(Number(formData.customer.ownedForklifts))}
@@ -176,6 +183,7 @@ export default function FormCustomerStep(): JSX.Element {
                 <TextField
                   id="customer-relations-racks-input"
                   fullWidth
+                  disabled={!editMode}
                   label={t("customer.relations.input.racks")}
                   type="number"
                   value={trimLeadingZeros(Number(formData.customer.ownedRacks))}
@@ -190,6 +198,7 @@ export default function FormCustomerStep(): JSX.Element {
                 <TextField
                   id="customer-relations-other-input"
                   fullWidth
+                  disabled={!editMode}
                   label={t("customer.relations.input.other")}
                   type="text"
                   value={formData.customer.ownedOther}
@@ -203,6 +212,7 @@ export default function FormCustomerStep(): JSX.Element {
           label={t('customer.relations.saleshistoryvalue')}
           name="customer.salesHistoryValue"
           type="text"
+          disabled={!editMode}
           value={formData.customer.salesHistoryValue === undefined ? '' : (Number(formData.customer.salesHistoryValue)).toLocaleString('en-US').replaceAll(',', ' ')}
           onChange={(e) => {
             const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
@@ -217,6 +227,7 @@ export default function FormCustomerStep(): JSX.Element {
           label={t('customer.relations.creditmanagement')}
           name="customer.creditmanagement"
           type="text"
+          disabled={!editMode}
           value={formData.customer.creditManagement === undefined ? '' : (Number(formData.customer.creditManagement)).toLocaleString('en-US').replaceAll(',', ' ')}
           onChange={(e) => {
             const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
