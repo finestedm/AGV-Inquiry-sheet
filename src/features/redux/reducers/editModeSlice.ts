@@ -4,7 +4,15 @@ const editModeSlice = createSlice({
   name: 'readEdit',
   initialState: false,
   reducers: {
-    setEditMode: (state, action) => action.payload,
+    setEditMode: (state, action) => {
+      if (action.payload === undefined) {
+        // Toggle the state if no payload is provided
+        return !state;
+      } else {
+        // Set the state to the specified value if a payload is provided
+        return action.payload;
+      }
+    },
   },
 });
 

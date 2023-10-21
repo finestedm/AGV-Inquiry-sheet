@@ -18,6 +18,7 @@ import { openSnackbar } from "../features/redux/reducers/snackBarSlice";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import dayjs from "dayjs";
 import EditModeSwitch from "./EditModeSwitch";
+import { setEditMode } from "../features/redux/reducers/editModeSlice";
 
 
 export default function TopBar(): JSX.Element {
@@ -79,6 +80,7 @@ export default function TopBar(): JSX.Element {
             // Clear the input value to allow selecting the same file again
             fileInput.value = '';
         }
+        dispatch(setEditMode(false))
     }
 
 
