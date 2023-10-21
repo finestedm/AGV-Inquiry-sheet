@@ -17,6 +17,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
     const selectedSystemFlow = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
+    const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -97,10 +98,14 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                         { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?', valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
                     ]}
 
-                    processRowUpdate={(newRow: any) => {
-                        dispatch(handleFlowChange({ newRow, selectedSystem }));
-                        // Return the updated row with isNew set to false
-                        return { ...newRow, isNew: false };
+                    processRowUpdate={(newRow: any, oldRow: any) => {
+                        if (editMode) {
+                            dispatch(handleFlowChange({ newRow, selectedSystem }));
+                            // Return the updated row with isNew set to false
+                            return { ...newRow, isNew: false };
+                        } else {
+                            return oldRow
+                        }
                     }}
                     disableRowSelectionOnClick
                     checkboxSelection
@@ -109,7 +114,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                     slots={{
                         pagination: () => (
                             <GridToolbarContainer>
-                                {(rowSelectionModel.length > 0) ?
+                                {(editMode && rowSelectionModel.length > 0) ?
                                     <Box>
                                         <Box display={{ xs: 'none', md: 'block' }}>
                                             <Button
@@ -140,6 +145,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                     variant='contained'
                                     onClick={() => dispatch(handleAddFlow({ systemName: selectedSystem }))}
                                     endIcon={<PlaylistAdd />}
+                                    disabled={!editMode}
                                 >
                                     {t('ui.button.addNewFlow')}
                                 </Button >
@@ -159,7 +165,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             </Box>
                         )
                     }}
-                    onRowSelectionModelChange={(newRowSelectionModel) => { setRowSelectionModel(newRowSelectionModel) }}
+                    onRowSelectionModelChange={(newRowSelectionModel) => { editMode && setRowSelectionModel(newRowSelectionModel)}}
                     rowSelectionModel={rowSelectionModel}
 
                 // Add other Data Grid props as needed...

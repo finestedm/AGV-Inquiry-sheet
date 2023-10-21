@@ -17,6 +17,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const selectedSystemFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
+    const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
 
     const [selectedIndex, setSelectedIndex] = useState<string>('placeholder');
@@ -82,7 +83,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
             dispatch(updateDeleteLoadDialog({ open: true, updatedLoads, selectedSystem })) // we set the updatedLoads and selected system as a temp value as we wait for the user to take action
             setRowSelectionModel([])
         } else {
-            console.log(updatedLoads, selectedSystem)
             dispatch(handleDeleteLoad({ updatedLoads, selectedSystem }));
         }
     };
@@ -138,10 +138,14 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                     { field: 'secured', headerName: 'Load Secured', width: 100, editable: true, type: 'boolean', description: 'Is the load secured on pallet (wrapped)?' },
                 ]}
 
-                processRowUpdate={(newRow: any) => {
-                    dispatch(handleLoadChange({ newRow, selectedSystem }));
-                    // Return the updated row with isNew set to false
-                    return { ...newRow, isNew: false };
+                processRowUpdate={(newRow: any, oldRow: any) => {
+                    if (editMode) {
+                        dispatch(handleLoadChange({ newRow, selectedSystem }));
+                        // Return the updated row with isNew set to false
+                        return { ...newRow, isNew: false };
+                    } else {
+                        return oldRow
+                    }
                 }}
                 disableRowSelectionOnClick
                 checkboxSelection
@@ -150,13 +154,14 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                 slots={{
                     pagination: () => (
                         <GridToolbarContainer>
-                            {(rowSelectionModel.length > 0) ?
+                            {(editMode && rowSelectionModel.length > 0) ?
                                 <Box>
                                     <Box display={{ xs: 'none', md: 'block' }}>
                                         <Button
                                             size="small"
                                             variant="contained"
                                             color="error"
+                                            disabled={!editMode}
                                             onClick={handleDeleteSelected}
                                             endIcon={<DeleteIcon />}
                                         >
@@ -167,6 +172,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                                         <IconButton
                                             size="small"
                                             color="error"
+                                            disabled={!editMode}
                                             onClick={handleDeleteSelected}
                                         >
                                             <DeleteIcon />
@@ -176,7 +182,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
 
                                 : ''
                             }
-                            <ButtonGroup variant='contained' size="small" aria-label="split button">
+                            <ButtonGroup disabled={!editMode} variant='contained' size="small" aria-label="split button">
                                 <Button
                                     aria-controls={open ? 'split-button-menu' : undefined}
                                     aria-expanded={open ? 'true' : undefined}
@@ -243,7 +249,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                         </Box>
                     )
                 }}
-                onRowSelectionModelChange={(newRowSelectionModel) => { setRowSelectionModel(newRowSelectionModel) }}
+                onRowSelectionModelChange={(newRowSelectionModel) => { editMode && setRowSelectionModel(newRowSelectionModel) }}
                 rowSelectionModel={rowSelectionModel}
 
             // Add other Data Grid props as needed...

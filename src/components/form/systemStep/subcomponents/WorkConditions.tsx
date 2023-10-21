@@ -15,6 +15,7 @@ import { ISystems } from "../../../../features/interfaces";
 export default function WorkConditions({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData);
+    const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -26,6 +27,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                     <Grid item xs={12} md={6}>
                         <Typography align="left">{t(`system.workConditions.temperature`)}</Typography>
                         <Slider
+                            disabled={!editMode}
                             sx={{ width: '95%' }}
                             getAriaLabel={() => 'Temperature range'}
                             value={formData.system[selectedSystem].workConditions.temperature}
@@ -45,6 +47,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                     <Grid item xs={12} md={6}>
                         <Typography align="left">{t(`system.workConditions.humidity`)}</Typography>
                         <Slider
+                            disabled={!editMode}
                             sx={{ width: '95%' }}
                             getAriaLabel={() => 'Humidity range'}
                             value={formData.system[selectedSystem].workConditions.humidity}
@@ -64,6 +67,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                         <Box>
                             <Stack>
                                 <FormControlLabel
+                                    disabled={!editMode}
                                     id="system-asrs-workConditions-freezer"
                                     control={
                                         <Checkbox
@@ -76,6 +80,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                     label={<>{t(`system.workConditions.freezer`)} <AcUnit fontSize="small" /></>}
                                 />
                                 <FormControlLabel
+                                    disabled={!editMode}
                                     id="system-asrs-workConditions-EX"
                                     control={
                                         <Checkbox
@@ -88,6 +93,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                     label={<>{t(`system.workConditions.EX`)} <Warning fontSize="small" /></>}
                                 />
                                 <FormControlLabel
+                                    disabled={!editMode}
                                     id="system-asrs-workConditions-dangerousMaterials"
                                     control={
                                         <Checkbox

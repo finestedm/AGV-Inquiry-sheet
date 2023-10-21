@@ -11,6 +11,7 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
     const { t } = useTranslation()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
+    const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
 
     const rows = selectedSystemLoads.map((load, index) => ({
@@ -76,10 +77,14 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
                     },
                     { field: "capacity", headerName: "Capacity", minWidth: 125, editable: true, type: 'number', description: 'How many loads should the installation store?' },
                 ]}
-                processRowUpdate={(newRow: any) => {
-                    dispatch(handleLoadChange({ newRow, selectedSystem }));
-                    // Return the updated row with isNew set to false
-                    return { ...newRow, isNew: false };
+                processRowUpdate={(newRow: any, oldRow: any) => {
+                    if (editMode) {
+                        dispatch(handleLoadChange({ newRow, selectedSystem }));
+                        // Return the updated row with isNew set to false
+                        return { ...newRow, isNew: false };
+                    } else {
+                        return oldRow
+                    }
                 }}
                 disableRowSelectionOnClick
                 disableColumnMenu={isMobile}

@@ -11,6 +11,7 @@ import { ISystems } from "../../../../features/interfaces";
 export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData);
+    const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -20,6 +21,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
             <Stack direction='row' alignItems='center'>
                 <Typography>{t(`system.building.existing`)}</Typography>
                 <Switch
+                    disabled={!editMode}
                     checked={formData.system[selectedSystem].building.new}
                     onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.new`, value: e.target.checked }))}
                     inputProps={{ 'aria-label': 'controlled' }}
@@ -30,6 +32,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                 <Stack>
                     <FormControlLabel
                         id="system-asrs-building-silo"
+                        disabled={!editMode}
                         control={
                             <Checkbox
                                 checked={formData.system[selectedSystem].building.silo}
@@ -47,6 +50,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                     <Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
                         <Grid item xs>
                             <TextField
+                                disabled={!editMode}
                                 id="system.asrs.building.existingBuilding.height"
                                 fullWidth
                                 label={t(`system.building.existingBuilding.height`)}
@@ -70,6 +74,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
 
                         <Grid item xs>
                             <TextField
+                                disabled={!editMode}
                                 id="system.asrs.building.existingBuilding.width"
                                 fullWidth
                                 label={t(`system.building.existingBuilding.width`)}
@@ -92,6 +97,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         <Grid item xs={1}>X</Grid>
                         <Grid item xs>
                             <TextField
+                                disabled={!editMode}
                                 id="system.asrs.building.existingBuilding.length"
                                 fullWidth
                                 label={t(`system.building.existingBuilding.length`)}

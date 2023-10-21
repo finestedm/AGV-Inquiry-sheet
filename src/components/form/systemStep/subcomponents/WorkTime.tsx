@@ -11,6 +11,7 @@ import { ISystems } from "../../../../features/interfaces";
 export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData);
+    const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
 
     const theme = useTheme();
@@ -31,6 +32,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                     <Grid item xs={12} sm={4} lg={3}>
                         <Typography align="left">{t(`system.workTime.workDays`)}</Typography>
                         <Slider
+                            disabled={!editMode}
                             sx={{ width: '95%' }}
                             getAriaLabel={() => 'workDays'}
                             value={formData.system[selectedSystem].workTime.workDays}
@@ -44,6 +46,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                     <Grid item xs={12} sm={4} lg={3}>
                         <Typography align="left">{t(`system.workTime.shiftsPerDay`)}</Typography>
                         <Slider
+                            disabled={!editMode}
                             sx={{ width: '95%' }}
                             getAriaLabel={() => 'shiftsPerDay'}
                             value={formData.system[selectedSystem].workTime.shiftsPerDay}
@@ -57,6 +60,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                     <Grid item xs={12} sm={4} lg={3}>
                         <Typography align="left">{t(`system.workTime.hoursPerShift`)}</Typography>
                         <Slider
+                            disabled={!editMode}
                             sx={{ width: '95%' }}
                             getAriaLabel={() => 'hoursPerShift'}
                             value={formData.system[selectedSystem].workTime.hoursPerShift}
