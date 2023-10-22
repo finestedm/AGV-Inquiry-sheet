@@ -42,7 +42,7 @@ function App() {
   //loading and saving data from localStorage
   //
   useEffect(() => {
-    const savedData = loadFormDataFromLocalStorage();
+    const savedData = loadFormDataFromLocalStorage(formData.version);
     if (savedData) {
       // Check if the loaded version matches the app version before setting the formData
       if (savedData.version === formData.version) {

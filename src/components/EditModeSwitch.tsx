@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Switch from '@mui/material/Switch';
 import { RootState } from '../features/redux/store';
-import { Box, Button, Collapse, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Box, Button, Collapse, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,9 @@ export default function EditModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
   const dispatch = useDispatch();
   const editMode = useSelector((state: RootState) => state.editMode);
   const { t } = useTranslation();
+  const theme = useTheme();
+
+  const renderFull = useMediaQuery(theme.breakpoints.up('xl'))
 
   if (mobile) {
     return (
@@ -37,32 +40,55 @@ export default function EditModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
             </Collapse>
           </Box>
         </ListItemIcon>
-        <ListItemText>{t('ui.switch.editMode')}</ListItemText>
+        <ListItemText>{editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}</ListItemText>
       </ListItem>
     );
   } else {
     return (
-      <Button
-        variant='text'
-        size='small'
-        onClick={() => dispatch(setEditMode(!editMode))}
-        startIcon={
-          <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
-            in={editMode}
+      renderFull ? (
+        <Button
+          variant='text'
+          size='small'
+          onClick={() => dispatch(setEditMode(!editMode))}
+          startIcon={
+            <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
+              in={editMode}
+            >
+              <ModeIcon />
+            </Collapse>
+          }
+          endIcon={
+            <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
+              in={!editMode}
+            >
+              <ImageSearchIcon />
+            </Collapse>
+          }
+        >
+          <Typography>{editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}</Typography>
+        </Button>
+      ) : (
+        <Tooltip title={t('ui.tooltip.editMode')}>
+
+          <IconButton
+            size='small'
+            color='primary'
+            onClick={() => dispatch(setEditMode(!editMode))}
           >
-            <ModeIcon />
-          </Collapse>
-        }
-        endIcon={
-          <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
-            in={!editMode}
-          >
-            <ImageSearchIcon />
-          </Collapse>
-        }
-      >
-        <Typography>{t('ui.switch.editMode')}</Typography>
-      </Button>
+            <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
+              in={editMode}
+            >
+              <ModeIcon />
+            </Collapse>
+
+            <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
+              in={!editMode}
+            >
+              <ImageSearchIcon />
+            </Collapse>
+          </IconButton>
+        </Tooltip>
+      )
     );
   }
 }

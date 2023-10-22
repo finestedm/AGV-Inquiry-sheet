@@ -82,8 +82,14 @@
       "addNewFlow": "Dodaj"
     },
     "switch": {
-      "darkMode": "Tryb nocny",
-      "editMode": "Tryb edycji"
+      "darkMode": {
+        "dark": "Tryb nocny",
+        "light": "Tryb jasny"
+      },
+      "editMode": {
+        "edit": "Tryb edycji",
+        "read": "Tryb podglądu"
+      }
     },
     "dialog": {
       "loadDelete": {
@@ -114,7 +120,9 @@
       }
     },
     "tooltip": {
-      "copyOtherSystemData": "Skopiuj dane z innego systemu"
+      "copyOtherSystemData": "Skopiuj dane z innego systemu",
+      "darkMode": "Przełączy tryb dzienny / nocny",
+      "editMode": "Przełączy tryb edycji / podglądu"
     },
     "table": {
       "head": {

@@ -89,7 +89,7 @@ export default function TopBar(): JSX.Element {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end', alignContent: 'flex-end' }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' }, justifyContent: 'flex-end', alignContent: 'flex-end' }}>
                         <IconButton
                             size="large"
                             aria-controls="menu-appbar"
@@ -114,7 +114,7 @@ export default function TopBar(): JSX.Element {
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
-                                display: { xs: 'block', md: 'none' },
+                                display: { xs: 'block', lg: 'none' },
                             }}
                         >
                             <MenuItem>
@@ -172,9 +172,9 @@ export default function TopBar(): JSX.Element {
                         </Menu>
                     </Box>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'flex-end' }}>
                         <Stack spacing={3} direction='row'>
-                            <FormControl size='small' sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <FormControl size='small' sx={{ display: { xs: 'none', lg: 'flex' } }}>
                                 <Select
                                     id="language-select"
                                     value={i18n.language}

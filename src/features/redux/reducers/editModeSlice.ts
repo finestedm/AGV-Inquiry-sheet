@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const editModeSlice = createSlice({
   name: 'readEdit',
-  initialState: false,
+  initialState: true,
   reducers: {
     setEditMode: (state, action) => {
       if (action.payload === undefined) {

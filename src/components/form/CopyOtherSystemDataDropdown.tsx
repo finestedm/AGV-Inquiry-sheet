@@ -36,6 +36,7 @@ import { useDispatch } from "react-redux";
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
+    const editMode = useSelector((state: RootState) => state.editMode)
 
     const { t } = useTranslation();
 
@@ -46,7 +47,7 @@ export default function CopyOtherSystemDataButton({ selectedSystem }: { selected
     return (
         <Box>
             <Tooltip title={t("ui.tooltip.copyOtherSystemData")}>
-                <IconButton onClick={() => setCopyOtherSystemDataDialogOpen(true)}>
+                <IconButton disabled={!editMode} onClick={() => setCopyOtherSystemDataDialogOpen(true)}>
                     <ContentCopyIcon />
                 </IconButton>
             </Tooltip>
@@ -82,9 +83,9 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
 
     });
 
-    useEffect(() => {
-        console.log(selectedParts)
-    }, [selectedParts])
+    // useEffect(() => {
+    //     console.log(selectedParts)
+    // }, [selectedParts])
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: keyof ISystems) {
         const selectedPart = event.target.value as keyof ISystemData;
