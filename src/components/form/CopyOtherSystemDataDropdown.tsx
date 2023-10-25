@@ -82,10 +82,6 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
 
     });
 
-    useEffect(() => {
-        console.log(selectedParts)
-    }, [selectedParts])
-
     function handleChange(event: React.ChangeEvent<HTMLInputElement>, system: keyof ISystems) {
         const selectedPart = event.target.value as keyof ISystemData;
 
