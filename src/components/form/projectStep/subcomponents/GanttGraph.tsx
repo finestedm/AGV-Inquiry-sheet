@@ -159,7 +159,7 @@ function SizeEditButtons({ columnsWidth, setColumnWidth, viewTaskList, setViewTa
     )
 }
 
-function CustomTooltip({ task, fontFamily }: { task: Task; fontFamily: string }) {
+function CustomTooltip({ task }: { task: Task }) {
     const theme = useTheme();
     return (
         <Paper sx={{ backgroundColor: theme.palette.background.default }} elevation={8}>
@@ -186,6 +186,7 @@ function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }:
     const taskId = selectedTask?.id as keyof IMilestones
 
     if (selectedTask && formData.project.milestones[taskId]) {
+        console.log(formData.project.milestones[taskId])
         return (
             <Dialog fullScreen={fullScreen} maxWidth='lg' open={dateEditDialogOpen} onClose={handleDialogClose}>
                 <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
@@ -206,44 +207,63 @@ function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }:
                 </DialogTitle>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
                     <DialogContent>
-                        <Grid container spacing={3} direction='row' mt={2}>
-                            <Grid item xs>
-                                <Stack spacing={1}>
-                                    <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.start')}</Typography>
-                                    <Box flex={1} justifyContent='center'>
-                                        <DateCalendar
-                                            displayWeekNumber
-                                            disablePast
-                                            // views={['month', 'year']}
-                                            // openTo="month"
-                                            value={dayjs(formData.project.milestones[taskId].start)}
-                                            onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
-                                        />
-                                    </Box>
-                                </Stack>
-                            </Grid>
+                        {selectedTask.id === 'order' ?
+                            (
+                                <Grid container spacing={3} direction='row' mt={2}>
+                                    <Grid item xs>
+                                        <Stack spacing={1}>
+                                            <Box flex={1} justifyContent='center'>
+                                                <DateCalendar
+                                                    displayWeekNumber
+                                                    disablePast
+                                                    // views={['month', 'year']}
+                                                    // openTo="month"
+                                                    value={dayjs(formData.project.milestones[taskId].start)}
+                                                    onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: date }))}
+                                                />
+                                            </Box>
+                                        </Stack>
+                                    </Grid>
+                                </Grid>
+                            ) : (
+                                <Grid container spacing={3} direction='row' mt={2}>
+                                    <Grid item xs>
+                                        <Stack spacing={1}>
+                                            <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.start')}</Typography>
+                                            <Box flex={1} justifyContent='center'>
+                                                <DateCalendar
+                                                    displayWeekNumber
+                                                    disablePast
+                                                    // views={['month', 'year']}
+                                                    // openTo="month"
+                                                    value={dayjs(formData.project.milestones[taskId].start)}
+                                                    onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
+                                                />
+                                            </Box>
+                                        </Stack>
+                                    </Grid>
+                                    <Grid item xs>
+                                        <Stack spacing={1}>
+                                            <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.end')}</Typography>
+                                            <Box flex={1} justifyContent='center'>
+                                                <DateCalendar
+                                                    displayWeekNumber
+                                                    // views={['month', 'year']}
+                                                    // openTo="month"
+                                                    disablePast
+                                                    value={dayjs(formData.project.milestones[taskId].end)}
+                                                    onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
+                                                />
+                                            </Box>
 
-                            <Grid item xs>
-                                <Stack spacing={1}>
-                                    <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.end')}</Typography>
-                                    <Box flex={1} justifyContent='center'>
-                                        <DateCalendar
-                                            displayWeekNumber
-                                            // views={['month', 'year']}
-                                            // openTo="month"
-                                            disablePast
-                                            value={dayjs(formData.project.milestones[taskId].end)}
-                                            onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
-                                        />
-                                    </Box>
-
-                                </Stack>
-                            </Grid>
-
-                        </Grid>
-                    </DialogContent>
-                </LocalizationProvider>
-            </Dialog>
+                                        </Stack>
+                                    </Grid>
+                                </Grid >
+                            )
+                        }
+                    </DialogContent >
+                </LocalizationProvider >
+            </Dialog >
         )
     } else {
         return (
