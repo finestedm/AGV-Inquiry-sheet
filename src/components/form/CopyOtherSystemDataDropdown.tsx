@@ -32,6 +32,7 @@ import { IFormData, ISystemData, ISystems } from "../../features/interfaces";
 import availableSystems from "../../data/availableSystems";
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
+import { openSnackbar } from "../../features/redux/reducers/snackBarSlice";
 
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
@@ -210,7 +211,13 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                 <Button color="primary" onClick={handleClose}>
                     {t("ui.button.copyDialog.cancel")}
                 </Button>
-                <Button color="info" onClick={() => dispatch(handleCopySystemData({selectedSystem, selectedParts}))}>
+                <Button
+                    color="info"
+                    onClick={() => {
+                        dispatch(handleCopySystemData({ selectedSystem, selectedParts }))
+                        dispatch(openSnackbar({ message: 'Data has been copied' }));
+                        handleClose()
+                    }}>
                     {t("ui.button.copyDialog.accept")}
                 </Button>
             </DialogActions>

@@ -20,10 +20,6 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
     const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        console.log(selectedSystemFlow)
-    }, [selectedSystemFlow])
-
     const rows = selectedSystemFlow.map((flow, index) => ({
         id: index + 1, // Sequential number starting from 1
         stationSource: flow.stationSource,

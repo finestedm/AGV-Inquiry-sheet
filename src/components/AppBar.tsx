@@ -219,7 +219,17 @@ export default function TopBar(): JSX.Element {
                                     />
                                 </Stack>
                             </Button>
-                            <Button startIcon={<DeleteOutlineIcon />} color='error' onClick={() => dispatch(resetFormData())}>
+                            <Button
+                                startIcon={<DeleteOutlineIcon />}
+                                color='error'
+                                onClick={() => {
+                                    try {
+                                        dispatch(resetFormData())
+                                        dispatch(openSnackbar({ message: 'Form data has been reset!' }));
+                                    } catch (error) {
+                                        alert('something went wrong')
+                                    }
+                                }}>
                                 <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                     <Typography>{t('ui.button.inquiry.clear')}</Typography>
                                 </Stack>

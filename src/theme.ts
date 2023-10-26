@@ -47,10 +47,10 @@ theme = createTheme({
             main: '#ffb900',
         },
         success: {
-            main: '#0082A4',
+            main: '#70AE6E',
         },
         background: {
-            default: '#fafafb'
+            default: '#ffffff'
         },
         info: {
             main: '#2a7f93'
@@ -156,7 +156,7 @@ export const themeDark = createTheme({
             main: '#ffb900',
         },
         success: {
-            main: '#1aa5c9',
+            main: '#94DDBC',
         },
         info: {
             main: '#006580'
