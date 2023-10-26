@@ -1,3 +1,5 @@
+import { Task } from "gantt-task-react";
+
 export interface ISales {
     salesUnit: string;
     contactPerson: string;
@@ -173,4 +175,9 @@ export interface ICustomFieldProps {
 export interface CopySystemDataPayload {
     selectedSystem: keyof ISystems;
     selectedParts: { [key in keyof ISystems]: (keyof ISystemData)[] };
+}
+
+export interface ExtendedTask extends Task {
+    id: keyof IMilestones;
+    name: keyof IMilestones
 }

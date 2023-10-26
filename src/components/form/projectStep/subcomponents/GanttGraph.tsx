@@ -11,13 +11,13 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
-
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DateCalendar, DatePicker, LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
-import { IMilestones } from "../../../../features/interfaces";
+import { ExtendedTask, IMilestones } from "../../../../features/interfaces";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import 'dayjs/locale/pl';
+import DateEditDialog from "./DateEditDialog";
 
 export default function GanttGraph(): JSX.Element {
 
@@ -29,10 +29,16 @@ export default function GanttGraph(): JSX.Element {
     const [columnsWidth, setColumnWidth] = useState<number>(40)
     const [viewTaskList, setViewTaskList] = useState<boolean>(true)
     const [viewMode, setViewMode] = useState<string>('Month')
-    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    const [selectedTask, setSelectedTask] = useState<ExtendedTask | null>(null);
     const [dateEditDialogOpen, setDateEditDialogOpen] = useState(false);
 
-    function handledateEditDialogOpen(task: Task) {
+    const uneditableTasks: (keyof IMilestones)[] = ['launch' as keyof IMilestones]
+
+    function isTaskUneditable(task: keyof IMilestones) {
+        return uneditableTasks.includes(task)
+    }
+
+    function handledateEditDialogOpen(task: ExtendedTask) {
         if (editMode) {
             setSelectedTask(task);
             setDateEditDialogOpen(true);
@@ -55,7 +61,7 @@ export default function GanttGraph(): JSX.Element {
                 end,
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
                 progress: 0,
-                isDisabled: !editMode || name === 'launch',
+                isDisabled: !editMode || isTaskUneditable(name as keyof IMilestones),
                 styles: { backgroundColor: (name === 'order' || name === 'launch') ? theme.palette.secondary.main : theme.palette.primary.main },
 
             };
@@ -95,7 +101,15 @@ export default function GanttGraph(): JSX.Element {
                                     </Typography>
                                 </TableCell>
                                 {editMode &&
-                                    <TableCell><IconButton size='small' onClick={() => handledateEditDialogOpen(task)}><EditIcon /></IconButton></TableCell>
+                                    <TableCell>
+                                        <IconButton
+                                            size='small'
+                                            disabled={isTaskUneditable(task.id as keyof IMilestones)}
+                                            onClick={() => handledateEditDialogOpen(task as ExtendedTask)}
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                    </TableCell>
                                 }
                             </TableRow>
                         ))}
@@ -128,12 +142,12 @@ export default function GanttGraph(): JSX.Element {
                     const { id, start, end } = task;
                     dispatch(handleDateChanges({ id, start, end }));
                 }}
-                onDoubleClick={(task: Task) => handledateEditDialogOpen(task)}
+                onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handledateEditDialogOpen(task as ExtendedTask)}
             />
             <Box position='absolute' top='10%' right={25}>
                 <SizeEditButtons columnsWidth={columnsWidth} setColumnWidth={setColumnWidth} viewTaskList={viewTaskList} setViewTaskList={setViewTaskList} viewMode={viewMode} setViewMode={setViewMode} />
             </Box>
-            <DateEditDialog selectedTask={selectedTask} dateEditDialogOpen={dateEditDialogOpen} handleDialogClose={handleDialogClose} />
+            {selectedTask && <DateEditDialog selectedTask={selectedTask} dateEditDialogOpen={dateEditDialogOpen} handleDialogClose={handleDialogClose} />}
         </Box>
     )
 }
@@ -176,98 +190,3 @@ function CustomTooltip({ task }: { task: Task }) {
         </Paper>
     );
 };
-
-function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }: { selectedTask: Task | null, dateEditDialogOpen: boolean, handleDialogClose: () => void }) {
-    const dispatch = useDispatch();
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-    const { t } = useTranslation();
-    const formData = useSelector((state: RootState) => state.formData);
-    const taskId = selectedTask?.id as keyof IMilestones
-
-    if (selectedTask && formData.project.milestones[taskId]) {
-        console.log(formData.project.milestones[taskId])
-        return (
-            <Dialog fullScreen={fullScreen} maxWidth='lg' open={dateEditDialogOpen} onClose={handleDialogClose}>
-                <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
-                    <Toolbar>
-                        <Stack direction='row' spacing={2} flex={1} alignItems='start' justifyContent='space-between'>
-                            <Typography variant="h4" >
-                                {t(`${selectedTask.name}`)}
-                            </Typography>
-                            <IconButton
-                                color="inherit"
-                                onClick={handleDialogClose}
-                                aria-label="close"
-                            >
-                                <CloseIcon />
-                            </IconButton>
-                        </Stack>
-                    </Toolbar>
-                </DialogTitle>
-                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
-                    <DialogContent>
-                        {selectedTask.id === 'order' ?
-                            (
-                                <Grid container spacing={3} direction='row' mt={2}>
-                                    <Grid item xs>
-                                        <Stack spacing={1}>
-                                            <Box flex={1} justifyContent='center'>
-                                                <DateCalendar
-                                                    displayWeekNumber
-                                                    disablePast
-                                                    // views={['month', 'year']}
-                                                    // openTo="month"
-                                                    value={dayjs(formData.project.milestones[taskId].start)}
-                                                    onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: date }))}
-                                                />
-                                            </Box>
-                                        </Stack>
-                                    </Grid>
-                                </Grid>
-                            ) : (
-                                <Grid container spacing={3} direction='row' mt={2}>
-                                    <Grid item xs>
-                                        <Stack spacing={1}>
-                                            <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.start')}</Typography>
-                                            <Box flex={1} justifyContent='center'>
-                                                <DateCalendar
-                                                    displayWeekNumber
-                                                    disablePast
-                                                    // views={['month', 'year']}
-                                                    // openTo="month"
-                                                    value={dayjs(formData.project.milestones[taskId].start)}
-                                                    onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
-                                                />
-                                            </Box>
-                                        </Stack>
-                                    </Grid>
-                                    <Grid item xs>
-                                        <Stack spacing={1}>
-                                            <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.end')}</Typography>
-                                            <Box flex={1} justifyContent='center'>
-                                                <DateCalendar
-                                                    displayWeekNumber
-                                                    // views={['month', 'year']}
-                                                    // openTo="month"
-                                                    disablePast
-                                                    value={dayjs(formData.project.milestones[taskId].end)}
-                                                    onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
-                                                />
-                                            </Box>
-
-                                        </Stack>
-                                    </Grid>
-                                </Grid >
-                            )
-                        }
-                    </DialogContent >
-                </LocalizationProvider >
-            </Dialog >
-        )
-    } else {
-        return (
-            null
-        )
-    }
-}
