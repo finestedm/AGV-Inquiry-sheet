@@ -21,7 +21,7 @@ export default function Loads({ selectedSystem }: { selectedSystem: keyof ISyste
             </Box>
             <LoadTable selectedSystem={selectedSystem} />
             <Grid item xs={12}>
-                <Collapse in={(selectedSystem === ('asrs' || 'agv' || 'autovna')) && (formData.system[selectedSystem].loads.length > 1)} >
+                <Collapse in={(selectedSystem !== 'lrkprk') && (formData.system[selectedSystem].loads.length > 1)} >
                     <Alert id='system.manyLoadsWarning' severity="warning">{t(`system.manyLoadsWarning`)}</Alert>
                 </Collapse>
             </Grid>
