@@ -31,18 +31,9 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
         return (
             <Dialog fullScreen={fullScreen} maxWidth='lg' open={dateEditDialogOpen} onClose={handleDialogClose}>
                 <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
-                    <Stack direction='row' spacing={2} flex={1} alignItems='start' justifyContent='space-between'>
-                        <Typography variant="h4" >
-                            {t(`${selectedTask.name}`)}
-                        </Typography>
-                        <IconButton
-                            color="inherit"
-                            onClick={handleDialogClose}
-                            aria-label="close"
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                    </Stack>
+                    <Typography variant="h5" >
+                        {t(`${selectedTask.name}`)}
+                    </Typography>
                 </DialogTitle>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
                     <DialogContent>
