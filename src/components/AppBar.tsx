@@ -19,7 +19,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import dayjs from "dayjs";
 import EditModeSwitch from "./EditModeSwitch";
 import { setEditMode } from "../features/redux/reducers/editModeSlice";
-
+import axios from 'axios';
 
 export default function TopBar(): JSX.Element {
 
@@ -49,6 +49,27 @@ export default function TopBar(): JSX.Element {
         setAnchorElUser(null);
     };
 
+    function saveDataToFileUsingServer() {
+        const data = JSON.stringify(formData);
+        axios.post('http://localhost:5000/api/saveData', data, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then((response) => {
+                const result = response.data;
+                if (result.success) {
+                    dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')} ${result.fileName}`, severity: 'success' }));
+                } else {
+                    dispatch(openSnackbar({ message: 'Error saving data', severity: 'error' }));
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                dispatch(openSnackbar({ message: 'Error saving data', severity: 'error' }));
+            });
+    };
+
     function saveDataToFile() {
         const data = JSON.stringify(formData);
         const blob = new Blob([data], { type: 'application/json' });
@@ -56,6 +77,7 @@ export default function TopBar(): JSX.Element {
         saveAs(blob, fileName);
         dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')} ${fileName}`, severity: 'success' }));
     };
+
     function loadFile(e: React.FormEvent<HTMLInputElement>) {
         const fileInput = e.target as HTMLInputElement;
         const file = fileInput.files?.[0];
@@ -81,6 +103,17 @@ export default function TopBar(): JSX.Element {
             fileInput.value = '';
         }
         dispatch(setEditMode(false))
+    }
+
+    function loadDataListFromServer() {
+        axios.get('http://localhost:5000/api/inquiries')
+            .then(res => {
+                const fileList = res.data.inquiries;
+                console.log(fileList)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
 
@@ -143,27 +176,15 @@ export default function TopBar(): JSX.Element {
                             <DarkModeSwitch mobile={true} />
                             <EditModeSwitch mobile={true} />
                             <Divider />
-                            <MenuItem onClick={() => saveDataToFile()}>
+                            <MenuItem onClick={() => saveDataToFileUsingServer()}>
                                 <ListItemIcon><SaveIcon /></ListItemIcon>
                                 <ListItemText>{t('ui.button.inquiry.save')}</ListItemText>
                             </MenuItem>
                             <MenuItem
-                                onClick={() => {
-                                    const fileInput = document.getElementById('file-input') as HTMLInputElement;
-                                    if (fileInput) {
-                                        fileInput.click();
-                                    }
-                                }}
+                                onClick={() => loadDataListFromServer()}
                             >
                                 <ListItemIcon><UploadIcon /></ListItemIcon>
-                                <ListItemText>{t('ui.button.inquiry.load')}</ListItemText>
-                                <input
-                                    type="file"
-                                    accept=".json"
-                                    id="file-input" // Assign an id to the input element
-                                    style={{ display: 'none' }} // Hide the input element with CSS
-                                    onInput={(e) => loadFile(e)}
-                                />
+
                             </MenuItem>
                             <MenuItem onClick={() => dispatch(resetFormData())} sx={{ color: theme.palette.error.main }}>
                                 <ListItemIcon ><DeleteOutlineIcon sx={{ color: theme.palette.error.main }} /></ListItemIcon>
@@ -196,7 +217,7 @@ export default function TopBar(): JSX.Element {
                             </FormControl>
                             <DarkModeSwitch />
                             <EditModeSwitch />
-                            <Button onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
+                            <Button onClick={() => saveDataToFileUsingServer()} startIcon={<SaveIcon />}>
                                 <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                     <Typography>{t('ui.button.inquiry.save')}</Typography>
                                 </Stack>
