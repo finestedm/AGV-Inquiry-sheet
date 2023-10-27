@@ -20,6 +20,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
     console.log((formData.project.milestones[taskId]))
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].start) || dayjs(new Date))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].end) || dayjs(new Date))
+    const { i18n } = useTranslation();
 
     if (selectedTask && formData.project.milestones[taskId]) {
         return (
@@ -40,7 +41,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                         </Stack>
                     </Toolbar>
                 </DialogTitle>
-                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
                     <DialogContent>
                         {selectedTask.id === 'order' ?
                             (
