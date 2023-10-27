@@ -73,6 +73,10 @@
         "accept": "Tak, skopiuj dane",
         "cancel": "Anuluj"
       },
+      "dateEditDialog": {
+        "accept": "Tak, zmień daty",
+        "cancel": "Anuluj"
+      },
       "table": {
         "newload": "Dodaj nowy ładunek"
       },

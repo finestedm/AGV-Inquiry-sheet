@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogContent, DialogTitle, Grid, IconButton, Stack, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -9,37 +9,40 @@ import { useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { handleDateChanges } from "../../../../features/redux/reducers/formDataSlice";
 
-export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }: { selectedTask: ExtendedTask | null, dateEditDialogOpen: boolean, handleDialogClose: () => void }) {
+export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }: { selectedTask: ExtendedTask, dateEditDialogOpen: boolean, handleDialogClose: () => void }) {
     const dispatch = useDispatch();
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
     const { t } = useTranslation();
     const formData = useSelector((state: RootState) => state.formData);
-    const taskId = selectedTask?.id as keyof IMilestones
-    console.log((formData.project.milestones[taskId]))
-    const [startDate, setStartDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].start) || dayjs(new Date))
-    const [endDate, setEndDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].end) || dayjs(new Date))
+    const taskId = selectedTask.id as keyof IMilestones
+    const [startDate, setStartDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].start) || dayjs(new Date()))
+    const [endDate, setEndDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].end) || dayjs(new Date()))
     const { i18n } = useTranslation();
+
+    function handleAcceptNewDates() {
+        dispatch(handleDateChanges({ id: selectedTask.id, start: startDate, end: endDate }))
+        handleDialogClose()
+    }
 
     if (selectedTask && formData.project.milestones[taskId]) {
         return (
             <Dialog fullScreen={fullScreen} maxWidth='lg' open={dateEditDialogOpen} onClose={handleDialogClose}>
                 <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
-                    <Toolbar>
-                        <Stack direction='row' spacing={2} flex={1} alignItems='start' justifyContent='space-between'>
-                            <Typography variant="h4" >
-                                {t(`${selectedTask.name}`)}
-                            </Typography>
-                            <IconButton
-                                color="inherit"
-                                onClick={handleDialogClose}
-                                aria-label="close"
-                            >
-                                <CloseIcon />
-                            </IconButton>
-                        </Stack>
-                    </Toolbar>
+                    <Stack direction='row' spacing={2} flex={1} alignItems='start' justifyContent='space-between'>
+                        <Typography variant="h4" >
+                            {t(`${selectedTask.name}`)}
+                        </Typography>
+                        <IconButton
+                            color="inherit"
+                            onClick={handleDialogClose}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </Stack>
                 </DialogTitle>
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
                     <DialogContent>
@@ -74,7 +77,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                     // openTo="month"
                                                     value={startDate}
                                                     onChange={(date) => date && setStartDate(date)}
-                                                    // onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
+                                                // onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
                                                 />
                                             </Box>
                                         </Stack>
@@ -90,7 +93,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                     disablePast
                                                     value={endDate}
                                                     onChange={(date) => date && setEndDate(date)}
-                                                    // onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
+                                                // onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
                                                 />
                                             </Box>
 
@@ -100,6 +103,14 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                             )
                         }
                     </DialogContent >
+                    <DialogActions>
+                        <Button autoFocus onClick={handleAcceptNewDates} color="secondary">
+                            {t('ui.button.dateEditDialog.accept')}
+                        </Button>
+                        <Button onClick={handleDialogClose} autoFocus >
+                            {t('ui.button.dateEditDialog.cancel')}
+                        </Button>
+                    </DialogActions>
                 </LocalizationProvider >
             </Dialog >
         )
