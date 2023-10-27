@@ -142,8 +142,7 @@ theme = createTheme({
             }
         },
     },
-},
-    plPL
+}
 );
 
 export const themeDark = createTheme({
@@ -220,8 +219,7 @@ export const themeDark = createTheme({
             }
         }
     },
-},
-    plPL
+}
 );
 
 export default theme
