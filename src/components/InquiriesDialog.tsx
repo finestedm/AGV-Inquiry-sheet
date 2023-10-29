@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle, List, ListItem, ListItemButton, ListItemText, Skeleton, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, List, ListItem, ListItemButton, ListItemText, Skeleton, Typography, useMediaQuery, useTheme } from "@mui/material";
 import axios from "axios";
 import { SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -11,31 +11,26 @@ export default function InquiriesDialog({ inquiriesDialogOpen, handleInquiriesDi
 
     const [inquiries, setInquiries] = useState<IFormData[]>()
     const [loading, setLoading] = useState(true);
+    const [selectedInquiry, setSelectedInquiry] = useState<IFormData>()
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        let isMounted = true;
-
         axios.get('http://localhost:5000/api/inquiries')
             .then(res => {
-                if (isMounted) {
-                    const fileList = res.data.inquiries;
-                    console.log(fileList)
-                    setInquiries(fileList)
-                    setLoading(false)
-                }
+                const fileList = res.data.inquiries;
+                console.log(fileList)
+                setInquiries(fileList)
+                setLoading(false)
+
             })
             .catch(error => {
                 console.log(error);
                 setLoading(false);
             });
 
-        return () => {
-            isMounted = false;
-        };
     }, [inquiriesDialogOpen]);
 
 
@@ -56,7 +51,7 @@ export default function InquiriesDialog({ inquiriesDialogOpen, handleInquiriesDi
                     (
                         inquiries.map(inquiry => (
                             <ListItem key={inquiry.customer.name} disableGutters>
-                                <ListItemButton onClick={() => dispatch(setFormData(inquiry))}>
+                                <ListItemButton selected={inquiry === selectedInquiry} onClick={() => setSelectedInquiry(inquiry)}>
                                     <ListItemText primary={inquiry.customer.name} secondary={`${inquiry.timestamp ? dayjs(inquiry.timestamp).format('DD.MM.YYYY, HH:mm') : ''}, ${inquiry.sales.contactPerson}`} />
                                 </ListItemButton>
                             </ListItem>
@@ -66,7 +61,14 @@ export default function InquiriesDialog({ inquiriesDialogOpen, handleInquiriesDi
                     )
                 }
             </List>
-
+            <DialogActions>
+                <Button disabled={!selectedInquiry} onClick={() => selectedInquiry && dispatch(setFormData(selectedInquiry))} color="success">
+                    {t('ui.dialog.inquiriesDialog.confirm')}
+                </Button>
+                <Button onClick={handleInquiriesDialogClose} autoFocus >
+                    {t('ui.dialog.inquiriesDialog.cancel')}
+                </Button>
+            </DialogActions>
         </Dialog>
     )
 }
