@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import EditModeSwitch from "./EditModeSwitch";
 import { setEditMode } from "../features/redux/reducers/editModeSlice";
 import axios from 'axios';
+import InquiriesDialog from "./InquiriesDialog";
 
 export default function TopBar(): JSX.Element {
 
@@ -50,8 +51,8 @@ export default function TopBar(): JSX.Element {
     };
 
     function saveDataToFileUsingServer() {
-        const data = JSON.stringify(formData);
-        axios.post('http://localhost:5000/api/saveData', data, {
+        const formDataWithTimestamp = { ...formData, timestamp: dayjs().toDate() };
+        axios.post('http://localhost:5000/api/saveData', formDataWithTimestamp, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -105,17 +106,20 @@ export default function TopBar(): JSX.Element {
         dispatch(setEditMode(false))
     }
 
-    function loadDataListFromServer() {
-        axios.get('http://localhost:5000/api/inquiries')
-            .then(res => {
-                const fileList = res.data.inquiries;
-                console.log(fileList)
-            })
-            .catch(error => {
-                console.log(error)
-            })
+    // Methods for server files dialog
+
+    const [inquiriesDialogOpen, setInquiriesDialogOpen] = useState(false);
+
+
+    function handleInquiriesDialogOpen() {
+        setInquiriesDialogOpen(true);
+    };
+
+    function handleInquiriesDialogClose() {
+        setInquiriesDialogOpen(false);
     }
 
+    // --------------------------------------------
 
     return (
         <AppBar position="static" color='default'>
@@ -181,10 +185,10 @@ export default function TopBar(): JSX.Element {
                                 <ListItemText>{t('ui.button.inquiry.save')}</ListItemText>
                             </MenuItem>
                             <MenuItem
-                                onClick={() => loadDataListFromServer()}
+                                onClick={() => handleInquiriesDialogOpen()}
                             >
                                 <ListItemIcon><UploadIcon /></ListItemIcon>
-
+                                <ListItemText>{t('ui.button.inquiry.load')} </ListItemText>
                             </MenuItem>
                             <MenuItem onClick={() => dispatch(resetFormData())} sx={{ color: theme.palette.error.main }}>
                                 <ListItemIcon ><DeleteOutlineIcon sx={{ color: theme.palette.error.main }} /></ListItemIcon>
@@ -222,23 +226,8 @@ export default function TopBar(): JSX.Element {
                                     <Typography>{t('ui.button.inquiry.save')}</Typography>
                                 </Stack>
                             </Button>
-                            <Button startIcon={<UploadIcon />}>
-                                <Stack direction='row' flex={1} spacing={1} alignItems='center' onClick={() => {
-                                    const fileInput = document.getElementById('file-input') as HTMLInputElement;
-                                    if (fileInput) {
-                                        fileInput.click();
-                                    }
-                                }}>
-
-                                    <Typography>{t('ui.button.inquiry.load')}</Typography>
-                                    <input
-                                        type="file"
-                                        accept=".json"
-                                        id="file-input" // Assign an id to the input element
-                                        style={{ display: 'none' }} // Hide the input element with CSS
-                                        onInput={(e) => loadFile(e)}
-                                    />
-                                </Stack>
+                            <Button startIcon={<UploadIcon />} onClick={() => handleInquiriesDialogOpen()}>
+                                <Typography>{t('ui.button.inquiry.load')}</Typography>
                             </Button>
                             <Button
                                 startIcon={<DeleteOutlineIcon />}
@@ -259,6 +248,7 @@ export default function TopBar(): JSX.Element {
                     </Box>
                 </Toolbar>
             </Container>
+            <InquiriesDialog inquiriesDialogOpen={inquiriesDialogOpen} handleInquiriesDialogClose={handleInquiriesDialogClose} />
         </AppBar >
     )
 }
