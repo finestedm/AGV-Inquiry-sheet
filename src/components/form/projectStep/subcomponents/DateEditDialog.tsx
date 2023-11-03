@@ -99,11 +99,11 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                         }
                     </DialogContent >
                     <DialogActions>
-                        <Button autoFocus disabled={!editMode} onClick={handleAcceptNewDates} color="secondary">
-                            {t('ui.button.dateEditDialog.accept')}
-                        </Button>
                         <Button onClick={handleDialogClose} autoFocus >
                             {t('ui.button.dateEditDialog.cancel')}
+                        </Button>
+                        <Button autoFocus disabled={!editMode} onClick={handleAcceptNewDates} color="secondary">
+                            {t('ui.button.dateEditDialog.accept')}
                         </Button>
                     </DialogActions>
                 </LocalizationProvider >
