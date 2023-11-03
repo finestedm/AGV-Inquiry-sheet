@@ -17,6 +17,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
     const { t } = useTranslation();
     const formData = useSelector((state: RootState) => state.formData);
+    const editMode = useSelector((state: RootState) => state.editMode);
     const taskId = selectedTask.id as keyof IMilestones
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].start) || dayjs(new Date()))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].end) || dayjs(new Date()))
@@ -44,6 +45,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                         <Stack spacing={1}>
                                             <Box flex={1} justifyContent='center'>
                                                 <DateCalendar
+                                                    disabled={!editMode}
                                                     displayWeekNumber
                                                     disablePast
                                                     // views={['month', 'year']}
@@ -62,6 +64,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                             <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.start')}</Typography>
                                             <Box flex={1} justifyContent='center'>
                                                 <DateCalendar
+                                                    disabled={!editMode}
                                                     displayWeekNumber
                                                     disablePast
                                                     // views={['month', 'year']}
@@ -78,6 +81,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                             <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.end')}</Typography>
                                             <Box flex={1} justifyContent='center'>
                                                 <DateCalendar
+                                                    disabled={!editMode}
                                                     displayWeekNumber
                                                     // views={['month', 'year']}
                                                     // openTo="month"
@@ -95,11 +99,11 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                         }
                     </DialogContent >
                     <DialogActions>
-                        <Button autoFocus onClick={handleAcceptNewDates} color="secondary">
-                            {t('ui.button.dateEditDialog.accept')}
-                        </Button>
                         <Button onClick={handleDialogClose} autoFocus >
                             {t('ui.button.dateEditDialog.cancel')}
+                        </Button>
+                        <Button autoFocus disabled={!editMode} onClick={handleAcceptNewDates} color="secondary">
+                            {t('ui.button.dateEditDialog.accept')}
                         </Button>
                     </DialogActions>
                 </LocalizationProvider >
