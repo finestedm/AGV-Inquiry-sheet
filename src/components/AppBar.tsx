@@ -5,6 +5,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 import { useTranslation } from 'react-i18next';
 import pl from '../images/poland.svg'
 import en from '../images/uk.svg'
+import de from '../images/germany.svg'
 import jhLogo from '../images/Jungheinrich-Logo.svg'
 import { SelectChangeEvent } from "@mui/material/Select";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -138,6 +139,12 @@ export default function TopBar(): JSX.Element {
                                             <Typography>Polski</Typography>
                                         </Stack>
                                     </MenuItem>
+                                    <MenuItem value="de">
+                                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                            <img src={de} alt="german" />
+                                            <Typography>Deutsch</Typography>
+                                        </Stack>
+                                    </MenuItem>
                                 </Select>
                             </MenuItem>
                             <DarkModeSwitch mobile={true} />
@@ -190,6 +197,12 @@ export default function TopBar(): JSX.Element {
                                         <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
                                             <img src={pl} alt="polish" />
                                             <Typography>Polski</Typography>
+                                        </Stack>
+                                    </MenuItem>
+                                    <MenuItem value="de">
+                                        <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
+                                            <img src={de} alt="german" />
+                                            <Typography>Deutsch</Typography>
                                         </Stack>
                                     </MenuItem>
                                 </Select>

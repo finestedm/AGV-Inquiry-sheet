@@ -6,6 +6,7 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import pl from './features/multilanguage/pl.json'
 import en from './features/multilanguage/en.json'
+import de from './features/multilanguage/de.json'
 import theme, { themeDark } from './theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import MobileScrollButton from './components/MobileScrollButton';
@@ -24,6 +25,7 @@ i18n
     resources: {
       pl: { translation: pl },
       en: { translation: en },
+      de: { translation: de }
     },
     fallbackLng: 'en', // Fallback to English if the user's language is not supported
     // debug: true, // Enable debug mode for development

@@ -1,0 +1,307 @@
+{
+    "customer": {
+      "header": "Kundeninformationen",
+      "name": "Unternehmen / Kunde",
+      "sapNumber": "SAP-Nummer",
+      "industry": "Industrie",
+      "industryName.other": "Andere Branche angeben",
+      "contactPerson": "Name und Nachname",
+      "contactPersonRole": "Position der Kontaktperson",
+      "contactPersonMail": "E-Mail-Adresse",
+      "address": "Adresse",
+      "subheader": {
+        "teleaddress": "Firmeninformationen",
+        "contactperson": "Kontaktperson",
+        "businessdata": "Geschäftsdaten"
+      },
+      "relations": {
+        "type": "Kooperationsniveau",
+        "saleshistoryvalue": "Umsatz mit dem Kunden / Jahr",
+        "creditmanagement": "Kreditmanagement-Wert",
+        "jh": "JH-Kunde",
+        "new": "Neuer Kunde",
+        "jh-kam": "JH KAM-Kunde",
+        "competitor": "Wettbewerbskunde",
+        "input": {
+          "forklifts": "Anzahl der JH-Gabelstapler",
+          "other": "Andere JH-Produkte",
+          "racks": "Anzahl der JH-Regale"
+        }
+      }
+    },
+    "industry": {
+      "production": "Produktion",
+      "trade": "Handel",
+      "logistics": "Logistikdienstleister",
+      "pharmaceutical": "Pharmaindustrie",
+      "beverage": "Getränkeindustrie",
+      "clothing": "Bekleidungsindustrie",
+      "chemical": "Chemische Industrie",
+      "food": "Lebensmittelindustrie",
+      "automotive": "Automobil",
+      "other": "Andere"
+    },
+    "sales": {
+      "header": "Vertriebsinformationen",
+      "unit": "Vertriebseinheit",
+      "contactPerson": "Kontaktperson von JH",
+      "contactPersonRole": "Position der Kontaktperson von JH"
+    },
+    "steps": {
+      "sales": "Vertriebseinheit",
+      "customer": "Kunde",
+      "system": "System",
+      "project": "Projekt",
+      "systems": {
+        "asrs": "ASRS",
+        "lrkprk": "LRK / PRK",
+        "agv": "AGV",
+        "autovna": "AutoVNA",
+        "header": "System auswählen:"
+      }
+    },
+    "ui": {
+      "button": {
+        "back": "Zurück",
+        "next": "Weiter",
+        "inquiry": {
+          "load": "Anfrage laden",
+          "save": "Anfrage speichern",
+          "clear": "Daten löschen"
+        },
+        "copyDialog": {
+          "accept": "Ja, Daten kopieren",
+          "cancel": "Abbrechen"
+        },
+        "dateEditDialog": {
+          "accept": "Ja, Daten ändern",
+          "cancel": "Abbrechen"
+        },
+        "table": {
+          "newload": "Neue Last hinzufügen"
+        },
+        "readmore": "Mehr lesen",
+        "addNewLoad": "Hinzufügen",
+        "deleteSelectedLoads": "Ausgewählte löschen",
+        "addNewFlow": "Hinzufügen"
+      },
+      "switch": {
+        "darkMode": {
+          "dark": "Dunkelmodus",
+          "light": "Hellmodus"
+        },
+        "editMode": {
+          "edit": "Bearbeitungsmodus",
+          "read": "Vorschau-Modus"
+        }
+      },
+      "dialog": {
+        "loadDelete": {
+          "title": "Achtung",
+          "description1": "Diese Last wird in einer der Flüsse in der Tabelle 'Flows' verwendet.",
+          "description2": "Sind Sie sicher, dass Sie sie löschen möchten?",
+          "cancel": "Abbrechen",
+          "confirm": "Ja, löschen"
+        },
+        "copyDialog": {
+          "title": "Daten zum Kopieren aus einem anderen System auswählen",
+          "noChange": "Keine Änderungen"
+        },
+        "ganttGraph": {
+          "selectDates": "Termine ändern für: ",
+          "start": "Start",
+          "end": "Ende"
+        }
+      },
+      "snackBar": {
+        "message": {
+          "fileLoaded": "Datei geladen",
+          "fileLoadError": {
+            "other": "Fehler beim Laden der Datei",
+            "version": "Dateiversion unterscheidet sich von der Anwendungsversion"
+          },
+          "fileSaved": "Datei gespeichert als: "
+        }
+      },
+      "tooltip": {
+        "copyOtherSystemData": "Daten aus einem anderen System kopieren",
+        "darkMode": "Zwischen Tag- und Nachtmodus wechseln",
+        "editMode": "Zwischen Bearbeitungs- und Vorschau-Modus wechseln"
+      },
+      "table": {
+        "head": {
+          "part": "Teil"
+        }
+      }
+    },
+    "system": {
+      "condensationWarning": "Warnung: Vorherrschende Bedingungen können Kondensation verursachen",
+      "manyLoadsWarning": "Warnung: Große Unterschiede in den Lastabmessungen können für das ausgewählte System problematisch sein.",
+      "subheader": {
+        "workTime": "Arbeitszeit",
+        "workConditions": "Arbeitsbedingungen",
+        "building": "Gebäude",
+        "loads": "Lasten",
+        "flow": "Flüsse",
+        "capacity": "Kapazität"
+      },
+      "workTime": {
+        "workDays": "Arbeitstage pro Woche",
+        "shiftsPerDay": "Anzahl der Schichten pro Tag",
+        "hoursPerShift": "Anzahl der Stunden pro Schicht",
+        "hoursPerWeek": "Arbeitsstunden pro Woche"
+      },
+      "workConditions": {
+        "temperature": "Temperatur",
+        "humidity": "Luftfeuchtigkeit",
+        "freezer": "Kühlzone",
+        "EX": "Explosionsgefährdete Zone",
+        "dangerousMaterials": "Gefährliche Materialien",
+        "other": "Andere Hinweise"
+      },
+      "building": {
+        "new": "Neubau",
+        "existing": "Bestehend",
+        "silo": "Silo-Lager",
+        "existingBuilding": {
+          "height": "Höhe",
+          "width": "Breite",
+          "length": "Länge"
+        }
+      },
+      "asrs": {
+        "header": "ASRS Systemdaten",
+        "label": "Automatisierte Lager- und Abrufsysteme",
+        "labelshort": "ASRS",
+        "description": "Automatisierte Palettenlager integrieren Regale, Software und Förderer in ein kompaktes System. Maximale Dynamik und Präzision sind hier entscheidend, bei optimaler Energieeffizienz. Wenn alle Elemente perfekt zusammenarbeiten, zahlt sich die Investition in automatisierte Lösungen schnell aus."
+      },
+      "lrkprk": {
+        "header": "Daten zu automatischen Regalen",
+        "label": "Vertikale Hub- und Karussellregale",
+        "labelshort": "LRK & PRK",
+        "description": "Aufgrund ihrer modularen Bauweise kann die Höhe des LRK-Regals vor und nach der Installation an aktuelle Bedürfnisse angepasst werden. Darüber hinaus ermöglicht die Integration des Regals in jedes Lagerverwaltungssystem eine noch bessere Leistung."
+      },
+      "agv": {
+        "header": "Daten zu automatisierten Führungsfahrzeugen",
+        "label": "Automatisierte Führungsfahrzeuge",
+        "labelshort": "AGV",
+        "description": "Automatisierte Führungsfahrzeuge (AGVs) sind Transportsysteme, die eine Fernbedienung ermöglichen. Sie sind mit einem fortschrittlichen Sensorsystem ausgestattet, das Hindernisse um das Fahrzeug herum erkennt. AGV-Modelle können eigenständig verlangsamen, beschleunigen und auf unerwartete Faktoren während der Fahrt reagieren. Bei Bedarf können sie vollständig anhalten."
+      },
+      "autovna": {
+        "header": "Daten zum AutoVNA-System",
+        "label": "Automatische Hochregalstapler",
+        "labelshort": "AutoVNA",
+        "description": "Automatische Hochregalstapler eignen sich perfekt für ein automatisiertes Lager mit engen Gängen, in dem sich auch Regale, Software und Transportgeräte befinden. Perfekt integriert arbeiten sie effizient und sicher rund um die Uhr."
+      }
+    },
+    "project": {
+      "header": "Projektinformationen",
+      "goals": "Projektziele",
+      "supplyChainParts": "Automatisierung umfasst:",
+      "milestones": {
+        "concept": "Konzepterstellung",
+        "officialOffer": "Angebotsdatum",
+        "order": "Bestelldatum",
+        "implementation": "Implementierungsdatum",
+        "launch": "Startdatum"
+      },
+      "it": {
+        "processesDescription": "Prozessbeschreibung",
+        "existingSystem": {
+          "present": "Gibt es ein WMS-System?",
+          "name": "Welches System ist vorhanden?",
+          "existingOther": "Andere",
+          "label": {
+            "SAP-WM": "SAP-WM",
+            "SAP-EWM": "SAP-EWM",
+            "other": "Andere"
+          }
+        },
+        "wmsNeeded": "Ist ein WMS erforderlich?",
+        "additionalInformation": "Andere Informationen"
+      },
+      "investmentLocation": "Investitionsstandort",
+      "tender": "Investition in Form einer Ausschreibung?",
+      "consultingCompany": "Durch ein Beratungsunternehmen durchgeführt?",
+      "competitor": "Andere Bieter?",
+      "investmentType": {
+        "new": "Neues Projekt",
+        "expansion": "Erweiterung",
+        "modification": "Änderung",
+        "exchange": "Austausch",
+        "retrofit": "Umrüstung"
+      },
+      "subheader": {
+        "investmentType": "Investitionstyp",
+        "milestones": "Zeitrahmen",
+        "various": "Allgemeine Daten",
+        "it": "IT- und Prozessinformationen"
+      }
+    },
+    "loadTable": {
+      "header": {},
+      "loadContainerMaterial": {
+        "wood": "Holz",
+        "metal": "Metall",
+        "plastic": "Kunststoff"
+      },
+      "loadsToAdd": {
+        "placeholder": "Last auswählen",
+        "empty": "Leere Vorlage",
+        "euro": "Europalette",
+        "klt_600x400": "KLT 600x400 Behälter",
+        "us_standard": "US-Palette",
+        "half_euro": "Halbe Europalette",
+        "industial_1200x1000": "Industriepalette 1200x1000",
+        "industial_1200x1200": "Industriepalette 1200x1200",
+        "gitterbox_1235x835": "Gitterbox"
+      }
+    },
+    "flowTable": {
+      "flowStationTypes": {
+        "floor": "Boden",
+        "conveyor": "Förderer",
+        "pallet wrapper": "Palettenwickler",
+        "rack": "Regal"
+      }
+    },
+    "helperText": {
+      "sales": {
+        "contactPerson": {
+          "required": "Geben Sie den Namen der Person ein, die die Daten eingibt"
+        }
+      },
+      "customer": {
+        "name": {
+          "required": "Firmenname erforderlich"
+        },
+        "address": {
+          "required": "Adresse erforderlich"
+        },
+        "sapNumber": {
+          "format": "Die SAP-Nummer muss mit 4 beginnen und 8 Ziffern haben"
+        },
+        "contactPersonMail": {
+          "format": "Ungültiges Format"
+        },
+        "industryName": {
+          "number": "Wählen Sie mindestens eine Branche aus"
+        },
+        "relations": {
+          "number": "Wählen Sie den Beziehungstyp aus"
+        }
+      },
+      "project": {
+        "supplyChainParts": {
+          "number": "Wählen Sie mindestens einen Teil der Lieferkette aus"
+        },
+        "investmentLocation": {
+          "required": "Investitionsstandort ist erforderlich"
+        },
+        "investmentType": {
+          "required": "Daten erforderlich"
+        }
+      }
+    }
+  }
+  
