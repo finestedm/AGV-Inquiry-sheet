@@ -38,6 +38,9 @@ function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems })
 
     const divRef = useRef(null)
 
+    const wallThickness = canvaDimensions.width * 0.02; // Assuming 10% thickness
+    const warehouseSizeRatio = warehouseLength / warehouseWidth
+
 
     // We cant set the h & w on Stage to 100% it only takes px values so we have to
     // find the parent container's w and h and then manually set those !
@@ -49,21 +52,23 @@ function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems })
                 <Layer>
                     {/* Warehouse */}
                     <Rect
-                        width={canvaDimensions.width - canvaDimensions.width * 0.05} // Adjusted width with offset
-                        height={canvaDimensions.height - canvaDimensions.height * 0.05} // Adjusted height with offset
-                        x={canvaDimensions.width * .025} // Offset from the left border
-                        y={canvaDimensions.height * .025} // Offset from the top border
+                        width={canvaDimensions.width} // Adjusted width with offset
+                        height={canvaDimensions.height} // Adjusted height with offset and proportional to ratio
                         fill="black"
                         opacity={0.8}
                     />
-                     <Rect
-                        width={canvaDimensions.width - canvaDimensions.width * 0.1} // Adjusted width with offset
-                        height={canvaDimensions.height - canvaDimensions.height * 0.1} // Adjusted height with offset
-                        x={canvaDimensions.width * .05} // Offset from the left border
-                        y={canvaDimensions.height * .05} // Offset from the top border
+
+                    <Rect
+                        width={canvaDimensions.width - wallThickness} // Adjusted width with offset
+                        height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
+                        x={(wallThickness / 2)} // Offset from the left border
+                        Y={(wallThickness / 2)} // Offset from the left border
                         fill="white"
                         opacity={1}
                     />
+
+
+
 
                     {/* Pallets */}
                     {pallets.map(({ key }, index) => (
