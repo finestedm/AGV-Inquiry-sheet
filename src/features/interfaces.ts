@@ -1,3 +1,5 @@
+import { Task } from "gantt-task-react";
+
 export interface ISales {
     salesUnit: string;
     contactPerson: string;
@@ -45,6 +47,8 @@ export interface IProject {
 }
 
 export interface ILoad {
+    id: number | undefined;
+    label: string;
     name: string;
     length: number;
     width: number;
@@ -52,15 +56,33 @@ export interface ILoad {
     L2: number;
     W2: number;
     W3: number;
+    H2: number;
+    H3: number;
     weightMin: number;
     weightMax: number;
     overhang: boolean;
-    material: string;
-    loadSide: boolean;
+    material: number;
+    loadSide: 0 | 1;
     secured: boolean;
+    capacity?: number;
 }
 
-export interface Iasrs {
+export interface IFlow {
+    stationType: number;
+    stationSource: string;
+    stationTarget: string;
+    flowAverage: number;
+    flowPeak: number;
+    loadType: number;
+    distance: number;
+    bidirectional: boolean;
+}
+
+export interface ILoadsTypes {
+    [key: string]: ILoad;
+}
+
+export interface ISystemData {
     selected: boolean;
     workTime: {
         workDays: number;
@@ -84,15 +106,17 @@ export interface Iasrs {
             length: number;
         }
     },
-    loads: ILoad[]
+    loads: ILoad[];
+    flow: IFlow[];
+    additionalRemarks: string;
+    // [key: string]: any;
 }
 
 export interface ISystems {
-    asrs: Iasrs;
-    lrkprk: Iasrs;
-    agv: Iasrs;
-    autovna: Iasrs;
-    [key: string]: Iasrs; 
+    asrs: ISystemData;
+    lrkprk: ISystemData;
+    agv: ISystemData;
+    autovna: ISystemData;
 }
 
 export interface IFormData {
@@ -101,23 +125,27 @@ export interface IFormData {
     customer: ICustomer;
     project: IProject;
     system: ISystems;
+    // [key: string]: string | object
+}
 
+export interface IMIlestoneDate {
+    start: Date;
+    end: Date;
 }
 
 export interface IMilestones {
-    concept: Date;
-    officialOffer: Date;
-    order: Date;
-    implementationStart: Date;
-    launch: Date;
-    [key: string]: Date; // Index signature
+    concept: IMIlestoneDate;
+    officialOffer: IMIlestoneDate;
+    order: IMIlestoneDate;
+    implementation: IMIlestoneDate;
+    launch: IMIlestoneDate;
 }
 
 
 export interface ISystem {
-    [key: string]: string;
+    // [key: string]: string;
     url: string;
-    alt: string;
+    alt: keyof ISystems;
     label: string;
     labelShort: string;
     description: string;
@@ -130,8 +158,27 @@ export interface IHandleLoadChange {
     (index: number, field: keyof ILoad, value: string | number | boolean): void;
 }
 
-export type LoadFieldValue = string | number | boolean ;
+export type LoadFieldValue = string | number | boolean;
 
 export interface IHandleAddLoad {
     (): void;
+}
+
+export interface ICustomFieldProps {
+    fieldName: string;
+    required?: boolean;
+    multiline?: boolean
+    rows?: number;
+    fullWidth?: boolean;
+    disabled?: boolean;
+}
+
+export interface CopySystemDataPayload {
+    selectedSystem: keyof ISystems;
+    selectedParts: { [key in keyof ISystems]: (keyof ISystemData)[] };
+}
+
+export interface ExtendedTask extends Task {
+    id: keyof IMilestones;
+    name: keyof IMilestones
 }

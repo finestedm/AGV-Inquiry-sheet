@@ -1,31 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Switch from '@mui/material/Switch';
-import { setDarkMode } from '../features/redux/reducers/darkModeSlice';
 import { RootState } from '../features/redux/store';
 import { Box, Button, Collapse, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useTranslation } from 'react-i18next';
+import { setEditMode } from '../features/redux/reducers/editModeSlice';
+import ModeIcon from '@mui/icons-material/Mode';
+import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 
-export default function DarkModeSwitch({ mobile }: { mobile?: boolean }): JSX.Element {
+export default function EditModeSwitch({ mobile }: { mobile?: boolean }): JSX.Element {
   const dispatch = useDispatch();
-  const darkMode = useSelector((state: RootState) => state.darkMode);
+  const editMode = useSelector((state: RootState) => state.editMode);
   const { t } = useTranslation();
   const theme = useTheme();
 
   const renderFull = useMediaQuery(theme.breakpoints.up('xl'))
 
-  useEffect(() => {
-    // Check if the system prefers dark mode
-    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    prefersDarkMode ? dispatch(setDarkMode(true)) : dispatch(setDarkMode(false))
-  }, []);
-
   if (mobile) {
     return (
       <ListItem
-        onClick={() => dispatch(setDarkMode(!darkMode))}
+        onClick={() => dispatch(setEditMode(!editMode))}
       >
         <ListItemIcon
           sx={{ minWidth: 36 }}
@@ -33,18 +29,18 @@ export default function DarkModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
           <Box position='relative'>
 
             <Collapse sx={{ position: 'absolute', top: -12, left: 0 }} orientation="horizontal" collapsedSize={0}
-              in={darkMode}
+              in={editMode}
             >
-              <LightModeIcon />
+              <ModeIcon />
             </Collapse>
             <Collapse sx={{ position: 'absolute', top: -12, left: 0 }} orientation="horizontal" collapsedSize={0}
-              in={!darkMode}
+              in={!editMode}
             >
-              <DarkModeIcon />
+              <ImageSearchIcon />
             </Collapse>
           </Box>
         </ListItemIcon>
-        <ListItemText>{darkMode ? t('ui.switch.darkMode.dark') : t('ui.switch.darkMode.light')}</ListItemText>
+        <ListItemText>{editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}</ListItemText>
       </ListItem>
     );
   } else {
@@ -53,46 +49,46 @@ export default function DarkModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
         <Button
           variant='text'
           size='small'
-          onClick={() => dispatch(setDarkMode(!darkMode))}
+          onClick={() => dispatch(setEditMode(!editMode))}
           startIcon={
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
-              in={darkMode}
+              in={editMode}
             >
-              <LightModeIcon />
+              <ModeIcon />
             </Collapse>
           }
           endIcon={
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
-              in={!darkMode}
+              in={!editMode}
             >
-              <DarkModeIcon />
+              <ImageSearchIcon />
             </Collapse>
           }
         >
-          <Typography>{darkMode ? t('ui.switch.darkMode.dark') : t('ui.switch.darkMode.light')}</Typography>
+          <Typography>{editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}</Typography>
         </Button>
       ) : (
-        <Tooltip title={t('ui.tooltip.darkMode')}>
+        <Tooltip title={t('ui.tooltip.editMode')}>
+
           <IconButton
             size='small'
             color='primary'
-            onClick={() => dispatch(setDarkMode(!darkMode))}
+            onClick={() => dispatch(setEditMode(!editMode))}
           >
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
-              in={darkMode}
+              in={editMode}
             >
-              <LightModeIcon />
+              <ModeIcon />
             </Collapse>
 
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
-              in={!darkMode}
+              in={!editMode}
             >
-              <DarkModeIcon />
+              <ImageSearchIcon />
             </Collapse>
           </IconButton>
         </Tooltip>
-
       )
-    )
+    );
   }
 }

@@ -76,3 +76,76 @@
   object-fit: cover;
   /* Use contain to maintain aspect ratio and fit within the container */
 }
+
+.MuiDataGrid-overlayWrapper {
+  min-height: 5rem !important
+}
+
+@media only screen and (max-width: 800px) {
+  .MuiSlider-root {
+    pointer-events: none !important;
+  }
+
+  .MuiSlider-thumb {
+    pointer-events: all !important
+  }
+}
+
+._3eULf {
+  border-radius: .25rem ;
+  overflow: hidden;
+  width: 100%;
+}
+
+._3lLk3 {
+  white-space: initial;
+}
+
+.ganttchart-edit-buttons {
+  opacity: 0;
+  transition: all .5s ease;
+}
+
+.ganttchart-container:hover .ganttchart-edit-buttons,
+.ganttchart-container-dark:hover .ganttchart-edit-buttons {
+  opacity: 1;
+}
+
+.MuiGrid-root.MuiGrid-container.MuiPickersToolbar-content.css-jhsfre-MuiGrid-root-MuiPickersToolbar-content {
+  visibility: collapse;
+}
+
+.MuiPickersToolbar-root.MuiPickersLayout-toolbar.css-1eurbeq-MuiPickersToolbar-root-MuiDatePickerToolbar-root {
+  visibility: collapse;
+}
+
+.ganttchart-container  tbody .MuiTableRow-root:last-child .MuiTableCell-root,
+.ganttchart-container-dark  tbody .MuiTableRow-root:last-child .MuiTableCell-root
+{
+  border-bottom: none;
+}
+
+.ganttchart-container ._2dZTy {
+  fill: white
+}
+
+.ganttchart-container-dark ._2dZTy,
+.ganttchart-container-dark ._35nLX {
+  fill: #1f1f1f;
+  color: #fff
+}
+
+/* row line */
+
+.ganttchart-container ._3rUKi {
+  stroke: rgba(224, 224, 224, 1);
+  
+}
+
+.ganttchart-container-dark ._3rUKi,
+.ganttchart-container-dark ._RuwuK
+{
+  stroke: rgba(255, 255, 255, 0.12);
+  color: #fff
+
+}

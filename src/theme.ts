@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { deDE, plPL } from '@mui/x-date-pickers/locales';
 
 export let theme = createTheme({})
 
@@ -46,8 +47,18 @@ theme = createTheme({
             main: '#ffb900',
         },
         success: {
-            main: '#0082A4',
+            main: '#70AE6E',
         },
+        background: {
+            default: '#ffffff'
+        },
+        info: {
+            main: '#2a7f93'
+        }
+
+    },
+    shape: {
+        borderRadius: theme.shape.borderRadius * 3
     },
 
     typography: {
@@ -86,12 +97,19 @@ theme = createTheme({
 
     ],
     components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: theme.shape.borderRadius * 10
+                }
+            }
+        },
         MuiCard: {
             styleOverrides: {
                 root: {
-                    boxShadow: shadow5,
+                    // boxShadow: shadow5,
                     border: borderStandard,
-                    borderColor: theme.palette.grey[200]
+                    borderColor: theme.palette.grey[200],
                 },
             },
         },
@@ -122,9 +140,10 @@ theme = createTheme({
                     backgroundColor: theme.palette.background.default
                 }
             }
-        }
+        },
     },
-});
+}
+);
 
 export const themeDark = createTheme({
     palette: {
@@ -136,8 +155,14 @@ export const themeDark = createTheme({
             main: '#ffb900',
         },
         success: {
-            main: '#1aa5c9',
+            main: '#94DDBC',
         },
+        info: {
+            main: '#006580'
+        }
+    },
+    shape: {
+        borderRadius: theme.shape.borderRadius
     },
 
     typography: {
@@ -149,6 +174,13 @@ export const themeDark = createTheme({
 
 
     components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: theme.shape.borderRadius * 10
+                }
+            }
+        },
         MuiCard: {
             styleOverrides: {
                 root: {
@@ -179,7 +211,15 @@ export const themeDark = createTheme({
                 },
             },
         },
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    boxShadow: 'none'
+                }
+            }
+        }
     },
-});
+}
+);
 
 export default theme

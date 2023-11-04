@@ -1,6 +1,4 @@
-import { AppBar, Box, Button, Container, MobileStepper, Step, StepLabel, Stepper, useTheme } from "@mui/material";
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { AppBar, Box, Button, Card, Container, Grid, MobileStepper, Paper, Step, StepLabel, Stepper, useTheme } from "@mui/material";
 
 interface FormStepperProps {
   activeStep: number;
@@ -9,35 +7,10 @@ interface FormStepperProps {
 }
 
 export default function FormStepper({ activeStep, stepLabels, handleStepClick }: FormStepperProps) {
-  const theme = useTheme()
   return (
-    <Box>
-      <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-        <AppBar
-          position="fixed"
-          color='default'
-          sx={{ top: 'auto', bottom: 0, borderTop: 1, borderColor: theme.palette.divider }}
-        >
-          <MobileStepper
-            variant="dots" // Use "dots" for dots style, "text" for text label style
-            steps={stepLabels.length}
-            position="static"
-            activeStep={activeStep}
-            nextButton={
-              <Button onClick={() => handleStepClick(activeStep + 1)}>
-                <KeyboardArrowRight />
-              </Button>
-            }
-            backButton={
-              <Button onClick={() => handleStepClick(activeStep - 1)}>
-                <KeyboardArrowLeft />
-              </Button>
-            }
-          />
-        </AppBar>
-      </Box>
-      <Box sx={{ display: { xs: 'none', sm: 'block' }, mt: 6}}>
-        <Stepper activeStep={activeStep} alternativeLabel>
+    <Grid item xs sx={{ display: { xs: 'none', md: 'block' } }}>
+      <Card elevation={1} sx={{ p: 3, position: 'sticky', top: 48 }}>
+        <Stepper activeStep={activeStep} orientation="vertical">
           {stepLabels.map((label, index) => (
             <Step key={index}>
               <StepLabel
@@ -51,7 +24,7 @@ export default function FormStepper({ activeStep, stepLabels, handleStepClick }:
             </Step>
           ))}
         </Stepper>
-      </Box>
-    </Box>
+      </Card>
+    </Grid>
   );
 }

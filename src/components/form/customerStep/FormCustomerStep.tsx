@@ -1,14 +1,16 @@
-import { Box, Button, Checkbox, FormControl, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Checkbox, FormControl, FormHelperText, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { ChangeEvent, useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
 import { useTranslation } from 'react-i18next';
-import { IFormData } from "../features/interfaces";
-import { Dispatch } from 'redux'
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../features/redux/store";
-import { handleIndustryChange, handleInputMethod, setFormData } from "../features/redux/reducers/formDataSlice";
-import trimLeadingZeros from "../features/variousMethods/trimLeadingZero";
+import { RootState } from "../../../features/redux/store";
+import { handleIndustryChange, handleInputMethod, initialFormDataState, setFormData } from "../../../features/redux/reducers/formDataSlice";
+import trimLeadingZeros from "../../../features/variousMethods/trimLeadingZero";
+import { Field, Form, Formik, FormikProps, useFormikContext } from 'formik'
+import validationSchema from "../../../features/formValidation/formValidation";
+import { IFormData } from "../../../features/interfaces";
+import CustomTextField from "../CustomTextField";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -24,10 +26,13 @@ export const MenuProps = {
 
 export default function FormCustomerStep(): JSX.Element {
 
+  const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
+
   const { t } = useTranslation();
-  const theme = useTheme();
 
   const formData = useSelector((state: RootState) => state.formData);
+  const editMode = useSelector((state: RootState) => state.editMode)
+
   const dispatch = useDispatch();
 
   const industries: string[] = [
@@ -45,53 +50,30 @@ export default function FormCustomerStep(): JSX.Element {
 
   const [otherIndustry, setOtherIndustry] = useState<string>('')
 
-  function isValidEmail() {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(formData.customer.contactPersonMail);
-  };
-
-  const [isFieldTouched, setIsFieldTouched] = useState(false);
-
   return (
     <Stack spacing={8}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
       <Stack spacing={2}>
         <Typography variant="h5" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
-        <TextField
-          label={t('customer.name')}
-          name="customer.name"
-          value={formData.customer.name}
-          onChange={(e) => dispatch(handleInputMethod({ path: 'customer.name', value: e.target.value }))}
+        <CustomTextField
+          required
+          fieldName="customer.name"
         />
-        <TextField
-          label={t('customer.sap')}
-          placeholder="41******"
-          name="customer.sapNumber"
-          value={formData.customer.sapNumber}
-          defaultValue=''
-          onChange={(e) => dispatch(handleInputMethod({ path: 'customer.sapNumber', value: e.target.value }))}
+        <CustomTextField
+          fieldName="customer.sapNumber"
         />
-        <TextField
-          label={t('customer.address')}
-          placeholder="Popularna 13B"
-          name="customer.address"
-          value={formData.customer.address}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(handleInputMethod({ path: 'customer.address', value: e.target.value }))}
+        <CustomTextField
+          required
+          fieldName="customer.address"
         />
       </Stack>
       <Stack spacing={2}>
         <Typography variant="h5" textAlign='left'>{t('customer.subheader.contactperson')}</Typography>
-        <TextField
-          label={t('customer.contactperson.name')}
-          name="customer.contactPerson"
-          value={formData.customer.contactPerson}
-          onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPerson', value: e.target.value }))}
+        <CustomTextField
+          fieldName="customer.contactPerson"
         />
-        <TextField
-          label={t('customer.contactperson.role')}
-          name="customer.contactPersonRole"
-          value={formData.customer.contactPersonRole}
-          onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonRole', value: e.target.value }))}
+        <CustomTextField
+          fieldName="customer.contactPersonRole"
         />
         <MuiTelInput
           label={t('customer.contactperson.phone')}
@@ -100,42 +82,34 @@ export default function FormCustomerStep(): JSX.Element {
           value={formData.customer.contactPersonPhone}
           onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonPhone', value: e }))}
           variant="outlined"
+          disabled={!editMode}
           fullWidth
         />
-        <TextField
-          label={t('customer.contactperson.mail')}
-          name="customer.contactPersonMail"
-          value={formData.customer.contactPersonMail}
-          placeholder={t('customer.contactperson.mail.placeholder')}
-          onChange={(e) => {
-            setIsFieldTouched(true);
-            dispatch(handleInputMethod({ path: 'customer.contactPersonMail', value: e.target.value }))
-          }
-          }
-          error={isFieldTouched && !isValidEmail()} // Show error only if the field is touched and email is invalid
-          helperText={isFieldTouched && !isValidEmail() ? t('customer.contactperson.mail.helpertext.valid') : ''}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <EmailIcon />
-              </InputAdornment>
-            ),
-          }}
+        <CustomTextField
+          fieldName="customer.contactPersonMail"
         />
       </Stack>
       <Stack spacing={2}>
         <Typography variant="h5" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
         <FormControl>
           <InputLabel id="customer-industry-label">{t('customer.industry')}</InputLabel>
-          <Select
+          <Field
+            required
+            disabled={!editMode}
+            as={Select}
             labelId="customer-industry-label"
-            id="customer-industry"
+            id="customer-industryName"
+            name='customer.industryName'
             multiple
             input={<OutlinedInput label={t('customer.industry')} />}
             value={formData.customer.industryName}
-            onChange={(e) => dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value as string[] }))}
-            renderValue={(selected) => (selected as string[]).join(', ')}
+            onChange={(e: { target: { value: string[]; }; }) => {
+              formikProps.setFieldValue('customer.industryName', e.target.value);
+              dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value }))
+            }}
+            renderValue={(selected: string[]) => selected.join(', ')}
             MenuProps={MenuProps}
+            error={Boolean(formikProps.errors.customer?.industryName)}
           >
             {industries.map((name) => (
               <MenuItem key={name} value={name}>
@@ -143,13 +117,16 @@ export default function FormCustomerStep(): JSX.Element {
                 <ListItemText primary={name} />
               </MenuItem>
             ))}
-          </Select>
+          </Field>
+          {formikProps.touched.customer?.industryName && formikProps.errors.customer?.industryName && <FormHelperText error>{t(`${formikProps.errors.customer?.industryName}`)}</ FormHelperText>}
         </FormControl>
         {formData.customer.industryName.includes(t('industry.other')) &&
           <TextField
-            label={t('customer.industry.other')}
-            name="customer.industry-other"
+            required
+            label={t('customer.industryName.other')}
+            name="customer.industryName-other"
             value={otherIndustry}
+            disabled={!editMode}
             onChange={(e) => setOtherIndustry(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -160,20 +137,29 @@ export default function FormCustomerStep(): JSX.Element {
         }
         <FormControl>
           <InputLabel id="customer-relations-label">{t('customer.relations.type')}</InputLabel>
-          <Select
+          <Field
+            as={Select}
+            disabled={!editMode}
+            required
             labelId="customer-relations-label"
-            id="customer-relations"
+            id="customer.relations"
+            name='customer.relations'
             input={<OutlinedInput label={t('customer.relations.type')} />}
             value={formData.customer.relations}
-            onChange={(e) => dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))}
-            renderValue={(selected) => (selected)}
+            onChange={(e: { target: { value: string; }; }) => {
+              dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))
+              formikProps.setFieldValue('customer.relations', e.target.value);
+            }}
+            renderValue={(selected: any) => (selected)}
             MenuProps={MenuProps}
+            error={Boolean(formikProps.errors.customer?.relations)}
           >
             <MenuItem value={t('customer.relations.new')}>{t('customer.relations.new')}</MenuItem>
             <MenuItem value={t('customer.relations.jh')}>{t('customer.relations.jh')}</MenuItem>
             <MenuItem value={t('customer.relations.jh-kam')}>{t('customer.relations.jh-kam')}</MenuItem>
             <MenuItem value={t('customer.relations.competitor')}>{t('customer.relations.competitor')}</MenuItem>
-          </Select>
+          </Field>
+          {formikProps.touched.customer?.relations && formikProps.errors.customer?.relations && <FormHelperText error>{t(`${formikProps.errors.customer?.relations}`)}</ FormHelperText>}
         </FormControl>
         {(formData.customer.relations === t('customer.relations.jh') || formData.customer.relations === t('customer.relations.jh-kam')) &&
           <Box>
@@ -182,6 +168,7 @@ export default function FormCustomerStep(): JSX.Element {
                 <TextField
                   id="customer-relations-forklift-input"
                   fullWidth
+                  disabled={!editMode}
                   label={t("customer.relations.input.forklifts")}
                   type="number"
                   value={trimLeadingZeros(Number(formData.customer.ownedForklifts))}
@@ -196,6 +183,7 @@ export default function FormCustomerStep(): JSX.Element {
                 <TextField
                   id="customer-relations-racks-input"
                   fullWidth
+                  disabled={!editMode}
                   label={t("customer.relations.input.racks")}
                   type="number"
                   value={trimLeadingZeros(Number(formData.customer.ownedRacks))}
@@ -210,6 +198,7 @@ export default function FormCustomerStep(): JSX.Element {
                 <TextField
                   id="customer-relations-other-input"
                   fullWidth
+                  disabled={!editMode}
                   label={t("customer.relations.input.other")}
                   type="text"
                   value={formData.customer.ownedOther}
@@ -223,6 +212,7 @@ export default function FormCustomerStep(): JSX.Element {
           label={t('customer.relations.saleshistoryvalue')}
           name="customer.salesHistoryValue"
           type="text"
+          disabled={!editMode}
           value={formData.customer.salesHistoryValue === undefined ? '' : (Number(formData.customer.salesHistoryValue)).toLocaleString('en-US').replaceAll(',', ' ')}
           onChange={(e) => {
             const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
@@ -237,6 +227,7 @@ export default function FormCustomerStep(): JSX.Element {
           label={t('customer.relations.creditmanagement')}
           name="customer.creditmanagement"
           type="text"
+          disabled={!editMode}
           value={formData.customer.creditManagement === undefined ? '' : (Number(formData.customer.creditManagement)).toLocaleString('en-US').replaceAll(',', ' ')}
           onChange={(e) => {
             const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit

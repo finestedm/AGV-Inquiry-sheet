@@ -7,7 +7,7 @@ const ScrollButton = () => {
     const [buttonClass, setButtonClass] = useState('scroll-button');
 
     const handleScroll = () => {
-        if (window.scrollY > 200) { // Adjust the threshold value as needed
+        if (window.scrollY > 220) { // Adjust the threshold value as needed
             setButtonClass('scroll-button show')
         } else {
             setButtonClass('scroll-button')
@@ -24,13 +24,23 @@ const ScrollButton = () => {
     return (
         <div>
             <Fab
-                sx={{ position: 'fixed', bottom: '10%', right: '5%', transition: 'all .25s ease', transform: `${window.scrollY > 200 ? 'scale(1)' : 'scale(0)'}` }}
+                sx={{
+                    position: 'fixed',
+                    bottom: '7%',
+                    right: 'auto', // Set right to auto
+                    left: '50%',    // Center horizontally
+                    transform: 'translateX(-50%)', // Translate it to the left by 50% of its own width
+                    transition: 'all .25s ease',
+                    visibility: `${window.scrollY > 200 ? 'visible' : 'collapse'}`,
+                }}
                 color="primary"
-                className={buttonClass} // Add the class for styling and animation
+                size='small'
+                className={buttonClass}
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
                 <KeyboardDoubleArrowUpIcon />
             </Fab>
+
         </div>
     );
 };
