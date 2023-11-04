@@ -4,6 +4,7 @@ import { Box, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { ISystems } from '../../../../features/interfaces';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
     const [pallets, setPallets] = useState<{ key: number }[]>([]);
@@ -39,7 +40,6 @@ function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems })
     const divRef = useRef(null)
 
     const wallThickness = canvaDimensions.width * 0.02; // Assuming 10% thickness
-    const warehouseSizeRatio = warehouseLength / warehouseWidth
 
 
     // We cant set the h & w on Stage to 100% it only takes px values so we have to
