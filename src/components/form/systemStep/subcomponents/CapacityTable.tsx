@@ -43,7 +43,7 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
     }, [])
 
     return (
-        <Box sx={{ minHeight: '10rem' }}>
+        <Box>
             <DataGrid
                 rows={rows}
                 columns={[

@@ -110,7 +110,8 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <CustomTextField
-                            fieldName="system.asrs.workConditions.other"
+                            disabled={!editMode}
+                            fieldName={`system.${selectedSystem}.additionalRemarks`}
                             fullWidth
                             multiline
                             rows={4}

@@ -8,6 +8,7 @@ import Building from "./subcomponents/Building";
 import Loads from "./subcomponents/Loads";
 import Capacity from "./subcomponents/Capacity";
 import Flows from "./subcomponents/Flows";
+import AdditionalRemarks from "./subcomponents/AdditionalRemarks";
 
 export default function FormSystemStep({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
 
@@ -25,6 +26,7 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: key
             <Loads selectedSystem={selectedSystem} />
             {(selectedSystem === 'asrs' || selectedSystem === 'lrkprk' || selectedSystem === 'autovna') && <Capacity selectedSystem={selectedSystem} />}
             {(selectedSystem === ('agv' || 'autovna')) && <Flows selectedSystem={selectedSystem} />}
+            <AdditionalRemarks selectedSystem={selectedSystem} /> 
         </Stack >
     )
 }

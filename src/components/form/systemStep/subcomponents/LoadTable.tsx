@@ -99,7 +99,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
     return (
-        <Box sx={{ minHeight: '10rem' }}>
+        <Box>
             <DataGrid
                 rows={rows}
                 columns={[

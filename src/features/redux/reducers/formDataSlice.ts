@@ -100,7 +100,8 @@ const initialFormDataState: IFormData = {
                 }
             },
             loads: [],
-            flow: [emptyFlow]
+            flow: [emptyFlow],
+            additionalRemarks: '',
         },
         lrkprk: {
             selected: false,
@@ -127,8 +128,8 @@ const initialFormDataState: IFormData = {
                 }
             },
             loads: [],
-            flow: [emptyFlow]
-
+            flow: [emptyFlow],
+            additionalRemarks: '',
         },
         agv: {
             selected: false,
@@ -155,8 +156,8 @@ const initialFormDataState: IFormData = {
                 }
             },
             loads: [],
-            flow: [emptyFlow]
-
+            flow: [emptyFlow],
+            additionalRemarks: '',
         },
         autovna: {
             selected: false,
@@ -183,8 +184,8 @@ const initialFormDataState: IFormData = {
                 }
             },
             loads: [],
-            flow: [emptyFlow]
-
+            flow: [emptyFlow],
+            additionalRemarks: '',
         }
     },
 }
@@ -414,6 +415,8 @@ const formDataSlice = createSlice({
                             if (Array.isArray(state.system[otherSystem][part])) {
                                 state.system[selectedSystem][part] = state.system[otherSystem][part].map(flow => ({ ...flow }));
                             }
+                        } else if (part === 'additionalRemarks') {
+                            state.system[selectedSystem][part] = state.system[otherSystem][part];
                         } else {
 
                             // Copy data from other systems to the selected system based on the selected part

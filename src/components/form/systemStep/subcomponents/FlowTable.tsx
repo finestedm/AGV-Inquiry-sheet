@@ -60,7 +60,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
     if (selectedSystemFlow) {
         return (
-            <>
+            <Box>
                 <DataGrid
                     rows={rows}
                     columns={[
@@ -169,7 +169,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                 {/* <Box textAlign='left'>
                     <Button variant='outlined' onClick={() => dispatch(handleAddFlow({ systemName: selectedSystem }))} endIcon={<PlaylistAdd />}>{t('ui.button.addNewFlow')} </Button >
                 </Box> */}
-            </>
+            </Box>
         )
     } else {
         return (

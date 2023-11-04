@@ -108,6 +108,7 @@ export interface ISystemData {
     },
     loads: ILoad[];
     flow: IFlow[];
+    additionalRemarks: string;
     // [key: string]: any;
 }
 
