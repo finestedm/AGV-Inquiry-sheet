@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Konva, { Stage, Layer, Rect, Line } from 'react-konva';
+import Konva, { Stage, Layer, Rect, Line, Image } from 'react-konva';
 import { Box, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
-import { ISystems } from '../../../../features/interfaces';
+import { IEquipment, ISystems } from '../../../../features/interfaces';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useDispatch } from 'react-redux';
 import { updateEquipment } from '../../../../features/redux/reducers/formDataSlice';
+import jh from '../../../../images/JH_logo.png'
+//@ts-ignore
+import useImage from 'use-image';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -106,6 +109,22 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         return lines;
     };
 
+    const DockImage = ({ dock, index }: { dock: IEquipment, index: number }) => {
+        const [image] = useImage(`${jh}`);
+
+        return <Image
+            width={5 * canvaToWarehouseRatio}
+            height={5 * canvaToWarehouseRatio}
+            x={dock.x}
+            y={dock.y}
+            fill="green"
+            rotation={dock.rotation} // Include the rotation property
+            draggable
+            onDragEnd={handleDragEnd(index)}
+            image={image}
+        />;
+    };
+
     const canvaToWarehouseRatio = canvaDimensions.width / warehouseData.width;
 
     return (
@@ -133,16 +152,10 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
                     {/* docks */}
                     {warehouseEquipment.docks.map((dock, index) => (
-                        <Rect
+                        <DockImage
                             key={index}
-                            width={5 * canvaToWarehouseRatio}
-                            height={5 * canvaToWarehouseRatio}
-                            x={dock.x}
-                            y={dock.y}
-                            fill="green"
-                            rotation={dock.rotation} // Include the rotation property
-                            draggable
-                            onDragEnd={handleDragEnd(index)}
+                            dock={dock}
+                            index={index}
                         />
                     ))}
                 </Layer>
