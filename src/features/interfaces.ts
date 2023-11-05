@@ -82,6 +82,18 @@ export interface ILoadsTypes {
     [key: string]: ILoad;
 }
 
+export interface IEquipment {
+    x: number,
+    y: number,
+    rotation: number
+}
+
+export interface IEquipments {
+    gates: IEquipment[];
+    walls: IEquipment[];
+    docks: IEquipment[];
+}
+
 export interface ISystemData {
     selected: boolean;
     workTime: {
@@ -104,6 +116,7 @@ export interface ISystemData {
             height: number;
             width: number;
             length: number;
+            equipments: IEquipments;
         }
     },
     loads: ILoad[];

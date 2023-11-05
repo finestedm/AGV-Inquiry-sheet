@@ -1,25 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Stage, Layer, Rect } from 'react-konva';
+import Konva, { Stage, Layer, Rect, Line } from 'react-konva';
 import { Box, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { ISystems } from '../../../../features/interfaces';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import { useDispatch } from 'react-redux';
+import { updateEquipment } from '../../../../features/redux/reducers/formDataSlice';
 
-function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
-    const [pallets, setPallets] = useState<{ key: number }[]>([]);
-    const warehouseDimensions = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
-    const [warehouseWidth, setWarehouseWidth] = useState(0);
-    const [warehouseLength, setWarehouseLength] = useState(0);
+export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
+
+    const divRef = useRef(null)
+    const dispatch = useDispatch();
+
+    const [docks, setDocks] = useState<{ key: number }[]>([]);
+    const handleAddPallet = () => {
+        setDocks([...docks, { key: docks.length }]);
+    };
+
+    const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
+    const warehouseEquipment = warehouseData.equipments;
+
     const [canvaDimensions, setCanvaDimensions] = useState({
         width: 0,
         height: 0
     })
-
-    useEffect(() => {
-        setWarehouseLength(Number(warehouseDimensions.length))
-        setWarehouseWidth(Number(warehouseDimensions.width))
-    }, [warehouseDimensions])
 
     useEffect(() => {
         //@ts-ignore
@@ -28,26 +33,84 @@ function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems })
                 //@ts-ignore
                 width: divRef.current.offsetWidth,
                 //@ts-ignore
-                height: divRef.current.offsetWidth * Number(warehouseLength / warehouseWidth)
+                height: divRef.current.offsetWidth * Number(warehouseData.length / warehouseData.width)
             })
         }
-    }, [warehouseDimensions, warehouseLength, warehouseWidth])
+    }, [warehouseData.length, warehouseData.width])
 
-    const handleAddPallet = () => {
-        setPallets([...pallets, { key: pallets.length }]);
+    const wallThickness = canvaDimensions.width * 0.01; // Assuming 1%
+
+
+    function handleAddDock() {
+        const newDock = {
+            key: docks.length,
+            x: Math.random() * 550,
+            y: Math.random() * 350,
+            rotation: 0,
+        };
+
+        // Update Redux state with the new dock added to the existing array
+        dispatch(updateEquipment({
+            updatedEquipment: [...warehouseEquipment.docks, newDock],
+            selectedEquipment: 'docks',
+            selectedSystem: selectedSystem,
+        }));
+    };
+    //@ts-ignore
+    const handleDragEnd = (index: number) => (e: Konva.KonvaEventObject<DragEvent>) => {
+        const updatedDocks = warehouseEquipment.docks.map((dock, i) => {
+            if (i === index) {
+                // Create a new object to avoid TypeScript inference issues
+                return { ...dock, x: e.target.x(), y: e.target.y(), rotation: e.target.rotation() };
+            }
+            return dock;
+        });
+
+        // Update Redux state with the updated dock positions
+        dispatch(updateEquipment({ updatedEquipment: updatedDocks, selectedEquipment: 'docks', selectedSystem: selectedSystem }));
     };
 
-    const divRef = useRef(null)
 
-    const wallThickness = canvaDimensions.width * 0.02; // Assuming 10% thickness
+    function generateGridLines() {
+        const lines = [];
 
+        // Number of grid lines
+        const numLinesX = Math.floor(warehouseData.width / 10);
+        const numLinesY = Math.floor(warehouseData.length / 10);
 
-    // We cant set the h & w on Stage to 100% it only takes px values so we have to
-    // find the parent container's w and h and then manually set those !
+        // Generate horizontal grid lines
+        for (let i = 1; i < numLinesX; i++) {
+            lines.push(
+                <Line
+                    key={`gridLineX${i}`}
+                    points={[i * (canvaDimensions.width / numLinesX), 0, i * (canvaDimensions.width / numLinesX), canvaDimensions.height]}
+                    stroke="grey"
+                    strokeWidth={1}
+                    opacity={0.5}
+                />
+            );
+        }
+
+        // Generate vertical grid lines
+        for (let i = 1; i < numLinesY; i++) {
+            lines.push(
+                <Line
+                    key={`gridLineY${i}`}
+                    points={[0, i * (canvaDimensions.height / numLinesY), canvaDimensions.width, i * (canvaDimensions.height / numLinesY)]}
+                    stroke="grey"
+                    strokeWidth={1}
+                    opacity={0.5}
+                />
+            );
+        }
+        return lines;
+    };
+
+    const canvaToWarehouseRatio = canvaDimensions.width / warehouseData.width;
 
     return (
-        <Box ref={divRef}>
-            <Button onClick={handleAddPallet}>Add Pallet</Button>
+        <Box ref={divRef} sx={{ minHeight: 50 }}>
+            <Button onClick={handleAddDock}>Add Dock</Button>
             <Stage width={canvaDimensions.width} height={canvaDimensions.height}>
                 <Layer>
                     {/* Warehouse */}
@@ -66,20 +129,20 @@ function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems })
                         fill="white"
                         opacity={1}
                     />
+                    {generateGridLines()}
 
-
-
-
-                    {/* Pallets */}
-                    {pallets.map(({ key }, index) => (
+                    {/* docks */}
+                    {warehouseEquipment.docks.map((dock, index) => (
                         <Rect
-                            key={key}
-                            width={50}
-                            height={50}
-                            x={Math.random() * 550}
-                            y={Math.random() * 350}
-                            fill="blue"
+                            key={index}
+                            width={5 * canvaToWarehouseRatio}
+                            height={5 * canvaToWarehouseRatio}
+                            x={dock.x}
+                            y={dock.y}
+                            fill="green"
+                            rotation={dock.rotation} // Include the rotation property
                             draggable
+                            onDragEnd={handleDragEnd(index)}
                         />
                     ))}
                 </Layer>
@@ -87,5 +150,3 @@ function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems })
         </Box>
     );
 };
-
-export default WarehouseLayout;

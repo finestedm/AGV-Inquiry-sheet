@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilestones, ISystemData, CopySystemDataPayload } from '../../interfaces';
+import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilestones, ISystemData, CopySystemDataPayload, IEquipments, IEquipment } from '../../interfaces';
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
@@ -97,6 +97,11 @@ const initialFormDataState: IFormData = {
                     height: 0,
                     width: 0,
                     length: 0,
+                    equipments: {
+                        gates: [],
+                        walls: [],
+                        docks: []
+                    }
                 }
             },
             loads: [],
@@ -125,6 +130,11 @@ const initialFormDataState: IFormData = {
                     height: 0,
                     width: 0,
                     length: 0,
+                    equipments: {
+                        gates: [],
+                        walls: [],
+                        docks: []
+                    }
                 }
             },
             loads: [],
@@ -153,6 +163,11 @@ const initialFormDataState: IFormData = {
                     height: 0,
                     width: 0,
                     length: 0,
+                    equipments: {
+                        gates: [],
+                        walls: [],
+                        docks: []
+                    }
                 }
             },
             loads: [],
@@ -181,6 +196,11 @@ const initialFormDataState: IFormData = {
                     height: 0,
                     width: 0,
                     length: 0,
+                    equipments: {
+                        gates: [],
+                        walls: [],
+                        docks: []
+                    }
                 }
             },
             loads: [],
@@ -433,10 +453,18 @@ const formDataSlice = createSlice({
             });
         },
 
+        updateEquipment: (state: IFormData, action: PayloadAction<{ updatedEquipment: IEquipment[]; selectedEquipment: keyof IEquipments; selectedSystem: keyof ISystems }>) => {
+            const { updatedEquipment, selectedEquipment, selectedSystem } = action.payload;
+
+            // Update the equipment in the selected system
+            state.system[selectedSystem].building.existingBuilding.equipments[selectedEquipment] = updatedEquipment;
+        },
+
+
         // ... add other reducers here if needed
     },
 });
 
-export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange, resetFormData, handleDateChanges, handleCopySystemData } = formDataSlice.actions;
+export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange, resetFormData, handleDateChanges, handleCopySystemData, updateEquipment } = formDataSlice.actions;
 export default formDataSlice.reducer;
 export { initialFormDataState }
