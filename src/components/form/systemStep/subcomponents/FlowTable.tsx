@@ -5,18 +5,18 @@ import { useDispatch } from "react-redux";
 import { Box, Button, ButtonGroup, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { handleAddFlow, handleDeleteFlow, handleFlowChange } from "../../../../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
-import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
 import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
-import { ISystems } from "../../../../features/interfaces";
+import { IEquipment, ISystems } from "../../../../features/interfaces";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
 
     const selectedSystemFlow = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
+    const selectedSystemEquipments = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipments);
     const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
 
@@ -58,6 +58,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
+    console.log(selectedSystemEquipments)
+
     if (selectedSystemFlow) {
         return (
             <Box>
@@ -65,8 +67,50 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                     rows={rows}
                     columns={[
                         { field: "id", headerName: "Stage", width: 50, type: 'number' },
-                        { field: "stationSource", headerName: "Pickup station", minWidth: 130, editable: true, type: 'string', description: 'Station where load is picked up' },
-                        { field: "stationTarget", headerName: "Unload station", minWidth: 130, editable: true, type: 'string', description: 'Station where load is left' },
+                        {
+                            field: "stationSource",
+                            headerName: "Pickup station",
+                            minWidth: 130,
+                            editable: true,
+                            renderCell: (params) => (
+                                <Select
+                                    value={params.value} // IEquipment object
+                                    onChange={(event) => {
+                                        // Handle the change and dispatch if needed
+                                        const selectedEquipment = event.target.value as IEquipment;
+                                        // Dispatch an action or update the state accordingly
+                                    }}
+                                >
+                                    {/* Render options from existing equipments */}
+                                    {selectedSystemEquipments.docks.map((equipment) => {
+                                        if (equipment) {
+                                            return (
+                                                // <MenuItem value={equipment}>
+
+                                                <MenuItem>
+                                                    {`(${equipment.x}, ${equipment.y}), Rotation: ${equipment.rotation}`}
+                                                </MenuItem>
+                                            );
+                                        } else {
+                                            return (
+                                                <MenuItem key="no-data">
+                                                    no data available
+                                                </MenuItem>
+                                            );
+                                        }
+                                    })}
+                                </Select>
+                            ),
+                        },
+                        {
+                            field: "stationTarget",
+                            headerName: "Unload station",
+                            minWidth: 130,
+                            editable: true,
+                            renderCell: (params) => (
+                                params.id
+                            ),
+                        },
                         { field: "flowAverage", headerName: "Average material flow", minWidth: 130, editable: true, type: 'number' },
                         { field: "flowPeak", headerName: "Peak material flow", minWidth: 130, editable: true, type: 'number' },
                         {
@@ -161,14 +205,10 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             </Box>
                         )
                     }}
-                    onRowSelectionModelChange={(newRowSelectionModel) => { editMode && setRowSelectionModel(newRowSelectionModel)}}
+                    onRowSelectionModelChange={(newRowSelectionModel) => { editMode && setRowSelectionModel(newRowSelectionModel) }}
                     rowSelectionModel={rowSelectionModel}
-
-                // Add other Data Grid props as needed...
                 />
-                {/* <Box textAlign='left'>
-                    <Button variant='outlined' onClick={() => dispatch(handleAddFlow({ systemName: selectedSystem }))} endIcon={<PlaylistAdd />}>{t('ui.button.addNewFlow')} </Button >
-                </Box> */}
+
             </Box>
         )
     } else {

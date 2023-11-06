@@ -69,8 +69,8 @@ export interface ILoad {
 
 export interface IFlow {
     stationType: number;
-    stationSource: string;
-    stationTarget: string;
+    stationSource: IEquipment | undefined;
+    stationTarget: IEquipment | undefined;
     flowAverage: number;
     flowPeak: number;
     loadType: number;
