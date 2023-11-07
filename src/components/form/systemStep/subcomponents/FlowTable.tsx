@@ -10,13 +10,16 @@ import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
 import { IEquipment, ISystems } from "../../../../features/interfaces";
+import DoorSlidingSharpIcon from '@mui/icons-material/DoorSlidingSharp';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
 
     const selectedSystemFlow = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
-    const selectedSystemEquipments = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipments);
+    const selectedSystemEquipment = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment);
     const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
 
@@ -58,8 +61,6 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
-    console.log(selectedSystemEquipments)
-
     if (selectedSystemFlow) {
         return (
             <Box>
@@ -73,9 +74,16 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             minWidth: 130,
                             editable: true,
                             type: 'singleSelect',
-                            valueOptions: selectedSystemEquipments.docks.map((dock) => ({
-                                value: dock.id,
-                                label: <Box><Chip size='small' sx={{ backgroundColor: dock.color }} />Dock</Box>
+                            valueOptions: selectedSystemEquipment.map((equipment) => ({
+                                value: equipment.id,
+                                label:
+                                    <Stack direction='row' justifyContent='center' alignItems='center'>
+                                        <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} />
+                                        <Typography variant="body1" sx={{ textTransform: 'capitalize' }} mr={1}>{equipment.type}</Typography>
+                                        {equipment.type === 'gate' && <DoorSlidingSharpIcon />}
+                                        {equipment.type === 'wall' && <ConstructionIcon />}
+                                        {equipment.type === 'dock' && <SystemUpdateAltIcon />}
+                                    </Stack>
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
@@ -84,9 +92,19 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             headerName: "Unload station",
                             minWidth: 130,
                             editable: true,
-                            renderCell: (params) => (
-                                params.id
-                            ),
+                            type: 'singleSelect',
+                            valueOptions: selectedSystemEquipment.map((equipment) => ({
+                                value: equipment.id,
+                                label:
+                                    <Stack direction='row' justifyContent='center' alignItems='center'>
+                                        <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} />
+                                        <Typography variant="body1" sx={{ textTransform: 'capitalize' }} mr={1}>{equipment.type}</Typography>
+                                        {equipment.type === 'gate' && <DoorSlidingSharpIcon />}
+                                        {equipment.type === 'wall' && <ConstructionIcon />}
+                                        {equipment.type === 'dock' && <SystemUpdateAltIcon />}
+                                    </Stack>
+                            })),
+                            renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
                         { field: "flowAverage", headerName: "Average material flow", minWidth: 130, editable: true, type: 'number' },
                         { field: "flowPeak", headerName: "Peak material flow", minWidth: 130, editable: true, type: 'number' },

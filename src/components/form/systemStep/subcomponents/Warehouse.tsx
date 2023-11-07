@@ -1,25 +1,68 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Konva, { Stage, Layer, Rect, Line, Image } from 'react-konva';
-import { Box, Button } from '@mui/material';
+import Konva, { Stage, Layer, Rect, Line, Image, Circle } from 'react-konva';
+import { Box, Button, ButtonGroup, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { IEquipment, ISystems } from '../../../../features/interfaces';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useDispatch } from 'react-redux';
 import { updateEquipment } from '../../../../features/redux/reducers/formDataSlice';
-import jh from '../../../../images/JH_logo.png'
 //@ts-ignore
-import useImage from 'use-image';
 import generateRandomId from '../../../../features/variousMethods/generateRandomId';
 import randomColor from 'randomcolor'
+import { useTranslation } from 'react-i18next';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { PlaylistAdd } from "@mui/icons-material";
+import { availableEquipment } from '../../../../data/availableEquipment';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const divRef = useRef(null)
     const dispatch = useDispatch();
-
+    const editMode = useSelector((state: RootState) => state.editMode);
     const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
-    const warehouseEquipment = warehouseData.equipments;
+    const warehouseEquipment = warehouseData.equipment;
+    const [isMobile, setIsMobile] = useState<boolean>(false)
+    useEffect(() => {
+        navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false)
+    }, [])
+    const [open, setOpen] = React.useState(false);
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+    const anchorRef = useRef<HTMLDivElement>(null);
+    const { t } = useTranslation()
+    const [equipmentToAdd, setEquipmentToAdd] = useState<IEquipment['type']>('dock')
+    const handleClick = () => {
+        const newEquipment: IEquipment = {
+            id: generateRandomId(),
+            x: 25,
+            y: 25,
+            rotation: 0,
+            type: equipmentToAdd,
+            color: randomColor({ luminosity: 'light' }),
+        };
+
+        // Update Redux state with the new dock added to the existing array
+        dispatch(updateEquipment({
+            updatedEquipment: [...warehouseEquipment, newEquipment],
+            selectedSystem: selectedSystem,
+        }))
+    };
+    const handleClose = (event: Event) => {
+        if (
+            anchorRef.current &&
+            anchorRef.current.contains(event.target as HTMLElement)
+        ) {
+            return;
+        }
+
+        setOpen(false);
+    };
+    const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string,) => {
+        setEquipmentToAdd(type as IEquipment['type']);
+        setOpen(false);
+    };
 
     const [canvaDimensions, setCanvaDimensions] = useState({
         width: 0,
@@ -38,38 +81,22 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         }
     }, [warehouseData.length, warehouseData.width])
 
+    const canvaToWarehouseRatio = canvaDimensions.width / warehouseData.width;
+
     const wallThickness = canvaDimensions.width * 0.01; // Assuming 1%
 
-    console.log(randomColor())
-
-    function handleAddDock() {
-        const newDock: IEquipment = {
-            id: generateRandomId(),
-            x: Math.random() * 550,
-            y: Math.random() * 350,
-            rotation: 0,
-            color: randomColor()
-        };
-
-        // Update Redux state with the new dock added to the existing array
-        dispatch(updateEquipment({
-            updatedEquipment: [...warehouseEquipment.docks, newDock],
-            selectedEquipment: 'docks',
-            selectedSystem: selectedSystem,
-        }));
-    };
     //@ts-ignore
     const handleDragEnd = (index: number) => (e: Konva.KonvaEventObject<DragEvent>) => {
-        const updatedDocks = warehouseEquipment.docks.map((dock, i) => {
+        const updatedEquipment = warehouseEquipment.map((equipment, i) => {
             if (i === index) {
                 // Create a new object to avoid TypeScript inference issues
-                return { ...dock, x: e.target.x(), y: e.target.y(), rotation: e.target.rotation() };
+                return { ...equipment, x: e.target.x(), y: e.target.y(), rotation: e.target.rotation() };
             }
-            return dock;
+            return equipment;
         });
 
         // Update Redux state with the updated dock positions
-        dispatch(updateEquipment({ updatedEquipment: updatedDocks, selectedEquipment: 'docks', selectedSystem: selectedSystem }));
+        dispatch(updateEquipment({ updatedEquipment: updatedEquipment, selectedSystem: selectedSystem }));
     };
 
 
@@ -108,27 +135,120 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         return lines;
     };
 
-    const DockImage = ({ dock, index }: { dock: IEquipment, index: number }) => {
-        const [image] = useImage(`${jh}`);
+    function EquipmentShape({ equipment, index }: { equipment: IEquipment, index: number }) {
 
-        return <Image
-            width={5 * canvaToWarehouseRatio}
-            height={5 * canvaToWarehouseRatio}
-            x={dock.x}
-            y={dock.y}
-            fill="green"
-            rotation={dock.rotation} // Include the rotation property
-            draggable
-            onDragEnd={handleDragEnd(index)}
-            image={image}
-        />;
+        switch (equipment.type) {
+            case 'dock':
+                return (
+                    <Rect
+                        width={5 * canvaToWarehouseRatio}
+                        height={5 * canvaToWarehouseRatio}
+                        x={equipment.x}
+                        y={equipment.y}
+                        fill={equipment.color}
+                        rotation={equipment.rotation} // Include the rotation property
+                        draggable
+                        onDragEnd={handleDragEnd(index)}
+                    />
+                )
+            case 'wall':
+                return (
+                    <Rect
+                        width={5 * canvaToWarehouseRatio}
+                        height={5 * canvaToWarehouseRatio}
+                        x={equipment.x}
+                        y={equipment.y}
+                        fill={equipment.color}
+                        rotation={equipment.rotation} // Include the rotation property
+                        draggable
+                        onDragEnd={handleDragEnd(index)}
+                    />
+                )
+            case 'gate':
+                return (
+                    <Circle
+                        width={5 * canvaToWarehouseRatio}
+                        height={5 * canvaToWarehouseRatio}
+                        x={equipment.x}
+                        y={equipment.y}
+                        fill={equipment.color}
+                        rotation={equipment.rotation} // Include the rotation property
+                        draggable
+                        onDragEnd={handleDragEnd(index)}
+                    />
+                )
+            default:
+                return (
+                    <Circle
+                        width={5 * canvaToWarehouseRatio}
+                        height={5 * canvaToWarehouseRatio}
+                        x={equipment.x}
+                        y={equipment.y}
+                        fill={equipment.color}
+                        rotation={equipment.rotation} // Include the rotation property
+                        draggable
+                        onDragEnd={handleDragEnd(index)}
+                    />
+                )
+        }
     };
 
-    const canvaToWarehouseRatio = canvaDimensions.width / warehouseData.width;
 
     return (
         <Box ref={divRef} sx={{ minHeight: 50 }}>
-            <Button onClick={handleAddDock}>Add Dock</Button>
+
+            <ButtonGroup disabled={!editMode} variant='contained' size="small" aria-label="split button">
+                <Button
+                    aria-controls={open ? 'split-button-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-label="add loads"
+                    aria-haspopup="menu"
+                    onClick={handleToggle}
+                >
+                    {t(`${equipmentToAdd}`)}
+                    <Box ref={anchorRef} />
+                    <ArrowDropDownIcon />
+                </Button>
+                <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEqipment')}</Box></Button>
+            </ButtonGroup>
+            <Popper
+                sx={{
+                    zIndex: 1,
+                }}
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                transition
+                disablePortal
+            >
+                {({ TransitionProps, placement }) => (
+                    <Grow
+                        {...TransitionProps}
+                        style={{
+                            transformOrigin:
+                                placement === 'bottom' ? 'center top' : 'center bottom',
+                        }}
+                    >
+                        <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                                <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
+                                    {availableEquipment.map((eq) => (
+                                        <MenuItem
+                                            key={eq}
+                                            value={eq}
+                                            selected={eq === equipmentToAdd}
+                                            onClick={(e) => handleMenuItemClick(e, eq)}
+                                        >
+                                            {t(`${eq}`)}
+                                        </MenuItem>
+                                    ))}
+                                </MenuList>
+                            </ClickAwayListener>
+                        </Paper>
+                    </Grow>
+                )}
+            </Popper>
+
             <Stage width={canvaDimensions.width} height={canvaDimensions.height}>
                 <Layer>
                     {/* Warehouse */}
@@ -150,10 +270,10 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                     {generateGridLines()}
 
                     {/* docks */}
-                    {warehouseEquipment.docks.map((dock, index) => (
-                        <DockImage
+                    {warehouseEquipment.map((equipment, index) => (
+                        <EquipmentShape
                             key={index}
-                            dock={dock}
+                            equipment={equipment}
                             index={index}
                         />
                     ))}

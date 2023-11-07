@@ -87,13 +87,8 @@ export interface IEquipment {
     x: number;
     y: number;
     rotation: number;
+    type: 'gate' | 'dock' | 'wall'
     color: string;
-}
-
-export interface IEquipments {
-    gates: IEquipment[];
-    walls: IEquipment[];
-    docks: IEquipment[];
 }
 
 export interface ISystemData {
@@ -118,7 +113,7 @@ export interface ISystemData {
             height: number;
             width: number;
             length: number;
-            equipments: IEquipments;
+            equipment: IEquipment[];
         }
     },
     loads: ILoad[];

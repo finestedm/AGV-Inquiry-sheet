@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilestones, ISystemData, CopySystemDataPayload, IEquipments, IEquipment } from '../../interfaces';
+import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilestones, ISystemData, CopySystemDataPayload, IEquipment } from '../../interfaces';
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
@@ -97,11 +97,7 @@ const initialFormDataState: IFormData = {
                     height: 0,
                     width: 0,
                     length: 0,
-                    equipments: {
-                        gates: [],
-                        walls: [],
-                        docks: []
-                    }
+                    equipment: []
                 }
             },
             loads: [],
@@ -130,11 +126,7 @@ const initialFormDataState: IFormData = {
                     height: 0,
                     width: 0,
                     length: 0,
-                    equipments: {
-                        gates: [],
-                        walls: [],
-                        docks: []
-                    }
+                    equipment: []
                 }
             },
             loads: [],
@@ -163,11 +155,7 @@ const initialFormDataState: IFormData = {
                     height: 0,
                     width: 0,
                     length: 0,
-                    equipments: {
-                        gates: [],
-                        walls: [],
-                        docks: []
-                    }
+                    equipment: []
                 }
             },
             loads: [],
@@ -196,11 +184,7 @@ const initialFormDataState: IFormData = {
                     height: 0,
                     width: 0,
                     length: 0,
-                    equipments: {
-                        gates: [],
-                        walls: [],
-                        docks: []
-                    }
+                    equipment: []
                 }
             },
             loads: [],
@@ -453,11 +437,11 @@ const formDataSlice = createSlice({
             });
         },
 
-        updateEquipment: (state: IFormData, action: PayloadAction<{ updatedEquipment: IEquipment[]; selectedEquipment: keyof IEquipments; selectedSystem: keyof ISystems }>) => {
-            const { updatedEquipment, selectedEquipment, selectedSystem } = action.payload;
+        updateEquipment: (state: IFormData, action: PayloadAction<{ updatedEquipment: IEquipment[]; selectedSystem: keyof ISystems }>) => {
+            const { updatedEquipment, selectedSystem } = action.payload;
 
             // Update the equipment in the selected system
-            state.system[selectedSystem].building.existingBuilding.equipments[selectedEquipment] = updatedEquipment;
+            state.system[selectedSystem].building.existingBuilding.equipment = updatedEquipment;
         },
 
 
