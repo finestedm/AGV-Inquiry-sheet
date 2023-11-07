@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { useDispatch } from "react-redux";
-import { Box, Button, ButtonGroup, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Chip, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { handleAddFlow, handleDeleteFlow, handleFlowChange } from "../../../../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
 import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
@@ -72,35 +72,12 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             headerName: "Pickup station",
                             minWidth: 130,
                             editable: true,
-                            renderCell: (params) => (
-                                <Select
-                                    value={params.value} // IEquipment object
-                                    onChange={(event) => {
-                                        // Handle the change and dispatch if needed
-                                        const selectedEquipment = event.target.value as IEquipment;
-                                        // Dispatch an action or update the state accordingly
-                                    }}
-                                >
-                                    {/* Render options from existing equipments */}
-                                    {selectedSystemEquipments.docks.map((equipment) => {
-                                        if (equipment) {
-                                            return (
-                                                // <MenuItem value={equipment}>
-
-                                                <MenuItem>
-                                                    {`(${equipment.x}, ${equipment.y}), Rotation: ${equipment.rotation}`}
-                                                </MenuItem>
-                                            );
-                                        } else {
-                                            return (
-                                                <MenuItem key="no-data">
-                                                    no data available
-                                                </MenuItem>
-                                            );
-                                        }
-                                    })}
-                                </Select>
-                            ),
+                            type: 'singleSelect',
+                            valueOptions: selectedSystemEquipments.docks.map((dock) => ({
+                                value: dock.id,
+                                label: <Box><Chip size='small' sx={{ backgroundColor: dock.color }} />Dock</Box>
+                            })),
+                            renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
                         {
                             field: "stationTarget",

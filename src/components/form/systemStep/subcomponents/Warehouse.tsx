@@ -10,16 +10,13 @@ import { updateEquipment } from '../../../../features/redux/reducers/formDataSli
 import jh from '../../../../images/JH_logo.png'
 //@ts-ignore
 import useImage from 'use-image';
+import generateRandomId from '../../../../features/variousMethods/generateRandomId';
+import randomColor from 'randomcolor'
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const divRef = useRef(null)
     const dispatch = useDispatch();
-
-    const [docks, setDocks] = useState<{ key: number }[]>([]);
-    const handleAddPallet = () => {
-        setDocks([...docks, { key: docks.length }]);
-    };
 
     const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
     const warehouseEquipment = warehouseData.equipments;
@@ -43,13 +40,15 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
     const wallThickness = canvaDimensions.width * 0.01; // Assuming 1%
 
+    console.log(randomColor())
 
     function handleAddDock() {
-        const newDock = {
-            key: docks.length,
+        const newDock: IEquipment = {
+            id: generateRandomId(),
             x: Math.random() * 550,
             y: Math.random() * 350,
             rotation: 0,
+            color: randomColor()
         };
 
         // Update Redux state with the new dock added to the existing array

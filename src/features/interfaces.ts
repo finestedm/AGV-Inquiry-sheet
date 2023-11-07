@@ -69,8 +69,8 @@ export interface ILoad {
 
 export interface IFlow {
     stationType: number;
-    stationSource: IEquipment | undefined;
-    stationTarget: IEquipment | undefined;
+    stationSource: number | undefined;
+    stationTarget: number | undefined;
     flowAverage: number;
     flowPeak: number;
     loadType: number;
@@ -83,9 +83,11 @@ export interface ILoadsTypes {
 }
 
 export interface IEquipment {
-    x: number,
-    y: number,
-    rotation: number
+    id: number;
+    x: number;
+    y: number;
+    rotation: number;
+    color: string;
 }
 
 export interface IEquipments {
