@@ -90,11 +90,11 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 value: equipment.id,
                                 label:
                                     <Stack direction='row' justifyContent='center' alignItems='center'>
-                                        <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} />
-                                        <Typography variant="body2" sx={{ textTransform: 'capitalize' }} mr={1}>{equipment.type}</Typography>
+                                        {/* <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} /> */}
                                         {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={equipment.color} />}
                                         {equipment.type === 'wall' && <ConstructionIcon htmlColor={equipment.color} />}
                                         {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={equipment.color} />}
+                                        <Typography variant="body2" sx={{ textTransform: 'capitalize', color: equipment.color }} ml={1}>{equipment.type}</Typography>
                                     </Stack>
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
@@ -109,11 +109,11 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 value: equipment.id,
                                 label:
                                     <Stack direction='row' justifyContent='center' alignItems='center'>
-                                        <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} />
-                                        <Typography variant="body2" sx={{ textTransform: 'capitalize' }} mr={1}>{equipment.type}</Typography>
+                                        {/* <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} /> */}
                                         {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={equipment.color} />}
                                         {equipment.type === 'wall' && <ConstructionIcon htmlColor={equipment.color} />}
                                         {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={equipment.color} />}
+                                        <Typography variant="body2" sx={{ textTransform: 'capitalize', color: equipment.color }} ml={1}>{equipment.type}</Typography>
                                     </Stack>
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
