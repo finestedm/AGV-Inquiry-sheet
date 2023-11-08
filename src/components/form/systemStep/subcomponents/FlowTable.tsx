@@ -28,12 +28,12 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
         // Find source and target stations based on their ids
         const sourceStation = selectedSystemEquipment.find(equipment => equipment.id === flow.stationSource);
         const targetStation = selectedSystemEquipment.find(equipment => equipment.id === flow.stationTarget);
-    
+
         // Calculate distance based on coordinates
         const distance = sourceStation && targetStation
             ? Math.sqrt(Math.pow(targetStation.x - sourceStation.x, 2) + Math.pow(targetStation.y - sourceStation.y, 2))
             : 0;
-    
+
         return {
             id: index + 1, // Sequential number starting from 1
             stationSource: flow.stationSource,
@@ -72,7 +72,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
     }, [])
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
-    
+
     if (selectedSystemFlow) {
         return (
             <Box>
@@ -91,10 +91,10 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 label:
                                     <Stack direction='row' justifyContent='center' alignItems='center'>
                                         <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} />
-                                        <Typography variant="body1" sx={{ textTransform: 'capitalize' }} mr={1}>{equipment.type}</Typography>
-                                        {equipment.type === 'gate' && <DoorSlidingSharpIcon />}
-                                        {equipment.type === 'wall' && <ConstructionIcon />}
-                                        {equipment.type === 'dock' && <SystemUpdateAltIcon />}
+                                        <Typography variant="body2" sx={{ textTransform: 'capitalize' }} mr={1}>{equipment.type}</Typography>
+                                        {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={equipment.color} />}
+                                        {equipment.type === 'wall' && <ConstructionIcon htmlColor={equipment.color} />}
+                                        {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={equipment.color} />}
                                     </Stack>
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
@@ -109,11 +109,11 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 value: equipment.id,
                                 label:
                                     <Stack direction='row' justifyContent='center' alignItems='center'>
-                                        <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color, border: `1px solid ${theme.palette.text.primary}` }} mr={1} />
-                                        <Typography variant="body1" sx={{ textTransform: 'capitalize' }} mr={1}>{equipment.type}</Typography>
-                                        {equipment.type === 'gate' && <DoorSlidingSharpIcon />}
-                                        {equipment.type === 'wall' && <ConstructionIcon />}
-                                        {equipment.type === 'dock' && <SystemUpdateAltIcon />}
+                                        <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} />
+                                        <Typography variant="body2" sx={{ textTransform: 'capitalize' }} mr={1}>{equipment.type}</Typography>
+                                        {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={equipment.color} />}
+                                        {equipment.type === 'wall' && <ConstructionIcon htmlColor={equipment.color} />}
+                                        {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={equipment.color} />}
                                     </Stack>
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>

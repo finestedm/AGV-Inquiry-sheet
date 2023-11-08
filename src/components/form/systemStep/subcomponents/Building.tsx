@@ -121,8 +121,8 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         {/* <Box sx={{border: '3px solid black', width: '100%', aspectRatio: formData.system[selectedSystem].building.existingBuilding.length / formData.system[selectedSystem].building.existingBuilding.width}} /> */}
                     </Grid>
                 }
-                <WarehouseLayout selectedSystem={selectedSystem} />
             </Box>
+            <WarehouseLayout selectedSystem={selectedSystem} />
         </Stack>
     )
 }
