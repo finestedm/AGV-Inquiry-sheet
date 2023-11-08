@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { useDispatch } from "react-redux";
-import { Box, Button, ButtonGroup, Chip, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Chip, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { handleAddFlow, handleDeleteFlow, handleFlowChange } from "../../../../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
 import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
@@ -22,18 +22,30 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
     const selectedSystemEquipment = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment);
     const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
+    const theme = useTheme();
 
-    const rows = selectedSystemFlow.map((flow, index) => ({
-        id: index + 1, // Sequential number starting from 1
-        stationSource: flow.stationSource,
-        stationTarget: flow.stationTarget,
-        stationType: flow.stationType,
-        flowAverage: flow.flowAverage,
-        flowPeak: flow.flowPeak,
-        distance: flow.distance,
-        loadType: flow.loadType,
-        bidirectional: flow.bidirectional
-    })) || {};
+    const rows = selectedSystemFlow.map((flow, index) => {
+        // Find source and target stations based on their ids
+        const sourceStation = selectedSystemEquipment.find(equipment => equipment.id === flow.stationSource);
+        const targetStation = selectedSystemEquipment.find(equipment => equipment.id === flow.stationTarget);
+    
+        // Calculate distance based on coordinates
+        const distance = sourceStation && targetStation
+            ? Math.sqrt(Math.pow(targetStation.x - sourceStation.x, 2) + Math.pow(targetStation.y - sourceStation.y, 2))
+            : 0;
+    
+        return {
+            id: index + 1, // Sequential number starting from 1
+            stationSource: flow.stationSource,
+            stationTarget: flow.stationTarget,
+            stationType: flow.stationType,
+            flowAverage: flow.flowAverage,
+            flowPeak: flow.flowPeak,
+            distance: distance, // Set the calculated distance
+            loadType: flow.loadType,
+            bidirectional: flow.bidirectional
+        };
+    }) || {};
 
     const handleDeleteSelected = () => {
         const updatedFlows = rows
@@ -60,7 +72,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
     }, [])
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
-
+    
     if (selectedSystemFlow) {
         return (
             <Box>
@@ -97,7 +109,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 value: equipment.id,
                                 label:
                                     <Stack direction='row' justifyContent='center' alignItems='center'>
-                                        <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} />
+                                        <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color, border: `1px solid ${theme.palette.text.primary}` }} mr={1} />
                                         <Typography variant="body1" sx={{ textTransform: 'capitalize' }} mr={1}>{equipment.type}</Typography>
                                         {equipment.type === 'gate' && <DoorSlidingSharpIcon />}
                                         {equipment.type === 'wall' && <ConstructionIcon />}

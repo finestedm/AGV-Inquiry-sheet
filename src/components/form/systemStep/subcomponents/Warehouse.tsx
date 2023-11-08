@@ -40,7 +40,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
             y: 25,
             rotation: 0,
             type: equipmentToAdd,
-            color: randomColor({ luminosity: 'light' }),
+            color: randomColor({ luminosity: 'bright' }),
         };
 
         // Update Redux state with the new dock added to the existing array
@@ -86,11 +86,16 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     const wallThickness = canvaDimensions.width * 0.01; // Assuming 1%
 
     //@ts-ignore
+    //@ts-ignore
     const handleDragEnd = (index: number) => (e: Konva.KonvaEventObject<DragEvent>) => {
         const updatedEquipment = warehouseEquipment.map((equipment, i) => {
             if (i === index) {
+                // Calculate the real coordinates in meters based on the canvaToWarehouseRatio
+                const xInMeters = e.target.x() / canvaToWarehouseRatio;
+                const yInMeters = e.target.y() / canvaToWarehouseRatio;
+
                 // Create a new object to avoid TypeScript inference issues
-                return { ...equipment, x: e.target.x(), y: e.target.y(), rotation: e.target.rotation() };
+                return { ...equipment, x: xInMeters, y: yInMeters, rotation: e.target.rotation() };
             }
             return equipment;
         });
@@ -98,7 +103,6 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         // Update Redux state with the updated dock positions
         dispatch(updateEquipment({ updatedEquipment: updatedEquipment, selectedSystem: selectedSystem }));
     };
-
 
     function generateGridLines() {
         const lines = [];
@@ -136,64 +140,35 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     };
 
     function EquipmentShape({ equipment, index }: { equipment: IEquipment, index: number }) {
-
-        switch (equipment.type) {
-            case 'dock':
-                return (
-                    <Rect
-                        width={5 * canvaToWarehouseRatio}
-                        height={5 * canvaToWarehouseRatio}
-                        x={equipment.x}
-                        y={equipment.y}
-                        fill={equipment.color}
-                        rotation={equipment.rotation} // Include the rotation property
-                        draggable
-                        onDragEnd={handleDragEnd(index)}
-                    />
-                )
-            case 'wall':
-                return (
-                    <Rect
-                        width={5 * canvaToWarehouseRatio}
-                        height={5 * canvaToWarehouseRatio}
-                        x={equipment.x}
-                        y={equipment.y}
-                        fill={equipment.color}
-                        rotation={equipment.rotation} // Include the rotation property
-                        draggable
-                        onDragEnd={handleDragEnd(index)}
-                    />
-                )
-            case 'gate':
-                return (
-                    <Circle
-                        width={5 * canvaToWarehouseRatio}
-                        height={5 * canvaToWarehouseRatio}
-                        x={equipment.x}
-                        y={equipment.y}
-                        fill={equipment.color}
-                        rotation={equipment.rotation} // Include the rotation property
-                        draggable
-                        onDragEnd={handleDragEnd(index)}
-                    />
-                )
-            default:
-                return (
-                    <Circle
-                        width={5 * canvaToWarehouseRatio}
-                        height={5 * canvaToWarehouseRatio}
-                        x={equipment.x}
-                        y={equipment.y}
-                        fill={equipment.color}
-                        rotation={equipment.rotation} // Include the rotation property
-                        draggable
-                        onDragEnd={handleDragEnd(index)}
-                    />
-                )
-        }
-    };
-
-
+        const { x, y, rotation, type, color } = equipment;
+        const sizeInPixels = 5 * canvaToWarehouseRatio;
+    
+        const commonProps = {
+            width: sizeInPixels,
+            height: sizeInPixels,
+            x: x * canvaToWarehouseRatio,
+            y: y * canvaToWarehouseRatio,
+            fill: color,
+            rotation,
+            draggable: true,
+            onDragEnd: handleDragEnd(index),
+        };
+    
+        const renderShape = () => {
+            switch (type) {
+                case 'dock':
+                case 'wall':
+                    return <Rect {...commonProps} />;
+                case 'gate':
+                    return <Circle {...commonProps} />;
+                default:
+                    return <Circle {...commonProps} />;
+            }
+        };
+    
+        return renderShape();
+    }
+    
     return (
         <Box ref={divRef} sx={{ minHeight: 50 }}>
 
