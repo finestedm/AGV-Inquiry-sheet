@@ -41,7 +41,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
             y: 25,
             rotation: 0,
             type: equipmentToAdd,
-            color: randomColor({ luminosity: 'bright' }),
+            color: randomColor({ luminosity: 'light' }),
         };
 
         // Update Redux state with the new dock added to the existing array

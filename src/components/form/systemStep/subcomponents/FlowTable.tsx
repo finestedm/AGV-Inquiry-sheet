@@ -13,6 +13,7 @@ import { IEquipment, ISystems } from "../../../../features/interfaces";
 import DoorSlidingSharpIcon from '@mui/icons-material/DoorSlidingSharp';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
+import tinycolor from "tinycolor2";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
@@ -89,12 +90,18 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             valueOptions: selectedSystemEquipment.map((equipment) => ({
                                 value: equipment.id,
                                 label:
-                                    <Stack direction='row' justifyContent='center' alignItems='center'>
-                                        {/* <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} /> */}
-                                        {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={equipment.color} />}
-                                        {equipment.type === 'wall' && <ConstructionIcon htmlColor={equipment.color} />}
-                                        {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={equipment.color} />}
-                                        <Typography variant="body2" sx={{ textTransform: 'capitalize', color: equipment.color }} ml={1}>{equipment.type}</Typography>
+                                    <Stack>
+                                        <Chip
+                                            sx={{ backgroundColor: equipment.color }}
+                                            label={
+                                                <Stack direction='row' justifyContent='center' alignItems='center'>
+                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'wall' && <ConstructionIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
+                                                </Stack>
+                                            }
+                                        />
                                     </Stack>
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
@@ -108,12 +115,18 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             valueOptions: selectedSystemEquipment.map((equipment) => ({
                                 value: equipment.id,
                                 label:
-                                    <Stack direction='row' justifyContent='center' alignItems='center'>
-                                        {/* <Box sx={{ width: '1rem', height: '1rem', borderRadius: '1rem', backgroundColor: equipment.color }} mr={1} /> */}
-                                        {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={equipment.color} />}
-                                        {equipment.type === 'wall' && <ConstructionIcon htmlColor={equipment.color} />}
-                                        {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={equipment.color} />}
-                                        <Typography variant="body2" sx={{ textTransform: 'capitalize', color: equipment.color }} ml={1}>{equipment.type}</Typography>
+                                    <Stack>
+                                        <Chip
+                                            sx={{ backgroundColor: equipment.color }}
+                                            label={
+                                                <Stack direction='row' justifyContent='center' alignItems='center'>
+                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'wall' && <ConstructionIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
+                                                </Stack>
+                                            }
+                                        />
                                     </Stack>
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
