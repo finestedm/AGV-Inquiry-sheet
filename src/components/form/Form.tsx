@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "../FormStepper";
 import FormSalesUnitStep from "./salesUnitStep/FormSalesUnitStep";
@@ -13,8 +13,6 @@ import { RootState } from "../../features/redux/store";
 import ScrollButton from "../MobileScrollButton";
 import validationSchema from "../../features/formValidation/formValidation";
 import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors, useFormik } from 'formik'
-import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
-import MobileFormStepper from "../MobileFormStepper";
 import { BrowserRouter as Router, Route, Routes, Navigate, Link, useNavigate, useLocation } from 'react-router-dom';
 import FormSystemStep from "./systemStep/FormSystemStep";
 
@@ -23,6 +21,8 @@ export default function Form(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
   const formData = useSelector((state: RootState) => state.formData);
   const editMode = useSelector((state: RootState) => state.editMode);
@@ -112,7 +112,7 @@ export default function Form(): JSX.Element {
 
   const [activeStepName, setActiveStepName] = useState<string>('sales');
 
-  const constantSteps = ['sales', 'customer', 'project'];
+  const constantSteps = ['sales', 'customer', 'project', 'system'];
   const systemSteps = formData.system;
   const activeSystemSteps = (Object.entries(systemSteps) as [keyof ISystems, ISystemData][])
     .filter(([step, values]) => values.selected)
@@ -196,13 +196,14 @@ export default function Form(): JSX.Element {
             <Container component='form' maxWidth='xl'>
               <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
                 <Grid container spacing={6} direction='row'>
-                  <FormStepper activeStep={activeStepName} allSteps={allSteps} handleStepClick={handleStepClick} />
+                  <FormStepper mobile={isMobile} activeStep={activeStepName} allSteps={allSteps} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
                   <Grid item xs md={8} lg={9}>
                     <Box className={fadeOut ? 'step fadeout' : 'step'}>
                       <Routes>
                         <Route path="/sales" element={<FormSalesUnitStep />} />
                         <Route path="/customer" element={<FormCustomerStep />} />
                         <Route path="/project" element={<FormProjectStep />} />
+                        <Route path="/system" element={<FormSystemSelectorStep />} />
                         {Object.keys(systemSteps).map(system => (
                           <Route
                             path={`/${system}`}
@@ -237,7 +238,6 @@ export default function Form(): JSX.Element {
                 </Box>
               </Stack>
               <ScrollButton />
-              {/* <MobileFormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} /> */}
             </Container >
           </FormikForm>
         )}
