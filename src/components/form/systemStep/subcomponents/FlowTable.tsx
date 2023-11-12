@@ -95,9 +95,9 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                             sx={{ backgroundColor: equipment.color }}
                                             label={
                                                 <Stack direction='row' justifyContent='center' alignItems='center'>
-                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'wall' && <ConstructionIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'wall' && <ConstructionIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
                                                     <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
                                                 </Stack>
                                             }
@@ -120,9 +120,9 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                             sx={{ backgroundColor: equipment.color }}
                                             label={
                                                 <Stack direction='row' justifyContent='center' alignItems='center'>
-                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'wall' && <ConstructionIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'wall' && <ConstructionIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
                                                     <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
                                                 </Stack>
                                             }
