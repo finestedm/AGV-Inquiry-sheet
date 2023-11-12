@@ -52,6 +52,10 @@
     "customer": "Klient",
     "system": "System",
     "project": "Projekt",
+    "asrs": "ASRS",
+    "lrkprk": "LRK / PRK",
+    "agv": "AGV",
+    "autovna": "AutoVNA",
     "systems": {
       "asrs": "ASRS",
       "lrkprk": "LRK / PRK",

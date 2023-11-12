@@ -7,7 +7,7 @@ import FormSystemSelectorStep from "./systemSelectorStep/FormSystemSelectorStep"
 import { useTranslation } from 'react-i18next';
 import FormProjectStep from "./projectStep/FormProjectStep";
 import FormASRSStep from "./systemStep/FormSystemStep";
-import { IFormData } from "../../features/interfaces";
+import { IFormData, ISystemData, ISystems } from "../../features/interfaces";
 import { useSelector } from 'react-redux';
 import { RootState } from "../../features/redux/store";
 import ScrollButton from "../MobileScrollButton";
@@ -15,15 +15,17 @@ import validationSchema from "../../features/formValidation/formValidation";
 import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors, useFormik } from 'formik'
 import { initialFormDataState } from "../../features/redux/reducers/formDataSlice";
 import MobileFormStepper from "../MobileFormStepper";
+import { BrowserRouter as Router, Route, Routes, Navigate, Link, useNavigate, useLocation } from 'react-router-dom';
+import FormSystemStep from "./systemStep/FormSystemStep";
 
 
 export default function Form(): JSX.Element {
-
+  const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
 
   const formData = useSelector((state: RootState) => state.formData);
   const editMode = useSelector((state: RootState) => state.editMode);
-
 
   const [stepsCombined, setStepsCombined] = useState<{ label: string, untranslated: string, component: React.ReactNode }[]>([
     {
@@ -108,58 +110,74 @@ export default function Form(): JSX.Element {
   }, [formData, t]);
 
 
-  const [activeStep, setActiveStep] = useState<number>(0);
-  const [activeStepName, setActiveStepName] = useState<string>('');
+  const [activeStepName, setActiveStepName] = useState<string>('sales');
 
-  useEffect(() => {
-    setActiveStepName(stepsCombined[activeStep].untranslated.toLowerCase())
+  const constantSteps = ['sales', 'customer', 'project'];
+  const systemSteps = formData.system;
+  const activeSystemSteps = (Object.entries(systemSteps) as [keyof ISystems, ISystemData][])
+    .filter(([step, values]) => values.selected)
+    .reduce((acc, [step, values]) => {
+      acc[step] = values;
+      return acc;
+    }, {} as Record<keyof ISystems, ISystemData>);
+  const activeStepNames = Object.keys(activeSystemSteps);
 
-  }, [activeStep])
-
-  const stepLabels = stepsCombined.map((step) => step.label);
+  const allSteps = [...constantSteps, ...activeStepNames]
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
-
     const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
     if (editMode && elementsWithAriaInvalid.length > 0) {
       const element = elementsWithAriaInvalid[0];
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
     } else {
       setFadeOut(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
+        const nextIndex = currentIndex + 1;
+        const nextStep = allSteps[nextIndex];
+        if (nextStep) {
+          navigate(`/${nextStep}`);
+        }
         setFadeOut(false);
       }, 500); // Adjust the delay time (in milliseconds) as needed
-    };
-  }
+    }
+  };
 
   const handleBack = () => {
     setFadeOut(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
+      const prevIndex = currentIndex - 1;
+      const prevStep = allSteps[prevIndex];
+      if (prevStep) {
+        navigate(`/${prevStep}`);
+      }
       setFadeOut(false);
     }, 500); // Adjust the delay time (in milliseconds) as needed
   };
 
-  const handleStepClick = (step: number) => {
+  const handleStepClick = (step: string) => {
     const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
     if (editMode && elementsWithAriaInvalid.length > 0) {
       const element = elementsWithAriaInvalid[0];
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
     } else {
       setFadeOut(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => {
-        setActiveStep(step);
+        const newPath = `/${step}`;
+        navigate(newPath);
         setFadeOut(false);
       }, 500);
-    };
-  }
+    }
+  };
+
+  useEffect(() => {
+    setActiveStepName(location.pathname.split('/')[1]);
+  }, [location.pathname]);
 
   if (formData) {
     return (
@@ -171,28 +189,37 @@ export default function Form(): JSX.Element {
         // validateOnMount={true}
         validateOnChange={true}
         enableReinitialize
-        
+
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
             <Container component='form' maxWidth='xl'>
               <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
                 <Grid container spacing={6} direction='row'>
-                  <FormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
+                  <FormStepper activeStep={activeStepName} allSteps={allSteps} handleStepClick={handleStepClick} />
                   <Grid item xs md={8} lg={9}>
                     <Box className={fadeOut ? 'step fadeout' : 'step'}>
-                      {stepsCombined[activeStep]?.component}
+                      <Routes>
+                        <Route path="/sales" element={<FormSalesUnitStep />} />
+                        <Route path="/customer" element={<FormCustomerStep />} />
+                        <Route path="/project" element={<FormProjectStep />} />
+                        <Route path="/asrs" element={<FormSystemStep selectedSystem="asrs" />} />
+                        <Route path="/agv" element={<FormSystemStep selectedSystem="agv" />} />
+                        <Route path="/autovna" element={<FormSystemStep selectedSystem="autovna" />} />
+                        <Route path="/lrkprk" element={<FormSystemStep selectedSystem="lrkprk" />} />
+                        <Route path="/*" element={<FormSalesUnitStep />} />
+                      </Routes>
                     </Box>
                   </Grid>
                 </Grid>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
-                    {activeStep !== 0 && (
+                    {activeStepName !== allSteps[0] && (
                       <Button variant="contained" onClick={handleBack}>
                         {t('ui.button.back')}
                       </Button>
                     )}
-                    {activeStep < stepLabels.length - 1 && (
+                    {activeStepName !== allSteps[allSteps.length - 1] && (
                       <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}
                         disabled={editMode && !!Object.keys(formikProps.errors).includes(activeStepName)}
                       >
@@ -203,7 +230,7 @@ export default function Form(): JSX.Element {
                 </Box>
               </Stack>
               <ScrollButton />
-              <MobileFormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} />
+              {/* <MobileFormStepper activeStep={activeStep} stepLabels={stepLabels} handleStepClick={handleStepClick} /> */}
             </Container >
           </FormikForm>
         )}
