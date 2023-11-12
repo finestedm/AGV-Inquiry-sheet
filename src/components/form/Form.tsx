@@ -120,9 +120,9 @@ export default function Form(): JSX.Element {
       acc[step] = values;
       return acc;
     }, {} as Record<keyof ISystems, ISystemData>);
-  const activeStepNames = Object.keys(activeSystemSteps);
+  const activeSystemStepNames = Object.keys(activeSystemSteps);
 
-  const allSteps = [...constantSteps, ...activeStepNames]
+  const allSteps = [...constantSteps, ...activeSystemStepNames]
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const handleNext = () => {
@@ -203,10 +203,17 @@ export default function Form(): JSX.Element {
                         <Route path="/sales" element={<FormSalesUnitStep />} />
                         <Route path="/customer" element={<FormCustomerStep />} />
                         <Route path="/project" element={<FormProjectStep />} />
-                        <Route path="/asrs" element={<FormSystemStep selectedSystem="asrs" />} />
-                        <Route path="/agv" element={<FormSystemStep selectedSystem="agv" />} />
-                        <Route path="/autovna" element={<FormSystemStep selectedSystem="autovna" />} />
-                        <Route path="/lrkprk" element={<FormSystemStep selectedSystem="lrkprk" />} />
+                        {Object.keys(systemSteps).map(system => (
+                          <Route
+                            path={`/${system}`}
+                            element={
+                              activeSystemStepNames.includes(system) ?
+                                <FormSystemStep selectedSystem={system as keyof ISystems} />
+                                :
+                                <Navigate to='/' />
+                            }
+                          />
+                        ))}
                         <Route path="/*" element={<FormSalesUnitStep />} />
                       </Routes>
                     </Box>

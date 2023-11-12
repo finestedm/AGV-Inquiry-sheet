@@ -13,13 +13,14 @@ interface FormStepperProps {
 
 export default function FormStepper({ activeStep, allSteps, handleStepClick }: FormStepperProps) {
   const { t } = useTranslation();
-  const activeStepIndex = activeStep && allSteps.indexOf(activeStep)
-
+  const activeStepIndex = activeStep ? allSteps.indexOf(activeStep) : 0
+  
+  console.log(allSteps)
   return (
     <Grid item xs sx={{ display: { xs: 'none', md: 'block' } }}>
       <Card elevation={1} sx={{ p: 3, position: 'sticky', top: 48 }}>
         <Stepper activeStep={activeStepIndex || 0} orientation="vertical">
-          {activeStep && allSteps.map((label) => (
+          {allSteps.map((label) => (
             <Step key={label}>
               <StepLabel
                 onClick={() => handleStepClick(label)}
