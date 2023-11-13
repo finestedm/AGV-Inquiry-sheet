@@ -20,6 +20,8 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import dayjs from "dayjs";
 import EditModeSwitch from "./EditModeSwitch";
 import { setEditMode } from "../features/redux/reducers/editModeSlice";
+import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
+import ClearFormDataDialog from "./form/systemStep/subcomponents/ClearFormDataDialog";
 
 
 export default function TopBar(): JSX.Element {
@@ -172,7 +174,11 @@ export default function TopBar(): JSX.Element {
                                     onInput={(e) => loadFile(e)}
                                 />
                             </MenuItem>
-                            <MenuItem onClick={() => dispatch(resetFormData())} sx={{ color: theme.palette.error.main }}>
+                            <MenuItem
+                                disabled={formData === initialFormDataState}
+                                onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
+                                sx={{ color: theme.palette.error.main }}
+                            >
                                 <ListItemIcon ><DeleteOutlineIcon sx={{ color: theme.palette.error.main }} /></ListItemIcon>
                                 <ListItemText>{t('ui.button.inquiry.clear')}</ListItemText>
                             </MenuItem>
@@ -235,14 +241,9 @@ export default function TopBar(): JSX.Element {
                             <Button
                                 startIcon={<DeleteOutlineIcon />}
                                 color='error'
-                                onClick={() => {
-                                    try {
-                                        dispatch(resetFormData())
-                                        dispatch(openSnackbar({ message: 'Form data has been reset!' }));
-                                    } catch (error) {
-                                        alert('something went wrong')
-                                    }
-                                }}>
+                                disabled={formData === initialFormDataState}
+                                onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
+                            >
                                 <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                     <Typography>{t('ui.button.inquiry.clear')}</Typography>
                                 </Stack>
@@ -251,6 +252,7 @@ export default function TopBar(): JSX.Element {
                     </Box>
                 </Toolbar>
             </Container>
+            <ClearFormDataDialog />
         </AppBar >
     )
 }

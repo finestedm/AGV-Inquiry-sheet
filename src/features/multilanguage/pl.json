@@ -111,6 +111,13 @@
         "title": "Wybierz dane do skopiowania z innego systemu",
         "noChange": "Bez zmian"
       },
+      "clearForm": {
+        "title": "Wymazywanie danych",
+        "description1": "Wygląda na to, że wprowadziłeś już jakieś dane do kwestionariusza.",
+        "description2": "Czy na pewno chcesz je usunąć?",
+        "cancel": "Anuluj",
+        "confirm": "Tak, wyzeruj dane"
+      },
       "ganttGraph": {
         "selectDates": "Zmień daty dla: ",
         "start": "początkowa",

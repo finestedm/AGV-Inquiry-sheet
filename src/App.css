@@ -92,7 +92,7 @@
 }
 
 ._3eULf {
-  border-radius: .25rem ;
+  border-radius: .25rem;
   overflow: hidden;
   width: 100%;
 }
@@ -119,9 +119,8 @@
   visibility: collapse;
 }
 
-.ganttchart-container  tbody .MuiTableRow-root:last-child .MuiTableCell-root,
-.ganttchart-container-dark  tbody .MuiTableRow-root:last-child .MuiTableCell-root
-{
+.ganttchart-container tbody .MuiTableRow-root:last-child .MuiTableCell-root,
+.ganttchart-container-dark tbody .MuiTableRow-root:last-child .MuiTableCell-root {
   border-bottom: none;
 }
 
@@ -139,13 +138,17 @@
 
 .ganttchart-container ._3rUKi {
   stroke: rgba(224, 224, 224, 1);
-  
+
 }
 
 .ganttchart-container-dark ._3rUKi,
-.ganttchart-container-dark ._RuwuK
-{
+.ganttchart-container-dark ._RuwuK {
   stroke: rgba(255, 255, 255, 0.12);
   color: #fff
+}
 
+/* this is a line for a overlayWrapper that sits above Poper component :/ */
+
+.css-ql19fo-MuiDataGrid-overlayWrapper {
+  z-index: 0 !important;
 }

@@ -161,7 +161,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             </Box>
                         )
                     }}
-                    onRowSelectionModelChange={(newRowSelectionModel) => { editMode && setRowSelectionModel(newRowSelectionModel)}}
+                    onRowSelectionModelChange={(newRowSelectionModel) => { editMode && setRowSelectionModel(newRowSelectionModel) }}
                     rowSelectionModel={rowSelectionModel}
 
                 // Add other Data Grid props as needed...
