@@ -92,10 +92,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
         navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false)
     }, [])
 
-    useEffect(() => {
-        console.log(selectedSystemLoads)
-    }, [selectedSystemLoads])
-
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
     return (
