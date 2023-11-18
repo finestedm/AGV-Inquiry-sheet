@@ -6,17 +6,14 @@ import WarehouseIcon from '@mui/icons-material/Warehouse';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
 import { handleInputMethod } from "../../../features/redux/reducers/formDataSlice";
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
-import GanntGraph from "./subcomponents/GanttGraph";
+import WarehouseLayout from "../systemStep/subcomponents/Warehouse";
+import GanttGraph from "./subcomponents/GanttGraph";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -293,7 +290,7 @@ export default function FormProjectStep(): JSX.Element {
                         </Grid>
                     </Box>
                 </LocalizationProvider> */}
-                <GanntGraph />
+                <GanttGraph />
             </Stack>
             <Stack spacing={2}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.it')}</Typography>

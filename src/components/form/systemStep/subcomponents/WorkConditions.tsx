@@ -11,6 +11,7 @@ import CustomTextField from "../../CustomTextField";
 import { criticalElectronicsTemperature } from "../../../../data/criticalElectronicsTemperature";
 import theme from "../../../../theme";
 import { ISystems } from "../../../../features/interfaces";
+import CustomAlert from "../../../CustomAlert";
 
 export default function WorkConditions({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -37,13 +38,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                             max={60}
                             marks={[{ value: -30, label: '-30°C' }, { value: 0, label: '0°C' }, { value: 60, label: '60°C' }]}
                         />
-                        {(selectedSystem === 'lrkprk') && (formData.system[selectedSystem].workConditions.temperature[0] <= 5) && (
-                            <Grid item xs={12}>
-                                <Alert id='system.lrkprk.temperatureWarning' severity="error">{t(`system.lrkprk.temperatureWarning`)}</Alert>
-                            </Grid>
-                        )}
                     </Grid>
-
                     <Grid item xs={12} md={6}>
                         <Typography align="left">{t(`system.workConditions.humidity`)}</Typography>
                         <Slider
@@ -59,9 +54,15 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Collapse in={((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[0]) <= criticalElectronicsTemperature))} collapsedSize={0}>
-                            <Alert sx={{ border: `1px solid ${theme.palette.warning.light}` }} id='system.asrs.condendartionWarning' severity="warning">{t(`system.condensationWarning`)}</Alert>
-                        </Collapse>
+                        <Stack spacing={2}>
+                            <Collapse in={(selectedSystem === 'lrkprk' || selectedSystem === 'autovna' || selectedSystem === 'agv') && (formData.system[selectedSystem].workConditions.temperature[0] <= 5)} collapsedSize={0}>
+                                <CustomAlert severity="error" title={t('system.lrkprk.temperatureWarningTitle')} text={t(`system.lrkprk.temperatureWarning`)} />
+                            </Collapse>
+
+                            <Collapse in={((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[0]) <= criticalElectronicsTemperature))} collapsedSize={0}>
+                                <CustomAlert severity="warning" title={t(`system.condensationWarningTitle`)} text={t(`system.condensationWarning`)} />
+                            </Collapse>
+                        </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Box>

@@ -1,8 +1,8 @@
 export const emptyFlow =
 {
     stationType: -1 ,
-    stationSource: '',
-    stationTarget: '',
+    stationSource: -1,
+    stationTarget: -1,
     flowAverage: 0,
     flowPeak: 0,
     loadType: 0,

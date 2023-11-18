@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
 import { ISystems } from "../../../../features/interfaces";
+import WarehouseLayout from "./Warehouse";
 
 export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -121,6 +122,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                     </Grid>
                 }
             </Box>
+            <WarehouseLayout selectedSystem={selectedSystem} />
         </Stack>
     )
 }

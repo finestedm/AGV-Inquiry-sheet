@@ -2,35 +2,52 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { useDispatch } from "react-redux";
-import { Box, Button, ButtonGroup, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Chip, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { handleAddFlow, handleDeleteFlow, handleFlowChange } from "../../../../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
-import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
 import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
-import { ISystems } from "../../../../features/interfaces";
+import { IEquipment, ISystems } from "../../../../features/interfaces";
+import DoorSlidingSharpIcon from '@mui/icons-material/DoorSlidingSharp';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
+import tinycolor from "tinycolor2";
+import NoDataAlert from "../../../NoDataAlert";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
 
     const selectedSystemFlow = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
+    const selectedSystemEquipment = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment);
     const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
+    const theme = useTheme();
 
-    const rows = selectedSystemFlow.map((flow, index) => ({
-        id: index + 1, // Sequential number starting from 1
-        stationSource: flow.stationSource,
-        stationTarget: flow.stationTarget,
-        stationType: flow.stationType,
-        flowAverage: flow.flowAverage,
-        flowPeak: flow.flowPeak,
-        distance: flow.distance,
-        loadType: flow.loadType,
-        bidirectional: flow.bidirectional
-    })) || {};
+    const rows = selectedSystemEquipment && selectedSystemFlow.map((flow, index) => { // selectedSystemEquipment added to only render rows if this version includes this data
+        // Find source and target stations based on their ids
+        const sourceStation = selectedSystemEquipment.find(equipment => equipment.id === flow.stationSource);
+        const targetStation = selectedSystemEquipment.find(equipment => equipment.id === flow.stationTarget);
+
+        // Calculate distance based on coordinates
+        const distance = sourceStation && targetStation
+            ? Math.sqrt(Math.pow(targetStation.x - sourceStation.x, 2) + Math.pow(targetStation.y - sourceStation.y, 2))
+            : 0;
+
+        return {
+            id: index + 1, // Sequential number starting from 1
+            stationSource: flow.stationSource,
+            stationTarget: flow.stationTarget,
+            stationType: flow.stationType,
+            flowAverage: flow.flowAverage,
+            flowPeak: flow.flowPeak,
+            distance: distance, // Set the calculated distance
+            loadType: flow.loadType,
+            bidirectional: flow.bidirectional
+        };
+    });
 
     const handleDeleteSelected = () => {
         const updatedFlows = rows
@@ -58,15 +75,64 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
-    if (selectedSystemFlow) {
+
+    if (selectedSystemFlow && selectedSystemLoads && selectedSystemEquipment) {
         return (
             <Box>
                 <DataGrid
                     rows={rows}
                     columns={[
                         { field: "id", headerName: "Stage", width: 50, type: 'number' },
-                        { field: "stationSource", headerName: "Pickup station", minWidth: 130, editable: true, type: 'string', description: 'Station where load is picked up' },
-                        { field: "stationTarget", headerName: "Unload station", minWidth: 130, editable: true, type: 'string', description: 'Station where load is left' },
+                        {
+                            field: "stationSource",
+                            headerName: "Pickup station",
+                            minWidth: 130,
+                            editable: true,
+                            type: 'singleSelect',
+                            valueOptions: selectedSystemEquipment.map((equipment) => ({
+                                value: equipment.id,
+                                label:
+                                    <Stack>
+                                        <Chip
+                                            sx={{ backgroundColor: equipment.color }}
+                                            label={
+                                                <Stack direction='row' justifyContent='center' alignItems='center'>
+                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'wall' && <ConstructionIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
+                                                </Stack>
+                                            }
+                                        />
+                                    </Stack>
+                            })),
+                            renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
+                        },
+                        {
+                            field: "stationTarget",
+                            headerName: "Unload station",
+                            minWidth: 130,
+                            editable: true,
+                            type: 'singleSelect',
+                            valueOptions: selectedSystemEquipment.map((equipment) => ({
+                                value: equipment.id,
+                                label:
+                                    <Stack>
+                                        <Chip
+                                            sx={{ backgroundColor: equipment.color }}
+                                            label={
+                                                <Stack direction='row' justifyContent='center' alignItems='center'>
+                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'wall' && <ConstructionIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
+                                                    <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
+                                                </Stack>
+                                            }
+                                        />
+                                    </Stack>
+                            })),
+                            renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
+                        },
                         { field: "flowAverage", headerName: "Average material flow", minWidth: 130, editable: true, type: 'number' },
                         { field: "flowPeak", headerName: "Peak material flow", minWidth: 130, editable: true, type: 'number' },
                         {
@@ -163,19 +229,13 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                     }}
                     onRowSelectionModelChange={(newRowSelectionModel) => { editMode && setRowSelectionModel(newRowSelectionModel) }}
                     rowSelectionModel={rowSelectionModel}
-
-                // Add other Data Grid props as needed...
                 />
-                {/* <Box textAlign='left'>
-                    <Button variant='outlined' onClick={() => dispatch(handleAddFlow({ systemName: selectedSystem }))} endIcon={<PlaylistAdd />}>{t('ui.button.addNewFlow')} </Button >
-                </Box> */}
+
             </Box>
         )
     } else {
         return (
-            <Box>
-                <Typography variant='h1'>Error loading flow tables</Typography>
-            </Box>
+            <NoDataAlert />
         )
     }
 }

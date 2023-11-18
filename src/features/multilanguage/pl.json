@@ -146,8 +146,10 @@
     }
   },
   "system": {
-    "condensationWarning": "Uwaga: panujące warunki mogą powodowac kondensacje",
-    "manyLoadsWarning": "Uwaga: Duże różnice pomiędzy wymiarami ładunków mogą być problematyczne dla wybranego systemu.",
+    "condensationWarningTitle": "Uwaga!",
+    "condensationWarning": "Panujące warunki mogą powodowac kondensacje",
+    "manyLoadsWarningTitle": "Uwaga",
+    "manyLoadsWarning": "Duże różnice pomiędzy wymiarami ładunków mogą być problematyczne dla wybranego systemu.",
     "subheader": {
       "workTime": "Czas pracy",
       "workConditions": "Warunki pracy",
@@ -192,19 +194,24 @@
       "label": "Regały windowe i karuzelowe",
       "labelshort": "LRK & PRK",
       "description": "Z uwagi na modułową konstrukcję, zarówno przed jak i po montażu można dostosowywać wysokość regału LRK do bieżących potrzeb. Ponadto integracja regału w dowolny system zarządzania magazynem pozwala na uzyskanie jeszcze lepszej wydajności.",
-      "temperatureWarning": "Regały automatyczne nie mogą pracować w temperaturze poniżej 5C"
+      "temperatureWarning": "Regały automatyczne nie mogą pracować w temperaturze poniżej 5C",
+      "temperatureWarningTitle": "Uwaga!"
     },
     "agv": {
       "header": "Dane wózków automatycznych",
       "label": "Wózki automatyczne AGV",
       "labelshort": "AGV",
-      "description": "Wózki automatyczne AGV (z ang. Automated Guided Vehicles) to systemy transportowe pozwalające na zdalną obsługę. Wyposażono je w rozbudowany system czujników, który wykrywa wszelkie przeszkody wokół pojazdu. Modele AVG potrafią samodzielnie zwalniać, przyspieszać i reagować na niespodziewane czynniki pojawiające się podczas jazdy. W razie konieczności mogą całkowicie się zatrzymać."
+      "description": "Wózki automatyczne AGV (z ang. Automated Guided Vehicles) to systemy transportowe pozwalające na zdalną obsługę. Wyposażono je w rozbudowany system czujników, który wykrywa wszelkie przeszkody wokół pojazdu. Modele AVG potrafią samodzielnie zwalniać, przyspieszać i reagować na niespodziewane czynniki pojawiające się podczas jazdy. W razie konieczności mogą całkowicie się zatrzymać.",
+      "temperatureWarning": "Wózki automatyczne AGV nie mogą pracować w temperaturze poniżej 5C",
+      "temperatureWarningTitle": "Uwaga!"
     },
     "autovna": {
       "header": "Dane systemu AutoVNA",
       "label": "Automatyczne wózki do wąskich korytarzy roboczych",
       "labelshort": "AutoVNA",
-      "description": "Automatyczne wózki wysokiego składowania doskonale sprawdzają się w zautomatyzowanym magazynie z wąskimi korytarzami roboczymi, w którym znajdują się także regały, oprogramowanie i urządzenia transportowe. Idealnie zintegrowane, efektywnie i bezpiecznie wykonują pracę przez 24 godziny na dobę."
+      "description": "Automatyczne wózki wysokiego składowania doskonale sprawdzają się w zautomatyzowanym magazynie z wąskimi korytarzami roboczymi, w którym znajdują się także regały, oprogramowanie i urządzenia transportowe. Idealnie zintegrowane, efektywnie i bezpiecznie wykonują pracę przez 24 godziny na dobę.",
+      "temperatureWarning": "Wózki automatyczne AutoVNA nie mogą pracować w temperaturze poniżej 5C",
+      "temperatureWarningTitle": "Uwaga!"
     }
   },
   "project": {
