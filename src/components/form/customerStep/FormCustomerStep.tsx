@@ -77,7 +77,7 @@ export default function FormCustomerStep(): JSX.Element {
           fieldName="customer.contactPersonRole"
         />
         <MuiTelInput
-          label={t('customer.contactperson.phone')}
+          label={t('customer.contactPersonPhone')}
           defaultCountry="PL"
           continents={['EU']}
           value={formData.customer.contactPersonPhone}
