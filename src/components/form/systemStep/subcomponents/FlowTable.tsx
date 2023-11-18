@@ -14,6 +14,7 @@ import DoorSlidingSharpIcon from '@mui/icons-material/DoorSlidingSharp';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import tinycolor from "tinycolor2";
+import NoDataAlert from "../../../NoDataAlert";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
@@ -25,7 +26,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
     const dispatch = useDispatch();
     const theme = useTheme();
 
-    const rows = selectedSystemFlow.map((flow, index) => {
+    const rows = selectedSystemEquipment && selectedSystemFlow.map((flow, index) => { // selectedSystemEquipment added to only render rows if this version includes this data
         // Find source and target stations based on their ids
         const sourceStation = selectedSystemEquipment.find(equipment => equipment.id === flow.stationSource);
         const targetStation = selectedSystemEquipment.find(equipment => equipment.id === flow.stationTarget);
@@ -46,7 +47,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
             loadType: flow.loadType,
             bidirectional: flow.bidirectional
         };
-    }) || {};
+    });
 
     const handleDeleteSelected = () => {
         const updatedFlows = rows
@@ -74,7 +75,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
-    if (selectedSystemFlow) {
+
+    if (selectedSystemFlow && selectedSystemLoads && selectedSystemEquipment) {
         return (
             <Box>
                 <DataGrid
@@ -233,9 +235,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
         )
     } else {
         return (
-            <Box>
-                <Typography variant='h1'>Error loading flow tables</Typography>
-            </Box>
+            <NoDataAlert />
         )
     }
 }

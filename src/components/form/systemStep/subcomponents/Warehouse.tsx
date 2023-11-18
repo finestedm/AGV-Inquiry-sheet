@@ -14,6 +14,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { PlaylistAdd } from "@mui/icons-material";
 import { availableEquipment } from '../../../../data/availableEquipment';
 import { updateEquipment } from '../../../../features/redux/reducers/formDataSlice';
+import NoDataAlert from '../../../NoDataAlert';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -169,93 +170,99 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         return renderShape();
     }
 
-    return (
-        <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
-            <Box>
-                <ButtonGroup disabled={!editMode} variant='contained' size="small" aria-label="split button">
-                    <Button
-                        aria-controls={open ? 'split-button-menu' : undefined}
-                        aria-expanded={open ? 'true' : undefined}
-                        aria-label="add loads"
-                        aria-haspopup="menu"
-                        onClick={handleToggle}
-                    >
-                        {t(`${equipmentToAdd}`)}
-                        <Box ref={anchorRef} />
-                        <ArrowDropDownIcon />
-                    </Button>
-                    <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEqipment')}</Box></Button>
-                </ButtonGroup>
-                <Popper
-                    sx={{
-                        zIndex: 1,
-                    }}
-                    open={open}
-                    anchorEl={anchorRef.current}
-                    role={undefined}
-                    transition
-                    disablePortal
-                >
-                    {({ TransitionProps, placement }) => (
-                        <Grow
-                            {...TransitionProps}
-                            style={{
-                                transformOrigin:
-                                    placement === 'bottom' ? 'center top' : 'center bottom',
-                            }}
+    if (warehouseEquipment) {
+        return (
+            <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
+                <Box>
+                    <ButtonGroup disabled={!editMode} variant='contained' size="small" aria-label="split button">
+                        <Button
+                            aria-controls={open ? 'split-button-menu' : undefined}
+                            aria-expanded={open ? 'true' : undefined}
+                            aria-label="add loads"
+                            aria-haspopup="menu"
+                            onClick={handleToggle}
                         >
-                            <Paper>
-                                <ClickAwayListener onClickAway={handleClose}>
-                                    <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
-                                        {availableEquipment.map((eq) => (
-                                            <MenuItem
-                                                key={eq}
-                                                value={eq}
-                                                selected={eq === equipmentToAdd}
-                                                onClick={(e) => handleMenuItemClick(e, eq)}
-                                            >
-                                                {t(`${eq}`)}
-                                            </MenuItem>
-                                        ))}
-                                    </MenuList>
-                                </ClickAwayListener>
-                            </Paper>
-                        </Grow>
-                    )}
-                </Popper>
-            </Box>
-            <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={8} borderColor={theme.palette.divider}>
-                <Stage width={canvaDimensions.width} height={canvaDimensions.height} style={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
-                    <Layer>
-                        {/* Warehouse */}
-                        {/* <Rect
+                            {t(`${equipmentToAdd}`)}
+                            <Box ref={anchorRef} />
+                            <ArrowDropDownIcon />
+                        </Button>
+                        <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEqipment')}</Box></Button>
+                    </ButtonGroup>
+                    <Popper
+                        sx={{
+                            zIndex: 1,
+                        }}
+                        open={open}
+                        anchorEl={anchorRef.current}
+                        role={undefined}
+                        transition
+                        disablePortal
+                    >
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                                {...TransitionProps}
+                                style={{
+                                    transformOrigin:
+                                        placement === 'bottom' ? 'center top' : 'center bottom',
+                                }}
+                            >
+                                <Paper>
+                                    <ClickAwayListener onClickAway={handleClose}>
+                                        <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
+                                            {availableEquipment.map((eq) => (
+                                                <MenuItem
+                                                    key={eq}
+                                                    value={eq}
+                                                    selected={eq === equipmentToAdd}
+                                                    onClick={(e) => handleMenuItemClick(e, eq)}
+                                                >
+                                                    {t(`${eq}`)}
+                                                </MenuItem>
+                                            ))}
+                                        </MenuList>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Grow>
+                        )}
+                    </Popper>
+                </Box>
+                <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={8} borderColor={theme.palette.divider}>
+                    <Stage width={canvaDimensions.width} height={canvaDimensions.height} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Layer>
+                            {/* Warehouse */}
+                            {/* <Rect
                             width={canvaDimensions.width} // Adjusted width with offset
                             height={canvaDimensions.height} // Adjusted height with offset and proportional to ratio
                             fill={theme.palette.text.primary}
                             opacity={0.8}
                         /> */}
 
-                        <Rect
-                            width={canvaDimensions.width - wallThickness} // Adjusted width with offset
-                            height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
-                            x={(wallThickness / 2)} // Offset from the left border
-                            Y={(wallThickness / 2)} // Offset from the left border
-                            fill={theme.palette.background.default}
-                            opacity={1}
-                        />
-                        {generateGridLines()}
-
-                        {/* docks */}
-                        {warehouseEquipment.map((equipment, index) => (
-                            <EquipmentShape
-                                key={index}
-                                equipment={equipment}
-                                index={index}
+                            <Rect
+                                width={canvaDimensions.width - wallThickness} // Adjusted width with offset
+                                height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
+                                x={(wallThickness / 2)} // Offset from the left border
+                                Y={(wallThickness / 2)} // Offset from the left border
+                                fill={theme.palette.background.default}
+                                opacity={1}
                             />
-                        ))}
-                    </Layer>
-                </Stage>
-            </Box>
-        </Stack>
-    );
+                            {generateGridLines()}
+
+                            {/* docks */}
+                            {warehouseEquipment.map((equipment, index) => (
+                                <EquipmentShape
+                                    key={index}
+                                    equipment={equipment}
+                                    index={index}
+                                />
+                            ))}
+                        </Layer>
+                    </Stage>
+                </Box>
+            </Stack>
+        );
+    } else {
+        return (
+            <NoDataAlert />
+        )
+    }
 };
