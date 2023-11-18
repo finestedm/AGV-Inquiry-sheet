@@ -20,13 +20,13 @@ export interface IIt {
 export interface ICustomer {
     name: string;
     sapNumber: number | null;
-    industryName: string[];
+    industryName: number[];
     address: string;
     contactPerson: string;
     contactPersonRole: string;
     contactPersonPhone: string;
     contactPersonMail: string;
-    relations: string;
+    relations: number;
     salesHistoryValue: number | undefined;
     ownedForklifts: number | undefined;
     ownedRacks: number | undefined;
@@ -36,10 +36,10 @@ export interface ICustomer {
 
 export interface IProject {
     goals: string;
-    supplyChainParts: string[];
+    supplyChainParts: number[];
     tender: boolean;
     investmentLocation: string;
-    investmentType: string;
+    investmentType: number;
     consultingCompany: boolean;
     competitor: boolean;
     milestones: IMilestones;

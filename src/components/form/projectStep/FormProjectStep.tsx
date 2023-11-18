@@ -92,8 +92,8 @@ export default function FormProjectStep(): JSX.Element {
                         error={Boolean(formikProps.errors.project?.supplyChainParts)}
                     >
                         {supplyChainParts.map((supplyChainPart) => (
-                            <MenuItem key={supplyChainPart.name} value={supplyChainPart.name}>
-                                <Checkbox checked={formData.project.supplyChainParts.indexOf(supplyChainPart.name) > -1} />
+                            <MenuItem key={supplyChainPart.name} value={supplyChainParts.indexOf(supplyChainPart)}>
+                                <Checkbox checked={formData.project.supplyChainParts.includes(supplyChainParts.indexOf(supplyChainPart))} />
                                 <Stack spacing={1} direction='row'>
                                     {supplyChainPart.icon}
                                     <ListItemText primary={supplyChainPart.name} />
@@ -174,9 +174,9 @@ export default function FormProjectStep(): JSX.Element {
                     {investmentTypes.map((investmentType) => (
                         <ToggleButton
                             sx={{ color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
-                            value={investmentType}
+                            value={investmentTypes.indexOf(investmentType)}
                             key={investmentType}
-                            selected={formData.project.investmentType === investmentType}
+                            selected={formData.project.investmentType === investmentTypes.indexOf(investmentType)}
                         >
                             {investmentType}
                         </ToggleButton>
@@ -197,9 +197,9 @@ export default function FormProjectStep(): JSX.Element {
                 >
                     {investmentTypes.map((investmentType) => (
                         <ToggleButton
-                            value={investmentType}
+                            value={investmentTypes.indexOf(investmentType)}
                             key={investmentType}
-                            selected={formData.project.investmentType === investmentType}
+                            selected={formData.project.investmentType === investmentTypes.indexOf(investmentType)}
                         >
                             {investmentType}
                         </ToggleButton>

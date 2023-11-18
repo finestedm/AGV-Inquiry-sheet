@@ -21,7 +21,7 @@ const initialFormDataState: IFormData = {
         contactPersonRole: '',
         contactPersonPhone: '',
         contactPersonMail: '',
-        relations: '',
+        relations: -1,
         salesHistoryValue: undefined,
         ownedForklifts: undefined,
         ownedRacks: undefined,
@@ -33,7 +33,7 @@ const initialFormDataState: IFormData = {
         supplyChainParts: [],
         tender: false,
         investmentLocation: '',
-        investmentType: '',
+        investmentType: -1,
         consultingCompany: false,
         competitor: false,
         milestones: {
