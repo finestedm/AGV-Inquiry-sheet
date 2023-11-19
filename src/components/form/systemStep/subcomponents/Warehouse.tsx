@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Konva, { Stage, Layer, Rect, Line, Image, Circle } from 'react-konva';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
+import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text } from 'react-konva';
 import { Box, Button, ButtonGroup, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
@@ -141,7 +141,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     };
 
     function EquipmentShape({ equipment, index }: { equipment: IEquipment, index: number }) {
-        const { x, y, rotation, type, color } = equipment;
+        const { id, x, y, rotation, type, color } = equipment;
         const sizeInPixels = 5 * canvaToWarehouseRatio;
 
         const commonProps = {
@@ -155,15 +155,34 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
             onDragEnd: handleDragEnd(index),
         };
 
+        const textProps = {
+            x: commonProps.x,
+            y: commonProps.y - 10, // Adjust the Y position for the text
+            fontSize: 8, // Adjust the font size as needed
+            fill: theme.palette.text.primary,
+        };
+
         const renderShape = () => {
             switch (type) {
-                case 'dock':
                 case 'wall':
-                    return <Rect {...commonProps} />;
+                    return <Rect {...commonProps} />
                 case 'gate':
-                    return <Circle {...commonProps} />;
+                case 'dock':
+                    return (
+                        <React.Fragment>
+                            <Rect {...commonProps} />
+                            <Text {...textProps} text={`ID: ${id}`} />
+                            <Text {...textProps} y={textProps.y - 10} text={`Type: ${type}`} />
+                        </React.Fragment>
+                    );
                 default:
-                    return <Circle {...commonProps} />;
+                    return (
+                        <React.Fragment>
+                            <Circle {...commonProps} />
+                            <Text {...textProps} text={`ID: ${id}`} />
+                            <Text {...textProps} y={textProps.y - 10} text={`Type: ${type}`} />
+                        </React.Fragment>
+                    );
             }
         };
 
