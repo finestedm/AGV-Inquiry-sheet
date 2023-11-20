@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { Box, Button, ButtonGroup, Chip, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { handleAddFlow, handleDeleteFlow, handleFlowChange } from "../../../../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
-import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
+import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer, useGridApiContext } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
@@ -75,6 +75,69 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
+    function CustomEditComponent(props: { id: any; value: any; field: any; }) {
+        const { id, value, field } = props;
+        const apiRef = useGridApiContext();
+
+        const handleChange = (event: { target: { value: any; }; }) => {
+            const eventValue = event.target.value; // The new value entered by the user
+            console.log('eee');
+            const newValue =
+                typeof eventValue === "string" ? value.split(",") : eventValue;
+            apiRef.current.setEditCellValue({
+                id,
+                field,
+                value: newValue
+            });
+        };
+
+        return (
+            <Select
+                labelId="demo-multiple-name-label"
+                id="demo-multiple-name"
+                multiple
+                value={value}
+                onChange={handleChange}
+                sx={{ width: "100%" }}
+            >
+                {selectedSystemLoads.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                        {option.id}
+                    </MenuItem>
+                ))}
+            </Select>
+        );
+    }
+
+    const CustomDiscountEditCell = (params: any) => <CustomEditComponent {...params} />;
+
+    function CustomFilterInputSingleSelect(props: { [x: string]: any; item: any; applyValue: any; type: any; apiRef: any; focusElementRef: any; }) {
+        const { item, applyValue, type, apiRef, focusElementRef, ...others } = props;
+
+        return (
+            <TextField
+                id={`contains-input-${item.id}`}
+                value={item.value}
+                onChange={(event) => applyValue({ ...item, value: event.target.value })}
+                type={type || "text"}
+                variant="standard"
+                InputLabelProps={{
+                    shrink: true
+                }}
+                inputRef={focusElementRef}
+                select
+                SelectProps={{
+                    native: true
+                }}
+            >
+                {["", ...selectedSystemLoads].map((option) => (
+                    <option key={option.length} value={option.length}>
+                        {option.length}
+                    </option>
+                ))}
+            </TextField>
+        );
+    }
 
     if (selectedSystemFlow && selectedSystemLoads && selectedSystemEquipment) {
         return (
@@ -142,6 +205,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             editable: true,
                             type: 'singleSelect',
                             description: 'Type of loads used on this stage',
+                            valueFormatter: ({ value }) => (value ? value : ""),
+                            renderEditCell: CustomDiscountEditCell,
                             valueOptions: selectedSystemLoads.map((load) => ({
                                 value: load.id,
                                 label:
@@ -154,6 +219,21 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                         </Typography>
                                     </Stack>)
                             })),
+                            filterOperators: [
+                                {
+                                    value: "contains",
+                                    getApplyFilterFn: (filterItem) => {
+                                        if (filterItem.value == null || filterItem.value === "") {
+                                            return null;
+                                        }
+                                        return ({ value }) => {
+                                            // if one of the cell values corresponds to the filter item
+                                            return value.some((cellValue: any) => cellValue === filterItem.value);
+                                        };
+                                    },
+                                    InputComponent: CustomFilterInputSingleSelect
+                                }
+                            ],
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
                         { field: "distance", headerName: "Distance", minWidth: 130, editable: true, type: 'number', description: 'Distance to travel between pickup station and target station' },

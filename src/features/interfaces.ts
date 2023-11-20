@@ -73,7 +73,7 @@ export interface IFlow {
     stationTarget: number | undefined;
     flowAverage: number;
     flowPeak: number;
-    loadType: number;
+    loadType: number[];
     distance: number;
     bidirectional: boolean;
 }

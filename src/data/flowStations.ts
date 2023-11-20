@@ -5,7 +5,7 @@ export const emptyFlow =
     stationTarget: -1,
     flowAverage: 0,
     flowPeak: 0,
-    loadType: 0,
+    loadType: [],
     distance: 0,
     bidirectional: false
 }
