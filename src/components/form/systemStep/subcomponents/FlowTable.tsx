@@ -9,7 +9,7 @@ import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer, 
 import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
-import { IEquipment, ISystems } from "../../../../features/interfaces";
+import { IEquipment, ILoad, ISystems } from "../../../../features/interfaces";
 import DoorSlidingSharpIcon from '@mui/icons-material/DoorSlidingSharp';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
@@ -81,13 +81,18 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
         const handleChange = (event: { target: { value: any; }; }) => {
             const eventValue = event.target.value; // The new value entered by the user
-            console.log('eee');
-            const newValue =
-                typeof eventValue === "string" ? value.split(",") : eventValue;
+
+            const updatedLoads = selectedSystemLoads.map(load => {
+                if (load.id && eventValue.includes(load.id)) {
+                    // If the load's id is in the eventValue array, update its name property
+                    return load
+                }
+            });
+            console.log(updatedLoads)
             apiRef.current.setEditCellValue({
                 id,
                 field,
-                value: newValue
+                value: updatedLoads as ILoad[]
             });
         };
 
@@ -100,16 +105,25 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                 onChange={handleChange}
                 sx={{ width: "100%" }}
             >
-                {selectedSystemLoads.map((option) => (
-                    <MenuItem key={option.id} value={option.id}>
-                        {option.id}
+                {selectedSystemLoads.map((load) => (
+                    <MenuItem key={load.id} value={load.id}>
+                        {
+                            <Stack >
+                                <Typography mr={1}>
+                                    {load.name}
+                                </Typography>
+                                <Typography fontSize='65%' color='text.secondary' >
+                                    {load.length} x {load.width} x  {load.height}, {load.weightMax} kg
+                                </Typography>
+                            </Stack>
+                        }
                     </MenuItem>
                 ))}
             </Select>
         );
     }
 
-    const CustomDiscountEditCell = (params: any) => <CustomEditComponent {...params} />;
+    const CustomLoadTypeEditCell = (params: any) => <CustomEditComponent {...params} />;
 
     function CustomFilterInputSingleSelect(props: { [x: string]: any; item: any; applyValue: any; type: any; apiRef: any; focusElementRef: any; }) {
         const { item, applyValue, type, apiRef, focusElementRef, ...others } = props;
@@ -130,11 +144,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                     native: true
                 }}
             >
-                {["", ...selectedSystemLoads].map((option) => (
-                    <option key={option.length} value={option.length}>
-                        {option.length}
-                    </option>
-                ))}
+
             </TextField>
         );
     }
@@ -206,7 +216,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             type: 'singleSelect',
                             description: 'Type of loads used on this stage',
                             valueFormatter: ({ value }) => (value ? value : ""),
-                            renderEditCell: CustomDiscountEditCell,
+                            renderEditCell: CustomLoadTypeEditCell,
                             valueOptions: selectedSystemLoads.map((load) => ({
                                 value: load.id,
                                 label:
@@ -234,7 +244,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                     InputComponent: CustomFilterInputSingleSelect
                                 }
                             ],
-                            renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
+                            renderCell: (params) => <Box textAlign='left'>{params.value}</Box>
                         },
                         { field: "distance", headerName: "Distance", minWidth: 130, editable: true, type: 'number', description: 'Distance to travel between pickup station and target station' },
                         { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?', valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
