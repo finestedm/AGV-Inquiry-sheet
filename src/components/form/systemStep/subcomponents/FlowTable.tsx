@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { useDispatch } from "react-redux";
-import { Box, Button, ButtonGroup, Chip, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
+import { Avatar, Badge, Box, Button, ButtonGroup, Checkbox, Chip, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { handleAddFlow, handleDeleteFlow, handleFlowChange } from "../../../../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
 import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer, useGridApiContext } from "@mui/x-data-grid";
@@ -37,7 +37,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
             : 0;
 
         return {
-            id: index + 1, // Sequential number starting from 1
+            id: index + 1, // Sequential number starting from 1 
             stationSource: flow.stationSource,
             stationTarget: flow.stationTarget,
             stationType: flow.stationType,
@@ -79,20 +79,24 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
         const { id, value, field } = props;
         const apiRef = useGridApiContext();
 
-        const handleChange = (event: { target: { value: any; }; }) => {
-            const eventValue = event.target.value; // The new value entered by the user
+        const handleChange = (event: { target: { value: number | string; }; }) => {
 
-            const updatedLoads = selectedSystemLoads.map(load => {
-                if (load.id && eventValue.includes(load.id)) {
-                    // If the load's id is in the eventValue array, update its name property
-                    return load
-                }
-            });
-            console.log(updatedLoads)
+            const eventValue = event.target.value;
             apiRef.current.setEditCellValue({
                 id,
                 field,
-                value: updatedLoads as ILoad[]
+                value: eventValue
+            });
+        };
+
+        const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+            const allLoadIds = selectedSystemLoads.map((load) => load.id);
+            const eventValue = event.target.checked ? allLoadIds : [];
+
+            apiRef.current.setEditCellValue({
+                id,
+                field,
+                value: eventValue
             });
         };
 
@@ -129,22 +133,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
         const { item, applyValue, type, apiRef, focusElementRef, ...others } = props;
 
         return (
-            <TextField
-                id={`contains-input-${item.id}`}
-                value={item.value}
-                onChange={(event) => applyValue({ ...item, value: event.target.value })}
-                type={type || "text"}
-                variant="standard"
-                InputLabelProps={{
-                    shrink: true
-                }}
-                inputRef={focusElementRef}
-                select
-                SelectProps={{
-                    native: true
-                }}
-            >
-
+            <TextField>
             </TextField>
         );
     }
@@ -215,8 +204,17 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             editable: true,
                             type: 'singleSelect',
                             description: 'Type of loads used on this stage',
-                            valueFormatter: ({ value }) => (value ? value : ""),
                             renderEditCell: CustomLoadTypeEditCell,
+                            valueFormatter: ({ value }: { value: number[] }) => {
+                                if (value.length === 0) {
+                                    return 'No loads selected';
+                                } else if (value.length === 1) {
+                                    const loadId = value[0];
+                                    return selectedSystemLoads.find((load) => load.id === loadId)?.name || 'Load unnamed';
+                                } else {
+                                    return 'Multiple loads';
+                                }
+                            },
                             valueOptions: selectedSystemLoads.map((load) => ({
                                 value: load.id,
                                 label:
@@ -229,22 +227,32 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                         </Typography>
                                     </Stack>)
                             })),
-                            filterOperators: [
-                                {
-                                    value: "contains",
-                                    getApplyFilterFn: (filterItem) => {
-                                        if (filterItem.value == null || filterItem.value === "") {
-                                            return null;
-                                        }
-                                        return ({ value }) => {
-                                            // if one of the cell values corresponds to the filter item
-                                            return value.some((cellValue: any) => cellValue === filterItem.value);
-                                        };
-                                    },
-                                    InputComponent: CustomFilterInputSingleSelect
+                            renderCell: (params) => {
+                                const loadIds = params.value as number[];
+
+                                if (loadIds.length === 0) {
+                                    return 'No loads selected';
+                                } else if (loadIds.length === 1) {
+                                    const loadId = loadIds[0];
+                                    const loadName = selectedSystemLoads.find((load) => load.id === loadId)?.name || 'Load not found';
+                                    return <Chip
+                                        label={loadName}
+                                        color='primary'
+                                        variant="filled"
+                                        size="small"
+                                    />;
+                                } else {
+                                    return (
+                                        <Chip
+                                            avatar={<Avatar>{loadIds.length}</Avatar>}
+                                            color='primary'
+                                            label="Multiple loads"
+                                            variant="filled"
+                                            size="small"
+                                        />
+                                    );
                                 }
-                            ],
-                            renderCell: (params) => <Box textAlign='left'>{params.value}</Box>
+                            },
                         },
                         { field: "distance", headerName: "Distance", minWidth: 130, editable: true, type: 'number', description: 'Distance to travel between pickup station and target station' },
                         { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?', valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
