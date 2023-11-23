@@ -9,7 +9,7 @@ import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer, 
 import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
-import { IEquipment, ILoad, ISystems } from "../../../../features/interfaces";
+import { IEquipment, IFlow, ILoad, ISystems } from "../../../../features/interfaces";
 import DoorSlidingSharpIcon from '@mui/icons-material/DoorSlidingSharp';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
@@ -75,6 +75,20 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
+    //the below is needed to filter out loads that are no longer available in the selectedSystemLoads
+    useEffect(() => {
+        const updatedFlows: IFlow[] = selectedSystemFlow.map((flow) => ({
+            ...flow,
+            loadType: flow.loadType.filter((loadId) =>
+                selectedSystemLoads.some((load) => load.id === loadId)
+            ),
+        }
+        ));
+        updatedFlows.forEach(flow => dispatch(handleFlowChange({ newRow: flow, selectedSystem })));
+
+        // Now, 'updatedFlows' contains flows with loadType filtered based on selectedSystemLoads
+    }, [selectedSystemLoads]);
+
     function CustomEditComponent(props: { id: any; value: any; field: any; }) {
         const { id, value, field } = props;
         const apiRef = useGridApiContext();
@@ -82,16 +96,6 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
         const handleChange = (event: { target: { value: number | string; }; }) => {
 
             const eventValue = event.target.value;
-            apiRef.current.setEditCellValue({
-                id,
-                field,
-                value: eventValue
-            });
-        };
-
-        const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-            const allLoadIds = selectedSystemLoads.map((load) => load.id);
-            const eventValue = event.target.checked ? allLoadIds : [];
 
             apiRef.current.setEditCellValue({
                 id,
@@ -258,7 +262,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                         { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?', valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
                     ]}
 
-                    processRowUpdate={(newRow: any, oldRow: any) => {
+                    processRowUpdate={(newRow: IFlow, oldRow: IFlow) => {
                         if (editMode) {
                             dispatch(handleFlowChange({ newRow, selectedSystem }));
                             // Return the updated row with isNew set to false

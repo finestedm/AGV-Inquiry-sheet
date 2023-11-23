@@ -1,5 +1,6 @@
 export const emptyFlow =
 {
+    id: undefined,
     stationType: -1 ,
     stationSource: -1,
     stationTarget: -1,

@@ -68,6 +68,7 @@ export interface ILoad {
 }
 
 export interface IFlow {
+    id: number | undefined;
     stationType: number;
     stationSource: number | undefined;
     stationTarget: number | undefined;
