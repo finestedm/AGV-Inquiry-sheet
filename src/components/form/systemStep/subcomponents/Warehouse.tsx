@@ -38,8 +38,10 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     const handleClick = () => {
         const newEquipment: IEquipment = {
             id: generateRandomId(),
-            x: 25,
-            y: 25,
+            x: 5,
+            xDim: 5,
+            y: 5,
+            yDim: 5,
             rotation: 0,
             type: equipmentToAdd,
             color: randomColor({ luminosity: 'light' }),

@@ -137,7 +137,9 @@ theme = createTheme({
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    backgroundColor: theme.palette.background.default
+                    backgroundColor: theme.palette.background.default,
+                    borderBottom: `1px solid ${theme.palette.divider}`,
+                    boxShadow: 'none'
                 }
             }
         },
@@ -214,7 +216,8 @@ export const themeDark = createTheme({
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    boxShadow: 'none'
+                    boxShadow: 'none',
+                    borderBottom: `1px solid ${theme.palette.divider}`,
                 }
             }
         }

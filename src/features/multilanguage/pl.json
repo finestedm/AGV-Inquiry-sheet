@@ -7,6 +7,7 @@
     "industryName.other": "Podaj inną branżę",
     "contactPerson": "Imię i nazwisko",
     "contactPersonRole": "Stanowisko osoby kontaktowej",
+    "contactPersonPhone": "Telefon kontaktowy",
     "contactPersonMail": "Adres email",
     "address": "Adres",
     "subheader": {
@@ -18,10 +19,10 @@
       "type": "Poziom współpracy",
       "saleshistoryvalue": "Wartość obrotu z klientem / rok",
       "creditmanagement": "Wartość kredytu kupieckiego",
-      "jh": "Klient JH",
-      "new": "Nowy klient",
-      "jh-kam": "Klient JH kamowy",
-      "competitor": "Klient konkurencji",
+      "2": "Klient JH",
+      "1": "Nowy klient",
+      "3": "Klient JH kamowy",
+      "4": "Klient konkurencji",
       "input": {
         "forklifts": "Ilość wózków JH",
         "other": "inne produkty JH",
@@ -52,6 +53,10 @@
     "customer": "Klient",
     "system": "System",
     "project": "Projekt",
+    "asrs": "ASRS",
+    "lrkprk": "LRK / PRK",
+    "agv": "AGV",
+    "autovna": "AutoVNA",
     "systems": {
       "asrs": "ASRS",
       "lrkprk": "LRK / PRK",
@@ -106,6 +111,13 @@
       "copyDialog": {
         "title": "Wybierz dane do skopiowania z innego systemu",
         "noChange": "Bez zmian"
+      },
+      "clearForm": {
+        "title": "Wymazywanie danych",
+        "description1": "Wygląda na to, że wprowadziłeś już jakieś dane do kwestionariusza.",
+        "description2": "Czy na pewno chcesz je usunąć?",
+        "cancel": "Anuluj",
+        "confirm": "Tak, wyzeruj dane"
       },
       "ganttGraph": {
         "selectDates": "Zmień daty dla: ",

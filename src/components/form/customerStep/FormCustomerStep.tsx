@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, FormHelperText, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Checkbox, Chip, FormControl, FormHelperText, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
@@ -29,6 +29,7 @@ export default function FormCustomerStep(): JSX.Element {
   const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
 
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const formData = useSelector((state: RootState) => state.formData);
   const editMode = useSelector((state: RootState) => state.editMode)
@@ -76,7 +77,7 @@ export default function FormCustomerStep(): JSX.Element {
           fieldName="customer.contactPersonRole"
         />
         <MuiTelInput
-          label={t('customer.contactperson.phone')}
+          label={t('customer.contactPersonPhone')}
           defaultCountry="PL"
           continents={['EU']}
           value={formData.customer.contactPersonPhone}
@@ -103,24 +104,34 @@ export default function FormCustomerStep(): JSX.Element {
             multiple
             input={<OutlinedInput label={t('customer.industry')} />}
             value={formData.customer.industryName}
-            onChange={(e: { target: { value: string[]; }; }) => {
+            onChange={(e: { target: { value: number[]; }; }) => {
               formikProps.setFieldValue('customer.industryName', e.target.value);
               dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value }))
             }}
-            renderValue={(selected: string[]) => selected.join(', ')}
+            renderValue={(selected: number[]) => (
+              <Stack direction="row" spacing={1} >
+                {selected.map((index) => (
+                  <Chip
+                    sx={{ borderRadius: .5 }}
+                    key={index}
+                    label={t(`${industries[index]}`)}
+                  />
+                ))}
+              </Stack>
+            )}
             MenuProps={MenuProps}
             error={Boolean(formikProps.errors.customer?.industryName)}
           >
-            {industries.map((name) => (
-              <MenuItem key={name} value={name}>
-                <Checkbox checked={formData.customer.industryName.includes(name)} />
-                <ListItemText primary={name} />
+            {industries.map((industry) => (
+              <MenuItem key={industry} value={industries.indexOf(industry)}>
+                <Checkbox checked={formData.customer.industryName.includes(industries.indexOf(industry))} />
+                <ListItemText primary={industry} />
               </MenuItem>
             ))}
           </Field>
           {formikProps.touched.customer?.industryName && formikProps.errors.customer?.industryName && <FormHelperText error>{t(`${formikProps.errors.customer?.industryName}`)}</ FormHelperText>}
         </FormControl>
-        {formData.customer.industryName.includes(t('industry.other')) &&
+        {formData.customer.industryName.includes(8) &&
           <TextField
             required
             label={t('customer.industryName.other')}
@@ -150,18 +161,18 @@ export default function FormCustomerStep(): JSX.Element {
               dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))
               formikProps.setFieldValue('customer.relations', e.target.value);
             }}
-            renderValue={(selected: any) => (selected)}
+            renderValue={(selected: any) => (t(`customer.relations.${selected}`))}
             MenuProps={MenuProps}
             error={Boolean(formikProps.errors.customer?.relations)}
           >
-            <MenuItem value={t('customer.relations.new')}>{t('customer.relations.new')}</MenuItem>
-            <MenuItem value={t('customer.relations.jh')}>{t('customer.relations.jh')}</MenuItem>
-            <MenuItem value={t('customer.relations.jh-kam')}>{t('customer.relations.jh-kam')}</MenuItem>
-            <MenuItem value={t('customer.relations.competitor')}>{t('customer.relations.competitor')}</MenuItem>
+            <MenuItem value={1}>{t('customer.relations.1')}</MenuItem>
+            <MenuItem value={2}>{t('customer.relations.2')}</MenuItem>
+            <MenuItem value={3}>{t('customer.relations.3')}</MenuItem>
+            <MenuItem value={4}>{t('customer.relations.4')}</MenuItem>
           </Field>
           {formikProps.touched.customer?.relations && formikProps.errors.customer?.relations && <FormHelperText error>{t(`${formikProps.errors.customer?.relations}`)}</ FormHelperText>}
         </FormControl>
-        {(formData.customer.relations === t('customer.relations.jh') || formData.customer.relations === t('customer.relations.jh-kam')) &&
+        {(formData.customer.relations === 2 || formData.customer.relations === 3) &&
           <Box>
             <Grid container direction='row' spacing={2}>
               <Grid item xs={6} lg={4}>

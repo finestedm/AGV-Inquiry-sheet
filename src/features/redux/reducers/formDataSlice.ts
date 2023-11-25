@@ -21,7 +21,7 @@ const initialFormDataState: IFormData = {
         contactPersonRole: '',
         contactPersonPhone: '',
         contactPersonMail: '',
-        relations: '',
+        relations: -1,
         salesHistoryValue: undefined,
         ownedForklifts: undefined,
         ownedRacks: undefined,
@@ -33,7 +33,7 @@ const initialFormDataState: IFormData = {
         supplyChainParts: [],
         tender: false,
         investmentLocation: '',
-        investmentType: '',
+        investmentType: -1,
         consultingCompany: false,
         competitor: false,
         milestones: {
@@ -382,11 +382,15 @@ const formDataSlice = createSlice({
             state.system[selectedSystem].loads = updatedLoads;
         },
 
-        handleFlowChange: (state: IFormData, action: PayloadAction<{ newRow: any, selectedSystem: keyof ISystems; }>) => {
+        handleFlowChange: (state: IFormData, action: PayloadAction<{ newRow: IFlow, selectedSystem: keyof ISystems; }>) => {
             const { newRow, selectedSystem } = action.payload;
 
+
+            
             // Replace the old load object with the new one at the specified index
-            state.system[selectedSystem].flow[newRow.id - 1] = newRow;
+            if (typeof(newRow.id) === 'number') {
+                state.system[selectedSystem].flow[newRow.id - 1] = newRow;
+            }
         },
 
         handleDeleteFlow: (state: IFormData, action: PayloadAction<{ updatedFlows: IFlow[]; selectedSystem: keyof ISystems }>) => {

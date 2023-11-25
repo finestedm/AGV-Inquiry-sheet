@@ -17,6 +17,7 @@ import SimpleSnackbar from './components/SnackBar';
 import { useDispatch } from 'react-redux';
 import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './features/localStorage/handleLocalStorage';
 import { setFormData } from './features/redux/reducers/formDataSlice';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 // Configure i18next
 i18n
@@ -78,13 +79,15 @@ function App() {
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={darkMode ? themeDark : theme}>
         <CssBaseline />
-        <div className="App">
-          <SimpleSnackbar />
-          <DeleteLoadWarningDialog />
-          <TopBar />
-          <Form />
-          <MobileScrollButton />
-        </div>
+        <Router>
+          <div className="App">
+            <SimpleSnackbar />
+            <DeleteLoadWarningDialog />
+            <TopBar />
+            <Form />
+            <MobileScrollButton />
+          </div>
+        </Router>
       </ThemeProvider>
     </I18nextProvider>
   );

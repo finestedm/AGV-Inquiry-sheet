@@ -161,7 +161,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                                     value={part}
                                     checked={selectedParts[system as keyof ISystems].includes(part)}
                                     onChange={(e) => handleChange(e, system as keyof ISystems)}
-                                    disabled={isPartUnchanged(part, system)}
+                                    disabled={isPartUnchanged(part, system) || !formData.system[system].selected}
                                 />
                             </TableCell>
                         ))}

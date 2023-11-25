@@ -2,19 +2,17 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { useDispatch } from "react-redux";
-import { Box, Button, ButtonGroup, Chip, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
+import { Avatar, Badge, Box, Button, ButtonGroup, Checkbox, Chip, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, useTheme } from "@mui/material";
 import { handleAddFlow, handleDeleteFlow, handleFlowChange } from "../../../../features/redux/reducers/formDataSlice";
 import { PlaylistAdd } from "@mui/icons-material";
-import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
+import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer, useGridApiContext } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
-import { IEquipment, ISystems } from "../../../../features/interfaces";
-import DoorSlidingSharpIcon from '@mui/icons-material/DoorSlidingSharp';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
+import { IEquipment, IFlow, ILoad, ISystems } from "../../../../features/interfaces";
 import tinycolor from "tinycolor2";
 import NoDataAlert from "../../../NoDataAlert";
+import EquipmentChip from "./EquipmentChip";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
@@ -37,7 +35,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
             : 0;
 
         return {
-            id: index + 1, // Sequential number starting from 1
+            id: index + 1, // Sequential number starting from 1 
             stationSource: flow.stationSource,
             stationTarget: flow.stationTarget,
             stationType: flow.stationType,
@@ -75,6 +73,76 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
+    //the below is needed to filter out loads that are no longer available in the selectedSystemLoads
+    useEffect(() => {
+        const updatedFlows: IFlow[] = selectedSystemFlow.map((flow) => ({
+            ...flow,
+            loadType: flow.loadType.filter((loadId) =>
+                selectedSystemLoads.some((load) => load.id === loadId)
+            ),
+        }
+        ));
+        updatedFlows.forEach(flow => dispatch(handleFlowChange({ newRow: flow, selectedSystem })));
+
+        // Now, 'updatedFlows' contains flows with loadType filtered based on selectedSystemLoads
+    }, [selectedSystemLoads]);
+
+    function CustomEditComponent(props: { id: any; value: any; field: any; }) {
+        const { id, value, field } = props;
+        const apiRef = useGridApiContext();
+
+        const handleChange = (event: { target: { value: number | string; }; }) => {
+
+            const eventValue = event.target.value;
+
+            apiRef.current.setEditCellValue({
+                id,
+                field,
+                value: eventValue
+            });
+        };
+
+        return (
+            <Select
+                labelId="demo-multiple-name-label"
+                id="demo-multiple-name"
+                multiple
+                value={value}
+                onChange={handleChange}
+                sx={{ width: "100%" }}
+            >
+                {selectedSystemLoads.map((load) => (
+                    <MenuItem key={load.id} value={load.id}>
+                        {
+                            <Stack direction='row' spacing={1}>
+                                <Checkbox checked={value.includes(load.id)} />
+                                <Stack>
+                                    <Typography mr={1}>
+                                        {load.name}
+                                    </Typography>
+                                    <Typography fontSize='65%' color='text.secondary' >
+                                        {load.length} x {load.width} x  {load.height}, {load.weightMax} kg
+                                    </Typography>
+                                </Stack>
+                            </Stack>
+
+                        }
+                    </MenuItem>
+                ))}
+            </Select>
+        );
+    }
+
+    const CustomLoadTypeEditCell = (params: any) => <CustomEditComponent {...params} />;
+
+    function CustomFilterInputSingleSelect(props: { [x: string]: any; item: any; applyValue: any; type: any; apiRef: any; focusElementRef: any; }) {
+        const { item, applyValue, type, apiRef, focusElementRef, ...others } = props;
+
+        return (
+            <TextField>
+            </TextField>
+        );
+    }
 
     if (selectedSystemFlow && selectedSystemLoads && selectedSystemEquipment) {
         return (
@@ -91,20 +159,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             type: 'singleSelect',
                             valueOptions: selectedSystemEquipment.map((equipment) => ({
                                 value: equipment.id,
-                                label:
-                                    <Stack>
-                                        <Chip
-                                            sx={{ backgroundColor: equipment.color }}
-                                            label={
-                                                <Stack direction='row' justifyContent='center' alignItems='center'>
-                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'wall' && <ConstructionIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
-                                                </Stack>
-                                            }
-                                        />
-                                    </Stack>
+                                label: <EquipmentChip equipment={equipment} />
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
@@ -116,20 +171,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             type: 'singleSelect',
                             valueOptions: selectedSystemEquipment.map((equipment) => ({
                                 value: equipment.id,
-                                label:
-                                    <Stack>
-                                        <Chip
-                                            sx={{ backgroundColor: equipment.color }}
-                                            label={
-                                                <Stack direction='row' justifyContent='center' alignItems='center'>
-                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'wall' && <ConstructionIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
-                                                </Stack>
-                                            }
-                                        />
-                                    </Stack>
+                                label: <EquipmentChip equipment={equipment} />
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
@@ -142,6 +184,17 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             editable: true,
                             type: 'singleSelect',
                             description: 'Type of loads used on this stage',
+                            renderEditCell: CustomLoadTypeEditCell,
+                            valueFormatter: ({ value }: { value: number[] }) => {
+                                if (value.length === 0) {
+                                    return 'No loads selected';
+                                } else if (value.length === 1) {
+                                    const loadId = value[0];
+                                    return selectedSystemLoads.find((load) => load.id === loadId)?.name || 'Load unnamed';
+                                } else {
+                                    return 'Multiple loads';
+                                }
+                            },
                             valueOptions: selectedSystemLoads.map((load) => ({
                                 value: load.id,
                                 label:
@@ -154,13 +207,38 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                         </Typography>
                                     </Stack>)
                             })),
-                            renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
+                            renderCell: (params) => {
+                                const loadIds = params.value as number[];
+
+                                if (loadIds.length === 0) {
+                                    return 'No loads selected';
+                                } else if (loadIds.length === 1) {
+                                    const loadId = loadIds[0];
+                                    const loadName = selectedSystemLoads.find((load) => load.id === loadId)?.name || 'Load not found';
+                                    return <Chip
+                                        label={loadName}
+                                        color='primary'
+                                        variant="filled"
+                                        size="small"
+                                    />;
+                                } else {
+                                    return (
+                                        <Chip
+                                            avatar={<Avatar>{loadIds.length}</Avatar>}
+                                            color='primary'
+                                            label="Multiple loads"
+                                            variant="filled"
+                                            size="small"
+                                        />
+                                    );
+                                }
+                            },
                         },
                         { field: "distance", headerName: "Distance", minWidth: 130, editable: true, type: 'number', description: 'Distance to travel between pickup station and target station' },
                         { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?', valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
                     ]}
 
-                    processRowUpdate={(newRow: any, oldRow: any) => {
+                    processRowUpdate={(newRow: IFlow, oldRow: IFlow) => {
                         if (editMode) {
                             dispatch(handleFlowChange({ newRow, selectedSystem }));
                             // Return the updated row with isNew set to false

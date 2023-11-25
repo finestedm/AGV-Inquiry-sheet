@@ -77,7 +77,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
     function handleDeleteSelected() {
         const updatedLoads = rows.filter((row) => row.id && !rowSelectionModel.includes(row.id))
 
-        const isLoadUsedInFlows = selectedSystemFlows.some(flow => rowSelectionModel.includes(flow.loadType));
+        const isLoadUsedInFlows = selectedSystemFlows.some(flow => flow.loadType.some(load => rowSelectionModel.includes(load)))
 
         if (isLoadUsedInFlows) {
             dispatch(updateDeleteLoadDialog({ open: true, updatedLoads, selectedSystem })) // we set the updatedLoads and selected system as a temp value as we wait for the user to take action
@@ -91,10 +91,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
     useEffect(() => {
         navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false)
     }, [])
-
-    useEffect(() => {
-        console.log(selectedSystemLoads)
-    }, [selectedSystemLoads])
 
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);
 
