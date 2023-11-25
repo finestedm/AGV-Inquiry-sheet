@@ -1,12 +1,10 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text } from 'react-konva';
+import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text, Transformer } from 'react-konva';
 import { Box, Button, ButtonGroup, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { IEquipment, ISystems } from '../../../../features/interfaces';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useDispatch } from 'react-redux';
-//@ts-ignore
 import generateRandomId from '../../../../features/variousMethods/generateRandomId';
 import randomColor from 'randomcolor'
 import { useTranslation } from 'react-i18next';
@@ -18,7 +16,7 @@ import NoDataAlert from '../../../NoDataAlert';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
-    const divRef = useRef(null)
+    const divRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch();
     const editMode = useSelector((state: RootState) => state.editMode);
     const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
@@ -39,9 +37,9 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         const newEquipment: IEquipment = {
             id: generateRandomId(),
             x: 5,
-            xDim: 5,
+            width: 1,
             y: 5,
-            yDim: 5,
+            height: 1,
             rotation: 0,
             type: equipmentToAdd,
             color: randomColor({ luminosity: 'light' }),
@@ -74,12 +72,9 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     })
 
     useEffect(() => {
-        //@ts-ignore
         if (divRef.current?.offsetHeight && divRef.current?.offsetWidth) {
             setCanvaDimensions({
-                //@ts-ignore
                 width: divRef.current.offsetWidth,
-                //@ts-ignore
                 height: (divRef.current.offsetWidth * Number(warehouseData.length / warehouseData.width))
             })
         }
@@ -107,6 +102,28 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         dispatch(updateEquipment({ updatedEquipment: updatedEquipment, selectedSystem: selectedSystem }));
     };
 
+
+    const onShapeChange = ({ x, y, width, height }: { x: number; y: number; width: number; height: number; }) => {
+        const updatedEquipment = warehouseEquipment.map((equipment) => {
+            // Assuming each equipment has a unique identifier (id)
+            if (equipment.id === selectedId) {
+                // Calculate the real coordinates in meters based on the canvaToWarehouseRatio
+                const xInMeters = x / canvaToWarehouseRatio;
+                const yInMeters = y / canvaToWarehouseRatio;
+                const xDimInMeters = width / canvaToWarehouseRatio;
+                const yDimInMeters = height / canvaToWarehouseRatio;
+
+                // Create a new object to avoid TypeScript inference issues
+                return { ...equipment, x: xInMeters, y: yInMeters, width: xDimInMeters, height: yDimInMeters };
+            }
+            return equipment;
+        });
+
+        // Update Redux state with the updated equipment positions
+        console.log(updatedEquipment)
+        dispatch(updateEquipment({ updatedEquipment, selectedSystem: selectedSystem }));
+    };
+
     function generateGridLines() {
         const lines = [];
 
@@ -123,6 +140,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                     stroke="grey"
                     strokeWidth={1}
                     opacity={0.5}
+                    _isGridLine={true}
                 />
             );
         }
@@ -136,26 +154,43 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                     stroke="grey"
                     strokeWidth={1}
                     opacity={0.5}
+                    _isGridLine={true}
                 />
             );
         }
         return lines;
     };
 
-    function EquipmentShape({ equipment, index }: { equipment: IEquipment, index: number }) {
-        const { id, x, y, rotation, type, color } = equipment;
-        const sizeInPixels = 5 * canvaToWarehouseRatio;
+    function EquipmentShape({ equipment, index, isSelected, onSelect }: { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any }) {
+        const { id, x, width, y, height, rotation, type, color } = equipment;
+
+        const shapeRef = useRef();
+        const trRef = useRef();
+
+        useEffect(() => {
+            if (isSelected) {
+                // we need to attach transformer manually
+                //@ts-ignore
+                trRef.current!.nodes([shapeRef.current]);
+                //@ts-ignore
+                trRef.current!.getLayer().batchDraw();
+            }
+        }, [isSelected]);
+
 
         const commonProps = {
-            width: sizeInPixels,
-            height: sizeInPixels,
             x: x * canvaToWarehouseRatio,
+            width: width * canvaToWarehouseRatio,
             y: y * canvaToWarehouseRatio,
+            height: height * canvaToWarehouseRatio,
             fill: color,
             rotation,
             draggable: true,
             onDragEnd: handleDragEnd(index),
+
         };
+
+        console.log(commonProps)
 
         const textProps = {
             x: commonProps.x,
@@ -172,9 +207,52 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                 case 'dock':
                     return (
                         <React.Fragment>
-                            <Rect {...commonProps} />
+                            <Rect onClick={onSelect}
+                                onTap={onSelect}
+                                //@ts-ignore
+                                ref={shapeRef}
+                                onTransformEnd={() => {
+                                    const node = shapeRef.current;
+                                    //@ts-ignore
+                                    const scaleX = node.scaleX();
+                                    //@ts-ignore
+                                    const scaleY = node.scaleY();
+
+                                    // we will reset it back
+                                    //@ts-ignore
+                                    node.scaleX(1);
+                                    //@ts-ignore
+                                    node.scaleY(1);
+
+                                    onShapeChange({
+                                        //@ts-ignore
+                                        x: node.x(),
+                                        //@ts-ignore
+                                        y: node.y(),
+                                        //@ts-ignore
+                                        width: node.width() * scaleX,
+                                        //@ts-ignore
+                                        height: node.height() * scaleY,
+                                    });
+
+                                }}
+                                {...commonProps} />
                             <Text {...textProps} text={`ID: ${id}`} />
                             <Text {...textProps} y={textProps.y - 10} text={`Type: ${type}`} />
+                            {isSelected && (
+                                <Transformer
+                                    //@ts-ignore
+                                    ref={trRef}
+                                    flipEnabled={false}
+                                    boundBoxFunc={(oldBox, newBox) => {
+                                        // limit resize
+                                        if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
+                                            return oldBox;
+                                        }
+                                        return newBox;
+                                    }}
+                                />
+                            )}
                         </React.Fragment>
                     );
                 default:
@@ -190,6 +268,15 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
         return renderShape();
     }
+
+    const [selectedId, selectShape] = useState<number | null>(null);
+    const checkDeselect = (e: any) => {
+        const clickedOnBackground = e.target._isGridLine === true;
+
+        if (clickedOnBackground) {
+            selectShape(null);
+        }
+    };
 
     if (warehouseEquipment) {
         return (
@@ -248,7 +335,13 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                     </Popper>
                 </Box>
                 <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={8} borderColor={theme.palette.divider}>
-                    <Stage width={canvaDimensions.width} height={canvaDimensions.height} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Stage
+                        width={canvaDimensions.width}
+                        height={canvaDimensions.height}
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                        onMouseDown={checkDeselect}
+                        onTouchStart={checkDeselect}
+                    >
                         <Layer>
                             {/* Warehouse */}
                             {/* <Rect
@@ -271,6 +364,10 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                             {/* docks */}
                             {warehouseEquipment.map((equipment, index) => (
                                 <EquipmentShape
+                                    isSelected={equipment.id === selectedId}
+                                    onSelect={() => {
+                                        selectShape(equipment.id);
+                                    }}
                                     key={index}
                                     equipment={equipment}
                                     index={index}
