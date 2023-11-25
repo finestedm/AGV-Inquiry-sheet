@@ -10,11 +10,9 @@ import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
 import { IEquipment, IFlow, ILoad, ISystems } from "../../../../features/interfaces";
-import DoorSlidingSharpIcon from '@mui/icons-material/DoorSlidingSharp';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import tinycolor from "tinycolor2";
 import NoDataAlert from "../../../NoDataAlert";
+import EquipmentChip from "./EquipmentChip";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
@@ -116,14 +114,18 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                 {selectedSystemLoads.map((load) => (
                     <MenuItem key={load.id} value={load.id}>
                         {
-                            <Stack >
-                                <Typography mr={1}>
-                                    {load.name}
-                                </Typography>
-                                <Typography fontSize='65%' color='text.secondary' >
-                                    {load.length} x {load.width} x  {load.height}, {load.weightMax} kg
-                                </Typography>
+                            <Stack direction='row' spacing={1}>
+                                <Checkbox checked={value.includes(load.id)} />
+                                <Stack>
+                                    <Typography mr={1}>
+                                        {load.name}
+                                    </Typography>
+                                    <Typography fontSize='65%' color='text.secondary' >
+                                        {load.length} x {load.width} x  {load.height}, {load.weightMax} kg
+                                    </Typography>
+                                </Stack>
                             </Stack>
+
                         }
                     </MenuItem>
                 ))}
@@ -157,20 +159,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             type: 'singleSelect',
                             valueOptions: selectedSystemEquipment.map((equipment) => ({
                                 value: equipment.id,
-                                label:
-                                    <Stack>
-                                        <Chip
-                                            sx={{ backgroundColor: equipment.color }}
-                                            label={
-                                                <Stack direction='row' justifyContent='center' alignItems='center'>
-                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'wall' && <ConstructionIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
-                                                </Stack>
-                                            }
-                                        />
-                                    </Stack>
+                                label: <EquipmentChip equipment={equipment} />
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
@@ -182,20 +171,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             type: 'singleSelect',
                             valueOptions: selectedSystemEquipment.map((equipment) => ({
                                 value: equipment.id,
-                                label:
-                                    <Stack>
-                                        <Chip
-                                            sx={{ backgroundColor: equipment.color }}
-                                            label={
-                                                <Stack direction='row' justifyContent='center' alignItems='center'>
-                                                    {equipment.type === 'gate' && <DoorSlidingSharpIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'wall' && <ConstructionIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    {equipment.type === 'dock' && <SystemUpdateAltIcon fontSize='small' htmlColor={tinycolor(equipment.color).darken(50).toString()} />}
-                                                    <Typography variant="body2" sx={{ textTransform: 'capitalize', color: tinycolor(equipment.color).darken(50).toString() }} ml={1}>{equipment.type}</Typography>
-                                                </Stack>
-                                            }
-                                        />
-                                    </Stack>
+                                label: <EquipmentChip equipment={equipment} />
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },

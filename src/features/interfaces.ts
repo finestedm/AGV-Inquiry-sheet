@@ -67,6 +67,8 @@ export interface ILoad {
     capacity?: number;
 }
 
+export type TEquipmentType = 'gate' | 'wall' | 'dock';
+
 export interface IFlow {
     id: number | undefined;
     stationType: number;
@@ -86,9 +88,11 @@ export interface ILoadsTypes {
 export interface IEquipment {
     id: number;
     x: number;
+    xDim: number;
     y: number;
+    yDim: number;
     rotation: number;
-    type: 'gate' | 'dock' | 'wall'
+    type: TEquipmentType;
     color: string;
 }
 
