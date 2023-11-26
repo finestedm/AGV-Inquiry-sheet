@@ -13,6 +13,7 @@ import { PlaylistAdd } from "@mui/icons-material";
 import { availableEquipment } from '../../../../data/availableEquipment';
 import { updateEquipment } from '../../../../features/redux/reducers/formDataSlice';
 import NoDataAlert from '../../../NoDataAlert';
+import EquipmentShape from './WarehouseLayoutEquipment';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -84,45 +85,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
     const wallThickness = canvaDimensions.width * 0.01; // Assuming 1%
 
-    //@ts-ignore
-    const handleDragEnd = (index: number) => (e: Konva.KonvaEventObject<DragEvent>) => {
-        const updatedEquipment = warehouseEquipment.map((equipment, i) => {
-            if (i === index) {
-                // Calculate the real coordinates in meters based on the canvaToWarehouseRatio
-                const xInMeters = e.target.x() / canvaToWarehouseRatio;
-                const yInMeters = e.target.y() / canvaToWarehouseRatio;
 
-                // Create a new object to avoid TypeScript inference issues
-                return { ...equipment, x: xInMeters, y: yInMeters, rotation: e.target.rotation() };
-            }
-            return equipment;
-        });
-
-        // Update Redux state with the updated dock positions
-        dispatch(updateEquipment({ updatedEquipment: updatedEquipment, selectedSystem: selectedSystem }));
-    };
-
-
-    const onShapeChange = ({ x, y, width, height }: { x: number; y: number; width: number; height: number; }) => {
-        const updatedEquipment = warehouseEquipment.map((equipment) => {
-            // Assuming each equipment has a unique identifier (id)
-            if (equipment.id === selectedId) {
-                // Calculate the real coordinates in meters based on the canvaToWarehouseRatio
-                const xInMeters = x / canvaToWarehouseRatio;
-                const yInMeters = y / canvaToWarehouseRatio;
-                const xDimInMeters = width / canvaToWarehouseRatio;
-                const yDimInMeters = height / canvaToWarehouseRatio;
-
-                // Create a new object to avoid TypeScript inference issues
-                return { ...equipment, x: xInMeters, y: yInMeters, width: xDimInMeters, height: yDimInMeters };
-            }
-            return equipment;
-        });
-
-        // Update Redux state with the updated equipment positions
-        console.log(updatedEquipment)
-        dispatch(updateEquipment({ updatedEquipment, selectedSystem: selectedSystem }));
-    };
 
     function generateGridLines() {
         const lines = [];
@@ -135,12 +98,12 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         for (let i = 1; i < numLinesX; i++) {
             lines.push(
                 <Line
+                    id='konvaGrid'
                     key={`gridLineX${i}`}
                     points={[i * (canvaDimensions.width / numLinesX), 0, i * (canvaDimensions.width / numLinesX), canvaDimensions.height]}
                     stroke="grey"
                     strokeWidth={1}
                     opacity={0.5}
-                    _isGridLine={true}
                 />
             );
         }
@@ -149,129 +112,23 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         for (let i = 1; i < numLinesY; i++) {
             lines.push(
                 <Line
+                    id='konvaGrid'
                     key={`gridLineY${i}`}
                     points={[0, i * (canvaDimensions.height / numLinesY), canvaDimensions.width, i * (canvaDimensions.height / numLinesY)]}
                     stroke="grey"
                     strokeWidth={1}
                     opacity={0.5}
-                    _isGridLine={true}
                 />
             );
         }
         return lines;
     };
 
-    function EquipmentShape({ equipment, index, isSelected, onSelect }: { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any }) {
-        const { id, x, width, y, height, rotation, type, color } = equipment;
 
-        const shapeRef = useRef();
-        const trRef = useRef();
-
-        useEffect(() => {
-            if (isSelected) {
-                // we need to attach transformer manually
-                //@ts-ignore
-                trRef.current!.nodes([shapeRef.current]);
-                //@ts-ignore
-                trRef.current!.getLayer().batchDraw();
-            }
-        }, [isSelected]);
-
-
-        const commonProps = {
-            x: x * canvaToWarehouseRatio,
-            width: width * canvaToWarehouseRatio,
-            y: y * canvaToWarehouseRatio,
-            height: height * canvaToWarehouseRatio,
-            fill: color,
-            rotation,
-            draggable: true,
-            onDragEnd: handleDragEnd(index),
-
-        };
-
-        console.log(commonProps)
-
-        const textProps = {
-            x: commonProps.x,
-            y: commonProps.y - 10, // Adjust the Y position for the text
-            fontSize: 8, // Adjust the font size as needed
-            fill: theme.palette.text.primary,
-        };
-
-        const renderShape = () => {
-            switch (type) {
-                case 'wall':
-                    return <Rect {...commonProps} />
-                case 'gate':
-                case 'dock':
-                    return (
-                        <React.Fragment>
-                            <Rect onClick={onSelect}
-                                onTap={onSelect}
-                                //@ts-ignore
-                                ref={shapeRef}
-                                onTransformEnd={() => {
-                                    const node = shapeRef.current;
-                                    //@ts-ignore
-                                    const scaleX = node.scaleX();
-                                    //@ts-ignore
-                                    const scaleY = node.scaleY();
-
-                                    // we will reset it back
-                                    //@ts-ignore
-                                    node.scaleX(1);
-                                    //@ts-ignore
-                                    node.scaleY(1);
-
-                                    onShapeChange({
-                                        //@ts-ignore
-                                        x: node.x(),
-                                        //@ts-ignore
-                                        y: node.y(),
-                                        //@ts-ignore
-                                        width: node.width() * scaleX,
-                                        //@ts-ignore
-                                        height: node.height() * scaleY,
-                                    });
-
-                                }}
-                                {...commonProps} />
-                            <Text {...textProps} text={`ID: ${id}`} />
-                            <Text {...textProps} y={textProps.y - 10} text={`Type: ${type}`} />
-                            {isSelected && (
-                                <Transformer
-                                    //@ts-ignore
-                                    ref={trRef}
-                                    flipEnabled={false}
-                                    boundBoxFunc={(oldBox, newBox) => {
-                                        // limit resize
-                                        if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
-                                            return oldBox;
-                                        }
-                                        return newBox;
-                                    }}
-                                />
-                            )}
-                        </React.Fragment>
-                    );
-                default:
-                    return (
-                        <React.Fragment>
-                            <Circle {...commonProps} />
-                            <Text {...textProps} text={`ID: ${id}`} />
-                            <Text {...textProps} y={textProps.y - 10} text={`Type: ${type}`} />
-                        </React.Fragment>
-                    );
-            }
-        };
-
-        return renderShape();
-    }
 
     const [selectedId, selectShape] = useState<number | null>(null);
     const checkDeselect = (e: any) => {
-        const clickedOnBackground = e.target._isGridLine === true;
+        const clickedOnBackground = e.target.id() === 'konvaBackground' || e.target.id() === 'konvaGrid'
 
         if (clickedOnBackground) {
             selectShape(null);
@@ -343,15 +200,8 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                         onTouchStart={checkDeselect}
                     >
                         <Layer>
-                            {/* Warehouse */}
-                            {/* <Rect
-                            width={canvaDimensions.width} // Adjusted width with offset
-                            height={canvaDimensions.height} // Adjusted height with offset and proportional to ratio
-                            fill={theme.palette.text.primary}
-                            opacity={0.8}
-                        /> */}
-
                             <Rect
+                                id='konvaBackground'
                                 width={canvaDimensions.width - wallThickness} // Adjusted width with offset
                                 height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
                                 x={(wallThickness / 2)} // Offset from the left border
@@ -360,17 +210,18 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                 opacity={1}
                             />
                             {generateGridLines()}
-
-                            {/* docks */}
                             {warehouseEquipment.map((equipment, index) => (
                                 <EquipmentShape
                                     isSelected={equipment.id === selectedId}
                                     onSelect={() => {
-                                        selectShape(equipment.id);
+                                        editMode && selectShape(equipment.id);
                                     }}
                                     key={index}
                                     equipment={equipment}
                                     index={index}
+                                    selectedSystem={selectedSystem}
+                                    canvaToWarehouseRatio={canvaToWarehouseRatio}
+                                    selectedId={selectedId}
                                 />
                             ))}
                         </Layer>

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
 import { ISystems } from "../../../../features/interfaces";
-import WarehouseLayout from "./Warehouse";
+import WarehouseLayout from "./WarehouseLayout";
 
 export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
