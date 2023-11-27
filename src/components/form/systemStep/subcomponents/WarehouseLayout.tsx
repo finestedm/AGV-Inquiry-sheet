@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text, Transformer } from 'react-konva';
-import { Box, Button, ButtonGroup, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
+import { Box, Button, ButtonGroup, ClickAwayListener, Collapse, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { IEquipment, ISystems } from '../../../../features/interfaces';
@@ -14,6 +14,7 @@ import { availableEquipment } from '../../../../data/availableEquipment';
 import { updateEquipment } from '../../../../features/redux/reducers/formDataSlice';
 import NoDataAlert from '../../../NoDataAlert';
 import EquipmentShape from './WarehouseLayoutEquipment';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -90,11 +91,11 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     function generateGridLines() {
         const lines = [];
         const labels = [];
-    
+
         // Number of grid lines
         const numLinesX = Math.floor(warehouseData.width / 10);
         const numLinesY = Math.floor(warehouseData.length / 10);
-    
+
         // Generate horizontal grid lines and labels
         for (let i = 1; i < numLinesX; i++) {
             const xPos = i * (canvaDimensions.width / numLinesX);
@@ -107,7 +108,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                     strokeWidth={1}
                 />
             );
-    
+
             // Add text labels at the start of each line
             labels.push(
                 <Text
@@ -121,7 +122,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                 />
             );
         }
-    
+
         // Generate vertical grid lines and labels
         for (let i = 1; i < numLinesY; i++) {
             const yPos = i * (canvaDimensions.height / numLinesY);
@@ -134,7 +135,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                     strokeWidth={1}
                 />
             );
-    
+
             // Add text labels at the start of each line
             labels.push(
                 <Text
@@ -148,76 +149,96 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                 />
             );
         }
-    
+
         // Combine lines and labels into a single array
         return [...lines, ...labels];
     }
 
-    const [selectedId, selectShape] = useState<number | null>(null);
+    const [selectedShapeId, setSelectedShapeId] = useState<number | null>(null);
+
+    useEffect(() => {
+        console.log(selectedShapeId)
+    }, [selectedShapeId])
+
     const checkDeselect = (e: any) => {
         const clickedOnBackground = e.target.id() === 'konvaBackground' || e.target.id() === 'konvaGrid'
 
         if (clickedOnBackground) {
-            selectShape(null);
+            setSelectedShapeId(null);
         }
     };
 
     if (warehouseEquipment) {
         return (
             <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
-                <Box>
-                    <ButtonGroup disabled={!editMode} variant='contained' size="small" aria-label="split button">
-                        <Button
-                            aria-controls={open ? 'split-button-menu' : undefined}
-                            aria-expanded={open ? 'true' : undefined}
-                            aria-label="add loads"
-                            aria-haspopup="menu"
-                            onClick={handleToggle}
-                        >
-                            {t(`${equipmentToAdd}`)}
-                            <Box ref={anchorRef} />
-                            <ArrowDropDownIcon />
-                        </Button>
-                        <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEqipment')}</Box></Button>
-                    </ButtonGroup>
-                    <Popper
-                        sx={{
-                            zIndex: 1,
-                        }}
-                        open={open}
-                        anchorEl={anchorRef.current}
-                        role={undefined}
-                        transition
-                        disablePortal
-                    >
-                        {({ TransitionProps, placement }) => (
-                            <Grow
-                                {...TransitionProps}
-                                style={{
-                                    transformOrigin:
-                                        placement === 'bottom' ? 'center top' : 'center bottom',
-                                }}
+                <Stack spacing={2} direction='row' justifyContent='space-between'>
+                    <Box>
+                        <ButtonGroup disabled={!editMode} variant='contained' size="small" aria-label="split button">
+                            <Button
+                                aria-controls={open ? 'split-button-menu' : undefined}
+                                aria-expanded={open ? 'true' : undefined}
+                                aria-label="add loads"
+                                aria-haspopup="menu"
+                                onClick={handleToggle}
                             >
-                                <Paper>
-                                    <ClickAwayListener onClickAway={handleClose}>
-                                        <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
-                                            {availableEquipment.map((eq) => (
-                                                <MenuItem
-                                                    key={eq}
-                                                    value={eq}
-                                                    selected={eq === equipmentToAdd}
-                                                    onClick={(e) => handleMenuItemClick(e, eq)}
-                                                >
-                                                    {t(`${eq}`)}
-                                                </MenuItem>
-                                            ))}
-                                        </MenuList>
-                                    </ClickAwayListener>
-                                </Paper>
-                            </Grow>
-                        )}
-                    </Popper>
-                </Box>
+                                {t(`${equipmentToAdd}`)}
+                                <Box ref={anchorRef} />
+                                <ArrowDropDownIcon />
+                            </Button>
+                            <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEqipment')}</Box></Button>
+                        </ButtonGroup>
+                        <Popper
+                            sx={{
+                                zIndex: 1,
+                            }}
+                            open={open}
+                            anchorEl={anchorRef.current}
+                            role={undefined}
+                            transition
+                            disablePortal
+                        >
+                            {({ TransitionProps, placement }) => (
+                                <Grow
+                                    {...TransitionProps}
+                                    style={{
+                                        transformOrigin:
+                                            placement === 'bottom' ? 'center top' : 'center bottom',
+                                    }}
+                                >
+                                    <Paper>
+                                        <ClickAwayListener onClickAway={handleClose}>
+                                            <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
+                                                {availableEquipment.map((eq) => (
+                                                    <MenuItem
+                                                        key={eq}
+                                                        value={eq}
+                                                        selected={eq === equipmentToAdd}
+                                                        onClick={(e) => handleMenuItemClick(e, eq)}
+                                                    >
+                                                        {t(`${eq}`)}
+                                                    </MenuItem>
+                                                ))}
+                                            </MenuList>
+                                        </ClickAwayListener>
+                                    </Paper>
+                                </Grow>
+                            )}
+                        </Popper>
+                    </Box>
+                    <Collapse
+                        in={Boolean(selectedShapeId)}
+                        collapsedSize={0}
+                    >
+                        <Button
+                            size="small"
+                            color='error'
+                            variant='contained'
+                            startIcon={<DeleteIcon />}
+                        >
+                            Usuń wybrany element
+                        </Button>
+                    </Collapse>
+                </Stack>
                 <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={8} borderColor={theme.palette.divider}>
                     <Stage
                         width={canvaDimensions.width}
@@ -241,16 +262,16 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                         <Layer>
                             {warehouseEquipment.map((equipment, index) => (
                                 <EquipmentShape
-                                    isSelected={equipment.id === selectedId}
+                                    isSelected={equipment.id === selectedShapeId}
                                     onSelect={() => {
-                                        editMode && selectShape(equipment.id);
+                                        editMode && setSelectedShapeId(equipment.id);
                                     }}
                                     key={equipment.id}
                                     equipment={equipment}
                                     index={index}
                                     selectedSystem={selectedSystem}
                                     canvaToWarehouseRatio={canvaToWarehouseRatio}
-                                    selectedId={selectedId}
+                                    selectedShapeId={selectedShapeId}
                                 />
                             ))}
                         </Layer>

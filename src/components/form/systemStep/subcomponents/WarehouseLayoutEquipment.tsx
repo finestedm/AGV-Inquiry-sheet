@@ -7,7 +7,7 @@ import { updateEquipment } from "../../../../features/redux/reducers/formDataSli
 import { useTheme } from "@mui/material";
 import { Circle, Rect, Text, Transformer } from "react-konva";
 
-export default function EquipmentShape({ equipment, index, isSelected, onSelect, selectedId, canvaToWarehouseRatio, selectedSystem }: { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any, selectedId: number | null, canvaToWarehouseRatio: number, selectedSystem: keyof ISystems }) {
+export default function EquipmentShape({ equipment, index, isSelected, onSelect, selectedShapeId, canvaToWarehouseRatio, selectedSystem }: { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any, selectedShapeId: number | null, canvaToWarehouseRatio: number, selectedSystem: keyof ISystems }) {
     const { id, x, width, y, height, rotation, type, color } = equipment;
 
     const shapeRef = useRef();
@@ -42,7 +42,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
     const onShapeChange = ({ x, y, width, height, rotation }: { x: number; y: number; width: number; height: number; rotation: number }) => {
         const updatedEquipment = warehouseEquipment.map((equipment) => {
             // Assuming each equipment has a unique identifier (id)
-            if (equipment.id === selectedId) {
+            if (equipment.id === selectedShapeId) {
                 // Calculate the real coordinates in meters based on the canvaToWarehouseRatio
                 const xInMeters = x / canvaToWarehouseRatio;
                 const yInMeters = y / canvaToWarehouseRatio;
