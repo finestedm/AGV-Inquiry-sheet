@@ -156,9 +156,11 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
     const [selectedShapeId, setSelectedShapeId] = useState<number | null>(null);
 
-    useEffect(() => {
-        console.log(selectedShapeId)
-    }, [selectedShapeId])
+    function handleEquipmentDelete() {
+        const updatedEquipment = warehouseEquipment.filter(eq => eq.id !== selectedShapeId)
+        dispatch(updateEquipment({ updatedEquipment, selectedSystem }))
+        setSelectedShapeId(null)
+    }
 
     const checkDeselect = (e: any) => {
         const clickedOnBackground = e.target.id() === 'konvaBackground' || e.target.id() === 'konvaGrid'
@@ -234,6 +236,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                             color='error'
                             variant='contained'
                             startIcon={<DeleteIcon />}
+                            onClick={handleEquipmentDelete}
                         >
                             Usuń wybrany element
                         </Button>
