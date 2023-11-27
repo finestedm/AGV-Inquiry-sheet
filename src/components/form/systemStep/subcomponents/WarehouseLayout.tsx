@@ -21,6 +21,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     const dispatch = useDispatch();
     const editMode = useSelector((state: RootState) => state.editMode);
     const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
+    const warehouseFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow[0])
     const warehouseEquipment = warehouseData.equipment;
     const [isMobile, setIsMobile] = useState<boolean>(false)
     useEffect(() => {
@@ -86,45 +87,71 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     const wallThickness = canvaDimensions.width * 0.01; // Assuming 1%
 
 
-
     function generateGridLines() {
         const lines = [];
-
+        const labels = [];
+    
         // Number of grid lines
         const numLinesX = Math.floor(warehouseData.width / 10);
         const numLinesY = Math.floor(warehouseData.length / 10);
-
-        // Generate horizontal grid lines
+    
+        // Generate horizontal grid lines and labels
         for (let i = 1; i < numLinesX; i++) {
+            const xPos = i * (canvaDimensions.width / numLinesX);
             lines.push(
                 <Line
-                    id='konvaGrid'
+                    id={`konvaGridX${i}`}
                     key={`gridLineX${i}`}
-                    points={[i * (canvaDimensions.width / numLinesX), 0, i * (canvaDimensions.width / numLinesX), canvaDimensions.height]}
-                    stroke="grey"
+                    points={[xPos, 0, xPos, canvaDimensions.height]}
+                    stroke={theme.palette.divider}
                     strokeWidth={1}
-                    opacity={0.5}
+                />
+            );
+    
+            // Add text labels at the start of each line
+            labels.push(
+                <Text
+                    key={`labelX${i}`}
+                    x={xPos}
+                    y={canvaDimensions.height - 10}
+                    fontSize={9}
+                    text={`${i * 10}m`}
+                    fill={theme.palette.text.secondary}
+                    align="center"
                 />
             );
         }
-
-        // Generate vertical grid lines
+    
+        // Generate vertical grid lines and labels
         for (let i = 1; i < numLinesY; i++) {
+            const yPos = i * (canvaDimensions.height / numLinesY);
             lines.push(
                 <Line
-                    id='konvaGrid'
+                    id={`konvaGridY${i}`}
                     key={`gridLineY${i}`}
-                    points={[0, i * (canvaDimensions.height / numLinesY), canvaDimensions.width, i * (canvaDimensions.height / numLinesY)]}
-                    stroke="grey"
+                    points={[0, yPos, canvaDimensions.width, yPos]}
+                    stroke={theme.palette.divider}
                     strokeWidth={1}
-                    opacity={0.5}
+                />
+            );
+    
+            // Add text labels at the start of each line
+            labels.push(
+                <Text
+                    key={`labelY${i}`}
+                    x={5}
+                    y={yPos - 10}
+                    fontSize={9}
+                    text={`${i * 10}m`}
+                    fill={theme.palette.text.secondary}
+                    align="center"
                 />
             );
         }
-        return lines;
-    };
-
-
+    
+        // Combine lines and labels into a single array
+        return [...lines, ...labels];
+    }
 
     const [selectedId, selectShape] = useState<number | null>(null);
     const checkDeselect = (e: any) => {
@@ -209,14 +236,16 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                 fill={theme.palette.background.default}
                                 opacity={1}
                             />
-                            {generateGridLines()}
+
+                        </Layer>
+                        <Layer>
                             {warehouseEquipment.map((equipment, index) => (
                                 <EquipmentShape
                                     isSelected={equipment.id === selectedId}
                                     onSelect={() => {
                                         editMode && selectShape(equipment.id);
                                     }}
-                                    key={index}
+                                    key={equipment.id}
                                     equipment={equipment}
                                     index={index}
                                     selectedSystem={selectedSystem}
@@ -224,6 +253,9 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                     selectedId={selectedId}
                                 />
                             ))}
+                        </Layer>
+                        <Layer>
+                            {generateGridLines()}
                         </Layer>
                     </Stage>
                 </Box>
