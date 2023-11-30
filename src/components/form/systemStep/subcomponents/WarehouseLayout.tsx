@@ -15,6 +15,7 @@ import { updateEquipment } from '../../../../features/redux/reducers/formDataSli
 import NoDataAlert from '../../../NoDataAlert';
 import EquipmentShape from './WarehouseLayoutEquipment';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EquipmentFlowLines from './WarehouseLayoutLines';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -22,7 +23,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     const dispatch = useDispatch();
     const editMode = useSelector((state: RootState) => state.editMode);
     const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
-    const warehouseFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow[0])
+    const warehouseFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow)
     const warehouseEquipment = warehouseData.equipment;
     const [isMobile, setIsMobile] = useState<boolean>(false)
     useEffect(() => {
@@ -68,6 +69,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         setEquipmentToAdd(type as IEquipment['type']);
         setOpen(false);
     };
+
 
     const [canvaDimensions, setCanvaDimensions] = useState({
         width: 0,
@@ -280,6 +282,11 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                         </Layer>
                         <Layer>
                             {generateGridLines()}
+                            {warehouseFlows
+                                .map(flow => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
+                            }
+                        </Layer>
+                        <Layer>
                         </Layer>
                     </Stage>
                 </Box>
