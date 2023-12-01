@@ -9,6 +9,7 @@ export default function EquipmentFlowLines({ flow, canvaToWarehouseRatio, select
     const { id, stationType, stationSource, stationTarget, flowAverage, flowPeak, loadType, distance, bidirectional } = flow;
     const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
     const warehouseEquipment = warehouseData.equipment;
+    const loads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads)
     const theme = useTheme();
 
     const [points, setPoints] = useState<number[]>();
@@ -66,7 +67,7 @@ export default function EquipmentFlowLines({ flow, canvaToWarehouseRatio, select
         y: points ? (points[1] + points[3]) / 2 - 10 : 0,
         fontSize: 8,
         fill: theme.palette.text.primary,
-        text: `ID: ${id}\nDistance: ${distance}\nFlow Average: ${flowAverage}\nFlow Peak: ${flowPeak}\nLoad Type: ${loadType}`,
+        // text: `ID: ${id}\nDistance: ${distance}\nFlow Average: ${flowAverage}\nFlow Peak: ${flowPeak}\nLoad Type: ${loads.filter(load => load.id === loadType[0])[0].name}`,
     };
 
 

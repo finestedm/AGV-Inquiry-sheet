@@ -62,7 +62,7 @@ export default function GanttGraph(): JSX.Element {
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
                 progress: 0,
                 isDisabled: !editMode || isTaskUneditable(name as keyof IMilestones),
-                styles: { backgroundColor: (name === 'order' || name === 'launch') ? theme.palette.secondary.main : theme.palette.primary.main },
+                styles: { backgroundColor: (name === 'order') ? theme.palette.error.main : theme.palette.primary.main },
 
             };
         });
