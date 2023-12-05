@@ -53,7 +53,10 @@ theme = createTheme({
             default: '#ffffff'
         },
         info: {
-            main: '#2a7f93'
+            main: '#009697'
+        },
+        error: {
+            main: '#cc0000'
         }
 
     },
@@ -151,7 +154,7 @@ export const themeDark = createTheme({
     palette: {
         mode: 'dark',
         primary: {
-            main: '#a2cbe0',
+            main: '#a0d8d9',
         },
         secondary: {
             main: '#ffb900',
@@ -160,7 +163,10 @@ export const themeDark = createTheme({
             main: '#94DDBC',
         },
         info: {
-            main: '#006580'
+            main: '#009697'
+        },
+        error: {
+            main: '#cc0000'
         }
     },
     shape: {

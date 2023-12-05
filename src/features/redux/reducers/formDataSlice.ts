@@ -98,7 +98,8 @@ const initialFormDataState: IFormData = {
                     width: 0,
                     length: 0,
                     equipment: []
-                }
+                },
+                incline: -1
             },
             loads: [],
             flow: [emptyFlow],
@@ -127,7 +128,8 @@ const initialFormDataState: IFormData = {
                     width: 0,
                     length: 0,
                     equipment: []
-                }
+                },
+                incline: -1
             },
             loads: [],
             flow: [emptyFlow],
@@ -156,7 +158,8 @@ const initialFormDataState: IFormData = {
                     width: 0,
                     length: 0,
                     equipment: []
-                }
+                },
+                incline: -1
             },
             loads: [],
             flow: [emptyFlow],
@@ -185,7 +188,8 @@ const initialFormDataState: IFormData = {
                     width: 0,
                     length: 0,
                     equipment: []
-                }
+                },
+                incline: -1
             },
             loads: [],
             flow: [emptyFlow],
@@ -386,9 +390,9 @@ const formDataSlice = createSlice({
             const { newRow, selectedSystem } = action.payload;
 
 
-            
+
             // Replace the old load object with the new one at the specified index
-            if (typeof(newRow.id) === 'number') {
+            if (typeof (newRow.id) === 'number') {
                 state.system[selectedSystem].flow[newRow.id - 1] = newRow;
             }
         },

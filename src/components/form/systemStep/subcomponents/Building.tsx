@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { Box, Checkbox, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
 import { ISystems } from "../../../../features/interfaces";
 import WarehouseLayout from "./Warehouse";
+import Incline from "./Incline";
 
 export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -29,6 +29,9 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                 />
                 <Typography>{t(`system.building.new`)}</Typography>
             </Stack>
+            {(selectedSystem === 'agv') &&
+                <Incline selectedSystem={selectedSystem} />
+            }
             {(selectedSystem === 'asrs') &&
                 <Stack>
                     <FormControlLabel
