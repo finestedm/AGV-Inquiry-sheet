@@ -19,7 +19,8 @@ export default function Incline({ selectedSystem }: { selectedSystem: keyof ISys
     const { t } = useTranslation();
     const theme = useTheme();
     const [color, setColor] = useState<"disabled" | "action" | "inherit" | "primary" | "secondary" | "error" | "info" | "success" | "warning">('primary');
-
+    const [slopePercentage, setSlopePercentage] = useState<number>();
+    
     useEffect(() => {
         if (incline > 4) {
             setColor('error')
@@ -28,7 +29,9 @@ export default function Incline({ selectedSystem }: { selectedSystem: keyof ISys
         } else {
             setColor('primary')
         }
+        setSlopePercentage(parseFloat((Math.tan((incline * Math.PI) / 180) * 100).toFixed(2)))
     }, [incline])
+
 
     if (incline !== undefined) {
         return (
@@ -64,7 +67,7 @@ export default function Incline({ selectedSystem }: { selectedSystem: keyof ISys
                                 alignItems: 'center', // Align children horizontally
                             }}
                         >
-                            <Typography>{incline}°</Typography>
+                            <Typography>{incline}° / {slopePercentage}%</Typography>
                             <Box
                                 position='absolute'
                                 sx={{ top: '-30px', left: '45%' }}
