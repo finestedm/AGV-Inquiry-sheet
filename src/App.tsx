@@ -84,7 +84,11 @@ function App() {
             <SimpleSnackbar />
             <DeleteLoadWarningDialog />
             <TopBar />
-            <Form />
+            <Routes>
+              <Route path="/form" element={<Form />} />
+
+            </Routes>
+
             <MobileScrollButton />
           </div>
         </Router>
