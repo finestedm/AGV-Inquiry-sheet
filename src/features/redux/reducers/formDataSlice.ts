@@ -99,7 +99,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                     equipment: []
                 },
-                incline: -1
+                incline: 0
             },
             loads: [],
             flow: [emptyFlow],
@@ -129,7 +129,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                     equipment: []
                 },
-                incline: -1
+                incline: 0
             },
             loads: [],
             flow: [emptyFlow],
@@ -159,7 +159,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                     equipment: []
                 },
-                incline: -1
+                incline: 0
             },
             loads: [],
             flow: [emptyFlow],
@@ -189,7 +189,7 @@ const initialFormDataState: IFormData = {
                     length: 0,
                     equipment: []
                 },
-                incline: -1
+                incline: 0
             },
             loads: [],
             flow: [emptyFlow],
