@@ -77,7 +77,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                         <Stack direction='row' justifyContent='space-evenly' alignItems='center' sx={{ p: '.25rem' }}>
                             <Box sx={{ position: 'relative' }} >
                                 <CircularProgress
-                                    sx={{ position: 'absolute', left: 0, color: theme.palette.grey[400] }}
+                                    sx={{ position: 'absolute', left: 0, color: theme.palette.grey[400], opacity: .3 }}
                                     thickness={6}
                                     variant="determinate"
                                     value={100}
