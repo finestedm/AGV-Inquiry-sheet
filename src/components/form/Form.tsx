@@ -138,7 +138,7 @@ export default function Form(): JSX.Element {
         const nextIndex = currentIndex + 1;
         const nextStep = allSteps[nextIndex];
         if (nextStep) {
-          navigate(`/${nextStep}`);
+          navigate(`../${nextStep}`);
         }
         setFadeOut(false);
       }, 500); // Adjust the delay time (in milliseconds) as needed
@@ -153,7 +153,7 @@ export default function Form(): JSX.Element {
       const prevIndex = currentIndex - 1;
       const prevStep = allSteps[prevIndex];
       if (prevStep) {
-        navigate(`/${prevStep}`);
+        navigate(`../${prevStep}`);
       }
       setFadeOut(false);
     }, 500); // Adjust the delay time (in milliseconds) as needed
@@ -168,8 +168,7 @@ export default function Form(): JSX.Element {
       setFadeOut(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => {
-        const newPath = `/${step}`;
-        navigate(newPath);
+        navigate(`../${step}`);
         setFadeOut(false);
       }, 500);
     }
