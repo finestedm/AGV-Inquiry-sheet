@@ -43,9 +43,10 @@ export default function SimpleSnackbar() {
             <Alert
                 onClose={() => dispatch(closeSnackbar())}
                 severity={snackBarState.severity as AlertColor}
+                sx={{position: 'relative', overflow: 'hidden'}}
             >
                 {snackBarState.message}
-                <LinearProgress sx={{ position: 'absolute', bottom: 0, left: 0, width: '100%', borderRadius: '0 0 1rem 1rem' }} color={snackBarState.severity === 'success' ? 'success' : 'error'} variant="determinate" value={progress} />
+                <LinearProgress sx={{ position: 'absolute', bottom: 0, left: 0, width: '100%' }} color={snackBarState.severity === 'success' ? 'success' : 'error'} variant="determinate" value={progress} />
             </Alert>
         </Snackbar>
     )
