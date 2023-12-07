@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.58588b20.css",
-    "main.js": "./static/js/main.c238e759.js",
+    "main.js": "./static/js/main.21ba603a.js",
     "static/media/loadDimensionsPicture.png": "./static/media/loadDimensionsPicture.cfa0d91392f12dca884e.png",
     "static/media/JH_logo.png": "./static/media/JH_logo.7ecf36beead9d3783c6b.png",
     "static/media/loadDimensionsPicture2.png": "./static/media/loadDimensionsPicture2.cfbfd9a24fdef4b47c29.png",
@@ -13,6 +13,6 @@
   },
   "entrypoints": [
     "static/css/main.58588b20.css",
-    "static/js/main.c238e759.js"
+    "static/js/main.21ba603a.js"
   ]
 }
