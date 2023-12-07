@@ -29,7 +29,7 @@ export default function EquipmentFlowLines({ flow, canvaToWarehouseRatio, select
 
             setPoints([sourceCenterX, sourceCenterY, targetCenterX, targetCenterY]);
         }
-        setTooltipText(`ID: ${id}\nDistance: ${distance}\nFlow Average: ${flowAverage}`);
+        setTooltipText(`ID: ${id}\nDistance: ${distance.toFixed(2)}\nFlow Average: ${flowAverage}`);
     }, [warehouseEquipment, stationSource, stationTarget, canvaToWarehouseRatio]);
 
 
@@ -57,17 +57,17 @@ export default function EquipmentFlowLines({ flow, canvaToWarehouseRatio, select
     const basicTextProps = {
         x: points ? (points[0] + points[2]) / 2 + 10 : 0,
         y: points ? (points[1] + points[3]) / 2 - 10 : 0,
-        fontSize: 8,
+        fontSize: 10,
         fill: theme.palette.text.primary,
-        text: `ID: ${id}\nDistance: ${distance}`,
+        text: `ID: ${id}\nDistance: ${distance.toFixed(2)}`,
     };
 
     const detailedTextProps = {
         x: points ? (points[0] + points[2]) / 2 + 10 : 0,
         y: points ? (points[1] + points[3]) / 2 - 10 : 0,
-        fontSize: 8,
+        fontSize: 10,
         fill: theme.palette.text.primary,
-        // text: `ID: ${id}\nDistance: ${distance}\nFlow Average: ${flowAverage}\nFlow Peak: ${flowPeak}\nLoad Type: ${loads.filter(load => load.id === loadType[0])[0].name}`,
+        text: `ID: ${id}\nDistance: ${distance.toFixed(2)}\nFlow Average: ${flowAverage}\nFlow Peak: ${flowPeak}\nLoad Type: // dodać!!!`,
     };
 
 

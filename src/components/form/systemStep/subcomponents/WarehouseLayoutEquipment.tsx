@@ -86,7 +86,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
     const textProps = {
         x: commonProps.x,
         y: commonProps.y - 10, // Adjust the Y position for the text
-        fontSize: 8, // Adjust the font size as needed
+        fontSize: 10, // Adjust the font size as needed
         fill: theme.palette.text.primary,
     };
 
@@ -129,8 +129,8 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
 
                             }}
                             {...commonProps} />
-                        <Text {...textProps} text={`ID: ${id}`} />
                         <Text {...textProps} y={textProps.y - 10} text={`Type: ${type}`} />
+                        <Text {...textProps} text={`${width.toFixed(2)} x ${height.toFixed(2)}`} />
                         {isSelected && (
                             <Transformer
                                 //@ts-ignore
