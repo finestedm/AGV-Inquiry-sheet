@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { useTranslation } from "react-i18next";
 import MopedIcon from '@mui/icons-material/Moped';
+import ForkliftIcon from "./ForkliftIcon";
 
 export default function Incline({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -21,7 +22,7 @@ export default function Incline({ selectedSystem }: { selectedSystem: keyof ISys
     if (incline !== undefined) {
         return (
             <Box>
-                <Grid container spacing={2} alignItems='center'>
+                <Grid container spacing={2} alignItems='bottom'>
                     <Grid item xs={12} sm={4} lg={3}>
                         <Typography align="left">{t(`system.building.incline`)}</Typography>
                         <Slider
@@ -37,7 +38,7 @@ export default function Incline({ selectedSystem }: { selectedSystem: keyof ISys
                             marks={[{ value: 0, label: '0°' }, { value: 5, label: '5°' }, { value: 10, label: '10°' }]}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={4} lg={3}>
+                    <Grid item xs={12} sm={4} lg={3} minHeight='6rem' display='flex' alignItems='center'>
                         <Box
                             className="incline-visualization"
                             position='relative'
@@ -46,7 +47,10 @@ export default function Incline({ selectedSystem }: { selectedSystem: keyof ISys
                                 width: '100%',
                                 height: 2,
                                 backgroundColor: theme.palette.primary.main,
-                                color: theme.palette.primary.main
+                                color: theme.palette.primary.main,
+                                display: 'flex', // Add this line
+                                flexDirection: 'column', // Align children vertically
+                                alignItems: 'center', // Align children horizontally
                             }}
                         >
                             <Typography>{incline}°</Typography>
@@ -54,7 +58,7 @@ export default function Incline({ selectedSystem }: { selectedSystem: keyof ISys
                                 position='absolute'
                                 sx={{ top: '-20px', left: '45%' }}
                             >
-                                <MopedIcon />
+                                <ForkliftIcon />
                             </Box>
                         </Box>
                     </Grid>
