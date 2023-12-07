@@ -2,12 +2,13 @@ import { useSelector } from "react-redux";
 import NoDataAlert from "../../../NoDataAlert";
 import { RootState } from "../../../../features/redux/store";
 import { ISystems } from "../../../../features/interfaces";
-import { Box, Grid, Slider, Typography, useTheme } from "@mui/material";
+import { Box, Collapse, Grid, Slider, Typography, useTheme } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { useTranslation } from "react-i18next";
 import ForkliftIcon from "./ForkliftIcon";
 import { useEffect, useState } from "react";
+import CustomAlert from "../../../CustomAlert";
 
 export default function Incline({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -71,6 +72,9 @@ export default function Incline({ selectedSystem }: { selectedSystem: keyof ISys
                                 <ForkliftIcon color={color} />
                             </Box>
                         </Box>
+                    </Grid>
+                    <Grid item xs>
+                        <CustomAlert collapseTrigger={incline > 2} severity="warning" title={t(`system.inclineWarningTitle`)} text={t(`system.inclineWarning`)} />
                     </Grid>
                 </Grid>
             </Box>
