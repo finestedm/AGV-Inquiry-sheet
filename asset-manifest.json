@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "./static/css/main.58588b20.css",
-    "main.js": "./static/js/main.425b3dfd.js",
-    "static/media/loadDimensionsPicture.png": "./static/media/loadDimensionsPicture.cfa0d91392f12dca884e.png",
-    "static/media/JH_logo.png": "./static/media/JH_logo.7ecf36beead9d3783c6b.png",
-    "static/media/loadDimensionsPicture2.png": "./static/media/loadDimensionsPicture2.cfbfd9a24fdef4b47c29.png",
-    "index.html": "./index.html",
-    "static/media/Jungheinrich-Logo.svg": "./static/media/Jungheinrich-Logo.c6ef8d445a1c742af3c1afa8fdffbec8.svg",
-    "static/media/uk.svg": "./static/media/uk.fd46970f89e3fbca473f57e811916ea0.svg",
-    "static/media/germany.svg": "./static/media/germany.1708c5f78a40e2382860bd1a6fc03353.svg",
-    "static/media/poland.svg": "./static/media/poland.4da5f094c814970e3a2878f68eb33c40.svg"
+    "main.css": "/AGV-Inquiry-sheet/static/css/main.58588b20.css",
+    "main.js": "/AGV-Inquiry-sheet/static/js/main.568f2f37.js",
+    "static/media/loadDimensionsPicture.png": "/AGV-Inquiry-sheet/static/media/loadDimensionsPicture.cfa0d91392f12dca884e.png",
+    "static/media/JH_logo.png": "/AGV-Inquiry-sheet/static/media/JH_logo.7ecf36beead9d3783c6b.png",
+    "static/media/loadDimensionsPicture2.png": "/AGV-Inquiry-sheet/static/media/loadDimensionsPicture2.cfbfd9a24fdef4b47c29.png",
+    "index.html": "/AGV-Inquiry-sheet/index.html",
+    "static/media/Jungheinrich-Logo.svg": "/AGV-Inquiry-sheet/static/media/Jungheinrich-Logo.c6ef8d445a1c742af3c1afa8fdffbec8.svg",
+    "static/media/uk.svg": "/AGV-Inquiry-sheet/static/media/uk.fd46970f89e3fbca473f57e811916ea0.svg",
+    "static/media/germany.svg": "/AGV-Inquiry-sheet/static/media/germany.1708c5f78a40e2382860bd1a6fc03353.svg",
+    "static/media/poland.svg": "/AGV-Inquiry-sheet/static/media/poland.4da5f094c814970e3a2878f68eb33c40.svg"
   },
   "entrypoints": [
     "static/css/main.58588b20.css",
-    "static/js/main.425b3dfd.js"
+    "static/js/main.568f2f37.js"
   ]
 }
