@@ -88,7 +88,7 @@ export default function TopBar(): JSX.Element {
 
 
     return (
-        <AppBar position="static" color='default'>
+        <AppBar position="static" color="default">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
@@ -215,12 +215,12 @@ export default function TopBar(): JSX.Element {
                             </FormControl>
                             <DarkModeSwitch />
                             <EditModeSwitch />
-                            <Button onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
+                            <Button color='inherit' onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
                                 <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                     <Typography>{t('ui.button.inquiry.save')}</Typography>
                                 </Stack>
                             </Button>
-                            <Button startIcon={<UploadIcon />}>
+                            <Button color='inherit' startIcon={<UploadIcon />}>
                                 <Stack direction='row' flex={1} spacing={1} alignItems='center' onClick={() => {
                                     const fileInput = document.getElementById('file-input') as HTMLInputElement;
                                     if (fileInput) {

@@ -28,6 +28,7 @@ export default function DarkModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
         onClick={() => dispatch(setDarkMode(!darkMode))}
       >
         <ListItemIcon
+          color="inherit"
           sx={{ minWidth: 36 }}
         >
           <Box position='relative'>
@@ -53,6 +54,7 @@ export default function DarkModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
         <Button
           variant='text'
           size='small'
+          color='inherit'
           onClick={() => dispatch(setDarkMode(!darkMode))}
           startIcon={
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}

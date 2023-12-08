@@ -92,12 +92,12 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                             <Stack direction='row'>
                                 <Typography
                                     variant='h4'
-                                    sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.main : theme.palette.primary.main }}
+                                    sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.main : theme.palette.success.main }}
                                 >
                                     {circularValue}
                                 </Typography>
                                 <Typography
-                                    sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.light : theme.palette.primary.light }}
+                                    sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.light : theme.palette.success.light }}
                                 >
                                     h
                                 </Typography>
