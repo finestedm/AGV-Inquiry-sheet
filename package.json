@@ -1,7 +1,7 @@
 {
   "name": "agv-inquiry-sheet",
   "version": "0.1.0",
-  "homepage": ".",
+  "homepage": "https://finestedm.github.io/AGV-Inquiry-sheet/",
   "private": false,
   "dependencies": {
     "@emotion/react": "^11.11.1",
