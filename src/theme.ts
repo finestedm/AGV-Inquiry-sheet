@@ -74,22 +74,34 @@ theme = createTheme({
             'sans-serif',
         ].join(','),
         h1: {
-            color: '#959a9c'
+            color: '#7b8082',
+            fontWeight: 600,
+            letterSpacing: -1
         },
         h2: {
-            color: '#959a9c'
+            color: '#7b8082',
+            fontWeight: 600,
+            letterSpacing: -1
         },
         h3: {
-            color: '#959a9c'
+            color: '#7b8082',
+            fontWeight: 600,
+            letterSpacing: -1
         },
         h4: {
-            color: '#959a9c'
+            color: '#7b8082',
+            fontWeight: 600,
+            letterSpacing: -1
         },
         h5: {
-            color: theme.palette.text.secondary
+            color: theme.palette.text.secondary,
+            fontWeight: 600,
+            letterSpacing: -0.75
         },
         h6: {
-            color: theme.palette.text.secondary
+            color: theme.palette.text.secondary,
+            fontWeight: 500,
+            letterSpacing: -0.5
         },
     },
 
@@ -173,6 +185,7 @@ theme = createTheme({
 }
 );
 
+
 export const themeDark = createTheme({
     palette: {
         mode: 'dark',
@@ -210,22 +223,34 @@ export const themeDark = createTheme({
             'sans-serif',
         ].join(','),
         h1: {
-            color: '#7e878a'
+            color: '#979d9f',
+            fontWeight: 600,
+            letterSpacing: -1
         },
         h2: {
-            color: '#7e878a'
+            color: '#979d9f',
+            fontWeight: 600,
+            letterSpacing: -1
         },
         h3: {
-            color: '#7e878a'
+            color: '#979d9f',
+            fontWeight: 600,
+            letterSpacing: -1
         },
         h4: {
-            color: '#7e878a'
+            color: '#979d9f',
+            fontWeight: 600,
+            letterSpacing: -1
         },
         h5: {
-            color: '#c0c7ca'
+            color: '#c0c7ca',
+            fontWeight: 600,
+            letterSpacing: -0.75
         },
         h6: {
-            color: '#c0c7ca'
+            color: '#c0c7ca',
+            fontWeight: 500,
+            letterSpacing: -0.5
         },
     },
 
