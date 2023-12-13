@@ -26,23 +26,23 @@ export default function FormProjectStep(): JSX.Element {
 
     const supplyChainParts = [
         {
-            name: t('supplyChainParts.production'),
+            name: t('project.supplyChainParts.production'),
             icon: <PrecisionManufacturingIcon />,
         },
         {
-            name: t('supplyChainParts.storage'),
+            name: t('project.supplyChainParts.storage'),
             icon: <WarehouseIcon />,
         },
         {
-            name: t('supplyChainParts.distribution'),
+            name: t('project.supplyChainParts.distribution'),
             icon: <LocalShippingIcon />,
         },
         {
-            name: t('supplyChainParts.finishedGoods'),
+            name: t('project.supplyChainParts.finishedGoods'),
             icon: <CheckroomIcon />,
         },
         {
-            name: t('supplyChainParts.components'),
+            name: t('project.supplyChainParts.components'),
             icon: <SettingsInputComponentIcon />,
         },
     ];
@@ -72,7 +72,7 @@ export default function FormProjectStep(): JSX.Element {
                     rows={3}
                 />
                 <FormControl>
-                    <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts')}</InputLabel>
+                    <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts.header')}</InputLabel>
                     <Field
                         as={Select}
                         disabled={!editMode}
