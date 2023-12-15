@@ -157,7 +157,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                         .map((system) => (
                             <TableCell key={system}>
                                 <Radio
-                                    color='secondary'
+                                    color='primary'
                                     value={part}
                                     checked={selectedParts[system as keyof ISystems].includes(part)}
                                     onChange={(e) => handleChange(e, system as keyof ISystems)}
@@ -199,17 +199,18 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                 </TableContainer>
             </DialogContent>
             <DialogActions>
-                <Button color="primary" onClick={handleClose}>
-                    {t("ui.button.copyDialog.cancel")}
-                </Button>
                 <Button
-                    color="secondary"
+                    color="success"
+                    variant="outlined"
                     onClick={() => {
                         dispatch(handleCopySystemData({ selectedSystem, selectedParts }))
                         dispatch(openSnackbar({ message: 'Data has been copied' }));
                         handleClose()
                     }}>
                     {t("ui.button.copyDialog.accept")}
+                </Button>
+                <Button color="primary" onClick={handleClose}>
+                    {t("ui.button.copyDialog.cancel")}
                 </Button>
             </DialogActions>
         </Dialog>

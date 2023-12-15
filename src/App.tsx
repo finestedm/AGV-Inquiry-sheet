@@ -79,7 +79,7 @@ function App() {
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={darkMode ? themeDark : theme}>
         <CssBaseline />
-        <Router>
+        <Router basename={process.env.PUBLIC_URL}>
           <div className="App">
             <SimpleSnackbar />
             <DeleteLoadWarningDialog />

@@ -120,7 +120,8 @@ export interface ISystemData {
             width: number;
             length: number;
             equipment: IEquipment[];
-        }
+        },
+        incline: number;
     },
     loads: ILoad[];
     flow: IFlow[];

@@ -125,8 +125,10 @@ export default function Form(): JSX.Element {
   const allSteps = [...constantSteps, ...activeSystemStepNames]
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
-  const handleNext = () => {
+
+  const navigateToStep = (step: string) => {
     const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
+
     if (editMode && elementsWithAriaInvalid.length > 0) {
       const element = elementsWithAriaInvalid[0];
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -134,49 +136,39 @@ export default function Form(): JSX.Element {
       setFadeOut(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => {
-        const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
-        const nextIndex = currentIndex + 1;
-        const nextStep = allSteps[nextIndex];
-        if (nextStep) {
-          navigate(`/${nextStep}`);
-        }
+        navigate(`/${step}`);
         setFadeOut(false);
       }, 500); // Adjust the delay time (in milliseconds) as needed
     }
   };
 
-  const handleBack = () => {
-    setFadeOut(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(() => {
-      const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
-      const prevIndex = currentIndex - 1;
-      const prevStep = allSteps[prevIndex];
-      if (prevStep) {
-        navigate(`/${prevStep}`);
-      }
-      setFadeOut(false);
-    }, 500); // Adjust the delay time (in milliseconds) as needed
-  };
+  const handleNext = () => {
+    const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
+    const nextIndex = currentIndex + 1;
+    const nextStep = allSteps[nextIndex];
 
-  const handleStepClick = (step: string) => {
-    const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
-    if (editMode && elementsWithAriaInvalid.length > 0) {
-      const element = elementsWithAriaInvalid[0];
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-      setFadeOut(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setTimeout(() => {
-        const newPath = `/${step}`;
-        navigate(newPath);
-        setFadeOut(false);
-      }, 500);
+    if (nextStep) {
+      navigateToStep(nextStep);
     }
   };
 
+  const handleBack = () => {
+    const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
+    const prevIndex = currentIndex - 1;
+    const prevStep = allSteps[prevIndex];
+
+    if (prevStep) {
+      navigateToStep(prevStep);
+    }
+  };
+
+  const handleStepClick = (step: string) => {
+    navigateToStep(step);
+  };
+
+
   useEffect(() => {
-    setActiveStepName(location.pathname.split('/')[1]);
+    setActiveStepName(location.pathname.split('/').pop() || '');
   }, [location.pathname]);
 
   if (formData) {
@@ -196,7 +188,7 @@ export default function Form(): JSX.Element {
             <Container component='form' maxWidth='xl'>
               <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
                 <Grid container spacing={6} direction='row'>
-                  <FormStepper mobile={isMobile} activeStep={activeStepName} allSteps={allSteps} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
+                  <FormStepper mobile={isMobile} allSteps={allSteps} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
                   <Grid item xs md={8} lg={9}>
                     <Box className={fadeOut ? 'step fadeout' : 'step'}>
                       <Routes>

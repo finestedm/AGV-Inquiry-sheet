@@ -44,7 +44,7 @@ theme = createTheme({
             main: '#3c464b',
         },
         secondary: {
-            main: '#ffb900',
+            main: '#009697',
         },
         success: {
             main: '#70AE6E',
@@ -53,8 +53,15 @@ theme = createTheme({
             default: '#ffffff'
         },
         info: {
-            main: '#2a7f93'
-        }
+            main: '#009697'
+        },
+        error: {
+            main: '#cc0000'
+        },
+        text: {
+            primary: '#3c464b',
+            secondary: '#636b6e'
+        },
 
     },
     shape: {
@@ -66,7 +73,38 @@ theme = createTheme({
             'Manrope', // Primary font
             'sans-serif',
         ].join(','),
+        h1: {
+            color: '#7b8082',
+            fontWeight: 600,
+            letterSpacing: -1
+        },
+        h2: {
+            color: '#7b8082',
+            fontWeight: 600,
+            letterSpacing: -1
+        },
+        h3: {
+            color: '#7b8082',
+            fontWeight: 600,
+            letterSpacing: -1
+        },
+        h4: {
+            color: '#7b8082',
+            fontWeight: 600,
+            letterSpacing: -1
+        },
+        h5: {
+            color: theme.palette.text.secondary,
+            fontWeight: 600,
+            letterSpacing: -0.75
+        },
+        h6: {
+            color: theme.palette.text.secondary,
+            fontWeight: 500,
+            letterSpacing: -0.5
+        },
     },
+
 
     shadows: [
         "none",
@@ -137,7 +175,7 @@ theme = createTheme({
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    backgroundColor: theme.palette.background.default,
+                    backgroundColor: 'white',
                     borderBottom: `1px solid ${theme.palette.divider}`,
                     boxShadow: 'none'
                 }
@@ -147,21 +185,33 @@ theme = createTheme({
 }
 );
 
+
 export const themeDark = createTheme({
     palette: {
         mode: 'dark',
+        background: {
+            default: '#18191a',
+            paper: '#131515'
+        },
         primary: {
-            main: '#a2cbe0',
+            main: '#ffb900',
         },
         secondary: {
-            main: '#ffb900',
+            main: '#009697',
         },
         success: {
             main: '#94DDBC',
         },
         info: {
-            main: '#006580'
-        }
+            main: '#009697'
+        },
+        error: {
+            main: '#cc0000'
+        },
+        text: {
+            primary: '#eff1f2',
+            secondary: '#7e878a'
+        },
     },
     shape: {
         borderRadius: theme.shape.borderRadius
@@ -172,6 +222,36 @@ export const themeDark = createTheme({
             'Manrope', // Primary font
             'sans-serif',
         ].join(','),
+        h1: {
+            color: '#979d9f',
+            fontWeight: 600,
+            letterSpacing: -1
+        },
+        h2: {
+            color: '#979d9f',
+            fontWeight: 600,
+            letterSpacing: -1
+        },
+        h3: {
+            color: '#979d9f',
+            fontWeight: 600,
+            letterSpacing: -1
+        },
+        h4: {
+            color: '#979d9f',
+            fontWeight: 600,
+            letterSpacing: -1
+        },
+        h5: {
+            color: '#c0c7ca',
+            fontWeight: 600,
+            letterSpacing: -0.75
+        },
+        h6: {
+            color: '#c0c7ca',
+            fontWeight: 500,
+            letterSpacing: -0.5
+        },
     },
 
 
@@ -217,6 +297,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: 'none',
+                    backgroundColor: '#131515',
                     borderBottom: `1px solid ${theme.palette.divider}`,
                 }
             }

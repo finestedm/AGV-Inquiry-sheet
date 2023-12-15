@@ -14,10 +14,10 @@ const validationSchema = Yup.object({
       .email('helperText.customer.contactPersonMail.format')
       .notRequired(),
     industryName: Yup.array().min(1, 'helperText.customer.industryName.number'),
-    relations: Yup.string().required('helperText.customer.relations.number'),
+    relations: Yup.number().required('helperText.customer.relations.number').min(0, 'helperText.customer.relations.number')
   }),
   project: Yup.object({
-    supplyChainParts: Yup.array().min(1, 'helperText.project.industryName.number'),
+    supplyChainParts: Yup.array().required('helperText.project.supplyChainParts.number').min(1, 'helperText.project.supplyChainParts.number'),
     investmentLocation: Yup.string().required('helperText.project.investmentLocation.required'),
     investmentType: Yup.string().required('helperText.project.investmentType.required')
 

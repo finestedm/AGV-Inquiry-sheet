@@ -77,7 +77,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                         <Stack direction='row' justifyContent='space-evenly' alignItems='center' sx={{ p: '.25rem' }}>
                             <Box sx={{ position: 'relative' }} >
                                 <CircularProgress
-                                    sx={{ position: 'absolute', left: 0, color: theme.palette.grey[400] }}
+                                    sx={{ position: 'absolute', left: 0, color: theme.palette.grey[400], opacity: .3 }}
                                     thickness={6}
                                     variant="determinate"
                                     value={100}
@@ -92,12 +92,12 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                             <Stack direction='row'>
                                 <Typography
                                     variant='h4'
-                                    sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.main : theme.palette.primary.main }}
+                                    sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.main : theme.palette.success.main }}
                                 >
                                     {circularValue}
                                 </Typography>
                                 <Typography
-                                    sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.light : theme.palette.primary.light }}
+                                    sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.light : theme.palette.success.light }}
                                 >
                                     h
                                 </Typography>

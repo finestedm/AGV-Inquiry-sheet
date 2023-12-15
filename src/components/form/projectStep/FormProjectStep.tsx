@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, TextFieldProps, ToggleButton, ToggleButtonGroup, Typography, useTheme } from "@mui/material";
+import { Box, Button, ButtonGroup, Checkbox, Chip, FormControl, FormControlLabel, FormGroup, FormHelperText, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, Switch, TextField, TextFieldProps, ToggleButton, ToggleButtonGroup, Typography, useTheme } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { MenuProps } from "../customerStep/FormCustomerStep";
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
@@ -26,23 +26,23 @@ export default function FormProjectStep(): JSX.Element {
 
     const supplyChainParts = [
         {
-            name: t('supplyChainParts.production'),
+            name: t('project.supplyChainParts.production'),
             icon: <PrecisionManufacturingIcon />,
         },
         {
-            name: t('supplyChainParts.storage'),
+            name: t('project.supplyChainParts.storage'),
             icon: <WarehouseIcon />,
         },
         {
-            name: t('supplyChainParts.distribution'),
+            name: t('project.supplyChainParts.distribution'),
             icon: <LocalShippingIcon />,
         },
         {
-            name: t('supplyChainParts.finishedGoods'),
+            name: t('project.supplyChainParts.finishedGoods'),
             icon: <CheckroomIcon />,
         },
         {
-            name: t('supplyChainParts.components'),
+            name: t('project.supplyChainParts.components'),
             icon: <SettingsInputComponentIcon />,
         },
     ];
@@ -72,7 +72,7 @@ export default function FormProjectStep(): JSX.Element {
                     rows={3}
                 />
                 <FormControl>
-                    <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts')}</InputLabel>
+                    <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts.header')}</InputLabel>
                     <Field
                         as={Select}
                         disabled={!editMode}
@@ -83,11 +83,21 @@ export default function FormProjectStep(): JSX.Element {
                         multiple
                         input={<OutlinedInput label={t('project-supplyChainParts')} />}
                         value={formData.project.supplyChainParts}
+                        renderValue={(selected: number[]) => (
+                            <Stack direction="row" spacing={1} >
+                                {selected.map((index) => (
+                                    <Chip
+                                        sx={{ borderRadius: .5 }}
+                                        key={index}
+                                        label={t(`${supplyChainParts[index].name}`)}
+                                    />
+                                ))}
+                            </Stack>
+                        )}
                         onChange={(e: { target: { value: any; }; }) => {
                             dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))
                             formikProps.setFieldValue('project.supplyChainParts', e.target.value);
                         }}
-                        renderValue={(selected: string[]) => selected.join(', ')}
                         MenuProps={MenuProps}
                         error={Boolean(formikProps.errors.project?.supplyChainParts)}
                     >

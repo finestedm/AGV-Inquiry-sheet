@@ -31,12 +31,12 @@ export default function EditModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
             <Collapse sx={{ position: 'absolute', top: -12, left: 0 }} orientation="horizontal" collapsedSize={0}
               in={editMode}
             >
-              <ModeIcon />
+              <ModeIcon color='inherit'/>
             </Collapse>
             <Collapse sx={{ position: 'absolute', top: -12, left: 0 }} orientation="horizontal" collapsedSize={0}
               in={!editMode}
             >
-              <ImageSearchIcon />
+              <ImageSearchIcon color='inherit' />
             </Collapse>
           </Box>
         </ListItemIcon>
@@ -49,6 +49,7 @@ export default function EditModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
         <Button
           variant='text'
           size='small'
+          color='inherit'
           onClick={() => dispatch(setEditMode(!editMode))}
           startIcon={
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
