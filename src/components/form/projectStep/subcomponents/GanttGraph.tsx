@@ -48,10 +48,57 @@ export default function GanttGraph(): JSX.Element {
         setSelectedTask(null);
     }
 
+    function CustomListTable() {
+        return (
+            <TableContainer component={Paper} elevation={1} sx={{ border: 1, borderRight: 0, borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`, borderColor: theme.palette.divider, minWidth: '350px' }} >
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Date Range</TableCell>
+                            {editMode && <TableCell>Edit</TableCell>}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {milestones.map((task) => (
+                            <TableRow
+                            >
+                                <TableCell><Typography fontSize='85%'>{task[0]?.toString()}</Typography></TableCell>
+                                <TableCell>
+                                    <Typography fontSize='85%'>
+
+                                        `${task[3]?.toLocaleString()} - ${task[4]?.toLocaleString()}`
+                                    </Typography>
+                                </TableCell>
+                                {editMode &&
+                                    <TableCell>
+                                        <IconButton
+                                            size='small'
+                                            disabled={isTaskUneditable(task[0] as keyof IMilestones)}
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                    </TableCell>
+                                }
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        );
+    }
+
+
     const milestones = (() => {
         return Object.entries(formData.project.milestones).map(([name, date]) => {
-            const start = new Date(date.start);
-            const end = new Date(date.end);
+            let start = new Date(date.start);
+            let end = new Date(date.end);
+
+            // If start and end dates are the same, add 24 hours to the end date
+            if (start.getTime() === end.getTime()) {
+                end = new Date(end.getTime() + 24 * 60 * 60 * 1000); // Add 24 hours in milliseconds
+            }
+
             return [
                 name,
                 t(`project.milestones.${name}`),
@@ -64,7 +111,8 @@ export default function GanttGraph(): JSX.Element {
             ];
         });
     })();
-    
+
+
     const columns = [
         { type: "string", label: "Task ID" },
         { type: "string", label: "Task Name" },
@@ -81,11 +129,19 @@ export default function GanttGraph(): JSX.Element {
 
     return (
         <Box position='relative' className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} sx={{ borderColor: theme.palette.divider }}>
-            <Chart
-                chartType="Gantt"
-                data={data}
-
-            />
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                    <Chart
+                        chartType="Gantt"
+                        width='100%'
+                        data={data}
+                        options={{ height: 275 }}
+                    />
+                </Grid>
+                <Grid item xs>
+                    <CustomListTable />
+                </Grid>
+            </Grid>
             <Box position='absolute' top='10%' right={25}>
                 <SizeEditButtons columnsWidth={columnsWidth} setColumnWidth={setColumnWidth} viewTaskList={viewTaskList} setViewTaskList={setViewTaskList} viewMode={viewMode} setViewMode={setViewMode} />
             </Box>
