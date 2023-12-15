@@ -156,7 +156,7 @@ export default function FormCustomerStep(): JSX.Element {
             id="customer.relations"
             name='customer.relations'
             input={<OutlinedInput label={t('customer.relations.type')} />}
-            value={formData.customer.relations}
+            value={formData.customer.relations === -1 ? '' : formData.customer.relations}
             onChange={(e: { target: { value: string; }; }) => {
               dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))
               formikProps.setFieldValue('customer.relations', e.target.value);

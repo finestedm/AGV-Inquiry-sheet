@@ -21,7 +21,7 @@
       "creditmanagement": "Wartość kredytu kupieckiego",
       "2": "Klient JH",
       "1": "Nowy klient",
-      "3": "Klient JH kamowy",
+      "3": "Klient JH KAM",
       "4": "Klient konkurencji",
       "input": {
         "forklifts": "Ilość wózków JH",
@@ -218,7 +218,14 @@
   "project": {
     "header": "Informacje o projekcie",
     "goals": "Cele projektu",
-    "supplyChainParts": "Automatyzacja obejmuje:",
+    "supplyChainParts": {
+      "header": "Automatyzacja obejmuje:",
+      "production": "Produkcja",
+      "storage": "Magazynowanie",
+      "distribution": "Dystrybucja",
+      "finishedGoods": "Wyroby gotowe",
+      "components": "Surowce"
+    },
     "milestones": {
       "concept": "Przygotowanie koncepcji",
       "officialOffer": "Data oferty",
