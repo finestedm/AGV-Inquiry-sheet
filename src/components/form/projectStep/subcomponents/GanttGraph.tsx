@@ -96,7 +96,7 @@ export default function GanttGraph(): JSX.Element {
 
             // If start and end dates are the same, add 24 hours to the end date
             if (start.getTime() === end.getTime()) {
-                end = new Date(end.getTime() + 24 * 60 * 60 * 1000); // Add 24 hours in milliseconds
+                end = new Date(end.getTime() + 72 * 60 * 60 * 1000); // Add 24 hours in milliseconds
             }
 
             return [
@@ -130,7 +130,7 @@ export default function GanttGraph(): JSX.Element {
     return (
         <Box position='relative' className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} sx={{ borderColor: theme.palette.divider }}>
             <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} xl={6}>
                     <Chart
                         chartType="Gantt"
                         width='100%'
