@@ -15,6 +15,7 @@ import validationSchema from "../../features/formValidation/formValidation";
 import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors, useFormik } from 'formik'
 import { BrowserRouter as Router, Route, Routes, Navigate, Link, useNavigate, useLocation } from 'react-router-dom';
 import FormSystemStep from "./systemStep/FormSystemStep";
+import FormSummaryStep from "./summaryStep/FormSummaryStep";
 
 
 export default function Form(): JSX.Element {
@@ -105,14 +106,18 @@ export default function Form(): JSX.Element {
         component: <FormASRSStep key="autovna" selectedSystem='autovna' />,
       });
     }
-
+    newSteps.push({
+      label: t('steps.summary'),
+      untranslated: "summary",
+      component: <FormSystemSelectorStep key="summary" />
+    })
     setStepsCombined(newSteps);
   }, [formData, t]);
 
 
   const [activeStepName, setActiveStepName] = useState<string>('sales');
 
-  const constantSteps = ['sales', 'customer', 'project', 'system'];
+  const constantSteps = ['sales', 'customer', 'project', 'system', 'summary'];
   const systemSteps = formData.system;
   const activeSystemSteps = (Object.entries(systemSteps) as [keyof ISystems, ISystemData][])
     .filter(([step, values]) => values.selected)
@@ -207,6 +212,7 @@ export default function Form(): JSX.Element {
                             }
                           />
                         ))}
+                        <Route path="/summary" element={<FormSummaryStep />} />
                         <Route path="/*" element={<FormSalesUnitStep />} />
                       </Routes>
                     </Box>
