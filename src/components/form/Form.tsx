@@ -28,28 +28,7 @@ export default function Form(): JSX.Element {
   const formData = useSelector((state: RootState) => state.formData);
   const editMode = useSelector((state: RootState) => state.editMode);
 
-  const [stepsCombined, setStepsCombined] = useState<{ label: string, untranslated: string, component: React.ReactNode }[]>([
-    {
-      label: t('steps.sales'),
-      untranslated: "sales",
-      component: <FormSalesUnitStep key="sales" />
-    },
-    {
-      label: t('steps.customer'),
-      untranslated: "customer",
-      component: <FormCustomerStep key="customer" />
-    },
-    {
-      label: t('steps.project'),
-      untranslated: "project",
-      component: <FormProjectStep key="project" />
-    },
-    {
-      label: t('steps.system'),
-      untranslated: "system",
-      component: <FormSystemSelectorStep key="system" />
-    }
-  ]);
+  const [stepsCombined, setStepsCombined] = useState<{ label: string, untranslated: string, component: React.ReactNode }[]>([]);
 
   useEffect(() => {
     const newSteps: { label: string, untranslated: string, component: React.ReactNode }[] = [
@@ -127,7 +106,7 @@ export default function Form(): JSX.Element {
     }, {} as Record<keyof ISystems, ISystemData>);
   const activeSystemStepNames = Object.keys(activeSystemSteps);
 
-  const allSteps = [...constantSteps, ...activeSystemStepNames]
+  const allSteps = [...constantSteps.filter(step => step !== 'summary'), ...activeSystemStepNames, 'summary'];
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
 

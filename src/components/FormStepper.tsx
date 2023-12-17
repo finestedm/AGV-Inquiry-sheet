@@ -21,8 +21,6 @@ export default function FormStepper({ mobile, allSteps, handleStepClick, handleB
   const activeStep = location.pathname.split('/').pop();  // Extract the active step from the path
   const activeStepIndex = activeStep ? allSteps.indexOf(activeStep) : 0;
 
-  console.log(activeStep)
-
   if (mobile) {
     return (
       <Box sx={{ display: { xs: 'block', md: 'none' } }}>
