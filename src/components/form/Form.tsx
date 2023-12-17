@@ -85,6 +85,7 @@ export default function Form(): JSX.Element {
         component: <FormASRSStep key="autovna" selectedSystem='autovna' />,
       });
     }
+
     newSteps.push({
       label: t('steps.summary'),
       untranslated: "summary",
@@ -106,7 +107,9 @@ export default function Form(): JSX.Element {
     }, {} as Record<keyof ISystems, ISystemData>);
   const activeSystemStepNames = Object.keys(activeSystemSteps);
 
-  const allSteps = [...constantSteps.filter(step => step !== 'summary'), ...activeSystemStepNames, 'summary'];
+  const allSteps = [...constantSteps.filter(step => step !== 'summary'), ...activeSystemStepNames];
+  Object.values(formData.system).some(system => system.selected) && allSteps.push('summary')  //add summary only if at least one system is selected
+
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
 
