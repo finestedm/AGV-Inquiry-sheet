@@ -11,6 +11,7 @@ import { Field, Form, Formik, FormikProps, useFormikContext } from 'formik'
 import validationSchema from "../../../features/formValidation/formValidation";
 import { IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
+import industries from "../../../data/industries";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -36,18 +37,7 @@ export default function FormCustomerStep(): JSX.Element {
 
   const dispatch = useDispatch();
 
-  const industries: string[] = [
-    t('industry.production'),
-    t('industry.trade'),
-    t('industry.logistics'),
-    t('industry.pharmaceutical'),
-    t('industry.beverage'),
-    t('industry.clothing'),
-    t('industry.chemical'),
-    t('industry.food'),
-    t('industry.automotive'),
-    t('industry.other'),
-  ];
+  const industriesTranslated = industries.map(industry => t(industry))
 
   const [otherIndustry, setOtherIndustry] = useState<string>('')
 
@@ -123,7 +113,7 @@ export default function FormCustomerStep(): JSX.Element {
             error={Boolean(formikProps.errors.customer?.industryName)}
           >
             {industries.map((industry) => (
-              <MenuItem key={industry} value={industries.indexOf(industry)}>
+              <MenuItem key={industry} value={industriesTranslated.indexOf(industry)}>
                 <Checkbox checked={formData.customer.industryName.includes(industries.indexOf(industry))} />
                 <ListItemText primary={industry} />
               </MenuItem>
