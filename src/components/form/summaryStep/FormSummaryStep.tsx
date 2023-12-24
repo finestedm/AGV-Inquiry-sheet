@@ -71,9 +71,19 @@ export default function FormSummaryStep() {
                                 {formData.customer.industryName.map(industry => <Chip sx={{ borderRadius: .5 }} key={industry} label={t(`${industriesTranslated[industry]}`)} />)}
                             </Stack>
                         }
-                        {toBeRendered({ step: 'customer', part: 'relations' }) && t(`customer.relations.${formData.customer.relations}`)}
                     </Typography>
                 </Stack>
+                <Stack spacing={0}>
+                    <Typography>
+                        {toBeRendered({ step: 'customer', part: 'relations' }) && <>{t('customer.relations.type')}: <Typography component='span' fontWeight={700}>{t(`customer.relations.${formData.customer.relations}`)}</Typography></>}<br />
+                        {toBeRendered({ step: 'customer', part: 'salesHistoryValue' }) && <>{t('customer.relations.saleshistoryvalue')}: <Typography component='span' fontWeight={700}>{formData.customer.salesHistoryValue} € / rok</Typography></>}<br />
+                        {toBeRendered({ step: 'customer', part: 'creditManagement' }) && <>{t('customer.relations.creditmanagement')}: <Typography component='span' fontWeight={700}>{formData.customer.creditManagement} PLN brutto</Typography></>}<br />
+                        {toBeRendered({ step: 'customer', part: 'ownedForklifts' }) && <>{t('customer.relations.input.forklifts')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedForklifts}</Typography></>}<br />
+                        {toBeRendered({ step: 'customer', part: 'ownedRacks' }) && <>{t('customer.relations.input.racks')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedRacks}</Typography></>}<br />
+                        {toBeRendered({ step: 'customer', part: 'ownedOther' }) && <>{t('customer.relations.input.other')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedOther}</Typography></>}<br />
+                    </Typography>
+                </Stack>
+
             </Stack>
             <Stack spacing={4}>{selectedSystems.map(system => <SystemAccordion />)}</Stack>
         </Stack>
