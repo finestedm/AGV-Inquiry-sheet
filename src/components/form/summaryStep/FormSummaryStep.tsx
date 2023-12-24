@@ -24,11 +24,15 @@ export default function FormSummaryStep() {
         return formData[step][part] && (!isPartUnchanged({ formData, step, part }))
     }
 
+    function CustomHeaderWithDivider({ headerText }: { headerText: string }) {
+        return <Divider ><Typography variant="h5">{t(`${headerText}`)}</Typography></Divider>
+    }
+
     return (
         <Stack spacing={8} textAlign='left'>
             <Typography variant="h4">{t('summary.header')}</Typography>
             <Stack spacing={2} className='summary-sales'>
-                <Typography variant="h5">{t('sales.header')}</Typography>
+                <CustomHeaderWithDivider headerText='sales.header' />
                 <Stack spacing={0}>
                     <Typography>
                         <Typography fontWeight={700}>
@@ -40,7 +44,7 @@ export default function FormSummaryStep() {
                 </Stack>
             </Stack>
             <Stack spacing={2} className='summary-customer'>
-                <Typography variant="h5">{t('customer.header')}</Typography>
+                <CustomHeaderWithDivider headerText='customer.header' />
                 <Stack spacing={0}>
                     <Typography>
                         <Typography fontWeight={700}>
