@@ -33,6 +33,7 @@ import availableSystems from "../../data/availableSystems";
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../features/redux/reducers/snackBarSlice";
+import isPartUnchanged from "../../features/variousMethods/isPartUnchanged";
 
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
@@ -120,22 +121,10 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
         }
     }
 
-
-
-    function isPartUnchanged(part: keyof ISystemData, systemToCheck?: keyof ISystems) {
-        const systemsToCheck = systemToCheck ? [systemToCheck] : Object.keys(formData.system) as Array<keyof ISystems>;
-
-        return systemsToCheck.every(system => {
-            // the stringify below is needed for some weird reason - when loading localstorage data it is not recognized as the same as initialFormDataState even though it is virtually the same! JS in it's peak
-            return JSON.stringify(formData.system[system][part]) === JSON.stringify(initialFormDataState.system[system][part]);
-        });
-    }
-
-
     function generateTableRows() {
         const dataRows = parts
             .filter((part) => {
-                return !isPartUnchanged(part);
+                return !isPartUnchanged({formData, part});
             })
             .map((part) => (
                 <TableRow key={part}>
@@ -161,7 +150,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                                     value={part}
                                     checked={selectedParts[system as keyof ISystems].includes(part)}
                                     onChange={(e) => handleChange(e, system as keyof ISystems)}
-                                    disabled={isPartUnchanged(part, system) || !formData.system[system].selected}
+                                    disabled={isPartUnchanged({formData, part, systemToCheck: system}) || !formData.system[system].selected}
                                 />
                             </TableCell>
                         ))}

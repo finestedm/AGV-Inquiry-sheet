@@ -4,6 +4,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
 import SystemAccordion from "./subcomponents/SystemAccordion";
+import isPartUnchanged from "../../../features/variousMethods/isPartUnchanged";
+import { IFormData, TPart } from "../../../features/interfaces";
 
 export default function FormSummaryStep() {
     const formData = useSelector((state: RootState) => state.formData)
@@ -13,6 +15,11 @@ export default function FormSummaryStep() {
     const selectedSystems = useSelector((state: RootState) => (
         Object.entries(state.formData.system).filter(([systemName, systemData]) => systemData.selected)
     ));
+
+    function toBeRendered({ part, step }: { part: TPart, step: keyof IFormData }) {
+        //@ts-ignore
+        return formData[step][part] && (!isPartUnchanged({ formData, step, part }))
+    }
 
     return (
         <Stack spacing={8} textAlign='left'>
@@ -24,7 +31,8 @@ export default function FormSummaryStep() {
                         <Typography fontWeight={700}>
                             {formData.sales.salesUnit}
                         </Typography>
-                        {formData.sales.contactPerson}, {formData.sales.contactPersonRole}
+                        {toBeRendered({ step: 'sales', part: 'contactPerson' }) && formData.sales.contactPerson}
+                        {toBeRendered({ step: 'sales', part: 'contactPersonRole' }) && `, ${formData.sales.contactPerson}`}
                     </Typography>
                 </Stack>
             </Stack>
@@ -33,16 +41,22 @@ export default function FormSummaryStep() {
                 <Stack spacing={0}>
                     <Typography>
                         <Typography fontWeight={700}>
-                            {formData.customer.name} <Typography color='text.secondary' component="span">({formData.customer.sapNumber})</Typography>
+                            {toBeRendered({ step: 'customer', part: 'name' }) && formData.customer.name}
+                            {toBeRendered({ step: 'customer', part: 'sapNumber' }) && <Typography color='text.secondary' component="span">{formData.customer.sapNumber}</Typography>}
                         </Typography>
                         {formData.customer.address}
                     </Typography>
                 </Stack>
                 <Stack spacing={0}>
                     <Typography>
-                        <Typography fontWeight={700}>
-                            {formData.customer.contactPerson} <Typography color='text.secondary' component="span">, {formData.customer.contactPersonRole}</Typography>
-                        </Typography>
+                        {toBeRendered({ step: 'customer', part: 'contactPerson' }) &&
+                            <Typography fontWeight={700}>
+                                {formData.customer.contactPerson}
+                                {toBeRendered({ step: 'customer', part: 'contactPersonRole' }) &&
+                                    <Typography color='text.secondary' component="span">, {formData.customer.contactPersonRole}</Typography>
+                                }
+                            </Typography>
+                        }
                         <Link href={`tel:${formData.customer.contactPersonPhone}`}>{formData.customer.contactPersonPhone}</Link>
                         , <Link href={`mailto:${formData.customer.contactPersonMail}`}>{formData.customer.contactPersonMail}</Link>
 

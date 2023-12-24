@@ -141,7 +141,6 @@ export interface IFormData {
     customer: ICustomer;
     project: IProject;
     system: ISystems;
-    // [key: string]: string | object
 }
 
 export interface IMIlestoneDate {
@@ -198,3 +197,15 @@ export interface ExtendedTask extends Task {
     id: keyof IMilestones;
     name: keyof IMilestones
 }
+
+export type TPart = keyof ISystemData | keyof ICustomer | keyof ISales
+
+export type StepToDataType<TStep extends keyof IFormData> = TStep extends 'sales'
+    ? ISales
+    : TStep extends 'customer'
+    ? ICustomer
+    : TStep extends 'project'
+    ? IProject
+    : TStep extends 'system'
+    ? ISystems
+    : never;
