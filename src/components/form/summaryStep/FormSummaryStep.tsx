@@ -71,6 +71,7 @@ export default function FormSummaryStep() {
                                 {formData.customer.industryName.map(industry => <Chip sx={{ borderRadius: .5 }} key={industry} label={t(`${industriesTranslated[industry]}`)} />)}
                             </Stack>
                         }
+                        {toBeRendered({ step: 'customer', part: 'relations' }) && t(`customer.relations.${formData.customer.relations}`)}
                     </Typography>
                 </Stack>
             </Stack>
