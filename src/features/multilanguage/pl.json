@@ -250,10 +250,10 @@
       "additionalInformation": "Inne informacje"
     },
     "investmentLocation": "Lokalizacja inwestycji",
-    "tender": "Inwestycja w formie przetargu?",
-    "consultingCompany": "Prowadzona przez firmę konsultingową?",
-    "competitor": "Inni oferenci?",
-    "invenstmentType": {
+    "tender": "Inwestycja w formie przetargu",
+    "consultingCompany": "Prowadzona przez firmę konsultingową",
+    "competitor": "Inni oferenci",
+    "investmentType": {
       "new": "Nowy projekt",
       "expansion": "Rozbudowa",
       "modification": "Modyfikacja",

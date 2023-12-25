@@ -14,6 +14,7 @@ import { IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
 import WarehouseLayout from "../systemStep/subcomponents/Warehouse";
 import GanttGraph from "./subcomponents/GanttGraph";
+import investmentTypes from "../../../data/investmentType";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -47,13 +48,7 @@ export default function FormProjectStep(): JSX.Element {
         },
     ];
 
-    const investmentTypes = [
-        t('project.invenstmentType.new'),
-        t('project.invenstmentType.expansion'),
-        t('project.invenstmentType.modification'),
-        t('project.invenstmentType.exchange'),
-        t('project.invenstmentType.retrofit'),
-    ];
+    const investmentTypesTranslated = investmentTypes.map(type => t(type))
 
     const existingWMS = [
         t('project.it.existingSystem.label.SAP-WM'),
@@ -181,12 +176,12 @@ export default function FormProjectStep(): JSX.Element {
                         formikProps.setFieldValue('project.investmentType', v);
                     }}
                 >
-                    {investmentTypes.map((investmentType) => (
+                    {investmentTypesTranslated.map((investmentType) => (
                         <ToggleButton
                             sx={{ color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
-                            value={investmentTypes.indexOf(investmentType)}
+                            value={investmentTypesTranslated.indexOf(investmentType)}
                             key={investmentType}
-                            selected={formData.project.investmentType === investmentTypes.indexOf(investmentType)}
+                            selected={formData.project.investmentType === investmentTypesTranslated.indexOf(investmentType)}
                         >
                             {investmentType}
                         </ToggleButton>

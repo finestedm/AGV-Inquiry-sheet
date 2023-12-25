@@ -198,7 +198,7 @@ export interface ExtendedTask extends Task {
     name: keyof IMilestones
 }
 
-export type TPart = keyof ISystemData | keyof ICustomer | keyof ISales
+export type TPart = keyof ISystemData | keyof ICustomer | keyof ISales | keyof IProject;
 
 export type StepToDataType<TStep extends keyof IFormData> = TStep extends 'sales'
     ? ISales
