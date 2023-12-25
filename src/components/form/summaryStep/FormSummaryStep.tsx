@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Chip, Divider, InputLabel, Link, Stack, Typography, useTheme } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Chip, Divider, InputLabel, Link, List, ListItem, Stack, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector } from "react-redux";
@@ -79,15 +79,20 @@ export default function FormSummaryStep() {
                 </Stack>
                 <Stack spacing={0}>
                     <Typography>
-                        {toBeRendered({ step: 'customer', part: 'relations' }) && <>{t('customer.relations.type')}: <Typography component='span' fontWeight={700}>{t(`customer.relations.${formData.customer.relations}`)}</Typography></>}<br />
-                        {toBeRendered({ step: 'customer', part: 'salesHistoryValue' }) && <>{t('customer.relations.saleshistoryvalue')}: <Typography component='span' fontWeight={700}>{formData.customer.salesHistoryValue} € / rok</Typography></>}<br />
-                        {toBeRendered({ step: 'customer', part: 'creditManagement' }) && <>{t('customer.relations.creditmanagement')}: <Typography component='span' fontWeight={700}>{formData.customer.creditManagement} PLN brutto</Typography></>}<br />
-                        {toBeRendered({ step: 'customer', part: 'ownedForklifts' }) && <>{t('customer.relations.input.forklifts')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedForklifts}</Typography></>}<br />
-                        {toBeRendered({ step: 'customer', part: 'ownedRacks' }) && <>{t('customer.relations.input.racks')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedRacks}</Typography></>}<br />
-                        {toBeRendered({ step: 'customer', part: 'ownedOther' }) && <>{t('customer.relations.input.other')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedOther}</Typography></>}<br />
+                        {toBeRendered({ step: 'customer', part: 'relations' }) && <>{t('customer.relations.type')}: <Typography component='span' fontWeight={700}>{t(`customer.relations.${formData.customer.relations}`)}</Typography><br /></>}
+                        {toBeRendered({ step: 'customer', part: 'salesHistoryValue' }) && <>{t('customer.relations.saleshistoryvalue')}: <Typography component='span' fontWeight={700}>{formData.customer.salesHistoryValue} € / rok</Typography><br /></>}
+                        {toBeRendered({ step: 'customer', part: 'creditManagement' }) && <>{t('customer.relations.creditmanagement')}: <Typography component='span' fontWeight={700}>{formData.customer.creditManagement} PLN brutto</Typography><br /></>}
+                        {t('customer.relations.input.owned')}
+                        <ul style={{ margin: 0 }}>
+                            {toBeRendered({ step: 'customer', part: 'ownedForklifts' }) && <li>{t('customer.relations.input.forklifts')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedForklifts}</Typography></ li>}
+                            {toBeRendered({ step: 'customer', part: 'ownedRacks' }) && <li>{t('customer.relations.input.racks')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedRacks}</Typography></ li>}
+                            {toBeRendered({ step: 'customer', part: 'ownedOther' }) && <li>{t('customer.relations.input.other')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedOther}</Typography></ li>}
+                        </ul>
                     </Typography>
                 </Stack>
-
+            </Stack>
+            <Stack spacing={2} className='summary-project'>
+                <CustomHeaderWithDivider headerText='project.header' />
             </Stack>
             <Stack spacing={4}>{selectedSystems.map(system => <SystemAccordion />)}</Stack>
         </Stack>

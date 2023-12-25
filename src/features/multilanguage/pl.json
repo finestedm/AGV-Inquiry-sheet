@@ -24,6 +24,7 @@
       "3": "Klient JH KAM",
       "4": "Klient konkurencji",
       "input": {
+        "owned": "Posiadane wyposażenie magazynu: ",
         "forklifts": "Ilość wózków JH",
         "other": "inne produkty JH",
         "racks": "Ilosć regałów JH"

@@ -104,7 +104,7 @@ export default function FormCustomerStep(): JSX.Element {
                   <Chip
                     sx={{ borderRadius: .5 }}
                     key={index}
-                    label={t(`${industries[index]}`)}
+                    label={t(`${industriesTranslated[index]}`)}
                   />
                 ))}
               </Stack>
@@ -113,7 +113,7 @@ export default function FormCustomerStep(): JSX.Element {
             error={Boolean(formikProps.errors.customer?.industryName)}
           >
             {industries.map((industry) => (
-              <MenuItem key={industry} value={industriesTranslated.indexOf(industry)}>
+              <MenuItem key={industry} value={industries.indexOf(industry)}>
                 <Checkbox checked={formData.customer.industryName.includes(industries.indexOf(industry))} />
                 <ListItemText primary={industry} />
               </MenuItem>
