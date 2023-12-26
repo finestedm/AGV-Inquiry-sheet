@@ -2,7 +2,7 @@ import { AppBar, Box, Button, Card, Container, Grid, MobileStepper, Paper, Step,
 import { useTranslation } from "react-i18next";
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useLocation } from 'react-router-dom';  
+import { useLocation } from 'react-router-dom';
 
 interface FormStepperProps {
   mobile: boolean;
@@ -52,13 +52,11 @@ export default function FormStepper({ mobile, allSteps, handleStepClick, handleB
     return (
       <Grid item xs sx={{ display: { xs: 'none', md: 'block' } }}>
         <Card elevation={1} sx={{ p: 3, position: 'sticky', top: 48 }}>
-          <Stepper activeStep={activeStepIndex || 0} orientation="vertical">
+          <Stepper activeStep={activeStepIndex || 0} orientation="vertical" nonLinear>
             {allSteps.map((label) => (
               <Step key={label}>
                 <StepLabel
                   onClick={() => handleStepClick(label)}
-                  optional={null} // optional prop is required for the StepLabel component
-                  className={label === activeStep ? 'active-step' : ''}
                   sx={{ cursor: 'pointer' }} // Add cursor pointer style
 
                 >

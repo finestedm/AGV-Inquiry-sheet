@@ -38,10 +38,6 @@
   }
 }
 
-.MuiStepLabel-iconContainer.Mui-active svg {
-  color: orange !important
-}
-
 .step {
   animation: fadeIn .5s;
 }
