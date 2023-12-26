@@ -16,6 +16,7 @@ import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors, useFormik
 import { BrowserRouter as Router, Route, Routes, Navigate, Link, useNavigate, useLocation } from 'react-router-dom';
 import FormSystemStep from "./systemStep/FormSystemStep";
 import FormSummaryStep from "./summaryStep/FormSummaryStep";
+import tinycolor from "tinycolor2";
 
 
 export default function Form(): JSX.Element {
@@ -203,12 +204,12 @@ export default function Form(): JSX.Element {
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
                     {activeStepName !== allSteps[0] && (
-                      <Button variant="contained" onClick={handleBack}>
+                      <Button disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 800, letterSpacing: '-0.03rem' }}>
                         {t('ui.button.back')}
                       </Button>
                     )}
                     {activeStepName !== allSteps[allSteps.length - 1] && (
-                      <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}
+                      <Button disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 800, letterSpacing: '-0.03rem', ml: 'auto' }}
                         disabled={editMode && !!Object.keys(formikProps.errors).includes(activeStepName)}
                       >
                         {t('ui.button.next')}
