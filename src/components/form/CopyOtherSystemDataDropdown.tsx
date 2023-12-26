@@ -34,6 +34,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../features/redux/reducers/snackBarSlice";
 import isPartUnchanged from "../../features/variousMethods/isPartUnchanged";
+import tinycolor from "tinycolor2";
 
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
@@ -124,7 +125,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     function generateTableRows() {
         const dataRows = parts
             .filter((part) => {
-                return !isPartUnchanged({formData, part});
+                return !isPartUnchanged({ formData, part });
             })
             .map((part) => (
                 <TableRow key={part}>
@@ -150,7 +151,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                                     value={part}
                                     checked={selectedParts[system as keyof ISystems].includes(part)}
                                     onChange={(e) => handleChange(e, system as keyof ISystems)}
-                                    disabled={isPartUnchanged({formData, part, systemToCheck: system}) || !formData.system[system].selected}
+                                    disabled={isPartUnchanged({ formData, part, systemToCheck: system }) || !formData.system[system].selected}
                                 />
                             </TableCell>
                         ))}
@@ -190,7 +191,8 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
             <DialogActions>
                 <Button
                     color="success"
-                    variant="outlined"
+                    variant="contained"
+                    sx={{ color: tinycolor(theme.palette.success.main).darken(45).toHexString() }}
                     onClick={() => {
                         dispatch(handleCopySystemData({ selectedSystem, selectedParts }))
                         dispatch(openSnackbar({ message: 'Data has been copied' }));
@@ -198,7 +200,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                     }}>
                     {t("ui.button.copyDialog.accept")}
                 </Button>
-                <Button color="primary" onClick={handleClose}>
+                <Button color="primary" variant="outlined" onClick={handleClose}>
                     {t("ui.button.copyDialog.cancel")}
                 </Button>
             </DialogActions>
