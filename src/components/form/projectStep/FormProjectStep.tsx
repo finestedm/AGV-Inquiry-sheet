@@ -15,6 +15,7 @@ import CustomTextField from "../CustomTextField";
 import WarehouseLayout from "../systemStep/subcomponents/Warehouse";
 import GanttGraph from "./subcomponents/GanttGraph";
 import investmentTypes from "../../../data/investmentType";
+import supplyChainParts from "../../../data/supplyChainParts";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -25,25 +26,25 @@ export default function FormProjectStep(): JSX.Element {
     const dispatch = useDispatch();
     const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
 
-    const supplyChainParts = [
+    const supplyChainPartsWithIcon = [
         {
-            name: t('project.supplyChainParts.production'),
+            name: t(`project.supplyChainParts.${supplyChainParts[0]}`),
             icon: <PrecisionManufacturingIcon />,
         },
         {
-            name: t('project.supplyChainParts.storage'),
+            name: t(`project.supplyChainParts.${supplyChainParts[1]}`),
             icon: <WarehouseIcon />,
         },
         {
-            name: t('project.supplyChainParts.distribution'),
+            name: t(`project.supplyChainParts.${supplyChainParts[2]}`),
             icon: <LocalShippingIcon />,
         },
         {
-            name: t('project.supplyChainParts.finishedGoods'),
+            name: t(`project.supplyChainParts.${supplyChainParts[3]}`),
             icon: <CheckroomIcon />,
         },
         {
-            name: t('project.supplyChainParts.components'),
+            name: t(`project.supplyChainParts.${supplyChainParts[4]}`),
             icon: <SettingsInputComponentIcon />,
         },
     ];
@@ -84,7 +85,7 @@ export default function FormProjectStep(): JSX.Element {
                                     <Chip
                                         sx={{ borderRadius: .5 }}
                                         key={index}
-                                        label={t(`${supplyChainParts[index].name}`)}
+                                        label={t(`${supplyChainPartsWithIcon[index].name}`)}
                                     />
                                 ))}
                             </Stack>
@@ -96,9 +97,9 @@ export default function FormProjectStep(): JSX.Element {
                         MenuProps={MenuProps}
                         error={Boolean(formikProps.errors.project?.supplyChainParts)}
                     >
-                        {supplyChainParts.map((supplyChainPart) => (
-                            <MenuItem key={supplyChainPart.name} value={supplyChainParts.indexOf(supplyChainPart)}>
-                                <Checkbox checked={formData.project.supplyChainParts.includes(supplyChainParts.indexOf(supplyChainPart))} />
+                        {supplyChainPartsWithIcon.map((supplyChainPart) => (
+                            <MenuItem key={supplyChainPart.name} value={supplyChainPartsWithIcon.indexOf(supplyChainPart)}>
+                                <Checkbox checked={formData.project.supplyChainParts.includes(supplyChainPartsWithIcon.indexOf(supplyChainPart))} />
                                 <Stack spacing={1} direction='row'>
                                     {supplyChainPart.icon}
                                     <ListItemText primary={supplyChainPart.name} />

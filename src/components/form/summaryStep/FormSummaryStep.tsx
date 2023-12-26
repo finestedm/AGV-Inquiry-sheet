@@ -8,6 +8,7 @@ import isPartUnchanged from "../../../features/variousMethods/isPartUnchanged";
 import { IFormData, TPart } from "../../../features/interfaces";
 import industries from "../../../data/industries";
 import investmentTypes from "../../../data/investmentType";
+import supplyChainParts from "../../../data/supplyChainParts";
 
 export default function FormSummaryStep() {
     const formData = useSelector((state: RootState) => state.formData)
@@ -16,7 +17,7 @@ export default function FormSummaryStep() {
 
     const industriesTranslated = industries.map(industry => t(industry))
     const investmentTypesTranslated = investmentTypes.map(type => t(type))
-
+    const supplyChainPartsTranslated = supplyChainParts.map((part) => t(`project.supplyChainParts.${part}`))
 
     const selectedSystems = useSelector((state: RootState) => (
         Object.entries(state.formData.system).filter(([systemName, systemData]) => systemData.selected)
@@ -94,9 +95,17 @@ export default function FormSummaryStep() {
                     {toBeRendered({ step: 'project', part: 'competitor' }) && <>{t('project.competitor')}<br /></>}
                     {toBeRendered({ step: 'project', part: 'investmentType' }) && <>{t('project.subheader.investmentType')}: <Typography component='span' fontWeight={700}>{investmentTypesTranslated[formData.project.investmentType]}</Typography><br /></>}
 
-
                 </Typography>
+                {toBeRendered({ step: 'customer', part: 'industryName' }) &&
+                    <Stack direction="row" spacing={1} >
+                        {formData.project.supplyChainParts.map(supplyChainPart => <Chip sx={{ borderRadius: .5 }} key={supplyChainPart} label={t(`${supplyChainPartsTranslated[supplyChainPart]}`)} />)}
+                    </Stack>
+                }
             </Stack>
+            <Stack spacing={2} className='summary-it'>
+            <CustomHeaderWithDivider headerText='project.subheader.it' />
+
+                </Stack>
             <Stack spacing={4}>{selectedSystems.map(system => <SystemAccordion />)}</Stack>
         </Stack>
     )
