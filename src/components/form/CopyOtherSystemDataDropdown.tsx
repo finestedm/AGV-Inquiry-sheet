@@ -192,7 +192,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                 <Button
                     color="success"
                     variant="contained"
-                    sx={{ color: tinycolor(theme.palette.success.main).darken(45).toHexString() }}
+                    sx={{ color: tinycolor(theme.palette.success.main).darken(45).toHexString(), fontWeight: 700 }}
                     onClick={() => {
                         dispatch(handleCopySystemData({ selectedSystem, selectedParts }))
                         dispatch(openSnackbar({ message: 'Data has been copied' }));

@@ -34,7 +34,7 @@ export default function DeleteLoadWarningDialog() {
                         variant="contained"
                         color="error"
                         disableElevation
-                        sx={{ color: tinycolor(theme.palette.error.main).lighten(55).toHexString() }}
+                        sx={{ color: tinycolor(theme.palette.error.main).lighten(50).toHexString(), fontWeight: 700 }}
                         onClick={() => {
                             if (deleteLoadDialog.temporarySelectedSystem) {
                                 dispatch(handleDeleteLoad({ updatedLoads: deleteLoadDialog.temporaryUpdatedLoads, selectedSystem: deleteLoadDialog.temporarySelectedSystem }));
