@@ -204,12 +204,12 @@ export default function Form(): JSX.Element {
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
                     {activeStepName !== allSteps[0] && (
-                      <Button disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 800, letterSpacing: '-0.03rem' }}>
+                      <Button disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
                         {t('ui.button.back')}
                       </Button>
                     )}
                     {activeStepName !== allSteps[allSteps.length - 1] && (
-                      <Button disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 800, letterSpacing: '-0.03rem', ml: 'auto' }}
+                      <Button disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
                         disabled={editMode && !!Object.keys(formikProps.errors).includes(activeStepName)}
                       >
                         {t('ui.button.next')}
