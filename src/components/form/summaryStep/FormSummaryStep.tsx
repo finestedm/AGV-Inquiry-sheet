@@ -9,6 +9,7 @@ import { IFormData, TPart } from "../../../features/interfaces";
 import industries from "../../../data/industries";
 import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
+import existingWMSTypes from "../../../data/existingWMSTypes";
 
 export default function FormSummaryStep() {
     const formData = useSelector((state: RootState) => state.formData)
@@ -18,6 +19,7 @@ export default function FormSummaryStep() {
     const industriesTranslated = industries.map(industry => t(industry))
     const investmentTypesTranslated = investmentTypes.map(type => t(type))
     const supplyChainPartsTranslated = supplyChainParts.map((part) => t(`project.supplyChainParts.${part}`))
+    const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
 
     const selectedSystems = useSelector((state: RootState) => (
         Object.entries(state.formData.system).filter(([systemName, systemData]) => systemData.selected)
@@ -101,7 +103,13 @@ export default function FormSummaryStep() {
             </Stack>
             <Stack spacing={2} className='summary-it'>
                 <CustomHeaderWithDivider headerText='project.subheader.it' />
-
+                <Stack spacing={.75}>
+                    {formData.project.it.processesDescription && <Box>{t('project.it.processesDescription')}: <Typography component='span' fontWeight={700}>{formData.project.it.processesDescription}</Typography><br /></Box>}
+                    {formData.project.it.wmsNeeded && <Typography fontWeight={700}>{t('project.it.wmsNeededAlt')}</Typography>}
+                    {formData.project.it.existingSystem.present && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{t(`${existingWMSTypesTranslated[formData.project.it.existingSystem.name]}`)}</Typography></Box>}
+                    {formData.project.it.existingSystem.existingOther && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{formData.project.it.existingSystem.existingOther}</Typography></Box>}
+                    {formData.project.it.additionalInformation && <Box>{t('project.it.additionalInformation')}: <Typography component='span' fontWeight={700}>{formData.project.it.additionalInformation}</Typography><br /></Box>}
+                </Stack>
             </Stack>
             <Stack spacing={4}>{selectedSystems.map(system => <SystemAccordion />)}</Stack>
         </Stack>

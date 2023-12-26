@@ -16,6 +16,7 @@ import WarehouseLayout from "../systemStep/subcomponents/Warehouse";
 import GanttGraph from "./subcomponents/GanttGraph";
 import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
+import existingWMSTypes from "../../../data/existingWMSTypes";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -51,11 +52,7 @@ export default function FormProjectStep(): JSX.Element {
 
     const investmentTypesTranslated = investmentTypes.map(type => t(type))
 
-    const existingWMS = [
-        t('project.it.existingSystem.label.SAP-WM'),
-        t('project.it.existingSystem.label.SAP-EWM'),
-        t('project.it.existingSystem.label.other'),
-    ];
+    const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
 
     return (
         <Stack spacing={8}>
@@ -327,13 +324,13 @@ export default function FormProjectStep(): JSX.Element {
                                 fullWidth
                                 aria-label="existing it system buttons"
                             >
-                                {existingWMS.map((existingSystem) => (
+                                {existingWMSTypesTranslated.map((existingSystem) => (
                                     <ToggleButton
                                         color='primary'
-                                        value={existingWMS.indexOf(existingSystem)}
+                                        value={existingWMSTypesTranslated.indexOf(existingSystem)}
                                         key={existingSystem}
-                                        onClick={() => dispatch(handleInputMethod({ path: 'project.it.existingSystem.name', value: existingWMS.indexOf(existingSystem) }))}
-                                        selected={formData.project.it.existingSystem.name === existingWMS.indexOf(existingSystem)}
+                                        onClick={() => dispatch(handleInputMethod({ path: 'project.it.existingSystem.name', value: existingWMSTypesTranslated.indexOf(existingSystem) }))}
+                                        selected={formData.project.it.existingSystem.name === existingWMSTypesTranslated.indexOf(existingSystem)}
                                     >
                                         {existingSystem}
                                     </ToggleButton>

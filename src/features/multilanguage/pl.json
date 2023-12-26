@@ -238,7 +238,7 @@
       "processesDescription": "Opis procesów",
       "existingSystem": {
         "present": "Czy występuje system WMS?",
-        "name": "Jaki system występuje?",
+        "name": "Istniejący system WMS",
         "existingOther": "Inny",
         "label": {
           "SAP-WM": "SAP-WM",
@@ -247,6 +247,7 @@
         }
       },
       "wmsNeeded": "Czy wymagany jest WMS?",
+      "wmsNeededAlt": "WMS wymagany",
       "additionalInformation": "Inne informacje"
     },
     "investmentLocation": "Lokalizacja inwestycji",
