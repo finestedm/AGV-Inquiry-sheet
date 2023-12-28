@@ -60,7 +60,7 @@ theme = createTheme({
         },
         text: {
             primary: '#3c464b',
-            secondary: '#636b6e'
+            secondary: '#707679'
         },
 
     },

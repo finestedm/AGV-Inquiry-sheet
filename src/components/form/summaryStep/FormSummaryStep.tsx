@@ -15,6 +15,7 @@ export default function FormSummaryStep() {
     const formData = useSelector((state: RootState) => state.formData)
     const { t } = useTranslation();
     const theme = useTheme();
+    const textRowSpacing = 1
 
     const industriesTranslated = industries.map(industry => t(industry))
     const investmentTypesTranslated = investmentTypes.map(type => t(type))
@@ -31,7 +32,27 @@ export default function FormSummaryStep() {
     }
 
     function CustomHeaderWithDivider({ headerText }: { headerText: string }) {
-        return <Divider ><Typography variant="h5">{t(`${headerText}`)}</Typography></Divider>
+        return <Divider><Typography variant="h5">{t(`${headerText}`)}</Typography></Divider>
+    }
+
+    function BoxForTextPair({ keyText, valueText, endText }: { keyText?: string, valueText: string, endText?: string }) {
+        return (
+            <Box display="flex" flexWrap="wrap" alignItems='baseline'>
+                {keyText &&
+                    <Typography marginRight={1} >
+                        {keyText}:
+                    </Typography>
+                }
+                <Typography component='span' fontWeight={700} lineHeight={1.1} minWidth={150}>
+                    {valueText}
+                    {endText &&
+                        <Typography component='span' color='text.secondary' marginLeft={1} >
+                            {endText}
+                        </Typography>
+                    }
+                </Typography>
+            </Box>
+        )
     }
 
     return (
@@ -43,72 +64,74 @@ export default function FormSummaryStep() {
                     <Typography fontWeight={700}>
                         {formData.sales.salesUnit}
                     </Typography>
-                    {toBeRendered({ step: 'sales', part: 'contactPerson' }) && formData.sales.contactPerson}
-                    {toBeRendered({ step: 'sales', part: 'contactPersonRole' }) && `, ${formData.sales.contactPerson}`}
+                    {formData.sales.contactPerson}
+                    <Typography color='text.secondary' component='span'>
+                        {(formData.sales.contactPerson && formData.sales.contactPersonRole) && `, `}
+                        {formData.sales.contactPersonRole && formData.sales.contactPersonRole}
+                    </Typography>
                 </Typography>
             </Stack>
             <Stack spacing={2} className='summary-customer'>
                 <CustomHeaderWithDivider headerText='customer.header' />
-                <Stack spacing={.75}>
-                    <Typography fontWeight={700}>
-                        {toBeRendered({ step: 'customer', part: 'name' }) && formData.customer.name}
-                        {toBeRendered({ step: 'customer', part: 'sapNumber' }) && <Typography color='text.secondary' component="span"> ({formData.customer.sapNumber})</Typography>}
-                    </Typography>
+                <Stack component={Typography} spacing={textRowSpacing}>
+                    {formData.customer.name && <BoxForTextPair valueText={formData.customer.name} endText={`(${formData.customer.sapNumber})`} />}
                     {formData.customer.address}
                 </Stack>
-                <Stack spacing={0}>
+                <Stack component={Typography}>
                     {toBeRendered({ step: 'customer', part: 'contactPerson' }) &&
-                        <Typography fontWeight={700}>
-                            {formData.customer.contactPerson}
-                            {toBeRendered({ step: 'customer', part: 'contactPersonRole' }) &&
-                                <Typography color='text.secondary' component="span">, {formData.customer.contactPersonRole}</Typography>
-                            }
-                        </Typography>
+                        <BoxForTextPair
+                            valueText={formData.customer.contactPerson.toString()}
+                            endText={formData.customer.contactPersonRole.toString()}
+                        />
                     }
                     {toBeRendered({ step: 'customer', part: 'contactPersonPhone' }) && <Link href={`tel:${formData.customer.contactPersonPhone}`}>{formData.customer.contactPersonPhone}</Link>}
                     {toBeRendered({ step: 'customer', part: 'contactPersonMail' }) && <Link href={`mailto:${formData.customer.contactPersonMail}`}>{formData.customer.contactPersonMail}</Link>}
                 </Stack>
-                <Stack spacing={.75}>
-                    {toBeRendered({ step: 'customer', part: 'relations' }) && <Box>{t('customer.relations.type')}: <Typography component='span' fontWeight={700}>{t(`customer.relations.${formData.customer.relations}`)}</Typography><br /></Box>}
-                    {toBeRendered({ step: 'customer', part: 'salesHistoryValue' }) && <Box>{t('customer.relations.saleshistoryvalue')}: <Typography component='span' fontWeight={700}>{formData.customer.salesHistoryValue} € / rok</Typography><br /></Box>}
-                    {toBeRendered({ step: 'customer', part: 'creditManagement' }) && <Box>{t('customer.relations.creditmanagement')}: <Typography component='span' fontWeight={700}>{formData.customer.creditManagement} PLN brutto</Typography><br /></Box>}
-                    {t('customer.relations.input.owned')}
-                    <ul style={{ margin: 0 }}>
-                        {toBeRendered({ step: 'customer', part: 'ownedForklifts' }) && <li>{t('customer.relations.input.forklifts')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedForklifts}</Typography></ li>}
-                        {toBeRendered({ step: 'customer', part: 'ownedRacks' }) && <li>{t('customer.relations.input.racks')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedRacks}</Typography></ li>}
-                        {toBeRendered({ step: 'customer', part: 'ownedOther' }) && <li>{t('customer.relations.input.other')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedOther}</Typography></ li>}
-                    </ul>
-                    {toBeRendered({ step: 'customer', part: 'industryName' }) &&
-                        <Stack direction="row" spacing={1} alignItems='center'>
-                            <Typography>{t('customer.industry')}: </Typography> {formData.customer.industryName.map(industry => <Chip sx={{ borderRadius: .5 }} key={industry} label={t(`${industriesTranslated[industry]}`)} />)}
-                        </Stack>
+                <Stack component={Typography} spacing={textRowSpacing}>
+                    {toBeRendered({ step: 'customer', part: 'relations' }) && <BoxForTextPair keyText={t('customer.relations.type')} valueText={t(`customer.relations.${formData.customer.relations}`)} />}
+                    {formData.customer.salesHistoryValue && <BoxForTextPair keyText={t('customer.relations.saleshistoryvalue')} valueText={formData.customer.salesHistoryValue.toString()} endText="€ / rok" />}
+                    {formData.customer.creditManagement && <BoxForTextPair keyText={t('customer.relations.creditmanagement')} valueText={formData.customer.creditManagement.toString()} endText="PLN / brutto" />}
+                    <Box>
+                        {(formData.customer.ownedForklifts || formData.customer.ownedRacks || formData.customer.ownedOther) && t('customer.relations.input.owned')}
+                        <Box component='ul' style={{ margin: 0 }}>
+                            {formData.customer.ownedForklifts && <li>{t('customer.relations.input.forklifts')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedForklifts}</Typography></ li>}
+                            {formData.customer.ownedRacks && <li>{t('customer.relations.input.racks')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedRacks}</Typography></ li>}
+                            {formData.customer.ownedOther && <li>{t('customer.relations.input.other')}: <Typography component='span' fontWeight={700}>{formData.customer.ownedOther}</Typography></ li>}
+                        </Box>
+                    </Box>
+                    {formData.customer.industryName.length > 0 &&
+                        <Box display="flex" flexWrap="wrap" alignItems='baseline'>
+                            <Typography mr={1}>{t('customer.industry')}: </Typography>
+                            <Stack minWidth={300} direction='row' flex={1} flexWrap="wrap" rowGap={1} >{formData.customer.industryName.map(industry => <Chip sx={{ borderRadius: .5, marginRight: 1 }} key={industry} label={t(`${industriesTranslated[industry]}`)} />)}</Stack>
+                        </Box>
                     }
                 </Stack>
             </Stack>
             <Stack spacing={2} className='summary-project'>
                 <CustomHeaderWithDivider headerText='project.header' />
-                <Stack spacing={.75}>
-                    {toBeRendered({ step: 'project', part: 'goals' }) && <Box>{t('project.goals')}: <Typography component='span'>{formData.project.goals}</Typography><br /></Box>}
-                    {toBeRendered({ step: 'project', part: 'investmentLocation' }) && <Box>{t('project.investmentLocation')}: <Typography component='span' fontWeight={700}>{formData.project.investmentLocation}</Typography><br /></Box>}
-                    {toBeRendered({ step: 'project', part: 'tender' }) && <Box>{t('project.tender')}<br /></Box>}
-                    {toBeRendered({ step: 'project', part: 'consultingCompany' }) && <Box>{t('project.consultingCompany')}<br /></Box>}
-                    {toBeRendered({ step: 'project', part: 'competitor' }) && <Box>{t('project.competitor')}<br /></Box>}
-                    {toBeRendered({ step: 'project', part: 'investmentType' }) && <Box>{t('project.subheader.investmentType')}: <Typography component='span' fontWeight={700}>{investmentTypesTranslated[formData.project.investmentType]}</Typography><br /></Box>}
-                    {toBeRendered({ step: 'project', part: 'supplyChainParts' }) &&
-                        <Stack direction="row" spacing={1} alignItems='center'>
-                            <Typography>{t('project.supplyChainParts.header')}</Typography> {formData.project.supplyChainParts.map(supplyChainPart => <Chip sx={{ borderRadius: .5 }} key={supplyChainPart} label={t(`${supplyChainPartsTranslated[supplyChainPart]}`)} />)}
-                        </Stack>
+                <Stack component={Typography} spacing={textRowSpacing}>
+                    {formData.project.goals && <BoxForTextPair keyText={t('project.goals')} valueText={formData.project.goals} />}
+                    {formData.project.investmentLocation && <BoxForTextPair keyText={t('project.investmentLocation')} valueText={formData.project.investmentLocation} />}
+                    {formData.project.tender && <BoxForTextPair valueText={t('project.tender')} />}
+                    {formData.project.consultingCompany && <BoxForTextPair valueText={t('project.consultingCompany')} />}
+                    {formData.project.competitor && <BoxForTextPair valueText={t('project.competitor')} />}
+                    {formData.project.investmentType !== -1 && <BoxForTextPair keyText={t('project.subheader.investmentType')} valueText={investmentTypesTranslated[formData.project.investmentType]} />}
+                    {formData.project.supplyChainParts.length > 0 &&
+                        <Box display="flex" flexWrap="wrap" alignItems='baseline'>
+                            <Typography mr={1}>{t('project.supplyChainParts.header')}</Typography>
+                            <Stack minWidth={300} direction='row' flex={1} flexWrap="wrap" rowGap={1}>{formData.project.supplyChainParts.map(supplyChainPart => <Chip sx={{ borderRadius: .5, marginRight: 1 }} key={supplyChainPart} label={t(`${supplyChainPartsTranslated[supplyChainPart]}`)} />)}</Stack>
+                        </Box>
                     }
                 </Stack>
             </Stack>
             <Stack spacing={2} className='summary-it'>
                 <CustomHeaderWithDivider headerText='project.subheader.it' />
-                <Stack spacing={.75}>
-                    {formData.project.it.processesDescription && <Box>{t('project.it.processesDescription')}: <Typography component='span' fontWeight={700}>{formData.project.it.processesDescription}</Typography><br /></Box>}
+                <Stack component={Typography} spacing={textRowSpacing}>
+                    {formData.project.it.processesDescription && <Box>{t('project.it.processesDescription')}: <Typography component='span' fontWeight={700}>{formData.project.it.processesDescription}</Typography></Box>}
                     {formData.project.it.wmsNeeded && <Typography fontWeight={700}>{t('project.it.wmsNeededAlt')}</Typography>}
                     {formData.project.it.existingSystem.present && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{t(`${existingWMSTypesTranslated[formData.project.it.existingSystem.name]}`)}</Typography></Box>}
                     {formData.project.it.existingSystem.existingOther && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{formData.project.it.existingSystem.existingOther}</Typography></Box>}
-                    {formData.project.it.additionalInformation && <Box>{t('project.it.additionalInformation')}: <Typography component='span' fontWeight={700}>{formData.project.it.additionalInformation}</Typography><br /></Box>}
+                    {formData.project.it.additionalInformation && <Box>{t('project.it.additionalInformation')}: <Typography component='span' fontWeight={700}>{formData.project.it.additionalInformation}</Typography></Box>}
                 </Stack>
             </Stack>
             <Stack spacing={4}>{selectedSystems.map(system => <SystemAccordion />)}</Stack>
