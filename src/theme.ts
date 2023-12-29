@@ -65,7 +65,7 @@ theme = createTheme({
 
     },
     shape: {
-        borderRadius: theme.shape.borderRadius * 3
+        borderRadius: 1
     },
 
     typography: {
@@ -259,7 +259,7 @@ export const themeDark = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    borderRadius: theme.shape.borderRadius * 10
+                    borderRadius: theme.shape.borderRadius * 100
                 }
             }
         },
