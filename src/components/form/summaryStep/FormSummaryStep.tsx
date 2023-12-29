@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
 import SystemAccordion from "./subcomponents/SystemAccordion";
 import isPartUnchanged from "../../../features/variousMethods/isPartUnchanged";
-import { IFormData, TPart } from "../../../features/interfaces";
+import { IFormData, ISystemData, ISystems, TPart } from "../../../features/interfaces";
 import industries from "../../../data/industries";
 import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
@@ -23,8 +23,10 @@ export default function FormSummaryStep() {
     const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
 
     const selectedSystems = useSelector((state: RootState) => (
-        Object.entries(state.formData.system).filter(([systemName, systemData]) => systemData.selected)
-    ));
+        Object.entries(state.formData.system).filter(
+            ([systemName, systemData]) => systemData.selected
+        )
+    )) as Array<[keyof ISystems, ISystemData]>;
 
     function toBeRendered({ part, step }: { part: TPart, step: keyof IFormData }) {
         //@ts-ignore
@@ -127,14 +129,20 @@ export default function FormSummaryStep() {
             <Stack spacing={2} className='summary-it'>
                 <CustomHeaderWithDivider headerText='project.subheader.it' />
                 <Stack component={Typography} spacing={textRowSpacing}>
-                    {formData.project.it.processesDescription && <Box>{t('project.it.processesDescription')}: <Typography component='span' fontWeight={700}>{formData.project.it.processesDescription}</Typography></Box>}
-                    {formData.project.it.wmsNeeded && <Typography fontWeight={700}>{t('project.it.wmsNeededAlt')}</Typography>}
-                    {(formData.project.it.existingSystem.present && formData.project.it.existingSystem.name !== 2) && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{t(`${existingWMSTypesTranslated[formData.project.it.existingSystem.name]}`)}</Typography></Box>} 
-                    {(formData.project.it.existingSystem.present && formData.project.it.existingSystem.name === 2) && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{formData.project.it.existingSystem.existingOther}</Typography></Box>}
-                    {formData.project.it.additionalInformation && <Box>{t('project.it.additionalInformation')}: <Typography component='span' fontWeight={700}>{formData.project.it.additionalInformation}</Typography></Box>}
+                    {formData.project.it.processesDescription && <BoxForTextPair keyText={t('project.it.processesDescription')} valueText={formData.project.it.processesDescription} />}
+                    {formData.project.it.wmsNeeded && <BoxForTextPair valueText={t('project.it.wmsNeededAlt')} />}
+                    {(formData.project.it.existingSystem.present && formData.project.it.existingSystem.name !== 2) && <BoxForTextPair keyText={t('project.it.existingSystem.name')} valueText={t(`${existingWMSTypesTranslated[formData.project.it.existingSystem.name]}`)} />}
+                    {(formData.project.it.existingSystem.present && formData.project.it.existingSystem.name === 2) && <BoxForTextPair keyText={t('project.it.existingSystem.name')} valueText={formData.project.it.existingSystem.existingOther} />}
+                    {formData.project.it.additionalInformation && <BoxForTextPair keyText={t('project.it.additionalInformation')} valueText={formData.project.it.additionalInformation} />}
                 </Stack>
             </Stack>
-            <Stack spacing={4}>{selectedSystems.map(system => <SystemAccordion />)}</Stack>
+            <Stack spacing={4}>
+                {selectedSystems.map(system =>
+                    <SystemAccordion
+                        systemName={system[0]}
+                    />
+                )}
+            </Stack>
         </Stack>
     )
 }

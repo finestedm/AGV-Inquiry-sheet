@@ -52,7 +52,7 @@
   "steps": {
     "sales": "Jednostka sprzedażowa",
     "customer": "Klient",
-    "system": "System",
+    "system": "Wybór systemu",
     "project": "Projekt",
     "asrs": "ASRS",
     "lrkprk": "LRK / PRK",
