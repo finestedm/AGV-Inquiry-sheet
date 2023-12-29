@@ -24,10 +24,10 @@ export default function SystemAccordion({ systemName }: { systemName: keyof ISys
                 {/* <Divider sx={{ mb: 3 }} /> */}
                 <Typography align='left' >
                     {Object.entries(systemData.workTime).map(([key, value]: [string, number]) => (
-                        <BoxForTextPair keyText={key} valueText={value} />
+                        <BoxForTextPair keyText={`${t(`system.workTime.${key}`)}`} valueText={value} endText="h" />
                     ))}
-                    = {Object.entries(systemData.workTime).reduce((acc, [, value]) => acc * value, 1)} h
-
+                    <Divider />
+                    <BoxForTextPair keyText={`${t(`system.workTime.hoursPerWeek`)}`} valueText={Object.entries(systemData.workTime).reduce((acc, [, value]) => acc * value, 1)} endText="h" />
                 </Typography>
             </AccordionDetails>
         </Accordion>
