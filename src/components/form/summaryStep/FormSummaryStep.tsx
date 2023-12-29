@@ -129,8 +129,8 @@ export default function FormSummaryStep() {
                 <Stack component={Typography} spacing={textRowSpacing}>
                     {formData.project.it.processesDescription && <Box>{t('project.it.processesDescription')}: <Typography component='span' fontWeight={700}>{formData.project.it.processesDescription}</Typography></Box>}
                     {formData.project.it.wmsNeeded && <Typography fontWeight={700}>{t('project.it.wmsNeededAlt')}</Typography>}
-                    {formData.project.it.existingSystem.present && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{t(`${existingWMSTypesTranslated[formData.project.it.existingSystem.name]}`)}</Typography></Box>}
-                    {formData.project.it.existingSystem.existingOther && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{formData.project.it.existingSystem.existingOther}</Typography></Box>}
+                    {(formData.project.it.existingSystem.present && formData.project.it.existingSystem.name !== 2) && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{t(`${existingWMSTypesTranslated[formData.project.it.existingSystem.name]}`)}</Typography></Box>} 
+                    {(formData.project.it.existingSystem.present && formData.project.it.existingSystem.name === 2) && <Box>{t('project.it.existingSystem.name')}: <Typography component='span' fontWeight={700}>{formData.project.it.existingSystem.existingOther}</Typography></Box>}
                     {formData.project.it.additionalInformation && <Box>{t('project.it.additionalInformation')}: <Typography component='span' fontWeight={700}>{formData.project.it.additionalInformation}</Typography></Box>}
                 </Stack>
             </Stack>

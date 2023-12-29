@@ -35,16 +35,11 @@ export default function CustomTextField(props: ICustomFieldProps) {
   };
 
   return (
-    <Field
+   <Field
       as={TextField}
-      fullWidth={fullWidth}
-      multiline={multiline}
-      rows={rows}
+      {...props}
       disabled={disabled || !editMode}
       name={fieldName}
-      required={required}
-      variant="outlined"
-      label={t(`${fieldName}`)}
       value={field.value}
       onChange={handleChange}
       error={errorValue}

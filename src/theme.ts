@@ -210,7 +210,7 @@ export const themeDark = createTheme({
         },
         text: {
             primary: '#eff1f2',
-            secondary: '#7e878a'
+            secondary: '#8e9193'
         },
     },
     shape: {
