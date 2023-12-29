@@ -1,9 +1,13 @@
 import { Accordion, AccordionDetails, AccordionSummary, Card, Divider, Stack, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ISystems } from "../../../../features/interfaces";
+import { ISystemData, ISystems } from "../../../../features/interfaces";
+import BoxForTextPair from "./BoxForTextPair";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../features/redux/store";
 
-export default function SystemAccordion({systemName}: {systemName: keyof ISystems}) {
+export default function SystemAccordion({ systemName }: { systemName: keyof ISystems }) {
+    const systemData = useSelector((state: RootState) => state.formData.system[systemName])
     const { t } = useTranslation();
     const theme = useTheme();
 
@@ -19,7 +23,11 @@ export default function SystemAccordion({systemName}: {systemName: keyof ISystem
             <AccordionDetails>
                 {/* <Divider sx={{ mb: 3 }} /> */}
                 <Typography align='left' >
-                    {t(`system.description`)}
+                    {Object.entries(systemData.workTime).map(([key, value]: [string, number]) => (
+                        <BoxForTextPair keyText={key} valueText={value} />
+                    ))}
+                    = {Object.entries(systemData.workTime).reduce((acc, [, value]) => acc * value, 1)} h
+
                 </Typography>
             </AccordionDetails>
         </Accordion>

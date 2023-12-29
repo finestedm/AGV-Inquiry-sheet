@@ -10,6 +10,7 @@ import industries from "../../../data/industries";
 import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
 import existingWMSTypes from "../../../data/existingWMSTypes";
+import BoxForTextPair from "./subcomponents/BoxForTextPair";
 
 export default function FormSummaryStep() {
     const formData = useSelector((state: RootState) => state.formData)
@@ -35,26 +36,6 @@ export default function FormSummaryStep() {
 
     function CustomHeaderWithDivider({ headerText }: { headerText: string }) {
         return <Divider><Typography variant="h5">{t(`${headerText}`)}</Typography></Divider>
-    }
-
-    function BoxForTextPair({ keyText, valueText, endText }: { keyText?: string, valueText: string, endText?: string }) {
-        return (
-            <Box display="flex" flexWrap="wrap" alignItems='baseline'>
-                {keyText &&
-                    <Typography marginRight={1} >
-                        {keyText}:
-                    </Typography>
-                }
-                <Typography component='span' fontWeight={700} lineHeight={1.1} minWidth={150}>
-                    {valueText}
-                    {endText &&
-                        <Typography component='span' color='text.secondary' marginLeft={1} >
-                            {endText}
-                        </Typography>
-                    }
-                </Typography>
-            </Box>
-        )
     }
 
     return (

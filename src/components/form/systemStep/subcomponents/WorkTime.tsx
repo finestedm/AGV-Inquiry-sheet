@@ -26,7 +26,6 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
     return (
         <Stack spacing={2}>
             <Typography variant="h5" textAlign='left'>{t(`system.subheader.workTime`)}</Typography>
-            {/* {hasOtherSystemStateChanged({ subpart: 'workConditions' }) ? 'yeeees' : 'nooo'} */}
             <Box>
                 <Grid container direction='row' spacing={2}>
                     <Grid item xs={12} sm={4} lg={3}>
