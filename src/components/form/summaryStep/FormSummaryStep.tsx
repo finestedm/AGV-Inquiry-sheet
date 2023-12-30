@@ -11,6 +11,7 @@ import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
 import existingWMSTypes from "../../../data/existingWMSTypes";
 import BoxForTextPair from "./subcomponents/BoxForTextPair";
+import SystemsAccordion from "./subcomponents/SystemAccordion";
 
 export default function FormSummaryStep() {
     const formData = useSelector((state: RootState) => state.formData)
@@ -22,12 +23,6 @@ export default function FormSummaryStep() {
     const investmentTypesTranslated = investmentTypes.map(type => t(type))
     const supplyChainPartsTranslated = supplyChainParts.map((part) => t(`project.supplyChainParts.${part}`))
     const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
-
-    const selectedSystems = useSelector((state: RootState) => (
-        Object.entries(state.formData.system).filter(
-            ([systemName, systemData]) => systemData.selected
-        )
-    )) as Array<[keyof ISystems, ISystemData]>;
 
     function toBeRendered({ part, step }: { part: TPart, step: keyof IFormData }) {
         //@ts-ignore
@@ -117,13 +112,7 @@ export default function FormSummaryStep() {
                     {formData.project.it.additionalInformation && <BoxForTextPair keyText={t('project.it.additionalInformation')} valueText={formData.project.it.additionalInformation} />}
                 </Stack>
             </Stack>
-            <Stack spacing={4}>
-                {selectedSystems.map(system =>
-                    <SystemAccordion
-                        systemName={system[0]}
-                    />
-                )}
-            </Stack>
+            <SystemsAccordion />
         </Stack>
     )
 }

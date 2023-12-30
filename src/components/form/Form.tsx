@@ -18,10 +18,13 @@ import FormSystemStep from "./systemStep/FormSystemStep";
 import FormSummaryStep from "./summaryStep/FormSummaryStep";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { useDispatch } from "react-redux";
+import currentStep, { backStep, nextStep, setCurrentStep } from "../../features/redux/reducers/currentStep";
 
 export default function Form(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -96,9 +99,8 @@ export default function Form(): JSX.Element {
   }, [formData, t]);
 
 
-  const [activeStepName, setActiveStepName] = useState<string>('sales');
-
   const constantSteps = ['sales', 'customer', 'project', 'system', 'summary'];
+  const steps = useSelector((state: RootState) => state.steps)
   const systemSteps = formData.system;
   const activeSystemSteps = (Object.entries(systemSteps) as [keyof ISystems, ISystemData][])
     .filter(([step, values]) => values.selected)
@@ -121,43 +123,42 @@ export default function Form(): JSX.Element {
       const element = elementsWithAriaInvalid[0];
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      setFadeOut(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      setTimeout(() => {
-        navigate(`/${step}`);
-        setFadeOut(false);
-      }, 500); // Adjust the delay time (in milliseconds) as needed
+      dispatch(setCurrentStep(step));
+      setFadeOut(false);
     }
   };
 
   const handleNext = () => {
-    const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
-    const nextIndex = currentIndex + 1;
-    const nextStep = allSteps[nextIndex];
-
-    if (nextStep) {
-      navigateToStep(nextStep);
-    }
+    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) + 1
+    const stepToMove = steps.steps[stepToMoveIndex]
+    navigateToStep(stepToMove)
   };
 
   const handleBack = () => {
-    const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
-    const prevIndex = currentIndex - 1;
-    const prevStep = allSteps[prevIndex];
-
-    if (prevStep) {
-      navigateToStep(prevStep);
-    }
+    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) - 1
+    const stepToMove = steps.steps[stepToMoveIndex]
+    navigateToStep(stepToMove)
   };
 
   const handleStepClick = (step: string) => {
-    navigateToStep(step);
+    dispatch(setCurrentStep(step));
   };
 
+  useEffect(() => {
+    const locationFromURL = location.pathname.split('/').pop() || ''
+    if (steps.currentStep === '') {
+      if (steps.steps.includes(locationFromURL)) {
+        dispatch(setCurrentStep(locationFromURL));
+      } else {
+        dispatch(setCurrentStep(steps.steps[0]));
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    setActiveStepName(location.pathname.split('/').pop() || '');
-  }, [location.pathname]);
+    navigate(`/${steps.currentStep}`);
+  }, [steps.currentStep]);
 
   if (formData) {
     return (
@@ -203,14 +204,14 @@ export default function Form(): JSX.Element {
                 </Grid>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
-                    {activeStepName !== allSteps[0] && (
+                    {steps.currentStep !== allSteps[0] && (
                       <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
                         {t('ui.button.back')}
                       </Button>
                     )}
-                    {activeStepName !== allSteps[allSteps.length - 1] && (
+                    {steps.currentStep !== allSteps[allSteps.length - 1] && (
                       <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
-                        disabled={editMode && !!Object.keys(formikProps.errors).includes(activeStepName)}
+                        disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
                       >
                         {t('ui.button.next')}
                       </Button>
