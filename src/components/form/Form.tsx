@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Card, Checkbox, Container, Fade, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "../FormStepper";
 import FormSalesUnitStep from "./salesUnitStep/FormSalesUnitStep";
@@ -182,7 +182,7 @@ export default function Form(): JSX.Element {
                 <Grid container spacing={6} direction='row'>
                   <FormStepper mobile={isMobile}  handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
                   <Grid item xs md={8} lg={9}>
-                    <Box className={fadeOut ? 'step fadeout' : 'step'}>
+                    <Fade in={!fadeOut}>
                       <Routes>
                         <Route path="/sales" element={<FormSalesUnitStep />} />
                         <Route path="/customer" element={<FormCustomerStep />} />
@@ -202,7 +202,7 @@ export default function Form(): JSX.Element {
                         <Route path="/summary" element={<FormSummaryStep />} />
                         <Route path="/*" element={<FormSalesUnitStep />} />
                       </Routes>
-                    </Box>
+                    </Fade>
                   </Grid>
                 </Grid>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
