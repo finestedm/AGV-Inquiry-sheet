@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, Container, Fade, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Card, Checkbox, Container, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "../FormStepper";
 import FormSalesUnitStep from "./salesUnitStep/FormSalesUnitStep";
@@ -117,7 +117,7 @@ export default function Form(): JSX.Element {
     dispatch(updateSteps(allSteps));
   }, [formData.system])
 
-  const [fadeOut, setFadeOut] = useState<boolean>(false);
+  const [grow, setGrow] = useState<boolean>(true);
 
   const navigateToStep = (step: string) => {
     const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
@@ -127,8 +127,11 @@ export default function Form(): JSX.Element {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      dispatch(setCurrentStep(step));
-      setFadeOut(false);
+      setGrow(false)
+      setTimeout(() => {
+        dispatch(setCurrentStep(step));
+        setGrow(true);
+      }, 300)
     }
   };
 
@@ -145,7 +148,7 @@ export default function Form(): JSX.Element {
   };
 
   const handleStepClick = (step: string) => {
-    dispatch(setCurrentStep(step));
+    navigateToStep(step);
   };
 
   useEffect(() => {
@@ -180,9 +183,9 @@ export default function Form(): JSX.Element {
             <Container component='form' maxWidth='xl'>
               <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
                 <Grid container spacing={6} direction='row'>
-                  <FormStepper mobile={isMobile}  handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
-                  <Grid item xs md={8} lg={9}>
-                    <Fade in={!fadeOut}>
+                  <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
+                  <Grow in={grow}>
+                    <Grid item xs md={8} lg={9}>
                       <Routes>
                         <Route path="/sales" element={<FormSalesUnitStep />} />
                         <Route path="/customer" element={<FormCustomerStep />} />
@@ -202,8 +205,8 @@ export default function Form(): JSX.Element {
                         <Route path="/summary" element={<FormSummaryStep />} />
                         <Route path="/*" element={<FormSalesUnitStep />} />
                       </Routes>
-                    </Fade>
-                  </Grid>
+                    </Grid>
+                  </Grow>
                 </Grid>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
