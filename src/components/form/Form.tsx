@@ -184,7 +184,7 @@ export default function Form(): JSX.Element {
               <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
                 <Grid container spacing={6} direction='row'>
                   <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
-                  <Grow in={grow}>
+                  <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
                     <Grid item xs md={8} lg={9}>
                       <Routes>
                         <Route path="/sales" element={<FormSalesUnitStep />} />
