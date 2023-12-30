@@ -19,7 +19,7 @@ import FormSummaryStep from "./summaryStep/FormSummaryStep";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useDispatch } from "react-redux";
-import currentStep, { backStep, nextStep, setCurrentStep } from "../../features/redux/reducers/currentStep";
+import currentStep, { backStep, initialSteps, nextStep, setCurrentStep, updateSteps } from "../../features/redux/reducers/currentStep";
 
 export default function Form(): JSX.Element {
   const navigate = useNavigate();
@@ -99,7 +99,7 @@ export default function Form(): JSX.Element {
   }, [formData, t]);
 
 
-  const constantSteps = ['sales', 'customer', 'project', 'system', 'summary'];
+  const constantSteps = initialSteps;
   const steps = useSelector((state: RootState) => state.steps)
   const systemSteps = formData.system;
   const activeSystemSteps = (Object.entries(systemSteps) as [keyof ISystems, ISystemData][])
@@ -113,6 +113,9 @@ export default function Form(): JSX.Element {
   const allSteps = [...constantSteps.filter(step => step !== 'summary'), ...activeSystemStepNames];
   Object.values(formData.system).some(system => system.selected) && allSteps.push('summary')  //add summary only if at least one system is selected
 
+  useEffect(() => {
+    dispatch(updateSteps(allSteps));
+  }, [formData.system])
 
   const [fadeOut, setFadeOut] = useState<boolean>(false);
 
@@ -177,7 +180,7 @@ export default function Form(): JSX.Element {
             <Container component='form' maxWidth='xl'>
               <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
                 <Grid container spacing={6} direction='row'>
-                  <FormStepper mobile={isMobile} allSteps={allSteps} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
+                  <FormStepper mobile={isMobile}  handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
                   <Grid item xs md={8} lg={9}>
                     <Box className={fadeOut ? 'step fadeout' : 'step'}>
                       <Routes>

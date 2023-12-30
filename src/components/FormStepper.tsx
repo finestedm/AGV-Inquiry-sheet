@@ -3,19 +3,22 @@ import { useTranslation } from "react-i18next";
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { RootState } from "../features/redux/store";
 
 interface FormStepperProps {
   mobile: boolean;
-  allSteps: string[];
   handleStepClick: (step: string) => void;
   handleBack: () => void;
   handleNext: () => void;
 }
 
 
-export default function FormStepper({ mobile, allSteps, handleStepClick, handleBack, handleNext }: FormStepperProps) {
+export default function FormStepper({ mobile, handleStepClick, handleBack, handleNext }: FormStepperProps) {
   const { t } = useTranslation();
   const theme = useTheme();
+
+  const allSteps = useSelector((state: RootState) => state.steps.steps)
 
   const location = useLocation();  // Use the useLocation hook to get the current path
   const activeStep = location.pathname.split('/').pop();  // Extract the active step from the path
