@@ -20,7 +20,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
     const selectedSystemFlow = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const selectedSystemEquipment = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment);
-    const editMode = useSelector((state: RootState) => state.editMode)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary' ;
     const dispatch = useDispatch();
     const theme = useTheme();
 

@@ -26,7 +26,7 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: key
             <Loads selectedSystem={selectedSystem} />
             {(selectedSystem === 'asrs' || selectedSystem === 'lrkprk' || selectedSystem === 'autovna') && <Capacity selectedSystem={selectedSystem} />}
             {(selectedSystem === ('agv' || 'autovna')) && <Flows selectedSystem={selectedSystem} />}
-            <AdditionalRemarks selectedSystem={selectedSystem} /> 
+            <AdditionalRemarks selectedSystem={selectedSystem} />
         </Stack >
     )
 }

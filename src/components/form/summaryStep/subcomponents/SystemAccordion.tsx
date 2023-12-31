@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Card, Divider, Stack, Typography, useTheme } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Card, Divider, Paper, Stack, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ISystemData, ISystems } from "../../../../features/interfaces";
@@ -23,26 +23,28 @@ export default function SystemsAccordion() {
     return (
         <Stack spacing={2}>
             {selectedSystems.map(system =>
-                < Accordion >
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2a-content"
-                        id="panel2a-header"
-                    >
-                        <Typography variant='h6' align='left' >{t(`steps.${system}`)}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        {/* <Divider sx={{ mb: 3 }} /> */}
-                        {/* <Typography align='left' >
+                <Paper elevation={2}>
+                    < Accordion >
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel2a-content"
+                            id="panel2a-header"
+                        >
+                            <Typography variant='h6' align='left' >{t(`steps.${system}`)}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            {/* <Divider sx={{ mb: 3 }} /> */}
+                            {/* <Typography align='left' >
                             {Object.entries(systemsData[system].workTime).map(([key, value]: [string, number]) => (
                                 <BoxForTextPair keyText={`${t(`system.workTime.${key}`)}`} valueText={value} endText="h" />
                             ))}
                             <Divider />
                             <BoxForTextPair keyText={`${t(`system.workTime.hoursPerWeek`)}`} valueText={Object.entries(systemsData[system].workTime).reduce((acc, [, value]) => acc * value, 1)} endText="h" />
                         </Typography> */}
-                        {<FormSystemStep selectedSystem={system} />}
-                    </AccordionDetails>
-                </Accordion >
+                            {<FormSystemStep selectedSystem={system} />}
+                        </AccordionDetails>
+                    </Accordion >
+                </Paper>
             )}
         </Stack>
     )

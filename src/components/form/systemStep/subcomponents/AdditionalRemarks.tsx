@@ -8,7 +8,9 @@ import CustomTextField from "../../CustomTextField";
 
 export default function AdditionalRemarks({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
-    const editMode = useSelector((state: RootState) => state.editMode)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
+
     const { t } = useTranslation();
 
     return (

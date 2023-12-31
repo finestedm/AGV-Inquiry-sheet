@@ -20,7 +20,8 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
     const divRef = useRef(null)
     const dispatch = useDispatch();
-    const editMode = useSelector((state: RootState) => state.editMode);
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary' ;
     const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
     const warehouseEquipment = warehouseData.equipment;
     const [isMobile, setIsMobile] = useState<boolean>(false)

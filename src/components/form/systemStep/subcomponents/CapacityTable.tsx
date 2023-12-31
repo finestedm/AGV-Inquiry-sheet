@@ -11,7 +11,8 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
     const { t } = useTranslation()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
-    const editMode = useSelector((state: RootState) => state.editMode)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
 
     const rows = selectedSystemLoads.map((load, index) => ({

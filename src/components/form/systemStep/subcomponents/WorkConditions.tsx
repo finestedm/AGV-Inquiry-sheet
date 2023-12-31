@@ -16,7 +16,8 @@ import CustomAlert from "../../../CustomAlert";
 export default function WorkConditions({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData);
-    const editMode = useSelector((state: RootState) => state.editMode)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
@@ -36,7 +37,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                             valueLabelDisplay="auto"
                             min={-30}
                             max={60}
-                            marks={[{ value: -30, label: '-30°C' }, { value: 0, label: '0°C' }, { value: 60, label: '60°C' }]}
+                            marks={[{ value: -30, label: '-30°C' }, { value: -20, label: '-20°C' }, { value: 0, label: '0°C' }, { value: 30, label: '30°C' }, { value: 60, label: '60°C' }]}
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -50,7 +51,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                             valueLabelDisplay="auto"
                             min={0}
                             max={100}
-                            marks={[{ value: 0, label: '0%' }, { value: 100, label: '100%' }]}
+                            marks={[{ value: 0, label: '0%' },{ value: 25, label: '25%' },  { value: 50, label: '50%' }, { value: 75, label: '75%' }, { value: 100, label: '100%' }]}
                         />
                     </Grid>
                     <Grid item xs={12}>

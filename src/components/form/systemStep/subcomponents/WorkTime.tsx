@@ -11,7 +11,9 @@ import { ISystems } from "../../../../features/interfaces";
 export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData);
-    const editMode = useSelector((state: RootState) => state.editMode)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary' ;
+
     const dispatch = useDispatch();
 
     const theme = useTheme();
@@ -39,7 +41,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                             valueLabelDisplay="auto"
                             min={1}
                             max={7}
-                            marks={[{ value: 1, label: '1' }, { value: 7, label: '7' }]}
+                            marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 7, label: '7' }]}
                         />
                     </Grid>
                     <Grid item xs={12} sm={4} lg={3}>
@@ -67,7 +69,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                             valueLabelDisplay="auto"
                             min={1}
                             max={8}
-                            marks={[{ value: 1, label: '1' }, { value: 8, label: '8' }]}
+                            marks={[{ value: 1, label: '1' }, { value: 6, label: '6' }, { value: 8, label: '8' }]}
                         />
                     </Grid>
                     <Grid item xs={12} sm={12} lg={3}>
