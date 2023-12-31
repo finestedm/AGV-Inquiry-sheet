@@ -38,12 +38,12 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
             position="static"
             activeStep={activeStepIndex || 0}
             nextButton={
-              <Button onClick={() => handleNext()}>
+              <Button variant="outlined" color="primary" onClick={() => handleNext()}>
                 <KeyboardArrowRight />
               </Button>
             }
             backButton={
-              <Button onClick={() => handleBack()}>
+              <Button variant="outlined" color="primary" onClick={() => handleBack()}>
                 <KeyboardArrowLeft />
               </Button>
             }
