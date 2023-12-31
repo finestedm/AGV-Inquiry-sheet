@@ -98,6 +98,10 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         const numLinesX = Math.floor(warehouseData.width / 10);
         const numLinesY = Math.floor(warehouseData.length / 10);
 
+        // Display labels for every second line
+        const labelIntervalX = Math.floor(numLinesX / 10) || 1;
+        const labelIntervalY = Math.floor(numLinesY / 10) || 1;
+
         // Generate horizontal grid lines and labels
         for (let i = 1; i < numLinesX; i++) {
             const xPos = i * (canvaDimensions.width / numLinesX);
@@ -111,18 +115,20 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                 />
             );
 
-            // Add text labels at the start of each line
-            labels.push(
-                <Text
-                    key={`labelX${i}`}
-                    x={xPos}
-                    y={canvaDimensions.height - 10}
-                    fontSize={9}
-                    text={`${i * 10}m`}
-                    fill={theme.palette.text.secondary}
-                    align="center"
-                />
-            );
+            // Add text labels at the start of every second line
+            if (i % labelIntervalX === 0) {
+                labels.push(
+                    <Text
+                        key={`labelX${i}`}
+                        x={xPos}
+                        y={canvaDimensions.height - 10}
+                        fontSize={9}
+                        text={`${i * 10}m`}
+                        fill={theme.palette.text.secondary}
+                        align="center"
+                    />
+                );
+            }
         }
 
         // Generate vertical grid lines and labels
@@ -138,23 +144,26 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                 />
             );
 
-            // Add text labels at the start of each line
-            labels.push(
-                <Text
-                    key={`labelY${i}`}
-                    x={5}
-                    y={yPos - 10}
-                    fontSize={9}
-                    text={`${i * 10}m`}
-                    fill={theme.palette.text.secondary}
-                    align="center"
-                />
-            );
+            // Add text labels at the start of every second line
+            if (i % labelIntervalY === 0) {
+                labels.push(
+                    <Text
+                        key={`labelY${i}`}
+                        x={5}
+                        y={yPos - 10}
+                        fontSize={9}
+                        text={`${i * 10}m`}
+                        fill={theme.palette.text.secondary}
+                        align="center"
+                    />
+                );
+            }
         }
 
         // Combine lines and labels into a single array
         return [...lines, ...labels];
     }
+
 
     const [selectedShapeId, setSelectedShapeId] = useState<number | null>(null);
 
