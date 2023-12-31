@@ -8,14 +8,44 @@ import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZer
 import { ISystems } from "../../../../features/interfaces";
 import WarehouseLayout from "./Warehouse";
 import Incline from "./Incline";
+import { useState } from "react";
 
 export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData);
-    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
-    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
+    const editMode = useSelector((state: RootState) => state.editMode)
     const dispatch = useDispatch();
     const { t } = useTranslation();
+
+    const [tempDimensions, setTempDimensions] = useState({
+        width: trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width),
+        length: trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.length),
+    });
+
+    const handleInputChange = (field: 'width' | 'length') => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTempDimensions((prevDimensions) => ({
+            ...prevDimensions,
+            [field]: e.target.value,
+        }));
+    };
+
+    const handleBlur = () => {
+        const newWidth = +tempDimensions.width;
+        const newLength = +tempDimensions.length;
+
+        try {
+            if (newWidth < newLength) {
+                // Swap the values if the condition is met
+                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newLength.toString() }));
+                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newWidth.toString() }));
+            } else {
+                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newWidth.toString() }));
+                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newLength.toString() }));
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    };
 
     return (
         <Stack spacing={2}>
@@ -84,8 +114,9 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                 fullWidth
                                 label={t(`system.building.existingBuilding.width`)}
                                 type="number"
-                                value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width)}
-                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: e.target.value }))}
+                                value={trimLeadingZeros(tempDimensions.width)}
+                                onChange={handleInputChange('width')}
+                                onBlur={handleBlur}
                                 inputProps={{
                                     min: 5,
                                     max: 1000,
@@ -107,8 +138,9 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                 fullWidth
                                 label={t(`system.building.existingBuilding.length`)}
                                 type="number"
-                                value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.length)}
-                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: e.target.value }))}
+                                value={trimLeadingZeros(tempDimensions.length)}
+                                onChange={handleInputChange('length')}
+                                onBlur={handleBlur}
                                 inputProps={{
                                     min: 5,
                                     max: 1000,

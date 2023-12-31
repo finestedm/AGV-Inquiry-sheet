@@ -19,7 +19,7 @@ import FormSummaryStep from "./summaryStep/FormSummaryStep";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useDispatch } from "react-redux";
-import currentStep, { backStep, initialSteps, nextStep, setCurrentStep, updateSteps } from "../../features/redux/reducers/currentStep";
+import currentStep, { backStep, initialSteps, nextStep, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
 
 export default function Form(): JSX.Element {
   const navigate = useNavigate();
@@ -152,9 +152,9 @@ export default function Form(): JSX.Element {
   };
 
   useEffect(() => {
-    const locationFromURL = location.pathname.split('/').pop() || ''
-    if (steps.currentStep === '') {
-      if (steps.steps.includes(locationFromURL)) {
+    const locationFromURL = location.pathname.split('/').pop()
+    if (locationFromURL && steps.currentStep === '') {
+      if (steps.possibleSteps.includes(locationFromURL)) {
         dispatch(setCurrentStep(locationFromURL));
       } else {
         dispatch(setCurrentStep(steps.steps[0]));
