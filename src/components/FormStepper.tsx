@@ -2,7 +2,7 @@ import { AppBar, Box, Button, Card, Container, Grid, MobileStepper, Paper, Step,
 import { useTranslation } from "react-i18next";
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useLocation } from 'react-router-dom';  
+import { useLocation } from 'react-router-dom';
 
 interface FormStepperProps {
   mobile: boolean;
@@ -21,8 +21,6 @@ export default function FormStepper({ mobile, allSteps, handleStepClick, handleB
   const activeStep = location.pathname.split('/').pop();  // Extract the active step from the path
   const activeStepIndex = activeStep ? allSteps.indexOf(activeStep) : 0;
 
-  console.log(activeStep)
-
   if (mobile) {
     return (
       <Box sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -37,12 +35,12 @@ export default function FormStepper({ mobile, allSteps, handleStepClick, handleB
             position="static"
             activeStep={activeStepIndex || 0}
             nextButton={
-              <Button onClick={() => handleNext()}>
+              <Button variant="outlined" color="primary" onClick={() => handleNext()}>
                 <KeyboardArrowRight />
               </Button>
             }
             backButton={
-              <Button onClick={() => handleBack()}>
+              <Button variant="outlined" color="primary" onClick={() => handleBack()}>
                 <KeyboardArrowLeft />
               </Button>
             }
