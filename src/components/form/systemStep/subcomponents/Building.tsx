@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Box, Checkbox, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, Grid, InputAdornment, InputLabel, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
@@ -51,14 +51,14 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
         <Stack spacing={2}>
             <Box><Typography variant="h5" textAlign='left'>{t(`system.subheader.building`)}</Typography></Box>
             <Stack direction='row' alignItems='center'>
-                <Typography>{t(`system.building.existing`)}</Typography>
+                <InputLabel>{t(`system.building.existing`)}</InputLabel>
                 <Switch
                     disabled={!editMode}
                     checked={formData.system[selectedSystem].building.new}
                     onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.new`, value: e.target.checked }))}
                     inputProps={{ 'aria-label': 'controlled' }}
                 />
-                <Typography>{t(`system.building.new`)}</Typography>
+                <InputLabel>{t(`system.building.new`)}</InputLabel>
             </Stack>
             {(selectedSystem === 'agv') &&
                 <Incline selectedSystem={selectedSystem} />
@@ -84,75 +84,81 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                 {!formData.system[selectedSystem].building.silo &&
                     <Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
                         <Grid item xs>
-                            <TextField
-                                disabled={!editMode}
-                                id="system.asrs.building.existingBuilding.height"
-                                fullWidth
-                                label={t(`system.building.existingBuilding.height`)}
-                                type="number"
-                                value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.height)}
-                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.height`, value: e.target.value }))}
-                                inputProps={{
-                                    min: 1,
-                                    max: 30,
-                                }}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            m
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
+                            <Stack spacing={1} textAlign='left'>
+                                <InputLabel>{t(`system.building.existingBuilding.height`)}</InputLabel>
+                                <TextField
+                                    disabled={!editMode}
+                                    id="system.asrs.building.existingBuilding.height"
+                                    fullWidth
+                                    type="number"
+                                    value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.height)}
+                                    onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.height`, value: e.target.value }))}
+                                    inputProps={{
+                                        min: 1,
+                                        max: 30,
+                                    }}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                m
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Stack>
                         </Grid>
                         <Grid item xs={1}>X</Grid>
 
                         <Grid item xs>
-                            <TextField
-                                disabled={!editMode}
-                                id="system.asrs.building.existingBuilding.width"
-                                fullWidth
-                                label={t(`system.building.existingBuilding.width`)}
-                                type="number"
-                                value={trimLeadingZeros(tempDimensions.width)}
-                                onChange={handleInputChange('width')}
-                                onBlur={handleBlur}
-                                inputProps={{
-                                    min: 5,
-                                    max: 1000,
-                                }}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            m
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
+                            <Stack spacing={1} textAlign='left'>
+                                <InputLabel>{t(`system.building.existingBuilding.width`)}</InputLabel>
+                                <TextField
+                                    disabled={!editMode}
+                                    id="system.asrs.building.existingBuilding.width"
+                                    fullWidth
+                                    type="number"
+                                    value={trimLeadingZeros(tempDimensions.width)}
+                                    onChange={handleInputChange('width')}
+                                    onBlur={handleBlur}
+                                    inputProps={{
+                                        min: 5,
+                                        max: 1000,
+                                    }}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                m
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Stack>
                         </Grid>
                         <Grid item xs={1}>X</Grid>
                         <Grid item xs>
-                            <TextField
-                                disabled={!editMode}
-                                id="system.asrs.building.existingBuilding.length"
-                                fullWidth
-                                label={t(`system.building.existingBuilding.length`)}
-                                type="number"
-                                value={trimLeadingZeros(tempDimensions.length)}
-                                onChange={handleInputChange('length')}
-                                onBlur={handleBlur}
-                                inputProps={{
-                                    min: 5,
-                                    max: 1000,
-                                }}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            m
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
+                            <Stack spacing={1} textAlign='left'>
+                                <InputLabel>{t(`system.building.existingBuilding.length`)}</InputLabel>
+                                <TextField
+                                    disabled={!editMode}
+                                    id="system.asrs.building.existingBuilding.length"
+                                    fullWidth
+                                    type="number"
+                                    value={trimLeadingZeros(tempDimensions.length)}
+                                    onChange={handleInputChange('length')}
+                                    onBlur={handleBlur}
+                                    inputProps={{
+                                        min: 5,
+                                        max: 1000,
+                                    }}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                m
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Stack>
                         </Grid>
                         {/* <Box sx={{border: '3px solid black', width: '100%', aspectRatio: formData.system[selectedSystem].building.existingBuilding.length / formData.system[selectedSystem].building.existingBuilding.width}} /> */}
                     </Grid>

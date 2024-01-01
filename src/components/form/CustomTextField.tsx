@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { TextField } from '@mui/material';
+import { InputLabel, Stack, TextField } from '@mui/material';
 import { Field, FieldInputProps, FieldProps, useFormikContext } from 'formik';
 import { useDispatch } from 'react-redux';
 import { handleInputMethod } from '../../features/redux/reducers/formDataSlice';
@@ -35,20 +35,22 @@ export default function CustomTextField(props: ICustomFieldProps) {
   };
 
   return (
-    <Field
-      as={TextField}
-      fullWidth={fullWidth}
-      multiline={multiline}
-      rows={rows}
-      disabled={disabled || !editMode}
-      name={fieldName}
-      required={required}
-      variant="outlined"
-      label={t(`${fieldName}`)}
-      value={field.value}
-      onChange={handleChange}
-      error={errorValue}
-      helperText={helperTextValue}
-    />
+    <Stack spacing={1} textAlign='left'>
+      <InputLabel>{t(`${fieldName}`)}</InputLabel>
+      <Field
+        as={TextField}
+        fullWidth={fullWidth}
+        multiline={multiline}
+        rows={rows}
+        disabled={disabled || !editMode}
+        name={fieldName}
+        required={required}
+        variant="outlined"
+        value={field.value}
+        onChange={handleChange}
+        error={errorValue}
+        helperText={helperTextValue}
+      />
+    </Stack>
   );
 }

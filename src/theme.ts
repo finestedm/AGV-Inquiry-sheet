@@ -161,14 +161,20 @@ theme = createTheme({
         MuiInputBase: {
             styleOverrides: {
                 root: {
-                    minWidth: "12ch", // Customize the minimum width as per your requirement
+                    minWidth: "12ch",
                 },
+                input: {
+                    paddingLeft: "16px !important",
+                    paddingRight: "16px !important",
+                    paddingTop: "13px !important",
+                    paddingBottom: "13px !important"
+                }
             },
         },
         MuiTableCell: {
             styleOverrides: {
                 root: {
-                    padding: '6px 6px', // Adjust the padding as per your requirements
+                    padding: '6px 6px',
                 },
             },
         },
@@ -181,6 +187,14 @@ theme = createTheme({
                 }
             }
         },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    fontSize: 14,
+                    fontWeight: 600
+                }
+            }
+        }
     },
 }
 );
