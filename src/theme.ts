@@ -48,7 +48,7 @@ const infoColor = '#009697'
 const errorColor = '#cc0000'
 const textPrimnaryColor = '#3c464b'
 const textSecondaryColor = '#707679'
-const greyColor = '#F2F2F2'
+const greyColor = '#F5F5F5'
 
 const primaryColorDark = '#ffb900'
 const secondaryColorDark = '#009697'
@@ -190,7 +190,7 @@ theme = createTheme({
         MuiInputBase: {
             styleOverrides: {
                 root: {
-                    minWidth: "12ch",
+                    minWidth: "10ch",
                 },
                 input: {
                     paddingLeft: "16px !important",
@@ -221,6 +221,13 @@ theme = createTheme({
                 root: {
                     fontSize: 14,
                     fontWeight: 600,
+                    textAlign: 'left'
+                }
+            }
+        },
+        MuiAlert: {
+            styleOverrides: {
+                root: {
                     textAlign: 'left'
                 }
             }
@@ -362,6 +369,13 @@ export const themeDark = createTheme({
                 root: {
                     fontSize: 14,
                     fontWeight: 600,
+                    textAlign: 'left'
+                }
+            }
+        },
+        MuiAlert: {
+            styleOverrides: {
+                root: {
                     textAlign: 'left'
                 }
             }

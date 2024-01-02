@@ -107,8 +107,6 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                 />
                             </Stack>
                         </Grid>
-                        <Grid item>X</Grid>
-
                         <Grid item xs>
                             <Stack spacing={1} textAlign='left'>
                                 <InputLabel>{t(`system.building.existingBuilding.width`)}</InputLabel>
@@ -134,7 +132,6 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                 />
                             </Stack>
                         </Grid>
-                        <Grid item>X</Grid>
                         <Grid item xs>
                             <Stack spacing={1} textAlign='left'>
                                 <InputLabel>{t(`system.building.existingBuilding.length`)}</InputLabel>

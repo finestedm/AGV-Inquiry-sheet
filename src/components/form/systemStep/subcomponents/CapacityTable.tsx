@@ -15,6 +15,8 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
 
+    console.log(selectedSystemLoads)
+
     const rows = selectedSystemLoads.map((load, index) => ({
         index: index + 1, // Sequential number starting from 1
         id: load.id,
@@ -62,15 +64,16 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
                             <Grid container alignItems="center  ">
                                 <Grid item mr={1}>
                                     <Typography>
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].name}
+                                        {/* this is needed to that it does not throw an error when filtering updated loads */}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.name ?? ''}
                                     </Typography>
                                 </Grid>
                                 <Grid item>
                                     <Typography fontSize="65%" color="text.secondary" p={0}>
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].length} x{" "}
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].width} x{" "}
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].height},{" "}
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].weightMax} kg
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.length ?? ''} x{" "}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.width ?? ''} x{" "}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.height ?? ''},{" "}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.weightMax ?? ''} kg
                                     </Typography>
                                 </Grid>
                             </Grid>
