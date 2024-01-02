@@ -28,11 +28,13 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
     return (
       <Box sx={{ display: { xs: 'block', md: 'none' } }}>
         <AppBar
+          className="mobile-stepper"
           position="fixed"
           color='default'
           sx={{ top: 'auto', bottom: 0, borderTop: 1, borderColor: theme.palette.divider }}
         >
           <MobileStepper
+            sx={{ backgroundColor: "transparent" }}
             variant="dots" // Use "dots" for dots style, "text" for text label style
             steps={allSteps.length}
             position="static"
