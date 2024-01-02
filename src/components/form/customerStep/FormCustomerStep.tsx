@@ -212,7 +212,6 @@ export default function FormCustomerStep(): JSX.Element {
                     id="customer-relations-other-input"
                     fullWidth
                     disabled={!editMode}
-                    label={t("customer.relations.input.other")}
                     type="text"
                     value={formData.customer.ownedOther}
                     onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedOther', value: e.target.value }))}
