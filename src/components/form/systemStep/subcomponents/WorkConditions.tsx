@@ -27,35 +27,39 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
             <Box>
                 <Grid container direction='row' spacing={2}>
                     <Grid item xs={12} md={6}>
-                        <Stack spacing={1} textAlign='left'>
+                        <Stack spacing={1}>
                             <InputLabel>{t(`system.workConditions.temperature`)}</InputLabel>
-                            <Slider
-                                disabled={!editMode}
-                                sx={{ width: '90%' }}
-                                getAriaLabel={() => 'Temperature range'}
-                                value={formData.system[selectedSystem].workConditions.temperature}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.temperature`, value: v }))}
-                                valueLabelDisplay="auto"
-                                min={-30}
-                                max={60}
-                                marks={[{ value: -30, label: '-30°C' }, { value: 0, label: '0°C' }, { value: 30, label: '30°C' }, { value: 60, label: '60°C' }]}
-                            />
+                            <Box>
+                                <Slider
+                                    disabled={!editMode}
+                                    sx={{ width: '90%' }}
+                                    getAriaLabel={() => 'Temperature range'}
+                                    value={formData.system[selectedSystem].workConditions.temperature}
+                                    onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.temperature`, value: v }))}
+                                    valueLabelDisplay="auto"
+                                    min={-30}
+                                    max={60}
+                                    marks={[{ value: -30, label: '-30°C' }, { value: 0, label: '0°C' }, { value: 30, label: '30°C' }, { value: 60, label: '60°C' }]}
+                                />
+                            </Box>
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Stack spacing={1} textAlign='left'>
+                        <Stack spacing={1}>
                             <InputLabel>{t(`system.workConditions.humidity`)}</InputLabel>
-                            <Slider
-                                disabled={!editMode}
-                                sx={{ width: '90%' }}
-                                getAriaLabel={() => 'Humidity range'}
-                                value={formData.system[selectedSystem].workConditions.humidity}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.humidity`, value: v }))}
-                                valueLabelDisplay="auto"
-                                min={0}
-                                max={100}
-                                marks={[{ value: 0, label: '0%' }, { value: 25, label: '25%' }, { value: 50, label: '50%' }, { value: 75, label: '75%' }, { value: 100, label: '100%' }]}
-                            />
+                            <Box>
+                                <Slider
+                                    disabled={!editMode}
+                                    sx={{ width: '90%' }}
+                                    getAriaLabel={() => 'Humidity range'}
+                                    value={formData.system[selectedSystem].workConditions.humidity}
+                                    onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.humidity`, value: v }))}
+                                    valueLabelDisplay="auto"
+                                    min={0}
+                                    max={100}
+                                    marks={[{ value: 0, label: '0%' }, { value: 25, label: '25%' }, { value: 50, label: '50%' }, { value: 75, label: '75%' }, { value: 100, label: '100%' }]}
+                                />
+                            </Box>
                         </Stack>
                     </Grid>
                     <Grid item xs={12}>

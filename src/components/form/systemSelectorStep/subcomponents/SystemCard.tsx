@@ -33,13 +33,13 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
     };
 
     function generateBackgroundColor(alpha: number) {
-        const rgbValues = hexToRgb(theme.palette.success.main);
+        const rgbValues = hexToRgb(theme.palette.primary.main);
         return `rgba(${rgbValues.join(', ')}, ${alpha})`;
     };
 
     return (
         <Grid item xs={12} md={6}>
-            <Card elevation={2} className={systemSelected ? 'selected-card' : ''} sx={{ borderColor: systemSelected ? theme.palette.success.main : theme.palette.divider, boxShadow: 'none', backgroundColor: systemSelected ? generateBackgroundColor(.025) : theme.palette.background.default }}>
+            <Card elevation={2} className={systemSelected ? 'selected-card' : ''} >
                 <CardActionArea
                     sx={{ position: 'relative' }}
                     disabled={!editMode}
@@ -60,7 +60,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                             boxShadow: theme.shadows[3]
                         }}
                     >
-                        {systemSelected && <CheckCircleIcon sx={{ color: theme.palette.success.main }} />}
+                        {systemSelected && <CheckCircleIcon sx={{ color: theme.palette.primary.light }} />}
                     </div>
                     <CardMedia
                         component="img"
@@ -83,15 +83,15 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                 <CardActions>
                     <Accordion disableGutters elevation={0} sx={{ backgroundColor: 'transparent' }}>
                         <AccordionSummary
-                            expandIcon={<ExpandMoreIcon sx={{ fill: systemSelected ? theme.palette.success.main : theme.palette.text.primary }} />}
+                            expandIcon={<ExpandMoreIcon sx={{ fill: systemSelected ? theme.palette.primary.dark : theme.palette.text.primary }} />}
                             aria-controls="panel2a-content"
                             id="panel2a-header"
                         >
-                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.success.main : theme.palette.text.primary }}>{t(`${system.label}`)}</Typography>
+                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.primary.dark : theme.palette.text.primary }}>{t(`${system.label}`)}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Divider sx={{ mb: 3, borderColor: systemSelected ? theme.palette.success.light : theme.palette.divider  }} />
-                            <Typography align='left' sx={{ color: systemSelected ? theme.palette.success.main : theme.palette.text.secondary }}>
+                            <Divider sx={{ mb: 3, borderColor: systemSelected ? theme.palette.primary.dark : theme.palette.divider }} />
+                            <Typography align='left' sx={{ color: systemSelected ? theme.palette.primary.dark : theme.palette.text.secondary }}>
                                 {t(`${system.description}`)}
                             </Typography>
                         </AccordionDetails>

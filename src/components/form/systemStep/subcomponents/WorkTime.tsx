@@ -31,51 +31,57 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
             <Box>
                 <Grid container direction='row' spacing={2} rowGap={2}>
                     <Grid item xs={12} sm={4} lg={3}>
-                        <Stack spacing={1} textAlign='left'>
+                        <Stack spacing={1}>
                             <InputLabel>{t(`system.workTime.workDays`)}</InputLabel>
-                            <Slider
-                                disabled={!editMode}
-                                sx={{ width: '95%' }}
-                                getAriaLabel={() => 'workDays'}
-                                value={formData.system[selectedSystem].workTime.workDays}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.workDays`, value: v }))}
-                                valueLabelDisplay="auto"
-                                min={1}
-                                max={7}
-                                marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 7, label: '7' }]}
-                            />
+                            <Box>
+                                <Slider
+                                    sx={{ width: '95%' }}
+                                    disabled={!editMode}
+                                    getAriaLabel={() => 'workDays'}
+                                    value={formData.system[selectedSystem].workTime.workDays}
+                                    onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.workDays`, value: v }))}
+                                    valueLabelDisplay="auto"
+                                    min={1}
+                                    max={7}
+                                    marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 7, label: '7' }]}
+                                />
+                            </Box>
                         </Stack>
                     </Grid>
                     <Grid item xs={12} sm={4} lg={3}>
-                        <Stack spacing={1} textAlign='left'>
+                        <Stack spacing={1}>
                             <InputLabel>{t(`system.workTime.shiftsPerDay`)}</InputLabel>
-                            <Slider
-                                disabled={!editMode}
-                                sx={{ width: '95%' }}
-                                getAriaLabel={() => 'shiftsPerDay'}
-                                value={formData.system[selectedSystem].workTime.shiftsPerDay}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.shiftsPerDay`, value: v }))}
-                                valueLabelDisplay="auto"
-                                min={1}
-                                max={3}
-                                marks={[{ value: 1, label: '1' }, { value: 3, label: '3' }]}
-                            />
+                            <Box>
+                                <Slider
+                                    disabled={!editMode}
+                                    sx={{ width: '95%' }}
+                                    getAriaLabel={() => 'shiftsPerDay'}
+                                    value={formData.system[selectedSystem].workTime.shiftsPerDay}
+                                    onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.shiftsPerDay`, value: v }))}
+                                    valueLabelDisplay="auto"
+                                    min={1}
+                                    max={3}
+                                    marks={[{ value: 1, label: '1' }, { value: 3, label: '3' }]}
+                                />
+                            </Box>
                         </Stack>
                     </Grid>
                     <Grid item xs={12} sm={4} lg={3}>
                         <Stack spacing={1} textAlign='left'>
                             <InputLabel>{t(`system.workTime.hoursPerShift`)}</InputLabel>
-                            <Slider
-                                disabled={!editMode}
-                                sx={{ width: '95%' }}
-                                getAriaLabel={() => 'hoursPerShift'}
-                                value={formData.system[selectedSystem].workTime.hoursPerShift}
-                                onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.hoursPerShift`, value: v }))}
-                                valueLabelDisplay="auto"
-                                min={1}
-                                max={8}
-                                marks={[{ value: 1, label: '1' }, { value: 6, label: '6' }, { value: 8, label: '8' }]}
-                            />
+                            <Box>
+                                <Slider
+                                    disabled={!editMode}
+                                    sx={{ width: '95%' }}
+                                    getAriaLabel={() => 'hoursPerShift'}
+                                    value={formData.system[selectedSystem].workTime.hoursPerShift}
+                                    onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.hoursPerShift`, value: v }))}
+                                    valueLabelDisplay="auto"
+                                    min={1}
+                                    max={8}
+                                    marks={[{ value: 1, label: '1' }, { value: 6, label: '6' }, { value: 8, label: '8' }]}
+                                />
+                            </Box>
                         </Stack>
                     </Grid>
                     <Grid item xs={12} sm={12} lg={3}>
