@@ -9,7 +9,7 @@ import { handleIndustryChange, handleInputMethod, initialFormDataState, setFormD
 import trimLeadingZeros from "../../../features/variousMethods/trimLeadingZero";
 import { Field, Form, Formik, FormikProps, useFormikContext } from 'formik'
 import validationSchema from "../../../features/formValidation/formValidation";
-import { IFormData } from "../../../features/interfaces";
+import { ICustomer, IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
 import industries from "../../../data/industries";
 
@@ -25,6 +25,32 @@ export const MenuProps = {
   },
 };
 
+export function ValueInputWithCurrency({ label, key }: { label: string, key: keyof ICustomer }) {
+  const customer = useSelector((state: RootState) => state.formData.customer)
+  const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+  const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
+  const dispatch = useDispatch();
+  return (
+    <Stack spacing={1}>
+      <InputLabel>{label}</InputLabel>
+      <TextField
+        name={key}
+        type="text"
+        disabled={!editMode}
+        value={customer[key] === undefined ? '' : (Number(customer[key])).toLocaleString('en-US').replaceAll(',', ' ')}
+        onChange={(e) => {
+          const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
+          hasDigits && dispatch(handleInputMethod({ path: 'customer.salesHistoryValue', value: e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, '') }));
+        }}
+        InputProps={{
+          // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
+          endAdornment: <InputAdornment position="end">€ / rok</InputAdornment>,
+        }}
+      />
+    </Stack>
+  )
+}
+
 export default function FormCustomerStep(): JSX.Element {
 
   const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
@@ -33,7 +59,8 @@ export default function FormCustomerStep(): JSX.Element {
   const theme = useTheme();
 
   const formData = useSelector((state: RootState) => state.formData);
-  const editMode = useSelector((state: RootState) => state.editMode)
+  const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+  const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
 
   const dispatch = useDispatch();
 
@@ -221,40 +248,9 @@ export default function FormCustomerStep(): JSX.Element {
             </Grid>
           </Box>
         }
-        <Stack spacing={1}>
-          <InputLabel>{t("customer.relations.saleshistoryvalue")}</InputLabel>
-          <TextField
-            name="customer.salesHistoryValue"
-            type="text"
-            disabled={!editMode}
-            value={formData.customer.salesHistoryValue === undefined ? '' : (Number(formData.customer.salesHistoryValue)).toLocaleString('en-US').replaceAll(',', ' ')}
-            onChange={(e) => {
-              const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
-              hasDigits && dispatch(handleInputMethod({ path: 'customer.salesHistoryValue', value: e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, '') }));
-            }}
-            InputProps={{
-              // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
-              endAdornment: <InputAdornment position="end">€ / rok</InputAdornment>,
-            }}
-          />
-        </Stack>
-        <Stack spacing={1}>
-          <InputLabel>{t("customer.relations.creditmanagement")}</InputLabel>
-          <TextField
-            name="customer.creditmanagement"
-            type="text"
-            disabled={!editMode}
-            value={formData.customer.creditManagement === undefined ? '' : (Number(formData.customer.creditManagement)).toLocaleString('en-US').replaceAll(',', ' ')}
-            onChange={(e) => {
-              const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
-              hasDigits && dispatch(handleInputMethod({ path: 'customer.creditManagement', value: e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, '') }));
-            }}
-            InputProps={{
-              // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
-              endAdornment: <InputAdornment position="end">PLN brutto</InputAdornment>,
-            }}
-          />
-        </Stack>
+        <ValueInputWithCurrency key='salesHistoryValue' label={`${t("customer.relations.saleshistoryvalue")}`} />
+        <ValueInputWithCurrency key='creditManagement' label={`${t("customer.relations.creditmanagement")}`} />
+
       </Stack>
     </Stack >
   )
