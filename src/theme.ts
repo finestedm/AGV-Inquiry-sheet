@@ -48,7 +48,7 @@ const infoColor = '#009697'
 const errorColor = '#cc0000'
 const textPrimnaryColor = '#3c464b'
 const textSecondaryColor = '#707679'
-const greyColor = '#ebebeb'
+const greyColor = '#F2F2F2'
 
 const primaryColorDark = '#ffb900'
 const secondaryColorDark = '#009697'
@@ -73,7 +73,7 @@ theme = createTheme({
         },
         background: {
             default: backgroundColor,
-            paper: greyColor
+            paper: backgroundColor,
         },
         info: {
             main: infoColor
