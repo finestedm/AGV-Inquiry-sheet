@@ -64,48 +64,51 @@ export default function FormProjectStep(): JSX.Element {
                     multiline
                     rows={3}
                 />
-                <FormControl>
+                <Stack spacing={1}>
                     <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts.header')}</InputLabel>
-                    <Field
-                        as={Select}
-                        disabled={!editMode}
-                        required
-                        labelId="project.supplyChainParts.label"
-                        id="project.supplyChainParts"
-                        name="project.supplyChainParts"
-                        multiple
-                        input={<OutlinedInput label={t('project-supplyChainParts')} />}
-                        value={formData.project.supplyChainParts}
-                        renderValue={(selected: number[]) => (
-                            <Stack direction="row" spacing={1} >
-                                {selected.map((index) => (
-                                    <Chip
-                                        sx={{ borderRadius: .5 }}
-                                        key={index}
-                                        label={t(`${supplyChainPartsWithIcon[index].name}`)}
-                                    />
-                                ))}
-                            </Stack>
-                        )}
-                        onChange={(e: { target: { value: any; }; }) => {
-                            dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))
-                            formikProps.setFieldValue('project.supplyChainParts', e.target.value);
-                        }}
-                        MenuProps={MenuProps}
-                        error={Boolean(formikProps.errors.project?.supplyChainParts)}
-                    >
-                        {supplyChainPartsWithIcon.map((supplyChainPart) => (
-                            <MenuItem key={supplyChainPart.name} value={supplyChainPartsWithIcon.indexOf(supplyChainPart)}>
-                                <Checkbox checked={formData.project.supplyChainParts.includes(supplyChainPartsWithIcon.indexOf(supplyChainPart))} />
-                                <Stack spacing={1} direction='row'>
-                                    {supplyChainPart.icon}
-                                    <ListItemText primary={supplyChainPart.name} />
+                    <FormControl>
+                        <Field
+                            as={Select}
+                            disabled={!editMode}
+                            required
+                            labelId="project.supplyChainParts.label"
+                            id="project.supplyChainParts"
+                            name="project.supplyChainParts"
+                            multiple
+                            input={<OutlinedInput />}
+                            value={formData.project.supplyChainParts}
+                            renderValue={(selected: number[]) => (
+                                <Stack direction="row" spacing={1} >
+                                    {selected.map((index) => (
+                                        <Chip
+                                            sx={{ borderRadius: .5 }}
+                                            key={index}
+                                            label={t(`${supplyChainPartsWithIcon[index].name}`)}
+                                        />
+                                    ))}
                                 </Stack>
-                            </MenuItem>
-                        ))}
-                        {formikProps.touched.project?.supplyChainParts && formikProps.errors.project?.supplyChainParts && <FormHelperText error>{t(`${formikProps.errors.project?.supplyChainParts}`)}</ FormHelperText>}
-                    </Field>
-                </FormControl>
+                            )}
+                            onChange={(e: { target: { value: any; }; }) => {
+                                dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))
+                                formikProps.setFieldValue('project.supplyChainParts', e.target.value);
+                            }}
+                            MenuProps={MenuProps}
+                            error={Boolean(formikProps.errors.project?.supplyChainParts)}
+                        >
+                            {supplyChainPartsWithIcon.map((supplyChainPart) => (
+                                <MenuItem key={supplyChainPart.name} value={supplyChainPartsWithIcon.indexOf(supplyChainPart)}>
+                                    <Checkbox checked={formData.project.supplyChainParts.includes(supplyChainPartsWithIcon.indexOf(supplyChainPart))} />
+                                    <Stack spacing={1} direction='row'>
+                                        {supplyChainPart.icon}
+                                        <ListItemText primary={supplyChainPart.name} />
+                                    </Stack>
+                                </MenuItem>
+                            ))}
+                            {formikProps.touched.project?.supplyChainParts && formikProps.errors.project?.supplyChainParts && <FormHelperText error>{t(`${formikProps.errors.project?.supplyChainParts}`)}</ FormHelperText>}
+                        </Field>
+                    </FormControl>
+                </Stack>
+
                 <CustomTextField
                     required
                     fieldName="project.investmentLocation"

@@ -36,7 +36,7 @@ export default function CustomTextField(props: ICustomFieldProps) {
 
   return (
     <Stack spacing={1} textAlign='left'>
-      <InputLabel>{t(`${fieldName}`)}</InputLabel>
+      <InputLabel required={required}>{t(`${fieldName}`)}</InputLabel>
       <Field
         as={TextField}
         fullWidth={fullWidth}

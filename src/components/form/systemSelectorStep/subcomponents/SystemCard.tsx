@@ -83,15 +83,15 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                 <CardActions>
                     <Accordion disableGutters elevation={0} sx={{ backgroundColor: 'transparent' }}>
                         <AccordionSummary
-                            expandIcon={<ExpandMoreIcon sx={{ fill: systemSelected ? theme.palette.primary.dark : theme.palette.text.primary }} />}
+                            expandIcon={<ExpandMoreIcon sx={{ fill: systemSelected ? theme.palette.background.paper : theme.palette.text.primary }} />}
                             aria-controls="panel2a-content"
                             id="panel2a-header"
                         >
-                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.primary.dark : theme.palette.text.primary }}>{t(`${system.label}`)}</Typography>
+                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.background.paper : theme.palette.text.primary }}>{t(`${system.label}`)}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Divider sx={{ mb: 3, borderColor: systemSelected ? theme.palette.primary.dark : theme.palette.divider }} />
-                            <Typography align='left' sx={{ color: systemSelected ? theme.palette.primary.dark : theme.palette.text.secondary }}>
+                            <Divider sx={{ mb: 3, borderColor: systemSelected ? theme.palette.background.paper : theme.palette.divider }} />
+                            <Typography align='left' sx={{ color: systemSelected ? theme.palette.background.paper : theme.palette.text.secondary }}>
                                 {t(`${system.description}`)}
                             </Typography>
                         </AccordionDetails>

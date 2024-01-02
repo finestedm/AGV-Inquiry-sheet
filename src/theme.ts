@@ -172,6 +172,7 @@ theme = createTheme({
                     borderWidth: 1,
                     borderColor: 'transparent',
                     backgroundColor: greyColor,
+                    color: infoColor,
                     '&.selected-card': {
                         borderColor: tinycolor(secondaryColor).toRgbString(),
                         backgroundColor: tinycolor(primaryColor).toRgbString(),
@@ -219,7 +220,8 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     fontSize: 14,
-                    fontWeight: 600
+                    fontWeight: 600,
+                    textAlign: 'left'
                 }
             }
         }

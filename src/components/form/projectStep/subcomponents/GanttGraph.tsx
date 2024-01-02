@@ -72,7 +72,7 @@ export default function GanttGraph(): JSX.Element {
 
         const theme = useTheme();
         return (
-            <TableContainer component={Paper} elevation={1} sx={{ border: 1, borderRight: 0, borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`, borderColor: theme.palette.divider, minWidth: '350px' }} >
+            <TableContainer component={Box} sx={{ border: 1, borderRight: 0, borderRadius: `${theme.shape.borderRadius}px 0 0 ${theme.shape.borderRadius}px`, borderColor: theme.palette.divider, minWidth: '350px' }} >
                 <Table>
                     <TableHead sx={{ height: rowHeight }}>
                         <TableRow>

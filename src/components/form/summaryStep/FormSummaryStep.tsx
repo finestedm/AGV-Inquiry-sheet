@@ -52,7 +52,7 @@ export default function FormSummaryStep() {
             <Stack spacing={2} className='summary-customer'>
                 <CustomHeaderWithDivider headerText='customer.header' />
                 <Stack component={Typography} spacing={textRowSpacing}>
-                    {formData.customer.name && <BoxForTextPair valueText={formData.customer.name} endText={`(${formData.customer.sapNumber})`} />}
+                    {formData.customer.name && <BoxForTextPair valueText={formData.customer.name} endText={`${formData.customer.sapNumber && `(${formData.customer.sapNumber})`}`} />}
                     {formData.customer.address}
                 </Stack>
                 <Stack component={Typography}>
