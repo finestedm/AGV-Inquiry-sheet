@@ -6,7 +6,7 @@ import generateRandomId from '../../variousMethods/generateRandomId';
 
 const initialFormDataState: IFormData = {
 
-    version: '231022beta',
+    version: '240102beta',
     sales: {
         salesUnit: 'S1-PL',
         contactPerson: '',
