@@ -32,6 +32,7 @@ export interface ICustomer {
     ownedRacks: number | undefined;
     ownedOther: string;
     creditManagement: number | undefined;
+    currency: 'EUR' | 'PLN'
 }
 
 export interface IProject {

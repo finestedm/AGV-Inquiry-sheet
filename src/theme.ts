@@ -235,6 +235,16 @@ theme = createTheme({
                     textAlign: 'left'
                 }
             }
+        },
+        MuiMobileStepper: {
+            styleOverrides: {
+                dotActive: {
+                    // Your custom styles for the active dot
+                    width: 20,
+                    borderRadius: 1000
+
+                },
+            },
         }
     },
 }
@@ -387,6 +397,15 @@ export const themeDark = createTheme({
                     textAlign: 'left'
                 }
             }
+        },
+        MuiMobileStepper: {
+            styleOverrides: {
+                dotActive: {
+                    // Your custom styles for the active dot
+                    width: 20,
+                    borderRadius: 1000
+                },
+            },
         }
     },
 }

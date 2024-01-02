@@ -148,10 +148,3 @@
 .css-ql19fo-MuiDataGrid-overlayWrapper {
   z-index: 0 !important;
 }
-
-/* Mobile stepper width of the active step dot */
-.css-1fvznae-MuiMobileStepper-dot,
-.css-kmw4ok-MuiMobileStepper-dot {
-  width: 20px !important;
-  border-radius: 100rem !important;
-}

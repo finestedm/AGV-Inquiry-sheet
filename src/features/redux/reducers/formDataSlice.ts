@@ -27,6 +27,7 @@ const initialFormDataState: IFormData = {
         ownedRacks: undefined,
         ownedOther: '',
         creditManagement: undefined,
+        currency: 'EUR'
     },
     project: {
         goals: '',
