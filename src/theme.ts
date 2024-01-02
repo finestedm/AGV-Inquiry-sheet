@@ -214,7 +214,7 @@ theme = createTheme({
                     borderBottom: `1px solid ${theme.palette.divider}`,
                     boxShadow: 'none',
                     '&.mobile-stepper': {
-                        backgroundColor: '#ffffff55',
+                        backgroundColor: '#ffffffAA',
                         backdropFilter: 'blur(5px)'
                     }
                 }
@@ -366,7 +366,7 @@ export const themeDark = createTheme({
                     backgroundColor: '#131515',
                     borderBottom: `1px solid ${theme.palette.divider}`,
                     '&.mobile-stepper': {
-                        backgroundColor: '#13151544',
+                        backgroundColor: '#131515AA',
                         backdropFilter: 'blur(5px)'
                     }
                 }
