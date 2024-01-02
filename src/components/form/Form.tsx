@@ -152,15 +152,17 @@ export default function Form(): JSX.Element {
   };
 
   useEffect(() => {
-    const locationFromURL = location.pathname.split('/').pop()
-    if (locationFromURL && steps.currentStep === '') {
-      if (steps.possibleSteps.includes(locationFromURL)) {
-        dispatch(setCurrentStep(locationFromURL));
-      } else {
-        dispatch(setCurrentStep(steps.steps[0]));
-      }
+    console.log(steps.currentStep)
+  }, [steps.currentStep])
+
+  useEffect(() => {
+    const locationFromURL = location.pathname.split('/').pop() || ''
+    if (steps.possibleSteps.includes(locationFromURL)) {
+      dispatch(setCurrentStep(locationFromURL));
+    } else {
+      dispatch(setCurrentStep(steps.steps[0]));
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     navigate(`/${steps.currentStep}`);
