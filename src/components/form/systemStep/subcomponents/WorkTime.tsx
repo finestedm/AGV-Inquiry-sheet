@@ -67,7 +67,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                         </Stack>
                     </Grid>
                     <Grid item xs={12} sm={4} lg={3}>
-                        <Stack spacing={1} textAlign='left'>
+                        <Stack spacing={1}>
                             <InputLabel>{t(`system.workTime.hoursPerShift`)}</InputLabel>
                             <Box>
                                 <Slider
