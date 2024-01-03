@@ -12,6 +12,7 @@ import validationSchema from "../../../features/formValidation/formValidation";
 import { ICustomer, IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
 import industries from "../../../data/industries";
+import { DoubleInputWithCurrency } from "./subcomponents/DoubleInputWtihCurrency";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -24,32 +25,6 @@ export const MenuProps = {
     },
   },
 };
-
-export function ValueInputWithCurrency({ label, key }: { label: string, key: keyof ICustomer }) {
-  const customer = useSelector((state: RootState) => state.formData.customer)
-  const currentStep = useSelector((state: RootState) => state.steps.currentStep);
-  const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
-  const dispatch = useDispatch();
-  return (
-    <Stack spacing={1}>
-      <InputLabel>{label}</InputLabel>
-      <TextField
-        name={key}
-        type="text"
-        disabled={!editMode}
-        value={customer[key] === undefined ? '' : (Number(customer[key])).toLocaleString('en-US').replaceAll(',', ' ')}
-        onChange={(e) => {
-          const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
-          hasDigits && dispatch(handleInputMethod({ path: 'customer.salesHistoryValue', value: e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, '') }));
-        }}
-        InputProps={{
-          // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
-          endAdornment: <InputAdornment position="end">€ / rok</InputAdornment>,
-        }}
-      />
-    </Stack>
-  )
-}
 
 export default function FormCustomerStep(): JSX.Element {
 
@@ -248,9 +223,8 @@ export default function FormCustomerStep(): JSX.Element {
             </Grid>
           </Box>
         }
-        <ValueInputWithCurrency key='salesHistoryValue' label={`${t("customer.relations.saleshistoryvalue")}`} />
-        <ValueInputWithCurrency key='creditManagement' label={`${t("customer.relations.creditmanagement")}`} />
-
+        <DoubleInputWithCurrency inputKey='salesHistoryValue' />
+        <DoubleInputWithCurrency inputKey='creditManagement' />
       </Stack>
     </Stack >
   )

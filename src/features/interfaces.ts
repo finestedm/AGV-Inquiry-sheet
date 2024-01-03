@@ -32,7 +32,7 @@ export interface ICustomer {
     ownedRacks: number | undefined;
     ownedOther: string;
     creditManagement: number | undefined;
-    currency: 'EUR' | 'PLN'
+    currency: TCurrencies | undefined
 }
 
 export interface IProject {
@@ -210,3 +210,5 @@ export type StepToDataType<TStep extends keyof IFormData> = TStep extends 'sales
     : TStep extends 'system'
     ? ISystems
     : never;
+
+export type TCurrencies = { currency: string, countries: string[] }[]

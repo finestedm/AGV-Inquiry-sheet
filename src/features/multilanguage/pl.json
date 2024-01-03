@@ -17,8 +17,8 @@
     },
     "relations": {
       "type": "Poziom współpracy",
-      "saleshistoryvalue": "Wartość obrotu z klientem / rok",
-      "creditmanagement": "Wartość kredytu kupieckiego",
+      "salesHistoryValue": "Wartość obrotu z klientem",
+      "creditManagement": "Wartość kredytu kupieckiego",
       "2": "Klient JH",
       "1": "Nowy klient",
       "3": "Klient JH KAM",

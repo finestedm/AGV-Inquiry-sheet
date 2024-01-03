@@ -152,10 +152,6 @@ export default function Form(): JSX.Element {
   };
 
   useEffect(() => {
-    console.log(steps.currentStep)
-  }, [steps.currentStep])
-
-  useEffect(() => {
     const locationFromURL = location.pathname.split('/').pop() || ''
     if (steps.possibleSteps.includes(locationFromURL)) {
       dispatch(setCurrentStep(locationFromURL));

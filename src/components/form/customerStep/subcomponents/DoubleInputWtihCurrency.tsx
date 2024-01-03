@@ -1,0 +1,51 @@
+import { InputAdornment, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
+import { RootState } from "../../../../features/redux/store";
+import { ICustomer } from "../../../../features/interfaces";
+import { useTranslation } from "react-i18next";
+import currencies from "../../../../data/currencies";
+import { useState } from "react";
+
+export function DoubleInputWithCurrency({ inputKey }: { inputKey: keyof ICustomer }) {
+    const customer = useSelector((state: RootState) => state.formData.customer)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
+    const dispatch = useDispatch();
+    const { t, i18n } = useTranslation();
+    const currentLanguage = i18n.language;
+    const currencyByLanguage = currencies.filter(currency => currency.countries.includes(currentLanguage))?.[0]?.currency || 'EUR'
+
+    return (
+        <Stack spacing={1}>
+            <InputLabel>{t(`customer.relations.${inputKey}`)}</InputLabel>
+            <Stack direction='row' spacing={1}>
+                <TextField
+                    fullWidth
+                    name={inputKey}
+                    type="text"
+                    disabled={!editMode}
+                    value={customer[inputKey] === undefined ? '' : (Number(customer[inputKey])).toLocaleString('en-US').replaceAll(',', ' ')}
+                    onChange={(e) => {
+                        const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
+                        hasDigits && dispatch(handleInputMethod({ path: `customer.${inputKey}`, value: e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, '') }));
+                    }}
+                />
+                <Select
+                    value={
+                        customer.currency
+                            ?
+                            customer.currency
+                            :
+                            currencyByLanguage
+                    }
+                    onChange={(e) => { dispatch(handleInputMethod({ path: 'customer.currency', value: e.target.value })) }}>
+                    {currencies.map(currency =>
+                        <MenuItem value={currency.currency}>{currency.currency}</MenuItem>
+                    )}
+                </Select>
+            </Stack>
+        </Stack>
+    )
+}
