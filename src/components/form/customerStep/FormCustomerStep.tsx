@@ -223,7 +223,7 @@ export default function FormCustomerStep(): JSX.Element {
             </Grid>
           </Box>
         }
-        <DoubleInputWithCurrency inputKey='salesHistoryValue' />
+        <DoubleInputWithCurrency inputKey='salesHistoryValue' perYear />
         <DoubleInputWithCurrency inputKey='creditManagement' />
       </Stack>
     </Stack >

@@ -10,6 +10,9 @@
     "contactPersonPhone": "Telefon kontaktowy",
     "contactPersonMail": "Adres email",
     "address": "Adres",
+    "currency": {
+      "perYear": "/ rok"
+    },
     "subheader": {
       "teleaddress": "Dane firmy",
       "contactperson": "Osoba kontaktowa",

@@ -40,25 +40,31 @@ const shadow24 = `0px 46px 48px ${shadowColor4}`;
 const borderStandard = `1px solid`
 
 //colors
-const primaryColor = '#3c464b'
+const greyColorDark = '#3C464B'
+const grey120ColorDark = '#1d1f20'
+const primaryColor = greyColorDark
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
 const backgroundColor = '#ffffff'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
-const textPrimnaryColor = '#3c464b'
+const textPrimnaryColor = primaryColor
 const textSecondaryColor = '#707679'
-const greyColor = '#F5F5F5'
+const greyLightMinus10BlackColor = '#EAEFF1'
+const greyLightColor = '#D7DADB'
 
-const primaryColorDark = '#ffb900'
+const JHYellow = '#ffb900'
+const JHYellow75 = '#BA8800'
+const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
 const backgroundColorDark = '#18191a'
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
 const textPrimnaryColorDark = '#eff1f2'
-const textSecondaryColorDark = '#8e9193'
-const greyColorDark = '#131515'
+const textSecondaryColorDark = '#989b9f'
+const grey40ColorDark = '#B1B5B7'
+const grey80ColorDark = '#636B6E'
 
 theme = createTheme({
     palette: {
@@ -97,22 +103,22 @@ theme = createTheme({
             'sans-serif',
         ].join(','),
         h1: {
-            color: '#7b8082',
+            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h2: {
-            color: '#7b8082',
+            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h3: {
-            color: '#7b8082',
+            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h4: {
-            color: '#7b8082',
+            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
@@ -171,7 +177,7 @@ theme = createTheme({
                     boxShadow: 'none',
                     borderWidth: 1,
                     borderColor: 'transparent',
-                    backgroundColor: greyColor,
+                    backgroundColor: greyLightMinus10BlackColor,
                     color: infoColor,
                     '&.selected-card': {
                         borderColor: tinycolor(secondaryColor).toRgbString(),
@@ -191,14 +197,23 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     minWidth: "12ch",
+                    borderColor: '#000'
+
                 },
                 input: {
                     paddingLeft: "16px",
                     paddingRight: "16px",
                     paddingTop: "14px",
-                    paddingBottom: "14px"
+                    paddingBottom: "14px",
                 }
             },
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                notchedOutline: {
+                    borderColor: greyLightColor,
+                },
+            }
         },
         MuiTableCell: {
             styleOverrides: {
@@ -253,6 +268,13 @@ theme = createTheme({
                 }
             }
         },
+        MuiChip: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: greyLightMinus10BlackColor
+                }
+            }
+        }
     },
 }
 );
@@ -272,7 +294,7 @@ export const themeDark = createTheme({
         },
         background: {
             default: backgroundColorDark,
-            paper: greyColorDark
+            paper: grey120ColorDark
         },
         info: {
             main: infoColorDark
@@ -295,32 +317,32 @@ export const themeDark = createTheme({
             'sans-serif',
         ].join(','),
         h1: {
-            color: '#979d9f',
+            color: primaryColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h2: {
-            color: '#979d9f',
+            color: primaryColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h3: {
-            color: '#979d9f',
+            color: primaryColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h4: {
-            color: '#979d9f',
+            color: primaryColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h5: {
-            color: '#c0c7ca',
+            color: textSecondaryColorDark,
             fontWeight: 600,
             letterSpacing: -0.75
         },
         h6: {
-            color: '#c0c7ca',
+            color: textSecondaryColorDark,
             fontWeight: 500,
             letterSpacing: -0.5
         },
@@ -341,7 +363,7 @@ export const themeDark = createTheme({
                     boxShadow: 'none',
                     borderWidth: 1,
                     borderColor: 'transparent',
-                    backgroundColor: greyColorDark,
+                    backgroundColor: grey120ColorDark,
                     '&.selected-card': {
                         borderColor: tinycolor(primaryColorDark).toRgbString(),
                         backgroundColor: tinycolor(primaryColorDark).toRgbString(),
@@ -369,6 +391,13 @@ export const themeDark = createTheme({
                 }
             },
         },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                notchedOutline: {
+                    borderColor: greyColorDark,
+                },
+            }
+        },
         MuiTableCell: {
             styleOverrides: {
                 root: {
@@ -380,7 +409,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: 'none',
-                    backgroundColor: '#131515',
+                    backgroundColor: grey120ColorDark,
                     borderBottom: `1px solid ${theme.palette.divider}`,
                     '&.mobile-stepper': {
                         backgroundColor: '#131515AA',
@@ -421,6 +450,13 @@ export const themeDark = createTheme({
                 }
             }
         },
+        MuiChip: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: greyColorDark
+                }
+            }
+        }
     },
 }
 );

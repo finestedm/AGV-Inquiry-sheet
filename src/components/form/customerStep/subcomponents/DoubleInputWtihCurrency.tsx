@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import currencies from "../../../../data/currencies";
 import { useState } from "react";
 
-export function DoubleInputWithCurrency({ inputKey }: { inputKey: keyof ICustomer }) {
+export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof ICustomer, perYear?: boolean }) {
     const customer = useSelector((state: RootState) => state.formData.customer)
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
@@ -42,7 +42,7 @@ export function DoubleInputWithCurrency({ inputKey }: { inputKey: keyof ICustome
                     }
                     onChange={(e) => { dispatch(handleInputMethod({ path: 'customer.currency', value: e.target.value })) }}>
                     {currencies.map(currency =>
-                        <MenuItem value={currency.currency}>{currency.currency}</MenuItem>
+                        <MenuItem value={currency.currency}>{currency.currency} {perYear && t('customer.currency.perYear') }</MenuItem>
                     )}
                 </Select>
             </Stack>
