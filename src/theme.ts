@@ -190,13 +190,13 @@ theme = createTheme({
         MuiInputBase: {
             styleOverrides: {
                 root: {
-                    minWidth: "10ch",
+                    minWidth: "12ch",
                 },
                 input: {
-                    paddingLeft: "16px !important",
-                    paddingRight: "16px !important",
-                    paddingTop: "13px !important",
-                    paddingBottom: "13px !important"
+                    paddingLeft: "16px",
+                    paddingRight: "16px",
+                    paddingTop: "14px",
+                    paddingBottom: "14px"
                 }
             },
         },
@@ -245,7 +245,14 @@ theme = createTheme({
 
                 },
             },
-        }
+        },
+        MuiBackdrop: {
+            styleOverrides: {
+                root: {
+                    backdropFilter: "blur(3px)",
+                }
+            }
+        },
     },
 }
 );
@@ -355,10 +362,10 @@ export const themeDark = createTheme({
                     minWidth: "12ch",
                 },
                 input: {
-                    paddingLeft: "16px !important",
-                    paddingRight: "16px !important",
-                    paddingTop: "13px !important",
-                    paddingBottom: "13px !important"
+                    paddingLeft: "16px",
+                    paddingRight: "16px",
+                    paddingTop: "14px",
+                    paddingBottom: "14px"
                 }
             },
         },
@@ -406,7 +413,14 @@ export const themeDark = createTheme({
                     borderRadius: 1000
                 },
             },
-        }
+        },
+        MuiBackdrop: {
+            styleOverrides: {
+                root: {
+                    backdropFilter: "blur(3px)",
+                }
+            }
+        },
     },
 }
 );

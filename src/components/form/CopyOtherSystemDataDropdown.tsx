@@ -73,6 +73,7 @@ interface CopyOtherSystemDataDialogProps {
 function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: CopyOtherSystemDataDialogProps): JSX.Element {
     const { t } = useTranslation();
     const theme = useTheme();
+    const darkMode = useSelector((state: RootState) => state.darkMode);
     const formData = useSelector((state: RootState) => state.formData);
     const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>);
     const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected' && key !== 'flow');
@@ -169,7 +170,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                     {t("ui.dialog.copyDialog.title")}
                 </Typography>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent sx={{px: 2}}>
                 <TableContainer>
                     <Box mt={2} >
                         <Table>
@@ -189,11 +190,11 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                     </Box>
                 </TableContainer>
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{px: 2}}>
                 <Button
-                    color="success"
+                    color="primary"
                     variant="contained"
-                    sx={{ color: tinycolor(theme.palette.success.main).darken(45).toHexString(), fontWeight: 700 }}
+                    sx={{ color: darkMode ? tinycolor(theme.palette.primary.main).darken(45).toHexString() : theme.palette.background.default, fontWeight: 500 }}
                     onClick={() => {
                         dispatch(handleCopySystemData({ selectedSystem, selectedParts }))
                         dispatch(openSnackbar({ message: 'Data has been copied' }));
