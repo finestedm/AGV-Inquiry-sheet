@@ -48,7 +48,7 @@ const successColor = '#70AE6E'
 const backgroundColor = '#ffffff'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
-const textPrimnaryColor = primaryColor
+const textPrimaryColor = primaryColor
 const textSecondaryColor = '#707679'
 const greyLightMinus10BlackColor = '#EAEFF1'
 const greyLightColor = '#D7DADB'
@@ -88,7 +88,7 @@ theme = createTheme({
             main: errorColor
         },
         text: {
-            primary: textPrimnaryColor,
+            primary: textPrimaryColor,
             secondary: textSecondaryColor
         },
 
