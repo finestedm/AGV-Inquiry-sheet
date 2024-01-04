@@ -61,7 +61,7 @@ const successColorDark = '#94DDBC'
 const backgroundColorDark = '#18191a'
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
-const textPrimnaryColorDark = '#eff1f2'
+const textPrimaryColorDark = '#eff1f2'
 const textSecondaryColorDark = '#989b9f'
 const grey40ColorDark = '#B1B5B7'
 const grey80ColorDark = '#636B6E'
@@ -303,7 +303,7 @@ export const themeDark = createTheme({
             main: errorColorDark
         },
         text: {
-            primary: textPrimnaryColorDark,
+            primary: textPrimaryColorDark,
             secondary: textSecondaryColorDark
         },
     },
