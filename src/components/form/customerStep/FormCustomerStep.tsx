@@ -9,7 +9,7 @@ import { handleIndustryChange, handleInputMethod, initialFormDataState, setFormD
 import trimLeadingZeros from "../../../features/variousMethods/trimLeadingZero";
 import { Field, Form, Formik, FormikProps, useFormikContext } from 'formik'
 import validationSchema from "../../../features/formValidation/formValidation";
-import { ICustomer, IFormData } from "../../../features/interfaces";
+import { ICustomer, IFormData, TIndustry } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
 import industries from "../../../data/industries";
 import { DoubleInputWithCurrency } from "./subcomponents/DoubleInputWtihCurrency";
@@ -39,9 +39,7 @@ export default function FormCustomerStep(): JSX.Element {
 
   const dispatch = useDispatch();
 
-  const industriesTranslated = industries.map(industry => t(industry))
-
-  const [otherIndustry, setOtherIndustry] = useState<string>('')
+  const industriesTranslated = industries.map(industry => t(`industry.${industry}`))
 
   return (
     <Stack spacing={8}>
@@ -87,7 +85,7 @@ export default function FormCustomerStep(): JSX.Element {
       <Stack spacing={2}>
         <Typography variant="h5" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
         <Stack spacing={1}>
-          <InputLabel>{t('customer.industry')}</InputLabel>
+          <InputLabel required>{t('customer.industry')}</InputLabel>
           <FormControl>
             <Field
               required
@@ -102,13 +100,13 @@ export default function FormCustomerStep(): JSX.Element {
                 formikProps.setFieldValue('customer.industryName', e.target.value);
                 dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value }))
               }}
-              renderValue={(selected: number[]) => (
+              renderValue={(selected: TIndustry[]) => (
                 <Stack direction="row" spacing={1} >
-                  {selected.map((index) => (
+                  {selected.map((industry) => (
                     <Chip
                       sx={{ borderRadius: .5 }}
-                      key={index}
-                      label={t(`${industriesTranslated[index]}`)}
+                      key={industry}
+                      label={industriesTranslated[industries.indexOf(industry)]}
                     />
                   ))}
                 </Stack>
@@ -117,28 +115,26 @@ export default function FormCustomerStep(): JSX.Element {
               error={Boolean(formikProps.errors.customer?.industryName)}
             >
               {industries.map((industry) => (
-                <MenuItem key={industry} value={industries.indexOf(industry)}>
-                  <Checkbox checked={formData.customer.industryName.includes(industries.indexOf(industry))} />
-                  <ListItemText primary={industry} />
+                <MenuItem key={industry} value={industry}>
+                  <Checkbox checked={formData.customer.industryName.includes(industry)} />
+                  <ListItemText primary={industriesTranslated[industries.indexOf(industry)]} />
                 </MenuItem>
               ))}
             </Field>
             {formikProps.touched.customer?.industryName && formikProps.errors.customer?.industryName && <FormHelperText error>{t(`${formikProps.errors.customer?.industryName}`)}</ FormHelperText>}
           </FormControl>
         </Stack>
-        {formData.customer.industryName.includes(9) &&
+        {formData.customer.industryName.includes('other') &&
           <Stack spacing={1}>
             <InputLabel>{t('customer.industryName.other')}</InputLabel>
             <TextField
               required
               name="customer.industryName-other"
-              value={otherIndustry}
+              value={formData.customer.industryNameOther}
               disabled={!editMode}
-              onChange={(e) => setOtherIndustry(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  dispatch(handleIndustryChange({ industryName: formData.customer.industryName, value: (e.target as HTMLInputElement).value }));
-                }
+              onChange={(e) => {
+                formikProps.setFieldValue('customer.industryNameOther', e.target.value);
+                dispatch(handleInputMethod({ path: 'customer.industryNameOther', value: e.target.value }))
               }}
             />
           </Stack>

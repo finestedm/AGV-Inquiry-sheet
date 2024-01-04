@@ -22,6 +22,7 @@
     "@types/react-dom": "^18.2.7",
     "@types/react-redux": "^7.1.25",
     "cross-env": "^7.0.3",
+    "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
     "file-saver": "^2.0.5",
     "formik": "^2.4.5",

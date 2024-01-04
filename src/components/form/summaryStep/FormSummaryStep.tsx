@@ -19,7 +19,7 @@ export default function FormSummaryStep() {
     const theme = useTheme();
     const textRowSpacing = 1
 
-    const industriesTranslated = industries.map(industry => t(industry))
+    const industriesTranslated = industries.map(industry => t(`customer.${industry}`))
     const investmentTypesTranslated = investmentTypes.map(type => t(type))
     const supplyChainPartsTranslated = supplyChainParts.map((part) => t(`project.supplyChainParts.${part}`))
     const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
@@ -80,7 +80,7 @@ export default function FormSummaryStep() {
                     {formData.customer.industryName.length > 0 &&
                         <Box display="flex" flexWrap="wrap" alignItems='baseline'>
                             <Typography mr={1}>{t('customer.industry')}: </Typography>
-                            <Stack minWidth={300} direction='row' flex={1} flexWrap="wrap" rowGap={1} >{formData.customer.industryName.map(industry => <Chip sx={{ borderRadius: .5, marginRight: 1 }} key={industry} label={t(`${industriesTranslated[industry]}`)} />)}</Stack>
+                            <Stack minWidth={300} direction='row' flex={1} flexWrap="wrap" rowGap={1} >{formData.customer.industryName.map(industry => <Chip sx={{ borderRadius: .5, marginRight: 1 }} key={industry} label={industriesTranslated[industries.indexOf(industry)]} />)}</Stack>
                         </Box>
                     }
                 </Stack>

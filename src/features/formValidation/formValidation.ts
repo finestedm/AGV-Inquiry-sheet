@@ -22,7 +22,6 @@ const validationSchema = Yup.object({
     investmentType: Yup.string().required('helperText.project.investmentType.required')
 
   })
-  // Define validation rules for other fields
 })
 
 export default validationSchema

@@ -47,6 +47,7 @@
     "other": "Inna"
   },
   "sales": {
+    "salesUnit": "Jednostka sprzedażowa",
     "header": "Dane jednostki sprzedażowej",
     "unit": "Jednostka sprzedażowa",
     "contactPerson": "Osoba kontaktowa ze strony JH",

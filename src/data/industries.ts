@@ -1,14 +1,16 @@
-const industries: string[] = [
-    'industry.production',
-    'industry.trade',
-    'industry.logistics',
-    'industry.pharmaceutical',
-    'industry.beverage',
-    'industry.clothing',
-    'industry.chemical',
-    'industry.food',
-    'industry.automotive',
-    'industry.other',
+import { TIndustry } from "../features/interfaces";
+
+const industries: TIndustry[] = [
+    'production',
+    'trade',
+    'logistics',
+    'pharmaceutical',
+    'beverage',
+    'clothing',
+    'chemical',
+    'food',
+    'automotive',
+    'other',
 ];
 
 export default industries

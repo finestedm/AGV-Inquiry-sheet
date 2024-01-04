@@ -3,6 +3,7 @@ import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilest
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
+import { addMonths, differenceInMonths } from 'date-fns';
 
 const initialFormDataState: IFormData = {
 
@@ -16,6 +17,7 @@ const initialFormDataState: IFormData = {
         name: '',
         sapNumber: null,
         industryName: [],
+        industryNameOther: '',
         address: '',
         contactPerson: '',
         contactPersonRole: '',
@@ -68,7 +70,7 @@ const initialFormDataState: IFormData = {
             processesDescription: '',
             existingSystem: {
                 present: false,
-                name: 0,
+                name: -1,
                 existingOther: ''
             },
             wmsNeeded: false,
@@ -234,15 +236,14 @@ const formDataSlice = createSlice({
             if (id === 'implementation') {
                 const launchTask = state.project.milestones.launch;
                 const implementationStartDate = new Date(start);
-                const implementationEndDate = new Date(end);
+                let implementationEndDate = new Date(end);
 
                 // Check if the difference is less than 8 months
-                const timeDiff = implementationEndDate.getTime() - implementationStartDate.getTime();
-                const monthsDiff = timeDiff / (1000 * 3600 * 24 * 30);
+                const monthsDiff = differenceInMonths(implementationEndDate, implementationStartDate);
 
                 if (monthsDiff < 8) {
                     // Set the end date based on the adjusted start date
-                    implementationEndDate.setMonth(implementationStartDate.getMonth() + 8);
+                    implementationEndDate = addMonths(implementationStartDate, 8);
                 }
 
                 return {

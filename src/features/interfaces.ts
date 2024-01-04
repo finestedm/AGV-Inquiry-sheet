@@ -17,10 +17,13 @@ export interface IIt {
     additionalInformation: string;
 }
 
+export type TIndustry = 'production' | 'trade' | 'logistics' | 'pharmaceutical' | 'beverage' | 'clothing' | 'chemical' | 'food' | 'automotive' | 'other'
+
 export interface ICustomer {
     name: string;
     sapNumber: number | null;
-    industryName: number[];
+    industryName: TIndustry[];
+    industryNameOther: string;
     address: string;
     contactPerson: string;
     contactPersonRole: string;
