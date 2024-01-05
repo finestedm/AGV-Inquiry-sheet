@@ -87,10 +87,8 @@
   }
 }
 
-._3eULf {
-  border-radius: .25rem;
-  overflow: hidden;
-  width: 100%;
+._CZjuD {
+  overflow-x: scroll;
 }
 
 ._3lLk3 {
@@ -139,8 +137,12 @@
 
 .ganttchart-container-dark ._3rUKi,
 .ganttchart-container-dark ._RuwuK {
-  stroke: rgba(255, 255, 255, 0.12);
+  stroke: rgba(255, 255, 255, 0);
   color: #fff
+}
+
+.ganttchart-container ._2k9Ys {
+  height: 0;
 }
 
 /* this is a line for a overlayWrapper that sits above Poper component :/ */
