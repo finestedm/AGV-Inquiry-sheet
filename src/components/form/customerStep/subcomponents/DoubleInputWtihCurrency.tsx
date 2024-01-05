@@ -24,7 +24,7 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
                 <TextField
                     fullWidth
                     name={inputKey}
-                    type="text"
+                    type="number"
                     disabled={!editMode}
                     value={customer[inputKey] === undefined ? '' : (Number(customer[inputKey])).toLocaleString('en-US').replaceAll(',', ' ')}
                     onChange={(e) => {
@@ -42,7 +42,7 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
                     }
                     onChange={(e) => { dispatch(handleInputMethod({ path: 'customer.currency', value: e.target.value })) }}>
                     {currencies.map(currency =>
-                        <MenuItem value={currency.currency}>{currency.currency} {perYear && t('customer.currency.perYear') }</MenuItem>
+                        <MenuItem value={currency.currency}>{currency.currency} {perYear && t('customer.currency.perYear')}</MenuItem>
                     )}
                 </Select>
             </Stack>

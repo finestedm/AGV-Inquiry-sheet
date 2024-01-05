@@ -1,5 +1,5 @@
+import { outlinedInputClasses } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import { deDE, plPL } from '@mui/x-date-pickers/locales';
 import tinycolor from 'tinycolor2';
 
 export let theme = createTheme({})
@@ -65,6 +65,7 @@ const textPrimaryColorDark = '#eff1f2'
 const textSecondaryColorDark = '#989b9f'
 const grey40ColorDark = '#B1B5B7'
 const grey80ColorDark = '#636B6E'
+
 
 theme = createTheme({
     palette: {
@@ -193,6 +194,17 @@ theme = createTheme({
                 },
             },
         },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    input: {
+                        "&:-webkit-autofill": {
+                            WebkitBoxShadow: `0 0 0 100px ${tinycolor(JHYellow).lighten(40).toRgbString()} inset`,
+                        },
+                    },
+                },
+            },
+        },
         MuiInputBase: {
             styleOverrides: {
                 root: {
@@ -213,8 +225,16 @@ theme = createTheme({
                 notchedOutline: {
                     borderColor: greyLightColor,
                 },
-            }
+                root: {
+                    '&.Mui-disabled': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: tinycolor(greyLightColor).brighten(10).toRgbString(),
+                        },
+                    },
+                },
+            },
         },
+
         MuiTableCell: {
             styleOverrides: {
                 root: {
@@ -278,7 +298,6 @@ theme = createTheme({
     },
 }
 );
-
 
 export const themeDark = createTheme({
     palette: {
@@ -378,6 +397,17 @@ export const themeDark = createTheme({
                 },
             },
         },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    input: {
+                        "&:-webkit-autofill": {
+                            WebkitBoxShadow: `0 0 0 100px ${tinycolor(JHYellow).darken(27).toRgbString()} inset`,
+                        },
+                    },
+                },
+            },
+        },
         MuiInputBase: {
             styleOverrides: {
                 root: {
@@ -388,13 +418,20 @@ export const themeDark = createTheme({
                     paddingRight: "16px",
                     paddingTop: "14px",
                     paddingBottom: "14px"
-                }
+                },
             },
         },
         MuiOutlinedInput: {
             styleOverrides: {
                 notchedOutline: {
                     borderColor: greyColorDark,
+                },
+                root: {
+                    '&.Mui-disabled': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: tinycolor(greyColorDark).darken(10).toRgbString(),
+                        },
+                    }
                 },
             }
         },
