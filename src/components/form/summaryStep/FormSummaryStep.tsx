@@ -19,7 +19,7 @@ export default function FormSummaryStep() {
     const theme = useTheme();
     const textRowSpacing = 1
 
-    const industriesTranslated = industries.map(industry => t(`customer.${industry}`))
+    const industriesTranslated = industries.map(industry => t(`industry.${industry}`))
     const investmentTypesTranslated = investmentTypes.map(type => t(type))
     const supplyChainPartsTranslated = supplyChainParts.map((part) => t(`project.supplyChainParts.${part}`))
     const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
