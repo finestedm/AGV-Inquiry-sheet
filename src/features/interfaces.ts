@@ -184,6 +184,7 @@ export interface IHandleAddLoad {
 }
 
 export interface ICustomFieldProps {
+    type?: 'text' | 'number'
     fieldName: string;
     required?: boolean;
     multiline?: boolean

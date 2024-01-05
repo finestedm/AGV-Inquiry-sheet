@@ -4,7 +4,7 @@
     "name": "Firma / klient",
     "sapNumber": "Numer sap",
     "industry": "Branża",
-    "industryName.other": "Podaj inną branżę",
+    "industryNameOther": "Podaj inną branżę",
     "contactPerson": "Imię i nazwisko",
     "contactPersonRole": "Stanowisko osoby kontaktowej",
     "contactPersonPhone": "Telefon kontaktowy",
@@ -320,6 +320,9 @@
       },
       "industryName": {
         "number": "Wybierz co najmniej jedną branżę"
+      },
+      "industryNameOther": {
+        "required": "Wpisz nazwę innej brażny, jeśli została wybrana z listy powyżej"
       },
       "relations": {
         "number": "Wybierz typ relacji"

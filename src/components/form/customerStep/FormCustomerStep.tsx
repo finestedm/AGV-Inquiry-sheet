@@ -52,6 +52,7 @@ export default function FormCustomerStep(): JSX.Element {
         />
         <CustomTextField
           fieldName="customer.sapNumber"
+          type='number'
         />
         <CustomTextField
           required
@@ -125,19 +126,9 @@ export default function FormCustomerStep(): JSX.Element {
           </FormControl>
         </Stack>
         {formData.customer.industryName.includes('other') &&
-          <Stack spacing={1}>
-            <InputLabel>{t('customer.industryName.other')}</InputLabel>
-            <TextField
-              required
-              name="customer.industryName-other"
-              value={formData.customer.industryNameOther}
-              disabled={!editMode}
-              onChange={(e) => {
-                formikProps.setFieldValue('customer.industryNameOther', e.target.value);
-                dispatch(handleInputMethod({ path: 'customer.industryNameOther', value: e.target.value }))
-              }}
-            />
-          </Stack>
+          <CustomTextField
+            fieldName="customer.industryNameOther"
+          />
         }
         <Stack spacing={1}>
           <InputLabel>{t('customer.relations.type')}</InputLabel>

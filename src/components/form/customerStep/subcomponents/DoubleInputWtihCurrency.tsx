@@ -24,7 +24,7 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
                 <TextField
                     fullWidth
                     name={inputKey}
-                    type="number"
+                    type="text"
                     disabled={!editMode}
                     value={customer[inputKey] === undefined ? '' : (Number(customer[inputKey])).toLocaleString('en-US').replaceAll(',', ' ')}
                     onChange={(e) => {

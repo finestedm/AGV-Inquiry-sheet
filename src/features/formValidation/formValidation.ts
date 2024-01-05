@@ -14,6 +14,11 @@ const validationSchema = Yup.object({
       .email('helperText.customer.contactPersonMail.format')
       .notRequired(),
     industryName: Yup.array().min(1, 'helperText.customer.industryName.number'),
+    industryNameOther: Yup.string()
+      .when('industryName', {
+        is: (industryName: string) => industryName && industryName.includes('other'),
+        then: (schema) => schema.required('helperText.customer.industryNameOther.required'),
+      }),
     relations: Yup.number().required('helperText.customer.relations.number').min(0, 'helperText.customer.relations.number')
   }),
   project: Yup.object({
