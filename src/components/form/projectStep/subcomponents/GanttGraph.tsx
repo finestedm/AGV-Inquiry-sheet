@@ -37,7 +37,7 @@ export default function GanttGraph(): JSX.Element {
         return uneditableTasks.includes(task)
     }
 
-    function handledateEditDialogOpen(task: ExtendedTask) {
+    function handleDateEditDialogOpen(task: ExtendedTask) {
         if (editMode) {
             setSelectedTask(task);
             setDateEditDialogOpen(true);
@@ -103,7 +103,7 @@ export default function GanttGraph(): JSX.Element {
                                             <IconButton
                                                 size='small'
                                                 disabled={isTaskUneditable(task.id as keyof IMilestones)}
-                                                onClick={() => handledateEditDialogOpen(task as ExtendedTask)}
+                                                onClick={() => handleDateEditDialogOpen(task as ExtendedTask)}
                                             >
                                                 <EditIcon />
                                             </IconButton>
@@ -145,7 +145,7 @@ export default function GanttGraph(): JSX.Element {
                                 const { id, start, end } = task;
                                 dispatch(handleDateChanges({ id, start, end }));
                             }}
-                            onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handledateEditDialogOpen(task as ExtendedTask)}
+                            onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handleDateEditDialogOpen(task as ExtendedTask)}
                         />
                     </Box>
                     <Box position='absolute' top='10%' right={25}>
