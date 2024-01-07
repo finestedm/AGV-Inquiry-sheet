@@ -53,7 +53,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
             <Stack direction='row' alignItems='center'>
                 <InputLabel>{t(`system.building.existing`)}</InputLabel>
                 <Switch
-                    disabled={!editMode}
+                    readOnly={!editMode}
                     checked={formData.system[selectedSystem].building.new}
                     onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.new`, value: e.target.checked }))}
                     inputProps={{ 'aria-label': 'controlled' }}
@@ -70,6 +70,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         disabled={!editMode}
                         control={
                             <Checkbox
+                                readOnly={!editMode}
                                 checked={formData.system[selectedSystem].building.silo}
                                 onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.silo`, value: e.target.checked }))}
                                 inputProps={{ 'aria-label': 'controlled' }}

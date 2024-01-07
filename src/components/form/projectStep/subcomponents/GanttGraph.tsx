@@ -50,6 +50,17 @@ export default function GanttGraph(): JSX.Element {
         setSelectedTask(null);
     }
 
+    //change months names into ligits
+    // useEffect(() => {
+    //     const ganttHeader = document.getElementsByClassName('calendar')[0]
+    //     const textElements = ganttHeader.querySelectorAll('text');
+    //     const monthMap = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
+    //     textElements.forEach((textElement, index) => {
+    //         const monthNumber = index % 12 + 1; // Adjusting for the repeated months
+    //         textElement.textContent = monthMap[monthNumber];
+    //     });
+    // }, [viewMode])
+
     const milestones: Task[] = (() => {
         return Object.entries(formData.project.milestones).map(([name, date]) => {
             const start = new Date(date.start);

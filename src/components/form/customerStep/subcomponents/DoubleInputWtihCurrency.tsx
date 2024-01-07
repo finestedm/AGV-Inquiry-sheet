@@ -40,6 +40,7 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
                             :
                             currencyByLanguage
                     }
+                    disabled={!editMode}
                     onChange={(e) => { dispatch(handleInputMethod({ path: 'customer.currency', value: e.target.value })) }}>
                     {currencies.map(currency =>
                         <MenuItem value={currency.currency}>{currency.currency} {perYear && t('customer.currency.perYear')}</MenuItem>

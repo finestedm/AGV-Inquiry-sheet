@@ -3,7 +3,7 @@ import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilest
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
-import { addMonths, differenceInMonths } from 'date-fns';
+import { addMonths, differenceInMonths, isBefore } from 'date-fns';
 
 const initialFormDataState: IFormData = {
 
@@ -230,90 +230,102 @@ const formDataSlice = createSlice({
 
         handleDateChanges: (state, action) => {
             const { id, start, end } = action.payload;
-
-            // Apply your rules here based on task dependencies, etc.
-            // For example, update the launch task based on the end of implementation
-            if (id === 'implementation') {
-                const launchTask = state.project.milestones.launch;
-                const implementationStartDate = new Date(start);
-                let implementationEndDate = new Date(end);
-
-                // Check if the difference is less than 8 months
-                const monthsDiff = differenceInMonths(implementationEndDate, implementationStartDate);
-
-                if (monthsDiff < 8) {
-                    // Set the end date based on the adjusted start date
-                    implementationEndDate = addMonths(implementationStartDate, 8);
+        
+            // Define the order of the milestones
+            const milestoneOrder: (keyof IMilestones)[] = [
+                'concept',
+                'officialOffer',
+                'order',
+                'implementation',
+                'launch',
+            ];
+        
+            // Find the index of the current milestone in the order
+            const currentIndex = milestoneOrder.indexOf(id);
+        
+            // Update the dates of the current milestone
+            const currentMilestone = {
+                ...state.project.milestones[id as keyof IMilestones],
+                start,
+                end,
+            };
+        
+            // Update the dates of the subsequent milestones
+            let updatedMilestones = {
+                ...state.project.milestones,
+                [id]: currentMilestone,
+            };
+        
+            for (let i = currentIndex + 1; i < milestoneOrder.length; i++) {
+                const milestoneId = milestoneOrder[i];
+                const previousMilestone = updatedMilestones[milestoneOrder[i - 1]];
+        
+                // Calculate the start and end dates based on the previous milestone's end date
+                let startDate = new Date(previousMilestone.end);
+                let endDate = addMonths(startDate, 1);
+        
+                // Additional requirements for each milestone
+                if (milestoneId === 'concept') {
+                    // Check if the start date is earlier than today
+                    const today = new Date();
+                    startDate = startDate < today ? today : startDate;
+        
+                    // Check if the end date is earlier than 1 month after the start date
+                    const oneMonthAfterStart = addMonths(startDate, 1);
+                    endDate = endDate < oneMonthAfterStart ? oneMonthAfterStart : endDate;
                 }
-
-                return {
-                    ...state,
-                    project: {
-                        ...state.project,
-                        milestones: {
-                            ...state.project.milestones,
-                            implementation: {
-                                ...state.project.milestones[id as keyof IMilestones],
-                                start: implementationStartDate,
-                                end: implementationEndDate,
-                            },
-                            launch: {
-                                ...launchTask,
-                                start: implementationEndDate,
-                                end: implementationEndDate,
-                            },
+        
+                if (milestoneId === 'officialOffer') {
+                    // Check if the start date is earlier than the end date of the concept
+                    const conceptEndDate = updatedMilestones.concept.end;
+                    startDate = startDate < conceptEndDate ? conceptEndDate : startDate;
+        
+                    // Check if the length of the officialOffer is at least 3 months
+                    const threeMonthsAfterStart = addMonths(startDate, 3);
+                    endDate = endDate < threeMonthsAfterStart ? threeMonthsAfterStart : endDate;
+                }
+        
+                if (milestoneId === 'implementation') {
+                    const launchTask = updatedMilestones.launch;
+                    const monthsDiff = differenceInMonths(endDate, startDate);
+        
+                    // Check if the difference is less than 8 months
+                    if (monthsDiff < 8) {
+                        // Set the end date based on the adjusted start date
+                        endDate = addMonths(startDate, 8);
+                    }
+        
+                    // Update the launch task end date to be the same as the implementation task end date
+                    updatedMilestones = {
+                        ...updatedMilestones,
+                        launch: {
+                            ...launchTask,
+                            end: endDate,
                         },
-                    },
+                    };
+                }
+        
+                // Update the milestone with the calculated dates
+                const updatedMilestone = {
+                    ...updatedMilestones[milestoneId as keyof IMilestones],
+                    start: startDate,
+                    end: endDate,
+                };
+        
+                updatedMilestones = {
+                    ...updatedMilestones,
+                    [milestoneId]: updatedMilestone,
                 };
             }
-
-
-            if (id === 'order') {
-                // Update implementation task's date based on the date of order
-                return {
-                    ...state,
-                    project: {
-                        ...state.project,
-                        milestones: {
-                            ...state.project.milestones,
-                            order: {
-                                ...state.project.milestones[id as keyof IMilestones],
-                                start: start,
-                                end: end,
-                            },
-                            implementation: {
-                                ...state.project.milestones.implementation,
-                                start: end,
-                                end: new Date(new Date(start).setMonth(new Date(start).getMonth() + 8)),
-                            },
-                            launch: {
-                                ...state.project.milestones.launch,
-                                start: new Date(new Date(start).setMonth(new Date(start).getMonth() + 8)),
-                                end: new Date(new Date(start).setMonth(new Date(start).getMonth() + 8)),
-                            },
-                        },
-                    },
-                };
-            }
-
-            // Update other tasks here based on your rules
-
-            // If no rules apply, simply update the task's date
+        
             return {
                 ...state,
                 project: {
                     ...state.project,
-                    milestones: {
-                        ...state.project.milestones,
-                        [id]: {
-                            ...state.project.milestones[id as keyof IMilestones],
-                            start: start,
-                            end: end,
-                        },
-                    },
+                    milestones: updatedMilestones,
                 },
             };
-
+        
             // ... other cases ...
         },
 
