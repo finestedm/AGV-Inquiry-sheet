@@ -1,4 +1,4 @@
-import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Grid, useMediaQuery, Toolbar, AppBar } from "@mui/material";
+import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Grid, useMediaQuery, Toolbar, AppBar, Chip } from "@mui/material";
 import "gantt-task-react/dist/index.css";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import { handleDateChanges, handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
@@ -11,9 +11,10 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import EditIcon from '@mui/icons-material/Edit';
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ExtendedTask, IMilestones } from "../../../../features/interfaces";
+import { ExtendedTask, IMilestones, TViewMode } from "../../../../features/interfaces";
 import 'dayjs/locale/pl';
 import DateEditDialog from "./DateEditDialog";
+import SwitchRightIcon from '@mui/icons-material/SwitchRight';
 
 export default function GanttGraph(): JSX.Element {
 
@@ -24,7 +25,7 @@ export default function GanttGraph(): JSX.Element {
     const dispatch = useDispatch();
     const [columnsWidth, setColumnWidth] = useState<number>(40)
     const [viewTaskList, setViewTaskList] = useState<boolean>(true)
-    const [viewMode, setViewMode] = useState<string>('Month')
+    const [viewMode, setViewMode] = useState<TViewMode>('Month')
     const [selectedTask, setSelectedTask] = useState<ExtendedTask | null>(null);
     const [dateEditDialogOpen, setDateEditDialogOpen] = useState(false);
     const taskListHeight = 50;
@@ -74,7 +75,7 @@ export default function GanttGraph(): JSX.Element {
             <Paper elevation={0} sx={{ borderRadius: theme.shape.borderRadius, border: 1, borderColor: theme.palette.divider }}>
                 <TableContainer component={Box} >
                     <Table>
-                        <TableHead sx={{ height: headerHeight }}>
+                        <TableHead sx={{ height: headerHeight + 1 }}>
                             <TableRow>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Date Range</TableCell>
@@ -120,10 +121,13 @@ export default function GanttGraph(): JSX.Element {
     }
 
     return (
-        <Box className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} >
-            <Grid container >
-                <Grid item xs={12} lg={4}><CustomListTable /></Grid>
-                <Grid item xs={12} lg={8} position='relative'>
+        <Stack spacing={2} className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} >
+            <SizeEditButtons columnsWidth={columnsWidth} setColumnWidth={setColumnWidth} viewMode={viewMode} setViewMode={setViewMode} />
+            <Box><Grid container spacing={0} rowGap={2} sx={{ display: 'flex', flexDirection: 'column', [`@media (min-width: ${theme.breakpoints.values.lg}px)`]: { flexDirection: 'row' } }}>
+                {viewTaskList &&
+                    <Grid item xs={12} lg={4} sx={{ flexBasis: 'auto' }}><CustomListTable /></Grid>
+                }
+                <Grid item xs={12} lg={viewTaskList ? 8 : 12} position='relative' sx={{ flexBasis: 'auto' }}>
                     <Box border={1} sx={{ borderColor: theme.palette.divider }}>
                         <Gantt
                             tasks={milestones}
@@ -148,37 +152,45 @@ export default function GanttGraph(): JSX.Element {
                             onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handleDateEditDialogOpen(task as ExtendedTask)}
                         />
                     </Box>
-                    <Box position='absolute' top='10%' right={25}>
-                        <SizeEditButtons columnsWidth={columnsWidth} setColumnWidth={setColumnWidth} viewTaskList={viewTaskList} setViewTaskList={setViewTaskList} viewMode={viewMode} setViewMode={setViewMode} />
-                    </Box>
-                    <Box position='absolute' top='50%' left={-5}>
-                        <Button variant='contained' onClick={() => console.log('eee')}>eeeee </Button>
-                    </Box>
+                    {!isMobile &&
+                        <Box position='absolute' top='50%' left={-10}>
+                            <Button variant='contained' disableElevation onClick={() => setViewTaskList(!viewTaskList)}><SwitchRightIcon /></Button>
+                        </Box>
+                    }
                 </Grid>
             </Grid>
+            </Box>
             {selectedTask && <DateEditDialog selectedTask={selectedTask} dateEditDialogOpen={dateEditDialogOpen} handleDialogClose={handleDialogClose} />}
-        </Box>
+        </Stack >
     )
 }
 
-function SizeEditButtons({ columnsWidth, setColumnWidth, viewTaskList, setViewTaskList, viewMode, setViewMode }: { columnsWidth: number, setColumnWidth: Dispatch<SetStateAction<number>>, viewTaskList: boolean, setViewTaskList: Dispatch<SetStateAction<boolean>>, viewMode: string, setViewMode: Dispatch<SetStateAction<string>> }) {
+function SizeEditButtons({ columnsWidth, setColumnWidth, viewMode, setViewMode }: { columnsWidth: number, setColumnWidth: Dispatch<SetStateAction<number>>, viewMode: TViewMode, setViewMode: Dispatch<SetStateAction<TViewMode>> }) {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    function ViewModeIcon({ viewModeSet }: { viewModeSet: TViewMode }) {
+        return (
+            <Button onClick={() => setViewMode(viewModeSet)} variant={viewMode === viewModeSet ? "contained" : "outlined"} color="primary">{viewModeSet}</Button>
+        )
+    }
+
     return (
-        <Grid container spacing={2} className="ganttchart-edit-buttons">
-            <Grid item xs>
-                <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+        <Stack direction="row" spacing={2} className="ganttchart-edit-buttons" justifyContent={isMobile ? 'space-between' : 'end'}>
+            <Box>
+                <ButtonGroup size="small" variant="outlined" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
                     <Button onClick={() => setColumnWidth(columnsWidth + 5)}> <AddIcon /> </Button>
                     <Button onClick={() => setColumnWidth(columnsWidth - 5)}> <RemoveIcon /> </Button>
-                    <Button onClick={() => setViewTaskList(!viewTaskList)}> <ViewListIcon /> </Button>
                 </ButtonGroup>
-            </Grid>
-            <Grid item xs>
-                <ButtonGroup size="small" variant="contained" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
-                    <Button onClick={() => setViewMode("Week")} variant='contained' color={viewMode === "Week" ? "info" : "primary"}>Week</Button>
-                    <Button onClick={() => setViewMode("Month")} variant='contained' color={viewMode === "Month" ? "info" : "primary"}>Month</Button>
-                    <Button onClick={() => setViewMode("Year")} variant='contained' color={viewMode === "Year" ? "info" : "primary"}>Year</Button>
+            </Box>
+            <Box>
+                <ButtonGroup size="small" variant="outlined" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+                    <ViewModeIcon viewModeSet='Week' />
+                    <ViewModeIcon viewModeSet='Month' />
+                    <ViewModeIcon viewModeSet='Year' />
                 </ButtonGroup>
-            </Grid>
-        </Grid>
+            </Box>
+        </Stack>
     )
 }
 

@@ -216,3 +216,5 @@ export type StepToDataType<TStep extends keyof IFormData> = TStep extends 'sales
     : never;
 
 export type TCurrencies = { currency: string, countries: string[] }[]
+
+export type TViewMode = 'Week' | 'Month' | 'Year'

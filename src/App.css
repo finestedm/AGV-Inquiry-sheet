@@ -87,22 +87,12 @@
   }
 }
 
-._CZjuD {
+/* ._CZjuD {
   overflow-x: scroll;
-}
+} */
 
 ._3lLk3 {
   white-space: initial;
-}
-
-.ganttchart-edit-buttons {
-  opacity: 0;
-  transition: all .5s ease;
-}
-
-.ganttchart-container:hover .ganttchart-edit-buttons,
-.ganttchart-container-dark:hover .ganttchart-edit-buttons {
-  opacity: 1;
 }
 
 .MuiGrid-root.MuiGrid-container.MuiPickersToolbar-content.css-jhsfre-MuiGrid-root-MuiPickersToolbar-content {
@@ -142,7 +132,12 @@
 }
 
 .ganttchart-container ._2k9Ys {
-  height: 0;
+  max-height: 5px !important
+}
+
+._2k9Ys {
+  max-height: 5px !important
+
 }
 
 /* this is a line for a overlayWrapper that sits above Poper component :/ */
