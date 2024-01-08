@@ -242,33 +242,30 @@ const formDataSlice = createSlice({
                 'launch',
             ];
 
+            console.log(start, end)
+
+
             // Find the index of the current milestone in the order
             const currentIndex = milestoneOrder.indexOf(id);
 
             // Update the dates of the current milestone
             const currentMilestone = id === 'concept' ?
                 {
-                    start: dayjs(state.project.milestones.concept.start).isBefore(today) ? today.toDate() : state.project.milestones.concept.start,
-                    end: dayjs(state.project.milestones.concept.end).isBefore(dayjs(state.project.milestones.concept.start).add(1, 'month')) ? dayjs(state.project.milestones.concept.start).add(1, 'month').toDate() : state.project.milestones.concept.end
+                    start: dayjs(start).isBefore(today) ? today.toDate() : start,
+                    end: dayjs(end).diff(dayjs(start), 'month') < 1 ? dayjs(start).add(1, 'month').toDate() : end
                 }
-            : {
-                ...state.project.milestones[id as keyof IMilestones],
-                start: dayjs(start),
-                end: dayjs(end)
-            };
+                : {
+                    start: dayjs(start).isBefore(state.project.milestones[milestoneOrder[currentIndex - 1]].end) ? dayjs(start) : dayjs(state.project.milestones[milestoneOrder[currentIndex - 1]].end).toDate(),
+                    end: dayjs(end)
+                };
 
-
-            console.log(dayjs(state.project.milestones.concept.start).isBefore(today));
-
+            console.log(currentMilestone.start, currentMilestone.end)
 
             // Update the dates of the subsequent milestones
             let updatedMilestones = {
                 ...state.project.milestones,
                 [id]: currentMilestone,
             };
-            console.log(dayjs(state.project.milestones.concept.start).isBefore(today));
-
-            console.log(updatedMilestones.concept)
 
             for (let i = currentIndex + 1; i < milestoneOrder.length; i++) {
                 const milestoneId = milestoneOrder[i];
@@ -280,8 +277,6 @@ const formDataSlice = createSlice({
                 let endDate = startDate.add(1, 'month');
 
                 // Additional requirements for each milestone
-
-
                 if (milestoneId === 'officialOffer') {
                     // Check if the start date is earlier than the end date of the concept
                     const conceptEndDate = dayjs(updatedMilestones.concept.end);
@@ -294,6 +289,8 @@ const formDataSlice = createSlice({
 
                 if (milestoneId === 'implementation') {
                     const launchTask = updatedMilestones.launch;
+                    const orderEndDate = dayjs(state.project.milestones.order.end);
+                    startDate = startDate.isBefore(orderEndDate) ? orderEndDate : startDate;
                     const monthsDiff = endDate.diff(startDate, 'months');
 
                     // Check if the difference is less than 8 months
@@ -325,7 +322,6 @@ const formDataSlice = createSlice({
                 };
             }
 
-            console.log(updatedMilestones.concept)
             return {
                 ...state,
                 project: {
