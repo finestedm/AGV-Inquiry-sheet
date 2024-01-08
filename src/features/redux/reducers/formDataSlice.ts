@@ -229,104 +229,12 @@ const formDataSlice = createSlice({
 
         // In your reducer file
 
-        handleDateChanges: (state, action) => {
-            const { id, start, end } = action.payload;
-            const today = dayjs();
-
-            // Define the order of the milestones
-            const milestoneOrder: (keyof IMilestones)[] = [
-                'concept',
-                'officialOffer',
-                'order',
-                'implementation',
-                'launch',
-            ];
-
-            console.log(start, end)
-
-
-            // Find the index of the current milestone in the order
-            const currentIndex = milestoneOrder.indexOf(id);
-
-            // Update the dates of the current milestone
-            const currentMilestone = id === 'concept' ?
-                {
-                    start: dayjs(start).isBefore(today) ? today.toDate() : start,
-                    end: dayjs(end).diff(dayjs(start), 'month') < 1 ? dayjs(start).add(1, 'month').toDate() : end
-                }
-                : {
-                    start: dayjs(start).isBefore(state.project.milestones[milestoneOrder[currentIndex - 1]].end) ? dayjs(start) : dayjs(state.project.milestones[milestoneOrder[currentIndex - 1]].end).toDate(),
-                    end: dayjs(end)
-                };
-
-            console.log(currentMilestone.start, currentMilestone.end)
-
-            // Update the dates of the subsequent milestones
-            let updatedMilestones = {
-                ...state.project.milestones,
-                [id]: currentMilestone,
-            };
-
-            for (let i = currentIndex + 1; i < milestoneOrder.length; i++) {
-                const milestoneId = milestoneOrder[i];
-                const previousMilestone = updatedMilestones[milestoneOrder[i - 1]];
-
-
-                // Calculate the start and end dates based on the previous milestone's end date
-                let startDate = previousMilestone.end ? dayjs(previousMilestone.end) : today;
-                let endDate = startDate.add(1, 'month');
-
-                // Additional requirements for each milestone
-                if (milestoneId === 'officialOffer') {
-                    // Check if the start date is earlier than the end date of the concept
-                    const conceptEndDate = dayjs(updatedMilestones.concept.end);
-                    startDate = startDate.isBefore(conceptEndDate) ? conceptEndDate : startDate;
-
-                    // Check if the length of the officialOffer is at least 3 months
-                    const threeMonthsAfterStart = startDate.add(3, 'months');
-                    endDate = endDate.isBefore(threeMonthsAfterStart) ? threeMonthsAfterStart : endDate;
-                }
-
-                if (milestoneId === 'implementation') {
-                    const launchTask = updatedMilestones.launch;
-                    const orderEndDate = dayjs(state.project.milestones.order.end);
-                    startDate = startDate.isBefore(orderEndDate) ? orderEndDate : startDate;
-                    const monthsDiff = endDate.diff(startDate, 'months');
-
-                    // Check if the difference is less than 8 months
-                    if (monthsDiff < 8) {
-                        // Set the end date based on the adjusted start date
-                        endDate = startDate.add(8, "months");
-                    }
-
-                    // Update the launch task end date to be the same as the implementation task end date
-                    updatedMilestones = {
-                        ...updatedMilestones,
-                        launch: {
-                            ...launchTask,
-                            end: endDate.toDate(),
-                        },
-                    };
-                }
-
-                // Update the milestone with the calculated dates
-                const updatedMilestone = {
-                    ...updatedMilestones[milestoneId as keyof IMilestones],
-                    start: startDate,
-                    end: endDate,
-                };
-
-                updatedMilestones = {
-                    ...updatedMilestones,
-                    [milestoneId]: updatedMilestone,
-                };
-            }
-
+        handleDateChanges: (state, action: PayloadAction<IMilestones>) => {
             return {
                 ...state,
                 project: {
                     ...state.project,
-                    milestones: updatedMilestones,
+                    milestones: action.payload,
                 },
             };
             // ... other cases ...

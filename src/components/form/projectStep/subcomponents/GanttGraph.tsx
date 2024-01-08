@@ -15,6 +15,7 @@ import { ExtendedTask, IMilestones, TViewMode } from "../../../../features/inter
 import 'dayjs/locale/pl';
 import DateEditDialog from "./DateEditDialog";
 import SwitchRightIcon from '@mui/icons-material/SwitchRight';
+import dayjs from "dayjs";
 
 export default function GanttGraph(): JSX.Element {
 
@@ -48,6 +49,51 @@ export default function GanttGraph(): JSX.Element {
     function handleDialogClose() {
         setDateEditDialogOpen(false);
         setSelectedTask(null);
+    }
+
+    function handleDateChange(task: ExtendedTask) {
+        const { id, start, end } = task;
+        const dateState = formData.project.milestones;
+        let updatedState = { ...dateState };
+        const milestoneOrder: (keyof IMilestones)[] = ['concept', 'officialOffer', 'order', 'implementation', 'launch'];
+        const currentIndex = milestoneOrder.indexOf(id)
+        function validateMilestone(milestone: keyof IMilestones) {
+            const startDate = dayjs(start).isBefore(dayjs()) ? dayjs() : dayjs(start)
+            const endDate = dayjs(end).diff(startDate, 'months') < 1 ? startDate.add(1, 'month') : dayjs(end)
+            if (milestone === 'concept') {
+                updatedState = {
+                    ...updatedState,
+                    [milestone]: {
+                        start: startDate.toDate(),
+                        end: endDate.toDate()
+                    }
+                }
+                console.log(milestone)
+
+            } else if (milestone === 'officialOffer') {
+                const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1]
+                const previousMilestoneEndDate = dayjs(updatedState[previousMilestone].end)
+
+                updatedState = {
+                    ...updatedState,
+                    [milestone]: {
+                        start: startDate.isBefore(previousMilestoneEndDate) ? dayjs(previousMilestoneEndDate).toDate() : startDate.toDate(),
+                        end: startDate.diff(endDate, 'months') < 3 ? startDate.add(3, 'month').toDate() : endDate.toDate(),
+                    }
+                }
+                console.log(milestone)
+
+            }
+        }
+        milestoneOrder.slice(currentIndex).forEach((milestone) => {
+            validateMilestone(milestone)
+        })
+
+
+
+
+        dispatch(handleDateChanges(updatedState))
+
     }
 
     //change months names into ligits
@@ -156,10 +202,7 @@ export default function GanttGraph(): JSX.Element {
                             TaskListHeader={() => null}
                             headerHeight={headerHeight}
                             TaskListTable={() => null}
-                            onDateChange={(task: Task) => {
-                                const { id, start, end } = task;
-                                dispatch(handleDateChanges({ id, start, end }));
-                            }}
+                            onDateChange={(task: Task) => handleDateChange(task as ExtendedTask)}
                             onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handleDateEditDialogOpen(task as ExtendedTask)}
                         />
                     </Box>

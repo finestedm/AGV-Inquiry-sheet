@@ -24,7 +24,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
     const { i18n } = useTranslation();
 
     function handleAcceptNewDates() {
-        dispatch(handleDateChanges({ id: selectedTask.id, start: startDate, end: endDate }))
+        // dispatch(handleDateChanges({ id: selectedTask.id, start: startDate, end: endDate }))
         handleDialogClose()
     }
 
