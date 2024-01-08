@@ -58,39 +58,21 @@ export default function GanttGraph(): JSX.Element {
         const milestoneOrder: (keyof IMilestones)[] = ['concept', 'officialOffer', 'order', 'implementation', 'launch'];
         const currentIndex = milestoneOrder.indexOf(id)
         function validateMilestone(milestone: keyof IMilestones) {
-            const startDate = dayjs(start).isBefore(dayjs()) ? dayjs() : dayjs(start)
-            const endDate = dayjs(end).diff(startDate, 'months') < 1 ? startDate.add(1, 'month') : dayjs(end)
-            if (milestone === 'concept') {
+                const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1]
+                const previousMilestoneEndDate = previousMilestone ? dayjs(updatedState[previousMilestone].end) : dayjs()
+                const startDate = dayjs(start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(start)
+                const endDate = dayjs(end).diff(startDate, 'months') < 1 ? startDate.add(1, 'month') : dayjs(end)
                 updatedState = {
                     ...updatedState,
                     [milestone]: {
                         start: startDate.toDate(),
                         end: endDate.toDate()
                     }
-                }
-                console.log(milestone)
-
-            } else if (milestone === 'officialOffer') {
-                const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1]
-                const previousMilestoneEndDate = dayjs(updatedState[previousMilestone].end)
-
-                updatedState = {
-                    ...updatedState,
-                    [milestone]: {
-                        start: startDate.isBefore(previousMilestoneEndDate) ? dayjs(previousMilestoneEndDate).toDate() : startDate.toDate(),
-                        end: startDate.diff(endDate, 'months') < 3 ? startDate.add(3, 'month').toDate() : endDate.toDate(),
-                    }
-                }
-                console.log(milestone)
-
-            }
+                }           
         }
         milestoneOrder.slice(currentIndex).forEach((milestone) => {
             validateMilestone(milestone)
         })
-
-
-
 
         dispatch(handleDateChanges(updatedState))
 
