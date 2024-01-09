@@ -58,17 +58,21 @@ export default function GanttGraph(): JSX.Element {
         const milestoneOrder: (keyof IMilestones)[] = ['concept', 'officialOffer', 'order', 'implementation', 'launch'];
         const currentIndex = milestoneOrder.indexOf(id)
         function validateMilestone(milestone: keyof IMilestones) {
-                const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1]
-                const previousMilestoneEndDate = previousMilestone ? dayjs(updatedState[previousMilestone].end) : dayjs()
-                const startDate = dayjs(start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(start)
-                const endDate = dayjs(end).diff(startDate, 'months') < 1 ? startDate.add(1, 'month') : dayjs(end)
-                updatedState = {
-                    ...updatedState,
-                    [milestone]: {
-                        start: startDate.toDate(),
-                        end: endDate.toDate()
-                    }
-                }           
+            const isOneDayMilestone = milestone === 'order' || milestone === 'launch'
+            const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1]
+            const previousMilestoneEndDate = previousMilestone ? dayjs(updatedState[previousMilestone].end) : dayjs() //get reference to the end date of the previous milestone
+            const startDate = dayjs(start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(start) // compare end of previous milestone with start date of current milestone
+            const endDate = isOneDayMilestone   // if one day milestone, end date the same as start
+                ? startDate
+                : dayjs(end).diff(startDate, 'months') < 1 ? startDate.add(1, 'month') : dayjs(end) // if not one day milestone, add 1 month to start date if currently it is not longer than 1 month
+
+            updatedState = {
+                ...updatedState,
+                [milestone]: {
+                    start: startDate.toDate(),
+                    end: endDate.toDate()
+                }
+            }
         }
         milestoneOrder.slice(currentIndex).forEach((milestone) => {
             validateMilestone(milestone)
