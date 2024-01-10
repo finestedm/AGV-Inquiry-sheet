@@ -39,7 +39,7 @@ export default function GanttGraph(): JSX.Element {
     const columnsWidthDifference = 5
     function handleColumnsWidth(increment: '+' | '-') {
         const newColumnsWidth = increment === '+' ? columnsWidth + columnsWidthDifference : columnsWidth - columnsWidthDifference
-        newColumnsWidth <= minColumnsWidthPerView[viewMode] ? null : setColumnsWidth(newColumnsWidth);
+        newColumnsWidth > minColumnsWidthPerView[viewMode] && setColumnsWidth(newColumnsWidth);
     }
 
     // chack if width is not too small to decrease it further
