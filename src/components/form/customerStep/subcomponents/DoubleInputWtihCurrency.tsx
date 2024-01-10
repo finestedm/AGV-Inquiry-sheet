@@ -7,6 +7,7 @@ import { ICustomer } from "../../../../features/interfaces";
 import { useTranslation } from "react-i18next";
 import currencies from "../../../../data/currencies";
 import { useState } from "react";
+import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
 
 export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof ICustomer, perYear?: boolean }) {
     const customer = useSelector((state: RootState) => state.formData.customer)
@@ -24,12 +25,11 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
                 <TextField
                     fullWidth
                     name={inputKey}
-                    type="text"
+                    type="number"
                     disabled={!editMode}
-                    value={customer[inputKey] === undefined ? '' : (Number(customer[inputKey])).toLocaleString('en-US').replaceAll(',', ' ')}
+                    value={customer[inputKey] === undefined ? '' : trimLeadingZeros(Number(customer[inputKey]))}
                     onChange={(e) => {
-                        const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
-                        hasDigits && dispatch(handleInputMethod({ path: `customer.${inputKey}`, value: e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, '') }));
+                        dispatch(handleInputMethod({ path: `customer.${inputKey}`, value: e.target.value }));
                     }}
                 />
                 <Select
