@@ -24,7 +24,9 @@ export default function GanttGraph(): JSX.Element {
     const formData = useSelector((state: RootState) => state.formData);
     const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
-    const [columnsWidth, setColumnWidth] = useState<number>(40)
+    const [columnsWidth, setColumnsWidth] = useState<number>(70)
+    const [currentViewMinColumnsWidth, setCurrentViewMinColumnsWidth] = useState<number>(50)
+    const [decreaseColumnsWidthButtonDisabled, setDecreaseColumnsWidthButtonDisabled] = useState<boolean>(false)
     const [viewTaskList, setViewTaskList] = useState<boolean>(true)
     const [viewMode, setViewMode] = useState<TViewMode>('Month')
     const [selectedTask, setSelectedTask] = useState<ExtendedTask | null>(null);
@@ -32,6 +34,23 @@ export default function GanttGraph(): JSX.Element {
     const taskListHeight = 50;
     const headerHeight = 60;
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const minColumnsWidthPerView = { 'Week': 35, 'Month': 60, 'Year': 200 }
+    const columnsWidthDifference = 5
+    function handleColumnsWidth(increment: '+' | '-') {
+        const newColumnsWidth = increment === '+' ? columnsWidth + columnsWidthDifference : columnsWidth - columnsWidthDifference
+        newColumnsWidth <= minColumnsWidthPerView[viewMode] ? null : setColumnsWidth(newColumnsWidth);
+    }
+    
+    // chack if width is not too small to decrease it further
+    useEffect(() => {
+        columnsWidth - columnsWidthDifference <= minColumnsWidthPerView[viewMode] ? setDecreaseColumnsWidthButtonDisabled(true) : setDecreaseColumnsWidthButtonDisabled(false)
+    }, [columnsWidth])
+
+    // set new minWidth of the current viewMode when it changes
+    useEffect(() => {
+        setColumnsWidth(minColumnsWidthPerView[viewMode])
+        setCurrentViewMinColumnsWidth(minColumnsWidthPerView[viewMode])
+    }, [viewMode])
 
     const uneditableTasks: (keyof IMilestones)[] = ['launch' as keyof IMilestones]
 
@@ -165,7 +184,7 @@ export default function GanttGraph(): JSX.Element {
 
     return (
         <Stack spacing={2} className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} >
-            <SizeEditButtons columnsWidth={columnsWidth} setColumnWidth={setColumnWidth} viewMode={viewMode} setViewMode={setViewMode} />
+            <SizeEditButtons decreaseColumnsWidthButtonDisabled={decreaseColumnsWidthButtonDisabled}  handleColumnsWidth={handleColumnsWidth} viewMode={viewMode} setViewMode={setViewMode} />
             <Box><Grid container spacing={0} rowGap={2} sx={{ display: 'flex', flexDirection: 'column', [`@media (min-width: ${theme.breakpoints.values.lg}px)`]: { flexDirection: 'row' } }}>
                 {viewTaskList &&
                     <Grid item xs={12} lg={4} sx={{ flexBasis: 'auto' }}><CustomListTable /></Grid>
@@ -205,7 +224,7 @@ export default function GanttGraph(): JSX.Element {
     )
 }
 
-function SizeEditButtons({ columnsWidth, setColumnWidth, viewMode, setViewMode }: { columnsWidth: number, setColumnWidth: Dispatch<SetStateAction<number>>, viewMode: TViewMode, setViewMode: Dispatch<SetStateAction<TViewMode>> }) {
+function SizeEditButtons({ handleColumnsWidth, viewMode, setViewMode, decreaseColumnsWidthButtonDisabled }: { handleColumnsWidth: (increment: "+" | "-") => void, viewMode: TViewMode, setViewMode: Dispatch<SetStateAction<TViewMode>>, decreaseColumnsWidthButtonDisabled: boolean }) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -219,8 +238,8 @@ function SizeEditButtons({ columnsWidth, setColumnWidth, viewMode, setViewMode }
         <Stack direction="row" spacing={2} className="ganttchart-edit-buttons" justifyContent={isMobile ? 'space-between' : 'end'}>
             <Box>
                 <ButtonGroup size="small" variant="outlined" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
-                    <Button onClick={() => setColumnWidth(columnsWidth + 5)}> <AddIcon /> </Button>
-                    <Button onClick={() => setColumnWidth(columnsWidth - 5)}> <RemoveIcon /> </Button>
+                    <Button onClick={() => handleColumnsWidth('+')}> <AddIcon /> </Button>
+                    <Button onClick={() => handleColumnsWidth('-')} disabled={decreaseColumnsWidthButtonDisabled}> <RemoveIcon /> </Button>
                 </ButtonGroup>
             </Box>
             <Box>
