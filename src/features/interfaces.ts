@@ -147,17 +147,17 @@ export interface IFormData {
     system: ISystems;
 }
 
-export interface IMIlestoneDate {
+export interface IMilestoneDate {
     start: Date;
     end: Date;
 }
 
 export interface IMilestones {
-    concept: IMIlestoneDate;
-    officialOffer: IMIlestoneDate;
-    order: IMIlestoneDate;
-    implementation: IMIlestoneDate;
-    launch: IMIlestoneDate;
+    concept: IMilestoneDate;
+    officialOffer: IMilestoneDate;
+    order: IMilestoneDate;
+    implementation: IMilestoneDate;
+    launch: IMilestoneDate;
 }
 
 

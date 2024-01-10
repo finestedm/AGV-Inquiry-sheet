@@ -16,11 +16,12 @@ import 'dayjs/locale/pl';
 import DateEditDialog from "./DateEditDialog";
 import SwitchRightIcon from '@mui/icons-material/SwitchRight';
 import dayjs from "dayjs";
-import milestonesLenght from "../../../../data/milestonesLenght";
+import milestonesLengths, { milestoneOrder } from "../../../../data/milestones";
 
 export default function GanttGraph(): JSX.Element {
 
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const currentLanguage = i18n.language;
     const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData);
     const editMode = useSelector((state: RootState) => state.editMode);
@@ -75,7 +76,6 @@ export default function GanttGraph(): JSX.Element {
         const { id, start, end } = task;
         const dateState = formData.project.milestones;
         let updatedState = { ...dateState };
-        const milestoneOrder: (keyof IMilestones)[] = ['concept', 'officialOffer', 'order', 'implementation', 'launch'];
         const currentIndex = milestoneOrder.indexOf(id)
         function validateMilestone(milestone: keyof IMilestones) {
             const isOneDayMilestone = milestone === 'order' || milestone === 'launch'
@@ -89,8 +89,8 @@ export default function GanttGraph(): JSX.Element {
             const endDate = isOneDayMilestone   // if one day milestone, end date the same as start
                 ? startDate
                 : id === milestone  // check if currently we are checking the current step or are we in another iteration and checking another steps (if another step then we try to maintain the lenght of it)
-                    ? dayjs(end).diff(startDate, 'months') < milestonesLenght[milestone].min ? startDate.add(milestonesLenght[milestone].min, 'month') : dayjs(end) // if not one day milestone, add 1 month to start date if currently it is not longer than 1 month
-                    : dayjs(updatedState[milestone].end).diff(startDate, 'months') < milestonesLenght[milestone].min ? startDate.add(milestonesLenght[milestone].min, 'month') : dayjs(updatedState[milestone].end)
+                    ? dayjs(end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(end) // if not one day milestone, add 1 month to start date if currently it is not longer than 1 month
+                    : dayjs(updatedState[milestone].end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(updatedState[milestone].end)
 
 
             updatedState = {
@@ -124,9 +124,11 @@ export default function GanttGraph(): JSX.Element {
         return Object.entries(formData.project.milestones).map(([name, date]) => {
             const start = new Date(date.start);
             const end = new Date(date.end);
+            const previousMilestone = milestoneOrder[milestoneOrder.indexOf(name as keyof IMilestones) - 1]
             return {
                 id: name,
-                rowHeight: taskListHeight - 3,
+                dependencies: name === 'concept' ? [] : [previousMilestone],
+                rowHeight: taskListHeight - 2,
                 name: t(`project.milestones.${name}`),
                 start,
                 end,
@@ -206,8 +208,8 @@ export default function GanttGraph(): JSX.Element {
                             arrowIndent={40}
                             todayColor={theme.palette.divider}
                             viewMode={viewMode as ViewMode}
-                            // preStepsCount={0}
-                            locale='pl'
+                            preStepsCount={0}
+                            locale={currentLanguage}
                             fontSize=".75rem"
                             listCellWidth={viewTaskList ? '100px' : ""}
                             columnWidth={columnsWidth}
@@ -263,6 +265,16 @@ function SizeEditButtons({ handleColumnsWidth, viewMode, setViewMode, decreaseCo
 
 function CustomTooltip({ task }: { task: Task }) {
     const theme = useTheme();
+    function formatWeeks(): string {
+        const milestoneDurationInDays = dayjs(task.end).diff(task.start, 'days');
+        const weeks = Math.floor(milestoneDurationInDays / 7);
+        const leftoverDays = milestoneDurationInDays % 7;
+
+        return weeks > 0
+            ? `${weeks} week${weeks > 1 ? 's' : ''}${leftoverDays > 0 ? ' + ' : ''}`
+            : `${leftoverDays} day${leftoverDays > 1 ? 's' : ''}`;
+    }
+
     return (
         <Paper sx={{ backgroundColor: theme.palette.background.default }} elevation={8}>
             <Stack spacing={1} p={2}>
@@ -271,7 +283,7 @@ function CustomTooltip({ task }: { task: Task }) {
                     {task.type === 'milestone' ?
                         task.start.toLocaleDateString()
                         :
-                        `${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()}`
+                        `${task.start.toLocaleDateString()} - ${task.end.toLocaleDateString()} (${formatWeeks()})`
                     }
                 </Typography>
             </Stack>

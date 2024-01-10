@@ -1,13 +1,13 @@
 import { IMilestones } from "../features/interfaces";
 
-type MilestonesLength = {
+type TMilestonesLengths = {
     [Key in keyof IMilestones]: {
       min: number;
       typical: number;
     };
   };
 
-const milestonesLenght = {
+const milestonesLengths: TMilestonesLengths = {
     'concept': { min: 1, typical: 2 },
     'officialOffer': { min: 3, typical: 4 },
     'order': { min: 0, typical: 0 },
@@ -15,4 +15,6 @@ const milestonesLenght = {
     'launch': { min: 1, typical: 2},
 }
 
-export default milestonesLenght
+export const milestoneOrder: (keyof IMilestones)[] = ['concept', 'officialOffer', 'order', 'implementation', 'launch'];
+
+export default milestonesLengths

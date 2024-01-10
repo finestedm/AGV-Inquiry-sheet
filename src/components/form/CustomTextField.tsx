@@ -24,8 +24,6 @@ export default function CustomTextField(props: ICustomFieldProps) {
   const touchedValue = touched?.[firstPart]?.[secondPart]
   const helperTextValue = touchedValue && errors?.[firstPart]?.[secondPart] ? t(`${errors[firstPart][secondPart]}`) : '';
 
-  console.log(fieldName, type)
-
   const handleChange = (e: any) => {
     // Update Formik field value
     formikProps.handleChange(e);
