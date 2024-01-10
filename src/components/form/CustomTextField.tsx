@@ -50,8 +50,7 @@ export default function CustomTextField(props: ICustomFieldProps) {
         value={field.value}
         onChange={(e: any) => {
           if (type === 'number') {
-            const hasDigits = /\d/.test(e.target.value)
-            hasDigits && handleChange(e.target.value)
+            handleChange(e.target.value.replace(/\D/g, ''))
           } else {
             handleChange(e.target.value)
           }

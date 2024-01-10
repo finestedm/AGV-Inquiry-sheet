@@ -29,7 +29,7 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
                     disabled={!editMode}
                     value={customer[inputKey] === undefined ? '' : trimLeadingZeros(Number(customer[inputKey]))}
                     onChange={(e) => {
-                        dispatch(handleInputMethod({ path: `customer.${inputKey}`, value: e.target.value }));
+                        dispatch(handleInputMethod({ path: `customer.${inputKey}`, value: e.target.value.replace(/\D/g, '') }));
                     }}
                 />
                 <Select
