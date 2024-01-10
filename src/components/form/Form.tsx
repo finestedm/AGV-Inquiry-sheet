@@ -158,7 +158,7 @@ export default function Form(): JSX.Element {
     } else {
       dispatch(setCurrentStep(steps.steps[0]));
     }
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     navigate(`/${steps.currentStep}`);
