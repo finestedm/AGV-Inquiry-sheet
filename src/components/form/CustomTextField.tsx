@@ -24,14 +24,14 @@ export default function CustomTextField(props: ICustomFieldProps) {
   const touchedValue = touched?.[firstPart]?.[secondPart]
   const helperTextValue = touchedValue && errors?.[firstPart]?.[secondPart] ? t(`${errors[firstPart][secondPart]}`) : '';
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
+  console.log(fieldName, type)
 
+  const handleChange = (e: any) => {
     // Update Formik field value
     formikProps.handleChange(e);
 
     // Update formData field using Redux dispatch
-    dispatch(handleInputMethod({ path: fieldName, value: newValue }));
+    dispatch(handleInputMethod({ path: fieldName, value: e }));
   };
 
   return (
@@ -48,7 +48,14 @@ export default function CustomTextField(props: ICustomFieldProps) {
         required={required}
         variant="outlined"
         value={field.value}
-        onChange={handleChange}
+        onChange={(e: any) => {
+          if (type === 'number') {
+            const hasDigits = /\d/.test(e.target.value)
+            hasDigits && handleChange(e.target.value)
+          } else {
+            handleChange(e.target.value)
+          }
+        }}
         error={errorValue}
         helperText={helperTextValue}
       />
