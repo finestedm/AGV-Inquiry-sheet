@@ -16,6 +16,7 @@ import 'dayjs/locale/pl';
 import DateEditDialog from "./DateEditDialog";
 import SwitchRightIcon from '@mui/icons-material/SwitchRight';
 import dayjs from "dayjs";
+import milestonesLenght from "../../../../data/milestonesLenght";
 
 export default function GanttGraph(): JSX.Element {
 
@@ -40,7 +41,7 @@ export default function GanttGraph(): JSX.Element {
         const newColumnsWidth = increment === '+' ? columnsWidth + columnsWidthDifference : columnsWidth - columnsWidthDifference
         newColumnsWidth <= minColumnsWidthPerView[viewMode] ? null : setColumnsWidth(newColumnsWidth);
     }
-    
+
     // chack if width is not too small to decrease it further
     useEffect(() => {
         columnsWidth - columnsWidthDifference <= minColumnsWidthPerView[viewMode] ? setDecreaseColumnsWidthButtonDisabled(true) : setDecreaseColumnsWidthButtonDisabled(false)
@@ -80,10 +81,17 @@ export default function GanttGraph(): JSX.Element {
             const isOneDayMilestone = milestone === 'order' || milestone === 'launch'
             const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1]
             const previousMilestoneEndDate = previousMilestone ? dayjs(updatedState[previousMilestone].end) : dayjs() //get reference to the end date of the previous milestone
-            const startDate = dayjs(start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(start) // compare end of previous milestone with start date of current milestone
+            const startDate = id === milestone  // check if currently we are checking the current step or are we in another iteration and checking another steps (if another step then we try to maintain the lenght of it)
+                ? dayjs(start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(start)
+                : dayjs(updatedState[milestone].start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(updatedState[milestone].start)
+            // compare end of previous milestone with start date of current milestone
+
             const endDate = isOneDayMilestone   // if one day milestone, end date the same as start
                 ? startDate
-                : dayjs(end).diff(startDate, 'months') < 1 ? startDate.add(1, 'month') : dayjs(end) // if not one day milestone, add 1 month to start date if currently it is not longer than 1 month
+                : id === milestone  // check if currently we are checking the current step or are we in another iteration and checking another steps (if another step then we try to maintain the lenght of it)
+                    ? dayjs(end).diff(startDate, 'months') < milestonesLenght[milestone].min ? startDate.add(milestonesLenght[milestone].min, 'month') : dayjs(end) // if not one day milestone, add 1 month to start date if currently it is not longer than 1 month
+                    : dayjs(updatedState[milestone].end).diff(startDate, 'months') < milestonesLenght[milestone].min ? startDate.add(milestonesLenght[milestone].min, 'month') : dayjs(updatedState[milestone].end)
+
 
             updatedState = {
                 ...updatedState,
@@ -184,7 +192,7 @@ export default function GanttGraph(): JSX.Element {
 
     return (
         <Stack spacing={2} className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} >
-            <SizeEditButtons decreaseColumnsWidthButtonDisabled={decreaseColumnsWidthButtonDisabled}  handleColumnsWidth={handleColumnsWidth} viewMode={viewMode} setViewMode={setViewMode} />
+            <SizeEditButtons decreaseColumnsWidthButtonDisabled={decreaseColumnsWidthButtonDisabled} handleColumnsWidth={handleColumnsWidth} viewMode={viewMode} setViewMode={setViewMode} />
             <Box><Grid container spacing={0} rowGap={2} sx={{ display: 'flex', flexDirection: 'column', [`@media (min-width: ${theme.breakpoints.values.lg}px)`]: { flexDirection: 'row' } }}>
                 {viewTaskList &&
                     <Grid item xs={12} lg={4} sx={{ flexBasis: 'auto' }}><CustomListTable /></Grid>
