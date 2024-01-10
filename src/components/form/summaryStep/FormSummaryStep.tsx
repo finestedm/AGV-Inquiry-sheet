@@ -67,8 +67,8 @@ export default function FormSummaryStep() {
                 </Stack>
                 <Stack component={Typography} spacing={textRowSpacing}>
                     {toBeRendered({ step: 'customer', part: 'relations' }) && <BoxForTextPair keyText={t('customer.relations.type')} valueText={t(`customer.relations.${formData.customer.relations}`)} />}
-                    {formData.customer.salesHistoryValue && <BoxForTextPair keyText={t('customer.relations.saleshistoryvalue')} valueText={formData.customer.salesHistoryValue.toString()} endText="€ / rok" />}
-                    {formData.customer.creditManagement && <BoxForTextPair keyText={t('customer.relations.creditmanagement')} valueText={formData.customer.creditManagement.toString()} endText="PLN / brutto" />}
+                    {formData.customer.salesHistoryValue && <BoxForTextPair keyText={t('customer.relations.saleshistoryvalue')} valueText={formData.customer.salesHistoryValue.toString()} endText={`${formData.customer.currency} ${t('customer.currency.perYear')}`} />}
+                    {formData.customer.creditManagement && <BoxForTextPair keyText={t('customer.relations.creditmanagement')} valueText={formData.customer.creditManagement.toString()} endText={formData.customer.currency?.toString()} />}
                     <Box>
                         {(formData.customer.ownedForklifts || formData.customer.ownedRacks || formData.customer.ownedOther) && t('customer.relations.input.owned')}
                         <Box component='ul' style={{ margin: 0 }}>
