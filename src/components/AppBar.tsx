@@ -21,7 +21,7 @@ import dayjs from "dayjs";
 import EditModeSwitch from "./EditModeSwitch";
 import { setEditMode } from "../features/redux/reducers/editModeSlice";
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
-import ClearFormDataDialog from "./form/systemStep/subcomponents/ClearFormDataDialog";
+import ClearFormDataDialog from "./ClearFormDataDialog";
 
 
 export default function TopBar(): JSX.Element {
@@ -33,7 +33,6 @@ export default function TopBar(): JSX.Element {
     };
 
     const { t, i18n } = useTranslation();
-
     const formData = useSelector((state: RootState) => state.formData);
     const isSummaryStep = useSelector((state: RootState) => state.steps.currentStep) === 'summary';
     const isFormUnchaged = formData === initialFormDataState
