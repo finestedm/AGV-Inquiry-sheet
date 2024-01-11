@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/AGV-Inquiry-sheet/static/css/main.ecd5effb.css",
-    "main.js": "/AGV-Inquiry-sheet/static/js/main.0c207ae1.js",
+    "main.js": "/AGV-Inquiry-sheet/static/js/main.b9a6f46c.js",
     "static/media/loadDimensionsPicture.png": "/AGV-Inquiry-sheet/static/media/loadDimensionsPicture.cfa0d91392f12dca884e.png",
     "static/media/JH_logo.png": "/AGV-Inquiry-sheet/static/media/JH_logo.7ecf36beead9d3783c6b.png",
     "static/media/loadDimensionsPicture2.png": "/AGV-Inquiry-sheet/static/media/loadDimensionsPicture2.cfbfd9a24fdef4b47c29.png",
@@ -13,6 +13,6 @@
   },
   "entrypoints": [
     "static/css/main.ecd5effb.css",
-    "static/js/main.0c207ae1.js"
+    "static/js/main.b9a6f46c.js"
   ]
 }
