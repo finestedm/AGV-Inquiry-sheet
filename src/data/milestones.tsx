@@ -11,8 +11,8 @@ const milestonesLengths: TMilestonesLengths = {
     'concept': { min: 1, typical: 2 },
     'officialOffer': { min: 3, typical: 4 },
     'order': { min: 0, typical: 0 },
-    'implementation': { min: 1, typical: 2},
-    'launch': { min: 1, typical: 2},
+    'implementation': { min: 8, typical: 12},
+    'launch': { min: 0, typical: 0},
 }
 
 export const milestoneOrder: (keyof IMilestones)[] = ['concept', 'officialOffer', 'order', 'implementation', 'launch'];
