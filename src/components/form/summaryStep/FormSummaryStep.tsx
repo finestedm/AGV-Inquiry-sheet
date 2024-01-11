@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
-import SystemAccordion from "./subcomponents/SystemAccordion";
+import SystemAccordion from "./subcomponents/SystemTabs";
 import isPartUnchanged from "../../../features/variousMethods/isPartUnchanged";
 import { IFormData, ISystemData, ISystems, TPart } from "../../../features/interfaces";
 import industries from "../../../data/industries";
@@ -11,7 +11,8 @@ import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
 import existingWMSTypes from "../../../data/existingWMSTypes";
 import BoxForTextPair from "./subcomponents/BoxForTextPair";
-import SystemsAccordion from "./subcomponents/SystemAccordion";
+import SystemsAccordion from "./subcomponents/SystemTabs";
+import SystemsTabs from "./subcomponents/SystemTabs";
 
 export default function FormSummaryStep() {
     const formData = useSelector((state: RootState) => state.formData)
@@ -112,7 +113,7 @@ export default function FormSummaryStep() {
                     {formData.project.it.additionalInformation && <BoxForTextPair keyText={t('project.it.additionalInformation')} valueText={formData.project.it.additionalInformation} />}
                 </Stack>
             </Stack>
-            <SystemsAccordion />
+            <SystemsTabs />
         </Stack>
     )
 }
