@@ -20,7 +20,7 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: key
         <Stack spacing={8}>
             {!isStepSummary &&
                 <Stack direction='row' justifyContent='space-between'>
-                    && <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
+                    <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
                     <CopyOtherSystemDataButton selectedSystem={selectedSystem} />
                 </Stack>
             }

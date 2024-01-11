@@ -26,11 +26,7 @@ export default function SystemsTabs() {
 
     const TabPanel: React.FC<{ value: number; index: number; selectedSystem: keyof ISystems; children: React.ReactNode }> = ({ value, index, selectedSystem, children }) => (
         <div role="tabpanel" hidden={value !== index}>
-          {value === index && (
-            <Box p={3}>
-              {children}
-            </Box>
-          )}
+          {value === index && children}
         </div>
       );
 
