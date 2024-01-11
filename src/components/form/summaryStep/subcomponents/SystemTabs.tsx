@@ -25,14 +25,14 @@ export default function SystemsTabs() {
     };
 
     const TabPanel: React.FC<{ value: number; index: number; selectedSystem: keyof ISystems; children: React.ReactNode }> = ({ value, index, selectedSystem, children }) => (
-        <div role="tabpanel" hidden={value !== index}>
-          {value === index && children}
-        </div>
-      );
+        <Box role="tabpanel" hidden={value !== index} p={2} >
+            {value === index && children}
+        </Box>
+    );
 
     return (
-        <div>
-            <Tabs value={value} onChange={handleChange} sx={{borderBottom: `1px solid ${theme.palette.divider}`}} >
+        <Card elevation={0} sx={{ border: `1px solid ${theme.palette.divider}`, backgroundColor: theme.palette.background.default }}>
+            <Tabs value={value} onChange={handleChange} sx={{ borderBottom: `1px solid ${theme.palette.divider}` }} >
                 {selectedSystems.map((system, index) => (
                     <Tab key={index} label={t(`steps.${system}`)} />
                 ))}
@@ -42,6 +42,6 @@ export default function SystemsTabs() {
                     <FormSystemStep selectedSystem={system} />
                 </TabPanel>
             ))}
-        </div>
+        </Card>
     );
 }

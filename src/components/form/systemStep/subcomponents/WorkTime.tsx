@@ -31,7 +31,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
             <Box>
                 <Grid container direction='row' spacing={2} rowGap={2}>
                     <Grid item xs={12} sm={4} lg={3}>
-                        <Stack spacing={1}>
+                        <Stack spacing={1} textAlign='center'>
                             <InputLabel>{t(`system.workTime.workDays`)}</InputLabel>
                             <Box>
                                 <Slider
@@ -49,7 +49,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                         </Stack>
                     </Grid>
                     <Grid item xs={12} sm={4} lg={3}>
-                        <Stack spacing={1}>
+                        <Stack spacing={1} textAlign='center'>
                             <InputLabel>{t(`system.workTime.shiftsPerDay`)}</InputLabel>
                             <Box>
                                 <Slider
@@ -67,7 +67,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                         </Stack>
                     </Grid>
                     <Grid item xs={12} sm={4} lg={3}>
-                        <Stack spacing={1}>
+                        <Stack spacing={1} textAlign='center'>
                             <InputLabel>{t(`system.workTime.hoursPerShift`)}</InputLabel>
                             <Box>
                                 <Slider

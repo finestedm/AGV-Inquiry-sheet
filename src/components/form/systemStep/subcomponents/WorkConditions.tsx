@@ -27,7 +27,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
             <Box>
                 <Grid container direction='row' spacing={2}>
                     <Grid item xs={12} md={6}>
-                        <Stack spacing={1}>
+                        <Stack spacing={1} textAlign='center'>
                             <InputLabel>{t(`system.workConditions.temperature`)}</InputLabel>
                             <Box>
                                 <Slider
@@ -45,7 +45,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Stack spacing={1}>
+                        <Stack spacing={1} textAlign='center'>
                             <InputLabel>{t(`system.workConditions.humidity`)}</InputLabel>
                             <Box>
                                 <Slider

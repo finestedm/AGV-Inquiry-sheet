@@ -156,10 +156,6 @@ export default function Form(): JSX.Element {
   }, [steps.currentStep])
 
   useEffect(() => {
-    console.log(steps.currentStep)
-  }, [steps.currentStep])
-
-  useEffect(() => {
     const locationFromURL = location.pathname.split('/').pop() || ''
     dispatch(setCurrentStep(locationFromURL));
   }, [navigate])

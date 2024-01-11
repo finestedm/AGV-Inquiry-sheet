@@ -39,7 +39,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
 
     return (
         <Grid item xs={12} md={6}>
-            <Card elevation={2} className={systemSelected ? 'selected-card' : ''} >
+            <Card elevation={2} className={systemSelected ? 'selected-card' : ''}>
                 <CardActionArea
                     sx={{ position: 'relative' }}
                     disabled={!editMode}
