@@ -1,4 +1,5 @@
 import { Task } from "gantt-task-react";
+import availableEquipment from "../data/availableEquipment";
 
 export interface ISales {
     salesUnit: string;
@@ -84,7 +85,7 @@ export interface ILoadsTypes {
     [key: string]: ILoad;
 }
 
-export type TEquipmentType = 'gate' | 'wall' | 'dock';
+export type TEquipmentType = typeof availableEquipment[number];
 
 export interface IEquipment {
     id: number;
