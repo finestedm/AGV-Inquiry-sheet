@@ -129,7 +129,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
 
                             }}
                             {...commonProps} />
-                        <Text {...textProps} y={textProps.y - 10} text={`Type: ${type}`} />
+                        <Text {...textProps} y={textProps.y - 10} text={type} />
                         <Text {...textProps} text={`${width.toFixed(2)} x ${height.toFixed(2)}`} />
                         {isSelected && (
                             <Transformer
@@ -153,7 +153,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                     <React.Fragment>
                         <Circle {...commonProps} />
                         <Text {...textProps} text={`ID: ${id}`} />
-                        <Text {...textProps} y={textProps.y - 10} text={`Type: ${type}`} />
+                        <Text {...textProps} y={textProps.y - 10} text={type} />
                     </React.Fragment>
                 );
         }

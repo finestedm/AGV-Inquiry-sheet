@@ -42,9 +42,9 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         const newEquipment: IEquipment = {
             id: generateRandomId(),
             x: 5,
-            width: 1,
+            width: 10,
             y: 5,
-            height: 1,
+            height: 10,
             rotation: 0,
             type: equipmentToAdd,
             color: randomColor({ luminosity: 'light' }),
