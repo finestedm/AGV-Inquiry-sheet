@@ -6,12 +6,13 @@ import { RootState } from "../../../../features/redux/store";
 import { updateEquipment } from "../../../../features/redux/reducers/formDataSlice";
 import { useTheme } from "@mui/material";
 import { Circle, Rect, Text, Transformer } from "react-konva";
+import Konva from 'konva';  
 
 export default function EquipmentShape({ equipment, index, isSelected, onSelect, selectedShapeId, canvaToWarehouseRatio, selectedSystem }: { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any, selectedShapeId: number | null, canvaToWarehouseRatio: number, selectedSystem: keyof ISystems }) {
     const { id, x, width, y, height, rotation, type, color } = equipment;
 
-    const shapeRef = useRef();
-    const trRef = useRef();
+    const shapeRef = useRef<Konva.Rect | null>(null);
+    const trRef = useRef<Konva.Transformer | null>(null);
 
     const dispatch = useDispatch();
     const editMode = useSelector((state: RootState) => state.editMode);
@@ -60,12 +61,10 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
     };
 
     useEffect(() => {
-        if (isSelected) {
+        if (isSelected && shapeRef && shapeRef.current) {
             // we need to attach transformer manually
-            //@ts-ignore
-            trRef.current!.nodes([shapeRef.current]);
-            //@ts-ignore
-            trRef.current!.getLayer().batchDraw();
+            trRef.current?.nodes([shapeRef.current]);
+            trRef.current?.getLayer()?.batchDraw();
         }
     }, [isSelected]);
 
@@ -99,34 +98,25 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                     <React.Fragment>
                         <Rect onClick={onSelect}
                             onTap={onSelect}
-                            //@ts-ignore
                             ref={shapeRef}
                             onTransformEnd={() => {
                                 const node = shapeRef.current;
-                                //@ts-ignore
-                                const scaleX = node.scaleX();
-                                //@ts-ignore
-                                const scaleY = node.scaleY();
+                                if (node) {
+                                    const scaleX = node.scaleX();
+                                    const scaleY = node.scaleY();
 
-                                // we will reset it back
-                                //@ts-ignore
-                                node.scaleX(1);
-                                //@ts-ignore
-                                node.scaleY(1);
+                                    // we will reset it back
+                                    node.scaleX(1);
+                                    node.scaleY(1);
 
-                                onShapeChange({
-                                    //@ts-ignore
-                                    x: node.x(),
-                                    //@ts-ignore
-                                    y: node.y(),
-                                    //@ts-ignore
-                                    width: node.width() * scaleX,
-                                    //@ts-ignore
-                                    height: node.height() * scaleY,
-                                    //@ts-ignore
-                                    rotation: node.rotation(),
-                                });
-
+                                    onShapeChange({
+                                        x: node.x(),
+                                        y: node.y(),
+                                        width: node.width() * scaleX,
+                                        height: node.height() * scaleY,
+                                        rotation: node.rotation(),
+                                    });
+                                }
                             }}
                             {...commonProps} />
                         <Text {...textProps} y={textProps.y - 10} text={type} />
