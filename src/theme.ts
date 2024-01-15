@@ -165,13 +165,6 @@ theme = createTheme({
 
     ],
     components: {
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: theme.shape.borderRadius * 10
-                }
-            }
-        },
         MuiCard: {
             styleOverrides: {
                 root: {
@@ -369,13 +362,6 @@ export const themeDark = createTheme({
 
 
     components: {
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: theme.shape.borderRadius * 100
-                }
-            }
-        },
         MuiCard: {
             styleOverrides: {
                 root: {
