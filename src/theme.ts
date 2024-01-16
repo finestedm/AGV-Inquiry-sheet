@@ -214,8 +214,8 @@ theme = createTheme({
                 input: {
                     paddingLeft: "16px",
                     paddingRight: "16px",
-                    paddingTop: "14px",
-                    paddingBottom: "14px",
+                    paddingTop: "12px",
+                    paddingBottom: "12px",
                 }
             },
         },
@@ -409,8 +409,8 @@ export const themeDark = createTheme({
                 input: {
                     paddingLeft: "16px",
                     paddingRight: "16px",
-                    paddingTop: "14px",
-                    paddingBottom: "14px"
+                    paddingTop: "12px",
+                    paddingBottom: "12px"
                 },
             },
         },

@@ -1,13 +1,13 @@
-import { Card, CardContent, CardHeader } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Stack, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
-export default function InputGroupCard({ title, content }: {title: string, content: ReactNode }) {
+export default function InputGroupCard({ title, content }: { title: string, content: ReactNode }) {
     return (
-        <Card className="input-group-card">
-            <CardHeader title={title} sx={{ textAlign: 'left' }}/>
-            <CardContent>
+        <Box className="input-group-card">
+            <Stack spacing={2}>
+                <Typography variant="h6" textAlign='left'>{title}</Typography>
                 {content}
-            </CardContent>
-        </Card>
+            </Stack>
+        </Box>
     )
 }
