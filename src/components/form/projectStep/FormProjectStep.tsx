@@ -17,6 +17,7 @@ import GanttGraph from "./subcomponents/GanttGraph";
 import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
 import existingWMSTypes from "../../../data/existingWMSTypes";
+import InputGroup from "../InputGroup";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -57,162 +58,119 @@ export default function FormProjectStep(): JSX.Element {
     return (
         <Stack spacing={8}>
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
-            <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h5" textAlign='left'>{t('project.subheader.various')}</Typography>
-                <CustomTextField
-                    fieldName="project.goals"
-                    multiline
-                    rows={3}
-                />
-                <Stack spacing={1}>
-                    <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts.header')}</InputLabel>
-                    <FormControl>
-                        <Field
-                            as={Select}
-                            disabled={!editMode}
-                            required
-                            labelId="project.supplyChainParts.label"
-                            id="project.supplyChainParts"
-                            name="project.supplyChainParts"
-                            multiple
-                            input={<OutlinedInput />}
-                            value={formData.project.supplyChainParts}
-                            renderValue={(selected: number[]) => (
-                                <Stack direction="row" spacing={1} >
-                                    {selected.map((index) => (
-                                        <Chip
-                                            sx={{ borderRadius: .5 }}
-                                            key={index}
-                                            label={t(`${supplyChainPartsWithIcon[index].name}`)}
-                                        />
+            <InputGroup
+                title={t('project.subheader.various')}
+                content={
+                    <Stack spacing={2}>
+                        <CustomTextField
+                            fieldName="project.goals"
+                            multiline
+                            rows={3}
+                        />
+                        <Stack spacing={1}>
+                            <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts.header')}</InputLabel>
+                            <FormControl>
+                                <Field
+                                    as={Select}
+                                    disabled={!editMode}
+                                    required
+                                    labelId="project.supplyChainParts.label"
+                                    id="project.supplyChainParts"
+                                    name="project.supplyChainParts"
+                                    multiple
+                                    input={<OutlinedInput size="small" />}
+                                    value={formData.project.supplyChainParts}
+                                    renderValue={(selected: number[]) => (
+                                        <Stack direction="row" spacing={1} >
+                                            {selected.map((index) => (
+                                                <Chip
+                                                    sx={{ borderRadius: .5 }}
+                                                    key={index}
+                                                    label={t(`${supplyChainPartsWithIcon[index].name}`)}
+                                                />
+                                            ))}
+                                        </Stack>
+                                    )}
+                                    onChange={(e: { target: { value: any; }; }) => {
+                                        dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))
+                                        formikProps.setFieldValue('project.supplyChainParts', e.target.value);
+                                    }}
+                                    MenuProps={MenuProps}
+                                    error={Boolean(formikProps.errors.project?.supplyChainParts)}
+                                >
+                                    {supplyChainPartsWithIcon.map((supplyChainPart) => (
+                                        <MenuItem key={supplyChainPart.name} value={supplyChainPartsWithIcon.indexOf(supplyChainPart)}>
+                                            <Checkbox checked={formData.project.supplyChainParts.includes(supplyChainPartsWithIcon.indexOf(supplyChainPart))} />
+                                            <Stack spacing={1} direction='row'>
+                                                {supplyChainPart.icon}
+                                                <ListItemText primary={supplyChainPart.name} />
+                                            </Stack>
+                                        </MenuItem>
                                     ))}
-                                </Stack>
-                            )}
-                            onChange={(e: { target: { value: any; }; }) => {
-                                dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))
-                                formikProps.setFieldValue('project.supplyChainParts', e.target.value);
+                                    {formikProps.touched.project?.supplyChainParts && formikProps.errors.project?.supplyChainParts && <FormHelperText error>{t(`${formikProps.errors.project?.supplyChainParts}`)}</ FormHelperText>}
+                                </Field>
+                            </FormControl>
+                        </Stack>
+                    </Stack>
+                }
+            />
+            <InputGroup
+                title={t('project.subheader.investmentType')}
+                content={
+                    <Stack spacing={2}>
+                        <ToggleButtonGroup
+                            sx={{ display: { xs: 'none', sm: 'flex' } }}
+                            size="small"
+                            color='primary'
+                            disabled={!editMode}
+                            exclusive
+                            fullWidth
+                            aria-label="investment type buttons"
+                            onChange={(e, v) => {
+                                dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
+                                formikProps.setFieldValue('project.investmentType', v);
                             }}
-                            MenuProps={MenuProps}
-                            error={Boolean(formikProps.errors.project?.supplyChainParts)}
                         >
-                            {supplyChainPartsWithIcon.map((supplyChainPart) => (
-                                <MenuItem key={supplyChainPart.name} value={supplyChainPartsWithIcon.indexOf(supplyChainPart)}>
-                                    <Checkbox checked={formData.project.supplyChainParts.includes(supplyChainPartsWithIcon.indexOf(supplyChainPart))} />
-                                    <Stack spacing={1} direction='row'>
-                                        {supplyChainPart.icon}
-                                        <ListItemText primary={supplyChainPart.name} />
-                                    </Stack>
-                                </MenuItem>
+                            {investmentTypesTranslated.map((investmentType) => (
+                                <ToggleButton
+                                    sx={{ color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
+                                    value={investmentTypesTranslated.indexOf(investmentType)}
+                                    key={investmentType}
+                                    selected={formData.project.investmentType === investmentTypesTranslated.indexOf(investmentType)}
+                                >
+                                    {investmentType}
+                                </ToggleButton>
                             ))}
-                            {formikProps.touched.project?.supplyChainParts && formikProps.errors.project?.supplyChainParts && <FormHelperText error>{t(`${formikProps.errors.project?.supplyChainParts}`)}</ FormHelperText>}
-                        </Field>
-                    </FormControl>
-                </Stack>
+                        </ToggleButtonGroup>
+                        <ToggleButtonGroup
+                            sx={{ display: { sm: 'none' } }}
+                            size="small"
+                            exclusive
+                            disabled={!editMode}
+                            aria-label="investment type buttons"
+                            orientation="vertical"
+                            fullWidth
+                            color='primary'
+                            onChange={(e, v) => {
+                                dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
+                                formikProps.setFieldValue('project.investmentType', v);
+                            }}
+                        >
+                            {investmentTypes.map((investmentType) => (
+                                <ToggleButton
+                                    value={investmentTypes.indexOf(investmentType)}
+                                    key={investmentType}
+                                    selected={formData.project.investmentType === investmentTypes.indexOf(investmentType)}
+                                >
+                                    {investmentType}
+                                </ToggleButton>
+                            ))}
+                        </ToggleButtonGroup>
+                        {formikProps.errors.project?.investmentType && <FormHelperText error>{t(`${formikProps.errors.project?.investmentType}`)}</ FormHelperText>}
+                    </Stack>
+                }
+            />
 
-                <CustomTextField
-                    required
-                    fieldName="project.investmentLocation"
-                />
-                <Box>
-                    <Grid container flex={1} justifyContent='space-between' spacing={2}>
-                        <Grid item>
-                            <FormControlLabel
-                                id="project-tender"
-                                disabled={!editMode}
-                                control={
-                                    <Checkbox
-                                        checked={formData.project.tender}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.tender', value: e.target.checked }))}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    />
-                                }
-                                labelPlacement="end"
-                                label={t('project.tender')}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <FormControlLabel
-                                id="project-consultingCompany"
-                                disabled={!editMode}
-                                control={
-                                    <Checkbox
-                                        checked={formData.project.consultingCompany}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.consultingCompany', value: e.target.checked }))}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    />
-                                }
-                                labelPlacement="end"
-                                label={t('project.consultingCompany')}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <FormControlLabel
-                                id="project-competitor"
-                                disabled={!editMode}
-                                control={
-                                    <Checkbox
-                                        checked={formData.project.competitor}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.competitor', value: e.target.checked }))}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    />
-                                }
-                                labelPlacement="end"
-                                label={t('project.competitor')}
-                            />
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Stack>
-            <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h5" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
-                <ToggleButtonGroup
-                    sx={{ display: { xs: 'none', sm: 'flex' } }}
-                    color='primary'
-                    disabled={!editMode}
-                    exclusive
-                    fullWidth
-                    aria-label="investment type buttons"
-                    onChange={(e, v) => {
-                        dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
-                        formikProps.setFieldValue('project.investmentType', v);
-                    }}
-                >
-                    {investmentTypesTranslated.map((investmentType) => (
-                        <ToggleButton
-                            sx={{ color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
-                            value={investmentTypesTranslated.indexOf(investmentType)}
-                            key={investmentType}
-                            selected={formData.project.investmentType === investmentTypesTranslated.indexOf(investmentType)}
-                        >
-                            {investmentType}
-                        </ToggleButton>
-                    ))}
-                </ToggleButtonGroup>
-                <ToggleButtonGroup
-                    sx={{ display: { sm: 'none' } }}
-                    exclusive
-                    disabled={!editMode}
-                    aria-label="investment type buttons"
-                    orientation="vertical"
-                    fullWidth
-                    color='primary'
-                    onChange={(e, v) => {
-                        dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
-                        formikProps.setFieldValue('project.investmentType', v);
-                    }}
-                >
-                    {investmentTypes.map((investmentType) => (
-                        <ToggleButton
-                            value={investmentTypes.indexOf(investmentType)}
-                            key={investmentType}
-                            selected={formData.project.investmentType === investmentTypes.indexOf(investmentType)}
-                        >
-                            {investmentType}
-                        </ToggleButton>
-                    ))}
-                </ToggleButtonGroup>
-                {formikProps.errors.project?.investmentType && <FormHelperText error>{t(`${formikProps.errors.project?.investmentType}`)}</ FormHelperText>}
-            </Stack>
             <Stack spacing={2} sx={{ width: '100%' }}>
                 <Typography variant="h5" textAlign='left'>{t('project.subheader.milestones')}</Typography>
                 {/* <LocalizationProvider dateAdapter={AdapterDayjs}>

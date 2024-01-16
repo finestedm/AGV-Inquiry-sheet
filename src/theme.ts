@@ -287,7 +287,8 @@ theme = createTheme({
         MuiChip: {
             styleOverrides: {
                 root: {
-                    backgroundColor: greyLightMinus10BlackColor
+                    backgroundColor: greyLightMinus10BlackColor,
+                    height: 24
                 }
             }
         }
@@ -477,7 +478,8 @@ export const themeDark = createTheme({
         MuiChip: {
             styleOverrides: {
                 root: {
-                    backgroundColor: greyColorDark
+                    backgroundColor: greyColorDark,
+                    height: 24
                 }
             }
         }
