@@ -204,7 +204,7 @@ export default function GanttGraph(): JSX.Element {
                         <Box border={1} sx={{ borderColor: theme.palette.divider }}>
                             <Gantt
                                 tasks={milestones}
-                                barCornerRadius={theme.shape.borderRadius}
+                                barCornerRadius={theme.shape.borderRadius/3}
                                 barBackgroundSelectedColor={theme.palette.secondary.main}
                                 arrowIndent={40}
                                 todayColor={theme.palette.divider}

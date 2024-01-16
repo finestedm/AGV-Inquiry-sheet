@@ -95,7 +95,7 @@ theme = createTheme({
 
     },
     shape: {
-        borderRadius: 1
+        borderRadius: 6
     },
 
     typography: {
@@ -202,8 +202,8 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     minWidth: "12ch",
-                    borderColor: '#000'
-
+                    borderColor: '#000',
+                    backgroundColor: backgroundColor
                 },
                 input: {
                     paddingLeft: "16px",
@@ -398,6 +398,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     minWidth: "12ch",
+                    backgroundColor: backgroundColorDark
                 },
                 input: {
                     paddingLeft: "16px",
