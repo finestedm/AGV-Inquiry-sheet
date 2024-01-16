@@ -9,7 +9,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../features/redux/store';
 
 export default function CustomTextField(props: ICustomFieldProps) {
-  const { fieldName, required, multiline, rows, fullWidth, disabled, type } = props;
+  let { fieldName, required, multiline, rows, fullWidth, disabled, type, size } = props;
+  size = size ? size : 'small'
   const { t } = useTranslation();
   const formikProps = useFormikContext();
   const dispatch = useDispatch()
@@ -39,6 +40,7 @@ export default function CustomTextField(props: ICustomFieldProps) {
         as={TextField}
         fullWidth={fullWidth}
         multiline={multiline}
+        size={size}
         type={type}
         rows={rows}
         disabled={disabled || !editMode}

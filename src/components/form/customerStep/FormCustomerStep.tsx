@@ -13,7 +13,7 @@ import { ICustomer, IFormData, TIndustry } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
 import industries from "../../../data/industries";
 import { DoubleInputWithCurrency } from "./subcomponents/DoubleInputWtihCurrency";
-import InputGroupCard from "../InputGroupCard";
+import InputGroup from "../InputGroup";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -43,9 +43,9 @@ export default function FormCustomerStep(): JSX.Element {
   const industriesTranslated = industries.map(industry => t(`industry.${industry}`))
 
   return (
-    <Stack spacing={5}>
+    <Stack spacing={4}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
-      <InputGroupCard
+      <InputGroup
         title={t('customer.subheader.teleaddress')}
         content={
           <Stack spacing={2}>
@@ -64,7 +64,7 @@ export default function FormCustomerStep(): JSX.Element {
           </Stack>
         }
       />
-      <InputGroupCard
+      <InputGroup
         title={t('customer.subheader.contactperson')}
         content={
           <Stack spacing={2}>
@@ -74,154 +74,172 @@ export default function FormCustomerStep(): JSX.Element {
             <CustomTextField
               fieldName="customer.contactPersonRole"
             />
-            <Stack spacing={1}>
-              <InputLabel>{t('customer.contactPersonPhone')}</InputLabel>
-              <MuiTelInput
-                defaultCountry="PL"
-                continents={['EU']}
-                value={formData.customer.contactPersonPhone}
-                onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonPhone', value: e }))}
-                variant="outlined"
-                disabled={!editMode}
-                fullWidth
-              />
-            </Stack>
-            <CustomTextField
-              fieldName="customer.contactPersonMail"
-            />
+            <Box>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Stack spacing={1}>
+                    <InputLabel>{t('customer.contactPersonPhone')}</InputLabel>
+                    <MuiTelInput
+                      defaultCountry="PL"
+                      continents={['EU']}
+                      size="small"
+                      value={formData.customer.contactPersonPhone}
+                      onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonPhone', value: e }))}
+                      variant="outlined"
+                      disabled={!editMode}
+                      fullWidth
+                    />
+                  </Stack>
+                </Grid>
+                <Grid item xs>
+                  <CustomTextField
+                    fieldName="customer.contactPersonMail"
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+
+
           </Stack>
         }
       />
-      <Stack spacing={2}>
-        <Typography variant="h5" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
-        <Stack spacing={1}>
-          <InputLabel required>{t('customer.industry')}</InputLabel>
-          <FormControl>
-            <Field
-              required
-              disabled={!editMode}
-              as={Select}
-              id="customer-industryName"
-              name='customer.industryName'
-              multiple
-              input={<OutlinedInput />}
-              value={formData.customer.industryName}
-              onChange={(e: { target: { value: number[]; }; }) => {
-                formikProps.setFieldValue('customer.industryName', e.target.value);
-                dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value }))
-              }}
-              renderValue={(selected: TIndustry[]) => (
-                <Stack direction="row" spacing={1} >
-                  {selected.map((industry) => (
-                    <Chip
-                      sx={{ borderRadius: .5 }}
-                      key={industry}
-                      label={industriesTranslated[industries.indexOf(industry)]}
-                    />
+      <InputGroup
+        title={t('customer.subheader.businessdata')}
+        content={
+          <Stack spacing={2}>
+            <Stack spacing={1}>
+              <InputLabel required>{t('customer.industry')}</InputLabel>
+              <FormControl>
+                <Field
+                  required
+                  disabled={!editMode}
+                  as={Select}
+                  id="customer-industryName"
+                  name='customer.industryName'
+                  multiple
+                  input={<OutlinedInput size="small" />}
+                  value={formData.customer.industryName}
+                  onChange={(e: { target: { value: number[]; }; }) => {
+                    formikProps.setFieldValue('customer.industryName', e.target.value);
+                    dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value }))
+                  }}
+                  renderValue={(selected: TIndustry[]) => (
+                    <Stack direction="row" spacing={1} >
+                      {selected.map((industry) => (
+                        <Chip
+                          sx={{ borderRadius: .5 }}
+                          key={industry}
+                          label={industriesTranslated[industries.indexOf(industry)]}
+                        />
+                      ))}
+                    </Stack>
+                  )}
+                  MenuProps={MenuProps}
+                  error={Boolean(formikProps.errors.customer?.industryName)}
+                >
+                  {industries.map((industry) => (
+                    <MenuItem key={industry} value={industry}>
+                      <Checkbox checked={formData.customer.industryName.includes(industry)} />
+                      <ListItemText primary={industriesTranslated[industries.indexOf(industry)]} />
+                    </MenuItem>
                   ))}
-                </Stack>
-              )}
-              MenuProps={MenuProps}
-              error={Boolean(formikProps.errors.customer?.industryName)}
-            >
-              {industries.map((industry) => (
-                <MenuItem key={industry} value={industry}>
-                  <Checkbox checked={formData.customer.industryName.includes(industry)} />
-                  <ListItemText primary={industriesTranslated[industries.indexOf(industry)]} />
-                </MenuItem>
-              ))}
-            </Field>
-            {formikProps.touched.customer?.industryName && formikProps.errors.customer?.industryName && <FormHelperText error>{t(`${formikProps.errors.customer?.industryName}`)}</ FormHelperText>}
-          </FormControl>
-        </Stack>
-        {formData.customer.industryName.includes('other') &&
-          <CustomTextField
-            fieldName="customer.industryNameOther"
-          />
+                </Field>
+                {formikProps.touched.customer?.industryName && formikProps.errors.customer?.industryName && <FormHelperText error>{t(`${formikProps.errors.customer?.industryName}`)}</ FormHelperText>}
+              </FormControl>
+            </Stack>
+            {formData.customer.industryName.includes('other') &&
+              <CustomTextField
+                fieldName="customer.industryNameOther"
+              />
+            }
+            <Stack spacing={1}>
+              <InputLabel>{t('customer.relations.type')}</InputLabel>
+              <FormControl>
+                <Field
+                  as={Select}
+                  disabled={!editMode}
+                  required
+                  id="customer.relations"
+                  name='customer.relations'
+                  input={<OutlinedInput size="small" />}
+                  value={formData.customer.relations === -1 ? '' : formData.customer.relations}
+                  onChange={(e: { target: { value: string; }; }) => {
+                    dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))
+                    formikProps.setFieldValue('customer.relations', e.target.value);
+                  }}
+                  renderValue={(selected: any) => (t(`customer.relations.${selected}`))}
+                  MenuProps={MenuProps}
+                  error={Boolean(formikProps.errors.customer?.relations)}
+                >
+                  <MenuItem value={1}>{t('customer.relations.1')}</MenuItem>
+                  <MenuItem value={2}>{t('customer.relations.2')}</MenuItem>
+                  <MenuItem value={3}>{t('customer.relations.3')}</MenuItem>
+                  <MenuItem value={4}>{t('customer.relations.4')}</MenuItem>
+                </Field>
+                {formikProps.touched.customer?.relations && formikProps.errors.customer?.relations && <FormHelperText error>{t(`${formikProps.errors.customer?.relations}`)}</ FormHelperText>}
+              </FormControl>
+            </Stack>
+            {(formData.customer.relations === 2 || formData.customer.relations === 3) &&
+              <Box>
+                <Grid container direction='row' spacing={2}>
+                  <Grid item xs={6} lg={4}>
+                    <Stack spacing={1}>
+                      <InputLabel>{t("customer.relations.input.forklifts")}</InputLabel>
+                      <TextField
+                        id="customer-relations-forklift-input"
+                        fullWidth
+                        disabled={!editMode}
+                        size="small"
+                        type="number"
+                        value={trimLeadingZeros(Number(formData.customer.ownedForklifts))}
+                        onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedForklifts', value: Number(e.target.value) }))}
+                        InputProps={{
+                          // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
+                          endAdornment: <InputAdornment position="end">szt.</InputAdornment>,
+                        }}
+                      />
+                    </Stack>
+                  </Grid>
+                  <Grid item xs={6} lg={4}>
+                    <Stack spacing={1}>
+                      <InputLabel>{t("customer.relations.input.racks")}</InputLabel>
+                      <TextField
+                        id="customer-relations-racks-input"
+                        fullWidth
+                        disabled={!editMode}
+                        type="number"
+                        size="small"
+                        value={trimLeadingZeros(Number(formData.customer.ownedRacks))}
+                        onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedRacks', value: Number(e.target.value) }))}
+                        InputProps={{
+                          // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
+                          endAdornment: <InputAdornment position="end">m.p.</InputAdornment>,
+                        }}
+                      />
+                    </Stack>
+                  </Grid>
+                  <Grid item lg={4} xs={12}>
+                    <Stack spacing={1}>
+                      <InputLabel>{t("customer.relations.input.other")}</InputLabel>
+                      <TextField
+                        id="customer-relations-other-input"
+                        fullWidth
+                        disabled={!editMode}
+                        type="text"
+                        size="small"
+                        value={formData.customer.ownedOther}
+                        onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedOther', value: e.target.value }))}
+                      />
+                    </Stack>
+                  </Grid>
+                </Grid>
+              </Box>
+            }
+            <DoubleInputWithCurrency inputKey='salesHistoryValue' perYear />
+            <DoubleInputWithCurrency inputKey='creditManagement' />
+          </Stack>
         }
-        <Stack spacing={1}>
-          <InputLabel>{t('customer.relations.type')}</InputLabel>
-          <FormControl>
-            <Field
-              as={Select}
-              disabled={!editMode}
-              required
-              id="customer.relations"
-              name='customer.relations'
-              input={<OutlinedInput />}
-              value={formData.customer.relations === -1 ? '' : formData.customer.relations}
-              onChange={(e: { target: { value: string; }; }) => {
-                dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))
-                formikProps.setFieldValue('customer.relations', e.target.value);
-              }}
-              renderValue={(selected: any) => (t(`customer.relations.${selected}`))}
-              MenuProps={MenuProps}
-              error={Boolean(formikProps.errors.customer?.relations)}
-            >
-              <MenuItem value={1}>{t('customer.relations.1')}</MenuItem>
-              <MenuItem value={2}>{t('customer.relations.2')}</MenuItem>
-              <MenuItem value={3}>{t('customer.relations.3')}</MenuItem>
-              <MenuItem value={4}>{t('customer.relations.4')}</MenuItem>
-            </Field>
-            {formikProps.touched.customer?.relations && formikProps.errors.customer?.relations && <FormHelperText error>{t(`${formikProps.errors.customer?.relations}`)}</ FormHelperText>}
-          </FormControl>
-        </Stack>
-        {(formData.customer.relations === 2 || formData.customer.relations === 3) &&
-          <Box>
-            <Grid container direction='row' spacing={2}>
-              <Grid item xs={6} lg={4}>
-                <Stack spacing={1}>
-                  <InputLabel>{t("customer.relations.input.forklifts")}</InputLabel>
-                  <TextField
-                    id="customer-relations-forklift-input"
-                    fullWidth
-                    disabled={!editMode}
-                    type="number"
-                    value={trimLeadingZeros(Number(formData.customer.ownedForklifts))}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedForklifts', value: Number(e.target.value) }))}
-                    InputProps={{
-                      // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
-                      endAdornment: <InputAdornment position="end">szt.</InputAdornment>,
-                    }}
-                  />
-                </Stack>
-              </Grid>
-              <Grid item xs={6} lg={4}>
-                <Stack spacing={1}>
-                  <InputLabel>{t("customer.relations.input.racks")}</InputLabel>
-                  <TextField
-                    id="customer-relations-racks-input"
-                    fullWidth
-                    disabled={!editMode}
-                    type="number"
-                    value={trimLeadingZeros(Number(formData.customer.ownedRacks))}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedRacks', value: Number(e.target.value) }))}
-                    InputProps={{
-                      // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
-                      endAdornment: <InputAdornment position="end">m.p.</InputAdornment>,
-                    }}
-                  />
-                </Stack>
-              </Grid>
-              <Grid item lg={4} xs={12}>
-                <Stack spacing={1}>
-                  <InputLabel>{t("customer.relations.input.other")}</InputLabel>
-                  <TextField
-                    id="customer-relations-other-input"
-                    fullWidth
-                    disabled={!editMode}
-                    type="text"
-                    value={formData.customer.ownedOther}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedOther', value: e.target.value }))}
-                  />
-                </Stack>
-              </Grid>
-            </Grid>
-          </Box>
-        }
-        <DoubleInputWithCurrency inputKey='salesHistoryValue' perYear />
-        <DoubleInputWithCurrency inputKey='creditManagement' />
-      </Stack>
-    </Stack >
+      />
+    </Stack>
   )
 }

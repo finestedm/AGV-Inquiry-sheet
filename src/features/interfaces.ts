@@ -1,3 +1,4 @@
+import { TextFieldProps } from "@mui/material";
 import { Task } from "gantt-task-react";
 
 export interface ISales {
@@ -191,6 +192,7 @@ export interface ICustomFieldProps {
     rows?: number;
     fullWidth?: boolean;
     disabled?: boolean;
+    size?: TextFieldProps['size']
 }
 
 export interface CopySystemDataPayload {

@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, CardHeader, Divider, Grid, Stack, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
-export default function InputGroupCard({ title, content }: { title: string, content: ReactNode }) {
+export default function InputGroup({ title, content }: { title: string, content: ReactNode }) {
     return (
         <Box>
             <Divider sx={{marginBottom: 2}} />

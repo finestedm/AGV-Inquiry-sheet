@@ -254,7 +254,7 @@ theme = createTheme({
         MuiInputLabel: {
             styleOverrides: {
                 root: {
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: 600,
                     textAlign: 'left'
                 }
@@ -445,7 +445,7 @@ export const themeDark = createTheme({
         MuiInputLabel: {
             styleOverrides: {
                 root: {
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: 600,
                     textAlign: 'left'
                 }

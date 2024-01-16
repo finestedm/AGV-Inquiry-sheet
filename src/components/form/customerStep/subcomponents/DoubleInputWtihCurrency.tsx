@@ -24,6 +24,7 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
             <Stack direction='row' spacing={1}>
                 <TextField
                     fullWidth
+                    size="small"
                     name={inputKey}
                     type="number"
                     disabled={!editMode}
@@ -33,6 +34,7 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
                     }}
                 />
                 <Select
+                    size="small"
                     value={
                         customer.currency
                             ?
