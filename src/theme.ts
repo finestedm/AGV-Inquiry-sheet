@@ -93,7 +93,7 @@ theme = createTheme({
             primary: textPrimaryColor,
             secondary: textSecondaryColor
         },
-        divider: greyLightMinus10BlackColor
+        divider: greyLightColor
     },
     shape: {
         borderRadius: 6
@@ -104,6 +104,7 @@ theme = createTheme({
             'Manrope', // Primary font
             'sans-serif',
         ].join(','),
+        fontWeightRegular: 500,
         h1: {
             color: grey80ColorDark,
             fontWeight: 600,
@@ -209,13 +210,9 @@ theme = createTheme({
                 root: {
                     minWidth: "12ch",
                     borderColor: '#000',
-                    backgroundColor: backgroundColor
+                    backgroundColor: backgroundColor,
                 },
                 input: {
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                    paddingTop: "12px",
-                    paddingBottom: "12px",
                 }
             },
         },
@@ -334,33 +331,34 @@ export const themeDark = createTheme({
             'Manrope', // Primary font
             'sans-serif',
         ].join(','),
+        fontWeightRegular: 500,
         h1: {
-            color: primaryColorDark,
+            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h2: {
-            color: primaryColorDark,
+            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h3: {
-            color: primaryColorDark,
+            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h4: {
-            color: primaryColorDark,
+            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h5: {
-            color: textSecondaryColorDark,
+            color: textSecondaryColor,
             fontWeight: 600,
             letterSpacing: -0.75
         },
         h6: {
-            color: textSecondaryColorDark,
+            color: textSecondaryColor,
             fontWeight: 500,
             letterSpacing: -0.5
         },
@@ -407,10 +405,6 @@ export const themeDark = createTheme({
                     backgroundColor: backgroundColorDark
                 },
                 input: {
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                    paddingTop: "12px",
-                    paddingBottom: "12px"
                 },
             },
         },
