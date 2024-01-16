@@ -46,6 +46,7 @@ const primaryColor = greyColorDark
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
 const backgroundColor = '#ffffff'
+const paperColor = '#f7f9fa'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
 const textPrimaryColor = primaryColor
@@ -80,7 +81,7 @@ theme = createTheme({
         },
         background: {
             default: backgroundColor,
-            paper: backgroundColor,
+            paper: paperColor,
         },
         info: {
             main: infoColor
@@ -92,7 +93,7 @@ theme = createTheme({
             primary: textPrimaryColor,
             secondary: textSecondaryColor
         },
-
+        divider: greyLightMinus10BlackColor
     },
     shape: {
         borderRadius: 6
@@ -176,6 +177,11 @@ theme = createTheme({
                     '&.selected-card': {
                         borderColor: tinycolor(secondaryColor).toRgbString(),
                         backgroundColor: tinycolor(primaryColor).toRgbString(),
+                    },
+                    '&.input-group-card': {
+                        backgroundColor: paperColor,
+                        border: borderStandard,
+                        borderColor: greyLightMinus10BlackColor
                     }
                 },
             },

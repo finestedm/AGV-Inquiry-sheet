@@ -13,6 +13,7 @@ import { ICustomer, IFormData, TIndustry } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
 import industries from "../../../data/industries";
 import { DoubleInputWithCurrency } from "./subcomponents/DoubleInputWtihCurrency";
+import InputGroupCard from "../InputGroupCard";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -44,45 +45,53 @@ export default function FormCustomerStep(): JSX.Element {
   return (
     <Stack spacing={8}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
-      <Stack spacing={2}>
-        <Typography variant="h5" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
-        <CustomTextField
-          required
-          fieldName="customer.name"
-        />
-        <CustomTextField
-          fieldName="customer.sapNumber"
-          type='number'
-        />
-        <CustomTextField
-          required
-          fieldName="customer.address"
-        />
-      </Stack>
-      <Stack spacing={2}>
-        <Typography variant="h5" textAlign='left'>{t('customer.subheader.contactperson')}</Typography>
-        <CustomTextField
-          fieldName="customer.contactPerson"
-        />
-        <CustomTextField
-          fieldName="customer.contactPersonRole"
-        />
-        <Stack spacing={1}>
-          <InputLabel>{t('customer.contactPersonPhone')}</InputLabel>
-          <MuiTelInput
-            defaultCountry="PL"
-            continents={['EU']}
-            value={formData.customer.contactPersonPhone}
-            onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonPhone', value: e }))}
-            variant="outlined"
-            disabled={!editMode}
-            fullWidth
-          />
-        </Stack>
-        <CustomTextField
-          fieldName="customer.contactPersonMail"
-        />
-      </Stack>
+      <InputGroupCard
+        title={t('customer.subheader.teleaddress')}
+        content={
+          <Stack spacing={2}>
+            <CustomTextField
+              required
+              fieldName="customer.name"
+            />
+            <CustomTextField
+              fieldName="customer.sapNumber"
+              type='number'
+            />
+            <CustomTextField
+              required
+              fieldName="customer.address"
+            />
+          </Stack>
+        }
+      />
+      <InputGroupCard
+        title={t('customer.subheader.contactperson')}
+        content={
+          <Stack spacing={2}>
+            <CustomTextField
+              fieldName="customer.contactPerson"
+            />
+            <CustomTextField
+              fieldName="customer.contactPersonRole"
+            />
+            <Stack spacing={1}>
+              <InputLabel>{t('customer.contactPersonPhone')}</InputLabel>
+              <MuiTelInput
+                defaultCountry="PL"
+                continents={['EU']}
+                value={formData.customer.contactPersonPhone}
+                onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonPhone', value: e }))}
+                variant="outlined"
+                disabled={!editMode}
+                fullWidth
+              />
+            </Stack>
+            <CustomTextField
+              fieldName="customer.contactPersonMail"
+            />
+          </Stack>
+        }
+      />
       <Stack spacing={2}>
         <Typography variant="h5" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
         <Stack spacing={1}>
