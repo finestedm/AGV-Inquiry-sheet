@@ -509,6 +509,17 @@ export const themeDark = createTheme({
                     height: 24
                 }
             }
+        },
+        MuiIconButton: {
+            styleOverrides: {
+                root: {
+                    '&.extender-icon': {
+                        // backgroundColor: greyColorDark,
+                        color: textSecondaryColorDark,
+                        border: `1px solid ${greyColorDark}`
+                    }
+                }
+            }
         }
     },
 }
