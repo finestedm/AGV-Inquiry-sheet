@@ -11,12 +11,7 @@ export default function Flows({ selectedSystem }: { selectedSystem: keyof ISyste
     return (
         <InputGroup
             title={t(`system.subheader.flow`)}
-            content={
-                <Stack spacing={2}>
-                    <Typography variant="h5" textAlign='left'>{t(`system.subheader.flow`)}</Typography>
-                    <FlowTable selectedSystem={selectedSystem} />
-                </Stack>
-            }
+            content={<FlowTable selectedSystem={selectedSystem} />}
         />
     )
 }

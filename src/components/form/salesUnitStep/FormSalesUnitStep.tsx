@@ -9,7 +9,7 @@ export default function FormSalesUnitStep(): JSX.Element {
     const { t } = useTranslation();
     const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
     return (
-        <Stack spacing={8}>
+        <Stack spacing={4}>
             <Typography variant="h4" textAlign='left'>{t('sales.header')}</Typography>
             <InputGroup
                 title={t('customer.subheader.teleaddress')}

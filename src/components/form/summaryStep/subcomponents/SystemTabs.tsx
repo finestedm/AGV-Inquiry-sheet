@@ -24,11 +24,6 @@ export default function SystemsTabs() {
         setValue(newValue);
     };
 
-    const TabPanel: React.FC<{ value: number; index: number; selectedSystem: keyof ISystems; children: React.ReactNode }> = ({ value, index, selectedSystem, children }) => (
-        <Box role="tabpanel" hidden={value !== index} p={2} >
-            {value === index && children}
-        </Box>
-    );
 
     return (
         <Card elevation={0} sx={{ border: `1px solid ${theme.palette.divider}`, backgroundColor: theme.palette.background.default }}>
@@ -44,4 +39,12 @@ export default function SystemsTabs() {
             ))}
         </Card>
     );
+}
+
+function TabPanel({ value, index, selectedSystem, children }: { value: number; index: number; selectedSystem: keyof ISystems; children: React.ReactNode }) {
+    return (
+        <Box role="tabpanel" hidden={value !== index} p={2} >
+            {value === index && children}
+        </Box>
+    )
 }

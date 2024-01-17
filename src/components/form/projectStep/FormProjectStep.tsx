@@ -56,7 +56,7 @@ export default function FormProjectStep(): JSX.Element {
     const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
 
     return (
-        <Stack spacing={8}>
+        <Stack spacing={4}>
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
             <InputGroup
                 title={t('project.subheader.various')}

@@ -17,7 +17,7 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: key
     const { t } = useTranslation();
 
     return (
-        <Stack spacing={8}>
+        <Stack spacing={4}>
             {!isStepSummary &&
                 <Stack direction='row' justifyContent='space-between'>
                     <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>

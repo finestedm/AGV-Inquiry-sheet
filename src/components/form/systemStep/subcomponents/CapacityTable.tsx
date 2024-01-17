@@ -15,8 +15,6 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
 
-    console.log(selectedSystemLoads)
-
     const rows = selectedSystemLoads.map((load, index) => ({
         index: index + 1, // Sequential number starting from 1
         id: load.id,

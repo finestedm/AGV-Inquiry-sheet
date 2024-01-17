@@ -11,12 +11,7 @@ export default function Capacity({ selectedSystem }: { selectedSystem: keyof ISy
     return (
         <InputGroup
             title={t(`system.subheader.capacity`)}
-            content={
-                <Stack spacing={2}>
-                    <Typography variant="h5" textAlign='left'>{t(`system.subheader.capacity`)}</Typography>
-                    <CapacityTable selectedSystem={selectedSystem} />
-                </Stack>
-            }
+            content={<CapacityTable selectedSystem={selectedSystem} />}
         />
     )
 }
