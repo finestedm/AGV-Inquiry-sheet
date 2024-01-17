@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Box, Checkbox, FormControlLabel, Grid, InputAdornment, InputLabel, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Checkbox, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, InputAdornment, InputLabel, Slider, Stack, Switch, TextField, Typography, useTheme, IconButton } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
@@ -10,6 +10,7 @@ import WarehouseLayout from "./Warehouse";
 import Incline from "./Incline";
 import { useState } from "react";
 import InputGroup from "../../InputGroup";
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -23,6 +24,11 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
         width: trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width),
         length: trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.length),
     });
+
+    const [warehouseDialogOpen, setWarehouseDialogOpen] = useState(false);
+    function extenderHandler() {
+        setWarehouseDialogOpen(current => !current)
+    }
 
     const handleInputChange = (field: 'width' | 'length') => (e: React.ChangeEvent<HTMLInputElement>) => {
         setTempDimensions((prevDimensions) => ({
@@ -52,6 +58,8 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
     return (
         <InputGroup
             title={t(`system.subheader.building`)}
+            extendedOpener={warehouseDialogOpen}
+            extendedHandler={extenderHandler}
             content={
                 <Stack spacing={2}>
                     <Stack direction='row' alignItems='center'>
@@ -169,6 +177,20 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         }
                     </Box>
                     <WarehouseLayout selectedSystem={selectedSystem} />
+                    <Dialog
+                        fullScreen
+                        open={warehouseDialogOpen}
+                        onClose={extenderHandler}
+                    >
+                        <DialogActions>
+                            <IconButton aria-label="close" onClick={extenderHandler}>
+                                <CloseIcon />
+                            </IconButton>
+                        </DialogActions>
+                        <DialogContent>
+                            <WarehouseLayout selectedSystem={selectedSystem} />
+                        </DialogContent>
+                    </Dialog>
                 </Stack>
             }
         />
