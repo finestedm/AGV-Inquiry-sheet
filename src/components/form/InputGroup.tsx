@@ -9,7 +9,7 @@ export default function InputGroup({ title, content }: { title: string, content:
                 <Grid item xs={12} lg={3}>
                     <Typography variant="h6" textAlign='left' lineHeight={1}>{title}</Typography>
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={12} lg={9}>
                     {content}
                 </Grid>
             </Grid>

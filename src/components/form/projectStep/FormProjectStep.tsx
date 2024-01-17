@@ -170,95 +170,15 @@ export default function FormProjectStep(): JSX.Element {
                     </Stack>
                 }
             />
-
-            <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h5" textAlign='left'>{t('project.subheader.milestones')}</Typography>
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Box>
-                        <Grid container spacing={2}>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.concept')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.concept.end)}
-                                    onChange={(e) => { dispatch(handleInputMethod({ path: 'project.milestones.concept.end', value: dayjs(e).format('YYYY-MM-DD') })) }}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.concept.end).isBefore(dayjs(new Date())) ? 'Data w przeszłości' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.officialOffer')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.officialOffer.end)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.officialOffer.end', value: e }))}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.officialOffer.start).isBefore(dayjs(formData.project.milestones.concept.end)) ? 'Data oferty przed datą koncepcji' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.order')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.order.end)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.order.end', value: e }))}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.order.end).isBefore(dayjs(formData.project.milestones.officialOffer.end)) ? 'Data zamówienia przed datą oferty' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.implementationStart')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.implementation.end)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.implementation.end', value: e }))}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.implementation.start).isBefore(dayjs(formData.project.milestones.order.end)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.launch')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.launch.end)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.launch.end', value: e }))}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.launch.start).isBefore(dayjs(formData.project.milestones.implementation.end)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </LocalizationProvider> */}
-                <GanttGraph />
-            </Stack>
-            <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t('project.subheader.it')}</Typography>
-                <Box>
+            <InputGroup
+                title={t('project.subheader.milestones')}
+                content={
+                    <GanttGraph />
+                }
+            />
+            <InputGroup
+                title={t('project.subheader.it')}
+                content={
                     <Stack spacing={2}>
                         <CustomTextField
                             fieldName="project.it.processesDescription"
@@ -283,6 +203,7 @@ export default function FormProjectStep(): JSX.Element {
                                 exclusive
                                 disabled={!editMode}
                                 fullWidth
+                                size="small"
                                 aria-label="existing it system buttons"
                             >
                                 {existingWMSTypesTranslated.map((existingSystem) => (
@@ -322,8 +243,8 @@ export default function FormProjectStep(): JSX.Element {
                             fieldName="project.it.additionalInformation"
                         />
                     </Stack>
-                </Box>
-            </Stack>
+                }
+            />
         </Stack >
 
     )

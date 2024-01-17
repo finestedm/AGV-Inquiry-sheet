@@ -242,7 +242,7 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     backgroundColor: 'white',
-                    borderBottom: `1px solid ${theme.palette.divider}`,
+                    borderBottom: `1px solid ${greyLightColor}`,
                     boxShadow: 'none',
                     '&.mobile-stepper': {
                         backgroundColor: '#ffffffAA',
@@ -258,6 +258,14 @@ theme = createTheme({
                     fontWeight: 600,
                     textAlign: 'left'
                 }
+            }
+        },
+        MuiFormControlLabel: {
+            styleOverrides: {
+                label: {
+                    fontSize: 14,
+                    fontWeight: 600
+                },
             }
         },
         MuiAlert: {
@@ -435,7 +443,7 @@ export const themeDark = createTheme({
                 root: {
                     boxShadow: 'none',
                     backgroundColor: grey120ColorDark,
-                    borderBottom: `1px solid ${theme.palette.divider}`,
+                    borderBottom: `1px solid ${greyColorDark}`,
                     '&.mobile-stepper': {
                         backgroundColor: '#131515AA',
                         backdropFilter: 'blur(5px)'
@@ -450,6 +458,14 @@ export const themeDark = createTheme({
                     fontWeight: 600,
                     textAlign: 'left'
                 }
+            }
+        },
+        MuiFormControlLabel: {
+            styleOverrides: {
+                label: {
+                    fontSize: 14,
+                    fontWeight: 600
+                },
             }
         },
         MuiAlert: {
