@@ -299,6 +299,17 @@ theme = createTheme({
                     height: 24
                 }
             }
+        },
+        MuiIconButton: {
+            styleOverrides: {
+                root: {
+                    '&.extender-icon': {
+                        // backgroundColor: greyLightMinus10BlackColor,
+                        color: textSecondaryColor,
+                        border: `1px solid ${greyLightColor}`
+                    }
+                }
+            }
         }
     },
 }

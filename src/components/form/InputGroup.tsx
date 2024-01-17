@@ -6,8 +6,8 @@ export default function InputGroup({ title, content, subTitle, extendedOpener, e
     const theme = useTheme()
     return (
         <Box>
-            <Divider sx={{ marginBottom: 2 }} />
-            <Grid container spacing={2} className="input-group-card">
+            <Divider sx={{ marginBottom: 3 }} />
+            <Grid container spacing={4} className="input-group-card">
                 <Grid item xs={12} lg={3}>
                     <Stack direction='row' spacing={1} justifyContent='space-between'>
                         <Stack spacing={1}>
@@ -15,8 +15,8 @@ export default function InputGroup({ title, content, subTitle, extendedOpener, e
                             <Typography variant="body2" color={theme.palette.text.secondary} sx={{ opacity: .5 }} textAlign='left'>{subTitle}</Typography>
                         </Stack>
                         {extendedHandler &&
-                            <IconButton size="small" aria-label="open-extended">
-                                <OpenInNewIcon fontSize="small" onClick={extendedHandler} />
+                            <IconButton size="small" aria-label="open-extended" className='extender-icon'>
+                                <OpenInNewIcon onClick={extendedHandler} />
                             </IconButton>
                         }
                     </Stack>
