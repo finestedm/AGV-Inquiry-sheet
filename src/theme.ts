@@ -106,22 +106,22 @@ theme = createTheme({
         ].join(','),
         fontWeightRegular: 500,
         h1: {
-            color: '#000',
+            color: '#171717',
             fontWeight: 600,
             letterSpacing: -1
         },
         h2: {
-            color: '#000',
+            color: '#171717',
             fontWeight: 600,
             letterSpacing: -1
         },
         h3: {
-            color: '#000',
+            color: '#171717',
             fontWeight: 600,
             letterSpacing: -1
         },
         h4: {
-            color: '#000',
+            color: '#171717',
             fontWeight: 600,
             letterSpacing: -1
         },
