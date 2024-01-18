@@ -16,7 +16,7 @@ export default function InputGroup({ title, content, subTitle, extendedOpener, e
                         </Stack>
                         {extendedHandler &&
                             <IconButton size="small" aria-label="open-extended" className='extender-icon'>
-                                <OpenInNewIcon onClick={extendedHandler} />
+                                <OpenInNewIcon fontSize="small" onClick={extendedHandler} />
                             </IconButton>
                         }
                     </Stack>

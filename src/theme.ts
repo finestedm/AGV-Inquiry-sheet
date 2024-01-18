@@ -40,7 +40,7 @@ const shadow24 = `0px 46px 48px ${shadowColor4}`;
 const borderStandard = `1px solid`
 
 //colors
-const greyColorDark = '#3C464B'
+const greyColorDark = '#131313'
 const grey120ColorDark = '#1d1f20'
 const primaryColor = greyColorDark
 const secondaryColor = '#009697'
@@ -50,7 +50,7 @@ const paperColor = '#f7f9fa'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
 const textPrimaryColor = primaryColor
-const textSecondaryColor = '#707679'
+const textSecondaryColor = '#4c4e4f'
 const greyLightMinus10BlackColor = '#EAEFF1'
 const greyLightColor = '#D7DADB'
 
@@ -63,7 +63,7 @@ const backgroundColorDark = '#18191a'
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
 const textPrimaryColorDark = '#eff1f2'
-const textSecondaryColorDark = '#989b9f'
+const textSecondaryColorDark = '#b4b9bc'
 const grey40ColorDark = '#B1B5B7'
 const grey80ColorDark = '#636B6E'
 
@@ -106,22 +106,22 @@ theme = createTheme({
         ].join(','),
         fontWeightRegular: 500,
         h1: {
-            color: grey80ColorDark,
+            color: '#fff',
             fontWeight: 600,
             letterSpacing: -1
         },
         h2: {
-            color: grey80ColorDark,
+            color: '#fff',
             fontWeight: 600,
             letterSpacing: -1
         },
         h3: {
-            color: grey80ColorDark,
+            color: '#fff',
             fontWeight: 600,
             letterSpacing: -1
         },
         h4: {
-            color: grey80ColorDark,
+            color: '#fff',
             fontWeight: 600,
             letterSpacing: -1
         },
@@ -304,7 +304,7 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     '&.extender-icon': {
-                        // backgroundColor: greyLightMinus10BlackColor,
+                        // backgroundColor: greyColorDark,
                         color: textSecondaryColor,
                         border: `1px solid ${greyLightColor}`
                     }
@@ -353,22 +353,22 @@ export const themeDark = createTheme({
         ].join(','),
         fontWeightRegular: 500,
         h1: {
-            color: grey80ColorDark,
+            color: grey40ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h2: {
-            color: grey80ColorDark,
+            color: grey40ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h3: {
-            color: grey80ColorDark,
+            color: grey40ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h4: {
-            color: grey80ColorDark,
+            color: grey40ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
