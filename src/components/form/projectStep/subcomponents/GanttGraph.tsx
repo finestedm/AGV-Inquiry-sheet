@@ -144,11 +144,11 @@ export default function GanttGraph(): JSX.Element {
 
         const theme = useTheme();
         return (
-            <Paper elevation={0} sx={{ border: 1, borderColor: theme.palette.divider }}>
+            <Paper elevation={1} sx={{ border: 1, borderColor: theme.palette.divider, backgroundColor: theme.palette.background.default }}>
                 <TableContainer component={Box} >
                     <Table>
                         <TableHead sx={{ height: headerHeight + 1 }}>
-                            <TableRow>
+                            <TableRow >
                                 <TableCell>Name</TableCell>
                                 <TableCell>Date Range</TableCell>
                                 {editMode && <TableCell>Edit</TableCell>}

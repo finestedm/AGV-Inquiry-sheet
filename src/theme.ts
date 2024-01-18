@@ -49,8 +49,8 @@ const backgroundColor = '#ffffff'
 const paperColor = '#f7f9fa'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
-const textPrimaryColor = primaryColor
-const textSecondaryColor = '#707679'
+const textPrimaryColor = '#101828'
+const textSecondaryColor = '#667085'
 const greyLightMinus10BlackColor = '#EAEFF1'
 const greyLightColor = '#D7DADB'
 
@@ -105,33 +105,31 @@ theme = createTheme({
             'sans-serif',
         ].join(','),
         fontWeightRegular: 500,
+        body1: {
+            fontWeight: 500,
+            fontSize: 14
+        },
         h1: {
-            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h2: {
-            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h3: {
-            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h4: {
-            color: grey80ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h5: {
-            color: textSecondaryColor,
             fontWeight: 600,
             letterSpacing: -0.75
         },
         h6: {
-            color: textSecondaryColor,
             fontWeight: 500,
             letterSpacing: -0.5
         },
@@ -211,6 +209,7 @@ theme = createTheme({
                     minWidth: "12ch",
                     borderColor: '#000',
                     backgroundColor: backgroundColor,
+                    boxShadow: shadow1
                 },
                 input: {
                 }
@@ -230,7 +229,27 @@ theme = createTheme({
                 },
             },
         },
-
+        MuiToggleButtonGroup: {
+            styleOverrides: {
+                root: {
+                    boxShadow: shadow1
+                }
+            }
+        },
+        MuiButtonGroup: {
+            styleOverrides: {
+                root: {
+                    boxShadow: shadow1
+                }
+            }
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    boxShadow: shadow1
+                }
+            }
+        },
         MuiTableCell: {
             styleOverrides: {
                 root: {
@@ -310,7 +329,67 @@ theme = createTheme({
                     }
                 }
             }
-        }
+        },
+        MuiTableHead: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: paperColor,
+                }
+            }
+        },
+        MuiSwitch: {
+            styleOverrides: {
+                root: {
+                    width: 46,
+                    height: 26,
+                    padding: 0,
+                    '& .MuiSwitch-switchBase': {
+                        padding: 0,
+                        margin: 2.5,
+                        transitionDuration: '300ms',
+                        '&.Mui-checked': {
+                            transform: 'translateX(20px)',
+                            color: '#fff',
+                            '& + .MuiSwitch-track': {
+                                backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : primaryColor,
+                                opacity: 1,
+                                border: 0,
+                            },
+                            '&.Mui-disabled + .MuiSwitch-track': {
+                                opacity: 0.5,
+                            },
+                        },
+                        '&.Mui-focusVisible .MuiSwitch-thumb': {
+                            color: '#33cf4d',
+                            border: '6px solid #fff',
+                        },
+                        '&.Mui-disabled .MuiSwitch-thumb': {
+                            color:
+                                theme.palette.mode === 'light'
+                                    ? theme.palette.grey[100]
+                                    : theme.palette.grey[600],
+                        },
+                        '&.Mui-disabled + .MuiSwitch-track': {
+                            opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+                        },
+                    },
+                    '& .MuiSwitch-thumb': {
+                        boxSizing: 'border-box',
+                        width: 21,
+                        height: 21,
+                        boxShadow: shadow3
+                    },
+                    '& .MuiSwitch-track': {
+                        borderRadius: 26 / 2,
+                        backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+                        opacity: 1,
+                        transition: theme.transitions.create(['background-color'], {
+                            duration: 500,
+                        }),
+                    },
+                }
+            }
+        },
     },
 }
 );

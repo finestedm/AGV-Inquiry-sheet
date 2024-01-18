@@ -63,14 +63,14 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
             content={
                 <Stack spacing={2}>
                     <Stack direction='row' alignItems='center'>
-                        <InputLabel>{t(`system.building.existing`)}</InputLabel>
+                       <Typography variant='body1'> {t(`system.building.existing`)}</Typography>
                         <Switch
                             readOnly={!editMode}
                             checked={formData.system[selectedSystem].building.new}
                             onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.new`, value: e.target.checked }))}
                             inputProps={{ 'aria-label': 'controlled' }}
                         />
-                        <InputLabel>{t(`system.building.new`)}</InputLabel>
+                         <Typography variant='body1'>{t(`system.building.new`)}</Typography>
                     </Stack>
                     {(selectedSystem === 'agv') &&
                         <Incline selectedSystem={selectedSystem} />
