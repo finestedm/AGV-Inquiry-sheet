@@ -377,7 +377,7 @@ theme = createTheme({
                         boxSizing: 'border-box',
                         width: 21,
                         height: 21,
-                        boxShadow: shadow3
+                        boxShadow: shadow2
                     },
                     '& .MuiSwitch-track': {
                         borderRadius: 26 / 2,
