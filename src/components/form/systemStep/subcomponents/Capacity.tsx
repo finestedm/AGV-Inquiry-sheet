@@ -1,4 +1,3 @@
-import { Alert, Box, Checkbox, FormControlLabel, Grid, InputAdornment, Slider, Stack, Switch, TextField, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import CapacityTable from "./CapacityTable";
 import { ISystems } from "../../../../features/interfaces";

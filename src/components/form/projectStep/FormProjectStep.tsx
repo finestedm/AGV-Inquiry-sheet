@@ -134,7 +134,8 @@ export default function FormProjectStep(): JSX.Element {
                             {investmentTypesTranslated.map((investmentType) => (
                                 <ToggleButton
                                     sx={{ color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
-                                    value={(investmentType)}
+                                    value={investmentTypesTranslated.indexOf(investmentType)}
+                                    color="primary"
                                     key={investmentType}
                                     selected={formData.project.investmentType === investmentTypesTranslated.indexOf(investmentType)}
                                 >
@@ -158,8 +159,9 @@ export default function FormProjectStep(): JSX.Element {
                         >
                             {investmentTypesTranslated.map((investmentType) => (
                                 <ToggleButton
-                                    value={(investmentType)}
+                                    value={investmentTypesTranslated.indexOf(investmentType)}
                                     key={investmentType}
+                                    color="primary"
                                     selected={formData.project.investmentType === investmentTypes.indexOf(investmentType)}
                                 >
                                     {investmentType}

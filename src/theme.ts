@@ -52,7 +52,7 @@ const errorColor = '#cc0000'
 const textPrimaryColor = '#101828'
 const textSecondaryColor = '#667085'
 const greyLightMinus10BlackColor = '#EAEFF1'
-const greyLightColor = '#D7DADB'
+const greyLightColor = '#C0CBCE'
 
 const JHYellow = '#ffb900'
 const JHYellow75 = '#BA8800'
@@ -106,7 +106,7 @@ theme = createTheme({
         ].join(','),
         fontWeightRegular: 500,
         body1: {
-            fontWeight: 500,
+            fontWeight: 600,
             fontSize: 14
         },
         h1: {
@@ -236,6 +236,16 @@ theme = createTheme({
                 }
             }
         },
+        MuiToggleButton: {
+            styleOverrides: {
+                root: {
+                    "&.Mui-selected, &.Mui-selected:hover": {
+                        backgroundColor: primaryColor,
+                        color: theme.palette.getContrastText(primaryColor)
+                    }
+                }
+            }
+        },
         MuiButtonGroup: {
             styleOverrides: {
                 root: {
@@ -314,9 +324,38 @@ theme = createTheme({
         MuiChip: {
             styleOverrides: {
                 root: {
-                    backgroundColor: greyLightMinus10BlackColor,
+                    backgroundColor: primaryColor,
+                    color: theme.palette.getContrastText(primaryColor),
                     height: 24
                 }
+            }
+        },
+        MuiCheckbox: {
+            styleOverrides: {
+                root: {
+                    color: greyLightColor,
+                }
+            }
+        },
+        MuiSlider: {
+            styleOverrides: {
+                track: {
+                    height: 16,
+                },
+                rail: {
+                    color: greyLightColor,
+                    height: 16
+                },
+                thumb: {
+                    color: backgroundColor,
+                    border: `2px solid ${primaryColor}`,
+                    height: 18,
+                    width: 18,
+                    boxShadow: shadow1
+                },
+                mark: {
+                    color: '#ffffff00'
+                },
             }
         },
         MuiIconButton: {
@@ -343,6 +382,7 @@ theme = createTheme({
                     width: 46,
                     height: 26,
                     padding: 0,
+                    margin: 10,
                     '& .MuiSwitch-switchBase': {
                         padding: 0,
                         margin: 2.5,

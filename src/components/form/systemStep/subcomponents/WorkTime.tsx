@@ -1,13 +1,17 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Box, CircularProgress, Grid, InputLabel, Slider, Stack, Typography, useTheme } from "@mui/material";
+import { Box, CircularProgress, CircularProgressProps, Grid, InputLabel, Slider, Stack, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { minimalReasonableWeekWorkHours } from "../../../../data/minimalReasonableWeekWorkHours";
 import { ISystems } from "../../../../features/interfaces";
 import InputGroup from "../../InputGroup";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import theme from "../../../../theme";
+
 
 export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -90,18 +94,9 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                             <Stack spacing={1} textAlign='left'>
                                 <InputLabel>{t(`system.workTime.hoursPerWeek`)}</InputLabel>
                                 <Stack direction='row' justifyContent='space-evenly' alignItems='center' sx={{ p: '.25rem' }}>
-                                    <Box sx={{ position: 'relative' }} >
-                                        <CircularProgress
-                                            sx={{ position: 'absolute', left: 0, color: theme.palette.grey[400], opacity: .3 }}
-                                            thickness={6}
-                                            variant="determinate"
-                                            value={100}
-                                        />
-                                        <CircularProgress
-                                            sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.main : theme.palette.success.main }}
-                                            thickness={6}
-                                            variant="determinate"
-                                            value={circularValue * 100 / 168}
+                                    <Box>
+                                        <ArcProgress
+                                            value={circularValue}
                                         />
                                     </Box>
                                     <Stack direction='row'>
@@ -125,4 +120,37 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
             }
         />
     )
+}
+
+
+export function ArcProgress({ value, ...props }: { value: number }) {
+
+    return (
+        <Box
+            id="container"
+            style={{ width: 125, height: 50 }}
+        >
+            <Box
+                sx={{
+
+                    // transform: "rotate(-90deg)"
+                }}
+            >
+                <CircularProgressbar
+                    text={`${value} H`}
+                    value={value * 100 / 168}
+                    circleRatio={0.5}
+                    strokeWidth={12}
+                    styles={{
+                        root: {
+                            transform: "rotate(0.75turn)"
+                        },
+                        path: { stroke: theme.palette.primary.main, strokeLinecap: "round" },
+                        trail: { stroke: theme.palette.background.paper, strokeLinecap: "round" },
+                        text: { transform: "rotate(90deg) translate(0px, -100px)" }
+                    }}
+                />
+            </Box>
+        </Box>
+    );
 }
