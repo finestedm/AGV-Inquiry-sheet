@@ -42,7 +42,7 @@ const borderStandard = `1px solid`
 //colors
 const greyColorDark = '#3c464b'
 const grey120ColorDark = '#1d1f20'
-const primaryColor = 'greyColorDark'
+const primaryColor = greyColorDark
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
 const backgroundColor = '#ffffff'
