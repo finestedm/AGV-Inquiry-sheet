@@ -99,19 +99,6 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                                             value={circularValue}
                                         />
                                     </Box>
-                                    <Stack direction='row'>
-                                        <Typography
-                                            variant='h4'
-                                            sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.main : theme.palette.success.main }}
-                                        >
-                                            {circularValue}
-                                        </Typography>
-                                        <Typography
-                                            sx={{ color: circularValue < minimalReasonableWeekWorkHours ? theme.palette.error.light : theme.palette.success.light }}
-                                        >
-                                            h
-                                        </Typography>
-                                    </Stack>
                                 </Stack>
                             </Stack>
                         </Grid>
@@ -124,30 +111,31 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
 
 
 export function ArcProgress({ value, ...props }: { value: number }) {
-
+    const theme= useTheme()
     return (
         <Box
             id="container"
-            style={{ width: 125, height: 50 }}
+            // height={55}
         >
             <Box
                 sx={{
-
+                    height: 55
                     // transform: "rotate(-90deg)"
                 }}
             >
                 <CircularProgressbar
-                    text={`${value} H`}
+                    text={`${value} h`}
                     value={value * 100 / 168}
                     circleRatio={0.5}
                     strokeWidth={12}
                     styles={{
                         root: {
-                            transform: "rotate(0.75turn)"
+                            transform: "rotate(0.75turn)",
+                            height: 75
                         },
-                        path: { stroke: theme.palette.primary.main, strokeLinecap: "round" },
-                        trail: { stroke: theme.palette.background.paper, strokeLinecap: "round" },
-                        text: { transform: "rotate(90deg) translate(0px, -100px)" }
+                        path: { stroke: value < 60 ? theme.palette.warning.dark : theme.palette.success.dark, strokeLinecap: "round" },
+                        trail: { stroke: value < 60 ? theme.palette.warning.light : theme.palette.success.light, strokeLinecap: "round"},
+                        text: { transform: "rotate(90deg) translate(0px, -100px)", fill: value < 60 ? theme.palette.warning.main : theme.palette.success.main, fontSize: 24 }
                     }}
                 />
             </Box>
