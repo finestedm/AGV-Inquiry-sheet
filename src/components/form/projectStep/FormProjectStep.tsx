@@ -120,6 +120,7 @@ export default function FormProjectStep(): JSX.Element {
                     <Stack spacing={2}>
                         <ToggleButtonGroup
                             sx={{ display: { xs: 'none', sm: 'flex' } }}
+                            className="buttongroup-deep"
                             size="small"
                             color='primary'
                             disabled={!editMode}
@@ -133,6 +134,7 @@ export default function FormProjectStep(): JSX.Element {
                         >
                             {investmentTypesTranslated.map((investmentType) => (
                                 <ToggleButton
+                                    className="buttongroup-deep"
                                     sx={{ color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
                                     value={investmentTypesTranslated.indexOf(investmentType)}
                                     color="primary"
@@ -146,6 +148,7 @@ export default function FormProjectStep(): JSX.Element {
                         <ToggleButtonGroup
                             sx={{ display: { sm: 'none' } }}
                             size="small"
+                            className="buttongroup-deep"
                             exclusive
                             disabled={!editMode}
                             aria-label="investment type buttons"
@@ -159,6 +162,7 @@ export default function FormProjectStep(): JSX.Element {
                         >
                             {investmentTypesTranslated.map((investmentType) => (
                                 <ToggleButton
+                                    className="buttongroup-deep"
                                     value={investmentTypesTranslated.indexOf(investmentType)}
                                     key={investmentType}
                                     color="primary"

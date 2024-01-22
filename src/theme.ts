@@ -59,11 +59,12 @@ const JHYellow75 = '#BA8800'
 const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
-const backgroundColorDark = '#18191a'
+const backgroundColorDark = '#161718'
+const PaperColorDark = grey120ColorDark
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
-const textPrimaryColorDark = '#eff1f2'
-const textSecondaryColorDark = '#b4b9bc'
+const textPrimaryColorDark = '#f5f5f5'
+const textSecondaryColorDark = '#93999f'
 const grey40ColorDark = '#B1B5B7'
 const grey80ColorDark = '#636B6E'
 
@@ -232,13 +233,25 @@ theme = createTheme({
         MuiToggleButtonGroup: {
             styleOverrides: {
                 root: {
-                    boxShadow: shadow1
+                    boxShadow: shadow1,
+                        padding: 4,
+                        border: `${borderStandard} ${greyLightColor}`
+                    
                 }
             }
         },
         MuiToggleButton: {
             styleOverrides: {
                 root: {
+                    fontWeight: 600,
+                    fontSize: 14,
+                    border: 'none',
+                    borderRadius: theme.shape.borderRadius,
+                    "&.Mui-selected": {
+                        borderRadius: `3px !important`,
+                        border: 'none',
+                        boxShadow: shadow3
+                    },
                     "&.Mui-selected, &.Mui-selected:hover": {
                         backgroundColor: primaryColor,
                         color: theme.palette.getContrastText(primaryColor)
@@ -292,7 +305,7 @@ theme = createTheme({
         MuiFormControlLabel: {
             styleOverrides: {
                 label: {
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: 600
                 },
             }
@@ -349,8 +362,8 @@ theme = createTheme({
                 thumb: {
                     color: backgroundColor,
                     border: `2px solid ${primaryColor}`,
-                    height: 18,
-                    width: 18,
+                    height: 22,
+                    width: 22,
                     boxShadow: shadow1
                 },
                 mark: {
@@ -391,7 +404,7 @@ theme = createTheme({
                             transform: 'translateX(20px)',
                             color: '#fff',
                             '& + .MuiSwitch-track': {
-                                backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : primaryColor,
+                                backgroundColor: primaryColor,
                                 opacity: 1,
                                 border: 0,
                             },
@@ -448,7 +461,7 @@ export const themeDark = createTheme({
         },
         background: {
             default: backgroundColorDark,
-            paper: grey120ColorDark
+            paper: PaperColorDark
         },
         info: {
             main: infoColorDark
@@ -472,32 +485,26 @@ export const themeDark = createTheme({
         ].join(','),
         fontWeightRegular: 500,
         h1: {
-            color: grey40ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h2: {
-            color: grey40ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h3: {
-            color: grey40ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h4: {
-            color: grey40ColorDark,
             fontWeight: 600,
             letterSpacing: -1
         },
         h5: {
-            color: textSecondaryColor,
             fontWeight: 600,
             letterSpacing: -0.75
         },
         h6: {
-            color: textSecondaryColor,
             fontWeight: 500,
             letterSpacing: -0.5
         },
@@ -541,10 +548,12 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     minWidth: "12ch",
-                    backgroundColor: backgroundColorDark
+                    borderColor: '#000',
+                    backgroundColor: backgroundColorDark,
+                    boxShadow: shadow1
                 },
                 input: {
-                },
+                }
             },
         },
         MuiOutlinedInput: {
@@ -559,6 +568,36 @@ export const themeDark = createTheme({
                         },
                     }
                 },
+            }
+        },
+        MuiToggleButtonGroup: {
+            styleOverrides: {
+                root: {
+                    boxShadow: shadow1,
+                        padding: 4,
+                        border: `${borderStandard} ${greyColorDark}`
+                    
+                }
+            }
+        },
+        MuiToggleButton: {
+            styleOverrides: {
+                root: {
+                    fontWeight: 600,
+                    fontSize: 14,
+                    color: textSecondaryColorDark,
+                    border: 'none',
+                    borderRadius: theme.shape.borderRadius,
+                    "&.Mui-selected": {
+                        borderRadius: `3px !important`,
+                        border: 'none',
+                        boxShadow: shadow3,
+                    },
+                    "&.Mui-selected, &.Mui-selected:hover": {
+                        backgroundColor: primaryColorDark,
+                        color: theme.palette.getContrastText(primaryColorDark)
+                    }
+                }
             }
         },
         MuiTableCell: {
@@ -593,7 +632,7 @@ export const themeDark = createTheme({
         MuiFormControlLabel: {
             styleOverrides: {
                 label: {
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: 600
                 },
             }
@@ -625,8 +664,37 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     backgroundColor: greyColorDark,
+                    color: theme.palette.getContrastText(primaryColor),
                     height: 24
                 }
+            }
+        },
+        MuiCheckbox: {
+            styleOverrides: {
+                root: {
+                    color: greyColorDark,
+                }
+            }
+        },
+        MuiSlider: {
+            styleOverrides: {
+                track: {
+                    height: 16,
+                },
+                rail: {
+                    color: greyColorDark,
+                    height: 16
+                },
+                thumb: {
+                    backgroundColor: backgroundColorDark,
+                    border: `2px solid ${primaryColorDark}`,
+                    height: 22,
+                    width: 22,
+                    boxShadow: shadow1
+                },
+                mark: {
+                    color: '#ffffff00'
+                },
             }
         },
         MuiIconButton: {
@@ -639,7 +707,8 @@ export const themeDark = createTheme({
                     }
                 }
             }
-        }
+        },
+        
     },
 }
 );

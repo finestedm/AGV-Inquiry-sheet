@@ -1,4 +1,4 @@
-import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Grid, useMediaQuery, Toolbar, AppBar, Chip } from "@mui/material";
+import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Grid, useMediaQuery, Toolbar, AppBar, Chip, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import "gantt-task-react/dist/index.css";
 import { Gantt, Task, ViewMode } from "gantt-task-react";
 import { handleDateChanges, handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
@@ -239,9 +239,9 @@ function SizeEditButtons({ handleColumnsWidth, viewMode, setViewMode, decreaseCo
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    function ViewModeIcon({ viewModeSet }: { viewModeSet: TViewMode }) {
+    function ViewModeIcon({ viewModeSet, ...props }: { viewModeSet: TViewMode }) {
         return (
-            <Button onClick={() => setViewMode(viewModeSet)} variant={viewMode === viewModeSet ? "contained" : "outlined"} color="primary">{viewModeSet}</Button>
+            <ToggleButton {...props} sx={{py: .25}} value={viewModeSet} selected={viewMode === viewModeSet} className='buttongroup-deep' color="primary">{viewModeSet}</ToggleButton>
         )
     }
 
@@ -254,11 +254,16 @@ function SizeEditButtons({ handleColumnsWidth, viewMode, setViewMode, decreaseCo
                 </ButtonGroup>
             </Box>
             <Box>
-                <ButtonGroup  size="small" variant="outlined" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+                <ToggleButtonGroup
+                    size="small"
+                    color="primary"
+                    onChange={(e: any) => setViewMode(e.target.value)}
+                    aria-label="chart-size-edit-buttons"
+                >
                     <ViewModeIcon viewModeSet='Week' />
                     <ViewModeIcon viewModeSet='Month' />
                     <ViewModeIcon viewModeSet='Year' />
-                </ButtonGroup>
+                </ToggleButtonGroup>
             </Box>
         </Stack>
     )
