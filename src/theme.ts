@@ -438,13 +438,10 @@ theme = createTheme({
                             border: '6px solid #fff',
                         },
                         '&.Mui-disabled .MuiSwitch-thumb': {
-                            color:
-                                theme.palette.mode === 'light'
-                                    ? theme.palette.grey[100]
-                                    : theme.palette.grey[600],
+                            color: customGreyPalette[100]
                         },
                         '&.Mui-disabled + .MuiSwitch-track': {
-                            opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+                            opacity: .5,
                         },
                     },
                     '& .MuiSwitch-thumb': {
@@ -455,7 +452,7 @@ theme = createTheme({
                     },
                     '& .MuiSwitch-track': {
                         borderRadius: 26 / 2,
-                        backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
+                        backgroundColor: customGreyPalette[100],
                         opacity: 1,
                         transition: theme.transitions.create(['background-color'], {
                             duration: 500,
@@ -740,7 +737,57 @@ export const themeDark = createTheme({
                 }
             }
         },
-
+        MuiSwitch: {
+            styleOverrides: {
+                root: {
+                    width: 46,
+                    height: 26,
+                    padding: 0,
+                    margin: 10,
+                    '& .MuiSwitch-switchBase': {
+                        padding: 0,
+                        margin: 2,
+                        transitionDuration: '300ms',
+                        '&.Mui-checked': {
+                            transform: 'translateX(20px)',
+                            color: '#fff',
+                            '& + .MuiSwitch-track': {
+                                backgroundColor: primaryColorDark,
+                                opacity: 1,
+                                border: 0,
+                            },
+                            '&.Mui-disabled + .MuiSwitch-track': {
+                                opacity: 0.5,
+                            },
+                        },
+                        '&.Mui-focusVisible .MuiSwitch-thumb': {
+                            color: '#33cf4d',
+                            border: '6px solid #fff',
+                        },
+                        '&.Mui-disabled .MuiSwitch-thumb': {
+                            color: customGreyPalette[100]
+                        },
+                        '&.Mui-disabled + .MuiSwitch-track': {
+                            opacity: .5,
+                        },
+                    },
+                    '& .MuiSwitch-thumb': {
+                        boxSizing: 'border-box',
+                        width: 22,
+                        height: 22,
+                        boxShadow: shadow2
+                    },
+                    '& .MuiSwitch-track': {
+                        borderRadius: 26 / 2,
+                        backgroundColor: greyColorDark,
+                        opacity: 1,
+                        transition: theme.transitions.create(['background-color'], {
+                            duration: 500,
+                        }),
+                    },
+                }
+            }
+        },
     },
 }
 );
