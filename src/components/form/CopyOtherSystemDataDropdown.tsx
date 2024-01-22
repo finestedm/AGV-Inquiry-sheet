@@ -131,7 +131,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
             })
             .map((part) => (
                 <TableRow key={part}>
-                    <TableCell sx={{ borderRight: 1, borderColor: theme.palette.divider }}><Typography variant="body2" color={!systems.some((otherSystem) => selectedParts[otherSystem].includes(part)) ? 'text.secondary' : 'text.primary'}>{t(`system.subheader.${part}`)}</Typography></TableCell>
+                    <TableCell><Typography variant="body2" color={!systems.some((otherSystem) => selectedParts[otherSystem].includes(part)) ? 'text.secondary' : 'text.primary'}>{t(`system.subheader.${part}`)}</Typography></TableCell>
                     {systems
                         .filter(system => system === selectedSystem)
                         .map(system => (

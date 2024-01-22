@@ -254,7 +254,7 @@ function SizeEditButtons({ handleColumnsWidth, viewMode, setViewMode, decreaseCo
                 </ButtonGroup>
             </Box>
             <Box>
-                <ButtonGroup size="small" variant="outlined" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+                <ButtonGroup  size="small" variant="outlined" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
                     <ViewModeIcon viewModeSet='Week' />
                     <ViewModeIcon viewModeSet='Month' />
                     <ViewModeIcon viewModeSet='Year' />

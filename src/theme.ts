@@ -249,7 +249,7 @@ theme = createTheme({
         MuiButtonGroup: {
             styleOverrides: {
                 root: {
-                    boxShadow: shadow1
+                    boxShadow: shadow1,
                 }
             }
         },
@@ -263,7 +263,7 @@ theme = createTheme({
         MuiTableCell: {
             styleOverrides: {
                 root: {
-                    padding: '6px 6px',
+                    padding: '6px',
                 },
             },
         },
