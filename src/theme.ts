@@ -484,6 +484,10 @@ export const themeDark = createTheme({
             'sans-serif',
         ].join(','),
         fontWeightRegular: 500,
+        body1: {
+            fontWeight: 600,
+            fontSize: 14
+        },
         h1: {
             fontWeight: 600,
             letterSpacing: -1
