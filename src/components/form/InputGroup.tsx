@@ -15,8 +15,8 @@ export default function InputGroup({ title, content, subTitle, extendedOpener, e
                             <Typography variant="body2" color={theme.palette.text.secondary} sx={{ opacity: .5 }} textAlign='left'>{subTitle}</Typography>
                         </Stack>
                         {extendedHandler &&
-                            <IconButton size="small" aria-label="open-extended" className='extender-icon'>
-                                <OpenInNewIcon fontSize="small" onClick={extendedHandler} />
+                            <IconButton size="small" aria-label="open-extended" className='extender-icon' onClick={extendedHandler} >
+                                <OpenInNewIcon fontSize="small" />
                             </IconButton>
                         }
                     </Stack>

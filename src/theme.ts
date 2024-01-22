@@ -68,6 +68,19 @@ const textSecondaryColorDark = '#93999f'
 const grey40ColorDark = '#B1B5B7'
 const grey80ColorDark = '#636B6E'
 
+// Generate shades using Material-UI's color manipulation functions
+const customGreyPalette = {
+    50: '#f5f8fa',
+    100: '#ecedef',
+    200: '#d7dcdf',
+    300: '#bfc5cc',
+    400: '#aab2b9',
+    500: '#949ea7',
+    600: '#7f8f99',
+    700: '#69788a', // Your provided color
+    800: '#525f7b',
+    900: '#3c464b',
+};
 
 theme = createTheme({
     palette: {
@@ -82,7 +95,7 @@ theme = createTheme({
         },
         background: {
             default: backgroundColor,
-            paper: paperColor,
+            paper: backgroundColor,
         },
         info: {
             main: infoColor
@@ -94,7 +107,8 @@ theme = createTheme({
             primary: textPrimaryColor,
             secondary: textSecondaryColor
         },
-        divider: greyLightColor
+        divider: customGreyPalette[200],
+        grey: customGreyPalette
     },
     shape: {
         borderRadius: 6
@@ -172,7 +186,7 @@ theme = createTheme({
                     boxShadow: 'none',
                     borderWidth: 1,
                     borderColor: 'transparent',
-                    backgroundColor: greyLightMinus10BlackColor,
+                    backgroundColor: customGreyPalette[100],
                     color: infoColor,
                     '&.selected-card': {
                         borderColor: tinycolor(secondaryColor).toRgbString(),
@@ -181,7 +195,7 @@ theme = createTheme({
                     '&.input-group-card': {
                         backgroundColor: paperColor,
                         border: borderStandard,
-                        borderColor: greyLightMinus10BlackColor
+                        borderColor: customGreyPalette[200]
                     }
                 },
             },
@@ -219,7 +233,7 @@ theme = createTheme({
         MuiOutlinedInput: {
             styleOverrides: {
                 notchedOutline: {
-                    borderColor: greyLightColor,
+                    borderColor: customGreyPalette[200],
                 },
                 root: {
                     '&.Mui-disabled': {
@@ -227,6 +241,12 @@ theme = createTheme({
                             borderColor: tinycolor(greyLightColor).brighten(10).toRgbString(),
                         },
                     },
+                    '&.Mui-focused': {
+                        boxShadow: `0 0 0px 4px ${tinycolor(primaryColor).setAlpha(.3).toRgbString()}`,
+                    },
+                    '&.Mui-error.Mui-focused': {
+                        boxShadow: `0 0 0px 4px ${tinycolor(errorColor).setAlpha(.3).toRgbString()}`,
+                    }
                 },
             },
         },
@@ -234,9 +254,9 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: shadow1,
-                        padding: 4,
-                        border: `${borderStandard} ${greyLightColor}`
-                    
+                    padding: 4,
+                    border: `${borderStandard} ${greyLightColor}`,
+                    backgroundColor: customGreyPalette[50]
                 }
             }
         },
@@ -250,11 +270,12 @@ theme = createTheme({
                     "&.Mui-selected": {
                         borderRadius: `3px !important`,
                         border: 'none',
-                        boxShadow: shadow3
+                        backgroundColor: backgroundColor,
+                        boxShadow: shadow2
                     },
                     "&.Mui-selected, &.Mui-selected:hover": {
-                        backgroundColor: primaryColor,
-                        color: theme.palette.getContrastText(primaryColor)
+                        backgroundColor: backgroundColor,
+                        color: primaryColor
                     }
                 }
             }
@@ -398,7 +419,7 @@ theme = createTheme({
                     margin: 10,
                     '& .MuiSwitch-switchBase': {
                         padding: 0,
-                        margin: 2.5,
+                        margin: 2,
                         transitionDuration: '300ms',
                         '&.Mui-checked': {
                             transform: 'translateX(20px)',
@@ -428,8 +449,8 @@ theme = createTheme({
                     },
                     '& .MuiSwitch-thumb': {
                         boxSizing: 'border-box',
-                        width: 21,
-                        height: 21,
+                        width: 22,
+                        height: 22,
                         boxShadow: shadow2
                     },
                     '& .MuiSwitch-track': {
@@ -473,6 +494,7 @@ export const themeDark = createTheme({
             primary: textPrimaryColorDark,
             secondary: textSecondaryColorDark
         },
+        grey: customGreyPalette
     },
     shape: {
         borderRadius: theme.shape.borderRadius
@@ -570,6 +592,12 @@ export const themeDark = createTheme({
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: tinycolor(greyColorDark).darken(10).toRgbString(),
                         },
+                    },
+                    '&.Mui-focused': {
+                        boxShadow: `0 0 0px 4px ${tinycolor(primaryColorDark).setAlpha(.35).toRgbString()}`,
+                    },
+                    '&.Mui-error.Mui-focused': {
+                        boxShadow: `0 0 0px 4px ${tinycolor(errorColor).setAlpha(.35).toRgbString()}`,
                     }
                 },
             }
@@ -578,9 +606,9 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: shadow1,
-                        padding: 4,
-                        border: `${borderStandard} ${greyColorDark}`
-                    
+                    padding: 4,
+                    border: `${borderStandard} ${greyColorDark}`
+
                 }
             }
         },
@@ -712,7 +740,7 @@ export const themeDark = createTheme({
                 }
             }
         },
-        
+
     },
 }
 );
