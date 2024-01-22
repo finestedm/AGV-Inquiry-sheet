@@ -17,6 +17,7 @@ import DateEditDialog from "./DateEditDialog";
 import SwitchRightIcon from '@mui/icons-material/SwitchRight';
 import dayjs from "dayjs";
 import milestonesLengths, { milestoneOrder } from "../../../../data/milestones";
+import { customGreyPalette } from "../../../../theme";
 
 export default function GanttGraph(): JSX.Element {
 
@@ -135,7 +136,7 @@ export default function GanttGraph(): JSX.Element {
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
                 progress: 0,
                 isDisabled: !editMode || isTaskUneditable(name as keyof IMilestones),
-                styles: { backgroundColor: (name === 'order' || name === 'launch') ? theme.palette.secondary.main : theme.palette.primary.main },
+                styles: { backgroundColor: (name === 'order' || name === 'launch') ? customGreyPalette[700] : customGreyPalette[900] },
             };
         });
     })();
@@ -205,7 +206,7 @@ export default function GanttGraph(): JSX.Element {
                             <Gantt
                                 tasks={milestones}
                                 barCornerRadius={theme.shape.borderRadius / 3}
-                                barBackgroundSelectedColor={theme.palette.secondary.main}
+                                barBackgroundSelectedColor={theme.palette.primary.main}
                                 arrowIndent={40}
                                 todayColor={theme.palette.divider}
                                 viewMode={viewMode as ViewMode}
@@ -248,7 +249,7 @@ function SizeEditButtons({ handleColumnsWidth, viewMode, setViewMode, decreaseCo
     return (
         <Stack direction="row" spacing={2} className="ganttchart-edit-buttons" justifyContent={isMobile ? 'space-between' : 'end'}>
             <Box>
-                <ButtonGroup size="small" variant="outlined" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
+                <ButtonGroup variant="outlined" color="primary" aria-label="chart-size-edit-buttons" disableElevation>
                     <Button onClick={() => handleColumnsWidth('+')}> <AddIcon /> </Button>
                     <Button onClick={() => handleColumnsWidth('-')} disabled={decreaseColumnsWidthButtonDisabled}> <RemoveIcon /> </Button>
                 </ButtonGroup>

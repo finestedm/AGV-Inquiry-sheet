@@ -53,6 +53,7 @@ export default function DarkModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
       renderFull ? (
         <Button
           variant='outlined'
+          // color='default'
           size='small'
           onClick={() => dispatch(setDarkMode(!darkMode))}
           startIcon={
@@ -76,6 +77,7 @@ export default function DarkModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
         <Tooltip title={t('ui.tooltip.darkMode')}>
           <IconButton
             size='small'
+            color='default'
             style={{ border: `1px solid ${theme.palette.divider}`, borderRadius: theme.shape.borderRadius }}
             onClick={() => dispatch(setDarkMode(!darkMode))}
           >

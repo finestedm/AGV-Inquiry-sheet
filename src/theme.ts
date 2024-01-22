@@ -40,9 +40,11 @@ const shadow24 = `0px 46px 48px ${shadowColor4}`;
 const borderStandard = `1px solid`
 
 //colors
+const JHYellow = '#ffb900'
+const JHYellow75 = '#BA8800'
 const greyColorDark = '#3c464b'
 const grey120ColorDark = '#1d1f20'
-const primaryColor = greyColorDark
+const primaryColor = JHYellow;
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
 const backgroundColor = '#ffffff'
@@ -54,8 +56,7 @@ const textSecondaryColor = '#667085'
 const greyLightMinus10BlackColor = '#EAEFF1'
 const greyLightColor = '#C0CBCE'
 
-const JHYellow = '#ffb900'
-const JHYellow75 = '#BA8800'
+
 const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
@@ -69,7 +70,7 @@ const grey40ColorDark = '#B1B5B7'
 const grey80ColorDark = '#636B6E'
 
 // Generate shades using Material-UI's color manipulation functions
-const customGreyPalette = {
+export const customGreyPalette = {
     50: '#f5f8fa',
     100: '#ecedef',
     200: '#d7dcdf',
@@ -238,7 +239,7 @@ theme = createTheme({
                 root: {
                     '&.Mui-disabled': {
                         '& .MuiOutlinedInput-notchedOutline': {
-                            borderColor: tinycolor(greyLightColor).brighten(10).toRgbString(),
+                            borderColor: customGreyPalette[100],
                         },
                     },
                     '&.Mui-focused': {
@@ -290,7 +291,25 @@ theme = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    boxShadow: shadow1
+                    '&.MuiButton-outlined': {
+                        boxShadow: shadow1,
+                    },
+                    '&.MuiButton-outlined.Mui-disabled': {
+                        border: `${borderStandard} ${customGreyPalette[100]}`,
+                        color: customGreyPalette[200]
+                    },
+                    '&.MuiButton-outlinedPrimary': {
+                        border: `${borderStandard} ${customGreyPalette[200]}`,
+                        color: textSecondaryColor,
+                        '&:hover': {
+                            backgroundColor: customGreyPalette[50],
+                            color: textPrimaryColor
+                        },
+                        '&:focus': {
+                            boxShadow: `0 0 0 3px ${customGreyPalette[100]}`,
+                            color: textSecondaryColor
+                        },
+                    }
                 }
             }
         },

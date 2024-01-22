@@ -166,7 +166,7 @@ export default function FormProjectStep(): JSX.Element {
                                     value={investmentTypesTranslated.indexOf(investmentType)}
                                     key={investmentType}
                                     color="primary"
-                                    selected={formData.project.investmentType === investmentTypes.indexOf(investmentType)}
+                                    selected={formData.project.investmentType === investmentTypesTranslated.indexOf(investmentType)}
                                 >
                                     {investmentType}
                                 </ToggleButton>
