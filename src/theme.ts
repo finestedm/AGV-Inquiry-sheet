@@ -61,7 +61,7 @@ const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
 const backgroundColorDark = '#0a0a0a'
-const paperColorDark = '#17171c'
+const paperColorDark = backgroundColorDark
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
 const textPrimaryColorDark = '#f5f5f5'
@@ -765,10 +765,10 @@ export const themeDark = createTheme({
                     },
                     '&.MuiButton-outlinedPrimary': {
                         border: `${borderStandard} ${customGreyPalette[700]}`,
-                        backgroundColor: customGreyPalette[900],
+                        // backgroundColor: customGreyPalette[900],
                         color: textPrimaryColorDark,
                         '&:hover': {
-                            backgroundColor: customGreyPalette[800],
+                            backgroundColor: customGreyPalette[900],
                             color: customGreyPalette[100]
                         },
                         '&:focus': {
