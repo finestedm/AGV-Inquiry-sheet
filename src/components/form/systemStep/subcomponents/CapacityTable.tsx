@@ -6,9 +6,11 @@ import { RootState } from "../../../../features/redux/store";
 import React, { useEffect, useRef, useState } from "react";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { ISystems } from "../../../../features/interfaces";
+import { customGreyPalette } from "../../../../theme";
 
 export default function CapacityTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
+    const theme = useTheme()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
@@ -48,11 +50,21 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
             <DataGrid
                 sx={{
                     borderColor: 'divider',
+                    boxShadow: theme.shadows[1],
                     '& .MuiDataGrid-row:hover': {
                         backgroundColor: 'divider',
                     },
                     '& .MuiDataGrid-columnHeader ': {
                         color: 'text.secondary',
+                        backgroundColor: 'background.paper',
+                        fontSize: 12,
+                    },
+                    '& .MuiDataGrid-row': {
+                        borderTop: `1px solid ${theme.palette.divider}`,
+                        backgroundColor: 'background.paper',
+                    },
+                    '& .MuiDataGrid-footerContainer': {
+                        borderTop: `1px solid ${theme.palette.divider}`,
                         backgroundColor: 'background.paper',
                     }
                 }}

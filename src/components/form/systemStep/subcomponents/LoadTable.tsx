@@ -14,6 +14,7 @@ import { ISystems } from "../../../../features/interfaces";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
+    const theme = useTheme();
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const selectedSystemFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
@@ -100,11 +101,21 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
             <DataGrid
                 sx={{
                     borderColor: 'divider',
+                    boxShadow: theme.shadows[1],
                     '& .MuiDataGrid-row:hover': {
                         backgroundColor: 'divider',
                     },
                     '& .MuiDataGrid-columnHeader ': {
                         color: 'text.secondary',
+                        backgroundColor: 'background.paper',
+                        fontSize: 12,
+                    },
+                    '& .MuiDataGrid-row': {
+                        borderTop: `1px solid ${theme.palette.divider}`,
+                        backgroundColor: 'background.paper',
+                    },
+                    '& .MuiDataGrid-footerContainer': {
+                        borderTop: `1px solid ${theme.palette.divider}`,
                         backgroundColor: 'background.paper',
                     }
                 }}

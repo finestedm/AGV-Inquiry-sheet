@@ -151,11 +151,21 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                 <DataGrid
                     sx={{
                         borderColor: 'divider',
+                        boxShadow: theme.shadows[1],
                         '& .MuiDataGrid-row:hover': {
                             backgroundColor: 'divider',
                         },
                         '& .MuiDataGrid-columnHeader ': {
                             color: 'text.secondary',
+                            backgroundColor: 'background.paper',
+                            fontSize: 12,
+                        },
+                        '& .MuiDataGrid-row': {
+                            borderTop: `1px solid ${theme.palette.divider}`,
+                            backgroundColor: 'background.paper',
+                        },
+                        '& .MuiDataGrid-footerContainer': {
+                            borderTop: `1px solid ${theme.palette.divider}`,
                             backgroundColor: 'background.paper',
                         }
                     }}

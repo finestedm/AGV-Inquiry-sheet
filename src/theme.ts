@@ -79,7 +79,7 @@ const grey120ColorDark = '#1d1f20'
 const primaryColor = JHYellow;
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
-const backgroundColor = customGreyPalette[25]
+const backgroundColor = customGreyPalette[50]
 const paperColor = '#fff'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
@@ -92,7 +92,7 @@ const greyLightColor = '#C0CBCE'
 const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
-const backgroundColorDark = '#0F121A'
+const backgroundColorDark = '#0F1013'
 const paperColorDark = '#07080D'
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
@@ -260,7 +260,7 @@ theme = createTheme({
                 root: {
                     minWidth: "12ch",
                     borderColor: '#000',
-                    backgroundColor: backgroundColor,
+                    backgroundColor: paperColor,
                     boxShadow: shadow1
                 },
                 input: {
@@ -291,7 +291,7 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: shadow1,
-                    borderColor: customGreyPalette[300],
+                    backgroundColor: paperColor,
                 }
             }
         },
@@ -300,7 +300,6 @@ theme = createTheme({
                 root: {
                     fontWeight: 600,
                     fontSize: 14,
-                    border: `${borderStandard} ${customGreyPalette[200]} !important`,
                     color: textSecondaryColor,
                     "&.Mui-selected": {
                         backgroundColor: customGreyPalette[100],
@@ -309,7 +308,6 @@ theme = createTheme({
                     "&.Mui-selected:hover": {
                         backgroundColor: customGreyPalette[100],
                         color: textPrimaryColor,
-                        // border: `${borderStandard} ${customGreyPalette[200]}`,
                     },
                     "&:hover": {
                         backgroundColor: customGreyPalette[50],
@@ -330,10 +328,12 @@ theme = createTheme({
                 root: {
                     '&.MuiButton-outlined': {
                         boxShadow: shadow1,
+                        backgroundColor: paperColor
                     },
                     '&.MuiButton-outlined.Mui-disabled': {
                         border: `${borderStandard} ${customGreyPalette[100]}`,
-                        color: customGreyPalette[200]
+                        color: customGreyPalette[200],
+                        backgroundColor: customGreyPalette[50]
                     },
                     '&.MuiButton-outlinedPrimary': {
                         border: `${borderStandard} ${customGreyPalette[200]}`,
@@ -429,7 +429,7 @@ theme = createTheme({
         MuiCheckbox: {
             styleOverrides: {
                 root: {
-                    color: greyLightColor,
+                    color: customGreyPalette[400],
                 }
             }
         },
@@ -439,7 +439,7 @@ theme = createTheme({
                     height: 16,
                 },
                 rail: {
-                    color: greyLightColor,
+                    color: customGreyPalette[400],
                     height: 16
                 },
                 thumb: {
@@ -458,7 +458,7 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     '&.extender-icon': {
-                        // backgroundColor: greyColorDark,
+                        backgroundColor: paperColor,
                         color: textSecondaryColor,
                         border: `1px solid ${greyLightColor}`
                     }
@@ -468,7 +468,7 @@ theme = createTheme({
         MuiTableHead: {
             styleOverrides: {
                 root: {
-                    backgroundColor: paperColor,
+                    backgroundColor: customGreyPalette[400],
                 }
             }
         },
@@ -514,7 +514,7 @@ theme = createTheme({
                     },
                     '& .MuiSwitch-track': {
                         borderRadius: 26 / 2,
-                        backgroundColor: customGreyPalette[100],
+                        backgroundColor: customGreyPalette[300],
                         opacity: 1,
                         transition: theme.transitions.create(['background-color'], {
                             duration: 500,
@@ -601,7 +601,8 @@ export const themeDark = createTheme({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    border: `${borderStandard} ${customGreyPalette[700]}`,
+                    border: `${borderStandard} ${customGreyPaletteDark[800]}`,
+                    backgroundImage: 'none',
                     '&.system-card': {
                         backgroundColor: backgroundColorDark,
                         '&.selected-card': {
@@ -650,7 +651,7 @@ export const themeDark = createTheme({
                 root: {
                     minWidth: "12ch",
                     borderColor: '#000',
-                    // backgroundColor: backgroundColorDark,
+                    backgroundColor: paperColorDark,
                     boxShadow: shadow1
                 },
                 input: {
@@ -681,31 +682,26 @@ export const themeDark = createTheme({
         MuiToggleButtonGroup: {
             styleOverrides: {
                 root: {
-                    boxShadow: shadow1,
-                    padding: 3,
-                    border: `${borderStandard} ${customGreyPaletteDark[700]}`,
-                    backgroundColor: paperColorDark
+                    backgroundColor: paperColorDark,
                 }
             }
         },
         MuiToggleButton: {
             styleOverrides: {
                 root: {
-                    fontWeight: 500,
+                    fontWeight: 600,
                     fontSize: 14,
-                    border: `${borderStandard} ${customGreyPaletteDark[700]} !important`,
                     color: textSecondaryColorDark,
                     "&.Mui-selected": {
-                        backgroundColor: customGreyPaletteDark[800],
+                        backgroundColor: customGreyPaletteDark[900],
                         color: textPrimaryColorDark,
                     },
                     "&.Mui-selected:hover": {
-                        backgroundColor: customGreyPaletteDark[800],
+                        backgroundColor: customGreyPaletteDark[900],
                         color: textPrimaryColorDark,
-                        // border: `${borderStandard} ${customGreyPalette[200]}`,
                     },
                     "&:hover": {
-                        backgroundColor: customGreyPaletteDark[900],
+                        backgroundColor: customGreyPaletteDark[950],
                         color: textPrimaryColorDark,
                     }
                 }
@@ -724,7 +720,7 @@ export const themeDark = createTheme({
                     boxShadow: 'none',
                     backgroundColor: paperColorDark,
                     backgroundImage: 'none',
-                    borderBottom: `1px solid ${customGreyPaletteDark[700]}`,
+                    borderBottom: `1px solid ${customGreyPaletteDark[800]}`,
                     '&.mobile-stepper': {
                         backgroundColor: '#131515AA',
                         backdropFilter: 'blur(5px)'
@@ -814,10 +810,12 @@ export const themeDark = createTheme({
                 root: {
                     '&.MuiButton-outlined': {
                         boxShadow: shadow1,
+                        backgroundColor: paperColorDark
                     },
                     '&.MuiButton-outlined.Mui-disabled': {
-                        border: `${borderStandard} ${customGreyPaletteDark[800]}`,
-                        color: customGreyPaletteDark[700]
+                        border: `${borderStandard} ${customGreyPaletteDark[900]}`,
+                        color: customGreyPaletteDark[700],
+                        backgroundColor: customGreyPaletteDark[950]
                     },
                     '&.MuiButton-outlinedPrimary': {
                         border: `${borderStandard} ${customGreyPaletteDark[700]}`,
@@ -861,7 +859,7 @@ export const themeDark = createTheme({
                             transform: 'translateX(20px)',
                             color: '#fff',
                             '& + .MuiSwitch-track': {
-                                backgroundColor: primaryColorDark,
+                                backgroundColor: customGreyPaletteDark[700],
                                 opacity: 1,
                                 border: 0,
                             },
