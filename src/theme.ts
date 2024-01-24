@@ -79,8 +79,8 @@ const grey120ColorDark = '#1d1f20'
 const primaryColor = JHYellow;
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
-const backgroundColor = '#ffffff'
-const paperColor = customGreyPalette[50]
+const backgroundColor = customGreyPalette[25]
+const paperColor = '#fff'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
 const textPrimaryColor = '#101828'
@@ -141,7 +141,7 @@ theme = createTheme({
         ].join(','),
         fontWeightRegular: 500,
         body1: {
-            fontWeight: 600,
+            fontWeight: 500,
             fontSize: 14
         },
         h1: {
@@ -203,14 +203,16 @@ theme = createTheme({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    boxShadow: 'none',
-                    borderWidth: 1,
-                    borderColor: 'transparent',
-                    backgroundColor: customGreyPalette[100],
-                    color: infoColor,
-                    '&.selected-card': {
-                        borderColor: tinycolor(secondaryColor).toRgbString(),
-                        backgroundColor: tinycolor(primaryColor).toRgbString(),
+                    border: `${borderStandard} ${customGreyPalette[300]}`,
+                    '&.system-card': {
+                        boxShadow: shadow2,
+                        backgroundColor: backgroundColor,
+                        '&.selected-card': {
+                            borderColor: primaryColor,
+                            color: textPrimaryColor,
+                            backgroundColor: tinycolor(primaryColor).setAlpha(.05).toHex8String(),
+                            // backgroundColor: tinycolor(primaryColor).toRgbString(),
+                        },
                     },
                     '&.input-group-card': {
                         backgroundColor: paperColor,
@@ -219,6 +221,14 @@ theme = createTheme({
                     }
                 },
             },
+        },
+        MuiCardMedia: {
+            styleOverrides: {
+                root: {
+                    padding: 16,
+                    borderRadius: 20
+                }
+            }
         },
         MuiDialogActions: {
             styleOverrides: {
@@ -281,9 +291,7 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: shadow1,
-                    padding: 3,
-                    border: `${borderStandard} ${customGreyPalette[200]}`,
-                    backgroundColor: customGreyPalette[50]
+                    borderColor: customGreyPalette[300],
                 }
             }
         },
@@ -292,19 +300,20 @@ theme = createTheme({
                 root: {
                     fontWeight: 600,
                     fontSize: 14,
-                    border: 'none',
-                    borderRadius: theme.shape.borderRadius,
+                    border: `${borderStandard} ${customGreyPalette[200]} !important`,
+                    color: textSecondaryColor,
                     "&.Mui-selected": {
-                        borderRadius: `3px !important`,
-                        // border: `${borderStandard} ${customGreyPalette[200]} !important`,
-                        backgroundColor: backgroundColor,
-                        boxShadow: shadow2
+                        backgroundColor: customGreyPalette[100],
+                        color: textPrimaryColor,
                     },
-                    "&.Mui-selected, &.Mui-selected:hover": {
-                        backgroundColor: backgroundColor,
-                        color: primaryColor,
+                    "&.Mui-selected:hover": {
+                        backgroundColor: customGreyPalette[100],
+                        color: textPrimaryColor,
                         // border: `${borderStandard} ${customGreyPalette[200]}`,
-
+                    },
+                    "&:hover": {
+                        backgroundColor: customGreyPalette[50],
+                        color: textPrimaryColor,
                     }
                 }
             }
@@ -558,7 +567,7 @@ export const themeDark = createTheme({
         ].join(','),
         fontWeightRegular: 500,
         body1: {
-            fontWeight: 700,
+            fontWeight: 500,
             fontSize: 14
         },
         h1: {
@@ -592,17 +601,31 @@ export const themeDark = createTheme({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    boxShadow: 'none',
-                    borderWidth: 1,
-                    borderColor: 'transparent',
-                    backgroundColor: paperColorDark,
-                    backgroundImage: 'none',
-                    '&.selected-card': {
-                        borderColor: primaryColorDark[800],
-                        backgroundColor: primaryColorDark,
+                    border: `${borderStandard} ${customGreyPalette[700]}`,
+                    '&.system-card': {
+                        backgroundColor: backgroundColorDark,
+                        '&.selected-card': {
+                            borderColor: primaryColorDark,
+                            color: textPrimaryColorDark,
+                            backgroundColor: tinycolor(primaryColorDark).setAlpha(.05).toHex8String(),
+                            // backgroundColor: tinycolor(primaryColor).toRgbString(),
+                        },
+                    },
+                    '&.input-group-card': {
+                        backgroundColor: paperColor,
+                        border: borderStandard,
+                        borderColor: customGreyPalette[700]
                     }
                 },
             },
+        },
+        MuiCardMedia: {
+            styleOverrides: {
+                root: {
+                    padding: 16,
+                    borderRadius: 20
+                }
+            }
         },
         MuiCardContent: {
             styleOverrides: {
@@ -668,19 +691,22 @@ export const themeDark = createTheme({
         MuiToggleButton: {
             styleOverrides: {
                 root: {
-                    fontWeight: 600,
+                    fontWeight: 500,
                     fontSize: 14,
+                    border: `${borderStandard} ${customGreyPaletteDark[700]} !important`,
                     color: textSecondaryColorDark,
-                    border: 'none',
-                    borderRadius: theme.shape.borderRadius,
                     "&.Mui-selected": {
-                        borderRadius: `3px !important`,
-                        border: 'none',
-                        boxShadow: shadow3,
+                        backgroundColor: customGreyPaletteDark[800],
+                        color: textPrimaryColorDark,
                     },
-                    "&.Mui-selected, .Mui-selected:hover": {
-                        backgroundColor: paperColorDark,
-                        color: primaryColorDark
+                    "&.Mui-selected:hover": {
+                        backgroundColor: customGreyPaletteDark[800],
+                        color: textPrimaryColorDark,
+                        // border: `${borderStandard} ${customGreyPalette[200]}`,
+                    },
+                    "&:hover": {
+                        backgroundColor: customGreyPaletteDark[900],
+                        color: textPrimaryColorDark,
                     }
                 }
             }
@@ -710,7 +736,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     fontSize: 13,
-                    fontWeight: 600,
+                    fontWeight: 500,
                     textAlign: 'left'
                 }
             }
@@ -719,7 +745,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 label: {
                     fontSize: 13,
-                    fontWeight: 600
+                    fontWeight: 500
                 },
             }
         },

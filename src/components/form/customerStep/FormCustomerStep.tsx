@@ -43,7 +43,7 @@ export default function FormCustomerStep(): JSX.Element {
   const industriesTranslated = industries.map(industry => t(`industry.${industry}`))
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={5}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
       <InputGroup
         title={t('customer.subheader.teleaddress')}
