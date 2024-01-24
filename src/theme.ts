@@ -92,8 +92,8 @@ const greyLightColor = '#C0CBCE'
 const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
-const backgroundColorDark = '#0a0a0a'
-const paperColorDark = grey120ColorDark
+const backgroundColorDark = '#0F121A'
+const paperColorDark = '#07080D'
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
 const textPrimaryColorDark = customGreyPaletteDark[50]
@@ -638,6 +638,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 notchedOutline: {
                     borderColor: customGreyPaletteDark[700],
+                    backgroundColor: paperColorDark
                 },
                 root: {
                     '&.Mui-disabled': {
@@ -659,8 +660,8 @@ export const themeDark = createTheme({
                 root: {
                     boxShadow: shadow1,
                     padding: 3,
-                    border: `${borderStandard} ${customGreyPaletteDark[700]}`
-
+                    border: `${borderStandard} ${customGreyPaletteDark[700]}`,
+                    backgroundColor: paperColorDark
                 }
             }
         },
