@@ -149,6 +149,16 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
         return (
             <Box>
                 <DataGrid
+                    sx={{
+                        borderColor: 'divider',
+                        '& .MuiDataGrid-row:hover': {
+                            backgroundColor: 'divider',
+                        },
+                        '& .MuiDataGrid-columnHeader ': {
+                            color: 'text.secondary',
+                            backgroundColor: 'background.paper',
+                        }
+                    }}
                     rows={rows}
                     columns={[
                         { field: "id", headerName: "Stage", width: 50, type: 'number' },

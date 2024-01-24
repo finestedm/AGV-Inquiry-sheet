@@ -136,7 +136,7 @@ export default function GanttGraph(): JSX.Element {
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
                 progress: 0,
                 isDisabled: !editMode || isTaskUneditable(name as keyof IMilestones),
-                styles: { backgroundColor: (name === 'order' || name === 'launch') ? customGreyPalette[700] : customGreyPalette[900] },
+                styles: { backgroundColor: (name === 'order' || name === 'launch') ? customGreyPalette[700] : customGreyPalette[600] },
             };
         });
     })();

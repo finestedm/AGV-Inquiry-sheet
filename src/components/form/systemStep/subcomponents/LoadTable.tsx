@@ -98,6 +98,16 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
     return (
         <Box>
             <DataGrid
+                sx={{
+                    borderColor: 'divider',
+                    '& .MuiDataGrid-row:hover': {
+                        backgroundColor: 'divider',
+                    },
+                    '& .MuiDataGrid-columnHeader ': {
+                        color: 'text.secondary',
+                        backgroundColor: 'background.paper',
+                    }
+                }}
                 rows={rows}
                 columns={[
                     { field: "index", headerName: "№", width: 50, type: 'number' },

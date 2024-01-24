@@ -38,6 +38,38 @@ const shadow24 = `0px 46px 48px ${shadowColor4}`;
 
 //borders
 const borderStandard = `1px solid`
+// Generate shades using Material-UI's color manipulation functions
+export const customGreyPalette = {
+
+    25: '#FCFCFD',
+    50: '#F8FAFC',
+    100: '#EEF2F6',
+    200: '#E3E8EF',
+    300: '#CDD5DF',
+    400: '#9AA4B2',
+    500: '#697586',
+    600: '#4B5565',
+    700: '#364152',
+    800: '#364152',
+    900: '#121926',
+    950: '#0D121C'
+};
+
+export const customGreyPaletteDark = {
+
+    25: '#FAFAFA',
+    50: '#F5F5F6',
+    100: '#F0F1F1',
+    200: '#ECECED',
+    300: '#CECFD2',
+    400: '#94969C',
+    500: '#61646C',
+    600: '#61646C',
+    700: '#333741',
+    800: '#1F242F',
+    900: '#161B26',
+    950: '#0C111D'
+};
 
 //colors
 const JHYellow = '#ffb900'
@@ -48,7 +80,7 @@ const primaryColor = JHYellow;
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
 const backgroundColor = '#ffffff'
-const paperColor = '#f7f9fa'
+const paperColor = customGreyPalette[50]
 const infoColor = '#009697'
 const errorColor = '#cc0000'
 const textPrimaryColor = '#101828'
@@ -61,27 +93,14 @@ const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
 const backgroundColorDark = '#0a0a0a'
-const paperColorDark = backgroundColorDark
+const paperColorDark = grey120ColorDark
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
-const textPrimaryColorDark = '#f5f5f5'
-const textSecondaryColorDark = '#93999f'
+const textPrimaryColorDark = customGreyPaletteDark[50]
+const textSecondaryColorDark = customGreyPaletteDark[300]
 const grey40ColorDark = '#B1B5B7'
 const grey80ColorDark = '#636B6E'
 
-// Generate shades using Material-UI's color manipulation functions
-export const customGreyPalette = {
-    50: '#f5f8fa',
-    100: '#ecedef',
-    200: '#d7dcdf',
-    300: '#bfc5cc',
-    400: '#aab2b9',
-    500: '#949ea7',
-    600: '#7f8f99',
-    700: '#69788a', // Your provided color
-    800: '#525f7b',
-    900: '#3c464b',
-};
 
 theme = createTheme({
     palette: {
@@ -96,7 +115,7 @@ theme = createTheme({
         },
         background: {
             default: backgroundColor,
-            paper: backgroundColor,
+            paper: paperColor,
         },
         info: {
             main: infoColor
@@ -105,8 +124,8 @@ theme = createTheme({
             main: errorColor
         },
         text: {
-            primary: textPrimaryColor,
-            secondary: textSecondaryColor
+            primary: customGreyPalette[900],
+            secondary: customGreyPalette[700]
         },
         divider: customGreyPalette[200],
         grey: customGreyPalette
@@ -198,6 +217,13 @@ theme = createTheme({
                         border: borderStandard,
                         borderColor: customGreyPalette[200]
                     }
+                },
+            },
+        },
+        MuiDialogActions: {
+            styleOverrides: {
+                root: {
+                    borderTop: `${borderStandard} ${customGreyPalette[200]}`,
                 },
             },
         },
@@ -515,10 +541,11 @@ export const themeDark = createTheme({
             main: errorColorDark
         },
         text: {
-            primary: textPrimaryColorDark,
-            secondary: textSecondaryColorDark
+            primary: customGreyPaletteDark[50],
+            secondary: customGreyPaletteDark[300]
         },
-        grey: customGreyPalette
+        grey: customGreyPaletteDark,
+        divider: customGreyPaletteDark[800],
     },
     shape: {
         borderRadius: theme.shape.borderRadius
@@ -568,10 +595,11 @@ export const themeDark = createTheme({
                     boxShadow: 'none',
                     borderWidth: 1,
                     borderColor: 'transparent',
-                    backgroundColor: grey120ColorDark,
+                    backgroundColor: paperColorDark,
+                    backgroundImage: 'none',
                     '&.selected-card': {
-                        borderColor: tinycolor(primaryColorDark).toRgbString(),
-                        backgroundColor: tinycolor(primaryColorDark).toRgbString(),
+                        borderColor: primaryColorDark[800],
+                        backgroundColor: primaryColorDark,
                     }
                 },
             },
@@ -599,7 +627,7 @@ export const themeDark = createTheme({
                 root: {
                     minWidth: "12ch",
                     borderColor: '#000',
-                    backgroundColor: backgroundColorDark,
+                    // backgroundColor: backgroundColorDark,
                     boxShadow: shadow1
                 },
                 input: {
@@ -609,12 +637,12 @@ export const themeDark = createTheme({
         MuiOutlinedInput: {
             styleOverrides: {
                 notchedOutline: {
-                    borderColor: greyColorDark,
+                    borderColor: customGreyPaletteDark[700],
                 },
                 root: {
                     '&.Mui-disabled': {
                         '& .MuiOutlinedInput-notchedOutline': {
-                            borderColor: tinycolor(greyColorDark).darken(10).toRgbString(),
+                            borderColor: customGreyPaletteDark[900]
                         },
                     },
                     '&.Mui-focused': {
@@ -631,7 +659,7 @@ export const themeDark = createTheme({
                 root: {
                     boxShadow: shadow1,
                     padding: 3,
-                    border: `${borderStandard} ${greyColorDark}`
+                    border: `${borderStandard} ${customGreyPaletteDark[700]}`
 
                 }
             }
@@ -668,7 +696,8 @@ export const themeDark = createTheme({
                 root: {
                     boxShadow: 'none',
                     backgroundColor: paperColorDark,
-                    borderBottom: `1px solid ${greyColorDark}`,
+                    backgroundImage: 'none',
+                    borderBottom: `1px solid ${customGreyPaletteDark[700]}`,
                     '&.mobile-stepper': {
                         backgroundColor: '#131515AA',
                         backdropFilter: 'blur(5px)'
@@ -728,7 +757,7 @@ export const themeDark = createTheme({
         MuiCheckbox: {
             styleOverrides: {
                 root: {
-                    color: greyColorDark,
+                    color: customGreyPaletteDark[700],
                 }
             }
         },
@@ -738,7 +767,7 @@ export const themeDark = createTheme({
                     height: 16,
                 },
                 rail: {
-                    color: greyColorDark,
+                    color: customGreyPaletteDark[700],
                     height: 16
                 },
                 thumb: {
@@ -760,20 +789,20 @@ export const themeDark = createTheme({
                         boxShadow: shadow1,
                     },
                     '&.MuiButton-outlined.Mui-disabled': {
-                        border: `${borderStandard} ${customGreyPalette[800]}`,
-                        color: customGreyPalette[700]
+                        border: `${borderStandard} ${customGreyPaletteDark[800]}`,
+                        color: customGreyPaletteDark[700]
                     },
                     '&.MuiButton-outlinedPrimary': {
-                        border: `${borderStandard} ${customGreyPalette[700]}`,
+                        border: `${borderStandard} ${customGreyPaletteDark[700]}`,
                         // backgroundColor: customGreyPalette[900],
                         color: textPrimaryColorDark,
                         '&:hover': {
-                            backgroundColor: customGreyPalette[900],
-                            color: customGreyPalette[100]
+                            backgroundColor: customGreyPaletteDark[700],
+                            color: customGreyPaletteDark[100]
                         },
                         '&:focus': {
-                            boxShadow: `0 0 0 3px ${customGreyPalette[700]}`,
-                            color: textSecondaryColorDark
+                            boxShadow: `0 0 0 3px ${customGreyPaletteDark[700]}`,
+                            color: textPrimaryColorDark
                         },
                     }
                 }
@@ -785,7 +814,7 @@ export const themeDark = createTheme({
                     '&.extender-icon': {
                         // backgroundColor: greyColorDark,
                         color: textSecondaryColorDark,
-                        border: `1px solid ${greyColorDark}`
+                        border: `1px solid ${customGreyPaletteDark[700]}`
                     }
                 }
             }
@@ -818,7 +847,7 @@ export const themeDark = createTheme({
                             border: '6px solid #fff',
                         },
                         '&.Mui-disabled .MuiSwitch-thumb': {
-                            color: customGreyPalette[100]
+                            color: customGreyPaletteDark[100]
                         },
                         '&.Mui-disabled + .MuiSwitch-track': {
                             opacity: .5,
@@ -832,7 +861,7 @@ export const themeDark = createTheme({
                     },
                     '& .MuiSwitch-track': {
                         borderRadius: 26 / 2,
-                        backgroundColor: greyColorDark,
+                        backgroundColor: customGreyPaletteDark[700],
                         opacity: 1,
                         transition: theme.transitions.create(['background-color'], {
                             duration: 500,
