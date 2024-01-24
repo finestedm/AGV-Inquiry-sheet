@@ -5,7 +5,7 @@ import tinycolor from 'tinycolor2';
 export let theme = createTheme({})
 
 //shadows
-const shadowColor1 = 'hsla(220, 43%, 11%, 8%)';
+const shadowColor1 = 'hsla(220, 43%, 11%, 5%)';
 const shadowColor2 = 'hsla(220, 43%, 11%, 15%)';
 const shadowColor3 = 'hsla(220, 43%, 11%, 30%)';
 const shadowColor4 = 'hsla(220, 43%, 11%, 50%)';
@@ -131,7 +131,7 @@ theme = createTheme({
         grey: customGreyPalette
     },
     shape: {
-        borderRadius: 6
+        borderRadius: 1
     },
 
     typography: {
@@ -204,8 +204,8 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     border: `${borderStandard} ${customGreyPalette[300]}`,
+                    boxShadow: shadow3,
                     '&.system-card': {
-                        boxShadow: shadow2,
                         backgroundColor: backgroundColor,
                         '&.selected-card': {
                             borderColor: primaryColor,
@@ -367,7 +367,7 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     backgroundColor: 'white',
-                    borderBottom: `1px solid ${greyLightColor}`,
+                    borderBottom: `1px solid ${customGreyPalette[300]}`,
                     boxShadow: 'none',
                     '&.mobile-stepper': {
                         backgroundColor: '#ffffffAA',
@@ -652,7 +652,9 @@ export const themeDark = createTheme({
                     minWidth: "12ch",
                     borderColor: '#000',
                     backgroundColor: paperColorDark,
-                    boxShadow: shadow1
+                    // boxShadow: shadow1,
+                    // color: textPrimaryColorDark
+
                 },
                 input: {
                 }
@@ -662,7 +664,6 @@ export const themeDark = createTheme({
             styleOverrides: {
                 notchedOutline: {
                     borderColor: customGreyPaletteDark[700],
-                    backgroundColor: paperColorDark
                 },
                 root: {
                     '&.Mui-disabled': {

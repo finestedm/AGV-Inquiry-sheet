@@ -111,7 +111,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                         fontSize: 12,
                     },
                     '& .MuiDataGrid-row': {
-                        borderTop: `1px solid ${theme.palette.divider}`,
                         backgroundColor: 'background.paper',
                     },
                     '& .MuiDataGrid-footerContainer': {

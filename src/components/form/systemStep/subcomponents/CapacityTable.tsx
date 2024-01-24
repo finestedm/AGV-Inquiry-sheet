@@ -60,7 +60,6 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
                         fontSize: 12,
                     },
                     '& .MuiDataGrid-row': {
-                        borderTop: `1px solid ${theme.palette.divider}`,
                         backgroundColor: 'background.paper',
                     },
                     '& .MuiDataGrid-footerContainer': {

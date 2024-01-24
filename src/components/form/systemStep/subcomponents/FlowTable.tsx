@@ -161,7 +161,6 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             fontSize: 12,
                         },
                         '& .MuiDataGrid-row': {
-                            borderTop: `1px solid ${theme.palette.divider}`,
                             backgroundColor: 'background.paper',
                         },
                         '& .MuiDataGrid-footerContainer': {
