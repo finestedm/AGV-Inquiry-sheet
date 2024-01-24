@@ -210,7 +210,7 @@ theme = createTheme({
                         '&.selected-card': {
                             borderColor: primaryColor,
                             color: textPrimaryColor,
-                            backgroundColor: tinycolor(primaryColor).setAlpha(.1).toHex8String(),
+                            backgroundColor: tinycolor(primaryColor).setAlpha(.05).toHex8String(),
                             // backgroundColor: tinycolor(primaryColor).toRgbString(),
                         },
                     },
@@ -301,17 +301,18 @@ theme = createTheme({
                     fontWeight: 600,
                     fontSize: 14,
                     border: `${borderStandard} ${customGreyPalette[200]} !important`,
+                    color: textSecondaryColor,
                     "&.Mui-selected": {
-                        backgroundColor: customGreyPalette[50],
-                        color: primaryColor,
+                        backgroundColor: customGreyPalette[100],
+                        color: textPrimaryColor,
                     },
                     "&.Mui-selected:hover": {
-                        backgroundColor: customGreyPalette[50],
-                        color: primaryColor,
+                        backgroundColor: customGreyPalette[100],
+                        color: textPrimaryColor,
                         // border: `${borderStandard} ${customGreyPalette[200]}`,
                     },
                     "&:hover": {
-                        backgroundColor: customGreyPalette[25],
+                        backgroundColor: customGreyPalette[50],
                         color: textPrimaryColor,
                     }
                 }
@@ -606,7 +607,7 @@ export const themeDark = createTheme({
                         '&.selected-card': {
                             borderColor: primaryColorDark,
                             color: textPrimaryColorDark,
-                            backgroundColor: tinycolor(primaryColorDark).setAlpha(.1).toHex8String(),
+                            backgroundColor: tinycolor(primaryColorDark).setAlpha(.05).toHex8String(),
                             // backgroundColor: tinycolor(primaryColor).toRgbString(),
                         },
                     },
@@ -679,29 +680,29 @@ export const themeDark = createTheme({
         MuiToggleButtonGroup: {
             styleOverrides: {
                 root: {
-                    boxShadow: shadow1,
-                    padding: 3,
-                    border: `${borderStandard} ${customGreyPaletteDark[700]}`
-
+                    borderColor: customGreyPaletteDark[700],
                 }
             }
         },
         MuiToggleButton: {
             styleOverrides: {
                 root: {
-                    fontWeight: 600,
+                    fontWeight: 500,
                     fontSize: 14,
+                    border: `${borderStandard} ${customGreyPaletteDark[700]} !important`,
                     color: textSecondaryColorDark,
-                    border: 'none',
-                    borderRadius: theme.shape.borderRadius,
                     "&.Mui-selected": {
-                        borderRadius: `3px !important`,
-                        border: 'none',
-                        boxShadow: shadow3,
+                        backgroundColor: customGreyPaletteDark[800],
+                        color: textPrimaryColorDark,
                     },
-                    "&.Mui-selected, .Mui-selected:hover": {
-                        backgroundColor: paperColorDark,
-                        color: primaryColorDark
+                    "&.Mui-selected:hover": {
+                        backgroundColor: customGreyPaletteDark[800],
+                        color: textPrimaryColorDark,
+                        // border: `${borderStandard} ${customGreyPalette[200]}`,
+                    },
+                    "&:hover": {
+                        backgroundColor: customGreyPaletteDark[900],
+                        color: textPrimaryColorDark,
                     }
                 }
             }
@@ -731,7 +732,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     fontSize: 13,
-                    fontWeight: 600,
+                    fontWeight: 500,
                     textAlign: 'left'
                 }
             }
@@ -740,7 +741,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 label: {
                     fontSize: 13,
-                    fontWeight: 600
+                    fontWeight: 500
                 },
             }
         },
