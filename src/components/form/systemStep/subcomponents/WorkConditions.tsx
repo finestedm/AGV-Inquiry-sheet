@@ -115,7 +115,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                 </Stack>
                             </Box>
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12}>
                             <CustomTextField
                                 disabled={!editMode}
                                 fieldName={`system.${selectedSystem}.workConditions.other`}
