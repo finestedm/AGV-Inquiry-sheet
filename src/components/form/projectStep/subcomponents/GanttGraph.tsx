@@ -242,7 +242,7 @@ function SizeEditButtons({ handleColumnsWidth, viewMode, setViewMode, decreaseCo
 
     function ViewModeIcon({ viewModeSet, ...props }: { viewModeSet: TViewMode }) {
         return (
-            <ToggleButton {...props} sx={{py: .25}} value={viewModeSet} selected={viewMode === viewModeSet} className='buttongroup-deep' color="primary">{viewModeSet}</ToggleButton>
+            <ToggleButton {...props} value={viewModeSet} selected={viewMode === viewModeSet} className='buttongroup-deep' color="primary">{viewModeSet}</ToggleButton>
         )
     }
 

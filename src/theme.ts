@@ -141,7 +141,7 @@ theme = createTheme({
         ].join(','),
         fontWeightRegular: 500,
         body1: {
-            fontWeight: 600,
+            fontWeight: 500,
             fontSize: 14
         },
         h1: {
@@ -203,14 +203,16 @@ theme = createTheme({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    boxShadow: 'none',
-                    borderWidth: 1,
-                    borderColor: 'transparent',
-                    backgroundColor: customGreyPalette[100],
-                    color: infoColor,
-                    '&.selected-card': {
-                        borderColor: tinycolor(secondaryColor).toRgbString(),
-                        backgroundColor: tinycolor(primaryColor).toRgbString(),
+                    border: `${borderStandard} ${customGreyPalette[300]}`,
+                    '&.system-card': {
+                        boxShadow: shadow2,
+                        backgroundColor: backgroundColor,
+                        '&.selected-card': {
+                            borderColor: primaryColor,
+                            color: textPrimaryColor,
+                            backgroundColor: tinycolor(primaryColor).setAlpha(.1).toHex8String(),
+                            // backgroundColor: tinycolor(primaryColor).toRgbString(),
+                        },
                     },
                     '&.input-group-card': {
                         backgroundColor: paperColor,
@@ -219,6 +221,14 @@ theme = createTheme({
                     }
                 },
             },
+        },
+        MuiCardMedia: {
+            styleOverrides: {
+                root: {
+                    padding: 16,
+                    borderRadius: 20
+                }
+            }
         },
         MuiDialogActions: {
             styleOverrides: {
@@ -281,9 +291,7 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: shadow1,
-                    padding: 3,
-                    border: `${borderStandard} ${customGreyPalette[200]}`,
-                    backgroundColor: customGreyPalette[50]
+                    borderColor: customGreyPalette[300],
                 }
             }
         },
@@ -292,19 +300,19 @@ theme = createTheme({
                 root: {
                     fontWeight: 600,
                     fontSize: 14,
-                    border: 'none',
-                    borderRadius: theme.shape.borderRadius,
+                    border: `${borderStandard} ${customGreyPalette[200]} !important`,
                     "&.Mui-selected": {
-                        borderRadius: `3px !important`,
-                        // border: `${borderStandard} ${customGreyPalette[200]} !important`,
-                        backgroundColor: backgroundColor,
-                        boxShadow: shadow2
+                        backgroundColor: customGreyPalette[50],
+                        color: primaryColor,
                     },
-                    "&.Mui-selected, &.Mui-selected:hover": {
-                        backgroundColor: backgroundColor,
+                    "&.Mui-selected:hover": {
+                        backgroundColor: customGreyPalette[50],
                         color: primaryColor,
                         // border: `${borderStandard} ${customGreyPalette[200]}`,
-
+                    },
+                    "&:hover": {
+                        backgroundColor: customGreyPalette[25],
+                        color: textPrimaryColor,
                     }
                 }
             }
@@ -558,7 +566,7 @@ export const themeDark = createTheme({
         ].join(','),
         fontWeightRegular: 500,
         body1: {
-            fontWeight: 700,
+            fontWeight: 500,
             fontSize: 14
         },
         h1: {
@@ -592,17 +600,31 @@ export const themeDark = createTheme({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    boxShadow: 'none',
-                    borderWidth: 1,
-                    borderColor: 'transparent',
-                    backgroundColor: paperColorDark,
-                    backgroundImage: 'none',
-                    '&.selected-card': {
-                        borderColor: primaryColorDark[800],
-                        backgroundColor: primaryColorDark,
+                    border: `${borderStandard} ${customGreyPalette[700]}`,
+                    '&.system-card': {
+                        backgroundColor: backgroundColorDark,
+                        '&.selected-card': {
+                            borderColor: primaryColorDark,
+                            color: textPrimaryColorDark,
+                            backgroundColor: tinycolor(primaryColorDark).setAlpha(.1).toHex8String(),
+                            // backgroundColor: tinycolor(primaryColor).toRgbString(),
+                        },
+                    },
+                    '&.input-group-card': {
+                        backgroundColor: paperColor,
+                        border: borderStandard,
+                        borderColor: customGreyPalette[700]
                     }
                 },
             },
+        },
+        MuiCardMedia: {
+            styleOverrides: {
+                root: {
+                    padding: 16,
+                    borderRadius: 20
+                }
+            }
         },
         MuiCardContent: {
             styleOverrides: {
