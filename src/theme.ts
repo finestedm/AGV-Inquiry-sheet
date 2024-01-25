@@ -92,8 +92,8 @@ const greyLightColor = '#C0CBCE'
 const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
-const backgroundColorDark = '#1e2026'
-const paperColorDark = '#07080D'
+const backgroundColorDark = '#161618'
+const paperColorDark = '#1f1f21'
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
 const textPrimaryColorDark = customGreyPaletteDark[50]
@@ -263,7 +263,7 @@ theme = createTheme({
                     backgroundColor: paperColor,
                     boxShadow: shadow1,
                 },
-                
+
             },
         },
         MuiOutlinedInput: {
@@ -275,7 +275,7 @@ theme = createTheme({
                     '& .MuiInputBase-inputSizeSmall': {
                         padding: '14px 10px'
                     },
-                    
+
                     '&.Mui-disabled': {
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: customGreyPalette[100],
@@ -557,7 +557,7 @@ export const themeDark = createTheme({
             secondary: customGreyPaletteDark[300]
         },
         grey: customGreyPaletteDark,
-        divider: customGreyPaletteDark[800],
+        divider: customGreyPaletteDark[700],
     },
     shape: {
         borderRadius: theme.shape.borderRadius
@@ -604,7 +604,7 @@ export const themeDark = createTheme({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    border: `${borderStandard} ${customGreyPaletteDark[600]}`,
+                    border: `${borderStandard} ${customGreyPaletteDark[700]}`,
                     backgroundImage: 'none',
                     '&.system-card': {
                         backgroundColor: backgroundColorDark,
@@ -618,7 +618,7 @@ export const themeDark = createTheme({
                     '&.input-group-card': {
                         backgroundColor: paperColor,
                         border: borderStandard,
-                        borderColor: customGreyPaletteDark[600]
+                        borderColor: customGreyPaletteDark[700]
                     }
                 },
             },
@@ -666,7 +666,7 @@ export const themeDark = createTheme({
         MuiOutlinedInput: {
             styleOverrides: {
                 notchedOutline: {
-                    borderColor: customGreyPaletteDark[600],
+                    borderColor: customGreyPaletteDark[700],
                 },
                 root: {
                     '& .MuiInputBase-inputSizeSmall': {
@@ -699,6 +699,10 @@ export const themeDark = createTheme({
                     fontWeight: 600,
                     fontSize: 14,
                     color: textSecondaryColorDark,
+                    border: `${borderStandard} ${customGreyPalette[700]}`,
+                    '&.Mui-disabled': {
+                        border: `${borderStandard} ${customGreyPalette[700]}`,
+                    },
                     "&.Mui-selected": {
                         backgroundColor: customGreyPaletteDark[900],
                         color: textPrimaryColorDark,
@@ -727,7 +731,7 @@ export const themeDark = createTheme({
                     boxShadow: 'none',
                     backgroundColor: paperColorDark,
                     backgroundImage: 'none',
-                    borderBottom: `1px solid ${customGreyPaletteDark[600]}`,
+                    borderBottom: `1px solid ${customGreyPaletteDark[700]}`,
                     '&.mobile-stepper': {
                         backgroundColor: '#131515AA',
                         backdropFilter: 'blur(5px)'
