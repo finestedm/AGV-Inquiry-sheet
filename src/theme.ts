@@ -631,6 +631,13 @@ export const themeDark = createTheme({
                 }
             }
         },
+        MuiDialogActions: {
+            styleOverrides: {
+                root: {
+                    borderTop: `${borderStandard} ${customGreyPaletteDark[500]}`,
+                },
+            },
+        },
         MuiCardContent: {
             styleOverrides: {
                 root: {

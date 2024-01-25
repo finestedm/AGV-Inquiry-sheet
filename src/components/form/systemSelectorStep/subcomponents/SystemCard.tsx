@@ -30,6 +30,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                     borderRadius: '5rem',
                     height: 28,
                     width: 28,
+                    backgroundColor: systemSelected ? '#000' : 'transparent',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
