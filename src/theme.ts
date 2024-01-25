@@ -607,11 +607,11 @@ export const themeDark = createTheme({
                     border: `${borderStandard} ${customGreyPaletteDark[700]}`,
                     backgroundImage: 'none',
                     '&.system-card': {
-                        backgroundColor: backgroundColorDark,
+                        backgroundColor: paperColorDark,
                         '&.selected-card': {
                             borderColor: primaryColorDark,
                             color: textPrimaryColorDark,
-                            backgroundColor: tinycolor(primaryColorDark).setAlpha(.05).toHex8String(),
+                            backgroundColor: tinycolor(primaryColorDark).setAlpha(.075).toHex8String(),
                             // backgroundColor: tinycolor(primaryColor).toRgbString(),
                         },
                     },
@@ -699,20 +699,20 @@ export const themeDark = createTheme({
                     fontWeight: 600,
                     fontSize: 14,
                     color: textSecondaryColorDark,
-                    border: `${borderStandard} ${customGreyPaletteDark[700]}`,
+                    border: `${borderStandard} ${customGreyPaletteDark[700]} !important`,
                     '&.Mui-disabled': {
                         border: `${borderStandard} ${customGreyPaletteDark[700]}`,
                     },
                     "&.Mui-selected": {
-                        backgroundColor: customGreyPaletteDark[900],
+                        backgroundColor: customGreyPaletteDark[600],
                         color: textPrimaryColorDark,
                     },
                     "&.Mui-selected:hover": {
-                        backgroundColor: customGreyPaletteDark[900],
+                        backgroundColor: customGreyPaletteDark[700],
                         color: textPrimaryColorDark,
                     },
                     "&:hover": {
-                        backgroundColor: customGreyPaletteDark[950],
+                        backgroundColor: customGreyPaletteDark[900],
                         color: textPrimaryColorDark,
                     }
                 }
@@ -782,16 +782,16 @@ export const themeDark = createTheme({
         MuiChip: {
             styleOverrides: {
                 root: {
-                    backgroundColor: paperColorDark,
-                    color: primaryColor,
-                    height: 24
+                    backgroundColor: customGreyPaletteDark[600],
+                    color: textPrimaryColorDark,
+                    height: 32
                 }
             }
         },
         MuiCheckbox: {
             styleOverrides: {
                 root: {
-                    color: customGreyPaletteDark[700],
+                    color: customGreyPaletteDark[600],
                 }
             }
         },

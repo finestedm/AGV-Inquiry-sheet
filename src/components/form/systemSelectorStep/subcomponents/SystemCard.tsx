@@ -21,7 +21,22 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
     const systemSelected = formData.system[system.alt].selected;
 
     return (
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{ position: 'relative' }}>
+            <div
+                style={{
+                    position: 'absolute',
+                    top: '.75rem',
+                    right: '-14px',
+                    borderRadius: '5rem',
+                    height: 28,
+                    width: 28,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                {systemSelected && <CheckCircleIcon fontSize='large' sx={{ color: theme.palette.primary.main,  }} />}
+            </div>
             <Card className={systemSelected ? 'selected-card system-card' : 'system-card'}>
                 <CardActionArea
                     disabled={!editMode}
@@ -35,23 +50,6 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                         sx={{ position: 'relative' }}
                     >
                     </CardMedia>
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: '1.5rem',
-                            right: '1.5rem',
-                            borderRadius: '5rem',
-                            height: 20,
-                            width: 20,
-                            backgroundColor: systemSelected ? '#000' : 'transparent',
-                            border: `1px solid ${theme.palette.divider}`,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        {systemSelected && <CheckCircleIcon sx={{ color: theme.palette.primary.main }} />}
-                    </div>
                 </CardActionArea>
                 <CardActions>
                     <Accordion disableGutters elevation={0} sx={{ backgroundColor: 'transparent' }}>
