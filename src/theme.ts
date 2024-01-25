@@ -699,9 +699,9 @@ export const themeDark = createTheme({
                     fontWeight: 600,
                     fontSize: 14,
                     color: textSecondaryColorDark,
-                    border: `${borderStandard} ${customGreyPalette[700]}`,
+                    border: `${borderStandard} ${customGreyPaletteDark[700]}`,
                     '&.Mui-disabled': {
-                        border: `${borderStandard} ${customGreyPalette[700]}`,
+                        border: `${borderStandard} ${customGreyPaletteDark[700]}`,
                     },
                     "&.Mui-selected": {
                         backgroundColor: customGreyPaletteDark[900],
