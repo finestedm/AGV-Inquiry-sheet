@@ -263,6 +263,7 @@ theme = createTheme({
                     backgroundColor: paperColor,
                     boxShadow: shadow1,
                 },
+                
             },
         },
         MuiOutlinedInput: {
@@ -271,10 +272,10 @@ theme = createTheme({
                     borderColor: customGreyPalette[200],
                 },
                 root: {
-                    // padding: '12px',
                     '& .MuiInputBase-inputSizeSmall': {
-                        padding: '12px 12px'
+                        padding: '14px 10px'
                     },
+                    
                     '&.Mui-disabled': {
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: customGreyPalette[100],
@@ -668,6 +669,9 @@ export const themeDark = createTheme({
                     borderColor: customGreyPaletteDark[600],
                 },
                 root: {
+                    '& .MuiInputBase-inputSizeSmall': {
+                        padding: '14px 10px'
+                    },
                     '&.Mui-disabled': {
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: customGreyPaletteDark[900]

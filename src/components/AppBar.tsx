@@ -129,7 +129,6 @@ export default function TopBar(): JSX.Element {
                                     value={i18n.language}
                                     onChange={handleLanguageChange}
                                     variant="outlined"
-                                    size="small"
                                 >
                                     <MenuItem value="en" >
                                         <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
@@ -192,7 +191,7 @@ export default function TopBar(): JSX.Element {
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'flex-end' }}>
                         <Stack spacing={2} direction='row'>
-                            <FormControl size='small' sx={{ display: { xs: 'none', lg: 'flex' } }}>
+                            <FormControl sx={{ display: { xs: 'none', lg: 'flex' } }}>
                                 <Select
                                     id="language-select"
                                     value={i18n.language}
