@@ -79,7 +79,7 @@ const grey120ColorDark = '#1d1f20'
 const primaryColor = JHYellow;
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
-const backgroundColor = customGreyPalette[50]
+const backgroundColor = '#f8fafc'
 const paperColor = '#fff'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
@@ -92,7 +92,7 @@ const greyLightColor = '#C0CBCE'
 const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
-const backgroundColorDark = '#0F1013'
+const backgroundColorDark = '#1e2026'
 const paperColorDark = '#07080D'
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
@@ -261,10 +261,8 @@ theme = createTheme({
                     minWidth: "12ch",
                     borderColor: '#000',
                     backgroundColor: paperColor,
-                    boxShadow: shadow1
+                    boxShadow: shadow1,
                 },
-                input: {
-                }
             },
         },
         MuiOutlinedInput: {
@@ -273,6 +271,10 @@ theme = createTheme({
                     borderColor: customGreyPalette[200],
                 },
                 root: {
+                    // padding: '12px',
+                    '& .MuiInputBase-inputSizeSmall': {
+                        padding: '12px 12px'
+                    },
                     '&.Mui-disabled': {
                         '& .MuiOutlinedInput-notchedOutline': {
                             borderColor: customGreyPalette[100],
@@ -601,7 +603,7 @@ export const themeDark = createTheme({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    border: `${borderStandard} ${customGreyPaletteDark[800]}`,
+                    border: `${borderStandard} ${customGreyPaletteDark[600]}`,
                     backgroundImage: 'none',
                     '&.system-card': {
                         backgroundColor: backgroundColorDark,
@@ -615,7 +617,7 @@ export const themeDark = createTheme({
                     '&.input-group-card': {
                         backgroundColor: paperColor,
                         border: borderStandard,
-                        borderColor: customGreyPalette[700]
+                        borderColor: customGreyPaletteDark[600]
                     }
                 },
             },
@@ -663,7 +665,7 @@ export const themeDark = createTheme({
         MuiOutlinedInput: {
             styleOverrides: {
                 notchedOutline: {
-                    borderColor: customGreyPaletteDark[700],
+                    borderColor: customGreyPaletteDark[600],
                 },
                 root: {
                     '&.Mui-disabled': {
@@ -721,7 +723,7 @@ export const themeDark = createTheme({
                     boxShadow: 'none',
                     backgroundColor: paperColorDark,
                     backgroundImage: 'none',
-                    borderBottom: `1px solid ${customGreyPaletteDark[800]}`,
+                    borderBottom: `1px solid ${customGreyPaletteDark[600]}`,
                     '&.mobile-stepper': {
                         backgroundColor: '#131515AA',
                         backdropFilter: 'blur(5px)'
@@ -840,7 +842,7 @@ export const themeDark = createTheme({
                     '&.extender-icon': {
                         // backgroundColor: greyColorDark,
                         color: textSecondaryColorDark,
-                        border: `1px solid ${customGreyPaletteDark[700]}`
+                        border: `1px solid ${customGreyPaletteDark[600]}`
                     }
                 }
             }
