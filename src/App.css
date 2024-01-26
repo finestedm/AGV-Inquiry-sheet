@@ -114,8 +114,14 @@
 
 .ganttchart-container-dark ._2dZTy,
 .ganttchart-container-dark ._35nLX {
-  fill: #1f1f1f;
-  color: #fff
+  fill: #1f1f21;
+  stroke: transparent
+}
+
+.ganttchart-container-dark ._2q1Kt,
+.ganttchart-container-dark ._9w8d5,
+.ganttchart-container-dark ._3KcaM {
+  fill: #fff
 }
 
 /* row line */
@@ -127,8 +133,7 @@
 
 .ganttchart-container-dark ._3rUKi,
 .ganttchart-container-dark ._RuwuK {
-  stroke: rgba(255, 255, 255, 0);
-  color: #fff
+  stroke: #e3e8ef35;
 }
 
 .ganttchart-container ._2k9Ys {
@@ -137,7 +142,6 @@
 
 ._2k9Ys {
   max-height: 5px !important
-
 }
 
 /* this is a line for a overlayWrapper that sits above Poper component :/ */

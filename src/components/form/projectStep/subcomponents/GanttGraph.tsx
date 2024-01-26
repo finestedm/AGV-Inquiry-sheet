@@ -17,7 +17,8 @@ import DateEditDialog from "./DateEditDialog";
 import SwitchRightIcon from '@mui/icons-material/SwitchRight';
 import dayjs from "dayjs";
 import milestonesLengths, { milestoneOrder } from "../../../../data/milestones";
-import { customGreyPalette } from "../../../../theme";
+import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
+import tinycolor from "tinycolor2";
 
 export default function GanttGraph(): JSX.Element {
 
@@ -121,6 +122,18 @@ export default function GanttGraph(): JSX.Element {
     //     });
     // }, [viewMode])
 
+    function backgroundColorForTaskType(name: keyof IMilestones) {
+        switch (name) {
+            case 'order':
+                return theme.palette.error.main;
+            case 'launch':
+                return theme.palette.success.main;
+            default:
+                return theme.palette.mode === 'light' ? customGreyPalette[900] : customGreyPaletteDark[500]
+        }
+    }
+
+
     const milestones: Task[] = (() => {
         return Object.entries(formData.project.milestones).map(([name, date]) => {
             const start = new Date(date.start);
@@ -136,7 +149,7 @@ export default function GanttGraph(): JSX.Element {
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
                 progress: 0,
                 isDisabled: !editMode || isTaskUneditable(name as keyof IMilestones),
-                styles: { backgroundColor: (name === 'order' || name === 'launch') ? customGreyPalette[700] : customGreyPalette[500] },
+                styles: { backgroundColor: backgroundColorForTaskType(name as keyof IMilestones) }
             };
         });
     })();
@@ -205,12 +218,12 @@ export default function GanttGraph(): JSX.Element {
                         <Box border={1} sx={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius / 4, overflow: 'hidden' }}>
                             <Gantt
                                 tasks={milestones}
-                                barCornerRadius={theme.shape.borderRadius / 3}
+                                barCornerRadius={theme.shape.borderRadius * 3}
                                 barBackgroundSelectedColor={theme.palette.primary.main}
                                 arrowIndent={40}
-                                todayColor={theme.palette.divider}
+                                todayColor={theme.palette.mode === 'light' ? tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String() : tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String()}
                                 viewMode={viewMode as ViewMode}
-                                preStepsCount={0}
+                                preStepsCount={2}
                                 locale={currentLanguage}
                                 fontSize=".75rem"
                                 listCellWidth={viewTaskList ? '100px' : ""}

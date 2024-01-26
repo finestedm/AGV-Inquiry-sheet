@@ -363,6 +363,8 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     padding: '6px',
+                    borderBottomColor: customGreyPalette[300],
+                    backgroundColor: paperColor
                 },
             },
         },
@@ -465,13 +467,6 @@ theme = createTheme({
                         color: textSecondaryColor,
                         border: `1px solid ${greyLightColor}`
                     }
-                }
-            }
-        },
-        MuiTableHead: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: customGreyPalette[400],
                 }
             }
         },
@@ -729,6 +724,8 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     padding: '6px 6px',
+                    borderBottomColor: customGreyPaletteDark[700],
+                    backgroundColor: paperColorDark
                 },
             },
         },

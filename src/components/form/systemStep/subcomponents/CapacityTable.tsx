@@ -6,7 +6,7 @@ import { RootState } from "../../../../features/redux/store";
 import React, { useEffect, useRef, useState } from "react";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { ISystems } from "../../../../features/interfaces";
-import { customGreyPalette } from "../../../../theme";
+import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
 
 export default function CapacityTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
@@ -51,21 +51,32 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
                 sx={{
                     borderColor: 'divider',
                     boxShadow: theme.shadows[1],
+                    '& .MuiDataGrid-row': {
+                        backgroundColor: 'background.paper',
+                        borderTop: `1px solid ${theme.palette.divider}`,
+                    },
                     '& .MuiDataGrid-row:hover': {
                         backgroundColor: 'divider',
                     },
-                    '& .MuiDataGrid-columnHeader ': {
-                        color: 'text.secondary',
+                    '& .MuiDataGrid-columnHeader': {
+                        color: theme.palette.mode === 'light' ? customGreyPalette[500] : customGreyPaletteDark[400],
                         backgroundColor: 'background.paper',
                         fontSize: 12,
                     },
-                    '& .MuiDataGrid-row': {
-                        backgroundColor: 'background.paper',
+                    '& .MuiDataGrid-columnHeaders': {
+                        borderBottom: 'none'
                     },
+                    '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
+                        border: 'none'
+                    },
+
                     '& .MuiDataGrid-footerContainer': {
                         borderTop: `1px solid ${theme.palette.divider}`,
                         backgroundColor: 'background.paper',
-                    }
+                    },
+                    '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
+                        borderBottom: `1px solid`,
+                    },
                 }}
                 rows={rows}
                 columns={[
