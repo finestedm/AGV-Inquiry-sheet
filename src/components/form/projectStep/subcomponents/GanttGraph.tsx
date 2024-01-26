@@ -129,7 +129,7 @@ export default function GanttGraph(): JSX.Element {
             case 'launch':
                 return theme.palette.success.main;
             default:
-                return theme.palette.mode === 'light' ? customGreyPalette[900] : customGreyPaletteDark[500]
+                return theme.palette.mode === 'light' ? customGreyPalette[500] : customGreyPaletteDark[500]
         }
     }
 
