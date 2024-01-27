@@ -844,7 +844,7 @@ export const themeDark = createTheme({
                             boxShadow: `0 0 0 3px ${customGreyPaletteDark[700]}`,
                             color: textPrimaryColorDark
                         },
-                    }
+                    },
                 }
             }
         },
