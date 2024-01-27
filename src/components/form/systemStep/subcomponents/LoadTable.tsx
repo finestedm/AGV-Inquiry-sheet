@@ -20,7 +20,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const selectedSystemFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
-    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary' ;
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
 
     const [selectedIndex, setSelectedIndex] = useState<string>('placeholder');
@@ -105,7 +105,6 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                     boxShadow: theme.shadows[1],
                     '& .MuiDataGrid-row': {
                         backgroundColor: 'background.paper',
-                        borderTop: `1px solid ${theme.palette.divider}`,
                     },
                     '& .MuiDataGrid-row:hover': {
                         backgroundColor: 'divider',
@@ -115,19 +114,12 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                         backgroundColor: 'background.paper',
                         fontSize: 12,
                     },
-                    '& .MuiDataGrid-columnHeaders': {
-                        borderBottom: 'none'
+                    '& .MuiDataGrid-withBorderColor': {
+                        borderColor: theme.palette.divider,
                     },
-                    '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
-                        border: 'none'
-                    },
-
                     '& .MuiDataGrid-footerContainer': {
                         borderTop: `1px solid ${theme.palette.divider}`,
                         backgroundColor: 'background.paper',
-                    },
-                    '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
-                        borderBottom: `1px solid`,
                     },
                 }}
                 rows={rows}

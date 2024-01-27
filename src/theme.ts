@@ -92,8 +92,8 @@ const greyLightColor = '#C0CBCE'
 const primaryColorDark = JHYellow
 const secondaryColorDark = '#009697'
 const successColorDark = '#94DDBC'
-const backgroundColorDark = '#161618'
-const paperColorDark = '#1f1f21'
+const backgroundColorDark = '#1f1f21'
+const paperColorDark = '#161618'
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
 const textPrimaryColorDark = customGreyPaletteDark[50]
@@ -363,7 +363,7 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     padding: '6px',
-                    borderBottomColor: customGreyPalette[300],
+                    // borderBottomColor: customGreyPalette[300],
                     backgroundColor: paperColor
                 },
             },
@@ -724,7 +724,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     padding: '6px 6px',
-                    borderBottomColor: customGreyPaletteDark[700],
+                    // borderBottomColor: customGreyPaletteDark[700],
                     backgroundColor: paperColorDark
                 },
             },
@@ -805,7 +805,7 @@ export const themeDark = createTheme({
                     height: 16,
                 },
                 rail: {
-                    color: customGreyPaletteDark[700],
+                    color: customGreyPaletteDark[600],
                     height: 16
                 },
                 thumb: {
@@ -874,7 +874,7 @@ export const themeDark = createTheme({
                             transform: 'translateX(20px)',
                             color: '#fff',
                             '& + .MuiSwitch-track': {
-                                backgroundColor: customGreyPaletteDark[700],
+                                backgroundColor: customGreyPaletteDark[600],
                                 opacity: 1,
                                 border: 0,
                             },
