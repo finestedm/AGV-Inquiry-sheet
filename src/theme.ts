@@ -97,7 +97,7 @@ const paperColorDark = '#161618'
 const infoColorDark = '#009697'
 const errorColorDark = '#cc0000'
 const textPrimaryColorDark = customGreyPaletteDark[50]
-const textSecondaryColorDark = customGreyPaletteDark[300]
+const textSecondaryColorDark = customGreyPaletteDark[400]
 const grey40ColorDark = '#B1B5B7'
 const grey80ColorDark = '#636B6E'
 
@@ -708,7 +708,10 @@ export const themeDark = createTheme({
         MuiToggleButtonGroup: {
             styleOverrides: {
                 root: {
+                    padding: 3,
                     backgroundColor: paperColorDark,
+                    border: `${borderStandard} ${customGreyPaletteDark[700]}`,
+                    overflow: 'hidden'
                 }
             }
         },
@@ -718,16 +721,15 @@ export const themeDark = createTheme({
                     fontWeight: 600,
                     fontSize: 14,
                     color: textSecondaryColorDark,
-                    border: `${borderStandard} ${customGreyPaletteDark[700]} !important`,
-                    '&.Mui-disabled': {
-                        border: `${borderStandard} ${customGreyPaletteDark[700]}`,
-                    },
+                    border: 'none',
+                    borderRadius: '8px !important',
+
                     "&.Mui-selected": {
-                        backgroundColor: customGreyPaletteDark[600],
+                        backgroundColor: backgroundColorDark,
                         color: textPrimaryColorDark,
                     },
                     "&.Mui-selected:hover": {
-                        backgroundColor: customGreyPaletteDark[700],
+                        backgroundColor: customGreyPaletteDark[800],
                         color: textPrimaryColorDark,
                     },
                     "&:hover": {
@@ -863,12 +865,12 @@ export const themeDark = createTheme({
                         },
                     },
                     '&.MuiButton-containedPrimary': {
-                        color: tinycolor(primaryColorDark).darken(10).toHex8String(),
-                        backgroundColor: tinycolor(primaryColorDark).lighten(12).setAlpha(.15).toHex8String(),
+                        color: primaryColorDark,
+                        backgroundColor: tinycolor(primaryColorDark).lighten(12).setAlpha(.25).toHex8String(),
                         boxShadow: 'none',
                         '&:hover': {
-                            color: tinycolor(primaryColor).darken(15).toHex8String(),
-                            backgroundColor: tinycolor(primaryColor).setAlpha(.15).toHex8String(),
+                            color: tinycolor(primaryColorDark).lighten(10).toHex8String(),
+                            backgroundColor: tinycolor(primaryColorDark).lighten(20).setAlpha(.25).toHex8String(),
                         }
                     },
                     '&.MuiButton-contained.Mui-disabled': {
