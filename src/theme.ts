@@ -295,7 +295,7 @@ theme = createTheme({
                 root: {
                     boxShadow: shadow1,
                     padding: 3,
-                    backgroundColor: customGreyPalette[100] ,
+                    backgroundColor: customGreyPalette[100],
                     border: `${borderStandard} ${customGreyPalette[300]}`,
                     overflow: 'hidden'
                 }
@@ -311,7 +311,7 @@ theme = createTheme({
                     borderRadius: '8px !important',
 
                     "&.Mui-selected": {
-                        backgroundColor:paperColor,
+                        backgroundColor: paperColor,
                         color: textPrimaryColor,
                         boxShadow: shadow3,
                     },
@@ -358,12 +358,19 @@ theme = createTheme({
                         },
                     },
                     '&.MuiButton-containedPrimary': {
-                        color: tinycolor(primaryColor).darken(5).toHex8String(),
-                        backgroundColor: tinycolor(primaryColor).brighten(13).setAlpha(.375).toHex8String()
+
+                        color: tinycolor(primaryColor).darken(10).toHex8String(),
+                        backgroundColor: tinycolor(primaryColor).lighten(12).setAlpha(.45).toHex8String(),
+                        boxShadow: 'none',
+                        '&:hover': {
+                            color: tinycolor(primaryColor).darken(15).toHex8String(),
+                            backgroundColor: tinycolor(primaryColor).setAlpha(.45).toHex8String(),
+                        }
                     },
+
                     '&.MuiButton-contained.Mui-disabled': {
-                        color: customGreyPalette[400],
-                        backgroundColor:customGreyPalette[100]
+                        color: customGreyPalette[300],
+                        backgroundColor: customGreyPalette[200]
 
                     },
                 }
@@ -856,12 +863,17 @@ export const themeDark = createTheme({
                         },
                     },
                     '&.MuiButton-containedPrimary': {
-                        color: tinycolor(primaryColor).brighten(8).toHex8String(),
-                        backgroundColor: tinycolor(primaryColor).darken(10).setAlpha(.18).toHex8String()
+                        color: tinycolor(primaryColorDark).darken(10).toHex8String(),
+                        backgroundColor: tinycolor(primaryColorDark).lighten(12).setAlpha(.15).toHex8String(),
+                        boxShadow: 'none',
+                        '&:hover': {
+                            color: tinycolor(primaryColor).darken(15).toHex8String(),
+                            backgroundColor: tinycolor(primaryColor).setAlpha(.15).toHex8String(),
+                        }
                     },
                     '&.MuiButton-contained.Mui-disabled': {
-                        color: customGreyPaletteDark[700],
-                        backgroundColor:customGreyPaletteDark[800]
+                        color: customGreyPaletteDark[600],
+                        backgroundColor: customGreyPaletteDark[700]
 
                     },
                 }
