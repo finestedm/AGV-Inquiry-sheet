@@ -218,7 +218,7 @@ export default function GanttGraph(): JSX.Element {
                         <Box border={1} sx={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius / 4, overflow: 'hidden' }}>
                             <Gantt
                                 tasks={milestones}
-                                barCornerRadius={theme.shape.borderRadius * 3}
+                                barCornerRadius={theme.shape.borderRadius }
                                 barBackgroundSelectedColor={theme.palette.primary.main}
                                 arrowIndent={40}
                                 todayColor={theme.palette.mode === 'light' ? tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String() : tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String()}

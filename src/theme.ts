@@ -131,7 +131,7 @@ theme = createTheme({
         grey: customGreyPalette
     },
     shape: {
-        borderRadius: 1
+        borderRadius: 10
     },
 
     typography: {
@@ -294,7 +294,10 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: shadow1,
-                    backgroundColor: paperColor,
+                    padding: 3,
+                    backgroundColor: customGreyPalette[100] ,
+                    border: `${borderStandard} ${customGreyPalette[300]}`,
+                    overflow: 'hidden'
                 }
             }
         },
@@ -304,9 +307,13 @@ theme = createTheme({
                     fontWeight: 600,
                     fontSize: 14,
                     color: textSecondaryColor,
+                    border: 'none',
+                    borderRadius: '8px !important',
+
                     "&.Mui-selected": {
-                        backgroundColor: customGreyPalette[100],
+                        backgroundColor:paperColor,
                         color: textPrimaryColor,
+                        boxShadow: shadow3,
                     },
                     "&.Mui-selected:hover": {
                         backgroundColor: customGreyPalette[100],
@@ -351,10 +358,13 @@ theme = createTheme({
                         },
                     },
                     '&.MuiButton-containedPrimary': {
-                        color: textPrimaryColor,
+                        color: tinycolor(primaryColor).darken(5).toHex8String(),
+                        backgroundColor: tinycolor(primaryColor).brighten(13).setAlpha(.375).toHex8String()
                     },
                     '&.MuiButton-contained.Mui-disabled': {
-                        color: customGreyPalette[400]
+                        color: customGreyPalette[400],
+                        backgroundColor:customGreyPalette[100]
+
                     },
                 }
             }
@@ -844,6 +854,15 @@ export const themeDark = createTheme({
                             boxShadow: `0 0 0 3px ${customGreyPaletteDark[700]}`,
                             color: textPrimaryColorDark
                         },
+                    },
+                    '&.MuiButton-containedPrimary': {
+                        color: tinycolor(primaryColor).brighten(8).toHex8String(),
+                        backgroundColor: tinycolor(primaryColor).darken(10).setAlpha(.18).toHex8String()
+                    },
+                    '&.MuiButton-contained.Mui-disabled': {
+                        color: customGreyPaletteDark[700],
+                        backgroundColor:customGreyPaletteDark[800]
+
                     },
                 }
             }
