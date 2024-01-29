@@ -165,7 +165,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
 
     return (
         <Dialog fullScreen={fullScreen} maxWidth='lg' open={isOpen} onClose={handleClose}>
-            <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
+            <DialogTitle>
                 <Typography variant="h5" >
                     {t("ui.dialog.copyDialog.title")}
                 </Typography>
@@ -173,7 +173,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
             <DialogContent sx={{px: 2}}>
                 <TableContainer>
                     <Box mt={2} >
-                        <Table>
+                        <Table  sx={{ backgroundColor: theme.palette.background.default }}>
                             <TableHead>
                                 <TableRow>
                                     <TableCell><Typography fontWeight={600} variant="body2">{t("ui.table.head.part")}</Typography></TableCell>

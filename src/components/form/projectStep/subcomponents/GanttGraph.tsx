@@ -158,7 +158,7 @@ export default function GanttGraph(): JSX.Element {
 
         const theme = useTheme();
         return (
-            <Paper elevation={1} sx={{ border: 1, borderColor: theme.palette.divider, backgroundColor: theme.palette.background.default }}>
+            <Paper elevation={1} sx={{ border: 1, borderColor: theme.palette.divider, overflow: 'hidden' }}>
                 <TableContainer component={Box} >
                     <Table>
                         <TableHead sx={{ height: headerHeight + 1 }}>

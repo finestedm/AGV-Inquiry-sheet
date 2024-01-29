@@ -230,6 +230,13 @@ theme = createTheme({
                 }
             }
         },
+        MuiDialogTitle: {
+            styleOverrides: {
+                root: {
+                    borderBottom: `${borderStandard} ${customGreyPalette[200]}`,
+                },
+            },
+        },
         MuiDialogActions: {
             styleOverrides: {
                 root: {
@@ -382,7 +389,6 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     padding: '6px',
-                    // borderBottomColor: customGreyPalette[300],
                     backgroundColor: paperColor
                 },
             },
@@ -645,10 +651,29 @@ export const themeDark = createTheme({
                 }
             }
         },
+        MuiDialog: {
+            styleOverrides: {
+                root: {
+                    backgroundImage: 'none',
+                    backgroundColor: backgroundColorDark,
+                },
+                paper: {
+                    backgroundImage: 'none',
+                    backgroundColor: backgroundColorDark
+                }
+            }
+        },
+        MuiDialogTitle: {
+            styleOverrides: {
+                root: {
+                    borderBottom: `${borderStandard} ${customGreyPaletteDark[700]}`,
+                },
+            },
+        },
         MuiDialogActions: {
             styleOverrides: {
                 root: {
-                    borderTop: `${borderStandard} ${customGreyPaletteDark[500]}`,
+                    borderTop: `${borderStandard} ${customGreyPaletteDark[700]}`,
                 },
             },
         },
@@ -747,7 +772,6 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     padding: '6px 6px',
-                    // borderBottomColor: customGreyPaletteDark[700],
                     backgroundColor: paperColorDark
                 },
             },
