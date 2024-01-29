@@ -309,7 +309,9 @@ theme = createTheme({
                     color: textSecondaryColor,
                     border: 'none',
                     borderRadius: '8px !important',
-
+                    "&.Mui-disabled": {
+                        border: 'none'
+                    },
                     "&.Mui-selected": {
                         backgroundColor: paperColor,
                         color: textPrimaryColor,
@@ -723,7 +725,9 @@ export const themeDark = createTheme({
                     color: textSecondaryColorDark,
                     border: 'none',
                     borderRadius: '8px !important',
-
+                    "&.Mui-disabled": {
+                        border: 'none'
+                    },
                     "&.Mui-selected": {
                         backgroundColor: backgroundColorDark,
                         color: textPrimaryColorDark,

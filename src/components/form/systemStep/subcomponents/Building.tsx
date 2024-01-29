@@ -63,14 +63,14 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
             content={
                 <Stack spacing={2}>
                     <Stack direction='row' alignItems='center'>
-                        <Typography variant='body1'> {t(`system.building.existing`)}</Typography>
+                        <Typography color={!editMode ? 'text.disabled' : 'text.primary'} variant='body1'> {t(`system.building.existing`)}</Typography>
                         <Switch
-                            readOnly={!editMode}
+                            disabled={!editMode}
                             checked={formData.system[selectedSystem].building.new}
                             onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.new`, value: e.target.checked }))}
                             inputProps={{ 'aria-label': 'controlled' }}
                         />
-                        <Typography variant='body1'>{t(`system.building.new`)}</Typography>
+                        <Typography color={!editMode ? 'text.disabled' : 'text.primary'} variant='body1'>{t(`system.building.new`)}</Typography>
                     </Stack>
                     {(selectedSystem === 'agv') &&
                         <Incline selectedSystem={selectedSystem} />
@@ -103,7 +103,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                             <InputLabel>{t(`system.building.existingBuilding.height`)}</InputLabel>
                                             <TextField
                                                 disabled={!editMode}
-                                                id="system.asrs.building.existingBuilding.height"
+                                                id={`system${[selectedSystem]}.building.existingBuilding.height`}
                                                 size="small"
                                                 fullWidth
                                                 type="number"
@@ -128,7 +128,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                             <InputLabel>{t(`system.building.existingBuilding.width`)}</InputLabel>
                                             <TextField
                                                 disabled={!editMode}
-                                                id="system.asrs.building.existingBuilding.width"
+                                                id={`system${[selectedSystem]}.building.existingBuilding.width`}
                                                 size="small"
                                                 fullWidth
                                                 type="number"
@@ -154,7 +154,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                             <InputLabel>{t(`system.building.existingBuilding.length`)}</InputLabel>
                                             <TextField
                                                 disabled={!editMode}
-                                                id="system.asrs.building.existingBuilding.length"
+                                                id={`system${[selectedSystem]}.building.existingBuilding.length`}
                                                 size="small"
                                                 fullWidth
                                                 type="number"
