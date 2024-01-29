@@ -103,23 +103,21 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                 sx={{
                     borderColor: 'divider',
                     boxShadow: theme.shadows[1],
+                    backgroundColor: 'background.paper',
                     '& .MuiDataGrid-row': {
-                        backgroundColor: 'background.paper',
+                        '& .MuiDataGrid-cell': {
+                            borderTop: `1px solid ${theme.palette.divider}`,
+                        }
                     },
                     '& .MuiDataGrid-row:hover': {
                         backgroundColor: 'divider',
                     },
                     '& .MuiDataGrid-columnHeader': {
                         color: theme.palette.mode === 'light' ? customGreyPalette[500] : customGreyPaletteDark[400],
-                        backgroundColor: 'background.paper',
                         fontSize: 12,
-                    },
-                    '& .MuiDataGrid-withBorderColor': {
-                        borderColor: theme.palette.divider,
                     },
                     '& .MuiDataGrid-footerContainer': {
                         borderTop: `1px solid ${theme.palette.divider}`,
-                        backgroundColor: 'background.paper',
                     },
                 }}
                 rows={rows}
