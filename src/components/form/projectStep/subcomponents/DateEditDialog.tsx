@@ -73,7 +73,14 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                 (
                                     <Grid container spacing={3} direction='row' mt={2}>
                                         <Grid item xs>
-                                            <Stack spacing={1}>
+                                            <Stack spacing={2}>
+                                                <DatePicker
+                                                    value={startDate}
+                                                    disablePast
+                                                    disabled={!editMode}
+                                                    onChange={(date) => date && setStartDate(date)}
+                                                    disableOpenPicker
+                                                />
                                                 <Box flex={1} justifyContent='center'>
                                                     <DateCalendar
                                                         disabled={!editMode}
@@ -89,10 +96,17 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                         </Grid>
                                     </Grid>
                                 ) : (
-                                    <Grid container spacing={3} direction='row' mt={2}>
+                                    <Grid container spacing={4} rowGap={2} direction='row' mt={1}>
                                         <Grid item xs>
-                                            <Stack spacing={1}>
+                                            <Stack spacing={2}>
                                                 <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.start')}</Typography>
+                                                <DatePicker
+                                                    value={startDate}
+                                                    disablePast
+                                                    disabled={!editMode}
+                                                    onChange={(date) => date && setStartDate(date)}
+                                                    disableOpenPicker
+                                                />
                                                 <Box flex={1} justifyContent='center'>
                                                     <DateCalendar
                                                         disabled={!editMode}
@@ -108,8 +122,15 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                             </Stack>
                                         </Grid>
                                         <Grid item xs>
-                                            <Stack spacing={1}>
+                                            <Stack spacing={2}>
                                                 <Typography textAlign='center' variant="h6">{t('ui.dialog.ganttGraph.end')}</Typography>
+                                                <DatePicker
+                                                    value={endDate}
+                                                    disablePast
+                                                    disabled={!editMode}
+                                                    onChange={(date) => date && setEndDate(date)}
+                                                    disableOpenPicker
+                                                />
                                                 <Box flex={1} justifyContent='center'>
                                                     <DateCalendar
                                                         disabled={!editMode}
