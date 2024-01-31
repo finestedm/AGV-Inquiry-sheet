@@ -450,8 +450,8 @@ theme = createTheme({
         MuiChip: {
             styleOverrides: {
                 root: {
-                    backgroundColor: customGreyPalette[400],
-                    color: theme.palette.getContrastText(customGreyPalette[400]),
+                    backgroundColor: customGreyPalette[600],
+                    color: theme.palette.getContrastText(customGreyPalette[600]),
                     height: 24
                 }
             }
@@ -466,13 +466,13 @@ theme = createTheme({
         MuiSlider: {
             styleOverrides: {
                 track: {
-                    height: 16,
+                    height: 10,
                     color: customGreyPalette[600],
 
                 },
                 rail: {
                     color: customGreyPalette[400],
-                    height: 16
+                    height: 12
                 },
                 thumb: {
                     color: backgroundColor,
