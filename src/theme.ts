@@ -325,8 +325,9 @@ theme = createTheme({
                         boxShadow: shadow3,
                     },
                     "&.Mui-selected:hover": {
-                        backgroundColor: customGreyPalette[100],
+                        backgroundColor: paperColor,
                         color: textPrimaryColor,
+                        boxShadow: shadow3,
                     },
                     "&:hover": {
                         backgroundColor: customGreyPalette[50],
@@ -433,7 +434,6 @@ theme = createTheme({
         MuiMobileStepper: {
             styleOverrides: {
                 dotActive: {
-                    // Your custom styles for the active dot
                     width: 20,
                     borderRadius: 1000
 
@@ -450,8 +450,8 @@ theme = createTheme({
         MuiChip: {
             styleOverrides: {
                 root: {
-                    backgroundColor: primaryColor,
-                    color: theme.palette.getContrastText(primaryColor),
+                    backgroundColor: customGreyPalette[400],
+                    color: theme.palette.getContrastText(customGreyPalette[400]),
                     height: 24
                 }
             }
@@ -467,6 +467,8 @@ theme = createTheme({
             styleOverrides: {
                 track: {
                     height: 16,
+                    color: customGreyPalette[600],
+
                 },
                 rail: {
                     color: customGreyPalette[400],
@@ -474,7 +476,7 @@ theme = createTheme({
                 },
                 thumb: {
                     color: backgroundColor,
-                    border: `2px solid ${primaryColor}`,
+                    border: `2px solid ${customGreyPalette[600]}`,
                     height: 22,
                     width: 22,
                     boxShadow: shadow1
@@ -510,7 +512,7 @@ theme = createTheme({
                             transform: 'translateX(20px)',
                             color: '#fff',
                             '& + .MuiSwitch-track': {
-                                backgroundColor: primaryColor,
+                                backgroundColor: customGreyPalette[600],
                                 opacity: 1,
                                 border: 0,
                             },
