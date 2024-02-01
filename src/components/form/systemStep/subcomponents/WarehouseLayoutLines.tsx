@@ -16,22 +16,44 @@ export default function EquipmentFlowLines({ flow, canvaToWarehouseRatio, select
     const [tooltipText, setTooltipText] = useState('');
     const [hovered, setHovered] = useState(false);
 
+    const rotatePoint = (point: { x: any; y: any; }, center: { x: any; y: any; }, angle: number) => {
+        const xDiff = point.x - center.x;
+        const yDiff = point.y - center.y;
+        const rotatedX = center.x + xDiff * Math.cos(angle) - yDiff * Math.sin(angle);
+        const rotatedY = center.y + xDiff * Math.sin(angle) + yDiff * Math.cos(angle);
+        return { x: rotatedX, y: rotatedY };
+    }
+
     useEffect(() => {
         const sourceEquipment = warehouseEquipment.find(eq => eq.id === stationSource);
         const targetEquipment = warehouseEquipment.find(eq => eq.id === stationTarget);
-
+    
         if (sourceEquipment && targetEquipment) {
-            // Calculate center points based on width and height
-            const sourceCenterX = (sourceEquipment.x + sourceEquipment.width / 2) * canvaToWarehouseRatio;
-            const sourceCenterY = (sourceEquipment.y + sourceEquipment.height / 2) * canvaToWarehouseRatio;
-            const targetCenterX = (targetEquipment.x + targetEquipment.width / 2) * canvaToWarehouseRatio;
-            const targetCenterY = (targetEquipment.y + targetEquipment.height / 2) * canvaToWarehouseRatio;
-
-            setPoints([sourceCenterX, sourceCenterY, targetCenterX, targetCenterY]);
+            // Use the center of the source equipment
+            const sourceCenter = {
+                x: sourceEquipment.x + sourceEquipment.width / 2,
+                y: sourceEquipment.y + sourceEquipment.height / 2
+            };
+    
+            // Rotate the center point of the source equipment
+            const rotatedSourceCenter = rotatePoint(sourceCenter, sourceCenter, sourceEquipment.rotation);
+    
+            // Use the center of the target equipment
+            const targetCenter = {
+                x: targetEquipment.x + targetEquipment.width / 2,
+                y: targetEquipment.y + targetEquipment.height / 2
+            };
+    
+            // Rotate the center point of the target equipment
+            const rotatedTargetCenter = rotatePoint(targetCenter, targetCenter, targetEquipment.rotation);
+    
+            // Set the points based on the rotated center coordinates
+            setPoints([rotatedSourceCenter.x * canvaToWarehouseRatio, rotatedSourceCenter.y * canvaToWarehouseRatio, rotatedTargetCenter.x * canvaToWarehouseRatio, rotatedTargetCenter.y * canvaToWarehouseRatio]);
         }
+    
         setTooltipText(`ID: ${id}\nDistance: ${distance.toFixed(2)}\nFlow Average: ${flowAverage}`);
-    }, [warehouseEquipment, stationSource, stationTarget, canvaToWarehouseRatio]);
-
+    }, [warehouseEquipment, stationSource, stationTarget, canvaToWarehouseRatio, id, distance, flowAverage]);
+    
 
     const commonProps = {
         id: id ? id.toString() : '-1',

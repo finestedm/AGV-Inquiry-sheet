@@ -3,7 +3,7 @@ import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text, Transformer } fro
 import { Box, Button, ButtonGroup, ClickAwayListener, Collapse, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
-import { IEquipment, ISystems } from '../../../../features/interfaces';
+import { IEquipment, IFlow, ISystems } from '../../../../features/interfaces';
 import { useDispatch } from 'react-redux';
 import generateRandomId from '../../../../features/variousMethods/generateRandomId';
 import randomColor from 'randomcolor'
@@ -275,7 +275,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
                         </Layer>
                         <Layer>
-                            {warehouseEquipment.map((equipment, index) => (
+                            {warehouseEquipment.map((equipment: IEquipment, index: number) => (
                                 <EquipmentShape
                                     isSelected={equipment.id === selectedShapeId}
                                     onSelect={() => {
@@ -293,7 +293,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                         <Layer>
                             {generateGridLines()}
                             {warehouseFlows
-                                .map(flow => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
+                                .map((flow: IFlow) => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
                             }
                         </Layer>
                         <Layer>

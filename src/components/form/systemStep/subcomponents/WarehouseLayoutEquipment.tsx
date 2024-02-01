@@ -179,6 +179,8 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                 return (
                     <React.Fragment>
                         <Rect
+                            offsetX={width / 2 * canvaToWarehouseRatio}  // Set offsetX to half of the width in canvas coordinates
+                            offsetY={height / 2 * canvaToWarehouseRatio}
                             onClick={commonProps.onSelect}
                             onTap={commonProps.onSelect}
                             ref={commonProps.shapeRef as React.MutableRefObject<Konva.Rect>}
