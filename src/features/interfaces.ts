@@ -1,5 +1,6 @@
 import { TextFieldProps } from "@mui/material";
 import { Task } from "gantt-task-react";
+import { Load } from "../data/typicalLoadSizes";
 
 export interface ISales {
     salesUnit: string;
@@ -51,26 +52,7 @@ export interface IProject {
     it: IIt;
 }
 
-export interface ILoad {
-    id: number | undefined;
-    label: string;
-    name: string;
-    length: number;
-    width: number;
-    height: number;
-    L2: number;
-    W2: number;
-    W3: number;
-    H2: number;
-    H3: number;
-    weightMin: number;
-    weightMax: number;
-    overhang: boolean;
-    material: number;
-    loadSide: 0 | 1;
-    secured: boolean;
-    capacity?: number;
-}
+
 
 export type TEquipmentType = 'gate' | 'wall' | 'dock';
 
@@ -87,7 +69,7 @@ export interface IFlow {
 }
 
 export interface ILoadsTypes {
-    [key: string]: ILoad;
+    [key: string]: Load;
 }
 
 export interface IEquipment {
@@ -127,7 +109,7 @@ export interface ISystemData {
         },
         incline: number;
     },
-    loads: ILoad[];
+    loads: Load[];
     flow: IFlow[];
     additionalRemarks: string;
     // [key: string]: any;
@@ -175,7 +157,7 @@ export interface IHandleInputMethod {
     (path: string, value: any): void;
 }
 export interface IHandleLoadChange {
-    (index: number, field: keyof ILoad, value: string | number | boolean): void;
+    (index: number, field: keyof Load, value: string | number | boolean): void;
 }
 
 export type LoadFieldValue = string | number | boolean;

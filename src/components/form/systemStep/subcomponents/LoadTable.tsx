@@ -5,7 +5,7 @@ import { handleAddLoad, handleDeleteLoad, handleLoadChange } from "../../../../f
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import React, { useEffect, useRef, useState } from "react";
-import { loadsToAdd } from "../../../../data/typicalLoadSizes";
+import { Load, loadsToAdd } from "../../../../data/typicalLoadSizes";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { updateDeleteLoadDialog } from "../../../../features/redux/reducers/deleteLoadDialogSlice";
@@ -74,21 +74,44 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
         loadSide: load.loadSide,
         secured: load.secured,
         capacity: load.capacity,
+        volume: load.volume,
         label: '',
     }));
 
     function handleDeleteSelected() {
-        const updatedLoads = rows.filter((row) => row.id && !rowSelectionModel.includes(row.id))
-
+        const updatedLoads = rows
+            .filter((row) => row.id && !rowSelectionModel.includes(row.id))
+            .map((row) => new Load(
+                row.id,
+                row.label,
+                row.name,
+                row.length,
+                row.width,
+                row.height,
+                row.L2,
+                row.W2,
+                row.W3,
+                row.H2,
+                row.H3,
+                row.weightMin,
+                row.weightMax,
+                row.overhang,
+                row.material,
+                row.loadSide,
+                row.secured,
+                row.capacity
+            ));
+    
         const isLoadUsedInFlows = selectedSystemFlows.some(flow => flow.loadType.some(load => rowSelectionModel.includes(load)))
-
+    
         if (isLoadUsedInFlows) {
-            dispatch(updateDeleteLoadDialog({ open: true, updatedLoads, selectedSystem })) // we set the updatedLoads and selected system as a temp value as we wait for the user to take action
-            setRowSelectionModel([])
+            dispatch(updateDeleteLoadDialog({ open: true, updatedLoads, selectedSystem }));
+            setRowSelectionModel([]);
         } else {
             dispatch(handleDeleteLoad({ updatedLoads, selectedSystem }));
         }
-    };
+    }
+    
 
     const [isMobile, setIsMobile] = useState<boolean>(false)
     useEffect(() => {
@@ -123,6 +146,8 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                 rows={rows}
                 columns={[
                     { field: "index", headerName: "№", width: 50, type: 'number' },
+                    { field: "volume", headerName: "volume", minWidth: 125, editable: true, type: 'number' },
+
                     { field: "name", headerName: "Name", minWidth: 130, editable: true, type: 'string' },
                     { field: "length", headerName: "L1", minWidth: 90, editable: true, type: 'number', description: 'Load length in mm' },
                     { field: "width", headerName: "W1", minWidth: 90, editable: true, type: 'number', description: 'Load width in mm' },

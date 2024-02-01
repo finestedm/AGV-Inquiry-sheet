@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilestones, ISystemData, CopySystemDataPayload, IEquipment } from '../../interfaces';
-import { loadsToAdd } from '../../../data/typicalLoadSizes';
+import { IFormData, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilestones, ISystemData, CopySystemDataPayload, IEquipment } from '../../interfaces';
+import { Load, loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
 import { format, addMonths, differenceInMonths, isBefore } from 'date-fns';
@@ -244,15 +244,35 @@ const formDataSlice = createSlice({
         // Reducer for handling adding a new load
         handleAddLoad: (
             state: IFormData,
-            action: PayloadAction<{ systemName: keyof ISystems; loadType: string }>
+            action: PayloadAction<{ systemName: keyof ISystems; loadType: keyof ILoadsTypes }>
         ) => {
             const { systemName, loadType } = action.payload;
-
-            let newLoad: ILoad = loadsToAdd[loadType];
-            newLoad = { ...newLoad, id: generateRandomId() }
-
-            const updatedSystemLoads = state.system[systemName].loads.concat(newLoad);
-
+        
+            const loadToAdd = loadsToAdd[loadType];
+            
+            const newLoadInstance = new Load(
+                generateRandomId(),
+                loadToAdd.label,
+                loadToAdd.name,
+                loadToAdd.length,
+                loadToAdd.width,
+                loadToAdd.height,
+                loadToAdd.L2,
+                loadToAdd.W2,
+                loadToAdd.W3,
+                loadToAdd.H2,
+                loadToAdd.H3,
+                loadToAdd.weightMin,
+                loadToAdd.weightMax,
+                loadToAdd.overhang,
+                loadToAdd.material,
+                loadToAdd.loadSide,
+                loadToAdd.secured,
+                loadToAdd.capacity
+            );
+        
+            const updatedSystemLoads = [...state.system[systemName].loads, newLoadInstance];
+        
             return {
                 ...state,
                 system: {
@@ -264,6 +284,8 @@ const formDataSlice = createSlice({
                 },
             };
         },
+        
+
 
         handleAddFlow: (state: IFormData, action: PayloadAction<{ systemName: keyof ISystems; }>) => {
             const { systemName } = action.payload;
@@ -305,7 +327,7 @@ const formDataSlice = createSlice({
             }
         },
 
-        handleDeleteLoad: (state: IFormData, action: PayloadAction<{ updatedLoads: ILoad[]; selectedSystem: keyof ISystems }>) => {
+        handleDeleteLoad: (state: IFormData, action: PayloadAction<{ updatedLoads: Load[]; selectedSystem: keyof ISystems }>) => {
             const { updatedLoads, selectedSystem } = action.payload;
 
             state.system[selectedSystem].loads = updatedLoads;

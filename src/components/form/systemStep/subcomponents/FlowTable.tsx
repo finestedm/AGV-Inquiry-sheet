@@ -9,7 +9,7 @@ import { DataGrid, GridDeleteIcon, GridRowSelectionModel, GridToolbarContainer, 
 import { useEffect, useState } from "react";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import EastIcon from '@mui/icons-material/East';
-import { IEquipment, IFlow, ILoad, ISystems } from "../../../../features/interfaces";
+import { IEquipment, IFlow, ISystems } from "../../../../features/interfaces";
 import tinycolor from "tinycolor2";
 import NoDataAlert from "../../../NoDataAlert";
 import EquipmentChip from "./EquipmentChip";

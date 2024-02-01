@@ -1,9 +1,10 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
-import { ILoad, ISystems } from '../../interfaces';
+import { ISystems } from '../../interfaces';
+import { Load } from '../../../data/typicalLoadSizes';
 
 interface IdeleteLoadDialogSlice {
     open: boolean;
-    temporaryUpdatedLoads: ILoad[];
+    temporaryUpdatedLoads: Load[];
     temporarySelectedSystem?: keyof ISystems;
 }
 
@@ -17,7 +18,7 @@ const deleteLoadDialogSlice = createSlice({
     name: 'deleteLoadDialog',
     initialState,
     reducers: {
-        updateDeleteLoadDialog: (state, action: PayloadAction<{ open: boolean; updatedLoads: ILoad[]; selectedSystem?: keyof ISystems }>) => {
+        updateDeleteLoadDialog: (state, action: PayloadAction<{ open: boolean; updatedLoads: Load[]; selectedSystem?: keyof ISystems }>) => {
             state.open = action.payload.open;
             state.temporaryUpdatedLoads = action.payload.updatedLoads;  // this state holds temp value until user takes action
             state.temporarySelectedSystem = action.payload.selectedSystem;// this state holds temp value until user takes action

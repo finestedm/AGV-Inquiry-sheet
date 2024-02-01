@@ -1,5 +1,4 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
-import { ILoad, ISystems } from '../../interfaces';
 
 type TclearFormDataDialogSlice = { open: boolean }
 
