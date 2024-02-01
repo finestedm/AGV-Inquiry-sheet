@@ -120,8 +120,6 @@ export default function FormProjectStep(): JSX.Element {
                     <Stack spacing={2}>
                         <ToggleButtonGroup
                             sx={{ display: { xs: 'none', sm: 'flex' } }}
-                            className="buttongroup-deep"
-                            size="small"
                             color='primary'
                             disabled={!editMode}
                             exclusive

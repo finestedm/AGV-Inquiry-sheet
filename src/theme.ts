@@ -316,6 +316,9 @@ theme = createTheme({
                     color: textSecondaryColor,
                     border: 'none',
                     borderRadius: '8px !important',
+                    "&.MuiToggleButton-sizeSmall": {
+                        padding: '2px 6px'
+                    },
                     "&.Mui-disabled": {
                         border: 'none'
                     },
@@ -460,6 +463,9 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     color: customGreyPalette[400],
+                    "& .MuiSvgIcon-root": {
+                        fill: customGreyPalette[600],
+                    },
                 }
             }
         },
@@ -751,20 +757,23 @@ export const themeDark = createTheme({
                     fontSize: 14,
                     color: textSecondaryColorDark,
                     border: 'none',
+                    "&.MuiToggleButton-sizeSmall": {
+                        padding: '2px 6px'
+                    },
                     borderRadius: '8px !important',
                     "&.Mui-disabled": {
                         border: 'none'
                     },
                     "&.Mui-selected": {
-                        backgroundColor: backgroundColorDark,
+                        backgroundColor: customGreyPaletteDark[700],
                         color: textPrimaryColorDark,
                     },
                     "&.Mui-selected:hover": {
-                        backgroundColor: customGreyPaletteDark[800],
+                        backgroundColor: customGreyPaletteDark[700],
                         color: textPrimaryColorDark,
                     },
                     "&:hover": {
-                        backgroundColor: customGreyPaletteDark[900],
+                        backgroundColor: customGreyPaletteDark[800],
                         color: textPrimaryColorDark,
                     }
                 }
@@ -835,9 +844,9 @@ export const themeDark = createTheme({
         MuiChip: {
             styleOverrides: {
                 root: {
-                    backgroundColor: customGreyPaletteDark[600],
+                    backgroundColor: customGreyPaletteDark[700],
                     color: textPrimaryColorDark,
-                    height: 32
+                    height: 24
                 }
             }
         },
@@ -845,24 +854,27 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     color: customGreyPaletteDark[600],
+                    "& .MuiSvgIcon-root": {
+                        fill: customGreyPaletteDark[200],
+                    },
                 }
             }
         },
         MuiSlider: {
             styleOverrides: {
                 track: {
-                    height: 16,
+                    height: 10,
+                    color: customGreyPaletteDark[200],
                 },
                 rail: {
                     color: customGreyPaletteDark[600],
-                    height: 16
+                    height: 12
                 },
                 thumb: {
                     backgroundColor: backgroundColorDark,
-                    border: `2px solid ${primaryColorDark}`,
+                    border: `2px solid ${customGreyPaletteDark[300]}`,
                     height: 22,
                     width: 22,
-                    boxShadow: shadow1
                 },
                 mark: {
                     color: '#ffffff00'
@@ -937,9 +949,12 @@ export const themeDark = createTheme({
                             transform: 'translateX(20px)',
                             color: '#fff',
                             '& + .MuiSwitch-track': {
-                                backgroundColor: customGreyPaletteDark[600],
+                                backgroundColor: customGreyPaletteDark[500],
+                                border: `${borderStandard} ${customGreyPaletteDark[500]}`,
                                 opacity: 1,
-                                border: 0,
+                                transition: theme.transitions.create(['border'], {
+                                    duration: 500,
+                                }),
                             },
                             '&.Mui-disabled + .MuiSwitch-track': {
                                 opacity: 0.5,
@@ -964,7 +979,8 @@ export const themeDark = createTheme({
                     },
                     '& .MuiSwitch-track': {
                         borderRadius: 26 / 2,
-                        backgroundColor: customGreyPaletteDark[700],
+                        border: `${borderStandard} ${customGreyPaletteDark[700]}`,
+                        backgroundColor: paperColorDark,
                         opacity: 1,
                         transition: theme.transitions.create(['background-color'], {
                             duration: 500,
@@ -973,6 +989,13 @@ export const themeDark = createTheme({
                 }
             }
         },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    boxShadow: 'none'
+                }
+            }
+        }
     },
 }
 );

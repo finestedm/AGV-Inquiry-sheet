@@ -215,7 +215,7 @@ export default function GanttGraph(): JSX.Element {
                         <Grid item xs={12} lg={4} sx={{ flexBasis: 'auto' }}><CustomListTable /></Grid>
                     }
                     <Grid item xs={12} lg={viewTaskList ? 7 : 12} position='relative' sx={{ flexBasis: 'auto' }}>
-                        <Box border={1} sx={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius / 4, overflow: 'hidden' }}>
+                        <Box border={1} style={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius, overflow: 'hidden' }}>
                             <Gantt
                                 tasks={milestones}
                                 barCornerRadius={theme.shape.borderRadius }

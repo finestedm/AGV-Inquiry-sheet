@@ -152,7 +152,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                 <DataGrid
                     sx={{
                         borderColor: 'divider',
-                        boxShadow: theme.shadows[1],
+                        boxShadow: theme.palette.mode === 'light' ? theme.shadows[1] : 'none',
                         backgroundColor: 'background.paper',
                         '& .MuiDataGrid-row': {
                             '& .MuiDataGrid-cell': {
