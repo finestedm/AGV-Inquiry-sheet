@@ -222,18 +222,12 @@ theme = createTheme({
                 },
             },
         },
-        MuiCardMedia: {
-            styleOverrides: {
-                root: {
-                    padding: 16,
-                    borderRadius: 20
-                }
-            }
-        },
         MuiDialogTitle: {
             styleOverrides: {
                 root: {
                     borderBottom: `${borderStandard} ${customGreyPalette[200]}`,
+                    marginBottom: 16
+
                 },
             },
         },
@@ -554,6 +548,16 @@ theme = createTheme({
                 }
             }
         },
+        MuiFab: {
+            styleOverrides: {
+                root: {
+                    border: `${borderStandard} ${customGreyPalette[300]}`,
+                    backgroundColor: paperColor,
+                    color: theme.palette.getContrastText(paperColor),
+                    boxShadow: shadow8
+                }
+            }
+        }
     },
 }
 );
@@ -651,14 +655,6 @@ export const themeDark = createTheme({
                 },
             },
         },
-        MuiCardMedia: {
-            styleOverrides: {
-                root: {
-                    padding: 16,
-                    borderRadius: 20
-                }
-            }
-        },
         MuiDialog: {
             styleOverrides: {
                 root: {
@@ -675,6 +671,7 @@ export const themeDark = createTheme({
             styleOverrides: {
                 root: {
                     borderBottom: `${borderStandard} ${customGreyPaletteDark[700]}`,
+                    marginBottom: 16
                 },
             },
         },
