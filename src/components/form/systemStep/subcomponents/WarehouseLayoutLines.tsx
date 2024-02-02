@@ -17,43 +17,72 @@ export default function EquipmentFlowLines({ flow, canvaToWarehouseRatio, select
     const [hovered, setHovered] = useState(false);
 
     const rotatePoint = (point: { x: any; y: any; }, center: { x: any; y: any; }, angle: number) => {
+        const radians = (angle * Math.PI) / 180;
         const xDiff = point.x - center.x;
         const yDiff = point.y - center.y;
-        const rotatedX = center.x + xDiff * Math.cos(angle) - yDiff * Math.sin(angle);
-        const rotatedY = center.y + xDiff * Math.sin(angle) + yDiff * Math.cos(angle);
+        const rotatedX = center.x + xDiff * Math.cos(radians) - yDiff * Math.sin(radians);
+        const rotatedY = center.y + xDiff * Math.sin(radians) + yDiff * Math.cos(radians);
         return { x: rotatedX, y: rotatedY };
-    }
+    };
 
     useEffect(() => {
         const sourceEquipment = warehouseEquipment.find(eq => eq.id === stationSource);
         const targetEquipment = warehouseEquipment.find(eq => eq.id === stationTarget);
-    
+
         if (sourceEquipment && targetEquipment) {
             // Use the center of the source equipment
             const sourceCenter = {
                 x: sourceEquipment.x + sourceEquipment.width / 2,
                 y: sourceEquipment.y + sourceEquipment.height / 2
             };
-    
-            // Rotate the center point of the source equipment
-            const rotatedSourceCenter = rotatePoint(sourceCenter, sourceCenter, sourceEquipment.rotation);
-    
+
             // Use the center of the target equipment
             const targetCenter = {
                 x: targetEquipment.x + targetEquipment.width / 2,
                 y: targetEquipment.y + targetEquipment.height / 2
             };
-    
-            // Rotate the center point of the target equipment
-            const rotatedTargetCenter = rotatePoint(targetCenter, targetCenter, targetEquipment.rotation);
-    
-            // Set the points based on the rotated center coordinates
-            setPoints([rotatedSourceCenter.x * canvaToWarehouseRatio, rotatedSourceCenter.y * canvaToWarehouseRatio, rotatedTargetCenter.x * canvaToWarehouseRatio, rotatedTargetCenter.y * canvaToWarehouseRatio]);
+
+            const rotatedSourceCenter = rotatePoint(
+                {
+                    x: sourceEquipment.x + sourceEquipment.width / 2,
+                    y: sourceEquipment.y + sourceEquipment.height / 2
+                },
+                sourceCenter,
+                sourceEquipment.rotation
+            );
+
+            const rotatedTargetCenter = rotatePoint(
+                {
+                    x: targetEquipment.x + targetEquipment.width / 2,
+                    y: targetEquipment.y + targetEquipment.height / 2
+                },
+                targetCenter,
+                targetEquipment.rotation
+            );
+
+            // Calculate the offset based on the width and height of the equipment
+            const offsetSource = {
+                x: sourceEquipment.width / 2,
+                y: sourceEquipment.height / 2
+            };
+
+            const offsetTarget = {
+                x: targetEquipment.width / 2,
+                y: targetEquipment.height / 2
+            };
+
+            // Set the points based on the rotated center coordinates and offset
+            setPoints([
+                rotatedSourceCenter.x * canvaToWarehouseRatio - offsetSource.x * canvaToWarehouseRatio,
+                rotatedSourceCenter.y * canvaToWarehouseRatio - offsetSource.y * canvaToWarehouseRatio,
+                rotatedTargetCenter.x * canvaToWarehouseRatio - offsetTarget.x * canvaToWarehouseRatio,
+                rotatedTargetCenter.y * canvaToWarehouseRatio - offsetTarget.y * canvaToWarehouseRatio
+            ]);
         }
-    
+
         setTooltipText(`ID: ${id}\nDistance: ${distance.toFixed(2)}\nFlow Average: ${flowAverage}`);
     }, [warehouseEquipment, stationSource, stationTarget, canvaToWarehouseRatio, id, distance, flowAverage]);
-    
+
 
     const commonProps = {
         id: id ? id.toString() : '-1',

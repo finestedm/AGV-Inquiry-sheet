@@ -60,7 +60,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                 const xDimInMeters = width / canvaToWarehouseRatio;
                 const yDimInMeters = height / canvaToWarehouseRatio;
 
-                return { ...equipment, x: xInMeters, y: yInMeters, width: xDimInMeters, height: yDimInMeters, rotation: Math.round(rotation / 45) * 45 };
+                return { ...equipment, x: xInMeters, y: yInMeters, width: xDimInMeters, height: yDimInMeters, rotation };
             }
             return equipment;
         });
@@ -202,6 +202,11 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                                     // update size with the scaled values
                                     node.width(newWidth);
                                     node.height(newHeight);
+
+                                    const rotationLimited = Math.round(node.rotation() / 45) * 45;
+
+                                    // Set the quantized rotation
+                                    node.rotation(rotationLimited);
 
                                     commonProps.onTransformEnd();
                                 }
