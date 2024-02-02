@@ -12,7 +12,7 @@ import { handleInputMethod } from "../../../features/redux/reducers/formDataSlic
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
-import WarehouseLayout from "../systemStep/subcomponents/Warehouse";
+import WarehouseLayout from "../systemStep/subcomponents/WarehouseLayout";
 import GanttGraph from "./subcomponents/GanttGraph";
 import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";

@@ -12,7 +12,7 @@ import randomColor from 'randomcolor'
 import { useTranslation } from 'react-i18next';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { PlaylistAdd } from "@mui/icons-material";
-import { availableEquipment } from '../../../../data/availableEquipment';
+import availableEquipment from '../../../../data/availableEquipment';
 import { updateEquipment } from '../../../../features/redux/reducers/formDataSlice';
 import NoDataAlert from '../../../NoDataAlert';
 
@@ -40,9 +40,9 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         const newEquipment: IEquipment = {
             id: generateRandomId(),
             x: 5,
-            xDim: 5,
+            width: 5,
             y: 5,
-            yDim: 5,
+            height: 5,
             rotation: 0,
             type: equipmentToAdd,
             color: randomColor({ luminosity: 'light' }),
@@ -248,9 +248,6 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                 fill={theme.palette.background.default}
                                 opacity={1}
                             />
-                            {generateGridLines()}
-
-                            {/* docks */}
                             {warehouseEquipment.map((equipment, index) => (
                                 <EquipmentShape
                                     key={index}
@@ -258,6 +255,9 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                     index={index}
                                 />
                             ))}
+                            {generateGridLines()}
+
+                            {/* docks */}
                         </Layer>
                     </Stage>
                 </Box>

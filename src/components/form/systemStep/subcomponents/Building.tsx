@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
 import { ISystems } from "../../../../features/interfaces";
-import WarehouseLayout from "./Warehouse";
+import WarehouseLayout from "./WarehouseLayout";
 import Incline from "./Incline";
 import { useState } from "react";
 import InputGroup from "../../InputGroup";
