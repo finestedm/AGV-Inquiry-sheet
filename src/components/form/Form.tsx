@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, Container, FormControl, Grid, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Card, Checkbox, Container, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "../FormStepper";
 import FormSalesUnitStep from "./salesUnitStep/FormSalesUnitStep";
@@ -15,11 +15,16 @@ import validationSchema from "../../features/formValidation/formValidation";
 import { Field, Form as FormikForm, Formik, FormikProps, FormikErrors, useFormik } from 'formik'
 import { BrowserRouter as Router, Route, Routes, Navigate, Link, useNavigate, useLocation } from 'react-router-dom';
 import FormSystemStep from "./systemStep/FormSystemStep";
-
+import FormSummaryStep from "./summaryStep/FormSummaryStep";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { useDispatch } from "react-redux";
+import currentStep, { backStep, initialSteps, nextStep, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
 
 export default function Form(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -27,28 +32,7 @@ export default function Form(): JSX.Element {
   const formData = useSelector((state: RootState) => state.formData);
   const editMode = useSelector((state: RootState) => state.editMode);
 
-  const [stepsCombined, setStepsCombined] = useState<{ label: string, untranslated: string, component: React.ReactNode }[]>([
-    {
-      label: t('steps.sales'),
-      untranslated: "sales",
-      component: <FormSalesUnitStep key="sales" />
-    },
-    {
-      label: t('steps.customer'),
-      untranslated: "customer",
-      component: <FormCustomerStep key="customer" />
-    },
-    {
-      label: t('steps.project'),
-      untranslated: "project",
-      component: <FormProjectStep key="project" />
-    },
-    {
-      label: t('steps.system'),
-      untranslated: "system",
-      component: <FormSystemSelectorStep key="system" />
-    }
-  ]);
+  const [stepsCombined, setStepsCombined] = useState<{ label: string, untranslated: string, component: React.ReactNode }[]>([]);
 
   useEffect(() => {
     const newSteps: { label: string, untranslated: string, component: React.ReactNode }[] = [
@@ -106,13 +90,17 @@ export default function Form(): JSX.Element {
       });
     }
 
+    newSteps.push({
+      label: t('steps.summary'),
+      untranslated: "summary",
+      component: <FormSystemSelectorStep key="summary" />
+    })
     setStepsCombined(newSteps);
   }, [formData, t]);
 
 
-  const [activeStepName, setActiveStepName] = useState<string>('sales');
-
-  const constantSteps = ['sales', 'customer', 'project', 'system'];
+  const constantSteps = initialSteps;
+  const steps = useSelector((state: RootState) => state.steps)
   const systemSteps = formData.system;
   const activeSystemSteps = (Object.entries(systemSteps) as [keyof ISystems, ISystemData][])
     .filter(([step, values]) => values.selected)
@@ -122,9 +110,14 @@ export default function Form(): JSX.Element {
     }, {} as Record<keyof ISystems, ISystemData>);
   const activeSystemStepNames = Object.keys(activeSystemSteps);
 
-  const allSteps = [...constantSteps, ...activeSystemStepNames]
+  const allSteps = [...constantSteps.filter(step => step !== 'summary'), ...activeSystemStepNames];
+  Object.values(formData.system).some(system => system.selected) && allSteps.push('summary')  //add summary only if at least one system is selected
 
-  const [fadeOut, setFadeOut] = useState<boolean>(false);
+  useEffect(() => {
+    dispatch(updateSteps(allSteps));
+  }, [formData.system])
+
+  const [grow, setGrow] = useState<boolean>(true);
 
   const navigateToStep = (step: string) => {
     const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
@@ -133,43 +126,48 @@ export default function Form(): JSX.Element {
       const element = elementsWithAriaInvalid[0];
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      setFadeOut(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      setGrow(false)
       setTimeout(() => {
-        navigate(`/${step}`);
-        setFadeOut(false);
-      }, 500); // Adjust the delay time (in milliseconds) as needed
+        dispatch(setCurrentStep(step));
+        setGrow(true);
+      }, 300)
     }
   };
 
   const handleNext = () => {
-    const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
-    const nextIndex = currentIndex + 1;
-    const nextStep = allSteps[nextIndex];
-
-    if (nextStep) {
-      navigateToStep(nextStep);
-    }
+    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) + 1
+    const stepToMove = steps.steps[stepToMoveIndex]
+    navigateToStep(stepToMove)
   };
 
   const handleBack = () => {
-    const currentIndex = activeStepName ? allSteps.indexOf(activeStepName) : 0;
-    const prevIndex = currentIndex - 1;
-    const prevStep = allSteps[prevIndex];
-
-    if (prevStep) {
-      navigateToStep(prevStep);
-    }
+    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) - 1
+    const stepToMove = steps.steps[stepToMoveIndex]
+    navigateToStep(stepToMove)
   };
 
   const handleStepClick = (step: string) => {
     navigateToStep(step);
   };
 
+  useEffect(() => {
+    navigate(`/${steps.currentStep}`);
+  }, [steps.currentStep])
 
   useEffect(() => {
-    setActiveStepName(location.pathname.split('/').pop() || '');
-  }, [location.pathname]);
+    const locationFromURL = location.pathname.split('/').pop() || ''
+    dispatch(setCurrentStep(locationFromURL));
+  }, [navigate])
+
+  useEffect(() => {
+    const locationFromURL = location.pathname.split('/').pop() || ''
+    if (steps.possibleSteps.includes(locationFromURL)) {
+      dispatch(setCurrentStep(locationFromURL));
+    } else {
+      dispatch(setCurrentStep(steps.steps[0]));
+    }
+  }, []);
 
   if (formData) {
     return (
@@ -188,9 +186,9 @@ export default function Form(): JSX.Element {
             <Container component='form' maxWidth='xl'>
               <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
                 <Grid container spacing={6} direction='row'>
-                  <FormStepper mobile={isMobile} allSteps={allSteps} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
-                  <Grid item xs md={8} lg={9}>
-                    <Box className={fadeOut ? 'step fadeout' : 'step'}>
+                  <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
+                  <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
+                    <Grid item xs md={8} lg={9}>
                       <Routes>
                         <Route path="/sales" element={<FormSalesUnitStep />} />
                         <Route path="/customer" element={<FormCustomerStep />} />
@@ -207,21 +205,22 @@ export default function Form(): JSX.Element {
                             }
                           />
                         ))}
+                        <Route path="/summary" element={<FormSummaryStep />} />
                         <Route path="/*" element={<FormSalesUnitStep />} />
                       </Routes>
-                    </Box>
-                  </Grid>
+                    </Grid>
+                  </Grow>
                 </Grid>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
-                    {activeStepName !== allSteps[0] && (
-                      <Button variant="contained" onClick={handleBack}>
+                    {steps.currentStep !== allSteps[0] && (
+                      <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
                         {t('ui.button.back')}
                       </Button>
                     )}
-                    {activeStepName !== allSteps[allSteps.length - 1] && (
-                      <Button variant="contained" onClick={handleNext} sx={{ ml: 'auto' }}
-                        disabled={editMode && !!Object.keys(formikProps.errors).includes(activeStepName)}
+                    {steps.currentStep !== allSteps[allSteps.length - 1] && (
+                      <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
+                        disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
                       >
                         {t('ui.button.next')}
                       </Button>

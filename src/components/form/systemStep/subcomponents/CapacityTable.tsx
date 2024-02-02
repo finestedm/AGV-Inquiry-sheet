@@ -6,12 +6,15 @@ import { RootState } from "../../../../features/redux/store";
 import React, { useEffect, useRef, useState } from "react";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { ISystems } from "../../../../features/interfaces";
+import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
 
 export default function CapacityTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
+    const theme = useTheme()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
-    const editMode = useSelector((state: RootState) => state.editMode)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
 
     const rows = selectedSystemLoads.map((load, index) => ({
@@ -45,6 +48,26 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
     return (
         <Box>
             <DataGrid
+                sx={{
+                    borderColor: 'divider',
+                    boxShadow: theme.palette.mode === 'light' ? theme.shadows[1] : 'none',
+                    backgroundColor: 'background.paper',
+                    '& .MuiDataGrid-row': {
+                        '& .MuiDataGrid-cell': {
+                            borderTop: `1px solid ${theme.palette.divider}`,
+                        }
+                    },
+                    '& .MuiDataGrid-row:hover': {
+                        backgroundColor: 'divider',
+                    },
+                    '& .MuiDataGrid-columnHeader': {
+                        color: theme.palette.mode === 'light' ? customGreyPalette[500] : customGreyPaletteDark[400],
+                        fontSize: 12,
+                    },
+                    '& .MuiDataGrid-footerContainer': {
+                        borderTop: `1px solid ${theme.palette.divider}`,
+                    },
+                }}
                 rows={rows}
                 columns={[
                     { field: "index", headerName: "№", width: 50, type: 'number' },
@@ -61,15 +84,16 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
                             <Grid container alignItems="center  ">
                                 <Grid item mr={1}>
                                     <Typography>
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].name}
+                                        {/* this is needed to that it does not throw an error when filtering updated loads */}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.name ?? ''}
                                     </Typography>
                                 </Grid>
                                 <Grid item>
                                     <Typography fontSize="65%" color="text.secondary" p={0}>
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].length} x{" "}
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].width} x{" "}
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].height},{" "}
-                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0].weightMax} kg
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.length ?? ''} x{" "}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.width ?? ''} x{" "}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.height ?? ''},{" "}
+                                        {(selectedSystemLoads.filter((load) => load.id === params.id))[0]?.weightMax ?? ''} kg
                                     </Typography>
                                 </Grid>
                             </Grid>

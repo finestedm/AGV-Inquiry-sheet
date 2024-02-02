@@ -5,6 +5,7 @@ import deleteLoadDialogReducer from './reducers/deleteLoadDialogSlice';
 import clearFormDataDialogReducer from './reducers/clearFormDataDialogSlice';
 import snackBarReducer from './reducers/snackBarSlice';
 import editModeReducer from './reducers/editModeSlice';
+import stepsReducer from './reducers/stepsSlice';
 
 const rootReducer = combineReducers({
   formData: formDataReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   clearFormDataDialog: clearFormDataDialogReducer,
   snackBar: snackBarReducer,
   editMode: editModeReducer,
+  steps: stepsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

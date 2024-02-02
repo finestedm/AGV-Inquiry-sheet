@@ -33,11 +33,14 @@ import availableSystems from "../../data/availableSystems";
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { openSnackbar } from "../../features/redux/reducers/snackBarSlice";
+import isPartUnchanged from "../../features/variousMethods/isPartUnchanged";
+import tinycolor from "tinycolor2";
 
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
-    const editMode = useSelector((state: RootState) => state.editMode)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary' ;
 
     const { t } = useTranslation();
 
@@ -70,6 +73,7 @@ interface CopyOtherSystemDataDialogProps {
 function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: CopyOtherSystemDataDialogProps): JSX.Element {
     const { t } = useTranslation();
     const theme = useTheme();
+    const darkMode = useSelector((state: RootState) => state.darkMode);
     const formData = useSelector((state: RootState) => state.formData);
     const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>);
     const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected' && key !== 'flow');
@@ -120,26 +124,14 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
         }
     }
 
-
-
-    function isPartUnchanged(part: keyof ISystemData, systemToCheck?: keyof ISystems) {
-        const systemsToCheck = systemToCheck ? [systemToCheck] : Object.keys(formData.system) as Array<keyof ISystems>;
-
-        return systemsToCheck.every(system => {
-            // the stringify below is needed for some weird reason - when loading localstorage data it is not recognized as the same as initialFormDataState even though it is virtually the same! JS in it's peak
-            return JSON.stringify(formData.system[system][part]) === JSON.stringify(initialFormDataState.system[system][part]);
-        });
-    }
-
-
     function generateTableRows() {
         const dataRows = parts
             .filter((part) => {
-                return !isPartUnchanged(part);
+                return !isPartUnchanged({ formData, part });
             })
             .map((part) => (
                 <TableRow key={part}>
-                    <TableCell sx={{ borderRight: 1, borderColor: theme.palette.divider }}><Typography variant="body2" color={!systems.some((otherSystem) => selectedParts[otherSystem].includes(part)) ? 'text.secondary' : 'text.primary'}>{t(`system.subheader.${part}`)}</Typography></TableCell>
+                    <TableCell><Typography variant="body2" color={!systems.some((otherSystem) => selectedParts[otherSystem].includes(part)) ? 'text.secondary' : 'text.primary'}>{t(`system.subheader.${part}`)}</Typography></TableCell>
                     {systems
                         .filter(system => system === selectedSystem)
                         .map(system => (
@@ -161,7 +153,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                                     value={part}
                                     checked={selectedParts[system as keyof ISystems].includes(part)}
                                     onChange={(e) => handleChange(e, system as keyof ISystems)}
-                                    disabled={isPartUnchanged(part, system) || !formData.system[system].selected}
+                                    disabled={isPartUnchanged({ formData, part, systemToCheck: system }) || !formData.system[system].selected}
                                 />
                             </TableCell>
                         ))}
@@ -173,15 +165,15 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
 
     return (
         <Dialog fullScreen={fullScreen} maxWidth='lg' open={isOpen} onClose={handleClose}>
-            <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
+            <DialogTitle>
                 <Typography variant="h5" >
                     {t("ui.dialog.copyDialog.title")}
                 </Typography>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent sx={{px: 2}}>
                 <TableContainer>
                     <Box mt={2} >
-                        <Table>
+                        <Table  sx={{ backgroundColor: theme.palette.background.default }}>
                             <TableHead>
                                 <TableRow>
                                     <TableCell><Typography fontWeight={600} variant="body2">{t("ui.table.head.part")}</Typography></TableCell>
@@ -198,10 +190,11 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                     </Box>
                 </TableContainer>
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{px: 2}}>
                 <Button
-                    color="success"
-                    variant="outlined"
+                    color="primary"
+                    variant="contained"
+                    sx={{ color: darkMode ? tinycolor(theme.palette.primary.main).darken(45).toHexString() : theme.palette.background.default, fontWeight: 500 }}
                     onClick={() => {
                         dispatch(handleCopySystemData({ selectedSystem, selectedParts }))
                         dispatch(openSnackbar({ message: 'Data has been copied' }));
@@ -209,7 +202,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                     }}>
                     {t("ui.button.copyDialog.accept")}
                 </Button>
-                <Button color="primary" onClick={handleClose}>
+                <Button color="primary" variant="outlined" onClick={handleClose}>
                     {t("ui.button.copyDialog.cancel")}
                 </Button>
             </DialogActions>

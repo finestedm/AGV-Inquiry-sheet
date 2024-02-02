@@ -1,3 +1,4 @@
+import { TextFieldProps } from "@mui/material";
 import { Task } from "gantt-task-react";
 import availableEquipment from "../data/availableEquipment";
 
@@ -18,10 +19,13 @@ export interface IIt {
     additionalInformation: string;
 }
 
+export type TIndustry = 'production' | 'trade' | 'logistics' | 'pharmaceutical' | 'beverage' | 'clothing' | 'chemical' | 'food' | 'automotive' | 'other'
+
 export interface ICustomer {
     name: string;
     sapNumber: number | null;
-    industryName: number[];
+    industryName: TIndustry[];
+    industryNameOther: string;
     address: string;
     contactPerson: string;
     contactPersonRole: string;
@@ -33,6 +37,7 @@ export interface ICustomer {
     ownedRacks: number | undefined;
     ownedOther: string;
     creditManagement: number | undefined;
+    currency: TCurrencies | undefined
 }
 
 export interface IProject {
@@ -143,20 +148,19 @@ export interface IFormData {
     customer: ICustomer;
     project: IProject;
     system: ISystems;
-    // [key: string]: string | object
 }
 
-export interface IMIlestoneDate {
+export interface IMilestoneDate {
     start: Date;
     end: Date;
 }
 
 export interface IMilestones {
-    concept: IMIlestoneDate;
-    officialOffer: IMIlestoneDate;
-    order: IMIlestoneDate;
-    implementation: IMIlestoneDate;
-    launch: IMIlestoneDate;
+    concept: IMilestoneDate;
+    officialOffer: IMilestoneDate;
+    order: IMilestoneDate;
+    implementation: IMilestoneDate;
+    launch: IMilestoneDate;
 }
 
 
@@ -183,12 +187,14 @@ export interface IHandleAddLoad {
 }
 
 export interface ICustomFieldProps {
+    type?: 'text' | 'number'
     fieldName: string;
     required?: boolean;
     multiline?: boolean
     rows?: number;
     fullWidth?: boolean;
     disabled?: boolean;
+    size?: TextFieldProps['size']
 }
 
 export interface CopySystemDataPayload {
@@ -200,3 +206,19 @@ export interface ExtendedTask extends Task {
     id: keyof IMilestones;
     name: keyof IMilestones
 }
+
+export type TPart = keyof ISystemData | keyof ICustomer | keyof ISales | keyof IProject;
+
+export type StepToDataType<TStep extends keyof IFormData> = TStep extends 'sales'
+    ? ISales
+    : TStep extends 'customer'
+    ? ICustomer
+    : TStep extends 'project'
+    ? IProject
+    : TStep extends 'system'
+    ? ISystems
+    : never;
+
+export type TCurrencies = { currency: string, countries: string[] }[]
+
+export type TViewMode = 'Week' | 'Month' | 'Year'

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { TextField } from '@mui/material';
+import { InputLabel, Stack, TextField } from '@mui/material';
 import { Field, FieldInputProps, FieldProps, useFormikContext } from 'formik';
 import { useDispatch } from 'react-redux';
 import { handleInputMethod } from '../../features/redux/reducers/formDataSlice';
@@ -9,7 +9,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../features/redux/store';
 
 export default function CustomTextField(props: ICustomFieldProps) {
-  const { fieldName, required, multiline, rows, fullWidth, disabled } = props;
+  let { fieldName, required, multiline, rows, fullWidth, disabled, type, size } = props;
+  size = size ? size : 'small'
   const { t } = useTranslation();
   const formikProps = useFormikContext();
   const dispatch = useDispatch()
@@ -24,31 +25,39 @@ export default function CustomTextField(props: ICustomFieldProps) {
   const touchedValue = touched?.[firstPart]?.[secondPart]
   const helperTextValue = touchedValue && errors?.[firstPart]?.[secondPart] ? t(`${errors[firstPart][secondPart]}`) : '';
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-
+  const handleChange = (e: any) => {
     // Update Formik field value
     formikProps.handleChange(e);
 
     // Update formData field using Redux dispatch
-    dispatch(handleInputMethod({ path: fieldName, value: newValue }));
+    dispatch(handleInputMethod({ path: fieldName, value: e }));
   };
 
   return (
-    <Field
-      as={TextField}
-      fullWidth={fullWidth}
-      multiline={multiline}
-      rows={rows}
-      disabled={disabled || !editMode}
-      name={fieldName}
-      required={required}
-      variant="outlined"
-      label={t(`${fieldName}`)}
-      value={field.value}
-      onChange={handleChange}
-      error={errorValue}
-      helperText={helperTextValue}
-    />
+    <Stack spacing={1} textAlign='left'>
+      <InputLabel required={required}>{t(`${fieldName}`)}</InputLabel>
+      <Field
+        as={TextField}
+        fullWidth={fullWidth}
+        multiline={multiline}
+        size={size}
+        type={type}
+        rows={rows}
+        disabled={disabled || !editMode}
+        name={fieldName}
+        required={required}
+        variant="outlined"
+        value={field.value}
+        onChange={(e: any) => {
+          if (type === 'number') {
+            handleChange(e.target.value.replace(/\D/g, ''))
+          } else {
+            handleChange(e.target.value)
+          }
+        }}
+        error={errorValue}
+        helperText={helperTextValue}
+      />
+    </Stack>
   );
 }

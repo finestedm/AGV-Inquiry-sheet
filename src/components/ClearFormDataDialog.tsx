@@ -1,12 +1,12 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { handleDeleteLoad, resetFormData } from "../../../../features/redux/reducers/formDataSlice";
+import { handleDeleteLoad, resetFormData } from "../features/redux/reducers/formDataSlice";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../features/redux/store";
-import { updateDeleteLoadDialog } from "../../../../features/redux/reducers/deleteLoadDialogSlice";
-import { updateClearFormDataDialog } from "../../../../features/redux/reducers/clearFormDataDialogSlice";
-import { openSnackbar } from "../../../../features/redux/reducers/snackBarSlice";
+import { RootState } from "../features/redux/store";
+import { updateDeleteLoadDialog } from "../features/redux/reducers/deleteLoadDialogSlice";
+import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
+import { openSnackbar } from "../features/redux/reducers/snackBarSlice";
 
 export default function ClearFormDataDialog() {
     const { t } = useTranslation()
@@ -37,14 +37,15 @@ export default function ClearFormDataDialog() {
                 <Stack direction='row' flex={1} justifyContent='end' spacing={2} sx={{ mt: 4 }}>
 
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         color="error"
+                        disableElevation
                         onClick={() => { handleReset() }}
                     >
                         {t("ui.dialog.clearForm.confirm")}
                     </Button>
                     <Button
-                        variant="text"
+                        variant="outlined"
                         onClick={() => dispatch(updateClearFormDataDialog({ open: false }))}
                         autoFocus
                     >

@@ -1,13 +1,15 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { handleDeleteLoad } from "../../../../features/redux/reducers/formDataSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { updateDeleteLoadDialog } from "../../../../features/redux/reducers/deleteLoadDialogSlice";
+import tinycolor from "tinycolor2";
 
 export default function DeleteLoadWarningDialog() {
     const { t } = useTranslation()
+    const theme = useTheme();
     const dispatch = useDispatch()
 
     const deleteLoadDialog = useSelector((state: RootState) => state.deleteLoadDialog)
@@ -29,8 +31,10 @@ export default function DeleteLoadWarningDialog() {
                 <Stack direction='row' flex={1} justifyContent='end' spacing={2} sx={{ mt: 4 }}>
 
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         color="error"
+                        disableElevation
+                        sx={{ color: tinycolor(theme.palette.error.main).lighten(50).toHexString(), fontWeight: 700 }}
                         onClick={() => {
                             if (deleteLoadDialog.temporarySelectedSystem) {
                                 dispatch(handleDeleteLoad({ updatedLoads: deleteLoadDialog.temporaryUpdatedLoads, selectedSystem: deleteLoadDialog.temporarySelectedSystem }));
@@ -41,7 +45,7 @@ export default function DeleteLoadWarningDialog() {
                         {t("ui.dialog.loadDelete.confirm")}
                     </Button>
                     <Button
-                        variant="text"
+                        variant="outlined"
                         onClick={() => dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: undefined }))}
                         autoFocus
                     >

@@ -4,12 +4,15 @@
     "name": "Firma / klient",
     "sapNumber": "Numer sap",
     "industry": "Branża",
-    "industryName.other": "Podaj inną branżę",
+    "industryNameOther": "Podaj inną branżę",
     "contactPerson": "Imię i nazwisko",
     "contactPersonRole": "Stanowisko osoby kontaktowej",
     "contactPersonPhone": "Telefon kontaktowy",
     "contactPersonMail": "Adres email",
     "address": "Adres",
+    "currency": {
+      "perYear": "/ rok"
+    },
     "subheader": {
       "teleaddress": "Dane firmy",
       "contactperson": "Osoba kontaktowa",
@@ -17,13 +20,14 @@
     },
     "relations": {
       "type": "Poziom współpracy",
-      "saleshistoryvalue": "Wartość obrotu z klientem / rok",
-      "creditmanagement": "Wartość kredytu kupieckiego",
+      "salesHistoryValue": "Wartość obrotu z klientem",
+      "creditManagement": "Wartość kredytu kupieckiego",
       "2": "Klient JH",
       "1": "Nowy klient",
       "3": "Klient JH KAM",
       "4": "Klient konkurencji",
       "input": {
+        "owned": "Posiadane wyposażenie magazynu: ",
         "forklifts": "Ilość wózków JH",
         "other": "inne produkty JH",
         "racks": "Ilosć regałów JH"
@@ -43,6 +47,7 @@
     "other": "Inna"
   },
   "sales": {
+    "salesUnit": "Jednostka sprzedażowa",
     "header": "Dane jednostki sprzedażowej",
     "unit": "Jednostka sprzedażowa",
     "contactPerson": "Osoba kontaktowa ze strony JH",
@@ -51,7 +56,7 @@
   "steps": {
     "sales": "Jednostka sprzedażowa",
     "customer": "Klient",
-    "system": "System",
+    "system": "Wybór systemu",
     "project": "Projekt",
     "asrs": "ASRS",
     "lrkprk": "LRK / PRK",
@@ -231,13 +236,13 @@
       "officialOffer": "Data oferty",
       "order": "Data zamówienia",
       "implementation": "Data wdrożenia",
-      "launch": "Data uruchomienia"
+      "launch": "Data uruchomienia 🎉"
     },
     "it": {
       "processesDescription": "Opis procesów",
       "existingSystem": {
         "present": "Czy występuje system WMS?",
-        "name": "Jaki system występuje?",
+        "name": "Istniejący system WMS",
         "existingOther": "Inny",
         "label": {
           "SAP-WM": "SAP-WM",
@@ -246,13 +251,14 @@
         }
       },
       "wmsNeeded": "Czy wymagany jest WMS?",
+      "wmsNeededAlt": "WMS wymagany",
       "additionalInformation": "Inne informacje"
     },
     "investmentLocation": "Lokalizacja inwestycji",
-    "tender": "Inwestycja w formie przetargu?",
-    "consultingCompany": "Prowadzona przez firmę konsultingową?",
-    "competitor": "Inni oferenci?",
-    "invenstmentType": {
+    "tender": "Inwestycja w formie przetargu",
+    "consultingCompany": "Prowadzona przez firmę konsultingową",
+    "competitor": "Inni oferenci",
+    "investmentType": {
       "new": "Nowy projekt",
       "expansion": "Rozbudowa",
       "modification": "Modyfikacja",
@@ -314,6 +320,9 @@
       },
       "industryName": {
         "number": "Wybierz co najmniej jedną branżę"
+      },
+      "industryNameOther": {
+        "required": "Wpisz nazwę innej brażny, jeśli została wybrana z listy powyżej"
       },
       "relations": {
         "number": "Wybierz typ relacji"

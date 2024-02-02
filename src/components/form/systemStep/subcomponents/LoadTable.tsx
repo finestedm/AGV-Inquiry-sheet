@@ -11,13 +11,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { updateDeleteLoadDialog } from "../../../../features/redux/reducers/deleteLoadDialogSlice";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { ISystems } from "../../../../features/interfaces";
+import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
 
 export default function LoadTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
+    const theme = useTheme();
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const selectedSystemFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
-    const editMode = useSelector((state: RootState) => state.editMode)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
 
     const [selectedIndex, setSelectedIndex] = useState<string>('placeholder');
@@ -97,6 +100,26 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
     return (
         <Box>
             <DataGrid
+                sx={{
+                    borderColor: 'divider',
+                    boxShadow: theme.palette.mode === 'light' ? theme.shadows[1] : 'none',
+                    backgroundColor: 'background.paper',
+                    '& .MuiDataGrid-row': {
+                        '& .MuiDataGrid-cell': {
+                            borderTop: `1px solid ${theme.palette.divider}`,
+                        }
+                    },
+                    '& .MuiDataGrid-row:hover': {
+                        backgroundColor: 'divider',
+                    },
+                    '& .MuiDataGrid-columnHeader': {
+                        color: theme.palette.mode === 'light' ? customGreyPalette[500] : customGreyPaletteDark[400],
+                        fontSize: 12,
+                    },
+                    '& .MuiDataGrid-footerContainer': {
+                        borderTop: `1px solid ${theme.palette.divider}`,
+                    },
+                }}
                 rows={rows}
                 columns={[
                     { field: "index", headerName: "№", width: 50, type: 'number' },
