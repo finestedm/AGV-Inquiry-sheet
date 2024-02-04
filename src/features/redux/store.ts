@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import formDataReducer from '../redux/reducers/formDataSlice'
+import undoableFormData from '../redux/reducers/formDataSlice'
 import darkModeReducer from '../redux/reducers/darkModeSlice'
 import deleteLoadDialogReducer from './reducers/deleteLoadDialogSlice';
 import clearFormDataDialogReducer from './reducers/clearFormDataDialogSlice';
@@ -8,7 +8,7 @@ import editModeReducer from './reducers/editModeSlice';
 import stepsReducer from './reducers/stepsSlice';
 
 const rootReducer = combineReducers({
-  formData: formDataReducer,
+  formData: undoableFormData,
   darkMode: darkModeReducer,
   deleteLoadDialog: deleteLoadDialogReducer,
   clearFormDataDialog: clearFormDataDialogReducer,

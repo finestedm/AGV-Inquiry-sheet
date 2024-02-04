@@ -37,7 +37,7 @@ i18n
 
 function App() {
   const darkMode = useSelector((state: RootState) => state.darkMode)
-  const formData = useSelector((state: RootState) => state.formData);
+  const formData = useSelector((state: RootState) => state.formData.present);
   const dispatch = useDispatch();
   const [initialLoad, setInitialLoad] = useState(true);
 

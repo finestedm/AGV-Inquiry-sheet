@@ -29,7 +29,7 @@ export default function Form(): JSX.Element {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const formData = useSelector((state: RootState) => state.formData);
+  const formData = useSelector((state: RootState) => state.formData.present);
   const editMode = useSelector((state: RootState) => state.editMode);
 
   const [stepsCombined, setStepsCombined] = useState<{ label: string, untranslated: string, component: React.ReactNode }[]>([]);
@@ -176,7 +176,7 @@ export default function Form(): JSX.Element {
         validationSchema={validationSchema}
         onSubmit={(values, formikHelpers) => {
         }}
-        // validateOnMount={true}
+        validateOnMount={true}
         validateOnChange={true}
         enableReinitialize
 

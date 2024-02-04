@@ -12,7 +12,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
 
     const theme = useTheme()
 
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
 

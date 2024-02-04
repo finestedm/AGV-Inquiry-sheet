@@ -16,7 +16,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
     const { t } = useTranslation();
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const editMode = useSelector((state: RootState) => state.editMode);
     const taskId = selectedTask.id as keyof IMilestones
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].start) || dayjs(new Date()))

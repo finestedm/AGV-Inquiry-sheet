@@ -11,13 +11,11 @@ import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
 import existingWMSTypes from "../../../data/existingWMSTypes";
 import BoxForTextPair from "./subcomponents/BoxForTextPair";
-import SystemsAccordion from "./subcomponents/SystemTabs";
 import SystemsTabs from "./subcomponents/SystemTabs";
 
 export default function FormSummaryStep() {
-    const formData = useSelector((state: RootState) => state.formData)
+    const formData = useSelector((state: RootState) => state.formData.present)
     const { t } = useTranslation();
-    const theme = useTheme();
     const textRowSpacing = 1
 
     const industriesTranslated = industries.map(industry => t(`industry.${industry}`))

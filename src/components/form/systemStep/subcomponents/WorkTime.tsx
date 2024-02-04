@@ -5,17 +5,15 @@ import { Box, CircularProgress, CircularProgressProps, Grid, InputLabel, Slider,
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
-import { minimalReasonableWeekWorkHours } from "../../../../data/minimalReasonableWeekWorkHours";
 import { ISystems } from "../../../../features/interfaces";
 import InputGroup from "../../InputGroup";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import theme from "../../../../theme";
 
 
 export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
 

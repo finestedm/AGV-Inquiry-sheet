@@ -23,7 +23,7 @@ export default function FormProjectStep(): JSX.Element {
 
     const { t } = useTranslation();
     const theme = useTheme();
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
     const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context

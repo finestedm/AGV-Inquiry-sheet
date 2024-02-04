@@ -10,7 +10,7 @@ import { useState } from "react";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
 
 export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof ICustomer, perYear?: boolean }) {
-    const customer = useSelector((state: RootState) => state.formData.customer)
+    const customer = useSelector((state: RootState) => state.formData.present.customer)
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();

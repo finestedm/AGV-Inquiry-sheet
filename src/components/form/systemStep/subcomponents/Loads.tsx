@@ -10,7 +10,7 @@ import InputGroup from "../../InputGroup";
 
 export default function Loads({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const { t } = useTranslation();
 
     return (

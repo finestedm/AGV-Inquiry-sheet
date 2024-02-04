@@ -16,9 +16,9 @@ import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
 export default function LoadTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
     const theme = useTheme();
-
-    const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
-    const selectedSystemFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow);
+    const formData = useSelector((state: RootState) => state.formData.present)
+    const selectedSystemLoads = formData.system[selectedSystem].loads;
+    const selectedSystemFlows = formData.system[selectedSystem].flow;
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();

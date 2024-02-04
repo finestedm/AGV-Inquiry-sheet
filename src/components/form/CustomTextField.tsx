@@ -48,7 +48,7 @@ export default function CustomTextField(props: ICustomFieldProps) {
         required={required}
         variant="outlined"
         value={field.value}
-        onChange={(e: any) => {
+        onBlur={(e: any) => {
           if (type === 'number') {
             handleChange(e.target.value.replace(/\D/g, ''))
           } else {

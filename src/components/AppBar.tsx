@@ -22,7 +22,7 @@ import EditModeSwitch from "./EditModeSwitch";
 import { setEditMode } from "../features/redux/reducers/editModeSlice";
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
 import ClearFormDataDialog from "./ClearFormDataDialog";
-
+import { ActionCreators as UndoActionCreators } from 'redux-undo';
 
 export default function TopBar(): JSX.Element {
 
@@ -33,7 +33,7 @@ export default function TopBar(): JSX.Element {
     };
 
     const { t, i18n } = useTranslation();
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const isSummaryStep = useSelector((state: RootState) => state.steps.currentStep) === 'summary';
     const isFormUnchaged = formData === initialFormDataState
 
@@ -191,7 +191,8 @@ export default function TopBar(): JSX.Element {
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'flex-end' }}>
                         <Stack spacing={2} direction='row'>
-                            <FormControl sx={{ display: { xs: 'none', lg: 'flex' } }}>
+                            <Button variant='outlined' size='small' startIcon={<SaveIcon />} onClick={() => dispatch(UndoActionCreators.undo())}>Undo</Button>
+                            <FormControl sx={{ display: { xs: 'none', lg: 'inline' } }}>
                                 <Select
                                     id="language-select"
                                     value={i18n.language}
@@ -221,9 +222,7 @@ export default function TopBar(): JSX.Element {
                             <EditModeSwitch />
                             {isSummaryStep &&
                                 <Button variant='outlined' onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
-                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
-                                        <Typography>{t('ui.button.inquiry.save')}</Typography>
-                                    </Stack>
+                                    <Typography>{t('ui.button.inquiry.save')}</Typography>
                                 </Button>
                             }
                             <Button variant='outlined' startIcon={<UploadIcon />}>

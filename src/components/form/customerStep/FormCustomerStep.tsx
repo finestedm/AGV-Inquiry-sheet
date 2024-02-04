@@ -34,7 +34,7 @@ export default function FormCustomerStep(): JSX.Element {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const formData = useSelector((state: RootState) => state.formData);
+  const formData = useSelector((state: RootState) => state.formData.present);
   const currentStep = useSelector((state: RootState) => state.steps.currentStep);
   const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
 

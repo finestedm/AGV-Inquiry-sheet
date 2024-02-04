@@ -3,8 +3,7 @@ import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilest
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
-import { format, addMonths, differenceInMonths, isBefore } from 'date-fns';
-import dayjs from 'dayjs';
+import undoable from 'redux-undo';
 
 const initialFormDataState: IFormData = {
 
@@ -382,6 +381,8 @@ const formDataSlice = createSlice({
     },
 });
 
+const undoableFormDataReducer = undoable(formDataSlice.reducer);
+
 export const { setFormData, handleInputMethod, handleAddLoad, handleSystemChange, handleLoadChange, handleIndustryChange, handleDeleteLoad, handleAddFlow, handleDeleteFlow, handleFlowChange, resetFormData, handleDateChanges, handleCopySystemData, updateEquipment } = formDataSlice.actions;
-export default formDataSlice.reducer;
+export default undoableFormDataReducer;
 export { initialFormDataState }

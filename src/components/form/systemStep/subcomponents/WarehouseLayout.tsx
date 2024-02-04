@@ -22,8 +22,9 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     const divRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch();
     const editMode = useSelector((state: RootState) => state.editMode);
-    const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
-    const warehouseFlows = useSelector((state: RootState) => state.formData.system[selectedSystem].flow)
+    const formData = useSelector((state: RootState) => state.formData.present)
+    const warehouseData = formData.system[selectedSystem].building.existingBuilding;
+    const warehouseFlows = formData.system[selectedSystem].flow;
     const warehouseEquipment = warehouseData.equipment;
     const [isMobile, setIsMobile] = useState<boolean>(false)
     useEffect(() => {

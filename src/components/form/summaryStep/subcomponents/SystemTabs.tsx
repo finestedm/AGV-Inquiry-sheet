@@ -11,7 +11,7 @@ import { useState } from "react";
 export default function SystemsTabs() {
     const currentStep = useSelector((state: RootState) => state.steps);
     const selectedSystems = useSelector((state: RootState) => (
-        Object.entries(state.formData.system)
+        Object.entries(state.formData.present.system)
             .filter(([systemName, systemData]) => systemData.selected)
             .map(([systemName]) => systemName)
     )) as (keyof ISystems)[];
