@@ -9,13 +9,13 @@ import generateRandomId from '../../../../features/variousMethods/generateRandom
 import randomColor from 'randomcolor'
 import { useTranslation } from 'react-i18next';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { PlaylistAdd } from "@mui/icons-material";
-import  availableEquipment  from '../../../../data/availableEquipment';
+import { LineStyle, PlaylistAdd } from "@mui/icons-material";
+import availableEquipment from '../../../../data/availableEquipment';
 import { updateEquipment } from '../../../../features/redux/reducers/formDataSlice';
 import NoDataAlert from '../../../NoDataAlert';
 import EquipmentShape from './WarehouseLayoutEquipment';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EquipmentFlowLines from './WarehouseLayoutLines';
+import EquipmentFlowLines from './WarehouseEquipmentFlowLines';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -80,8 +80,8 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     useEffect(() => {
         if (divRef.current?.offsetHeight && divRef.current?.offsetWidth) {
             setCanvaDimensions({
-                width: divRef.current.offsetWidth - layoutBorderWidth*2,
-                height: ((divRef.current.offsetWidth - layoutBorderWidth*2) * Number(warehouseData.length / warehouseData.width))
+                width: divRef.current.offsetWidth - layoutBorderWidth * 2,
+                height: ((divRef.current.offsetWidth - layoutBorderWidth * 2) * Number(warehouseData.length / warehouseData.width))
             })
         }
     }, [warehouseData.length, warehouseData.width])
@@ -275,6 +275,9 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
                         </Layer>
                         <Layer>
+                            {generateGridLines()}
+                        </Layer>
+                        <Layer>
                             {warehouseEquipment.map((equipment: IEquipment, index: number) => (
                                 <EquipmentShape
                                     isSelected={equipment.id === selectedShapeId}
@@ -291,7 +294,6 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                             ))}
                         </Layer>
                         <Layer>
-                            {generateGridLines()}
                             {warehouseFlows
                                 .map((flow: IFlow) => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
                             }

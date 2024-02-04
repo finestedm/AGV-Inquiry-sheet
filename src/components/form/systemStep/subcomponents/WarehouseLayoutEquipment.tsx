@@ -22,6 +22,7 @@ interface CommonProps {
         rotation: number;
         draggable: boolean;
         onDragEnd: (e: Konva.KonvaEventObject<DragEvent>) => void;
+        opacity: number;
     };
 }
 
@@ -112,6 +113,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
             rotation,
             draggable: editMode,
             onDragEnd: handleDragEnd(index),
+            opacity: .6
         },
     };
 
@@ -126,55 +128,6 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
 
     const renderShape = () => {
         switch (type) {
-            // case 'wall':
-            // case 'gate':
-            // case 'dock':
-            //     return (
-            //         <React.Fragment>
-            //             <Rect
-            //                 onClick={commonProps.onSelect}
-            //                 onTap={commonProps.onSelect}
-            //                 ref={commonProps.shapeRef as React.MutableRefObject<Konva.Rect>}
-            //                 onTransformEnd={commonProps.onTransformEnd}
-            //                 onTransform={(e) => {
-            //                     const node = commonProps.shapeRef.current;
-            //                     if (node instanceof Konva.Rect) {
-            //                         const scaleX = node.scaleX() || 1;
-            //                         const scaleY = node.scaleY() || 1;
-
-            //                         // limit resizing
-            //                         if (Math.abs(scaleX) < 0.5 || Math.abs(scaleY) < 0.5) {
-            //                             return;
-            //                         }
-
-            //                         // update size
-            //                         const newWidth = Math.max(5, node.width() * scaleX);
-            //                         const newHeight = Math.max(5, node.height() * scaleY);
-            //                         node.width(newWidth);
-            //                         node.height(newHeight);
-
-            //                         commonProps.onTransformEnd();
-            //                     }
-            //                 }}
-            //                 {...commonProps.commonProps}
-            //             />
-            //             <Text {...textProps} y={textProps.y - 10} text={type} />
-            //             <Text {...textProps} text={`${width.toFixed(2)} x ${height.toFixed(2)}`} />
-            //             {isSelected && (
-            //                 <Transformer
-            //                     ref={trRef}
-            //                     id="transformer"
-            //                     flipEnabled={false}
-            //                     boundBoxFunc={(oldBox, newBox) => {
-            //                         if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
-            //                             return oldBox;
-            //                         }
-            //                         return newBox;
-            //                     }}
-            //                 />
-            //             )}
-            //         </React.Fragment>
-            //     );
             default:
                 return (
                     <React.Fragment>
