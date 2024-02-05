@@ -23,6 +23,8 @@ import { setEditMode } from "../features/redux/reducers/editModeSlice";
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
 import ClearFormDataDialog from "./ClearFormDataDialog";
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
+import UndoIcon from '@mui/icons-material/Undo';
+import RedoIcon from '@mui/icons-material/Redo';
 
 export default function TopBar(): JSX.Element {
 
@@ -35,7 +37,12 @@ export default function TopBar(): JSX.Element {
     const { t, i18n } = useTranslation();
     const formData = useSelector((state: RootState) => state.formData.present);
     const isSummaryStep = useSelector((state: RootState) => state.steps.currentStep) === 'summary';
-    const isFormUnchaged = formData === initialFormDataState
+    const isFormUnchanged = formData === initialFormDataState;
+    const undoRedo = useSelector((state: RootState) => state.formData);
+    const undoPossible = undoRedo.past.length > 0;
+    const redoPossible = undoRedo.future.length > 0;
+
+
 
     const dispatch = useDispatch();
 
@@ -177,7 +184,7 @@ export default function TopBar(): JSX.Element {
                                     onInput={(e) => loadFile(e)}
                                 />
                             </MenuItem>
-                            {!isFormUnchaged &&
+                            {!isFormUnchanged &&
                                 <MenuItem
                                     onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
                                     sx={{ color: theme.palette.error.main }}
@@ -191,7 +198,10 @@ export default function TopBar(): JSX.Element {
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'flex-end' }}>
                         <Stack spacing={2} direction='row'>
-                            <Button variant='outlined' size='small' startIcon={<SaveIcon />} onClick={() => dispatch(UndoActionCreators.undo())}>Undo</Button>
+                            <ButtonGroup variant="outlined" size='small'>
+                                <Button startIcon={<UndoIcon />} disabled={!undoPossible} onClick={() => dispatch(UndoActionCreators.undo())}>Undo</Button>
+                                <Button startIcon={<RedoIcon />} disabled={!redoPossible} onClick={() => dispatch(UndoActionCreators.redo())}>Redo</Button>
+                            </ButtonGroup>
                             <FormControl sx={{ display: { xs: 'none', lg: 'inline' } }}>
                                 <Select
                                     id="language-select"
@@ -243,7 +253,7 @@ export default function TopBar(): JSX.Element {
                                     />
                                 </Stack>
                             </Button>
-                            {!isFormUnchaged &&
+                            {!isFormUnchanged &&
                                 <Button
                                     startIcon={<DeleteOutlineIcon />}
                                     color='error'

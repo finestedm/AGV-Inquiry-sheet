@@ -886,9 +886,9 @@ export const themeDark = createTheme({
                         backgroundColor: paperColorDark
                     },
                     '&.MuiButton-outlined.Mui-disabled': {
-                        border: `${borderStandard} ${customGreyPaletteDark[900]}`,
+                        border: `${borderStandard} ${customGreyPaletteDark[700]}`,
                         color: customGreyPaletteDark[700],
-                        backgroundColor: customGreyPaletteDark[950]
+                        backgroundColor: paperColorDark
                     },
                     '&.MuiButton-outlinedPrimary': {
                         border: `${borderStandard} ${customGreyPaletteDark[700]}`,
