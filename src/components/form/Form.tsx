@@ -152,8 +152,13 @@ export default function Form(): JSX.Element {
   };
 
   useEffect(() => {
-    console.log(steps.currentStep)
+    navigate(`/${steps.currentStep}`);
   }, [steps.currentStep])
+
+  useEffect(() => {
+    const locationFromURL = location.pathname.split('/').pop() || ''
+    dispatch(setCurrentStep(locationFromURL));
+  }, [navigate])
 
   useEffect(() => {
     const locationFromURL = location.pathname.split('/').pop() || ''
@@ -162,11 +167,7 @@ export default function Form(): JSX.Element {
     } else {
       dispatch(setCurrentStep(steps.steps[0]));
     }
-  }, [navigate]);
-
-  useEffect(() => {
-    navigate(`/${steps.currentStep}`);
-  }, [steps.currentStep]);
+  }, []);
 
   if (formData) {
     return (

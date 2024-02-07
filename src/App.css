@@ -87,24 +87,12 @@
   }
 }
 
-._3eULf {
-  border-radius: .25rem;
-  overflow: hidden;
-  width: 100%;
+._CZjuD {
+  overflow-x: scroll;
 }
 
 ._3lLk3 {
   white-space: initial;
-}
-
-.ganttchart-edit-buttons {
-  opacity: 0;
-  transition: all .5s ease;
-}
-
-.ganttchart-container:hover .ganttchart-edit-buttons,
-.ganttchart-container-dark:hover .ganttchart-edit-buttons {
-  opacity: 1;
 }
 
 .MuiGrid-root.MuiGrid-container.MuiPickersToolbar-content.css-jhsfre-MuiGrid-root-MuiPickersToolbar-content {
@@ -126,8 +114,14 @@
 
 .ganttchart-container-dark ._2dZTy,
 .ganttchart-container-dark ._35nLX {
-  fill: #1f1f1f;
-  color: #fff
+  fill: #161618;
+  stroke: transparent
+}
+
+.ganttchart-container-dark ._2q1Kt,
+.ganttchart-container-dark ._9w8d5,
+.ganttchart-container-dark ._3KcaM {
+  fill: #fff
 }
 
 /* row line */
@@ -139,8 +133,15 @@
 
 .ganttchart-container-dark ._3rUKi,
 .ganttchart-container-dark ._RuwuK {
-  stroke: rgba(255, 255, 255, 0.12);
-  color: #fff
+  stroke: #e3e8ef35;
+}
+
+.ganttchart-container ._2k9Ys {
+  max-height: 5px !important
+}
+
+._2k9Ys {
+  max-height: 5px !important
 }
 
 /* this is a line for a overlayWrapper that sits above Poper component :/ */

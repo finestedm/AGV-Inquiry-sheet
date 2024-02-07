@@ -9,9 +9,11 @@ import { handleIndustryChange, handleInputMethod, initialFormDataState, setFormD
 import trimLeadingZeros from "../../../features/variousMethods/trimLeadingZero";
 import { Field, Form, Formik, FormikProps, useFormikContext } from 'formik'
 import validationSchema from "../../../features/formValidation/formValidation";
-import { ICustomer, IFormData } from "../../../features/interfaces";
+import { ICustomer, IFormData, TIndustry } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
 import industries from "../../../data/industries";
+import { DoubleInputWithCurrency } from "./subcomponents/DoubleInputWtihCurrency";
+import InputGroup from "../InputGroup";
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -24,32 +26,6 @@ export const MenuProps = {
     },
   },
 };
-
-export function ValueInputWithCurrency({ label, key }: { label: string, key: keyof ICustomer }) {
-  const customer = useSelector((state: RootState) => state.formData.customer)
-  const currentStep = useSelector((state: RootState) => state.steps.currentStep);
-  const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
-  const dispatch = useDispatch();
-  return (
-    <Stack spacing={1}>
-      <InputLabel>{label}</InputLabel>
-      <TextField
-        name={key}
-        type="text"
-        disabled={!editMode}
-        value={customer[key] === undefined ? '' : (Number(customer[key])).toLocaleString('en-US').replaceAll(',', ' ')}
-        onChange={(e) => {
-          const hasDigits = /\d/.test(e.target.value); // Check if the input value contains at least one digit
-          hasDigits && dispatch(handleInputMethod({ path: 'customer.salesHistoryValue', value: e.target.value === '' ? undefined : e.target.value.replaceAll(/[ ,.]/g, '') }));
-        }}
-        InputProps={{
-          // endAdornment: <InputAdornment position="end">{t('customer-relations-saleshistoryvalue')}</InputAdornment>,
-          endAdornment: <InputAdornment position="end">€ / rok</InputAdornment>,
-        }}
-      />
-    </Stack>
-  )
-}
 
 export default function FormCustomerStep(): JSX.Element {
 
@@ -64,194 +40,206 @@ export default function FormCustomerStep(): JSX.Element {
 
   const dispatch = useDispatch();
 
-  const industriesTranslated = industries.map(industry => t(industry))
-
-  const [otherIndustry, setOtherIndustry] = useState<string>('')
+  const industriesTranslated = industries.map(industry => t(`industry.${industry}`))
 
   return (
-    <Stack spacing={8}>
+    <Stack spacing={5}>
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
-      <Stack spacing={2}>
-        <Typography variant="h5" textAlign='left'>{t('customer.subheader.teleaddress')}</Typography>
-        <CustomTextField
-          required
-          fieldName="customer.name"
-        />
-        <CustomTextField
-          fieldName="customer.sapNumber"
-        />
-        <CustomTextField
-          required
-          fieldName="customer.address"
-        />
-      </Stack>
-      <Stack spacing={2}>
-        <Typography variant="h5" textAlign='left'>{t('customer.subheader.contactperson')}</Typography>
-        <CustomTextField
-          fieldName="customer.contactPerson"
-        />
-        <CustomTextField
-          fieldName="customer.contactPersonRole"
-        />
-        <Stack spacing={1}>
-          <InputLabel>{t('customer.contactPersonPhone')}</InputLabel>
-          <MuiTelInput
-            defaultCountry="PL"
-            continents={['EU']}
-            value={formData.customer.contactPersonPhone}
-            onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonPhone', value: e }))}
-            variant="outlined"
-            disabled={!editMode}
-            fullWidth
-          />
-        </Stack>
-        <CustomTextField
-          fieldName="customer.contactPersonMail"
-        />
-      </Stack>
-      <Stack spacing={2}>
-        <Typography variant="h5" textAlign='left'>{t('customer.subheader.businessdata')}</Typography>
-        <Stack spacing={1}>
-          <InputLabel>{t('customer.industry')}</InputLabel>
-          <FormControl>
-            <Field
+      <InputGroup
+        title={t('customer.subheader.teleaddress')}
+        content={
+          <Stack spacing={2}>
+            <CustomTextField
               required
-              disabled={!editMode}
-              as={Select}
-              id="customer-industryName"
-              name='customer.industryName'
-              multiple
-              input={<OutlinedInput />}
-              value={formData.customer.industryName}
-              onChange={(e: { target: { value: number[]; }; }) => {
-                formikProps.setFieldValue('customer.industryName', e.target.value);
-                dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value }))
-              }}
-              renderValue={(selected: number[]) => (
-                <Stack direction="row" spacing={1} >
-                  {selected.map((index) => (
-                    <Chip
-                      sx={{ borderRadius: .5 }}
-                      key={index}
-                      label={t(`${industriesTranslated[index]}`)}
-                    />
-                  ))}
-                </Stack>
-              )}
-              MenuProps={MenuProps}
-              error={Boolean(formikProps.errors.customer?.industryName)}
-            >
-              {industries.map((industry) => (
-                <MenuItem key={industry} value={industries.indexOf(industry)}>
-                  <Checkbox checked={formData.customer.industryName.includes(industries.indexOf(industry))} />
-                  <ListItemText primary={industry} />
-                </MenuItem>
-              ))}
-            </Field>
-            {formikProps.touched.customer?.industryName && formikProps.errors.customer?.industryName && <FormHelperText error>{t(`${formikProps.errors.customer?.industryName}`)}</ FormHelperText>}
-          </FormControl>
-        </Stack>
-        {formData.customer.industryName.includes(9) &&
-          <Stack spacing={1}>
-            <InputLabel>{t('customer.industryName.other')}</InputLabel>
-            <TextField
+              fieldName="customer.name"
+            />
+            <CustomTextField
+              fieldName="customer.sapNumber"
+              type='number'
+            />
+            <CustomTextField
               required
-              name="customer.industryName-other"
-              value={otherIndustry}
-              disabled={!editMode}
-              onChange={(e) => setOtherIndustry(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  dispatch(handleIndustryChange({ industryName: formData.customer.industryName, value: (e.target as HTMLInputElement).value }));
-                }
-              }}
+              fieldName="customer.address"
             />
           </Stack>
         }
-        <Stack spacing={1}>
-          <InputLabel>{t('customer.relations.type')}</InputLabel>
-          <FormControl>
-            <Field
-              as={Select}
-              disabled={!editMode}
-              required
-              id="customer.relations"
-              name='customer.relations'
-              input={<OutlinedInput />}
-              value={formData.customer.relations === -1 ? '' : formData.customer.relations}
-              onChange={(e: { target: { value: string; }; }) => {
-                dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))
-                formikProps.setFieldValue('customer.relations', e.target.value);
-              }}
-              renderValue={(selected: any) => (t(`customer.relations.${selected}`))}
-              MenuProps={MenuProps}
-              error={Boolean(formikProps.errors.customer?.relations)}
-            >
-              <MenuItem value={1}>{t('customer.relations.1')}</MenuItem>
-              <MenuItem value={2}>{t('customer.relations.2')}</MenuItem>
-              <MenuItem value={3}>{t('customer.relations.3')}</MenuItem>
-              <MenuItem value={4}>{t('customer.relations.4')}</MenuItem>
-            </Field>
-            {formikProps.touched.customer?.relations && formikProps.errors.customer?.relations && <FormHelperText error>{t(`${formikProps.errors.customer?.relations}`)}</ FormHelperText>}
-          </FormControl>
-        </Stack>
-        {(formData.customer.relations === 2 || formData.customer.relations === 3) &&
-          <Box>
-            <Grid container direction='row' spacing={2}>
-              <Grid item xs={6} lg={4}>
-                <Stack spacing={1}>
-                  <InputLabel>{t("customer.relations.input.forklifts")}</InputLabel>
-                  <TextField
-                    id="customer-relations-forklift-input"
-                    fullWidth
-                    disabled={!editMode}
-                    type="number"
-                    value={trimLeadingZeros(Number(formData.customer.ownedForklifts))}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedForklifts', value: Number(e.target.value) }))}
-                    InputProps={{
-                      // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
-                      endAdornment: <InputAdornment position="end">szt.</InputAdornment>,
-                    }}
+      />
+      <InputGroup
+        title={t('customer.subheader.contactperson')}
+        content={
+          <Stack spacing={2}>
+            <CustomTextField
+              fieldName="customer.contactPerson"
+            />
+            <CustomTextField
+              fieldName="customer.contactPersonRole"
+            />
+            <Box>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Stack spacing={1}>
+                    <InputLabel>{t('customer.contactPersonPhone')}</InputLabel>
+                    <MuiTelInput
+                      defaultCountry="PL"
+                      continents={['EU']}
+                      size="small"
+                      value={formData.customer.contactPersonPhone}
+                      onChange={(e) => dispatch(handleInputMethod({ path: 'customer.contactPersonPhone', value: e }))}
+                      variant="outlined"
+                      disabled={!editMode}
+                      fullWidth
+                    />
+                  </Stack>
+                </Grid>
+                <Grid item xs>
+                  <CustomTextField
+                    fieldName="customer.contactPersonMail"
                   />
-                </Stack>
+                </Grid>
               </Grid>
-              <Grid item xs={6} lg={4}>
-                <Stack spacing={1}>
-                  <InputLabel>{t("customer.relations.input.racks")}</InputLabel>
-                  <TextField
-                    id="customer-relations-racks-input"
-                    fullWidth
-                    disabled={!editMode}
-                    type="number"
-                    value={trimLeadingZeros(Number(formData.customer.ownedRacks))}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedRacks', value: Number(e.target.value) }))}
-                    InputProps={{
-                      // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
-                      endAdornment: <InputAdornment position="end">m.p.</InputAdornment>,
-                    }}
-                  />
-                </Stack>
-              </Grid>
-              <Grid item lg={4} xs={12}>
-                <Stack spacing={1}>
-                  <InputLabel>{t("customer.relations.input.other")}</InputLabel>
-                  <TextField
-                    id="customer-relations-other-input"
-                    fullWidth
-                    disabled={!editMode}
-                    type="text"
-                    value={formData.customer.ownedOther}
-                    onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedOther', value: e.target.value }))}
-                  />
-                </Stack>
-              </Grid>
-            </Grid>
-          </Box>
-        }
-        <ValueInputWithCurrency key='salesHistoryValue' label={`${t("customer.relations.saleshistoryvalue")}`} />
-        <ValueInputWithCurrency key='creditManagement' label={`${t("customer.relations.creditmanagement")}`} />
+            </Box>
 
-      </Stack>
-    </Stack >
+
+          </Stack>
+        }
+      />
+      <InputGroup
+        title={t('customer.subheader.businessdata')}
+        content={
+          <Stack spacing={2}>
+            <Stack spacing={1}>
+              <InputLabel required>{t('customer.industry')}</InputLabel>
+              <FormControl>
+                <Field
+                  required
+                  disabled={!editMode}
+                  as={Select}
+                  id="customer-industryName"
+                  name='customer.industryName'
+                  multiple
+                  input={<OutlinedInput size="small" />}
+                  value={formData.customer.industryName}
+                  onChange={(e: { target: { value: number[]; }; }) => {
+                    formikProps.setFieldValue('customer.industryName', e.target.value);
+                    dispatch(handleInputMethod({ path: 'customer.industryName', value: e.target.value }))
+                  }}
+                  renderValue={(selected: TIndustry[]) => (
+                    <Stack direction="row" spacing={1} >
+                      {selected.map((industry) => (
+                        <Chip
+                          sx={{ borderRadius: .5 }}
+                          key={industry}
+                          label={industriesTranslated[industries.indexOf(industry)]}
+                        />
+                      ))}
+                    </Stack>
+                  )}
+                  MenuProps={MenuProps}
+                  error={Boolean(formikProps.errors.customer?.industryName)}
+                >
+                  {industries.map((industry) => (
+                    <MenuItem key={industry} value={industry}>
+                      <Checkbox checked={formData.customer.industryName.includes(industry)} />
+                      <ListItemText primary={industriesTranslated[industries.indexOf(industry)]} />
+                    </MenuItem>
+                  ))}
+                </Field>
+                {formikProps.touched.customer?.industryName && formikProps.errors.customer?.industryName && <FormHelperText error>{t(`${formikProps.errors.customer?.industryName}`)}</ FormHelperText>}
+              </FormControl>
+            </Stack>
+            {formData.customer.industryName.includes('other') &&
+              <CustomTextField
+                fieldName="customer.industryNameOther"
+              />
+            }
+            <Stack spacing={1}>
+              <InputLabel>{t('customer.relations.type')}</InputLabel>
+              <FormControl>
+                <Field
+                  as={Select}
+                  disabled={!editMode}
+                  required
+                  id="customer.relations"
+                  name='customer.relations'
+                  input={<OutlinedInput size="small" />}
+                  value={formData.customer.relations === -1 ? '' : formData.customer.relations}
+                  onChange={(e: { target: { value: string; }; }) => {
+                    dispatch(handleInputMethod({ path: 'customer.relations', value: e.target.value as string }))
+                    formikProps.setFieldValue('customer.relations', e.target.value);
+                  }}
+                  renderValue={(selected: any) => (t(`customer.relations.${selected}`))}
+                  MenuProps={MenuProps}
+                  error={Boolean(formikProps.errors.customer?.relations)}
+                >
+                  <MenuItem value={1}>{t('customer.relations.1')}</MenuItem>
+                  <MenuItem value={2}>{t('customer.relations.2')}</MenuItem>
+                  <MenuItem value={3}>{t('customer.relations.3')}</MenuItem>
+                  <MenuItem value={4}>{t('customer.relations.4')}</MenuItem>
+                </Field>
+                {formikProps.touched.customer?.relations && formikProps.errors.customer?.relations && <FormHelperText error>{t(`${formikProps.errors.customer?.relations}`)}</ FormHelperText>}
+              </FormControl>
+            </Stack>
+            {(formData.customer.relations === 2 || formData.customer.relations === 3) &&
+              <Box>
+                <Grid container direction='row' spacing={2}>
+                  <Grid item xs={6} lg={4}>
+                    <Stack spacing={1}>
+                      <InputLabel>{t("customer.relations.input.forklifts")}</InputLabel>
+                      <TextField
+                        id="customer-relations-forklift-input"
+                        fullWidth
+                        disabled={!editMode}
+                        size="small"
+                        type="number"
+                        value={trimLeadingZeros(Number(formData.customer.ownedForklifts))}
+                        onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedForklifts', value: Number(e.target.value) }))}
+                        InputProps={{
+                          // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
+                          endAdornment: <InputAdornment position="end">szt.</InputAdornment>,
+                        }}
+                      />
+                    </Stack>
+                  </Grid>
+                  <Grid item xs={6} lg={4}>
+                    <Stack spacing={1}>
+                      <InputLabel>{t("customer.relations.input.racks")}</InputLabel>
+                      <TextField
+                        id="customer-relations-racks-input"
+                        fullWidth
+                        disabled={!editMode}
+                        type="number"
+                        size="small"
+                        value={trimLeadingZeros(Number(formData.customer.ownedRacks))}
+                        onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedRacks', value: Number(e.target.value) }))}
+                        InputProps={{
+                          // endAdornment: <InputAdornment position="end">{t('customer-relations-racks')}</InputAdornment>,
+                          endAdornment: <InputAdornment position="end">m.p.</InputAdornment>,
+                        }}
+                      />
+                    </Stack>
+                  </Grid>
+                  <Grid item lg={4} xs={12}>
+                    <Stack spacing={1}>
+                      <InputLabel>{t("customer.relations.input.other")}</InputLabel>
+                      <TextField
+                        id="customer-relations-other-input"
+                        fullWidth
+                        disabled={!editMode}
+                        type="text"
+                        size="small"
+                        value={formData.customer.ownedOther}
+                        onChange={(e) => dispatch(handleInputMethod({ path: 'customer.ownedOther', value: e.target.value }))}
+                      />
+                    </Stack>
+                  </Grid>
+                </Grid>
+              </Box>
+            }
+            <DoubleInputWithCurrency inputKey='salesHistoryValue' perYear />
+            <DoubleInputWithCurrency inputKey='creditManagement' />
+          </Stack>
+        }
+      />
+    </Stack>
   )
 }

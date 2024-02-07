@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { handleSystemChange } from '../../../../features/redux/reducers/formDataSlice';
+import tinycolor from 'tinycolor2';
 
 export default function SystemCard({ system }: { system: ISystem }): JSX.Element {
 
@@ -19,79 +20,50 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
 
     const systemSelected = formData.system[system.alt].selected;
 
-    function hexToRgb(hex: string) {
-        // Remove the hash at the beginning if present
-        hex = hex.replace(/^#/, '');
-
-        // Parse the hex values into separate RGB values
-        const bigint = parseInt(hex, 16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
-
-        return [r, g, b];
-    };
-
-    function generateBackgroundColor(alpha: number) {
-        const rgbValues = hexToRgb(theme.palette.primary.main);
-        return `rgba(${rgbValues.join(', ')}, ${alpha})`;
-    };
-
     return (
-        <Grid item xs={12} md={6}>
-            <Card elevation={2} className={systemSelected ? 'selected-card' : ''} >
+        <Grid item xs={12} md={6} sx={{ position: 'relative' }}>
+            <div
+                style={{
+                    position: 'absolute',
+                    top: '.75rem',
+                    right: '-14px',
+                    borderRadius: '5rem',
+                    height: 28,
+                    width: 28,
+                    backgroundColor: systemSelected ? '#000' : 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                {systemSelected && <CheckCircleIcon fontSize='large' sx={{ color: theme.palette.primary.main,  }} />}
+            </div>
+            <Card className={systemSelected ? 'selected-card system-card' : 'system-card'}>
                 <CardActionArea
-                    sx={{ position: 'relative' }}
                     disabled={!editMode}
                     onClick={e => dispatch(handleSystemChange(system.alt))}
                 >
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: '1rem',
-                            right: '1rem',
-                            borderRadius: '5rem',
-                            height: '2rem',
-                            width: '2rem',
-                            backgroundColor: theme.palette.background.default,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            boxShadow: theme.shadows[3]
-                        }}
-                    >
-                        {systemSelected && <CheckCircleIcon sx={{ color: theme.palette.primary.light }} />}
-                    </div>
                     <CardMedia
                         component="img"
                         height="200"
                         image={system.url}
                         alt={system.alt}
+                        sx={{ position: 'relative' }}
                     >
                     </CardMedia>
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: '0',
-                            right: '0',
-                            height: '100%',
-                            width: '100%',
-                            backgroundColor: systemSelected ? generateBackgroundColor(0.2) : 'transparent',
-                        }}
-                    />
                 </CardActionArea>
                 <CardActions>
                     <Accordion disableGutters elevation={0} sx={{ backgroundColor: 'transparent' }}>
                         <AccordionSummary
-                            expandIcon={<ExpandMoreIcon sx={{ fill: systemSelected ? theme.palette.background.paper : theme.palette.text.primary }} />}
+                            expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel2a-content"
                             id="panel2a-header"
                         >
-                            <Typography variant='h6' align='left' sx={{ color: systemSelected ? theme.palette.background.paper : theme.palette.text.primary }}>{t(`${system.label}`)}</Typography>
+                            <Typography variant='h6' align='left' >{t(`${system.label}`)}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Divider sx={{ mb: 3, borderColor: systemSelected ? theme.palette.background.paper : theme.palette.divider }} />
-                            <Typography align='left' sx={{ color: systemSelected ? theme.palette.background.paper : theme.palette.text.secondary }}>
+                            <Divider sx={{ mb: 3, borderColor: theme.palette.text.secondary, opacity: .8 }} />
+                            <Typography align='left' variant='body1' color='text.secondary'>
                                 {t(`${system.description}`)}
                             </Typography>
                         </AccordionDetails>

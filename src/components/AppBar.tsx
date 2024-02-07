@@ -21,7 +21,7 @@ import dayjs from "dayjs";
 import EditModeSwitch from "./EditModeSwitch";
 import { setEditMode } from "../features/redux/reducers/editModeSlice";
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
-import ClearFormDataDialog from "./form/systemStep/subcomponents/ClearFormDataDialog";
+import ClearFormDataDialog from "./ClearFormDataDialog";
 
 
 export default function TopBar(): JSX.Element {
@@ -33,8 +33,10 @@ export default function TopBar(): JSX.Element {
     };
 
     const { t, i18n } = useTranslation();
-
     const formData = useSelector((state: RootState) => state.formData);
+    const isSummaryStep = useSelector((state: RootState) => state.steps.currentStep) === 'summary';
+    const isFormUnchaged = formData === initialFormDataState
+
     const dispatch = useDispatch();
 
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -127,7 +129,6 @@ export default function TopBar(): JSX.Element {
                                     value={i18n.language}
                                     onChange={handleLanguageChange}
                                     variant="outlined"
-                                    size="small"
                                 >
                                     <MenuItem value="en" >
                                         <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
@@ -152,10 +153,12 @@ export default function TopBar(): JSX.Element {
                             <DarkModeSwitch mobile={true} />
                             <EditModeSwitch mobile={true} />
                             <Divider />
-                            <MenuItem onClick={() => saveDataToFile()}>
-                                <ListItemIcon><SaveIcon /></ListItemIcon>
-                                <ListItemText>{t('ui.button.inquiry.save')}</ListItemText>
-                            </MenuItem>
+                            {isSummaryStep &&
+                                <MenuItem onClick={() => saveDataToFile()}>
+                                    <ListItemIcon><SaveIcon /></ListItemIcon>
+                                    <ListItemText>{t('ui.button.inquiry.save')}</ListItemText>
+                                </MenuItem>
+                            }
                             <MenuItem
                                 onClick={() => {
                                     const fileInput = document.getElementById('file-input') as HTMLInputElement;
@@ -174,20 +177,21 @@ export default function TopBar(): JSX.Element {
                                     onInput={(e) => loadFile(e)}
                                 />
                             </MenuItem>
-                            <MenuItem
-                                disabled={formData === initialFormDataState}
-                                onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
-                                sx={{ color: theme.palette.error.main }}
-                            >
-                                <ListItemIcon ><DeleteOutlineIcon sx={{ color: theme.palette.error.main }} /></ListItemIcon>
-                                <ListItemText>{t('ui.button.inquiry.clear')}</ListItemText>
-                            </MenuItem>
+                            {!isFormUnchaged &&
+                                <MenuItem
+                                    onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
+                                    sx={{ color: theme.palette.error.main }}
+                                >
+                                    <ListItemIcon ><DeleteOutlineIcon sx={{ color: theme.palette.error.main }} /></ListItemIcon>
+                                    <ListItemText>{t('ui.button.inquiry.clear')}</ListItemText>
+                                </MenuItem>
+                            }
                         </Menu>
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'flex-end' }}>
-                        <Stack spacing={3} direction='row'>
-                            <FormControl size='small' sx={{ display: { xs: 'none', lg: 'flex' } }}>
+                        <Stack spacing={2} direction='row'>
+                            <FormControl sx={{ display: { xs: 'none', lg: 'flex' } }}>
                                 <Select
                                     id="language-select"
                                     value={i18n.language}
@@ -215,12 +219,14 @@ export default function TopBar(): JSX.Element {
                             </FormControl>
                             <DarkModeSwitch />
                             <EditModeSwitch />
-                            <Button color='inherit' onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
-                                <Stack direction='row' flex={1} spacing={1} alignItems='center' >
-                                    <Typography>{t('ui.button.inquiry.save')}</Typography>
-                                </Stack>
-                            </Button>
-                            <Button color='inherit' startIcon={<UploadIcon />}>
+                            {isSummaryStep &&
+                                <Button variant='outlined' onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
+                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                        <Typography>{t('ui.button.inquiry.save')}</Typography>
+                                    </Stack>
+                                </Button>
+                            }
+                            <Button variant='outlined' startIcon={<UploadIcon />}>
                                 <Stack direction='row' flex={1} spacing={1} alignItems='center' onClick={() => {
                                     const fileInput = document.getElementById('file-input') as HTMLInputElement;
                                     if (fileInput) {
@@ -238,16 +244,18 @@ export default function TopBar(): JSX.Element {
                                     />
                                 </Stack>
                             </Button>
-                            <Button
-                                startIcon={<DeleteOutlineIcon />}
-                                color='error'
-                                disabled={formData === initialFormDataState}
-                                onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
-                            >
-                                <Stack direction='row' flex={1} spacing={1} alignItems='center' >
-                                    <Typography>{t('ui.button.inquiry.clear')}</Typography>
-                                </Stack>
-                            </Button>
+                            {!isFormUnchaged &&
+                                <Button
+                                    startIcon={<DeleteOutlineIcon />}
+                                    color='error'
+                                    variant='outlined'
+                                    onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
+                                >
+                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                        <Typography>{t('ui.button.inquiry.clear')}</Typography>
+                                    </Stack>
+                                </Button>
+                            }
                         </Stack>
                     </Box>
                 </Toolbar>

@@ -13,6 +13,7 @@ import { IEquipment, IFlow, ILoad, ISystems } from "../../../../features/interfa
 import tinycolor from "tinycolor2";
 import NoDataAlert from "../../../NoDataAlert";
 import EquipmentChip from "./EquipmentChip";
+import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
@@ -21,7 +22,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const selectedSystemEquipment = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment);
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
-    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary' ;
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const theme = useTheme();
 
@@ -149,6 +150,26 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
         return (
             <Box>
                 <DataGrid
+                    sx={{
+                        borderColor: 'divider',
+                        boxShadow: theme.palette.mode === 'light' ? theme.shadows[1] : 'none',
+                        backgroundColor: 'background.paper',
+                        '& .MuiDataGrid-row': {
+                            '& .MuiDataGrid-cell': {
+                                borderTop: `1px solid ${theme.palette.divider}`,
+                            }
+                        },
+                        '& .MuiDataGrid-row:hover': {
+                            backgroundColor: 'divider',
+                        },
+                        '& .MuiDataGrid-columnHeader': {
+                            color: theme.palette.mode === 'light' ? customGreyPalette[500] : customGreyPaletteDark[400],
+                            fontSize: 12,
+                        },
+                        '& .MuiDataGrid-footerContainer': {
+                            borderTop: `1px solid ${theme.palette.divider}`,
+                        },
+                    }}
                     rows={rows}
                     columns={[
                         { field: "id", headerName: "Stage", width: 50, type: 'number' },

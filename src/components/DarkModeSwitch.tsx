@@ -52,9 +52,9 @@ export default function DarkModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
     return (
       renderFull ? (
         <Button
-          variant='text'
+          variant='outlined'
+          // color='default'
           size='small'
-          color='inherit'
           onClick={() => dispatch(setDarkMode(!darkMode))}
           startIcon={
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
@@ -77,7 +77,8 @@ export default function DarkModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
         <Tooltip title={t('ui.tooltip.darkMode')}>
           <IconButton
             size='small'
-            color='primary'
+            color='default'
+            style={{ border: `1px solid ${theme.palette.divider}`, borderRadius: theme.shape.borderRadius }}
             onClick={() => dispatch(setDarkMode(!darkMode))}
           >
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}

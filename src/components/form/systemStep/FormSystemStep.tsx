@@ -9,17 +9,21 @@ import Loads from "./subcomponents/Loads";
 import Capacity from "./subcomponents/Capacity";
 import Flows from "./subcomponents/Flows";
 import AdditionalRemarks from "./subcomponents/AdditionalRemarks";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../features/redux/store";
 
 export default function FormSystemStep({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
-
+    const isStepSummary = useSelector((state: RootState) => state.steps.currentStep) === 'summary'
     const { t } = useTranslation();
 
     return (
-        <Stack spacing={8}>
-            <Stack direction='row' justifyContent='space-between'>
-                <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
-                <CopyOtherSystemDataButton selectedSystem={selectedSystem} />
-            </Stack>
+        <Stack spacing={5}>
+            {!isStepSummary &&
+                <Stack direction='row' justifyContent='space-between'>
+                    <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
+                    <CopyOtherSystemDataButton selectedSystem={selectedSystem} />
+                </Stack>
+            }
             <WorkTime selectedSystem={selectedSystem} />
             <WorkConditions selectedSystem={selectedSystem} />
             <Building selectedSystem={selectedSystem} />

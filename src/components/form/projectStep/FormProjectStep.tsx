@@ -12,11 +12,12 @@ import { handleInputMethod } from "../../../features/redux/reducers/formDataSlic
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
-import WarehouseLayout from "../systemStep/subcomponents/Warehouse";
+import WarehouseLayout from "../systemStep/subcomponents/WarehouseLayout";
 import GanttGraph from "./subcomponents/GanttGraph";
 import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
 import existingWMSTypes from "../../../data/existingWMSTypes";
+import InputGroup from "../InputGroup";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -55,252 +56,133 @@ export default function FormProjectStep(): JSX.Element {
     const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
 
     return (
-        <Stack spacing={8}>
+        <Stack spacing={5}>
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
-            <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h5" textAlign='left'>{t('project.subheader.various')}</Typography>
-                <CustomTextField
-                    fieldName="project.goals"
-                    multiline
-                    rows={3}
-                />
-                <Stack spacing={1}>
-                    <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts.header')}</InputLabel>
-                    <FormControl>
-                        <Field
-                            as={Select}
-                            disabled={!editMode}
-                            required
-                            labelId="project.supplyChainParts.label"
-                            id="project.supplyChainParts"
-                            name="project.supplyChainParts"
-                            multiple
-                            input={<OutlinedInput />}
-                            value={formData.project.supplyChainParts}
-                            renderValue={(selected: number[]) => (
-                                <Stack direction="row" spacing={1} >
-                                    {selected.map((index) => (
-                                        <Chip
-                                            sx={{ borderRadius: .5 }}
-                                            key={index}
-                                            label={t(`${supplyChainPartsWithIcon[index].name}`)}
-                                        />
+            <InputGroup
+                title={t('project.subheader.various')}
+                content={
+                    <Stack spacing={2}>
+                        <CustomTextField
+                            fieldName="project.goals"
+                            multiline
+                            rows={3}
+                        />
+                        <Stack spacing={1}>
+                            <InputLabel required id="project.supplyChainParts.label">{t('project.supplyChainParts.header')}</InputLabel>
+                            <FormControl>
+                                <Field
+                                    as={Select}
+                                    disabled={!editMode}
+                                    required
+                                    labelId="project.supplyChainParts.label"
+                                    id="project.supplyChainParts"
+                                    name="project.supplyChainParts"
+                                    multiple
+                                    input={<OutlinedInput size="small" />}
+                                    value={formData.project.supplyChainParts}
+                                    renderValue={(selected: number[]) => (
+                                        <Stack direction="row" spacing={1} >
+                                            {selected.map((index) => (
+                                                <Chip
+                                                    sx={{ borderRadius: .5 }}
+                                                    key={index}
+                                                    label={t(`${supplyChainPartsWithIcon[index].name}`)}
+                                                />
+                                            ))}
+                                        </Stack>
+                                    )}
+                                    onChange={(e: { target: { value: any; }; }) => {
+                                        dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))
+                                        formikProps.setFieldValue('project.supplyChainParts', e.target.value);
+                                    }}
+                                    MenuProps={MenuProps}
+                                    error={Boolean(formikProps.errors.project?.supplyChainParts)}
+                                >
+                                    {supplyChainPartsWithIcon.map((supplyChainPart) => (
+                                        <MenuItem key={supplyChainPart.name} value={supplyChainPartsWithIcon.indexOf(supplyChainPart)}>
+                                            <Checkbox checked={formData.project.supplyChainParts.includes(supplyChainPartsWithIcon.indexOf(supplyChainPart))} />
+                                            <Stack spacing={1} direction='row'>
+                                                {supplyChainPart.icon}
+                                                <ListItemText primary={supplyChainPart.name} />
+                                            </Stack>
+                                        </MenuItem>
                                     ))}
-                                </Stack>
-                            )}
-                            onChange={(e: { target: { value: any; }; }) => {
-                                dispatch(handleInputMethod({ path: 'project.supplyChainParts', value: e.target.value }))
-                                formikProps.setFieldValue('project.supplyChainParts', e.target.value);
+                                    {formikProps.touched.project?.supplyChainParts && formikProps.errors.project?.supplyChainParts && <FormHelperText error>{t(`${formikProps.errors.project?.supplyChainParts}`)}</ FormHelperText>}
+                                </Field>
+                            </FormControl>
+                        </Stack>
+                    </Stack>
+                }
+            />
+            <InputGroup
+                title={t('project.subheader.investmentType')}
+                content={
+                    <Stack spacing={2}>
+                        <ToggleButtonGroup
+                            sx={{ display: { xs: 'none', sm: 'flex' } }}
+                            color='primary'
+                            disabled={!editMode}
+                            exclusive
+                            fullWidth
+                            aria-label="investment type buttons"
+                            onChange={(e, v) => {
+                                dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
+                                formikProps.setFieldValue('project.investmentType', v);
                             }}
-                            MenuProps={MenuProps}
-                            error={Boolean(formikProps.errors.project?.supplyChainParts)}
                         >
-                            {supplyChainPartsWithIcon.map((supplyChainPart) => (
-                                <MenuItem key={supplyChainPart.name} value={supplyChainPartsWithIcon.indexOf(supplyChainPart)}>
-                                    <Checkbox checked={formData.project.supplyChainParts.includes(supplyChainPartsWithIcon.indexOf(supplyChainPart))} />
-                                    <Stack spacing={1} direction='row'>
-                                        {supplyChainPart.icon}
-                                        <ListItemText primary={supplyChainPart.name} />
-                                    </Stack>
-                                </MenuItem>
+                            {investmentTypesTranslated.map((investmentType) => (
+                                <ToggleButton
+                                    className="buttongroup-deep"
+                                    sx={{ color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
+                                    value={investmentTypesTranslated.indexOf(investmentType)}
+                                    color="primary"
+                                    key={investmentType}
+                                    selected={formData.project.investmentType === investmentTypesTranslated.indexOf(investmentType)}
+                                >
+                                    {investmentType}
+                                </ToggleButton>
                             ))}
-                            {formikProps.touched.project?.supplyChainParts && formikProps.errors.project?.supplyChainParts && <FormHelperText error>{t(`${formikProps.errors.project?.supplyChainParts}`)}</ FormHelperText>}
-                        </Field>
-                    </FormControl>
-                </Stack>
-
-                <CustomTextField
-                    required
-                    fieldName="project.investmentLocation"
-                />
-                <Box>
-                    <Grid container flex={1} justifyContent='space-between' spacing={2}>
-                        <Grid item>
-                            <FormControlLabel
-                                id="project-tender"
-                                disabled={!editMode}
-                                control={
-                                    <Checkbox
-                                        checked={formData.project.tender}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.tender', value: e.target.checked }))}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    />
-                                }
-                                labelPlacement="end"
-                                label={t('project.tender')}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <FormControlLabel
-                                id="project-consultingCompany"
-                                disabled={!editMode}
-                                control={
-                                    <Checkbox
-                                        checked={formData.project.consultingCompany}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.consultingCompany', value: e.target.checked }))}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    />
-                                }
-                                labelPlacement="end"
-                                label={t('project.consultingCompany')}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <FormControlLabel
-                                id="project-competitor"
-                                disabled={!editMode}
-                                control={
-                                    <Checkbox
-                                        checked={formData.project.competitor}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.competitor', value: e.target.checked }))}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    />
-                                }
-                                labelPlacement="end"
-                                label={t('project.competitor')}
-                            />
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Stack>
-            <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h5" textAlign='left'>{t('project.subheader.investmentType')}</Typography>
-                <ToggleButtonGroup
-                    sx={{ display: { xs: 'none', sm: 'flex' } }}
-                    color='primary'
-                    disabled={!editMode}
-                    exclusive
-                    fullWidth
-                    aria-label="investment type buttons"
-                    onChange={(e, v) => {
-                        dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
-                        formikProps.setFieldValue('project.investmentType', v);
-                    }}
-                >
-                    {investmentTypesTranslated.map((investmentType) => (
-                        <ToggleButton
-                            sx={{ color: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.project?.investmentType) ? theme.palette.error.main : '' }}
-                            value={investmentTypesTranslated.indexOf(investmentType)}
-                            key={investmentType}
-                            selected={formData.project.investmentType === investmentTypesTranslated.indexOf(investmentType)}
+                        </ToggleButtonGroup>
+                        <ToggleButtonGroup
+                            sx={{ display: { sm: 'none' } }}
+                            size="small"
+                            className="buttongroup-deep"
+                            exclusive
+                            disabled={!editMode}
+                            aria-label="investment type buttons"
+                            orientation="vertical"
+                            fullWidth
+                            color='primary'
+                            onChange={(e, v) => {
+                                dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
+                                formikProps.setFieldValue('project.investmentType', v);
+                            }}
                         >
-                            {investmentType}
-                        </ToggleButton>
-                    ))}
-                </ToggleButtonGroup>
-                <ToggleButtonGroup
-                    sx={{ display: { sm: 'none' } }}
-                    exclusive
-                    disabled={!editMode}
-                    aria-label="investment type buttons"
-                    orientation="vertical"
-                    fullWidth
-                    color='primary'
-                    onChange={(e, v) => {
-                        dispatch(handleInputMethod({ path: 'project.investmentType', value: v }))
-                        formikProps.setFieldValue('project.investmentType', v);
-                    }}
-                >
-                    {investmentTypes.map((investmentType) => (
-                        <ToggleButton
-                            value={investmentTypes.indexOf(investmentType)}
-                            key={investmentType}
-                            selected={formData.project.investmentType === investmentTypes.indexOf(investmentType)}
-                        >
-                            {investmentType}
-                        </ToggleButton>
-                    ))}
-                </ToggleButtonGroup>
-                {formikProps.errors.project?.investmentType && <FormHelperText error>{t(`${formikProps.errors.project?.investmentType}`)}</ FormHelperText>}
-            </Stack>
-            <Stack spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h5" textAlign='left'>{t('project.subheader.milestones')}</Typography>
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Box>
-                        <Grid container spacing={2}>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.concept')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.concept.end)}
-                                    onChange={(e) => { dispatch(handleInputMethod({ path: 'project.milestones.concept.end', value: dayjs(e).format('YYYY-MM-DD') })) }}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.concept.end).isBefore(dayjs(new Date())) ? 'Data w przeszłości' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.officialOffer')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.officialOffer.end)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.officialOffer.end', value: e }))}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.officialOffer.start).isBefore(dayjs(formData.project.milestones.concept.end)) ? 'Data oferty przed datą koncepcji' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.order')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.order.end)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.order.end', value: e }))}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.order.end).isBefore(dayjs(formData.project.milestones.officialOffer.end)) ? 'Data zamówienia przed datą oferty' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.implementationStart')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.implementation.end)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.implementation.end', value: e }))}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.implementation.start).isBefore(dayjs(formData.project.milestones.order.end)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <DatePicker
-                                    sx={{ width: '100%' }}
-                                    label={t('project.milestones.launch')}
-                                    format='DD-MM-YYYY'
-                                    value={dayjs(formData.project.milestones.launch.end)}
-                                    onChange={(e) => dispatch(handleInputMethod({ path: 'project.milestones.launch.end', value: e }))}
-                                    disablePast
-                                    slotProps={{
-                                        textField: {
-                                            helperText: dayjs(formData.project.milestones.launch.start).isBefore(dayjs(formData.project.milestones.implementation.end)) ? 'Data rozpoczęcia przed datą zamowienia' : '',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </LocalizationProvider> */}
-                <GanttGraph />
-            </Stack>
-            <Stack spacing={2}>
-                <Typography variant="h5" textAlign='left'>{t('project.subheader.it')}</Typography>
-                <Box>
+                            {investmentTypesTranslated.map((investmentType) => (
+                                <ToggleButton
+                                    className="buttongroup-deep"
+                                    value={investmentTypesTranslated.indexOf(investmentType)}
+                                    key={investmentType}
+                                    color="primary"
+                                    selected={formData.project.investmentType === investmentTypesTranslated.indexOf(investmentType)}
+                                >
+                                    {investmentType}
+                                </ToggleButton>
+                            ))}
+                        </ToggleButtonGroup>
+                        {formikProps.errors.project?.investmentType && <FormHelperText error>{t(`${formikProps.errors.project?.investmentType}`)}</ FormHelperText>}
+                    </Stack>
+                }
+            />
+            <InputGroup
+                title={t('project.subheader.milestones')}
+                content={
+                    <GanttGraph />
+                }
+            />
+            <InputGroup
+                title={t('project.subheader.it')}
+                content={
                     <Stack spacing={2}>
                         <CustomTextField
                             fieldName="project.it.processesDescription"
@@ -325,6 +207,7 @@ export default function FormProjectStep(): JSX.Element {
                                 exclusive
                                 disabled={!editMode}
                                 fullWidth
+                                size="small"
                                 aria-label="existing it system buttons"
                             >
                                 {existingWMSTypesTranslated.map((existingSystem) => (
@@ -364,8 +247,8 @@ export default function FormProjectStep(): JSX.Element {
                             fieldName="project.it.additionalInformation"
                         />
                     </Stack>
-                </Box>
-            </Stack>
+                }
+            />
         </Stack >
 
     )

@@ -6,16 +6,16 @@ import { RootState } from "../../../../features/redux/store";
 import React, { useEffect, useRef, useState } from "react";
 import { DataGrid, GridActionsCellItem, GridCellEditStopReasons, GridCellModes, GridCellModesModel, GridCellParams, GridRowId, GridRowSelectionModel, GridToolbarContainer } from "@mui/x-data-grid";
 import { ISystems } from "../../../../features/interfaces";
+import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
 
 export default function CapacityTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
+    const theme = useTheme()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads);
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
-
-    console.log(selectedSystemLoads)
 
     const rows = selectedSystemLoads.map((load, index) => ({
         index: index + 1, // Sequential number starting from 1
@@ -48,6 +48,26 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
     return (
         <Box>
             <DataGrid
+                sx={{
+                    borderColor: 'divider',
+                    boxShadow: theme.palette.mode === 'light' ? theme.shadows[1] : 'none',
+                    backgroundColor: 'background.paper',
+                    '& .MuiDataGrid-row': {
+                        '& .MuiDataGrid-cell': {
+                            borderTop: `1px solid ${theme.palette.divider}`,
+                        }
+                    },
+                    '& .MuiDataGrid-row:hover': {
+                        backgroundColor: 'divider',
+                    },
+                    '& .MuiDataGrid-columnHeader': {
+                        color: theme.palette.mode === 'light' ? customGreyPalette[500] : customGreyPaletteDark[400],
+                        fontSize: 12,
+                    },
+                    '& .MuiDataGrid-footerContainer': {
+                        borderTop: `1px solid ${theme.palette.divider}`,
+                    },
+                }}
                 rows={rows}
                 columns={[
                     { field: "index", headerName: "№", width: 50, type: 'number' },

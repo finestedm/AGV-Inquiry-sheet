@@ -17,7 +17,7 @@ import SimpleSnackbar from './components/SnackBar';
 import { useDispatch } from 'react-redux';
 import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './features/localStorage/handleLocalStorage';
 import { setFormData } from './features/redux/reducers/formDataSlice';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { HashRouter as Router, Route, Routes } from 'react-router-dom'
 
 // Configure i18next
 i18n
@@ -79,7 +79,7 @@ function App() {
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={darkMode ? themeDark : theme}>
         <CssBaseline />
-        <Router basename={process.env.PUBLIC_URL}>
+        <Router>
           <div className="App">
             <SimpleSnackbar />
             <DeleteLoadWarningDialog />

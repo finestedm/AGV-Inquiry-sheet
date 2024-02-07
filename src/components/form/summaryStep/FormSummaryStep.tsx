@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
-import SystemAccordion from "./subcomponents/SystemAccordion";
+import SystemAccordion from "./subcomponents/SystemTabs";
 import isPartUnchanged from "../../../features/variousMethods/isPartUnchanged";
 import { IFormData, ISystemData, ISystems, TPart } from "../../../features/interfaces";
 import industries from "../../../data/industries";
@@ -11,7 +11,8 @@ import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
 import existingWMSTypes from "../../../data/existingWMSTypes";
 import BoxForTextPair from "./subcomponents/BoxForTextPair";
-import SystemsAccordion from "./subcomponents/SystemAccordion";
+import SystemsAccordion from "./subcomponents/SystemTabs";
+import SystemsTabs from "./subcomponents/SystemTabs";
 
 export default function FormSummaryStep() {
     const formData = useSelector((state: RootState) => state.formData)
@@ -19,7 +20,7 @@ export default function FormSummaryStep() {
     const theme = useTheme();
     const textRowSpacing = 1
 
-    const industriesTranslated = industries.map(industry => t(industry))
+    const industriesTranslated = industries.map(industry => t(`industry.${industry}`))
     const investmentTypesTranslated = investmentTypes.map(type => t(type))
     const supplyChainPartsTranslated = supplyChainParts.map((part) => t(`project.supplyChainParts.${part}`))
     const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
@@ -67,8 +68,8 @@ export default function FormSummaryStep() {
                 </Stack>
                 <Stack component={Typography} spacing={textRowSpacing}>
                     {toBeRendered({ step: 'customer', part: 'relations' }) && <BoxForTextPair keyText={t('customer.relations.type')} valueText={t(`customer.relations.${formData.customer.relations}`)} />}
-                    {formData.customer.salesHistoryValue && <BoxForTextPair keyText={t('customer.relations.saleshistoryvalue')} valueText={formData.customer.salesHistoryValue.toString()} endText="€ / rok" />}
-                    {formData.customer.creditManagement && <BoxForTextPair keyText={t('customer.relations.creditmanagement')} valueText={formData.customer.creditManagement.toString()} endText="PLN / brutto" />}
+                    {formData.customer.salesHistoryValue && <BoxForTextPair keyText={t('customer.relations.saleshistoryvalue')} valueText={formData.customer.salesHistoryValue.toString()} endText={`${formData.customer.currency} ${t('customer.currency.perYear')}`} />}
+                    {formData.customer.creditManagement && <BoxForTextPair keyText={t('customer.relations.creditmanagement')} valueText={formData.customer.creditManagement.toString()} endText={formData.customer.currency?.toString()} />}
                     <Box>
                         {(formData.customer.ownedForklifts || formData.customer.ownedRacks || formData.customer.ownedOther) && t('customer.relations.input.owned')}
                         <Box component='ul' style={{ margin: 0 }}>
@@ -80,7 +81,7 @@ export default function FormSummaryStep() {
                     {formData.customer.industryName.length > 0 &&
                         <Box display="flex" flexWrap="wrap" alignItems='baseline'>
                             <Typography mr={1}>{t('customer.industry')}: </Typography>
-                            <Stack minWidth={300} direction='row' flex={1} flexWrap="wrap" rowGap={1} >{formData.customer.industryName.map(industry => <Chip sx={{ borderRadius: .5, marginRight: 1 }} key={industry} label={t(`${industriesTranslated[industry]}`)} />)}</Stack>
+                            <Stack minWidth={300} direction='row' flex={1} flexWrap="wrap" rowGap={1} >{formData.customer.industryName.map(industry => <Chip sx={{ borderRadius: .5, marginRight: 1 }} key={industry} label={industriesTranslated[industries.indexOf(industry)]} />)}</Stack>
                         </Box>
                     }
                 </Stack>
@@ -112,7 +113,7 @@ export default function FormSummaryStep() {
                     {formData.project.it.additionalInformation && <BoxForTextPair keyText={t('project.it.additionalInformation')} valueText={formData.project.it.additionalInformation} />}
                 </Stack>
             </Stack>
-            <SystemsAccordion />
+            <SystemsTabs />
         </Stack>
     )
 }

@@ -1,4 +1,6 @@
+import { TextFieldProps } from "@mui/material";
 import { Task } from "gantt-task-react";
+import availableEquipment from "../data/availableEquipment";
 
 export interface ISales {
     salesUnit: string;
@@ -17,10 +19,13 @@ export interface IIt {
     additionalInformation: string;
 }
 
+export type TIndustry = 'production' | 'trade' | 'logistics' | 'pharmaceutical' | 'beverage' | 'clothing' | 'chemical' | 'food' | 'automotive' | 'other'
+
 export interface ICustomer {
     name: string;
     sapNumber: number | null;
-    industryName: number[];
+    industryName: TIndustry[];
+    industryNameOther: string;
     address: string;
     contactPerson: string;
     contactPersonRole: string;
@@ -32,7 +37,7 @@ export interface ICustomer {
     ownedRacks: number | undefined;
     ownedOther: string;
     creditManagement: number | undefined;
-    currency: 'EUR' | 'PLN'
+    currency: TCurrencies | undefined
 }
 
 export interface IProject {
@@ -68,7 +73,6 @@ export interface ILoad {
     capacity?: number;
 }
 
-export type TEquipmentType = 'gate' | 'wall' | 'dock';
 
 export interface IFlow {
     id: number | undefined;
@@ -86,12 +90,14 @@ export interface ILoadsTypes {
     [key: string]: ILoad;
 }
 
+export type TEquipmentType = typeof availableEquipment[number];
+
 export interface IEquipment {
     id: number;
     x: number;
-    xDim: number;
+    width: number;
     y: number;
-    yDim: number;
+    height: number;
     rotation: number;
     type: TEquipmentType;
     color: string;
@@ -144,17 +150,17 @@ export interface IFormData {
     system: ISystems;
 }
 
-export interface IMIlestoneDate {
+export interface IMilestoneDate {
     start: Date;
     end: Date;
 }
 
 export interface IMilestones {
-    concept: IMIlestoneDate;
-    officialOffer: IMIlestoneDate;
-    order: IMIlestoneDate;
-    implementation: IMIlestoneDate;
-    launch: IMIlestoneDate;
+    concept: IMilestoneDate;
+    officialOffer: IMilestoneDate;
+    order: IMilestoneDate;
+    implementation: IMilestoneDate;
+    launch: IMilestoneDate;
 }
 
 
@@ -181,12 +187,14 @@ export interface IHandleAddLoad {
 }
 
 export interface ICustomFieldProps {
+    type?: 'text' | 'number'
     fieldName: string;
     required?: boolean;
     multiline?: boolean
     rows?: number;
     fullWidth?: boolean;
     disabled?: boolean;
+    size?: TextFieldProps['size']
 }
 
 export interface CopySystemDataPayload {
@@ -210,3 +218,7 @@ export type StepToDataType<TStep extends keyof IFormData> = TStep extends 'sales
     : TStep extends 'system'
     ? ISystems
     : never;
+
+export type TCurrencies = { currency: string, countries: string[] }[]
+
+export type TViewMode = 'Week' | 'Month' | 'Year'

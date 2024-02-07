@@ -1,5 +1,7 @@
 import { IEquipment } from "../features/interfaces";
 
-export const availableEquipment = [
-    'dock', 'wall', 'gate'
+ const availableEquipment = [
+    'dock', 'wall', 'gate', 'storage area', 'racking area', 'charging stations', 'pickup station', 'unload station'
 ]
+
+export default availableEquipment

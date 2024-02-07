@@ -3,6 +3,8 @@ import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilest
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
+import { format, addMonths, differenceInMonths, isBefore } from 'date-fns';
+import dayjs from 'dayjs';
 
 const initialFormDataState: IFormData = {
 
@@ -16,6 +18,7 @@ const initialFormDataState: IFormData = {
         name: '',
         sapNumber: null,
         industryName: [],
+        industryNameOther: '',
         address: '',
         contactPerson: '',
         contactPersonRole: '',
@@ -27,7 +30,7 @@ const initialFormDataState: IFormData = {
         ownedRacks: undefined,
         ownedOther: '',
         creditManagement: undefined,
-        currency: 'EUR'
+        currency: undefined
     },
     project: {
         goals: '',
@@ -68,7 +71,7 @@ const initialFormDataState: IFormData = {
             processesDescription: '',
             existingSystem: {
                 present: false,
-                name: 0,
+                name: -1,
                 existingOther: ''
             },
             wmsNeeded: false,
@@ -226,93 +229,14 @@ const formDataSlice = createSlice({
 
         // In your reducer file
 
-        handleDateChanges: (state, action) => {
-            const { id, start, end } = action.payload;
-
-            // Apply your rules here based on task dependencies, etc.
-            // For example, update the launch task based on the end of implementation
-            if (id === 'implementation') {
-                const launchTask = state.project.milestones.launch;
-                const implementationStartDate = new Date(start);
-                const implementationEndDate = new Date(end);
-
-                // Check if the difference is less than 8 months
-                const timeDiff = implementationEndDate.getTime() - implementationStartDate.getTime();
-                const monthsDiff = timeDiff / (1000 * 3600 * 24 * 30);
-
-                if (monthsDiff < 8) {
-                    // Set the end date based on the adjusted start date
-                    implementationEndDate.setMonth(implementationStartDate.getMonth() + 8);
-                }
-
-                return {
-                    ...state,
-                    project: {
-                        ...state.project,
-                        milestones: {
-                            ...state.project.milestones,
-                            implementation: {
-                                ...state.project.milestones[id as keyof IMilestones],
-                                start: implementationStartDate,
-                                end: implementationEndDate,
-                            },
-                            launch: {
-                                ...launchTask,
-                                start: implementationEndDate,
-                                end: implementationEndDate,
-                            },
-                        },
-                    },
-                };
-            }
-
-
-            if (id === 'order') {
-                // Update implementation task's date based on the date of order
-                return {
-                    ...state,
-                    project: {
-                        ...state.project,
-                        milestones: {
-                            ...state.project.milestones,
-                            order: {
-                                ...state.project.milestones[id as keyof IMilestones],
-                                start: start,
-                                end: end,
-                            },
-                            implementation: {
-                                ...state.project.milestones.implementation,
-                                start: end,
-                                end: new Date(new Date(start).setMonth(new Date(start).getMonth() + 8)),
-                            },
-                            launch: {
-                                ...state.project.milestones.launch,
-                                start: new Date(new Date(start).setMonth(new Date(start).getMonth() + 8)),
-                                end: new Date(new Date(start).setMonth(new Date(start).getMonth() + 8)),
-                            },
-                        },
-                    },
-                };
-            }
-
-            // Update other tasks here based on your rules
-
-            // If no rules apply, simply update the task's date
+        handleDateChanges: (state, action: PayloadAction<IMilestones>) => {
             return {
                 ...state,
                 project: {
                     ...state.project,
-                    milestones: {
-                        ...state.project.milestones,
-                        [id]: {
-                            ...state.project.milestones[id as keyof IMilestones],
-                            start: start,
-                            end: end,
-                        },
-                    },
+                    milestones: action.payload,
                 },
             };
-
             // ... other cases ...
         },
 

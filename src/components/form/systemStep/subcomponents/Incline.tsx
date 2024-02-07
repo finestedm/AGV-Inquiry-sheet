@@ -14,7 +14,8 @@ export default function Incline({ selectedSystem }: { selectedSystem: keyof ISys
 
     const formData = useSelector((state: RootState) => state.formData)
     const incline = formData.system[selectedSystem].building.incline;
-    const editMode = useSelector((state: RootState) => state.editMode)
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const theme = useTheme();
