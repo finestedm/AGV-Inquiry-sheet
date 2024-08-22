@@ -22,6 +22,7 @@ import { PublicClientApplication } from "@azure/msal-browser";
 import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
 import { msalConfig, loginRequest } from "./msal/authConfig";
 import AuthComponent from './msal/AuthComponent';
+import AppClient from './msal/AppClient';
 
 // Configure i18next
 i18n
@@ -97,6 +98,7 @@ function App() {
           <Router>
             <div className="App">
               <AuthComponent />
+              <AppClient /> {/* this will console log the received token */}
               <SimpleSnackbar />
               <DeleteLoadWarningDialog />
               <TopBar />
