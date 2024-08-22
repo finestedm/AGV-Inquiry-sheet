@@ -18,6 +18,10 @@ import { useDispatch } from 'react-redux';
 import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './features/localStorage/handleLocalStorage';
 import { setFormData } from './features/redux/reducers/formDataSlice';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom'
+import { PublicClientApplication } from "@azure/msal-browser";
+import { MsalProvider, useMsal, useIsAuthenticated } from "@azure/msal-react";
+import { msalConfig, loginRequest } from "./msal/authConfig";
+import AuthComponent from './msal/AuthComponent';
 
 // Configure i18next
 i18n
@@ -74,22 +78,35 @@ function App() {
   //
 
   //
+  //msal azure login
+  //
+
+  const msalInstance = new PublicClientApplication(msalConfig);
+
+  //
+  //msal azure login
+  //
+
+  //
 
   return (
-    <I18nextProvider i18n={i18n}>
-      <ThemeProvider theme={darkMode ? themeDark : theme}>
-        <CssBaseline />
-        <Router>
-          <div className="App">
-            <SimpleSnackbar />
-            <DeleteLoadWarningDialog />
-            <TopBar />
-            <Form />
-            <MobileScrollButton />
-          </div>
-        </Router>
-      </ThemeProvider>
-    </I18nextProvider>
+    <MsalProvider instance={msalInstance}>
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={darkMode ? themeDark : theme}>
+          <CssBaseline />
+          <Router>
+            <div className="App">
+              <AuthComponent />
+              <SimpleSnackbar />
+              <DeleteLoadWarningDialog />
+              <TopBar />
+              <Form />
+              <MobileScrollButton />
+            </div>
+          </Router>
+        </ThemeProvider>
+      </I18nextProvider>
+    </MsalProvider>
   );
 }
 
