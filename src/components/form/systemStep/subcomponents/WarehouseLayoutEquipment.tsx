@@ -11,7 +11,7 @@ import Konva from 'konva';
 interface CommonProps {
     onSelect: () => void;
     shapeRef: React.MutableRefObject<Konva.Rect | Konva.Circle | null>;
-    onTransformEnd: () => void;
+    onTransformEnd: (e: Konva.KonvaEventObject<DragEvent>) => void;
     commonProps: {
         id: string;
         x: number;
@@ -69,6 +69,27 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
         dispatch(updateEquipment({ updatedEquipment, selectedSystem: selectedSystem }));
     };
 
+    const handleTransformEnd = () => {
+        const node = shapeRef.current;
+        if (node) {
+            const scaleX = node.scaleX();
+            const scaleY = node.scaleY();
+    
+            // Reset scales to 1 after resizing to keep actual width/height adjustments
+            node.scaleX(1);
+            node.scaleY(1);
+    
+            // Invoke the onShapeChange callback with updated dimensions
+            onShapeChange({
+                x: node.x(),
+                y: node.y(),
+                width: node.width() * scaleX,
+                height: node.height() * scaleY,
+                rotation: node.rotation(),
+            });
+        }
+    };
+
     useEffect(() => {
         if (isSelected && shapeRef.current) {
             attachTransformer();
@@ -85,24 +106,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
     const commonProps: CommonProps = {
         onSelect,
         shapeRef,
-        onTransformEnd: () => {
-            const node = shapeRef.current;
-            if (node) {
-                const scaleX = node.scaleX();
-                const scaleY = node.scaleY();
-
-                node.scaleX(1);
-                node.scaleY(1);
-
-                onShapeChange({
-                    x: node.x(),
-                    y: node.y(),
-                    width: node.width() * scaleX,
-                    height: node.height() * scaleY,
-                    rotation: node.rotation(),
-                });
-            }
-        },
+        onTransformEnd: handleTransformEnd,
         commonProps: {
             id: id.toString(),
             x: x * canvaToWarehouseRatio,
@@ -124,7 +128,6 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
         fill: theme.palette.text.primary,
     };
 
-    // ... (Previous code remains unchanged)
 
     const renderShape = () => {
         switch (type) {
@@ -161,7 +164,6 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                                     // Set the quantized rotation
                                     node.rotation(rotationLimited);
 
-                                    commonProps.onTransformEnd();
                                 }
                             }}
 
