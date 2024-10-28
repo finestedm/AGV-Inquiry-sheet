@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, ButtonGroup, Container, Divider, FormControl, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
+import { AppBar, Avatar, Box, Button, ButtonGroup, CircularProgress, Container, Divider, FormControl, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
 import { saveAs } from 'file-saver';
 import SaveIcon from '@mui/icons-material/Save';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -194,7 +194,7 @@ export default function TopBar(): JSX.Element {
                             }
                             {isSummaryStep &&
                                 <MenuItem onClick={() => saveDataToServer()}>
-                                    <ListItemIcon><SaveIcon /></ListItemIcon>
+                                    <ListItemIcon>{isWaiting ? <CircularProgress size={16} /> : <SaveIcon />}</ListItemIcon>
                                     <ListItemText>{t('ui.button.inquiry.saveToServer')}</ListItemText>
                                 </MenuItem>
                             }
@@ -266,7 +266,7 @@ export default function TopBar(): JSX.Element {
                                 </Button>
                             }
                             {isSummaryStep &&
-                                <Button variant='outlined' onClick={() => saveDataToServer()} startIcon={<SaveIcon />}>
+                                <Button variant='outlined' onClick={() => saveDataToServer()} startIcon={isWaiting ? <CircularProgress size={16} /> : <SaveIcon />}>
                                     <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                         <Typography>{t('ui.button.inquiry.saveToServer')}</Typography>
                                     </Stack>
