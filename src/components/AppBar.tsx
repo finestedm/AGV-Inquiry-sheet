@@ -22,6 +22,8 @@ import EditModeSwitch from "./EditModeSwitch";
 import { setEditMode } from "../features/redux/reducers/editModeSlice";
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
 import ClearFormDataDialog from "./ClearFormDataDialog";
+import axios from 'axios'
+import { env } from "process";
 
 
 export default function TopBar(): JSX.Element {
@@ -61,6 +63,29 @@ export default function TopBar(): JSX.Element {
         saveAs(blob, fileName);
         dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')} ${fileName}`, severity: 'success' }));
     };
+
+    const [isWaiting, setIsWaiting] = useState(false);
+    const [isResolved, setIsResolved] = useState(false);
+
+    async function saveDataToServer() {
+        try {
+            setIsWaiting(true);       // Set waiting state
+            setIsResolved(false);     // Reset resolved state
+
+            const response = await axios.post(`${env.REACT_APP_SERVER_URL}`, formData);
+
+            if (response.status === 200) {
+                setIsResolved(true);  // Set resolved state on success
+                dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')}`, severity: 'success' }));
+            }
+        } catch (error) {
+            console.error("Failed to save data:", error);
+            dispatch(openSnackbar({ message: t('ui.snackBar.message.errorSaving'), severity: 'error' }));
+        } finally {
+            setIsWaiting(false);      // Reset waiting state
+        }
+    };
+
     function loadFile(e: React.FormEvent<HTMLInputElement>) {
         const fileInput = e.target as HTMLInputElement;
         const file = fileInput.files?.[0];
@@ -155,6 +180,12 @@ export default function TopBar(): JSX.Element {
                             <Divider />
                             {isSummaryStep &&
                                 <MenuItem onClick={() => saveDataToFile()}>
+                                    <ListItemIcon><SaveIcon /></ListItemIcon>
+                                    <ListItemText>{t('ui.button.inquiry.save')}</ListItemText>
+                                </MenuItem>
+                            }
+                            {isSummaryStep &&
+                                <MenuItem onClick={() => saveDataToServer()}>
                                     <ListItemIcon><SaveIcon /></ListItemIcon>
                                     <ListItemText>{t('ui.button.inquiry.save')}</ListItemText>
                                 </MenuItem>
