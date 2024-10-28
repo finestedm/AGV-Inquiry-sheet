@@ -72,7 +72,7 @@ export default function TopBar(): JSX.Element {
             setIsWaiting(true);       // Set waiting state
             setIsResolved(false);     // Reset resolved state
 
-            const response = await axios.post(`${env.REACT_APP_SERVER_URL}`, formData);
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}`, formData);
 
             if (response.status === 200) {
                 setIsResolved(true);  // Set resolved state on success
@@ -187,7 +187,7 @@ export default function TopBar(): JSX.Element {
                             {isSummaryStep &&
                                 <MenuItem onClick={() => saveDataToServer()}>
                                     <ListItemIcon><SaveIcon /></ListItemIcon>
-                                    <ListItemText>{t('ui.button.inquiry.save')}</ListItemText>
+                                    <ListItemText>{t('ui.button.inquiry.saveToServer')}</ListItemText>
                                 </MenuItem>
                             }
                             <MenuItem
@@ -254,6 +254,13 @@ export default function TopBar(): JSX.Element {
                                 <Button variant='outlined' onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
                                     <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                         <Typography>{t('ui.button.inquiry.save')}</Typography>
+                                    </Stack>
+                                </Button>
+                            }
+                            {isSummaryStep &&
+                                <Button variant='outlined' onClick={() => saveDataToServer()} startIcon={<SaveIcon />}>
+                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                        <Typography>{t('ui.button.inquiry.saveToServer')}</Typography>
                                     </Stack>
                                 </Button>
                             }
