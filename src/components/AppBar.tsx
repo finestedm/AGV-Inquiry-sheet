@@ -72,7 +72,15 @@ export default function TopBar(): JSX.Element {
             setIsWaiting(true);       // Set waiting state
             setIsResolved(false);     // Reset resolved state
 
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}`, formData);
+            const response = await axios.post(
+                `${process.env.REACT_APP_SERVER_URL}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
 
             if (response.status === 200) {
                 setIsResolved(true);  // Set resolved state on success
