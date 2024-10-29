@@ -10,27 +10,23 @@ import { RootState } from '../../features/redux/store';
 
 export default function CustomTextField(props: ICustomFieldProps) {
   let { fieldName, required, multiline, rows, fullWidth, disabled, type, size } = props;
-  size = size ? size : 'small'
+  size = size || 'small';
   const { t } = useTranslation();
   const formikProps = useFormikContext();
-  const dispatch = useDispatch()
-  const editMode = useSelector((state: RootState) => state.editMode)
-  const field: FieldInputProps<any> = formikProps.getFieldProps(fieldName)
+  const dispatch = useDispatch();
+  const editMode = useSelector((state: RootState) => state.editMode);
+  const field: FieldInputProps<any> = formikProps.getFieldProps(fieldName);
 
   const [firstPart, secondPart]: string[] = fieldName.split('.');
-  const errors = formikProps?.errors as any; // Cast form.errors to 'any'
-  const touched = formikProps?.touched as any; // Cast form.errors to 'any'
+  const errors = formikProps?.errors as any;
+  const touched = formikProps?.touched as any;
 
   const errorValue = Boolean(errors?.[firstPart]?.[secondPart]);
-  const touchedValue = touched?.[firstPart]?.[secondPart]
+  const touchedValue = touched?.[firstPart]?.[secondPart];
   const helperTextValue = touchedValue && errors?.[firstPart]?.[secondPart] ? t(`${errors[firstPart][secondPart]}`) : '';
 
-  const handleChange = (e: any) => {
-    // Update Formik field value
-    formikProps.handleChange(e);
-
-    // Update formData field using Redux dispatch
-    dispatch(handleInputMethod({ path: fieldName, value: e }));
+  const handleBlur = (e: any) => {
+    dispatch(handleInputMethod({ path: fieldName, value: e.target.value }));
   };
 
   return (
@@ -50,11 +46,12 @@ export default function CustomTextField(props: ICustomFieldProps) {
         value={field.value}
         onChange={(e: any) => {
           if (type === 'number') {
-            handleChange(e.target.value.replace(/\D/g, ''))
+            formikProps.setFieldValue(fieldName, e.target.value.replace(/\D/g, ''));
           } else {
-            handleChange(e.target.value)
+            formikProps.setFieldValue(fieldName, e.target.value);
           }
         }}
+        onBlur={handleBlur}
         error={errorValue}
         helperText={helperTextValue}
       />

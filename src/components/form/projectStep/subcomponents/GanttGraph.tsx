@@ -80,29 +80,32 @@ export default function GanttGraph(): JSX.Element {
         let updatedState = { ...dateState };
         const currentIndex = milestoneOrder.indexOf(id)
         function validateMilestone(milestone: keyof IMilestones) {
-            const isOneDayMilestone = milestone === 'order' || milestone === 'launch'
-            const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1]
-            const previousMilestoneEndDate = previousMilestone ? dayjs(updatedState[previousMilestone].end) : dayjs() //get reference to the end date of the previous milestone
-            const startDate = id === milestone  // check if currently we are checking the current step or are we in another iteration and checking another steps (if another step then we try to maintain the lenght of it)
-                ? dayjs(start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(start)
-                : dayjs(updatedState[milestone].start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(updatedState[milestone].start)
-            // compare end of previous milestone with start date of current milestone
-
-            const endDate = isOneDayMilestone   // if one day milestone, end date the same as start
+            const isOneDayMilestone = milestone === 'order' || milestone === 'launch';
+            const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1];
+            const previousMilestoneEndDate = previousMilestone ? dayjs(updatedState[previousMilestone].end) : dayjs();
+        
+            // Set startDate based on whether it's the 'launch' milestone
+            const startDate = milestone === 'launch'
+                ? previousMilestoneEndDate
+                : id === milestone
+                    ? dayjs(start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(start)
+                    : dayjs(updatedState[milestone].start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(updatedState[milestone].start);
+        
+            const endDate = isOneDayMilestone
                 ? startDate
-                : id === milestone  // check if currently we are checking the current step or are we in another iteration and checking another steps (if another step then we try to maintain the lenght of it)
-                    ? dayjs(end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(end) // if not one day milestone, add 1 month to start date if currently it is not longer than 1 month
-                    : dayjs(updatedState[milestone].end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(updatedState[milestone].end)
-
-
+                : id === milestone
+                    ? dayjs(end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(end)
+                    : dayjs(updatedState[milestone].end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(updatedState[milestone].end);
+        
             updatedState = {
                 ...updatedState,
                 [milestone]: {
                     start: startDate.toDate(),
                     end: endDate.toDate()
                 }
-            }
+            };
         }
+        
         milestoneOrder.slice(currentIndex).forEach((milestone) => {
             validateMilestone(milestone)
         })
