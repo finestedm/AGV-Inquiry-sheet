@@ -227,7 +227,6 @@ const formDataSlice = createSlice({
             currentObject[keys[keys.length - 1]] = value;
         },
 
-        // In your reducer file
 
         handleDateChanges: (state, action: PayloadAction<IMilestones>) => {
             return {
@@ -237,7 +236,6 @@ const formDataSlice = createSlice({
                     milestones: action.payload,
                 },
             };
-            // ... other cases ...
         },
 
 

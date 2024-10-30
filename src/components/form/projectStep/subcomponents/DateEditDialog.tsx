@@ -6,10 +6,10 @@ import { RootState } from "../../../../features/redux/store";
 import { ExtendedTask, IMilestones } from "../../../../features/interfaces";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
-import CloseIcon from '@mui/icons-material/Close';
 import { DateCalendar, DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { handleDateChanges } from "../../../../features/redux/reducers/formDataSlice";
+import milestonesLengths, { milestoneOrder } from "../../../../data/milestones";
 
 export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }: { selectedTask: ExtendedTask, dateEditDialogOpen: boolean, handleDialogClose: () => void }) {
     const dispatch = useDispatch();
@@ -24,9 +24,55 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
     const { i18n } = useTranslation();
 
     function handleAcceptNewDates() {
-        // dispatch(handleDateChanges({ id: selectedTask.id, start: startDate, end: endDate }))
-        handleDialogClose()
+        const taskId = selectedTask.id as keyof IMilestones;
+        const dateState = { ...formData.project.milestones };
+        let updatedState = { ...dateState, [taskId]: { start: startDate.toDate(), end: endDate.toDate() } };
+        const currentIndex = milestoneOrder.indexOf(taskId);
+    
+        function validateMilestone(milestone: keyof IMilestones) {
+            const isOneDayMilestone = milestone === 'order' || milestone === 'launch';
+            const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1];
+            const previousMilestoneEndDate = previousMilestone ? dayjs(updatedState[previousMilestone].end) : dayjs();
+    
+            // Start date calculation
+            const calculatedStartDate = milestone === 'launch'
+                ? previousMilestoneEndDate
+                : taskId === milestone
+                    ? dayjs(startDate).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(startDate)
+                    : dayjs(updatedState[milestone].start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(updatedState[milestone].start);
+    
+    
+            // End date calculation
+            const calculatedEndDate = isOneDayMilestone
+                ? calculatedStartDate
+                : taskId === milestone
+                    ? dayjs(endDate).diff(calculatedStartDate, 'months') < milestonesLengths[milestone].min
+                        ? calculatedStartDate.add(milestonesLengths[milestone].min, 'month')
+                        : dayjs(endDate)
+                    : dayjs(updatedState[milestone].end).diff(calculatedStartDate, 'months') < milestonesLengths[milestone].min
+                        ? calculatedStartDate.add(milestonesLengths[milestone].min, 'month')
+                        : dayjs(updatedState[milestone].end);
+    
+
+            // Update state
+            updatedState = {
+                ...updatedState,
+                [milestone]: {
+                    start: calculatedStartDate.toDate(),
+                    end: calculatedEndDate.toDate(),
+                },
+            };
+        }
+    
+        milestoneOrder.slice(currentIndex).forEach((milestone) => {
+            validateMilestone(milestone);
+        });
+    
+        dispatch(handleDateChanges(updatedState));
+        handleDialogClose();
     }
+    
+    
 
     if (selectedTask && formData.project.milestones[taskId]) {
         return (

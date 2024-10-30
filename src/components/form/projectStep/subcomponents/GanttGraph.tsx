@@ -114,17 +114,6 @@ export default function GanttGraph(): JSX.Element {
 
     }
 
-    //change months names into ligits
-    // useEffect(() => {
-    //     const ganttHeader = document.getElementsByClassName('calendar')[0]
-    //     const textElements = ganttHeader.querySelectorAll('text');
-    //     const monthMap = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
-    //     textElements.forEach((textElement, index) => {
-    //         const monthNumber = index % 12 + 1; // Adjusting for the repeated months
-    //         textElement.textContent = monthMap[monthNumber];
-    //     });
-    // }, [viewMode])
-
     function backgroundColorForTaskType(name: keyof IMilestones) {
         switch (name) {
             case 'order':
