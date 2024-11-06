@@ -90,7 +90,6 @@ export default function FormSummaryStep() {
                 <CustomHeaderWithDivider headerText='project.header' />
                 <Stack component={Typography} spacing={textRowSpacing}>
                     {formData.project.goals && <BoxForTextPair keyText={t('project.goals')} valueText={formData.project.goals} />}
-                    {formData.project.investmentLocation && <BoxForTextPair keyText={t('project.investmentLocation')} valueText={formData.project.investmentLocation} />}
                     {formData.project.tender && <BoxForTextPair valueText={t('project.tender')} />}
                     {formData.project.consultingCompany && <BoxForTextPair valueText={t('project.consultingCompany')} />}
                     {formData.project.competitor && <BoxForTextPair valueText={t('project.competitor')} />}

@@ -212,7 +212,7 @@ export default function FormProjectStep(): JSX.Element {
                             >
                                 {existingWMSTypesTranslated.map((existingSystem) => (
                                     <ToggleButton
-                                        color='primary'
+                                        color={formikProps.errors.project?.it?.existingSystem?.name ? 'error': 'standard'}
                                         value={existingWMSTypesTranslated.indexOf(existingSystem)}
                                         key={existingSystem}
                                         onClick={() => dispatch(handleInputMethod({ path: 'project.it.existingSystem.name', value: existingWMSTypesTranslated.indexOf(existingSystem) }))}
@@ -223,6 +223,7 @@ export default function FormProjectStep(): JSX.Element {
                                 ))}
                             </ToggleButtonGroup>
                         }
+                        {formikProps.errors.project?.it?.existingSystem?.name && <FormHelperText error>{t(`${formikProps.errors.project?.it?.existingSystem?.name}`)}</ FormHelperText>}
                         {(formData.project.it.existingSystem.present && formData.project.it.existingSystem.name === 2) &&
                             <CustomTextField
                                 fieldName="project.it.existingSystem.existingOther"

@@ -36,7 +36,6 @@ const initialFormDataState: IFormData = {
         goals: '',
         supplyChainParts: [],
         tender: false,
-        investmentLocation: '',
         investmentType: -1,
         consultingCompany: false,
         competitor: false,
@@ -80,7 +79,7 @@ const initialFormDataState: IFormData = {
     },
     system: {
         asrs: {
-            selected: true,
+            selected: false,
             workTime: {
                 workDays: 0,
                 shiftsPerDay: 0,

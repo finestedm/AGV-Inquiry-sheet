@@ -169,6 +169,7 @@ export default function Form(): JSX.Element {
     }
   }, []);
 
+
   if (formData) {
     return (
       <Formik
@@ -176,7 +177,7 @@ export default function Form(): JSX.Element {
         validationSchema={validationSchema}
         onSubmit={(values, formikHelpers) => {
         }}
-        // validateOnMount={true}
+        validateOnMount={true}
         validateOnChange={true}
         enableReinitialize
 
