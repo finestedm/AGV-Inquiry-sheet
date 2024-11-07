@@ -12,7 +12,7 @@ export default function CustomTextField(props: ICustomFieldProps) {
   size = size || 'small';
   const { t } = useTranslation();
   const formikProps: FormikProps<IFormData> = useFormikContext(); 
-  
+
   const dispatch = useDispatch();
   const editMode = useSelector((state: RootState) => state.editMode);
   const field: FieldInputProps<any> = formikProps.getFieldProps(fieldName);
@@ -31,7 +31,17 @@ export default function CustomTextField(props: ICustomFieldProps) {
     dispatch(handleInputMethod({ path: fieldName, value: e.target.value }));
   };
 
-  console.log(formikProps.errors.project?.it?.existingSystem?.name)
+  // Prevent non-numeric key input (allowing only numbers, backspace, delete, etc.)
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (type === 'number') {
+      const allowedKeys = [
+        'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'
+      ];
+      if (!/^\d$/.test(e.key) && !allowedKeys.includes(e.key)) {
+        e.preventDefault();
+      }
+    }
+  };
 
   return (
     <Stack spacing={1} textAlign='left'>
@@ -49,15 +59,17 @@ export default function CustomTextField(props: ICustomFieldProps) {
         variant="outlined"
         value={field.value}
         onChange={(e: any) => {
+          let value = e.target.value;
           if (type === 'number') {
-            formikProps.setFieldValue(fieldName, e.target.value.replace(/\D/g, ''));
-          } else {
-            formikProps.setFieldValue(fieldName, e.target.value);
+            value = value.replace(/\D/g, ''); // Remove any non-numeric characters
           }
+          formikProps.setFieldValue(fieldName, value); // Update Formik state
         }}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown} // Restrict keypress for non-numeric input
         error={errorValue}
         helperText={helperTextValue}
+        inputProps={type === 'number' ? { inputMode: 'numeric', pattern: '[0-9]*' } : undefined} // Add inputMode for mobile
       />
     </Stack>
   );

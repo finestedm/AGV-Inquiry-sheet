@@ -204,6 +204,7 @@ export default function FormProjectStep(): JSX.Element {
                         </Stack>
                         {formData.project.it.existingSystem.present &&
                             <ToggleButtonGroup
+                                className={formikProps.errors.project?.it?.existingSystem?.name ? 'MuiToggleButtonGroup-error' : ''}
                                 exclusive
                                 disabled={!editMode}
                                 fullWidth

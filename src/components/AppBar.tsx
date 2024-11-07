@@ -23,8 +23,7 @@ import { setEditMode } from "../features/redux/reducers/editModeSlice";
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
 import ClearFormDataDialog from "./ClearFormDataDialog";
 import axios from 'axios'
-import { env } from "process";
-
+import BackupIcon from '@mui/icons-material/Backup';
 
 export default function TopBar(): JSX.Element {
 
@@ -194,7 +193,7 @@ export default function TopBar(): JSX.Element {
                             }
                             {isSummaryStep &&
                                 <MenuItem onClick={() => saveDataToServer()}>
-                                    <ListItemIcon>{isWaiting ? <CircularProgress size={16} /> : <SaveIcon />}</ListItemIcon>
+                                    <ListItemIcon>{isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}</ListItemIcon>
                                     <ListItemText>{t('ui.button.inquiry.saveToServer')}</ListItemText>
                                 </MenuItem>
                             }
@@ -266,7 +265,7 @@ export default function TopBar(): JSX.Element {
                                 </Button>
                             }
                             {isSummaryStep &&
-                                <Button variant='outlined' onClick={() => saveDataToServer()} startIcon={isWaiting ? <CircularProgress size={16} /> : <SaveIcon />}>
+                                <Button variant='outlined' onClick={() => saveDataToServer()} startIcon={isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}>
                                     <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                         <Typography>{t('ui.button.inquiry.saveToServer')}</Typography>
                                     </Stack>

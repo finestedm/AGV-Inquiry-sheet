@@ -122,22 +122,22 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                 }}
                 rows={rows}
                 columns={[
-                    { field: "index", headerName: "№", width: 50, type: 'number' },
-                    { field: "name", headerName: "Name", minWidth: 130, editable: true, type: 'string' },
-                    { field: "length", headerName: "L1", minWidth: 90, editable: true, type: 'number', description: 'Load length in mm' },
-                    { field: "width", headerName: "W1", minWidth: 90, editable: true, type: 'number', description: 'Load width in mm' },
-                    { field: "height", headerName: "Height", minWidth: 80, editable: true, type: 'number', description: 'Load height in mm' },
+                    { field: "index", headerName: t('loadTable.header.index'), width: 50, type: 'number' },
+                    { field: "name", headerName: t('loadTable.header.name'), minWidth: 130, editable: true, type: 'string' },
+                    { field: "length", headerName: t('loadTable.header.length'), minWidth: 90, editable: true, type: 'number', description: 'Load length in mm' },
+                    { field: "width", headerName: t('loadTable.header.width'), minWidth: 90, editable: true, type: 'number', description: 'Load width in mm' },
+                    { field: "height", headerName: t('loadTable.header.height'), minWidth: 80, editable: true, type: 'number', description: 'Load height in mm' },
                     { field: "L2", headerName: "L2", minWidth: 60, editable: true, type: 'number', description: 'Pallet length in mm' },
                     { field: "W2", headerName: "W2", minWidth: 60, editable: true, type: 'number', description: 'Pallet width in mm' },
                     { field: "W3", headerName: "W3", minWidth: 60, editable: true, type: 'number', description: 'Pallet opening width in mm' },
                     { field: "H2", headerName: "H2", minWidth: 60, editable: true, type: 'number', description: 'Pallet height in mm' },
                     { field: "H3", headerName: "H3", minWidth: 60, editable: true, type: 'number', description: 'Pallet opening height in mm' },
-                    { field: "weightMin", headerName: "Weight min", minWidth: 125, editable: true, type: 'number' },
-                    { field: "weightMax", headerName: "Weight max", minWidth: 125, editable: true, type: 'number' },
-                    { field: "overhang", headerName: "Overhang", minWidth: 100, editable: true, type: 'boolean', description: 'Is the load bigger than the pallet?' },
+                    { field: "weightMin", headerName: t('loadTable.header.weightMin'), minWidth: 125, editable: true, type: 'number' },
+                    { field: "weightMax", headerName: t('loadTable.header.weightMax'), minWidth: 125, editable: true, type: 'number' },
+                    { field: "overhang", headerName: t('loadTable.header.overhang'), minWidth: 100, editable: true, type: 'boolean', description: t('loadTable.header.overhangDescription') },
                     {
                         field: 'material',
-                        headerName: 'Material',
+                        headerName: t('loadTable.header.material'),
                         width: 125,
                         editable: true,
                         type: 'singleSelect',
@@ -149,7 +149,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                     },
                     {
                         field: 'loadSide',
-                        headerName: 'Load Side',
+                        headerName: t('loadTable.header.loadSide'),
                         width: 90,
                         editable: true,
                         type: 'singleSelect',
@@ -158,7 +158,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                             { value: 1, label: 'L' }
                         ]
                     },
-                    { field: 'secured', headerName: 'Load Secured', width: 100, editable: true, type: 'boolean', description: 'Is the load secured on pallet (wrapped)?' },
+                    { field: 'secured', headerName: t('loadTable.header.secured'), width: 100, editable: true, type: 'boolean', description: t('loadTable.header.securedDescription') },
                 ]}
 
                 processRowUpdate={(newRow: any, oldRow: any) => {
@@ -268,7 +268,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                                 height: '100%',
                             }}
                         >
-                            <Typography variant="h6">Add first load. <Typography color='text.secondary'>You can use predefined ones!</Typography></Typography>
+                            <Typography variant="h6">{t('loadTable.noRowsOverlay.t1')}<Typography color='text.secondary'>{t('loadTable.noRowsOverlay.t2')}</Typography></Typography>
                         </Box>
                     )
                 }}

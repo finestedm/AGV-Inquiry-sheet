@@ -58,6 +58,7 @@
     "customer": "Klient",
     "system": "Wybór systemu",
     "project": "Projekt",
+    "summary": "Podsumowanie",
     "asrs": "ASRS",
     "lrkprk": "LRK / PRK",
     "agv": "AGV",
@@ -70,13 +71,18 @@
       "header": "Wybór systemu:"
     }
   },
+  "summary": {
+    "header": "Podsumowanie"
+  },
   "ui": {
     "button": {
       "back": "Wstecz",
       "next": "Dalej",
+      "addNewEquipment": "Dodaj wyposażenie",
       "inquiry": {
         "load": "Wczytaj zapytanie",
         "save": "Zapisz zapytanie",
+        "saveToServer": "Wyślij na serwer",
         "clear": "Wymaż dane"
       },
       "copyDialog": {
@@ -183,6 +189,7 @@
       "new": "Nowy budynek",
       "existing": "Istniejący",
       "silo": "Magazyn silosowy",
+      "incline": "Maks. pochył (np. ramp)",
       "existingBuilding": {
         "height": "Wysokość",
         "width": "Szerokość",
@@ -209,7 +216,8 @@
       "labelshort": "AGV",
       "description": "Wózki automatyczne AGV (z ang. Automated Guided Vehicles) to systemy transportowe pozwalające na zdalną obsługę. Wyposażono je w rozbudowany system czujników, który wykrywa wszelkie przeszkody wokół pojazdu. Modele AVG potrafią samodzielnie zwalniać, przyspieszać i reagować na niespodziewane czynniki pojawiające się podczas jazdy. W razie konieczności mogą całkowicie się zatrzymać.",
       "temperatureWarning": "Wózki automatyczne AGV nie mogą pracować w temperaturze poniżej 5C",
-      "temperatureWarningTitle": "Uwaga!"
+      "temperatureWarningTitle": "Uwaga!",
+      "additionalRemarks": "Dodatkowe uwagi"
     },
     "autovna": {
       "header": "Dane systemu AutoVNA",
@@ -273,7 +281,25 @@
     }
   },
   "loadTable": {
-    "header": {},
+    "header": {
+      "index": "Numer",
+      "name": "Nazwa",
+      "length": "Długość",
+      "width": "Szerokość",
+      "height": "Wysokość",
+      "weightMin": "Min. waga",
+      "weightMax": "Maks. waga",
+      "overhang": "Przewieszenia",
+      "overhangDescription": "Czy towar wystaje poza paletę?",
+      "material": "Materiał",
+      "loadSide": "Strona załadunku",
+      "secured" :"zabezpieczony?",
+      "securedDesciption": "Czy towar jest zabezpieczony np. folią stretch?"
+    },
+    "noRowsOverlay": {
+      "t1": "Dodaj pierwszy ładunek",
+      "t2": "Możesz użyć ładunków predefiniowanych!"
+    },
     "loadContainerMaterial": {
       "wood": "Drewniana",
       "metal": "Metalowa",
@@ -337,6 +363,13 @@
       },
       "investmentType": {
         "required": "Pole wymagane"
+      },
+      "it": {
+        "existingSystem":{
+          "existingOther": {
+            "required": "Podaj nazwę systemu WMS klienta"
+          }
+        }
       }
     }
   }

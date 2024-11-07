@@ -299,11 +299,10 @@ theme = createTheme({
                     backgroundColor: customGreyPalette[100],
                     border: `${borderStandard} ${customGreyPalette[300]}`,
                     overflow: 'hidden',
-                    '&.MuiToggleButton-root.MuiToggleButton-error': {
-                        backgroundColor: `${theme.palette.error.main} !important`,
+                    '&.MuiToggleButtonGroup-error': {
+                        backgroundColor: tinycolor(theme.palette.error.main).brighten(77).toRgbString(),
                         border: `${borderStandard} ${theme.palette.error.dark}`,
-                    
-            }
+                    }
                 }
             }
         },
@@ -335,9 +334,8 @@ theme = createTheme({
                         backgroundColor: customGreyPalette[50],
                         color: textPrimaryColor,
                     },
-                    '&.Mui-error': {
-                        backgroundColor: tinycolor(theme.palette.error.main).lighten(35).toHexString(),
-                        color: theme.palette.error.contrastText,
+                    "&.Mui-error": {
+                        color: theme.palette.error.main,
                     }
                 }
             }

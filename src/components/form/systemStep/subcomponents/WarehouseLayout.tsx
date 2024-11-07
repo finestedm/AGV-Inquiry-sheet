@@ -199,7 +199,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                 <Box ref={anchorRef} />
                                 <ArrowDropDownIcon />
                             </Button>
-                            <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEqipment')}</Box></Button>
+                            <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEquipment')}</Box></Button>
                         </ButtonGroup>
                         <Popper
                             sx={{

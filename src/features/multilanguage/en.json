@@ -4,11 +4,15 @@
     "name": "Company / Customer",
     "sapNumber": "SAP Number",
     "industry": "Industry",
-    "industryName.other": "Specify Other Industry",
+    "industryNameOther": "Specify Other Industry",
     "contactPerson": "Name and Surname",
     "contactPersonRole": "Contact Person's Position",
+    "contactPersonPhone": "Phone Number",
     "contactPersonMail": "Email Address",
     "address": "Address",
+    "currency": {
+      "perYear": "/ year"
+    },
     "subheader": {
       "teleaddress": "Company Information",
       "contactperson": "Contact Person",
@@ -16,13 +20,14 @@
     },
     "relations": {
       "type": "Level of Cooperation",
-      "saleshistoryvalue": "Sales Turnover with the Customer / Year",
-      "creditmanagement": "Credit Management Value",
-      "jh": "JH Customer",
-      "new": "New Customer",
-      "jh-kam": "JH KAM Customer",
-      "competitor": "Competitor Customer",
+      "salesHistoryValue": "Sales Turnover with Customer",
+      "creditManagement": "Credit Management Value",
+      "2": "JH Customer",
+      "1": "New Customer",
+      "3": "JH KAM Customer",
+      "4": "Competitor Customer",
       "input": {
+        "owned": "Owned Warehouse Equipment: ",
         "forklifts": "Number of JH Forklifts",
         "other": "Other JH Products",
         "racks": "Number of JH Racks"
@@ -42,6 +47,7 @@
     "other": "Other"
   },
   "sales": {
+    "salesUnit": "Sales Unit",
     "header": "Sales Unit Information",
     "unit": "Sales Unit",
     "contactPerson": "Contact Person from JH",
@@ -50,8 +56,13 @@
   "steps": {
     "sales": "Sales Unit",
     "customer": "Customer",
-    "system": "System",
+    "system": "Select System",
     "project": "Project",
+    "summary": "Summary",
+    "asrs": "ASRS",
+    "lrkprk": "LRK / PRK",
+    "agv": "AGV",
+    "autovna": "AutoVNA",
     "systems": {
       "asrs": "ASRS",
       "lrkprk": "LRK / PRK",
@@ -60,13 +71,18 @@
       "header": "Select System:"
     }
   },
+  "summary": {
+    "header": "Summary"
+  },
   "ui": {
     "button": {
       "back": "Back",
       "next": "Next",
+      "addNewEquipment": "Add Equipment",
       "inquiry": {
         "load": "Load Inquiry",
         "save": "Save Inquiry",
+        "saveToServer": "Post to server",
         "clear": "Clear Data"
       },
       "copyDialog": {
@@ -107,6 +123,13 @@
         "title": "Choose Data to Copy from Another System",
         "noChange": "No Changes"
       },
+      "clearForm": {
+        "title": "Clear Data",
+        "description1": "It seems you've already entered some data into the questionnaire.",
+        "description2": "Are you sure you want to delete it?",
+        "cancel": "Cancel",
+        "confirm": "Yes, Clear Data"
+      },
       "ganttGraph": {
         "selectDates": "Change dates for: ",
         "start": "start",
@@ -130,20 +153,23 @@
     },
     "table": {
       "head": {
-        "part": "part"
+        "part": "Part"
       }
     }
   },
   "system": {
-    "condensationWarning": "Warning: prevailing conditions may cause condensation",
-    "manyLoadsWarning": "Warning: Large differences in load dimensions can be problematic for the selected system.",
+    "condensationWarningTitle": "Warning!",
+    "condensationWarning": "Prevailing conditions may cause condensation",
+    "manyLoadsWarningTitle": "Warning",
+    "manyLoadsWarning": "Large differences in load dimensions can be problematic for the selected system.",
     "subheader": {
       "workTime": "Work Time",
       "workConditions": "Working Conditions",
       "building": "Building",
       "loads": "Loads",
       "flow": "Flows",
-      "capacity": "Capacity"
+      "capacity": "Capacity",
+      "additionalRemarks": "Additional Remarks"
     },
     "workTime": {
       "workDays": "Workdays per Week",
@@ -163,6 +189,7 @@
       "new": "New Building",
       "existing": "Existing",
       "silo": "Silo Warehouse",
+      "incline": "Max. Slope (e.g., ramp)",
       "existingBuilding": {
         "height": "Height",
         "width": "Width",
@@ -179,20 +206,24 @@
       "header": "Automatic Rack Data",
       "label": "Vertical Lift and Carousel Racks",
       "labelshort": "LRK & PRK",
-      "description": "Due to their modular construction, both before and after installation, the height of the LRK rack can be adjusted to current needs. In addition, integrating the rack into any warehouse management system allows for even better performance.",
-      "temperatureWarning": "Automatic racks cannot operate at temperatures below 5C"
+      "description": "Due to their modular construction, both before and after installation, the height of the LRK rack can be adjusted to current needs. Additionally, integrating the rack into any warehouse management system allows for even better performance.",
+      "temperatureWarning": "Automatic racks cannot operate at temperatures below 5C",
+      "temperatureWarningTitle": "Warning!"
     },
     "agv": {
       "header": "Automatic Guided Vehicle Data",
       "label": "Automatic Guided Vehicles",
       "labelshort": "AGV",
-      "description": "Automatic Guided Vehicles (AGVs) are transport systems that allow for remote operation. They are equipped with an advanced sensor system that detects any obstacles around the vehicle. AVG models can independently slow down, accelerate, and react to unexpected factors during driving. If necessary, they can come to a complete stop."
+      "description": "Automatic Guided Vehicles (AGVs) are transport systems that allow for remote operation. They are equipped with an advanced sensor system that detects any obstacles around the vehicle. AVG models can independently slow down, accelerate, and react to unexpected factors during driving. If necessary, they can come to a complete stop.",
+      "temperatureWarning": "AGVs cannot operate at temperatures below 5C",
+      "temperatureWarningTitle": "Warning!",
+      "additionalRemarks": "Additional Remarks"
     },
     "autovna": {
       "header": "AutoVNA System Data",
       "label": "Automatic Narrow Aisle Trucks",
       "labelshort": "AutoVNA",
-      "description": "Automatic high-stacking trucks are perfect for an automated warehouse with narrow aisles, where there are also racks, software, and transport devices. Perfectly integrated, they work efficiently and safely 24 hours a day."
+      "description": "Automatic high-stacking trucks are perfect for an automated warehouse with narrow aisles, where racks, software, and transport devices are also present. When fully integrated, they work efficiently and safely 24 hours a day."
     }
   },
   "project": {
@@ -210,98 +241,34 @@
       "processesDescription": "Process Description",
       "existingSystem": {
         "present": "Is there a WMS system?",
-        "name": "What system is present?",
-        "existingOther": "Other",
-        "label": {
-          "SAP-WM": "SAP-WM",
-          "SAP-EWM": "SAP-EWM",
-          "other": "Other"
-        }
+        "name": "What system?",
+        "api": "Does it allow API access?"
       },
-      "wmsNeeded": "Is WMS required?",
-      "additionalInformation": "Other Information"
-    },
-    "investmentLocation": "Investment Location",
-    "tender": "Investment in the form of a tender?",
-    "consultingCompany": "Conducted by a consulting company?",
-    "competitor": "Other bidders?",
-    "invenstmentType": {
-      "new": "New Project",
-      "expansion": "Expansion",
-      "modification": "Modification",
-      "exchange": "Exchange",
-      "retrofit": "Retrofit"
-    },
-    "subheader": {
-      "investmentType": "Investment Type",
-      "milestones": "Timeframes",
-      "various": "General Data",
-      "it": "IT and Process Information"
-    }
-  },
-  "loadTable": {
-    "header": {},
-    "loadContainerMaterial": {
-      "wood": "Wooden",
-      "metal": "Metal",
-      "plastic": "Plastic"
-    },
-    "loadsToAdd": {
-      "placeholder": "Select Load",
-      "empty": "empty template",
-      "euro": "EuroPallet",
-      "klt_600x400": "KLT 600x400 Container",
-      "us_standard": "US Pallet",
-      "half_euro": "Half Euro Pallet",
-      "industial_1200x1000": "Industrial 1200x1000",
-      "industial_1200x1200": "Industrial 1200x1200",
-      "gitterbox_1235x835": "Gitterbox"
+      "jhSystem": "Is it planned to integrate a JH warehouse management system?",
+      "racks": "Planned Racks",
+      "materialHandling": "Planned Handling Equipment"
     }
   },
   "flowTable": {
+    "title": "Flow Information",
+    "rows": {
+      "transportDirection": "Transport Direction",
+      "flowStationType": "Station Type",
+      "flowRate": "Throughput",
+      "flowVolume": "Volume",
+      "flowLoads": "Load",
+      "flowAnnualVolume": "Annual Volume"
+    },
     "flowStationTypes": {
       "floor": "Floor",
       "conveyor": "Conveyor",
       "pallet wrapper": "Pallet Wrapper",
       "rack": "Rack"
-    }
-  },
-  "helperText": {
-    "sales": {
-      "contactPerson": {
-        "required": "Enter name of the person entering the data"
-      }
     },
-    "customer": {
-      "name": {
-        "required": "Company name required"
-      },
-      "address": {
-        "required": "Address required"
-      },
-      "sapNumber": {
-        "format": "SAP Number must start with 4 and have 8 digits"
-      },
-      "contactPersonMail": {
-        "format": "Invalid format"
-      },
-      "industryName": {
-        "number": "Select at least one industry"
-      },
-      "relations": {
-        "number": "Select type of relations"
-      }
-    },
-    "project": {
-      "supplyChainParts": {
-        "number": "Select at least one part of supply chain"
-      },
-      "investmentLocation": {
-        "required": "Investment location is required"
-      },
-      "investmentType": {
-        "required": "Data required"
-      }
+    "flowUnits": {
+      "pallet": "pallets",
+      "box": "boxes",
+      "piece": "pieces"
     }
   }
 }
