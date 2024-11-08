@@ -205,16 +205,16 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             minWidth: 150,
                             editable: true,
                             type: 'singleSelect',
-                            description: 'Type of loads used on this stage',
+                            description: t(`flowTable.header.loadTypeDescription`),
                             renderEditCell: CustomLoadTypeEditCell,
                             valueFormatter: ({ value }: { value: number[] }) => {
                                 if (value.length === 0) {
-                                    return 'No loads selected';
+                                    return t(`flowTable.header.loadTypeNone`);
                                 } else if (value.length === 1) {
                                     const loadId = value[0];
                                     return selectedSystemLoads.find((load) => load.id === loadId)?.name || 'Load unnamed';
                                 } else {
-                                    return 'Multiple loads';
+                                    return t(`flowTable.header.loadTypeMultiple`);
                                 }
                             },
                             valueOptions: selectedSystemLoads.map((load) => ({
@@ -256,8 +256,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 }
                             },
                         },
-                        { field: "distance", headerName: t(`flowTable.header.distance`), minWidth: 130, editable: true, type: 'number', description: 'Distance to travel between pickup station and target station' },
-                        { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?', valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
+                        { field: "distance", headerName: t(`flowTable.header.distance`), minWidth: 130, editable: true, type: 'number', description: t(`flowTable.header.distanceDescription`) },
+                        { field: "bidirectional", headerName: t(`flowTable.header.bidirectional`), minWidth: 130, editable: true, type: 'boolean', description: t(`flowTable.header.bidirectionalDescription`), valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
                     ]}
 
                     processRowUpdate={(newRow: IFlow, oldRow: IFlow) => {

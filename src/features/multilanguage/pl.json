@@ -162,6 +162,8 @@
   "system": {
     "condensationWarningTitle": "Uwaga!",
     "condensationWarning": "Panujące warunki mogą powodowac kondensacje",
+    "inclineWarningTitle": "Wysoki pochył",
+    "inclineWarning": "Zastosowanie wózka automatycznego może nie być możliwe.",
     "manyLoadsWarningTitle": "Uwaga",
     "manyLoadsWarning": "Duże różnice pomiędzy wymiarami ładunków mogą być problematyczne dla wybranego systemu.",
     "subheader": {
@@ -333,7 +335,13 @@
       "flowAverage": "Średni przepływ",
       "flowPeak": "Przepływ szczytowy",
       "loadType": "Ładunek",
-      "distance": "Odległość"
+      "loadTypeDescription": "Ładunki transportowane w tym etapie",
+      "loadTypeNone": "Brak wybranych ładunków",
+      "loadTypeMultiple": "Kilka typów",
+      "distance": "Odległość",
+      "distanceDescription": "Droga pomiędzy punktem załadunku, a stacją odkładczą",
+      "bidirectional": "Przepływ dwukierunkowy",
+      "bidirectionalDescription": "Czy ruch odbywa się w obu kierunkach?"
     }
   },
   "ganttGraph": {

@@ -120,7 +120,6 @@ export default function TopBar(): JSX.Element {
         dispatch(setEditMode(false))
     }
 
-
     return (
         <AppBar position="static" color="default">
             <Container maxWidth="xl">
