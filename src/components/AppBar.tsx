@@ -83,11 +83,11 @@ export default function TopBar(): JSX.Element {
 
             if (response.status === 200) {
                 setIsResolved(true);  // Set resolved state on success
-                dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')}`, severity: 'success' }));
+                dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSavedToServer')}`, severity: 'success' }));
             }
         } catch (error) {
             console.error("Failed to save data:", error);
-            dispatch(openSnackbar({ message: t('ui.snackBar.message.errorSaving'), severity: 'error' }));
+            dispatch(openSnackbar({ message: `${t('ui.snackBar.message.errorSaving')}. Error: ${error}`, severity: 'error' }));
         } finally {
             setIsWaiting(false);      // Reset waiting state
         }

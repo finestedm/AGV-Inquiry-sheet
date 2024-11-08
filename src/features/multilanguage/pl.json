@@ -143,7 +143,9 @@
           "other": "Błąd wczytywania pliku",
           "version": "Wersja pliku różni się od wersji aplikacji"
         },
-        "fileSaved": "Plik zapisano jako: "
+        "fileSaved": "Plik zapisano jako: ",
+        "fileSavedToServer": "Plik przesłany pomyślnie",
+        "errorSaving": "Błąd przesyłania pliku"
       }
     },
     "tooltip": {

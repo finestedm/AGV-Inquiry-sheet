@@ -143,7 +143,9 @@
           "other": "Error loading file",
           "version": "File version differs from application version"
         },
-        "fileSaved": "File saved as: "
+        "fileSaved": "File saved as: ",
+        "fileSavedToServer": "File sucessfully posted on server",
+        "errorSaving": "Error while uploading file to server"
       }
     },
     "tooltip": {
