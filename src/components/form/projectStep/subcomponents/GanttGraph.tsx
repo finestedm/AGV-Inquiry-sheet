@@ -83,20 +83,20 @@ export default function GanttGraph(): JSX.Element {
             const isOneDayMilestone = milestone === 'order' || milestone === 'launch';
             const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1];
             const previousMilestoneEndDate = previousMilestone ? dayjs(updatedState[previousMilestone].end) : dayjs();
-        
+
             // Set startDate based on whether it's the 'launch' milestone
             const startDate = milestone === 'launch'
                 ? previousMilestoneEndDate
                 : id === milestone
                     ? dayjs(start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(start)
                     : dayjs(updatedState[milestone].start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(updatedState[milestone].start);
-        
+
             const endDate = isOneDayMilestone
                 ? startDate
                 : id === milestone
                     ? dayjs(end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(end)
                     : dayjs(updatedState[milestone].end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(updatedState[milestone].end);
-        
+
             updatedState = {
                 ...updatedState,
                 [milestone]: {
@@ -105,7 +105,7 @@ export default function GanttGraph(): JSX.Element {
                 }
             };
         }
-        
+
         milestoneOrder.slice(currentIndex).forEach((milestone) => {
             validateMilestone(milestone)
         })
@@ -155,9 +155,9 @@ export default function GanttGraph(): JSX.Element {
                     <Table>
                         <TableHead sx={{ height: headerHeight + 1 }}>
                             <TableRow >
-                                <TableCell>Name</TableCell>
-                                <TableCell>Date Range</TableCell>
-                                {editMode && <TableCell>Edit</TableCell>}
+                                <TableCell>{t('ganttGraph.tableHeader.step')}</TableCell>
+                                <TableCell>{t('ganttGraph.tableHeader.dateRange')}</TableCell>
+                                {editMode && <TableCell>{t('ganttGraph.tableHeader.edit')}</TableCell>}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -210,7 +210,7 @@ export default function GanttGraph(): JSX.Element {
                         <Box border={1} style={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius, overflow: 'hidden' }}>
                             <Gantt
                                 tasks={milestones}
-                                barCornerRadius={theme.shape.borderRadius }
+                                barCornerRadius={theme.shape.borderRadius}
                                 barBackgroundSelectedColor={theme.palette.primary.main}
                                 arrowIndent={40}
                                 todayColor={theme.palette.mode === 'light' ? tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String() : tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String()}
@@ -244,10 +244,11 @@ export default function GanttGraph(): JSX.Element {
 function SizeEditButtons({ handleColumnsWidth, viewMode, setViewMode, decreaseColumnsWidthButtonDisabled }: { handleColumnsWidth: (increment: "+" | "-") => void, viewMode: TViewMode, setViewMode: Dispatch<SetStateAction<TViewMode>>, decreaseColumnsWidthButtonDisabled: boolean }) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const { t } = useTranslation()
 
     function ViewModeIcon({ viewModeSet, ...props }: { viewModeSet: TViewMode }) {
         return (
-            <ToggleButton {...props} value={viewModeSet} selected={viewMode === viewModeSet} className='buttongroup-deep' color="primary">{viewModeSet}</ToggleButton>
+            <ToggleButton {...props} value={viewModeSet} selected={viewMode === viewModeSet} className='buttongroup-deep' color="primary">{t(`ganttGraph.timeSizeToggleButton.${viewModeSet}`)}</ToggleButton>
         )
     }
 

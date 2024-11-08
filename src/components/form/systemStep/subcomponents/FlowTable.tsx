@@ -175,7 +175,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                         { field: "id", headerName: "Stage", width: 50, type: 'number' },
                         {
                             field: "stationSource",
-                            headerName: "Pickup station",
+                            headerName: t(`flowTable.header.stationSource`),
                             minWidth: 130,
                             editable: true,
                             type: 'singleSelect',
@@ -187,7 +187,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                         },
                         {
                             field: "stationTarget",
-                            headerName: "Unload station",
+                            headerName: t(`flowTable.header.stationTarget`),
                             minWidth: 130,
                             editable: true,
                             type: 'singleSelect',
@@ -197,11 +197,11 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
-                        { field: "flowAverage", headerName: "Average material flow", minWidth: 130, editable: true, type: 'number' },
-                        { field: "flowPeak", headerName: "Peak material flow", minWidth: 130, editable: true, type: 'number' },
+                        { field: "flowAverage", headerName: t(`flowTable.header.flowAverage`), minWidth: 130, editable: true, type: 'number' },
+                        { field: "flowPeak", headerName: t(`flowTable.header.flowPeak`), minWidth: 130, editable: true, type: 'number' },
                         {
                             field: "loadType",
-                            headerName: "Load Type",
+                            headerName: t(`flowTable.header.loadType`),
                             minWidth: 150,
                             editable: true,
                             type: 'singleSelect',
@@ -256,7 +256,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 }
                             },
                         },
-                        { field: "distance", headerName: "Distance", minWidth: 130, editable: true, type: 'number', description: 'Distance to travel between pickup station and target station' },
+                        { field: "distance", headerName: t(`flowTable.header.distance`), minWidth: 130, editable: true, type: 'number', description: 'Distance to travel between pickup station and target station' },
                         { field: "bidirectional", headerName: "Bi-Directional?", minWidth: 130, editable: true, type: 'boolean', description: 'Does this flow occur in both directions?', valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
                     ]}
 

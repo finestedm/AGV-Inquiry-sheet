@@ -118,7 +118,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                         <Grid item xs={12}>
                             <CustomTextField
                                 disabled={!editMode}
-                                fieldName={`system.${selectedSystem}.workConditions.other`}
+                                fieldName={`system.workConditions.other`}
                                 fullWidth
                                 multiline
                                 rows={4}

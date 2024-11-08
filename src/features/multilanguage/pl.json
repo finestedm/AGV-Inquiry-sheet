@@ -202,7 +202,8 @@
       "header": "Dane systemu ASRS",
       "label": "Automatyczne systemy magazynowe",
       "labelshort": "ASRS",
-      "description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca."
+      "description": "Automatyczne magazyny paletowe integrują regały, oprogramowanie i układnice w kompaktowy system. Tu liczy się maksymalna dynamika i precyzja, przy optymalnej energooszczędności. Jeśli wszystkie elementy idealnie współgrają, inwestycja w zautomatyzowane rozwiązanie szybko się zwraca.",
+      "additionalRemarks": "Dodatkowe informacje"
     },
     "lrkprk": {
       "header": "Dane regałów automatycznych",
@@ -325,6 +326,39 @@
       "conveyor": "przenośnik",
       "pallet wrapper": "owijarka palet",
       "rack": "regał"
+    },
+    "header": {
+      "stationSource": "Stacja źródłowa",
+      "stationTarget": "Stacja rozładunkowa",
+      "flowAverage": "Średni przepływ",
+      "flowPeak": "Przepływ szczytowy",
+      "loadType": "Ładunek",
+      "distance": "Odległość"
+    }
+  },
+  "ganttGraph": {
+    "tableHeader": {
+      "step": "Etap",
+      "dateRange": "Zakres czasowy",
+      "edit": "Edycja"
+    },
+    "timeSizeToggleButton": {
+      "Week": "Tydzień",
+      "Month": "Miesiąc",
+      "Year": "Rok"
+    }
+  },
+  "capacityTable": {
+    "header": {
+      "index": "Numer",
+      "load": "Typ ładunku",
+      "capacity": "Pojemność",
+      "capacityDescription": "Ile ładunków ma mieścić system?"
+    },
+    "timeSizeToggleButton": {
+      "Week": "Tydzień",
+      "Month": "Miesiąc",
+      "Year": "Rok"
     }
   },
   "helperText": {
