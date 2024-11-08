@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/AGV-Inquiry-sheet/static/css/main.02c233d7.css",
-    "main.js": "/AGV-Inquiry-sheet/static/js/main.e5b898c6.js",
+    "main.js": "/AGV-Inquiry-sheet/static/js/main.7d6d9d6f.js",
     "static/media/loadDimensionsPicture.png": "/AGV-Inquiry-sheet/static/media/loadDimensionsPicture.cfa0d91392f12dca884e.png",
     "static/media/JH_logo.png": "/AGV-Inquiry-sheet/static/media/JH_logo.7ecf36beead9d3783c6b.png",
     "static/media/loadDimensionsPicture2.png": "/AGV-Inquiry-sheet/static/media/loadDimensionsPicture2.cfbfd9a24fdef4b47c29.png",
@@ -9,10 +9,10 @@
     "static/media/Jungheinrich-Logo.svg": "/AGV-Inquiry-sheet/static/media/Jungheinrich-Logo.c6ef8d445a1c742af3c1afa8fdffbec8.svg",
     "static/media/uk.svg": "/AGV-Inquiry-sheet/static/media/uk.fd46970f89e3fbca473f57e811916ea0.svg",
     "static/media/germany.svg": "/AGV-Inquiry-sheet/static/media/germany.1708c5f78a40e2382860bd1a6fc03353.svg",
-    "static/media/poland.svg": "/AGV-Inquiry-sheet/static/media/poland.4da5f094c814970e3a2878f68eb33c40.svg"
+    "static/media/poland.svg": "/AGV-Inquiry-sheet/static/media/poland.61cfb4c784e161c70152ffacdc918b7d.svg"
   },
   "entrypoints": [
     "static/css/main.02c233d7.css",
-    "static/js/main.e5b898c6.js"
+    "static/js/main.7d6d9d6f.js"
   ]
 }
