@@ -21,6 +21,9 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const { t } = useTranslation();
+    const [tempTemperature, setTempTemperature] = useState(formData.system[selectedSystem].workConditions.temperature)
+    const [tempHumidity, setTempHumidity] = useState(formData.system[selectedSystem].workConditions.humidity)
+
 
     return (
         <InputGroup
@@ -36,8 +39,9 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                         disabled={!editMode}
                                         sx={{ width: '90%' }}
                                         getAriaLabel={() => 'Temperature range'}
-                                        value={formData.system[selectedSystem].workConditions.temperature}
-                                        onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.temperature`, value: v }))}
+                                        value={tempTemperature}
+                                        onChange={(e, v) => setTempTemperature(v as number[])}
+                                        onChangeCommitted={() => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.temperature`, value: tempTemperature }))}
                                         valueLabelDisplay="auto"
                                         min={-30}
                                         max={60}
@@ -54,8 +58,9 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                         disabled={!editMode}
                                         sx={{ width: '90%' }}
                                         getAriaLabel={() => 'Humidity range'}
-                                        value={formData.system[selectedSystem].workConditions.humidity}
-                                        onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.humidity`, value: v }))}
+                                        value={tempHumidity}
+                                        onChange={(e, v) => setTempHumidity(v as number[])}
+                                        onChangeCommitted={() => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.humidity`, value: tempHumidity }))}
                                         valueLabelDisplay="auto"
                                         min={0}
                                         max={100}
