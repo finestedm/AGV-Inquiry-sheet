@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import { IEquipment, ISystem, ISystems } from "../../../../features/interfaces";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { IEquipment, ISystems } from "../../../../features/interfaces";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { updateEquipment } from "../../../../features/redux/reducers/formDataSlice";
 import { useTheme } from "@mui/material";
 import { Circle, Rect, Text, Transformer } from "react-konva";
 import Konva from 'konva';
+import { debounce } from 'lodash';
 
 interface CommonProps {
     onSelect: () => void;
@@ -26,7 +26,9 @@ interface CommonProps {
     };
 }
 
-export default function EquipmentShape({ equipment, index, isSelected, onSelect, selectedShapeId, canvaToWarehouseRatio, selectedSystem }: { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any, selectedShapeId: number | null, canvaToWarehouseRatio: number, selectedSystem: keyof ISystems }) {
+export default function EquipmentShape({ equipment, index, isSelected, onSelect, selectedShapeId, canvaToWarehouseRatio, selectedSystem }: 
+    { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any, selectedShapeId: number | null, canvaToWarehouseRatio: number, selectedSystem: keyof ISystems }) {
+
     const { id, x, width, y, height, rotation, type, color } = equipment;
 
     const shapeRef = useRef<Konva.Rect | Konva.Circle | null>(null);
@@ -34,7 +36,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
 
     const dispatch = useDispatch();
     const editMode = useSelector((state: RootState) => state.editMode);
-    const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
+    const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding);
     const warehouseEquipment = warehouseData.equipment;
 
     const theme = useTheme();
@@ -44,30 +46,30 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
             if (i === index) {
                 const xInMeters = e.target.x() / canvaToWarehouseRatio;
                 const yInMeters = e.target.y() / canvaToWarehouseRatio;
-
                 return { ...equipment, x: xInMeters, y: yInMeters, rotation: e.target.rotation() };
             }
             return equipment;
         });
-
-        dispatch(updateEquipment({ updatedEquipment: updatedEquipment, selectedSystem: selectedSystem }));
+        dispatch(updateEquipment({ updatedEquipment, selectedSystem }));
     };
 
-    const onShapeChange = ({ x, y, width, height, rotation }: { x: number; y: number; width: number; height: number; rotation: number }) => {
+    const onShapeChange = debounce(({ x, y, width, height, rotation }: 
+        { x: number; y: number; width: number; height: number; rotation: number }) => {
+        
         const updatedEquipment = warehouseEquipment.map((equipment) => {
             if (equipment.id === selectedShapeId) {
                 const xInMeters = x / canvaToWarehouseRatio;
                 const yInMeters = y / canvaToWarehouseRatio;
-                const xDimInMeters = width / canvaToWarehouseRatio;
-                const yDimInMeters = height / canvaToWarehouseRatio;
+                const widthInMeters = width / canvaToWarehouseRatio;
+                const heightInMeters = height / canvaToWarehouseRatio;
 
-                return { ...equipment, x: xInMeters, y: yInMeters, width: xDimInMeters, height: yDimInMeters, rotation };
+                return { ...equipment, x: xInMeters, y: yInMeters, width: widthInMeters, height: heightInMeters, rotation };
             }
             return equipment;
         });
-
-        dispatch(updateEquipment({ updatedEquipment, selectedSystem: selectedSystem }));
-    };
+        
+        dispatch(updateEquipment({ updatedEquipment, selectedSystem }));
+    }, 100);  // Adjust delay as necessary for smoother UX
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -124,15 +126,13 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
         fill: theme.palette.text.primary,
     };
 
-    // ... (Previous code remains unchanged)
-
     const renderShape = () => {
         switch (type) {
             default:
                 return (
                     <React.Fragment>
                         <Rect
-                            offsetX={width / 2 * canvaToWarehouseRatio}  // Set offsetX to half of the width in canvas coordinates
+                            offsetX={width / 2 * canvaToWarehouseRatio}
                             offsetY={height / 2 * canvaToWarehouseRatio}
                             onClick={commonProps.onSelect}
                             onTap={commonProps.onSelect}
@@ -144,27 +144,21 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                                     const scaleX = node.scaleX() || 1;
                                     const scaleY = node.scaleY() || 1;
 
-                                    // update size
                                     const newWidth = Math.max(5, node.width() * scaleX);
                                     const newHeight = Math.max(5, node.height() * scaleY);
 
-                                    // set the scale back to 1 to avoid compounding the scale factor
                                     node.scaleX(1);
                                     node.scaleY(1);
 
-                                    // update size with the scaled values
                                     node.width(newWidth);
                                     node.height(newHeight);
 
                                     const rotationLimited = Math.round(node.rotation() / 45) * 45;
-
-                                    // Set the quantized rotation
                                     node.rotation(rotationLimited);
 
                                     commonProps.onTransformEnd();
                                 }
                             }}
-
                             {...commonProps.commonProps}
                         />
                         <Text {...textProps} y={textProps.y - 10} text={type} />
@@ -186,8 +180,6 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                 );
         }
     };
-
-
 
     return renderShape();
 }
