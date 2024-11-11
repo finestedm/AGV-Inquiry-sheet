@@ -298,7 +298,11 @@ theme = createTheme({
                     padding: 3,
                     backgroundColor: customGreyPalette[100],
                     border: `${borderStandard} ${customGreyPalette[300]}`,
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    '&.MuiToggleButtonGroup-error': {
+                        backgroundColor: tinycolor(theme.palette.error.main).brighten(77).toRgbString(),
+                        border: `${borderStandard} ${theme.palette.error.dark}`,
+                    }
                 }
             }
         },
@@ -329,6 +333,9 @@ theme = createTheme({
                     "&:hover": {
                         backgroundColor: customGreyPalette[50],
                         color: textPrimaryColor,
+                    },
+                    "&.Mui-error": {
+                        color: theme.palette.error.main,
                     }
                 }
             }

@@ -1,36 +1,46 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { InputLabel, Stack, TextField } from '@mui/material';
-import { Field, FieldInputProps, FieldProps, useFormikContext } from 'formik';
-import { useDispatch } from 'react-redux';
+import { Field, FieldInputProps, FormikProps, useFormikContext } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 import { handleInputMethod } from '../../features/redux/reducers/formDataSlice';
-import { ICustomFieldProps } from '../../features/interfaces';
-import { useSelector } from 'react-redux';
+import { ICustomFieldProps, IFormData } from '../../features/interfaces';
 import { RootState } from '../../features/redux/store';
 
 export default function CustomTextField(props: ICustomFieldProps) {
   let { fieldName, required, multiline, rows, fullWidth, disabled, type, size } = props;
-  size = size ? size : 'small'
+  size = size || 'small';
   const { t } = useTranslation();
-  const formikProps = useFormikContext();
-  const dispatch = useDispatch()
-  const editMode = useSelector((state: RootState) => state.editMode)
-  const field: FieldInputProps<any> = formikProps.getFieldProps(fieldName)
+  const formikProps: FormikProps<IFormData> = useFormikContext(); 
 
-  const [firstPart, secondPart]: string[] = fieldName.split('.');
-  const errors = formikProps?.errors as any; // Cast form.errors to 'any'
-  const touched = formikProps?.touched as any; // Cast form.errors to 'any'
+  const dispatch = useDispatch();
+  const editMode = useSelector((state: RootState) => state.editMode);
+  const field: FieldInputProps<any> = formikProps.getFieldProps(fieldName);
 
-  const errorValue = Boolean(errors?.[firstPart]?.[secondPart]);
-  const touchedValue = touched?.[firstPart]?.[secondPart]
-  const helperTextValue = touchedValue && errors?.[firstPart]?.[secondPart] ? t(`${errors[firstPart][secondPart]}`) : '';
+  // Utility to dynamically access nested properties based on fieldName path
+  const getNestedError = (obj: any, path: string) => {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  };
 
-  const handleChange = (e: any) => {
-    // Update Formik field value
-    formikProps.handleChange(e);
+  const errorValue = Boolean(getNestedError(formikProps.errors, fieldName));
+  const helperTextValue = getNestedError(formikProps.errors, fieldName)
+    ? t(`${getNestedError(formikProps.errors, fieldName)}`)
+    : '';
 
-    // Update formData field using Redux dispatch
-    dispatch(handleInputMethod({ path: fieldName, value: e }));
+  const handleBlur = (e: any) => {
+    dispatch(handleInputMethod({ path: fieldName, value: e.target.value }));
+  };
+
+  // Prevent non-numeric key input (allowing only numbers, backspace, delete, etc.)
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (type === 'number') {
+      const allowedKeys = [
+        'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'
+      ];
+      if (!/^\d$/.test(e.key) && !allowedKeys.includes(e.key)) {
+        e.preventDefault();
+      }
+    }
   };
 
   return (
@@ -48,15 +58,18 @@ export default function CustomTextField(props: ICustomFieldProps) {
         required={required}
         variant="outlined"
         value={field.value}
-        onBlur={(e: any) => {
+        onChange={(e: any) => {
+          let value = e.target.value;
           if (type === 'number') {
-            handleChange(e.target.value.replace(/\D/g, ''))
-          } else {
-            handleChange(e.target.value)
+            value = value.replace(/\D/g, ''); // Remove any non-numeric characters
           }
+          formikProps.setFieldValue(fieldName, value); // Update Formik state
         }}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown} // Restrict keypress for non-numeric input
         error={errorValue}
         helperText={helperTextValue}
+        inputProps={type === 'number' ? { inputMode: 'numeric', pattern: '[0-9]*' } : undefined} // Add inputMode for mobile
       />
     </Stack>
   );

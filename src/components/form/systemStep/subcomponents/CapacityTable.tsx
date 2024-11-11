@@ -70,10 +70,10 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
                 }}
                 rows={rows}
                 columns={[
-                    { field: "index", headerName: "№", width: 50, type: 'number' },
+                    { field: "index", headerName: t('capacityTable.header.index'), width: 50, type: 'number' },
                     {
                         field: "load",
-                        headerName: "Load Type",
+                        headerName: t('capacityTable.header.load'),
                         width: 125,
                         flex: 1,
                         type: 'string',
@@ -99,7 +99,7 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
                             </Grid>
                         )
                     },
-                    { field: "capacity", headerName: "Capacity", minWidth: 125, editable: true, type: 'number', description: 'How many loads should the installation store?' },
+                    { field: "capacity", headerName: t('capacityTable.header.capacity'), minWidth: 125, editable: true, type: 'number', description: t('capacityTable.header.capacityDescription') },
                 ]}
                 processRowUpdate={(newRow: any, oldRow: any) => {
                     if (editMode) {

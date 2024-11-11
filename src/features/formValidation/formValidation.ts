@@ -23,9 +23,21 @@ const validationSchema = Yup.object({
   }),
   project: Yup.object({
     supplyChainParts: Yup.array().required('helperText.project.supplyChainParts.number').min(1, 'helperText.project.supplyChainParts.number'),
-    investmentLocation: Yup.string().required('helperText.project.investmentLocation.required'),
-    investmentType: Yup.string().required('helperText.project.investmentType.required')
-
+    investmentType: Yup.string().required('helperText.project.investmentType.required'),
+    it: Yup.object().shape({
+      existingSystem: Yup.object().shape({
+        name: Yup.number().when('present', {
+            is: (present: boolean) => present === true,
+            then: (schema) =>
+                schema.notOneOf([-1], 'helperText.project.it.existingSystem.name.number')
+                      .required('helperText.project.it.existingSystem.name.required'),
+        }),
+        existingOther: Yup.string().when(['present', 'name'], {
+            is: (present: boolean, name: number) => present === true && name === 2,
+            then: (schema) => schema.required('helperText.project.it.existingSystem.existingOther.required'),
+        }),
+      }),
+  })
   })
 })
 

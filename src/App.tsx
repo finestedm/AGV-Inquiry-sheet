@@ -23,6 +23,7 @@ import { HashRouter as Router, Route, Routes } from 'react-router-dom'
 i18n
   .use(LanguageDetector)
   .init({
+    supportedLngs: ['de', 'en', 'pl'],
     resources: {
       pl: { translation: pl },
       en: { translation: en },

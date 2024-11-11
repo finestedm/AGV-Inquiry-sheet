@@ -7,7 +7,7 @@ import undoable from 'redux-undo';
 
 const initialFormDataState: IFormData = {
 
-    version: '231022beta',
+    version: '240102beta',
     sales: {
         salesUnit: 'S1-PL',
         contactPerson: '',
@@ -35,7 +35,6 @@ const initialFormDataState: IFormData = {
         goals: '',
         supplyChainParts: [],
         tender: false,
-        investmentLocation: '',
         investmentType: -1,
         consultingCompany: false,
         competitor: false,
@@ -79,7 +78,7 @@ const initialFormDataState: IFormData = {
     },
     system: {
         asrs: {
-            selected: true,
+            selected: false,
             workTime: {
                 workDays: 0,
                 shiftsPerDay: 0,
@@ -226,7 +225,6 @@ const formDataSlice = createSlice({
             currentObject[keys[keys.length - 1]] = value;
         },
 
-        // In your reducer file
 
         handleDateChanges: (state, action: PayloadAction<IMilestones>) => {
             return {
@@ -236,7 +234,6 @@ const formDataSlice = createSlice({
                     milestones: action.payload,
                 },
             };
-            // ... other cases ...
         },
 
 

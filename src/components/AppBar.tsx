@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, ButtonGroup, Container, Divider, FormControl, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
+import { AppBar, Avatar, Box, Button, ButtonGroup, CircularProgress, Container, Divider, FormControl, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
 import { saveAs } from 'file-saver';
 import SaveIcon from '@mui/icons-material/Save';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -24,6 +24,8 @@ import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormD
 import ClearFormDataDialog from "./ClearFormDataDialog";
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
 import UndoIcon from '@mui/icons-material/Undo';
+import axios from 'axios'
+import BackupIcon from '@mui/icons-material/Backup';
 import RedoIcon from '@mui/icons-material/Redo';
 
 export default function TopBar(): JSX.Element {
@@ -68,6 +70,37 @@ export default function TopBar(): JSX.Element {
         saveAs(blob, fileName);
         dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')} ${fileName}`, severity: 'success' }));
     };
+
+    const [isWaiting, setIsWaiting] = useState(false);
+    const [isResolved, setIsResolved] = useState(false);
+
+    async function saveDataToServer() {
+        try {
+            setIsWaiting(true);       // Set waiting state
+            setIsResolved(false);     // Reset resolved state
+
+            const response = await axios.post(
+                `${process.env.REACT_APP_SERVER_URL}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+
+            if (response.status === 200) {
+                setIsResolved(true);  // Set resolved state on success
+                dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSavedToServer')}`, severity: 'success' }));
+            }
+        } catch (error) {
+            console.error("Failed to save data:", error);
+            dispatch(openSnackbar({ message: `${t('ui.snackBar.message.errorSaving')}. Error: ${error}`, severity: 'error' }));
+        } finally {
+            setIsWaiting(false);      // Reset waiting state
+        }
+    };
+
     function loadFile(e: React.FormEvent<HTMLInputElement>) {
         const fileInput = e.target as HTMLInputElement;
         const file = fileInput.files?.[0];
@@ -94,7 +127,6 @@ export default function TopBar(): JSX.Element {
         }
         dispatch(setEditMode(false))
     }
-
 
     return (
         <AppBar position="static" color="default">
@@ -166,6 +198,12 @@ export default function TopBar(): JSX.Element {
                                     <ListItemText>{t('ui.button.inquiry.save')}</ListItemText>
                                 </MenuItem>
                             }
+                            {isSummaryStep &&
+                                <MenuItem onClick={() => saveDataToServer()}>
+                                    <ListItemIcon>{isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}</ListItemIcon>
+                                    <ListItemText>{t('ui.button.inquiry.saveToServer')}</ListItemText>
+                                </MenuItem>
+                            }
                             <MenuItem
                                 onClick={() => {
                                     const fileInput = document.getElementById('file-input') as HTMLInputElement;
@@ -233,6 +271,13 @@ export default function TopBar(): JSX.Element {
                             {isSummaryStep &&
                                 <Button variant='outlined' onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
                                     <Typography>{t('ui.button.inquiry.save')}</Typography>
+                                </Button>
+                            }
+                            {isSummaryStep &&
+                                <Button variant='outlined' onClick={() => saveDataToServer()} startIcon={isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}>
+                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                        <Typography>{t('ui.button.inquiry.saveToServer')}</Typography>
+                                    </Stack>
                                 </Button>
                             }
                             <Button variant='outlined' startIcon={<UploadIcon />}>

@@ -44,7 +44,6 @@ export interface IProject {
     goals: string;
     supplyChainParts: number[];
     tender: boolean;
-    investmentLocation: string;
     investmentType: number;
     consultingCompany: boolean;
     competitor: boolean;
