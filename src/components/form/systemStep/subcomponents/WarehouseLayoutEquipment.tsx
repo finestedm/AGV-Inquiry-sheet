@@ -4,14 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { updateEquipment } from "../../../../features/redux/reducers/formDataSlice";
 import { useTheme } from "@mui/material";
-import { Circle, Rect, Text, Transformer } from "react-konva";
+import { Rect, Text, Transformer } from "react-konva";
 import Konva from 'konva';
-import { debounce } from 'lodash';
 
 interface CommonProps {
     onSelect: () => void;
-    shapeRef: React.MutableRefObject<Konva.Rect | Konva.Circle | null>;
-    onTransformEnd: () => void;
+    shapeRef: React.MutableRefObject<Konva.Rect | null>;
     commonProps: {
         id: string;
         x: number;
@@ -22,6 +20,7 @@ interface CommonProps {
         rotation: number;
         draggable: boolean;
         onDragEnd: (e: Konva.KonvaEventObject<DragEvent>) => void;
+        onTransformEnd: (e: Konva.KonvaEventObject<Event>) => void
         opacity: number;
     };
 }
@@ -31,7 +30,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
 
     const { id, x, width, y, height, rotation, type, color } = equipment;
 
-    const shapeRef = useRef<Konva.Rect | Konva.Circle | null>(null);
+    const shapeRef = useRef<Konva.Rect | null>(null);
     const trRef = useRef<Konva.Transformer | null>(null);
 
     const dispatch = useDispatch();
@@ -53,23 +52,28 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
         dispatch(updateEquipment({ updatedEquipment, selectedSystem }));
     };
 
-    const onShapeChange = debounce(({ x, y, width, height, rotation }: 
-        { x: number; y: number; width: number; height: number; rotation: number }) => {
+    const onShapeChange = (index: number) => (e: Konva.KonvaEventObject<Event>) => {
         
-        const updatedEquipment = warehouseEquipment.map((equipment) => {
-            if (equipment.id === selectedShapeId) {
-                const xInMeters = x / canvaToWarehouseRatio;
-                const yInMeters = y / canvaToWarehouseRatio;
-                const widthInMeters = width / canvaToWarehouseRatio;
-                const heightInMeters = height / canvaToWarehouseRatio;
+        const updatedEquipment = warehouseEquipment.map((equipment, i) => {
+            if (i === index) {
+                const node = e.target
+                const xInMeters = Number((node.x() / canvaToWarehouseRatio).toFixed(1));
+                const yInMeters = Number((node.y() / canvaToWarehouseRatio).toFixed(1));
+                const widthInMeters = Number(((node.width() * node.scaleX()) / canvaToWarehouseRatio).toFixed(1));
+                const heightInMeters = Number(((node.height() * node.scaleY()) / canvaToWarehouseRatio).toFixed(1));
+                const rotation = Math.round(node.rotation() / 22.5) * 22.5;
+                // Reset scale to avoid compounding
+                node.scaleX(1);
+                node.scaleY(1);
 
                 return { ...equipment, x: xInMeters, y: yInMeters, width: widthInMeters, height: heightInMeters, rotation };
             }
+            
             return equipment;
         });
         
         dispatch(updateEquipment({ updatedEquipment, selectedSystem }));
-    }, 100);  // Adjust delay as necessary for smoother UX
+    }  
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -87,24 +91,6 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
     const commonProps: CommonProps = {
         onSelect,
         shapeRef,
-        onTransformEnd: () => {
-            const node = shapeRef.current;
-            if (node) {
-                const scaleX = node.scaleX();
-                const scaleY = node.scaleY();
-
-                node.scaleX(1);
-                node.scaleY(1);
-
-                onShapeChange({
-                    x: node.x(),
-                    y: node.y(),
-                    width: node.width() * scaleX,
-                    height: node.height() * scaleY,
-                    rotation: node.rotation(),
-                });
-            }
-        },
         commonProps: {
             id: id.toString(),
             x: x * canvaToWarehouseRatio,
@@ -115,6 +101,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
             rotation,
             draggable: editMode,
             onDragEnd: handleDragEnd(index),
+            onTransformEnd: onShapeChange(index),
             opacity: .6
         },
     };
@@ -137,32 +124,10 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                             onClick={commonProps.onSelect}
                             onTap={commonProps.onSelect}
                             ref={commonProps.shapeRef as React.MutableRefObject<Konva.Rect>}
-                            onTransformEnd={commonProps.onTransformEnd}
-                            onTransform={(e) => {
-                                const node = commonProps.shapeRef.current;
-                                if (node instanceof Konva.Rect) {
-                                    const scaleX = node.scaleX() || 1;
-                                    const scaleY = node.scaleY() || 1;
-
-                                    const newWidth = Math.max(5, node.width() * scaleX);
-                                    const newHeight = Math.max(5, node.height() * scaleY);
-
-                                    node.scaleX(1);
-                                    node.scaleY(1);
-
-                                    node.width(newWidth);
-                                    node.height(newHeight);
-
-                                    const rotationLimited = Math.round(node.rotation() / 45) * 45;
-                                    node.rotation(rotationLimited);
-
-                                    commonProps.onTransformEnd();
-                                }
-                            }}
                             {...commonProps.commonProps}
                         />
                         <Text {...textProps} y={textProps.y - 10} text={type} />
-                        <Text {...textProps} text={`${width.toFixed(2)} x ${height.toFixed(2)}`} />
+                        <Text {...textProps} text={`${Number(width).toFixed(1)} x ${Number(height).toFixed(1)}`} />
                         {isSelected && (
                             <Transformer
                                 ref={trRef}
@@ -174,6 +139,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                                     }
                                     return newBox;
                                 }}
+                                rotationSnaps= {[0, 90, 180, 270]}
                             />
                         )}
                     </React.Fragment>
