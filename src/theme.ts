@@ -131,7 +131,7 @@ theme = createTheme({
         grey: customGreyPalette
     },
     shape: {
-        borderRadius: 10
+        borderRadius: 1
     },
 
     typography: {
@@ -313,7 +313,7 @@ theme = createTheme({
                     fontSize: 14,
                     color: textSecondaryColor,
                     border: 'none',
-                    borderRadius: '8px !important',
+                    borderRadius: '1px !important',
                     "&.MuiToggleButton-sizeSmall": {
                         padding: '2px 6px'
                     },
@@ -764,7 +764,7 @@ export const themeDark = createTheme({
                     "&.MuiToggleButton-sizeSmall": {
                         padding: '2px 6px'
                     },
-                    borderRadius: '8px !important',
+                    borderRadius: '1px !important',
                     "&.Mui-disabled": {
                         border: 'none'
                     },
