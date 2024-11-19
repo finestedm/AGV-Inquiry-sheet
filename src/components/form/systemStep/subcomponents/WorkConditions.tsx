@@ -72,52 +72,61 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                         <Grid item xs={12}>
                             <Stack spacing={2}>
                                 <CustomAlert collapseTrigger={(selectedSystem === 'lrkprk' || selectedSystem === 'autovna' || selectedSystem === 'agv') && (formData.system[selectedSystem].workConditions.temperature[0] <= 5)} severity="error" title={t(`system.${selectedSystem}.temperatureWarningTitle`)} text={t(`system.${selectedSystem}.temperatureWarning`)} />
-                                <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[0]) <= criticalElectronicsTemperature))} severity="warning" title={t(`system.condensationWarningTitle`)} text={t(`system.condensationWarning`)} />
+                                <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[1]) <= criticalElectronicsTemperature))} severity="warning" title={t(`system.condensationWarningTitle`)} text={t(`system.condensationWarning`)} />
                             </Stack>
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12}>
                             <Box>
-                                <Stack>
-                                    <FormControlLabel
-                                        disabled={!editMode}
-                                        id="system-asrs-workConditions-freezer"
-                                        control={
-                                            <Checkbox
-                                                checked={formData.system[selectedSystem].workConditions.freezer || formData.system[selectedSystem].workConditions.temperature[0] < 0}
-                                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.freezer`, value: e.target.checked }))}
-                                                inputProps={{ 'aria-label': 'controlled' }}
-                                            />
-                                        }
-                                        labelPlacement="end"
-                                        label={<>{t(`system.workConditions.freezer`)} <AcUnit fontSize="small" /></>}
-                                    />
-                                    <FormControlLabel
-                                        disabled={!editMode}
-                                        id="system-asrs-workConditions-EX"
-                                        control={
-                                            <Checkbox
-                                                checked={formData.system[selectedSystem].workConditions.EX}
-                                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.EX`, value: e.target.checked }))}
-                                                inputProps={{ 'aria-label': 'controlled' }}
-                                            />
-                                        }
-                                        labelPlacement="end"
-                                        label={<>{t(`system.workConditions.EX`)} <Warning fontSize="small" /></>}
-                                    />
-                                    <FormControlLabel
-                                        disabled={!editMode}
-                                        id="system-asrs-workConditions-dangerousMaterials"
-                                        control={
-                                            <Checkbox
-                                                checked={formData.system[selectedSystem].workConditions.dangerousMaterials}
-                                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.dangerousMaterials`, value: e.target.checked }))}
-                                                inputProps={{ 'aria-label': 'controlled' }}
-                                            />
-                                        }
-                                        labelPlacement="end"
-                                        label={<>{t(`system.workConditions.dangerousMaterials`)} <Whatshot fontSize="small" /></>}
-                                    />
-                                </Stack>
+                                <Grid container>
+                                    <Grid item xs={12} md={6}>
+                                        <Box>
+                                            <Stack>
+                                                <FormControlLabel
+                                                    disabled={!editMode}
+                                                    id="system-asrs-workConditions-freezer"
+                                                    control={
+                                                        <Checkbox
+                                                            checked={formData.system[selectedSystem].workConditions.freezer || formData.system[selectedSystem].workConditions.temperature[0] < 0}
+                                                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.freezer`, value: e.target.checked }))}
+                                                            inputProps={{ 'aria-label': 'controlled' }}
+                                                        />
+                                                    }
+                                                    labelPlacement="end"
+                                                    label={<>{t(`system.workConditions.freezer`)} <AcUnit fontSize="small" /></>}
+                                                />
+                                                <FormControlLabel
+                                                    disabled={!editMode}
+                                                    id="system-asrs-workConditions-EX"
+                                                    control={
+                                                        <Checkbox
+                                                            checked={formData.system[selectedSystem].workConditions.EX}
+                                                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.EX`, value: e.target.checked }))}
+                                                            inputProps={{ 'aria-label': 'controlled' }}
+                                                        />
+                                                    }
+                                                    labelPlacement="end"
+                                                    label={<>{t(`system.workConditions.EX`)} <Warning fontSize="small" /></>}
+                                                />
+                                                <FormControlLabel
+                                                    disabled={!editMode}
+                                                    id="system-asrs-workConditions-dangerousMaterials"
+                                                    control={
+                                                        <Checkbox
+                                                            checked={formData.system[selectedSystem].workConditions.dangerousMaterials}
+                                                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.dangerousMaterials`, value: e.target.checked }))}
+                                                            inputProps={{ 'aria-label': 'controlled' }}
+                                                        />
+                                                    }
+                                                    labelPlacement="end"
+                                                    label={<>{t(`system.workConditions.dangerousMaterials`)} <Whatshot fontSize="small" /></>}
+                                                />
+                                            </Stack>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.EX || formData.system[selectedSystem].workConditions.dangerousMaterials || formData.system[selectedSystem].workConditions.temperature[0] <= 5))} severity="error" title={t(`system.workingConditionsTitle`)} text={t(`system.workingConditions`)} />
+                                    </Grid>
+                                </Grid>
                             </Box>
                         </Grid>
                         <Grid item xs={12}>

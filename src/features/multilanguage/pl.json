@@ -161,6 +161,8 @@
     }
   },
   "system": {
+    "workingConditionsTitle": "Uwaga!",
+    "workingConditions": "Warunki uniemożliwiają zastosowanie wybrane systemu",
     "condensationWarningTitle": "Uwaga!",
     "condensationWarning": "Panujące warunki mogą powodowac kondensacje",
     "inclineWarningTitle": "Wysoki pochył",
