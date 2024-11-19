@@ -6,6 +6,7 @@ export interface ISales {
     salesUnit: string;
     contactPerson: string;
     contactPersonRole: string;
+    OPNumber: string;
 }
 
 export interface IIt {

@@ -8,11 +8,12 @@ import dayjs from 'dayjs';
 
 const initialFormDataState: IFormData = {
 
-    version: '240102beta',
+    version: '241119beta',
     sales: {
         salesUnit: 'S1-PL',
         contactPerson: '',
         contactPersonRole: '',
+        OPNumber: '',
     },
     customer: {
         name: '',
