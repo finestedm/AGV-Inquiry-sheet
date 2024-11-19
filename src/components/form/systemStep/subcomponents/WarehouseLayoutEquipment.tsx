@@ -134,7 +134,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                                 id="transformer"
                                 flipEnabled={false}
                                 rotateLineVisible
-                                rotationSnapTolerance={22.5}
+                                rotationSnapTolerance={11.25}
                                 boundBoxFunc={(oldBox, newBox) => {
                                     if (Math.abs(newBox.width/canvaToWarehouseRatio) < 5 || Math.abs(newBox.height/canvaToWarehouseRatio) < 5) {
                                         return oldBox;
