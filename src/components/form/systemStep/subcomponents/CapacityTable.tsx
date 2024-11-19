@@ -99,7 +99,7 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
                             </Grid>
                         )
                     },
-                    { field: "capacity", headerName: t('capacityTable.header.capacity'), minWidth: 125, editable: true, type: 'number', description: t('capacityTable.header.capacityDescription') },
+                    { field: "capacity", headerName: t('capacityTable.header.capacity'), minWidth: 125, editable: editMode, type: 'number', description: t('capacityTable.header.capacityDescription') },
                 ]}
                 processRowUpdate={(newRow: any, oldRow: any) => {
                     if (editMode) {

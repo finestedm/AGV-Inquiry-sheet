@@ -177,7 +177,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             field: "stationSource",
                             headerName: t(`flowTable.header.stationSource`),
                             minWidth: 130,
-                            editable: true,
+                            editable: editMode,
                             type: 'singleSelect',
                             valueOptions: selectedSystemEquipment.map((equipment) => ({
                                 value: equipment.id,
@@ -189,7 +189,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             field: "stationTarget",
                             headerName: t(`flowTable.header.stationTarget`),
                             minWidth: 130,
-                            editable: true,
+                            editable: editMode,
                             type: 'singleSelect',
                             valueOptions: selectedSystemEquipment.map((equipment) => ({
                                 value: equipment.id,
@@ -197,13 +197,13 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
-                        { field: "flowAverage", headerName: t(`flowTable.header.flowAverage`), minWidth: 130, editable: true, type: 'number' },
-                        { field: "flowPeak", headerName: t(`flowTable.header.flowPeak`), minWidth: 130, editable: true, type: 'number' },
+                        { field: "flowAverage", headerName: t(`flowTable.header.flowAverage`), minWidth: 130, editable: editMode, type: 'number' },
+                        { field: "flowPeak", headerName: t(`flowTable.header.flowPeak`), minWidth: 130, editable: editMode, type: 'number' },
                         {
                             field: "loadType",
                             headerName: t(`flowTable.header.loadType`),
                             minWidth: 150,
-                            editable: true,
+                            editable: editMode,
                             type: 'singleSelect',
                             description: t(`flowTable.header.loadTypeDescription`),
                             renderEditCell: CustomLoadTypeEditCell,
@@ -256,8 +256,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 }
                             },
                         },
-                        { field: "distance", headerName: t(`flowTable.header.distance`), minWidth: 130, editable: true, type: 'number', description: t(`flowTable.header.distanceDescription`) },
-                        { field: "bidirectional", headerName: t(`flowTable.header.bidirectional`), minWidth: 130, editable: true, type: 'boolean', description: t(`flowTable.header.bidirectionalDescription`), valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
+                        { field: "distance", headerName: t(`flowTable.header.distance`), minWidth: 130, editable: editMode, type: 'number', description: t(`flowTable.header.distanceDescription`) },
+                        { field: "bidirectional", headerName: t(`flowTable.header.bidirectional`), minWidth: 130, editable: editMode, type: 'boolean', description: t(`flowTable.header.bidirectionalDescription`), valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
                     ]}
 
                     processRowUpdate={(newRow: IFlow, oldRow: IFlow) => {
