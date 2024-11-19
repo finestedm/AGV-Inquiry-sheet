@@ -3,14 +3,14 @@ import * as Yup from 'yup';
 const validationSchema = Yup.object({
   sales: Yup.object({
     contactPerson: Yup.string().required('helperText.sales.contactPerson.required'),
+    OPNumber: Yup.string()
+      .matches(/^4\d{7}$/, 'helperText.customer.OPNumber.format')
+      .notRequired(),
   }),
   customer: Yup.object({
     name: Yup.string().required('helperText.customer.name.required'),
     sapNumber: Yup.string()
       .matches(/^4\d{7}$/, 'helperText.customer.sapNumber.format')
-      .notRequired(),
-    OPNumber: Yup.string()
-      .matches(/^4\d{7}$/, 'helperText.customer.OPNumber.format')
       .notRequired(),
     address: Yup.string().required('helperText.customer.address.required'),
     contactPersonMail: Yup.string()

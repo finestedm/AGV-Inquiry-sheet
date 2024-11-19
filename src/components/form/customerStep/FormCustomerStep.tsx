@@ -157,6 +157,7 @@ export default function FormCustomerStep(): JSX.Element {
               <FormControl>
                 <Field
                   as={Select}
+                  sx={{ textAlign: 'left' }}
                   disabled={!editMode}
                   required
                   id="customer.relations"

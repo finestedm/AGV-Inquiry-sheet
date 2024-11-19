@@ -3,7 +3,6 @@
     "header": "Dane klienta",
     "name": "Firma / klient",
     "sapNumber": "Numer klienta (SAP)",
-    "OPNumber": "Numer opportunity (OP) - jeśli założone",
     "industry": "Branża",
     "industryNameOther": "Podaj inną branżę",
     "contactPerson": "Imię i nazwisko",
@@ -15,7 +14,7 @@
       "perYear": "/ rok"
     },
     "subheader": {
-      "teleaddress": "Dane firmy",
+      "teleaddress": "Dane ogólne",
       "contactperson": "Osoba kontaktowa",
       "businessdata": "Dane biznesowe"
     },
@@ -49,6 +48,7 @@
   },
   "sales": {
     "salesUnit": "Jednostka sprzedażowa",
+    "OPNumber": "Numer opportunity (OP) - jeśli założone",
     "header": "Dane jednostki sprzedażowej",
     "unit": "Jednostka sprzedażowa",
     "contactPerson": "Osoba kontaktowa ze strony JH",
