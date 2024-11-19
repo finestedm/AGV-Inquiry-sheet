@@ -102,6 +102,9 @@
       "deleteSelectedLoads": "Usuń wybrane",
       "addNewFlow": "Dodaj"
     },
+    "helperText": {
+      "loadDimensionsTip": "Wymiary wprowadź w milimetrach!"
+    },
     "switch": {
       "darkMode": {
         "dark": "Tryb nocny",

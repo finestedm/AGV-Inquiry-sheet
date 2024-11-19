@@ -19,8 +19,11 @@ export default function Loads({ selectedSystem }: { selectedSystem: keyof ISyste
             content={
                 <Stack spacing={2}>
                     <Box>
-                        <img style={{ width: '100%', maxWidth: 800 }} src={LoadDimensionPicture} alt="load dimensions" />
-                        <img src={LoadDimensionPicture2} alt="load dimensions 2" />
+                        <Stack alignItems='center'>
+                            <img style={{ width: '100%', maxWidth: 800 }} src={LoadDimensionPicture} alt="load dimensions" />
+                            <img style={{ maxWidth: 250 }} src={LoadDimensionPicture2} alt="load dimensions 2" />
+                            <Typography variant="subtitle2" color='Highlight'>{t('ui.helperText.loadDimensionsTip')}</Typography>
+                        </Stack>
                     </Box>
                     <LoadTable selectedSystem={selectedSystem} />
                     <Grid item xs={12}>
