@@ -71,7 +71,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                         </Grid>
                         <Grid item xs={12}>
                             <Stack spacing={2}>
-                                <CustomAlert collapseTrigger={(selectedSystem === 'lrkprk' || selectedSystem === 'autovna' || selectedSystem === 'agv') && (formData.system[selectedSystem].workConditions.temperature[0] <= 5)} severity="error" title={t('system.lrkprk.temperatureWarningTitle')} text={t(`system.lrkprk.temperatureWarning`)} />
+                                <CustomAlert collapseTrigger={(selectedSystem === 'lrkprk' || selectedSystem === 'autovna' || selectedSystem === 'agv') && (formData.system[selectedSystem].workConditions.temperature[0] <= 5)} severity="error" title={t(`system.${selectedSystem}.temperatureWarningTitle`)} text={t(`system.${selectedSystem}.temperatureWarning`)} />
                                 <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[0]) <= criticalElectronicsTemperature))} severity="warning" title={t(`system.condensationWarningTitle`)} text={t(`system.condensationWarning`)} />
                             </Stack>
                         </Grid>

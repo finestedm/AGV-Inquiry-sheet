@@ -9,6 +9,9 @@ const validationSchema = Yup.object({
     sapNumber: Yup.string()
       .matches(/^4\d{7}$/, 'helperText.customer.sapNumber.format')
       .notRequired(),
+    OPNumber: Yup.string()
+      .matches(/^4\d{7}$/, 'helperText.customer.OPNumber.format')
+      .notRequired(),
     address: Yup.string().required('helperText.customer.address.required'),
     contactPersonMail: Yup.string()
       .email('helperText.customer.contactPersonMail.format')

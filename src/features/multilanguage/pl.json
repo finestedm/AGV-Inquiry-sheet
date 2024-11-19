@@ -3,6 +3,7 @@
     "header": "Dane klienta",
     "name": "Firma / klient",
     "sapNumber": "Numer klienta (SAP)",
+    "OPNumber": "Numer opportunity (OP) - jeśli założone",
     "industry": "Branża",
     "industryNameOther": "Podaj inną branżę",
     "contactPerson": "Imię i nazwisko",
@@ -384,6 +385,9 @@
       },
       "sapNumber": {
         "format": "Numer SAP musi zaczynać się od 4 i mieć 8 cyfr"
+      },
+      "OPNumber": {
+        "format": "Numer OP musi zaczynać się od 4 i mieć 8 cyfr"
       },
       "contactPersonMail": {
         "format": "Zły format"

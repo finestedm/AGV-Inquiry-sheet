@@ -21,6 +21,9 @@ export default function FormSalesUnitStep(): JSX.Element {
                             fieldName="sales.salesUnit"
                         />
                         <CustomTextField
+                            fieldName="sales.OPNumber"
+                        />
+                        <CustomTextField
                             required
                             fieldName="sales.contactPerson"
                         />
