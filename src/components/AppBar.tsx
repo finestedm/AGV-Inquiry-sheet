@@ -84,6 +84,7 @@ export default function TopBar(): JSX.Element {
             if (response.status === 200) {
                 setIsResolved(true);  // Set resolved state on success
                 dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSavedToServer')}`, severity: 'success' }));
+                saveDataToFile() 
             }
         } catch (error) {
             console.error("Failed to save data:", error);
