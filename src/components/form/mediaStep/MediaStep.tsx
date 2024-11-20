@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { FormikProps, useFormikContext } from "formik";
 import { IFormData, IMedia } from "../../../features/interfaces";
 import InputGroup from "../InputGroup";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import imageCompression from 'browser-image-compression';
 import plusImage from '../../../images/plus-svgrepo-com.svg'
 import { handleInputMethod } from "../../../features/redux/reducers/formDataSlice";
@@ -90,6 +90,45 @@ export default function FormMediaStep(): JSX.Element {
         setImages(filteredImages);
     }
 
+    function handleEditImageName(index: number) {
+        const currentName = images[index].name;
+
+        const newName = prompt("Enter a new name for the image:", currentName);
+
+        if (newName === null || newName.trim() === "") return;
+
+        const updatedImages = images.map((image, i) =>
+            i === index ? { ...image, name: newName } : image
+        );
+
+        setImages(updatedImages);
+    }
+
+
+    function handleDeleteImageUploaded(index: number) {
+        const imagesUploadedFiltered = imagesUploaded.filter((_, i) => i !== index);
+        dispatch(handleInputMethod({
+            path: 'media.images',
+            value: imagesUploadedFiltered,
+        }));
+    }
+
+    function handleEditImageUploadedName(index: number) {
+        const currentName = imagesUploaded[index].name;
+
+        const newName = prompt("Enter a new name for the image:", currentName);
+
+        if (newName === null || newName.trim() === "") return;
+
+        const updatedImagesUploaded = imagesUploaded.map((image, i) =>
+            i === index ? { ...image, name: newName } : image
+        );
+
+        dispatch(handleInputMethod({
+            path: 'media.images',
+            value: updatedImagesUploaded,
+        }));
+    }
 
     return (
         <Stack spacing={5}>
@@ -116,7 +155,7 @@ export default function FormMediaStep(): JSX.Element {
                                                 </CardContent>
                                                 <CardActions disableSpacing>
                                                     <Tooltip title='edit name'>
-                                                        <IconButton size="small" aria-label="edit">
+                                                        <IconButton size="small" aria-label="edit" onClick={() => handleEditImageName(index)}>
                                                             <EditIcon />
                                                         </IconButton>
                                                     </Tooltip>
@@ -153,30 +192,13 @@ export default function FormMediaStep(): JSX.Element {
                                             </Grid>
                                         ))
                                     )}
-                                    <Grid item xs={6} md={3}>
-                                        <Card sx={{ maxWidth: 345 }}>
-                                            <CardMedia
-                                                sx={{ height: 140 }}
-                                                image={plusImage}
-                                                title="upload"
-                                            />
-                                            <CardContent>
-                                                <Typography gutterBottom variant="caption">
-                                                    Select Images
-                                                </Typography>
-                                                <input
-                                                    disabled={!editMode}
-                                                    accept="image/*"
-                                                    type="file"
-                                                    multiple
-                                                    onChange={(e) => handleImageUpload(e)}
-                                                    id="upload-image-button"
-                                                />
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
+                                    {editMode && (
+                                        <Grid item xs={6} md={3}>
+                                            <ImageUploadCard handleImageUpload={handleImageUpload} />
+                                        </Grid>
+                                    )}
                                 </Grid>
-                                <Button disabled={!editMode} onClick={handleImageDispatch}>upload</Button>
+                                <Button disabled={!editMode} variant='contained' onClick={handleImageDispatch}>upload</Button>
                             </Stack>
                         </Box>
                     </Stack>
@@ -190,8 +212,8 @@ export default function FormMediaStep(): JSX.Element {
                             <Stack spacing={2}>
                                 <Grid container spacing={2}>
                                     {imagesUploaded.map((image, index) => (
-                                        <Grid item xs={6} md={3}>
-                                            <Card key={index} sx={{ maxWidth: 345 }}>
+                                        <Grid item xs={6} md={4} lg={3}>
+                                            <Card key={index}>
                                                 <CardMedia
                                                     sx={{ height: 140 }}
                                                     image={image.base64}
@@ -202,6 +224,18 @@ export default function FormMediaStep(): JSX.Element {
                                                         {image.name}
                                                     </Typography>
                                                 </CardContent>
+                                                <CardActions disableSpacing>
+                                                    <Tooltip title='edit name'>
+                                                        <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip title='delete'>
+                                                        <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </CardActions>
                                             </Card>
                                         </Grid>
                                     ))}
@@ -214,4 +248,48 @@ export default function FormMediaStep(): JSX.Element {
         </Stack >
 
     )
+}
+
+export function ImageUploadCard({ handleImageUpload }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void }) {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const triggerFileInput = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    return (
+        <Card
+            sx={{
+                cursor: 'pointer',
+            }}
+            onClick={triggerFileInput}
+        >
+            <CardMedia
+                sx={{
+                    height: 140,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+                image={plusImage}
+                title="Upload"
+            />
+            <CardContent>
+                <Typography gutterBottom variant="caption" textAlign="center">
+                    Select Images
+                </Typography>
+            </CardContent>
+            {/* Hidden input */}
+            <input
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                accept="image/*"
+                type="file"
+                multiple
+                onChange={handleImageUpload}
+            />
+        </Card>
+    );
 }
