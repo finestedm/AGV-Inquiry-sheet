@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, CardMedia, Grid, InputLabel, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, CircularProgress, Grid, IconButton, InputLabel, Stack, Tooltip, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
@@ -10,6 +10,9 @@ import { ChangeEvent, useState } from "react";
 import imageCompression from 'browser-image-compression';
 import plusImage from '../../../images/plus-svgrepo-com.svg'
 import { handleInputMethod } from "../../../features/redux/reducers/formDataSlice";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import CustomTooltip from "../../../features/tooltips/customTooltip";
 
 export default function FormMediaStep(): JSX.Element {
 
@@ -20,15 +23,19 @@ export default function FormMediaStep(): JSX.Element {
     const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
     const [images, setImages] = useState<IMedia['images']>([]);
-    
+    const [loading, setLoading] = useState(false);
+    const [processingCount, setProcessingCount] = useState(0);
+
+
     async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
         const input = event.target as HTMLInputElement;
         if (!input.files || input.files.length === 0) return;
-    
+
         const files = Array.from(input.files);
-    
+        setProcessingCount(files.length); // Update the count
+        setLoading(true); // Start loading
+
         try {
-            // Map over the files and compress each one
             const compressedFiles = await Promise.all(
                 files.map(async (file) => {
                     const options = {
@@ -37,20 +44,22 @@ export default function FormMediaStep(): JSX.Element {
                     };
                     const compressedFile = await imageCompression(file, options);
                     const base64 = await fileToBase64(compressedFile);
-    
-                    return { base64, name: file.name }; // Return both base64 and the file name
+
+                    return { base64, name: file.name };
                 })
             );
-    
-            // Add all the compressed and converted images to the current state
+
             setImages((prevImages) => [...prevImages, ...compressedFiles]);
-    
         } catch (error) {
             console.error('Error while compressing or converting image:', error);
+        } finally {
+            setLoading(false); // End loading
+            setProcessingCount(0); // Reset count after processing
         }
-    };
-    
-    
+    }
+
+
+
     function fileToBase64(file: File): Promise<string> {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -67,7 +76,7 @@ export default function FormMediaStep(): JSX.Element {
                 existingImage.base64 === newImage.base64
             );
         });
-    
+
         dispatch(handleInputMethod({
             path: 'media.images',
             value: [...imagesUploaded, ...uniqueNewImages],
@@ -75,7 +84,12 @@ export default function FormMediaStep(): JSX.Element {
 
         setImages([])
     }
-    
+
+    function handleDeleteImage(index: number) {
+        const filteredImages = images.filter((_, i) => i !== index);
+        setImages(filteredImages);
+    }
+
 
     return (
         <Stack spacing={5}>
@@ -86,40 +100,83 @@ export default function FormMediaStep(): JSX.Element {
                     <Stack spacing={2}>
                         <Box>
                             <Stack spacing={2}>
-                                    <Grid container spacing={2}>
-                                        {images.map((image, index) => (
-                                            <Grid item xs={6} md={3}> 
-                                                <Card key={index} sx={{ maxWidth: 345 }}>
+                                <Grid container spacing={2}>
+                                    {images.map((image, index) => (
+                                        <Grid item xs={6} md={4} lg={3} key={index}>
+                                            <Card>
+                                                <CardMedia
+                                                    sx={{ height: 140 }}
+                                                    image={image.base64}
+                                                    title={image.name}
+                                                />
+                                                <CardContent>
+                                                    <Typography gutterBottom variant="caption">
+                                                        {image.name}
+                                                    </Typography>
+                                                </CardContent>
+                                                <CardActions disableSpacing>
+                                                    <Tooltip title='edit name'>
+                                                        <IconButton size="small" aria-label="edit">
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip title='delete'>
+                                                        <IconButton size="small" color='error' aria-label="delete" onClick={() => handleDeleteImage(index)}>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
+                                    ))
+                                    }
+                                    {(loading && processingCount > 0) && (
+                                        Array.from({ length: processingCount }).map((_, index) => (
+                                            <Grid item xs={6} md={4} lg={3} key={`placeholder-${index}`}>
+                                                <Card>
                                                     <CardMedia
-                                                        sx={{ height: 140 }}
-                                                        image={image.base64}
-                                                        title={image.name}
-                                                    />
+                                                        sx={{
+                                                            height: 140,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                        }}
+                                                    >
+                                                        <CircularProgress />
+                                                    </CardMedia>
                                                     <CardContent>
-                                                        <Typography gutterBottom variant="caption">
-                                                            {image.name}
+                                                        <Typography variant="caption" color='text.secondary'>
+                                                            Processing image {index + 1} of {processingCount}
                                                         </Typography>
                                                     </CardContent>
                                                 </Card>
                                             </Grid>
-                                        ))}
-                                        <Grid item xs={6} md={3}> 
-                                                <Card sx={{ maxWidth: 345 }}>
-                                                    <CardMedia
-                                                        sx={{ height: 140 }}
-                                                        image={plusImage}
-                                                        title='upload'
-                                                    />
-                                                    <CardContent>
-                                                        <Typography gutterBottom variant="caption">
-                                                            Select Images
-                                                        </Typography>
-                                                        <input disabled={!editMode} accept="image/*" type="file" multiple onChange={(e) => handleImageUpload(e)} id="upload-image-button" />
-                                                    </CardContent>
-                                                </Card>
-                                            </Grid>
+                                        ))
+                                    )}
+                                    <Grid item xs={6} md={3}>
+                                        <Card sx={{ maxWidth: 345 }}>
+                                            <CardMedia
+                                                sx={{ height: 140 }}
+                                                image={plusImage}
+                                                title="upload"
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="caption">
+                                                    Select Images
+                                                </Typography>
+                                                <input
+                                                    disabled={!editMode}
+                                                    accept="image/*"
+                                                    type="file"
+                                                    multiple
+                                                    onChange={(e) => handleImageUpload(e)}
+                                                    id="upload-image-button"
+                                                />
+                                            </CardContent>
+                                        </Card>
                                     </Grid>
-                                    <Button disabled={!editMode} onClick={handleImageDispatch}>upload</Button>
+                                </Grid>
+                                <Button disabled={!editMode} onClick={handleImageDispatch}>upload</Button>
                             </Stack>
                         </Box>
                     </Stack>
@@ -131,24 +188,24 @@ export default function FormMediaStep(): JSX.Element {
                     <Stack spacing={2}>
                         <Box>
                             <Stack spacing={2}>
-                                    <Grid container spacing={2}>
-                                        {imagesUploaded.map((image, index) => (
-                                            <Grid item xs={6} md={3}> 
-                                                <Card key={index} sx={{ maxWidth: 345 }}>
-                                                    <CardMedia
-                                                        sx={{ height: 140 }}
-                                                        image={image.base64}
-                                                        title={image.name}
-                                                    />
-                                                    <CardContent>
-                                                        <Typography gutterBottom variant="caption">
-                                                            {image.name}
-                                                        </Typography>
-                                                    </CardContent>
-                                                </Card>
-                                            </Grid>
-                                        ))}
+                                <Grid container spacing={2}>
+                                    {imagesUploaded.map((image, index) => (
+                                        <Grid item xs={6} md={3}>
+                                            <Card key={index} sx={{ maxWidth: 345 }}>
+                                                <CardMedia
+                                                    sx={{ height: 140 }}
+                                                    image={image.base64}
+                                                    title={image.name}
+                                                />
+                                                <CardContent>
+                                                    <Typography gutterBottom variant="caption">
+                                                        {image.name}
+                                                    </Typography>
+                                                </CardContent>
+                                            </Card>
                                         </Grid>
+                                    ))}
+                                </Grid>
                             </Stack>
                         </Box>
                     </Stack>
