@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export const initialSteps = ['sales', 'customer', 'project', 'system', 'media', 'summary'];
+export const initialSteps = ['sales', 'customer', 'project', 'system', 'summary', 'media'];
 export const allPossibleSteps = ['sales', 'customer', 'project', 'system', 'asrs', 'lrkprk', 'agv', 'autovna', 'media', 'summary'];
 
 const initialState = {

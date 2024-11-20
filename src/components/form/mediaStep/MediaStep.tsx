@@ -32,7 +32,7 @@ export default function FormMediaStep(): JSX.Element {
             const compressedFiles = await Promise.all(
                 files.map(async (file) => {
                     const options = {
-                        maxSizeMB: 1,
+                        maxSizeMB: 0.75,
                         useWebWorker: true,
                     };
                     const compressedFile = await imageCompression(file, options);

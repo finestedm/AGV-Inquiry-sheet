@@ -91,14 +91,14 @@ export default function Form(): JSX.Element {
       });
     }
     newSteps.push({
+      label: t('steps.summary'),
+      untranslated: "summary",
+      component: <FormSummaryStep key="summary" />
+    })
+    newSteps.push({
       label: t('steps.media'),
       untranslated: "media",
       component: <FormMediaStep key="media" />
-    })
-    newSteps.push({
-      label: t('steps.summary'),
-      untranslated: "summary",
-      component: <FormSystemSelectorStep key="summary" />
     })
     setStepsCombined(newSteps);
   }, [formData, t]);
@@ -115,7 +115,8 @@ export default function Form(): JSX.Element {
     }, {} as Record<keyof ISystems, ISystemData>);
   const activeSystemStepNames = Object.keys(activeSystemSteps);
 
-  const allSteps = [...constantSteps.filter(step => step !== 'summary'), ...activeSystemStepNames];
+  const allSteps = [...constantSteps.filter(step => (step !== 'summary' && step !== 'media')), ...activeSystemStepNames];
+  Object.values(formData.system).some(system => system.selected) && allSteps.push('media')  //add summary only if at least one system is selected
   Object.values(formData.system).some(system => system.selected) && allSteps.push('summary')  //add summary only if at least one system is selected
 
   useEffect(() => {
