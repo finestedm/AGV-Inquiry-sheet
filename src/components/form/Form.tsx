@@ -20,6 +20,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useDispatch } from "react-redux";
 import currentStep, { backStep, initialSteps, nextStep, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
+import FormMediaStep from "./mediaStep/MediaStep";
 
 export default function Form(): JSX.Element {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function Form(): JSX.Element {
         label: t('steps.system'),
         untranslated: "system",
         component: <FormSystemSelectorStep key="system" />
-      }
+      },
     ];
 
     if (formData.system.asrs.selected) {
@@ -89,7 +90,11 @@ export default function Form(): JSX.Element {
         component: <FormASRSStep key="autovna" selectedSystem='autovna' />,
       });
     }
-
+    newSteps.push({
+      label: t('steps.media'),
+      untranslated: "media",
+      component: <FormMediaStep key="media" />
+    })
     newSteps.push({
       label: t('steps.summary'),
       untranslated: "summary",
@@ -206,6 +211,7 @@ export default function Form(): JSX.Element {
                             }
                           />
                         ))}
+                        <Route path="/media" element={<FormMediaStep />} />
                         <Route path="/summary" element={<FormSummaryStep />} />
                         <Route path="/*" element={<FormSalesUnitStep />} />
                       </Routes>

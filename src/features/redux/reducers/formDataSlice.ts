@@ -200,6 +200,9 @@ const initialFormDataState: IFormData = {
             additionalRemarks: '',
         }
     },
+    media: {
+        images: []
+    }
 }
 
 const formDataSlice = createSlice({
