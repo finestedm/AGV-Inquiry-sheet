@@ -141,7 +141,7 @@ export default function FormMediaStep(): JSX.Element {
                             <Stack spacing={2}>
                                 <Grid container spacing={2}>
                                     {images.map((image, index) => (
-                                        <Grid item xs={6} md={4} lg={3} key={index}>
+                                        <Grid item xs={4} lg={3} key={index}>
                                             <Card>
                                                 <CardMedia
                                                     sx={{ height: 140 }}
@@ -171,7 +171,7 @@ export default function FormMediaStep(): JSX.Element {
                                     }
                                     {(loading && processingCount > 0) && (
                                         Array.from({ length: processingCount }).map((_, index) => (
-                                            <Grid item xs={6} md={4} lg={3} key={`placeholder-${index}`}>
+                                            <Grid item xs={4} lg={3} key={`placeholder-${index}`}>
                                                 <Card>
                                                     <CardMedia
                                                         sx={{
@@ -193,7 +193,7 @@ export default function FormMediaStep(): JSX.Element {
                                         ))
                                     )}
                                     {editMode && (
-                                        <Grid item xs={6} md={3}>
+                                        <Grid item xs={4} lg={3}>
                                             <ImageUploadCard handleImageUpload={handleImageUpload} />
                                         </Grid>
                                     )}
@@ -212,7 +212,7 @@ export default function FormMediaStep(): JSX.Element {
                             <Stack spacing={2}>
                                 <Grid container spacing={2}>
                                     {imagesUploaded.map((image, index) => (
-                                        <Grid item xs={6} md={4} lg={3}>
+                                        <Grid item xs={4} lg={3}>
                                             <Card key={index}>
                                                 <CardMedia
                                                     sx={{ height: 140 }}
