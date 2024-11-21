@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, CircularProgress, Grid, IconButton, InputLabel, Stack, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, CircularProgress, Grid, IconButton, InputLabel, Stack, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
@@ -13,6 +13,7 @@ import { handleInputMethod } from "../../../features/redux/reducers/formDataSlic
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CustomTooltip from "../../../features/tooltips/customTooltip";
+import { openSnackbar } from "../../../features/redux/reducers/snackBarSlice";
 
 export default function FormMediaStep(): JSX.Element {
 
@@ -49,10 +50,15 @@ export default function FormMediaStep(): JSX.Element {
             );
 
             const uniqueNewImages = compressedFiles.filter((newImage) => {
-                return !imagesUploaded.some((existingImage) =>
-                    existingImage.base64 === newImage.base64
-                );
-            });
+                const isDuplicate = imagesUploaded.some((existingImage) => {
+                    const isMatch = existingImage.base64 === newImage.base64;
+                    if (isMatch) {
+                        dispatch(openSnackbar({ message: `${t('ui.snackBar.message.duplicateImageFound')}`, severity: 'warning' }));
+                    }
+                    return isMatch;
+                });
+                return !isDuplicate;
+            });           
     
             dispatch(handleInputMethod({
                 path: 'media.images',
@@ -104,6 +110,8 @@ export default function FormMediaStep(): JSX.Element {
         }));
     }
 
+    const isMobile = useMediaQuery('(max-width: 1024px)');
+
     return (
         <Stack spacing={5}>
             <Typography variant="h4" textAlign='left'>{t('media.header')}</Typography>
@@ -114,7 +122,17 @@ export default function FormMediaStep(): JSX.Element {
                         <Box>
                             <Stack spacing={2}>
                                 <Grid container spacing={2}>
-                                {imagesUploaded.map((image, index) => (
+                                    {editMode && (
+                                            <Grid item xs={4} lg={3}>
+                                                <NewImageCard handleImageUpload={handleImageUpload} />
+                                            </Grid>
+                                    )}
+                                    {editMode && isMobile && (
+                                            <Grid item xs={4} lg={3}>
+                                                <NewImageCard handleImageUpload={handleImageUpload} takePhoto/>
+                                            </Grid>
+                                    )}
+                                    {imagesUploaded.map((image, index) => (
                                         <Grid item xs={4} lg={3}>
                                             <Card key={index}>
                                                 <CardMedia
@@ -128,7 +146,7 @@ export default function FormMediaStep(): JSX.Element {
                                                     </Typography>
                                                 </CardContent>
                                                 <CardActions disableSpacing>
-                                                    <Tooltip title='edit name'>
+                                                    <Tooltip title='edit name' sx={{marginLeft: 'auto'}}>
                                                         <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
                                                             <EditIcon />
                                                         </IconButton>
@@ -165,11 +183,6 @@ export default function FormMediaStep(): JSX.Element {
                                             </Grid>
                                         ))
                                     )}
-                                    {editMode && (
-                                        <Grid item xs={4} lg={3}>
-                                            <ImageUploadCard handleImageUpload={handleImageUpload} />
-                                        </Grid>
-                                    )}
                                 </Grid>
                             </Stack>
                         </Box>
@@ -181,7 +194,7 @@ export default function FormMediaStep(): JSX.Element {
     )
 }
 
-export function ImageUploadCard({ handleImageUpload }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void }) {
+export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void , takePhoto?: boolean}) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const triggerFileInput = () => {
@@ -209,18 +222,30 @@ export function ImageUploadCard({ handleImageUpload }: { handleImageUpload: (e: 
             />
             <CardContent>
                 <Typography gutterBottom variant="caption" textAlign="center">
-                    Select Images
+                    {takePhoto ? 'Take Photo' : 'Select Images'}
                 </Typography>
             </CardContent>
             {/* Hidden input */}
-            <input
-                ref={fileInputRef}
-                style={{ display: 'none' }}
-                accept="image/*"
-                type="file"
-                multiple
-                onChange={handleImageUpload}
-            />
+            {takePhoto ? 
+                <input
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    accept="image/*"
+                    type="file"
+                    capture="environment" 
+                    onChange={handleImageUpload}
+                />
+                :
+                <input
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    accept="image/*"
+                    type="file"
+                    multiple
+                    onChange={handleImageUpload}
+                />
+            }
         </Card>
     );
 }
+
