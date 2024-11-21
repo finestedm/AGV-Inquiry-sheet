@@ -22,7 +22,6 @@ export default function FormMediaStep(): JSX.Element {
     const imagesUploaded = formData.media.images;
     const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
-    const [images, setImages] = useState<IMedia['images']>([]);
     const [loading, setLoading] = useState(false);
     const [processingCount, setProcessingCount] = useState(0);
 
@@ -49,7 +48,17 @@ export default function FormMediaStep(): JSX.Element {
                 })
             );
 
-            setImages((prevImages) => [...prevImages, ...compressedFiles]);
+            const uniqueNewImages = compressedFiles.filter((newImage) => {
+                return !imagesUploaded.some((existingImage) =>
+                    existingImage.base64 === newImage.base64
+                );
+            });
+    
+            dispatch(handleInputMethod({
+                path: 'media.images',
+                value: [...imagesUploaded, ...uniqueNewImages],
+            }));
+    
         } catch (error) {
             console.error('Error while compressing or converting image:', error);
         } finally {
@@ -68,41 +77,6 @@ export default function FormMediaStep(): JSX.Element {
             reader.readAsDataURL(file);
         });
     };
-
-    function handleImageDispatch() {
-        // Filter out images that are already in `imagesUploaded`
-        const uniqueNewImages = images.filter((newImage) => {
-            return !imagesUploaded.some((existingImage) =>
-                existingImage.base64 === newImage.base64
-            );
-        });
-
-        dispatch(handleInputMethod({
-            path: 'media.images',
-            value: [...imagesUploaded, ...uniqueNewImages],
-        }));
-
-        setImages([])
-    }
-
-    function handleDeleteImage(index: number) {
-        const filteredImages = images.filter((_, i) => i !== index);
-        setImages(filteredImages);
-    }
-
-    function handleEditImageName(index: number) {
-        const currentName = images[index].name;
-
-        const newName = prompt("Enter a new name for the image:", currentName);
-
-        if (newName === null || newName.trim() === "") return;
-
-        const updatedImages = images.map((image, i) =>
-            i === index ? { ...image, name: newName } : image
-        );
-
-        setImages(updatedImages);
-    }
 
 
     function handleDeleteImageUploaded(index: number) {
@@ -140,9 +114,9 @@ export default function FormMediaStep(): JSX.Element {
                         <Box>
                             <Stack spacing={2}>
                                 <Grid container spacing={2}>
-                                    {images.map((image, index) => (
-                                        <Grid item xs={4} lg={3} key={index}>
-                                            <Card>
+                                {imagesUploaded.map((image, index) => (
+                                        <Grid item xs={4} lg={3}>
+                                            <Card key={index}>
                                                 <CardMedia
                                                     sx={{ height: 140 }}
                                                     image={image.base64}
@@ -155,20 +129,19 @@ export default function FormMediaStep(): JSX.Element {
                                                 </CardContent>
                                                 <CardActions disableSpacing>
                                                     <Tooltip title='edit name'>
-                                                        <IconButton size="small" aria-label="edit" onClick={() => handleEditImageName(index)}>
+                                                        <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
                                                             <EditIcon />
                                                         </IconButton>
                                                     </Tooltip>
                                                     <Tooltip title='delete'>
-                                                        <IconButton size="small" color='error' aria-label="delete" onClick={() => handleDeleteImage(index)}>
+                                                        <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
                                                             <DeleteIcon />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </CardActions>
                                             </Card>
                                         </Grid>
-                                    ))
-                                    }
+                                    ))}
                                     {(loading && processingCount > 0) && (
                                         Array.from({ length: processingCount }).map((_, index) => (
                                             <Grid item xs={4} lg={3} key={`placeholder-${index}`}>
@@ -197,48 +170,6 @@ export default function FormMediaStep(): JSX.Element {
                                             <ImageUploadCard handleImageUpload={handleImageUpload} />
                                         </Grid>
                                     )}
-                                </Grid>
-                                <Button disabled={!editMode} variant='contained' onClick={handleImageDispatch}>upload</Button>
-                            </Stack>
-                        </Box>
-                    </Stack>
-                }
-            />
-            <InputGroup
-                title={t('media.subheader.imagesUploaded')}
-                content={
-                    <Stack spacing={2}>
-                        <Box>
-                            <Stack spacing={2}>
-                                <Grid container spacing={2}>
-                                    {imagesUploaded.map((image, index) => (
-                                        <Grid item xs={4} lg={3}>
-                                            <Card key={index}>
-                                                <CardMedia
-                                                    sx={{ height: 140 }}
-                                                    image={image.base64}
-                                                    title={image.name}
-                                                />
-                                                <CardContent>
-                                                    <Typography gutterBottom variant="caption">
-                                                        {image.name}
-                                                    </Typography>
-                                                </CardContent>
-                                                <CardActions disableSpacing>
-                                                    <Tooltip title='edit name'>
-                                                        <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
-                                                            <EditIcon />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                    <Tooltip title='delete'>
-                                                        <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
-                                                            <DeleteIcon />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </CardActions>
-                                            </Card>
-                                        </Grid>
-                                    ))}
                                 </Grid>
                             </Stack>
                         </Box>
