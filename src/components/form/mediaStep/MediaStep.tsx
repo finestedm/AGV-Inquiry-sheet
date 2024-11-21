@@ -127,11 +127,11 @@ export default function FormMediaStep(): JSX.Element {
                                                 <NewImageCard handleImageUpload={handleImageUpload} />
                                             </Grid>
                                     )}
-                                    {editMode && isMobile && (
+                                    {/* {editMode && isMobile && (
                                             <Grid item xs={4} lg={3}>
                                                 <NewImageCard handleImageUpload={handleImageUpload} takePhoto/>
                                             </Grid>
-                                    )}
+                                    )} */}
                                     {imagesUploaded.map((image, index) => (
                                         <Grid item xs={4} lg={3}>
                                             <Card key={index}>
