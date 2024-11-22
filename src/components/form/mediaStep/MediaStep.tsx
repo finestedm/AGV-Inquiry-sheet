@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, CircularProgress, Grid, IconButton, InputLabel, Stack, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, CircularProgress, Grid, IconButton, InputLabel, makeStyles, Stack, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
@@ -27,6 +27,21 @@ export default function FormMediaStep(): JSX.Element {
     const [processingCount, setProcessingCount] = useState(0);
 
 
+    const [source, setSource] = useState<string>("");
+
+    const handleCapture = (target: HTMLInputElement) => {
+        if (target.files && target.files.length !== 0) {
+            const file = target.files[0];
+            const newUrl = URL.createObjectURL(file);
+
+            // Release the old object URL to free memory
+            if (source) {
+                URL.revokeObjectURL(source);
+            }
+
+            setSource(newUrl);
+        }
+    };
     async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
         const input = event.target as HTMLInputElement;
         if (!input.files || input.files.length === 0) return;
@@ -58,13 +73,13 @@ export default function FormMediaStep(): JSX.Element {
                     return isMatch;
                 });
                 return !isDuplicate;
-            });           
-    
+            });
+
             dispatch(handleInputMethod({
                 path: 'media.images',
                 value: [...imagesUploaded, ...uniqueNewImages],
             }));
-    
+
         } catch (error) {
             console.error('Error while compressing or converting image:', error);
         } finally {
@@ -122,10 +137,37 @@ export default function FormMediaStep(): JSX.Element {
                         <Box>
                             <Stack spacing={2}>
                                 <Grid container spacing={2}>
+                                    <Grid item xs={4} lg={3}>
+
+                                        <Card>
+                                            <CardMedia
+                                                sx={{ height: 140 }}
+                                                image={source}
+                                                title='photo'
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="caption">
+                                                    photo
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions>
+                                                <input
+                                                    accept="image/*"
+                                                    id="icon-button-file"
+                                                    type="file"
+                                                    capture="environment"
+                                                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                                        handleCapture(e.target)
+                                                    }
+                                                />
+                                            </CardActions>
+
+                                        </Card>
+                                    </Grid>
                                     {editMode && (
-                                            <Grid item xs={4} lg={3}>
-                                                <NewImageCard handleImageUpload={handleImageUpload} />
-                                            </Grid>
+                                        <Grid item xs={4} lg={3}>
+                                            <NewImageCard handleImageUpload={handleImageUpload} />
+                                        </Grid>
                                     )}
                                     {/* {editMode && isMobile && (
                                             <Grid item xs={4} lg={3}>
@@ -146,7 +188,7 @@ export default function FormMediaStep(): JSX.Element {
                                                     </Typography>
                                                 </CardContent>
                                                 <CardActions disableSpacing>
-                                                    <Tooltip title='edit name' sx={{marginLeft: 'auto'}}>
+                                                    <Tooltip title='edit name' sx={{ marginLeft: 'auto' }}>
                                                         <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
                                                             <EditIcon />
                                                         </IconButton>
@@ -194,7 +236,7 @@ export default function FormMediaStep(): JSX.Element {
     )
 }
 
-export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void , takePhoto?: boolean}) {
+export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void, takePhoto?: boolean }) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const triggerFileInput = () => {
@@ -226,13 +268,13 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
                 </Typography>
             </CardContent>
             {/* Hidden input */}
-            {takePhoto ? 
+            {takePhoto ?
                 <input
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                     accept="image/*"
                     type="file"
-                    capture="environment" 
+                    capture="environment"
                     onChange={handleImageUpload}
                 />
                 :
