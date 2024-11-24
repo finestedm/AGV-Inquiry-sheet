@@ -1,12 +1,14 @@
 import { TextFieldProps } from "@mui/material";
 import { Task } from "gantt-task-react";
 import availableEquipment from "../data/availableEquipment";
+import salesEngineersSorted from "../data/salesEngineers";
 
 export interface ISales {
     salesUnit: string;
     contactPerson: string;
     contactPersonRole: string;
     OPNumber: string;
+    salesEngineer: typeof salesEngineersSorted | null
 }
 
 export interface IIt {

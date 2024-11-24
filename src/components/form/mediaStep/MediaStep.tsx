@@ -58,13 +58,13 @@ export default function FormMediaStep(): JSX.Element {
                     return isMatch;
                 });
                 return !isDuplicate;
-            });           
-    
+            });
+
             dispatch(handleInputMethod({
                 path: 'media.images',
                 value: [...imagesUploaded, ...uniqueNewImages],
             }));
-    
+
         } catch (error) {
             console.error('Error while compressing or converting image:', error);
         } finally {
@@ -123,9 +123,9 @@ export default function FormMediaStep(): JSX.Element {
                             <Stack spacing={2}>
                                 <Grid container spacing={2}>
                                     {editMode && (
-                                            <Grid item xs={4} lg={3}>
-                                                <NewImageCard handleImageUpload={handleImageUpload} />
-                                            </Grid>
+                                        <Grid item xs={6} lg={3}>
+                                            <NewImageCard handleImageUpload={handleImageUpload} />
+                                        </Grid>
                                     )}
                                     {/* {editMode && isMobile && (
                                             <Grid item xs={4} lg={3}>
@@ -133,7 +133,7 @@ export default function FormMediaStep(): JSX.Element {
                                             </Grid>
                                     )} */}
                                     {imagesUploaded.map((image, index) => (
-                                        <Grid item xs={4} lg={3}>
+                                        <Grid item xs={6} lg={3}>
                                             <Card key={index}>
                                                 <CardMedia
                                                     sx={{ height: 140 }}
@@ -146,7 +146,7 @@ export default function FormMediaStep(): JSX.Element {
                                                     </Typography>
                                                 </CardContent>
                                                 <CardActions disableSpacing>
-                                                    <Tooltip title='edit name' sx={{marginLeft: 'auto'}}>
+                                                    <Tooltip title='edit name' sx={{ marginLeft: 'auto' }}>
                                                         <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
                                                             <EditIcon />
                                                         </IconButton>
@@ -162,7 +162,7 @@ export default function FormMediaStep(): JSX.Element {
                                     ))}
                                     {(loading && processingCount > 0) && (
                                         Array.from({ length: processingCount }).map((_, index) => (
-                                            <Grid item xs={4} lg={3} key={`placeholder-${index}`}>
+                                            <Grid item xs={6} lg={3} key={`placeholder-${index}`}>
                                                 <Card>
                                                     <CardMedia
                                                         sx={{
@@ -194,7 +194,7 @@ export default function FormMediaStep(): JSX.Element {
     )
 }
 
-export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void , takePhoto?: boolean}) {
+export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void, takePhoto?: boolean }) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const triggerFileInput = () => {
@@ -226,13 +226,13 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
                 </Typography>
             </CardContent>
             {/* Hidden input */}
-            {takePhoto ? 
+            {takePhoto ?
                 <input
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                     accept="image/*"
                     type="file"
-                    capture="environment" 
+                    capture="environment"
                     onChange={handleImageUpload}
                 />
                 :
