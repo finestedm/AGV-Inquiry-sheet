@@ -152,26 +152,32 @@ export default function FormMediaStep(): JSX.Element {
                                     )}
                                     {imagesUploaded.map((image, index) => (
                                         <Grid item xs={6} lg={3}>
-                                            <Card key={index}>
+                                            <Card key={index}
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: "column", // Stack children vertically
+                                                    justifyContent: "space-between", // Ensure consistent spacing
+                                                    height: 260, // Set a uniform height for all cards
+                                                }}>
                                                 <CardMedia
-                                                    sx={{ height: 140 }}
+                                                    sx={{ height: 180 }}
                                                     image={image.base64}
                                                     title={image.name}
                                                 />
-                                                <CardContent>
+                                                <CardContent sx={{ flexGrow: 1 }}>
                                                     <Typography gutterBottom variant="caption">
                                                         {image.name}
                                                     </Typography>
                                                 </CardContent>
-                                                <CardActions disableSpacing>
+                                                <CardActions disableSpacing sx={{ borderTop: `1px solid ${theme.palette.divider}` }} >
                                                     <Tooltip title='edit name' sx={{ marginLeft: 'auto' }}>
                                                         <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
-                                                            <EditIcon />
+                                                            <EditIcon sx={{ fontSize: 18 }} />
                                                         </IconButton>
                                                     </Tooltip>
                                                     <Tooltip title='delete'>
-                                                        <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
-                                                            <DeleteIcon />
+                                                        <IconButton disabled={!editMode}  size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
+                                                            <DeleteIcon sx={{ fontSize: 18 }} />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </CardActions>
@@ -181,7 +187,13 @@ export default function FormMediaStep(): JSX.Element {
                                     {(loading && processingCount > 0) && (
                                         Array.from({ length: processingCount }).map((_, index) => (
                                             <Grid item xs={6} lg={3} key={`placeholder-${index}`}>
-                                                <Card>
+                                                <Card
+                                                    sx={{
+                                                        display: "flex",
+                                                        flexDirection: "column", // Stack children vertically
+                                                        justifyContent: "space-between", // Ensure consistent spacing
+                                                        height: 220, // Set a uniform height for all cards
+                                                    }}>
                                                     <CardMedia
                                                         sx={{
                                                             height: 140,
@@ -192,7 +204,7 @@ export default function FormMediaStep(): JSX.Element {
                                                     >
                                                         <CircularProgress />
                                                     </CardMedia>
-                                                    <CardContent>
+                                                    <CardContent sx={{ flexGrow: 1 }}>
                                                         <Typography variant="caption" color='text.secondary'>
                                                             Processing image {index + 1} of {processingCount}
                                                         </Typography>
@@ -227,12 +239,16 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
             <Card
                 sx={{
                     cursor: 'pointer',
+                    display: "flex",
+                    flexDirection: "column", // Stack children vertically
+                    justifyContent: "space-between", // Ensure consistent spacing
+                    height: 260, // Set a uniform height for all cards
                 }}
                 onClick={triggerFileInput}
             >
                 <CardMedia
                     sx={{
-                        height: 140,
+                        flexGrow: 1,
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -246,8 +262,8 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
                         <CameraRollIcon sx={{ fontSize: 50, color: theme.palette.primary.main }} />
                     }
                 </CardMedia>
-                <CardContent sx={{ backgroundColor: theme.palette.primary.main }}>
-                    <Typography gutterBottom variant="button" textAlign="center" color={theme.palette.primary.contrastText}>
+                <CardContent sx={{ backgroundColor: theme.palette.primary.main, height: 45, p: 0, alignContent: 'center' }}>
+                    <Typography variant="button" textAlign="center" color={theme.palette.primary.contrastText}>
                         {takePhoto ? 'Take Photo' : 'Select Images'}
                     </Typography>
                 </CardContent>
