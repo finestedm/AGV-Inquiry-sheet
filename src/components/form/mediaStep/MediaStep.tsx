@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, CircularProgress, Grid, IconButton, InputLabel, Stack, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, CircularProgress, Grid, IconButton, InputLabel, makeStyles, Stack, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
@@ -12,7 +12,6 @@ import plusImage from '../../../images/plus-svgrepo-com.svg'
 import { handleInputMethod } from "../../../features/redux/reducers/formDataSlice";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import CustomTooltip from "../../../features/tooltips/customTooltip";
 import { openSnackbar } from "../../../features/redux/reducers/snackBarSlice";
 
 export default function FormMediaStep(): JSX.Element {
@@ -27,6 +26,21 @@ export default function FormMediaStep(): JSX.Element {
     const [processingCount, setProcessingCount] = useState(0);
 
 
+    const [source, setSource] = useState<string>("");
+
+    const handleCapture = (target: HTMLInputElement) => {
+        if (target.files && target.files.length !== 0) {
+            const file = target.files[0];
+            const newUrl = URL.createObjectURL(file);
+
+            // Release the old object URL to free memory
+            if (source) {
+                URL.revokeObjectURL(source);
+            }
+
+            setSource(newUrl);
+        }
+    };
     async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
         const input = event.target as HTMLInputElement;
         if (!input.files || input.files.length === 0) return;
@@ -45,7 +59,9 @@ export default function FormMediaStep(): JSX.Element {
                     const compressedFile = await imageCompression(file, options);
                     const base64 = await fileToBase64(compressedFile);
 
-                    return { base64, name: file.name };
+                    const nameWithoutExtension = file.name.split('.')[0]
+
+                    return { base64, name: nameWithoutExtension };
                 })
             );
 
@@ -122,16 +138,16 @@ export default function FormMediaStep(): JSX.Element {
                         <Box>
                             <Stack spacing={2}>
                                 <Grid container spacing={2}>
+                                    {isMobile && editMode && (
+                                        <Grid item xs={4} lg={3}>
+                                            <NewImageCard takePhoto handleImageUpload={handleImageUpload} />
+                                        </Grid>
+                                    )}
                                     {editMode && (
-                                        <Grid item xs={6} lg={3}>
+                                        <Grid item xs={4} lg={3}>
                                             <NewImageCard handleImageUpload={handleImageUpload} />
                                         </Grid>
                                     )}
-                                    {/* {editMode && isMobile && (
-                                            <Grid item xs={4} lg={3}>
-                                                <NewImageCard handleImageUpload={handleImageUpload} takePhoto/>
-                                            </Grid>
-                                    )} */}
                                     {imagesUploaded.map((image, index) => (
                                         <Grid item xs={6} lg={3}>
                                             <Card key={index}>
@@ -195,6 +211,7 @@ export default function FormMediaStep(): JSX.Element {
 }
 
 export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void, takePhoto?: boolean }) {
+    const theme = useTheme();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const triggerFileInput = () => {
@@ -204,48 +221,53 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
     };
 
     return (
-        <Card
-            sx={{
-                cursor: 'pointer',
-            }}
-            onClick={triggerFileInput}
-        >
-            <CardMedia
+        <label htmlFor="icon-button-file" style={{ display: 'block', cursor: 'pointer' }}>
+            <Card
                 sx={{
-                    height: 140,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    cursor: 'pointer',
                 }}
-                image={plusImage}
-                title="Upload"
-            />
-            <CardContent>
-                <Typography gutterBottom variant="caption" textAlign="center">
-                    {takePhoto ? 'Take Photo' : 'Select Images'}
-                </Typography>
-            </CardContent>
-            {/* Hidden input */}
-            {takePhoto ?
-                <input
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    accept="image/*"
-                    type="file"
-                    capture="environment"
-                    onChange={handleImageUpload}
+                onClick={triggerFileInput}
+            >
+                <CardMedia
+                    sx={{
+                        height: 140,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                    image={plusImage}
+                    title="Upload"
                 />
-                :
-                <input
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    accept="image/*"
-                    type="file"
-                    multiple
-                    onChange={handleImageUpload}
-                />
-            }
-        </Card>
+                <CardContent sx={{ backgroundColor: theme.palette.primary.main }}>
+                    <Typography gutterBottom variant="caption" textAlign="center" color='black'>
+                        {takePhoto ? 'Take Photo' : 'Select Images'}
+                    </Typography>
+                </CardContent>
+                {/* Hidden input */}
+                {takePhoto ?
+                    <input
+                        ref={fileInputRef}
+                        accept="image/*"
+                        id="icon-button-file"
+                        type="file"
+                        capture="environment"
+                        onChange={handleImageUpload}
+                        style={{ display: 'none' }}
+                    />
+                    :
+                    <input
+                        ref={fileInputRef}
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        id="icon-button-file"
+                        type="file"
+                        multiple
+                        onChange={handleImageUpload}
+                    />
+                }
+            </Card>
+        </label>
+
     );
 }
 
