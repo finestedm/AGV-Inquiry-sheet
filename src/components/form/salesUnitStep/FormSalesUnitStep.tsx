@@ -40,7 +40,7 @@ export default function FormSalesUnitStep(): JSX.Element {
                             fieldName="sales.contactPersonRole"
                         />
                         <Stack spacing={1}>
-                            <InputLabel>{t('sales.salesEnginner')}</InputLabel>
+                            <InputLabel>{t('sales.salesEngineer')}</InputLabel>
                             <FormControl>
                                 <Field
                                     as={Select}
