@@ -157,7 +157,8 @@
         },
         "fileSaved": "Plik zapisano jako: ",
         "fileSavedToServer": "Plik przesłany pomyślnie",
-        "errorSaving": "Błąd przesyłania pliku"
+        "errorSaving": "Błąd przesyłania pliku",
+        "duplicateImageFound": "Jeden z obrazów jest już dodany"
       }
     },
     "tooltip": {
