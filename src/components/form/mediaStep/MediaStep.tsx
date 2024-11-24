@@ -13,6 +13,8 @@ import { handleInputMethod } from "../../../features/redux/reducers/formDataSlic
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { openSnackbar } from "../../../features/redux/reducers/snackBarSlice";
+import CameraRollIcon from '@mui/icons-material/CameraRoll';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 export default function FormMediaStep(): JSX.Element {
 
@@ -139,12 +141,12 @@ export default function FormMediaStep(): JSX.Element {
                             <Stack spacing={2}>
                                 <Grid container spacing={2}>
                                     {isMobile && editMode && (
-                                        <Grid item xs={4} lg={3}>
+                                        <Grid item xs={6} lg={3}>
                                             <NewImageCard takePhoto handleImageUpload={handleImageUpload} />
                                         </Grid>
                                     )}
                                     {editMode && (
-                                        <Grid item xs={4} lg={3}>
+                                        <Grid item xs={6} lg={3}>
                                             <NewImageCard handleImageUpload={handleImageUpload} />
                                         </Grid>
                                     )}
@@ -235,11 +237,17 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}
-                    image={plusImage}
                     title="Upload"
-                />
+                >
+                    {takePhoto
+                        ?
+                        <CameraAltIcon sx={{ fontSize: 50, color: theme.palette.primary.main }} />
+                        :
+                        <CameraRollIcon sx={{ fontSize: 50, color: theme.palette.primary.main }} />
+                    }
+                </CardMedia>
                 <CardContent sx={{ backgroundColor: theme.palette.primary.main }}>
-                    <Typography gutterBottom variant="caption" textAlign="center" color='black'>
+                    <Typography gutterBottom variant="button" textAlign="center" color={theme.palette.primary.contrastText}>
                         {takePhoto ? 'Take Photo' : 'Select Images'}
                     </Typography>
                 </CardContent>
