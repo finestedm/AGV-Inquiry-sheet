@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text, Transformer } from 'react-konva';
-import { Box, Button, ButtonGroup, ClickAwayListener, Collapse, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
+import { Box, Button, ButtonGroup, Chip, ClickAwayListener, Collapse, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { IEquipment, IFlow, ISystems } from '../../../../features/interfaces';
@@ -302,6 +302,11 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                         <Layer>
                         </Layer>
                     </Stage>
+                </Box>
+                <Box>
+                <Stack direction='row'>
+                    {warehouseEquipment.map(eq => <Chip sx={{backgroundColor: eq.color, color: theme.palette.getContrastText(eq.color)}} label={eq.type} />)}
+                </Stack>    
                 </Box>
             </Stack>
         );
