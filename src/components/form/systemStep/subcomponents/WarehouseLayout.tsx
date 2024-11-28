@@ -45,6 +45,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
             width: 10,
             y: 5,
             height: 10,
+            zHeight: 0, 
             rotation: 0,
             type: equipmentToAdd,
             color: randomColor({ luminosity: 'light' }),

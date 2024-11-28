@@ -3,7 +3,7 @@ import { IEquipment, ISystems } from "../../../../features/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { updateEquipment } from "../../../../features/redux/reducers/formDataSlice";
-import { useTheme } from "@mui/material";
+import { Stack, useTheme } from "@mui/material";
 import { Rect, Text, Transformer } from "react-konva";
 import Konva from 'konva';
 
@@ -28,7 +28,7 @@ interface CommonProps {
 export default function EquipmentShape({ equipment, index, isSelected, onSelect, selectedShapeId, canvaToWarehouseRatio, selectedSystem }: 
     { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any, selectedShapeId: number | null, canvaToWarehouseRatio: number, selectedSystem: keyof ISystems }) {
 
-    const { id, x, width, y, height, rotation, type, color } = equipment;
+    const { id, x, width, y, height, zHeight, rotation, type, color } = equipment;
 
     const shapeRef = useRef<Konva.Rect | null>(null);
     const trRef = useRef<Konva.Transformer | null>(null);
@@ -126,8 +126,9 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                             ref={commonProps.shapeRef as React.MutableRefObject<Konva.Rect>}
                             {...commonProps.commonProps}
                         />
-                        <Text {...textProps} y={textProps.y - 10} text={type} />
-                        <Text {...textProps} text={`${Number(width).toFixed(1)} x ${Number(height).toFixed(1)}`} />
+                        <Text {...textProps} y={textProps.y - 20} text={type} />
+                        <Text {...textProps} y={textProps.y - 10} text={`${Number(width).toFixed(1)}m x ${Number(height).toFixed(1)}m`} />
+                        <Text {...textProps} text={`${Number(zHeight).toFixed(2)}m`} /> 
                         {isSelected && (
                             <Transformer
                                 ref={trRef}
