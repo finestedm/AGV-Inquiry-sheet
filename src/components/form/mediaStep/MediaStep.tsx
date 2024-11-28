@@ -27,22 +27,6 @@ export default function FormMediaStep(): JSX.Element {
     const [loading, setLoading] = useState(false);
     const [processingCount, setProcessingCount] = useState(0);
 
-
-    const [source, setSource] = useState<string>("");
-
-    const handleCapture = (target: HTMLInputElement) => {
-        if (target.files && target.files.length !== 0) {
-            const file = target.files[0];
-            const newUrl = URL.createObjectURL(file);
-
-            // Release the old object URL to free memory
-            if (source) {
-                URL.revokeObjectURL(source);
-            }
-
-            setSource(newUrl);
-        }
-    };
     async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
         const input = event.target as HTMLInputElement;
         if (!input.files || input.files.length === 0) return;
@@ -88,6 +72,7 @@ export default function FormMediaStep(): JSX.Element {
         } finally {
             setLoading(false); // End loading
             setProcessingCount(0); // Reset count after processing
+            input.value = "";
         }
     }
 
@@ -228,11 +213,13 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
     const theme = useTheme();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const triggerFileInput = () => {
+    function triggerFileInput() {
         if (fileInputRef.current) {
+            fileInputRef.current.value = ""; // Reset to ensure clean state
             fileInputRef.current.click();
         }
     };
+    
 
     return (
         <label htmlFor="icon-button-file" style={{ display: 'block', cursor: 'pointer' }}>
@@ -267,12 +254,11 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
                         {takePhoto ? 'Take Photo' : 'Select Images'}
                     </Typography>
                 </CardContent>
-                {/* Hidden input */}
                 {takePhoto ?
                     <input
                         ref={fileInputRef}
                         accept="image/*"
-                        id="icon-button-file"
+                        id="taking-image-input"
                         type="file"
                         capture="environment"
                         onChange={handleImageUpload}
@@ -283,7 +269,7 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
                         ref={fileInputRef}
                         accept="image/*"
                         style={{ display: 'none' }}
-                        id="icon-button-file"
+                        id="uploadding-image-input"
                         type="file"
                         multiple
                         onChange={handleImageUpload}
