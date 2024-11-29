@@ -456,7 +456,6 @@ theme = createTheme({
                 root: {
                     backgroundColor: customGreyPalette[600],
                     color: theme.palette.getContrastText(customGreyPalette[600]),
-                    height: 24
                 }
             }
         },
@@ -850,7 +849,6 @@ export const themeDark = createTheme({
                 root: {
                     backgroundColor: customGreyPaletteDark[700],
                     color: textPrimaryColorDark,
-                    height: 24
                 }
             }
         },

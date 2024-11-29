@@ -16,6 +16,7 @@ import NoDataAlert from '../../../NoDataAlert';
 import EquipmentShape from './WarehouseLayoutEquipment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EquipmentFlowLines from './WarehouseEquipmentFlowLines';
+import EquipmentDetails from './EquipmentDetails';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -303,11 +304,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                         </Layer>
                     </Stage>
                 </Box>
-                <Box>
-                <Stack direction='row'>
-                    {warehouseEquipment.map(eq => <Chip sx={{backgroundColor: eq.color, color: theme.palette.getContrastText(eq.color)}} label={eq.type} />)}
-                </Stack>    
-                </Box>
+                <EquipmentDetails selectedSystem={selectedSystem} />
             </Stack>
         );
     } else {
