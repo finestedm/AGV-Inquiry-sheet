@@ -1,3 +1,4 @@
+import './index.css'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Form from './components/form/Form';
 import TopBar from './components/AppBar';

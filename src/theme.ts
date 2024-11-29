@@ -136,7 +136,7 @@ theme = createTheme({
 
     typography: {
         fontFamily: [
-            'Manrope', // Primary font
+            'Inter', // Primary font
             'sans-serif',
         ].join(','),
         fontWeightRegular: 500,
@@ -604,7 +604,7 @@ export const themeDark = createTheme({
 
     typography: {
         fontFamily: [
-            'Manrope', // Primary font
+            'Roboto', // Primary font
             'sans-serif',
         ].join(','),
         fontWeightRegular: 500,
