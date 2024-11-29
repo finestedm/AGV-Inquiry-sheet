@@ -1,7 +1,7 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, TextField, useTheme } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, InputAdornment, InputLabel, Stack, SwipeableDrawer, TextField, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { handleDeleteLoad } from "../../../../features/redux/reducers/formDataSlice";
+import { handleDeleteLoad, updateEquipment } from "../../../../features/redux/reducers/formDataSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { updateDeleteLoadDialog } from "../../../../features/redux/reducers/deleteLoadDialogSlice";
@@ -14,62 +14,158 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
     const { t } = useTranslation()
     const theme = useTheme();
     const dispatch = useDispatch()
-    const eqDetails = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment.find(eq => eq.id === selectedEq))
+    const equipments = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment)
+    const eqDetails = useSelector((state: RootState) => equipments.find(eq => eq.id === selectedEq))
     const [eqTempDetails, setEqTempDetails] = useState(eqDetails)
 
     useEffect(() => {
         setEqTempDetails(eqDetails)
     }, [eqDetails])
 
+    function handleEqDetailsChange() {
+        if (eqTempDetails) {
+            const updatedEquipment = equipments.map(eq =>
+                eq.id === eqTempDetails.id ? { ...eq, ...eqTempDetails } : eq
+            );
+
+            // Dispatch the updated equipment array to Redux
+            dispatch(updateEquipment({ updatedEquipment, selectedSystem }))
+            handleClosingEqDetailsDialog()
+        }
+    }
+
     return (
-        <Dialog
+        <Drawer
+            anchor='bottom'
             open={equipmentDetailsEditingDialogOpen}
             onClose={handleClosingEqDetailsDialog}
-            aria-labelledby="alert-dialog-equipment-editing-dialog"
-            aria-describedby="alert-dialog-equipment-editing-dialog"
         >
             <DialogTitle id="alert-dialog-equipment-editing-dialog">
-                {t("ui.dialog.equipmentEditing.title")}
+                {t("ui.dialog.equipmentEditing.title")} {eqDetails?.type}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-equipment-editing-dialog">
                     {eqTempDetails && (
-                        <>
-                            <TextField
-                                value={eqTempDetails?.width}
-                                type="number"
-                                onChange={(e) => setEqTempDetails({ ...eqTempDetails, width: Number(e.target.value) })}
-                            />
-
-                            {eqTempDetails?.height}
-                        </>
+                        <Grid container spacing={3} columnSpacing={6}>
+                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                                <InputLabel>{t(`system.building.existingBuilding.equipment.x`)}</InputLabel>
+                                <TextField
+                                    value={Number(eqTempDetails?.x).toFixed(1)}
+                                    fullWidth
+                                    type="number"
+                                    onChange={(e) => setEqTempDetails({ ...eqTempDetails, x: Number(e.target.value) })}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                m
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                                <InputLabel>{t(`system.building.existingBuilding.equipment.y`)}</InputLabel>
+                                <TextField
+                                    value={Number(eqTempDetails?.y).toFixed(1)}
+                                    fullWidth
+                                    type="number"
+                                    onChange={(e) => setEqTempDetails({ ...eqTempDetails, y: Number(e.target.value) })}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                m
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                                <InputLabel>{t(`system.building.existingBuilding.equipment.rotation`)}</InputLabel>
+                                <TextField
+                                    value={Number(eqTempDetails?.rotation).toFixed(0)}
+                                    fullWidth
+                                    type="number"
+                                    onChange={(e) => setEqTempDetails({ ...eqTempDetails, rotation: Number(e.target.value) })}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                °
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                                <InputLabel>{t(`system.building.existingBuilding.equipment.width`)}</InputLabel>
+                                <TextField
+                                    value={Number(eqTempDetails?.width).toFixed(1)}
+                                    fullWidth
+                                    type="number"
+                                    onChange={(e) => setEqTempDetails({ ...eqTempDetails, width: Number(e.target.value) })}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                m
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                                <InputLabel>{t(`system.building.existingBuilding.equipment.height`)}</InputLabel>
+                                <TextField
+                                    value={Number(eqTempDetails?.height).toFixed(1)}
+                                    fullWidth
+                                    type="number"
+                                    onChange={(e) => setEqTempDetails({ ...eqTempDetails, height: Number(e.target.value) })}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                m
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                                <InputLabel>{t(`system.building.existingBuilding.zHeight`)}</InputLabel>
+                                <TextField
+                                    value={Number(eqTempDetails?.zHeight).toFixed(2)}
+                                    fullWidth
+                                    type="number"
+                                    onChange={(e) => setEqTempDetails({ ...eqTempDetails, zHeight: Number(e.target.value) })}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                m
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                        </ Grid>
                     )}
                 </DialogContentText>
-                <Stack direction='row' flex={1} justifyContent='end' spacing={2} sx={{ mt: 4 }}>
-
-                    {/* <Button
-                        variant="contained"
-                        color="error"
-                        disableElevation
-                        sx={{ color: tinycolor(theme.palette.error.main).lighten(50).toHexString(), fontWeight: 700 }}
-                        onClick={() => {
-                            if (deleteLoadDialog.temporarySelectedSystem) {
-                                dispatch(handleDeleteLoad({ updatedLoads: deleteLoadDialog.temporaryUpdatedLoads, selectedSystem: deleteLoadDialog.temporarySelectedSystem }));
-                                dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: undefined }))
-                            }
-                        }}
-                    >
-                        {t("ui.dialog.loadDelete.confirm")}
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        onClick={() => dispatch(updateDeleteLoadDialog({ open: false, updatedLoads: [], selectedSystem: undefined }))}
-                        autoFocus
-                    >
-                        {t("ui.dialog.loadDelete.cancel")}
-                    </Button> */}
-                </Stack>
             </DialogContent>
-        </Dialog>
+            <DialogActions sx={{ p: 3 }}>
+                <Button
+                    variant="contained"
+                    color="error"
+                    disableElevation
+                    sx={{ color: tinycolor(theme.palette.error.main).lighten(50).toHexString(), fontWeight: 700 }}
+                    onClick={handleEqDetailsChange}
+
+                >
+                    {t("ui.dialog.EquipmentDetailsEditing.confirm")}
+                </Button>
+                <Button
+                    variant="outlined"
+                    autoFocus
+                    onClick={handleClosingEqDetailsDialog}
+                >
+                    {t("ui.dialog.EquipmentDetailsEditing.cancel")}
+                </Button>
+            </DialogActions>
+        </Drawer >
     )
 }
