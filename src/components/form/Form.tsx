@@ -186,32 +186,34 @@ export default function Form(): JSX.Element {
           <FormikForm>
             <Container component='form' maxWidth='xl'>
               <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
-                <Grid container spacing={6} direction='row'>
-                  <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
-                  <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
-                    <Grid item xs md={8} lg={9}>
-                      <Routes>
-                        <Route path="/sales" element={<FormSalesUnitStep />} />
-                        <Route path="/customer" element={<FormCustomerStep />} />
-                        <Route path="/project" element={<FormProjectStep />} />
-                        <Route path="/system" element={<FormSystemSelectorStep />} />
-                        {Object.keys(systemSteps).map(system => (
-                          <Route
-                            path={`/${system}`}
-                            element={
-                              activeSystemStepNames.includes(system) ?
-                                <FormSystemStep selectedSystem={system as keyof ISystems} />
-                                :
-                                <Navigate to='/' />
-                            }
-                          />
-                        ))}
-                        <Route path="/summary" element={<FormSummaryStep />} />
-                        <Route path="/*" element={<FormSalesUnitStep />} />
-                      </Routes>
-                    </Grid>
-                  </Grow>
-                </Grid>
+                <Box>
+                  <Grid container spacing={6} direction='row'>
+                    <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
+                    <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
+                      <Grid item xs md={8} lg={9}>
+                        <Routes>
+                          <Route path="/sales" element={<FormSalesUnitStep />} />
+                          <Route path="/customer" element={<FormCustomerStep />} />
+                          <Route path="/project" element={<FormProjectStep />} />
+                          <Route path="/system" element={<FormSystemSelectorStep />} />
+                          {Object.keys(systemSteps).map(system => (
+                            <Route
+                              path={`/${system}`}
+                              element={
+                                activeSystemStepNames.includes(system) ?
+                                  <FormSystemStep selectedSystem={system as keyof ISystems} />
+                                  :
+                                  <Navigate to='/' />
+                              }
+                            />
+                          ))}
+                          <Route path="/summary" element={<FormSummaryStep />} />
+                          <Route path="/*" element={<FormSalesUnitStep />} />
+                        </Routes>
+                      </Grid>
+                    </Grow>
+                  </Grid>
+                </Box>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Stack direction='row'>
                     {steps.currentStep !== allSteps[0] && (
