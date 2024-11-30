@@ -72,7 +72,7 @@ export default function TopBar(): JSX.Element {
             setIsResolved(false);     // Reset resolved state
 
             const response = await axios.post(
-                `${process.env.REACT_APP_SERVER_URL}`,
+                `${import.meta.env.VITE_SERVER_URL}`,
                 formData,
                 {
                     headers: {

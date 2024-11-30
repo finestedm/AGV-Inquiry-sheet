@@ -12,7 +12,7 @@ export default function SimpleSnackbar() {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        let progressInterval: NodeJS.Timeout;
+        let progressInterval: number;
 
         if (snackBarState.open) {
 
