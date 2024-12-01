@@ -87,11 +87,15 @@
     "@types/node": "^22.10.1",
     "@types/randomcolor": "^0.5.8",
     "@types/tinycolor2": "^1.4.6",
+    "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "^2.1.6",
+    "gh": "^2.8.9",
     "gh-pages": "^5.0.0",
     "jsdom": "^25.0.1",
+    "pages": "^0.0.16",
     "react-konva": "^18.2.10",
     "vite-plugin-gh-pages": "^1.0.0",
+    "vite-plugin-html": "^3.2.2",
     "vitest": "^2.1.6"
   }
 }
