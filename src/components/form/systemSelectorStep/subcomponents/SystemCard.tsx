@@ -22,23 +22,7 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
 
     return (
         <Grid item xs={12} md={6} sx={{ position: 'relative' }}>
-            <div
-                style={{
-                    position: 'absolute',
-                    top: '.75rem',
-                    right: '-14px',
-                    borderRadius: '5rem',
-                    height: 28,
-                    width: 28,
-                    backgroundColor: systemSelected ? '#000' : 'transparent',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                {systemSelected && <CheckCircleIcon fontSize='large' sx={{ color: theme.palette.primary.main,  }} />}
-            </div>
-            <Card className={systemSelected ? 'selected-card system-card' : 'system-card'}>
+            <Card className={systemSelected ? 'selected-card system-card' : 'system-card'} >
                 <CardActionArea
                     disabled={!editMode}
                     onClick={e => dispatch(handleSystemChange(system.alt))}
@@ -59,11 +43,11 @@ export default function SystemCard({ system }: { system: ISystem }): JSX.Element
                             aria-controls="panel2a-content"
                             id="panel2a-header"
                         >
-                            <Typography variant='h6' align='left' >{t(`${system.label}`)}</Typography>
+                            <Typography variant='h6' align='left' sx={{color: systemSelected ? theme.palette.primary.main : theme.palette.text.primary}}>{t(`${system.label}`)}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Divider sx={{ mb: 3, borderColor: theme.palette.text.secondary, opacity: .8 }} />
-                            <Typography align='left' variant='body1' color='text.secondary'>
+                            <Divider sx={{ mb: 3, borderColor: systemSelected ? theme.palette.primary.main : theme.palette.text.secondary, opacity: .8 }} />
+                            <Typography align='left' variant='body1' sx={{color: systemSelected ? theme.palette.primary.main : theme.palette.text.secondary}}>
                                 {t(`${system.description}`)}
                             </Typography>
                         </AccordionDetails>
