@@ -100,6 +100,7 @@ export interface IEquipment {
     width: number;
     y: number;
     height: number;
+    zHeight: number;
     rotation: number;
     type: TEquipmentType;
     color: string;

@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text, Transformer } from 'react-konva';
-import { Box, Button, ButtonGroup, ClickAwayListener, Collapse, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
+import { Box, Button, ButtonGroup, Chip, ClickAwayListener, Collapse, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { IEquipment, IFlow, ISystems } from '../../../../features/interfaces';
@@ -16,6 +16,7 @@ import NoDataAlert from '../../../NoDataAlert';
 import EquipmentShape from './WarehouseLayoutEquipment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EquipmentFlowLines from './WarehouseEquipmentFlowLines';
+import EquipmentDetails from './EquipmentDetails';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -45,6 +46,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
             width: 10,
             y: 5,
             height: 10,
+            zHeight: 0, 
             rotation: 0,
             type: equipmentToAdd,
             color: randomColor({ luminosity: 'light' }),
@@ -302,6 +304,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                         </Layer>
                     </Stage>
                 </Box>
+                <EquipmentDetails selectedSystem={selectedSystem} />
             </Stack>
         );
     } else {
