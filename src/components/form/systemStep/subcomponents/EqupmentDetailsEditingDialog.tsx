@@ -36,7 +36,6 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
 
     return (
         <Drawer
-            anchor='bottom'
             open={equipmentDetailsEditingDialogOpen}
             onClose={handleClosingEqDetailsDialog}
         >
@@ -46,8 +45,8 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
             <DialogContent>
                 <DialogContentText id="alert-dialog-equipment-editing-dialog">
                     {eqTempDetails && (
-                        <Grid container spacing={3} columnSpacing={6}>
-                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                        <Stack spacing={3}>
+                            <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.x`)}</InputLabel>
                                 <TextField
                                     value={eqTempDetails?.x}
@@ -62,8 +61,8 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                                         ),
                                     }}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                            </Box>
+                            <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.y`)}</InputLabel>
                                 <TextField
                                     value={eqTempDetails?.y}
@@ -78,8 +77,8 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                                         ),
                                     }}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                            </Box>
+                            <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.rotation`)}</InputLabel>
                                 <TextField
                                     value={eqTempDetails?.rotation}
@@ -94,8 +93,8 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                                         ),
                                     }}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                            </Box>
+                            <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.width`)}</InputLabel>
                                 <TextField
                                     value={eqTempDetails?.width}
@@ -110,8 +109,8 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                                         ),
                                     }}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                            </Box>
+                            <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.height`)}</InputLabel>
                                 <TextField
                                     value={eqTempDetails?.height}
@@ -126,8 +125,8 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                                         ),
                                     }}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4} lg={2}>
+                            </Box>
+                            <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.zHeight`)}</InputLabel>
                                 <TextField
                                     value={eqTempDetails?.zHeight}
@@ -142,8 +141,8 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                                         ),
                                     }}
                                 />
-                            </Grid>
-                        </ Grid>
+                            </Box>
+                        </ Stack>
                     )}
                 </DialogContentText>
             </DialogContent>
