@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, Toolbar, Typography, useMediaQuery, useTheme, TextField, FilledInput, OutlinedInput, InputLabel } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Stack, Toolbar, Typography, useMediaQuery, useTheme, TextField, FilledInput, OutlinedInput, InputLabel, Drawer } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -76,7 +76,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
 
     if (selectedTask && formData.project.milestones[taskId]) {
         return (
-            <Dialog fullScreen={fullScreen} maxWidth='lg' open={dateEditDialogOpen} onClose={handleDialogClose}>
+            <Drawer open={dateEditDialogOpen} onClose={handleDialogClose}>
                 <DialogTitle sx={{ borderBottom: 1, borderColor: theme.palette.divider }}>
                     <Typography variant="h5" >
                         {t(`${selectedTask.name}`)}
@@ -205,7 +205,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                         </Button>
                     </DialogActions>
                 </LocalizationProvider >
-            </Dialog >
+            </Drawer >
         )
     } else {
         return (

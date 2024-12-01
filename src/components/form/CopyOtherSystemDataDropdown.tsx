@@ -22,6 +22,7 @@ import {
     useMediaQuery,
     useTheme,
     Stack,
+    Drawer,
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useTranslation } from "react-i18next";
@@ -164,7 +165,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     }
 
     return (
-        <Dialog fullScreen={fullScreen} maxWidth='lg' open={isOpen} onClose={handleClose}>
+        <Drawer open={isOpen} onClose={handleClose}>
             <DialogTitle>
                 <Typography variant="h5" >
                     {t("ui.dialog.copyDialog.title")}
@@ -206,6 +207,6 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
                     {t("ui.button.copyDialog.cancel")}
                 </Button>
             </DialogActions>
-        </Dialog>
+        </Drawer>
     );
 }

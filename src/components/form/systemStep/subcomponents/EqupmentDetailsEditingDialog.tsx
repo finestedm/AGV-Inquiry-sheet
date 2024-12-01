@@ -50,7 +50,7 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.x`)}</InputLabel>
                                 <TextField
-                                    value={Number(eqTempDetails?.x).toFixed(1)}
+                                    value={eqTempDetails?.x}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, x: Number(e.target.value) })}
@@ -66,7 +66,7 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.y`)}</InputLabel>
                                 <TextField
-                                    value={Number(eqTempDetails?.y).toFixed(1)}
+                                    value={eqTempDetails?.y}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, y: Number(e.target.value) })}
@@ -82,7 +82,7 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.rotation`)}</InputLabel>
                                 <TextField
-                                    value={Number(eqTempDetails?.rotation).toFixed(0)}
+                                    value={eqTempDetails?.rotation}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, rotation: Number(e.target.value) })}
@@ -98,7 +98,7 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.width`)}</InputLabel>
                                 <TextField
-                                    value={Number(eqTempDetails?.width).toFixed(1)}
+                                    value={eqTempDetails?.width}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, width: Number(e.target.value) })}
@@ -114,7 +114,7 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.height`)}</InputLabel>
                                 <TextField
-                                    value={Number(eqTempDetails?.height).toFixed(1)}
+                                    value={eqTempDetails?.height}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, height: Number(e.target.value) })}
@@ -130,7 +130,7 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                             <Grid item xs={12} sm={6} md={4} lg={2}>
                                 <InputLabel>{t(`system.building.existingBuilding.zHeight`)}</InputLabel>
                                 <TextField
-                                    value={Number(eqTempDetails?.zHeight).toFixed(2)}
+                                    value={eqTempDetails?.zHeight}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, zHeight: Number(e.target.value) })}
@@ -150,7 +150,7 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
             <DialogActions sx={{ p: 3 }}>
                 <Button
                     variant="contained"
-                    color="error"
+                    color="primary"
                     disableElevation
                     sx={{ color: tinycolor(theme.palette.error.main).lighten(50).toHexString(), fontWeight: 700 }}
                     onClick={handleEqDetailsChange}
