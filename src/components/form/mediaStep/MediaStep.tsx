@@ -45,11 +45,18 @@ export default function FormMediaStep(): JSX.Element {
     async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
         const input = event.target as HTMLInputElement;
         if (!input.files || input.files.length === 0) return;
-
+    
         const files = Array.from(input.files);
+    
+        // Check if adding the new files exceeds the limit
+        if (imagesUploaded.length + files.length > 20) {
+            dispatch(openSnackbar({ message: `${t('ui.snackBar.message.imageLimitExceeded')}`, severity: 'warning' }));
+            return; // Stop further processing
+        }
+    
         setProcessingCount(files.length); // Update the count
         setLoading(true); // Start loading
-
+    
         try {
             const compressedFiles = await Promise.all(
                 files.map(async (file) => {
@@ -59,13 +66,13 @@ export default function FormMediaStep(): JSX.Element {
                     };
                     const compressedFile = await imageCompression(file, options);
                     const base64 = await fileToBase64(compressedFile);
-
-                    const nameWithoutExtension = file.name.split('.')[0]
-
+    
+                    const nameWithoutExtension = file.name.split('.')[0];
+    
                     return { base64, name: nameWithoutExtension };
                 })
             );
-
+    
             const uniqueNewImages = compressedFiles.filter((newImage) => {
                 const isDuplicate = imagesUploaded.some((existingImage) => {
                     const isMatch = existingImage.base64 === newImage.base64;
@@ -76,12 +83,18 @@ export default function FormMediaStep(): JSX.Element {
                 });
                 return !isDuplicate;
             });
-
+    
+            // Check again if the total after adding unique images would exceed the limit
+            if (imagesUploaded.length + uniqueNewImages.length > 20) {
+                dispatch(openSnackbar({ message: `${t('ui.snackBar.message.imageLimitExceeded')}`, severity: 'warning' }));
+                return; // Stop further processing
+            }
+    
             dispatch(handleInputMethod({
                 path: 'media.images',
                 value: [...imagesUploaded, ...uniqueNewImages],
             }));
-
+    
         } catch (error) {
             console.error('Error while compressing or converting image:', error);
         } finally {
@@ -89,6 +102,7 @@ export default function FormMediaStep(): JSX.Element {
             setProcessingCount(0); // Reset count after processing
         }
     }
+    
 
 
 
