@@ -1,1 +1,0 @@
-npm config --location=project set legacy-peer-deps=true
