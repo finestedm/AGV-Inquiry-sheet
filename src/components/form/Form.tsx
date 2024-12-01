@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, Container, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Card, Checkbox, Container, Divider, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "../FormStepper";
 import FormSalesUnitStep from "./salesUnitStep/FormSalesUnitStep";
@@ -213,6 +213,7 @@ export default function Form(): JSX.Element {
                               }
                             />
                           ))}
+                          <Route path="/media" element={<FormMediaStep />} />
                           <Route path="/summary" element={<FormSummaryStep />} />
                           <Route path="/*" element={<FormSalesUnitStep />} />
                         </Routes>
@@ -221,6 +222,7 @@ export default function Form(): JSX.Element {
                   </Grid>
                 </Box>
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                  <Divider sx={{ mb: 4 }} />
                   <Stack direction='row'>
                     {steps.currentStep !== allSteps[0] && (
                       <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
