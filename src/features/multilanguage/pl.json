@@ -52,13 +52,21 @@
     "header": "Dane jednostki sprzedażowej",
     "unit": "Jednostka sprzedażowa",
     "contactPerson": "Osoba kontaktowa ze strony JH",
-    "contactPersonRole": "Stanowisko osoby kontaktowej JH"
+    "contactPersonRole": "Stanowisko osoby kontaktowej JH",
+    "salesEngineer": "Inżynier sprzedaży klienta"
+  },
+  "media": {
+    "header": "Media",
+    "subheader": {
+      "images": "Zdjęcia"
+    }
   },
   "steps": {
     "sales": "Jednostka sprzedażowa",
     "customer": "Klient",
     "system": "Wybór systemu",
     "project": "Projekt",
+    "media": "Media",
     "summary": "Podsumowanie",
     "asrs": "ASRS",
     "lrkprk": "LRK / PRK",
@@ -149,7 +157,8 @@
         },
         "fileSaved": "Plik zapisano jako: ",
         "fileSavedToServer": "Plik przesłany pomyślnie",
-        "errorSaving": "Błąd przesyłania pliku"
+        "errorSaving": "Błąd przesyłania pliku",
+        "duplicateImageFound": "Jeden z obrazów jest już dodany"
       }
     },
     "tooltip": {

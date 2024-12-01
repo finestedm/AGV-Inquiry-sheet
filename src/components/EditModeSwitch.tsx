@@ -47,21 +47,22 @@ export default function EditModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
     return (
       renderFull ? (
         <Button
-          variant='outlined'
+          variant='text'
           size='small'
+          color='inherit'
           onClick={() => dispatch(setEditMode(!editMode))}
           startIcon={
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
               in={editMode}
             >
-              <ModeIcon />
+              <ModeIcon sx={{fontSize: 18}}/>
             </Collapse>
           }
           endIcon={
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}
               in={!editMode}
             >
-              <ImageSearchIcon />
+              <ImageSearchIcon sx={{fontSize: 18}}/>
             </Collapse>
           }
         >
@@ -71,8 +72,8 @@ export default function EditModeSwitch({ mobile }: { mobile?: boolean }): JSX.El
         <Tooltip title={t('ui.tooltip.editMode')}>
 
           <IconButton
-            style={{ border: `1px solid ${theme.palette.divider}`, borderRadius: theme.shape.borderRadius }}
             size='small'
+            color='inherit'
             onClick={() => dispatch(setEditMode(!editMode))}
           >
             <Collapse sx={{ height: '1.6rem' }} orientation="horizontal" collapsedSize={0}

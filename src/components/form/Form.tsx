@@ -20,6 +20,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useDispatch } from "react-redux";
 import currentStep, { backStep, initialSteps, nextStep, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
+import FormMediaStep from "./mediaStep/MediaStep";
 
 export default function Form(): JSX.Element {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function Form(): JSX.Element {
         label: t('steps.system'),
         untranslated: "system",
         component: <FormSystemSelectorStep key="system" />
-      }
+      },
     ];
 
     if (formData.system.asrs.selected) {
@@ -89,11 +90,15 @@ export default function Form(): JSX.Element {
         component: <FormASRSStep key="autovna" selectedSystem='autovna' />,
       });
     }
-
     newSteps.push({
       label: t('steps.summary'),
       untranslated: "summary",
-      component: <FormSystemSelectorStep key="summary" />
+      component: <FormSummaryStep key="summary" />
+    })
+    newSteps.push({
+      label: t('steps.media'),
+      untranslated: "media",
+      component: <FormMediaStep key="media" />
     })
     setStepsCombined(newSteps);
   }, [formData, t]);
@@ -110,7 +115,8 @@ export default function Form(): JSX.Element {
     }, {} as Record<keyof ISystems, ISystemData>);
   const activeSystemStepNames = Object.keys(activeSystemSteps);
 
-  const allSteps = [...constantSteps.filter(step => step !== 'summary'), ...activeSystemStepNames];
+  const allSteps = [...constantSteps.filter(step => (step !== 'summary' && step !== 'media')), ...activeSystemStepNames];
+  Object.values(formData.system).some(system => system.selected) && allSteps.push('media')  //add summary only if at least one system is selected
   Object.values(formData.system).some(system => system.selected) && allSteps.push('summary')  //add summary only if at least one system is selected
 
   useEffect(() => {

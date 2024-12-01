@@ -160,7 +160,7 @@ export default function TopBar(): JSX.Element {
                                     fullWidth
                                     value={i18n.language}
                                     onChange={handleLanguageChange}
-                                    variant="outlined"
+                                    variant="standard"
                                 >
                                     <MenuItem value="en" >
                                         <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
@@ -228,12 +228,15 @@ export default function TopBar(): JSX.Element {
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'flex-end' }}>
-                        <Stack spacing={2} direction='row'>
-                            <FormControl sx={{ display: { xs: 'none', lg: 'flex' } }}>
+                        <Stack spacing={1.25} direction='row'>
+                            <FormControl sx={{ display: { xs: 'none', lg: 'flex' }, border: "none" }}>
                                 <Select
                                     id="language-select"
                                     value={i18n.language}
                                     onChange={handleLanguageChange}
+                                    variant="standard"
+                                    color="primary"
+                                    sx={{boxShadow: "none"}}
                                 >
                                     <MenuItem value="en" >
                                         <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
@@ -255,23 +258,29 @@ export default function TopBar(): JSX.Element {
                                     </MenuItem>
                                 </Select>
                             </FormControl>
+                            <Divider orientation="vertical"/>
                             <DarkModeSwitch />
+                            <Divider orientation="vertical"/>
                             <EditModeSwitch />
+                            <Divider orientation="vertical"/>
                             {isSummaryStep &&
-                                <Button variant='outlined' onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
-                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
-                                        <Typography>{t('ui.button.inquiry.save')}</Typography>
-                                    </Stack>
-                                </Button>
-                            }
-                            {isSummaryStep &&
-                                <Button variant='outlined' onClick={() => saveDataToServer()} startIcon={isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}>
+                                <>
+                                    <Button variant='text' color="inherit" onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
+                                        <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                            <Typography>{t('ui.button.inquiry.save')}</Typography>
+                                        </Stack>
+                                    </Button>
+                                    <Divider orientation="vertical"/>
+                                    <Button variant='text' color="inherit" onClick={() => saveDataToServer()} startIcon={isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}>
                                     <Stack direction='row' flex={1} spacing={1} alignItems='center' >
                                         <Typography>{t('ui.button.inquiry.saveToServer')}</Typography>
                                     </Stack>
                                 </Button>
+                                <Divider orientation="vertical"/>
+
+                                </> 
                             }
-                            <Button variant='outlined' startIcon={<UploadIcon />}>
+                            <Button variant='text' color="inherit" startIcon={<UploadIcon />}>
                                 <Stack direction='row' flex={1} spacing={1} alignItems='center' onClick={() => {
                                     const fileInput = document.getElementById('file-input') as HTMLInputElement;
                                     if (fileInput) {
@@ -289,17 +298,21 @@ export default function TopBar(): JSX.Element {
                                     />
                                 </Stack>
                             </Button>
+                            <Divider orientation="vertical"/>
                             {!isFormUnchaged &&
-                                <Button
-                                    startIcon={<DeleteOutlineIcon />}
-                                    color='error'
-                                    variant='outlined'
-                                    onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
-                                >
-                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
-                                        <Typography>{t('ui.button.inquiry.clear')}</Typography>
-                                    </Stack>
-                                </Button>
+                                <>
+                                    <Button
+                                        startIcon={<DeleteOutlineIcon />}
+                                        color='error'
+                                        variant='text'
+                                        onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
+                                        >
+                                        <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                            <Typography>{t('ui.button.inquiry.clear')}</Typography>
+                                        </Stack>
+                                    </Button>
+                                    <Divider orientation="vertical"/>
+                                </>
                             }
                         </Stack>
                     </Box>

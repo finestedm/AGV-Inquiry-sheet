@@ -1,12 +1,14 @@
 import { TextFieldProps } from "@mui/material";
 import { Task } from "gantt-task-react";
 import availableEquipment from "../data/availableEquipment";
+import salesEngineersSorted from "../data/salesEngineers";
 
 export interface ISales {
     salesUnit: string;
     contactPerson: string;
     contactPersonRole: string;
     OPNumber: string;
+    salesEngineer: typeof salesEngineersSorted | null
 }
 
 export interface IIt {
@@ -142,12 +144,17 @@ export interface ISystems {
     autovna: ISystemData;
 }
 
+export interface IMedia {
+    images: { base64: string; name: string }[]; 
+}
+
 export interface IFormData {
     version: string;
     sales: ISales;
     customer: ICustomer;
     project: IProject;
     system: ISystems;
+    media: IMedia;
 }
 
 export interface IMilestoneDate {

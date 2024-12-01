@@ -18,6 +18,9 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
     const formData = useSelector((state: RootState) => state.formData);
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
+    const [tempWorkDays, setTempWorkDays] = useState(formData.system[selectedSystem].workTime.workDays)
+    const [tempHoursPerShift, setTempHoursPerShift] = useState(formData.system[selectedSystem].workTime.hoursPerShift)
+    const [tempShiftsPerDay, setTempShiftsPerDay] = useState(formData.system[selectedSystem].workTime.shiftsPerDay)
 
     const dispatch = useDispatch();
 
@@ -26,8 +29,8 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
 
     const [circularValue, setCircularValue] = useState(0)
     useEffect(() => {
-        setCircularValue(formData.system[selectedSystem].workTime.shiftsPerDay * formData.system[selectedSystem].workTime.hoursPerShift * formData.system[selectedSystem].workTime.workDays)
-    }, [formData.system[selectedSystem].workTime.shiftsPerDay, formData.system[selectedSystem].workTime.hoursPerShift, formData.system[selectedSystem].workTime.workDays])
+        setCircularValue(tempShiftsPerDay * tempHoursPerShift * tempWorkDays)
+    }, [tempShiftsPerDay, tempHoursPerShift, tempWorkDays])
 
 
     return (
@@ -44,8 +47,9 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                                         sx={{ width: '95%' }}
                                         disabled={!editMode}
                                         getAriaLabel={() => 'workDays'}
-                                        value={formData.system[selectedSystem].workTime.workDays}
-                                        onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.workDays`, value: v }))}
+                                        value={tempWorkDays}
+                                        onChange={(e, v) => setTempWorkDays(v as number)}
+                                        onChangeCommitted={() => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.workDays`, value: tempWorkDays }))}
                                         valueLabelDisplay="auto"
                                         min={1}
                                         max={7}
@@ -62,8 +66,9 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                                         disabled={!editMode}
                                         sx={{ width: '95%' }}
                                         getAriaLabel={() => 'shiftsPerDay'}
-                                        value={formData.system[selectedSystem].workTime.shiftsPerDay}
-                                        onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.shiftsPerDay`, value: v }))}
+                                        value={tempShiftsPerDay}
+                                        onChange={(e, v) => setTempShiftsPerDay(v as number)}
+                                        onChangeCommitted={() => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.shiftsPerDay`, value: tempShiftsPerDay }))}
                                         valueLabelDisplay="auto"
                                         min={1}
                                         max={3}
@@ -80,8 +85,9 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                                         disabled={!editMode}
                                         sx={{ width: '95%' }}
                                         getAriaLabel={() => 'hoursPerShift'}
-                                        value={formData.system[selectedSystem].workTime.hoursPerShift}
-                                        onChange={(e, v) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.hoursPerShift`, value: v }))}
+                                        value={tempHoursPerShift}
+                                        onChange={(e, v) => setTempHoursPerShift(v as number)}
+                                        onChangeCommitted={() => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.hoursPerShift`, value: tempHoursPerShift }))}
                                         valueLabelDisplay="auto"
                                         min={1}
                                         max={8}
@@ -111,11 +117,11 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
 
 
 export function ArcProgress({ value, ...props }: { value: number }) {
-    const theme= useTheme()
+    const theme = useTheme()
     return (
         <Box
             id="container"
-            // height={55}
+        // height={55}
         >
             <Box
                 sx={{
@@ -134,7 +140,7 @@ export function ArcProgress({ value, ...props }: { value: number }) {
                             height: 75
                         },
                         path: { stroke: value < 60 ? theme.palette.warning.dark : theme.palette.success.dark, strokeLinecap: "round" },
-                        trail: { stroke: value < 60 ? theme.palette.warning.light : theme.palette.success.light, strokeLinecap: "round"},
+                        trail: { stroke: value < 60 ? theme.palette.warning.light : theme.palette.success.light, strokeLinecap: "round" },
                         text: { transform: "rotate(90deg) translate(0px, -100px)", fill: value < 60 ? theme.palette.warning.main : theme.palette.success.main, fontSize: 24 }
                     }}
                 />

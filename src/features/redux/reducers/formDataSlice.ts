@@ -3,8 +3,7 @@ import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilest
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
-import { format, addMonths, differenceInMonths, isBefore } from 'date-fns';
-import dayjs from 'dayjs';
+
 
 const initialFormDataState: IFormData = {
 
@@ -14,6 +13,7 @@ const initialFormDataState: IFormData = {
         contactPerson: '',
         contactPersonRole: '',
         OPNumber: '',
+        salesEngineer: null
     },
     customer: {
         name: '',
@@ -200,6 +200,9 @@ const initialFormDataState: IFormData = {
             additionalRemarks: '',
         }
     },
+    media: {
+        images: []
+    }
 }
 
 const formDataSlice = createSlice({

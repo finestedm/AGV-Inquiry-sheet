@@ -48,6 +48,9 @@ export default function FormSummaryStep() {
                         {(formData.sales.contactPerson && formData.sales.contactPersonRole) && `, `}
                         {formData.sales.contactPersonRole && formData.sales.contactPersonRole}
                     </Typography>
+                    {formData.sales.salesEngineer &&
+                        <BoxForTextPair keyText={t('sales.salesEngineer')} valueText={formData.sales.salesEngineer.toString()} />
+                    }
                 </Typography>
             </Stack>
             <Stack spacing={2} className='summary-customer'>
