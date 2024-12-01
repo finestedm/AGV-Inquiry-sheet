@@ -32,7 +32,16 @@ export default function EquipmentDetails({ selectedSystem }: { selectedSystem: k
 
     return (
         <Box>
-            <Stack direction='row' spacing={2}>
+            <Stack
+                direction='row'
+                spacing={2}
+                sx={{
+                    overflowX: 'scroll',
+                    scrollbarWidth: 'none', // For Firefox
+                    '&::-webkit-scrollbar': {
+                        display: 'none', // For Chrome, Safari, and Edge
+                    },
+                }}>
                 {warehouseEquipment.map(eq =>
                     <Chip
                         sx={{
@@ -40,7 +49,27 @@ export default function EquipmentDetails({ selectedSystem }: { selectedSystem: k
                             color: darkMode ? tinycolor(eq.color).brighten(25).toHex8String() : tinycolor(eq.color).darken(20).toHex8String(),
                         }}
                         label={<Typography variant="caption"><Typography fontWeight={700} variant="caption">{eq.type}</Typography>, {eq.height} x {eq.width}, H={eq.zHeight} </Typography>}
-                        deleteIcon={<EditIcon style={{ fontSize: 16 ,fill: darkMode ? tinycolor(eq.color).brighten(25).toHex8String() : tinycolor(eq.color).darken(20).toHex8String() }} />}
+                        deleteIcon={
+                            <Box
+                                sx={{
+                                    backgroundColor: tinycolor(eq.color).setAlpha(.25).toHex8String(),
+                                    borderRadius: '50%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: 24,
+                                    height: 24, // Adjust size to your preference
+                                }}
+                            >
+                                <EditIcon
+                                    style={{
+                                        fontSize: 16,
+                                        fill: darkMode
+                                            ? tinycolor(eq.color).brighten(25).toHex8String()
+                                            : tinycolor(eq.color).darken(20).toHex8String(),
+                                    }}
+                                />
+                            </Box>}
                         onDelete={() => handleOpeningEqDetailsDialog(eq.id)}
                     />
                 )}
