@@ -150,7 +150,7 @@ export default function GanttGraph(): JSX.Element {
 
         const theme = useTheme();
         return (
-            <Paper elevation={1} sx={{ border: 1, borderColor: theme.palette.divider, overflow: 'hidden' }}>
+            <Paper elevation={1} sx={{ border: 1, borderColor: theme.palette.divider, overflow: 'hidden', minWidth: 300 }}>
                 <TableContainer component={Box} >
                     <Table>
                         <TableHead sx={{ height: headerHeight + 1 }}>
@@ -202,39 +202,39 @@ export default function GanttGraph(): JSX.Element {
         <Stack spacing={2} className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} >
             <SizeEditButtons decreaseColumnsWidthButtonDisabled={decreaseColumnsWidthButtonDisabled} handleColumnsWidth={handleColumnsWidth} viewMode={viewMode} setViewMode={setViewMode} />
             <Box>
-                <Grid container spacing={0} rowGap={2} justifyContent='space-between' sx={{ display: 'flex', flexDirection: 'column', [`@media (min-width: ${theme.breakpoints.values.lg}px)`]: { flexDirection: 'row' } }}>
+                <Stack spacing={1} direction={isMobile ? 'column' : 'row'} flex={1} alignItems='top'>
                     {viewTaskList &&
-                        <Grid item xs={12} lg={4} sx={{ flexBasis: 'auto' }}><CustomListTable /></Grid>
-                    }
-                    <Grid item xs={12} lg={viewTaskList ? 7 : 12} position='relative' sx={{ flexBasis: 'auto' }}>
-                        <Box border={1} style={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius, overflow: 'hidden' }}>
-                            <Gantt
-                                tasks={milestones}
-                                barCornerRadius={theme.shape.borderRadius}
-                                barBackgroundSelectedColor={theme.palette.primary.main}
-                                arrowIndent={40}
-                                todayColor={theme.palette.mode === 'light' ? tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String() : tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String()}
-                                viewMode={viewMode as ViewMode}
-                                preStepsCount={2}
-                                locale={currentLanguage}
-                                fontSize=".75rem"
-                                listCellWidth={viewTaskList ? '100px' : ""}
-                                columnWidth={columnsWidth}
-                                TooltipContent={CustomTooltip}
-                                TaskListHeader={() => null}
-                                headerHeight={headerHeight}
-                                TaskListTable={() => null}
-                                onDateChange={(task: Task) => handleDateChange(task as ExtendedTask)}
-                                onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handleDateEditDialogOpen(task as ExtendedTask)}
-                            />
+                        <Box>
+                            <CustomListTable />
                         </Box>
-                        {!isMobile &&
-                            <Box position='absolute' top='50%' left={-10}>
-                                <Button variant='contained' disableElevation onClick={() => setViewTaskList(!viewTaskList)}><SwitchRightIcon /></Button>
-                            </Box>
-                        }
-                    </Grid>
-                </Grid>
+                    }
+                    {!isMobile &&
+                        <Box top='50%' width={25} position='relative' overflow='visible'>
+                            <Button variant='contained' sx={{ position: 'absolute', top: '50%', zIndex: 3000 }} disableElevation onClick={() => setViewTaskList(!viewTaskList)}><SwitchRightIcon /></Button>
+                        </Box>
+                    }
+                    <Box height='100%' border={1} style={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius, overflow: 'hidden' }} position='relative'>
+                        <Gantt
+                            tasks={milestones}
+                            barCornerRadius={theme.shape.borderRadius}
+                            barBackgroundSelectedColor={theme.palette.primary.main}
+                            arrowIndent={40}
+                            todayColor={theme.palette.mode === 'light' ? tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String() : tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String()}
+                            viewMode={viewMode as ViewMode}
+                            preStepsCount={2}
+                            locale={currentLanguage}
+                            fontSize=".75rem"
+                            listCellWidth={viewTaskList ? '100px' : ""}
+                            columnWidth={columnsWidth}
+                            TooltipContent={CustomTooltip}
+                            TaskListHeader={() => null}
+                            headerHeight={headerHeight}
+                            TaskListTable={() => null}
+                            onDateChange={(task: Task) => handleDateChange(task as ExtendedTask)}
+                            onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handleDateEditDialogOpen(task as ExtendedTask)}
+                        />
+                    </Box>
+                </Stack>
             </Box>
             {selectedTask && <DateEditDialog selectedTask={selectedTask} dateEditDialogOpen={dateEditDialogOpen} handleDialogClose={handleDialogClose} />}
         </Stack >
