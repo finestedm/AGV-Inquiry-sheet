@@ -911,8 +911,8 @@ export const themeDark = createTheme({
                         },
                     },
                     '&.MuiButton-containedPrimary': {
-                        color: primaryColorDark,
-                        backgroundColor: tinycolor(primaryColorDark).lighten(12).setAlpha(.25).toHex8String(),
+                        color: tinycolor(primaryColorDark).lighten(15).toHex8String(),
+                        backgroundColor: tinycolor(primaryColorDark).darken(35).toHex8String(),
                         boxShadow: 'none',
                         '&:hover': {
                             color: tinycolor(primaryColorDark).lighten(12).toHex8String(),
