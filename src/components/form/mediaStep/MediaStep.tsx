@@ -3,18 +3,21 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
 import { useDispatch } from "react-redux";
-import { FormikProps, useFormikContext } from "formik";
-import { IFormData, IMedia } from "../../../features/interfaces";
 import InputGroup from "../InputGroup";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import imageCompression from 'browser-image-compression';
-import plusImage from '../../../images/plus-svgrepo-com.svg'
 import { handleInputMethod } from "../../../features/redux/reducers/formDataSlice";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { openSnackbar } from "../../../features/redux/reducers/snackBarSlice";
 import CameraRollIcon from '@mui/icons-material/CameraRoll';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import LightGallery from 'lightgallery/react';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import { LightGallery as ILightGallery } from 'lightgallery/lightgallery';
+import 'lightgallery/css/lightgallery.css';
+import 'lightgallery/css/lg-zoom.css';
 
 export default function FormMediaStep(): JSX.Element {
 
@@ -88,30 +91,22 @@ export default function FormMediaStep(): JSX.Element {
     };
 
 
-    function handleDeleteImageUploaded(index: number) {
-        const imagesUploadedFiltered = imagesUploaded.filter((_, i) => i !== index);
-        dispatch(handleInputMethod({
-            path: 'media.images',
-            value: imagesUploadedFiltered,
-        }));
-    }
+    const lightGalleryRef = useRef<ILightGallery>(null);
+    const containerRef = useRef(null);
+    const [galleryContainer, setGalleryContainer] = useState(null);
 
-    function handleEditImageUploadedName(index: number) {
-        const currentName = imagesUploaded[index].name;
+    const onInit = useCallback((detail) => {
+        if (detail) {
+            lightGalleryRef.current = detail.instance;
+            lightGalleryRef.current.openGallery();
+        }
+    }, []);
 
-        const newName = prompt("Enter a new name for the image:", currentName);
-
-        if (newName === null || newName.trim() === "") return;
-
-        const updatedImagesUploaded = imagesUploaded.map((image, i) =>
-            i === index ? { ...image, name: newName } : image
-        );
-
-        dispatch(handleInputMethod({
-            path: 'media.images',
-            value: updatedImagesUploaded,
-        }));
-    }
+    useEffect(() => {
+        if (containerRef.current) {
+            setGalleryContainer(containerRef.current);
+        }
+    }, []);
 
     const isMobile = useMediaQuery('(max-width: 1024px)');
 
@@ -135,7 +130,33 @@ export default function FormMediaStep(): JSX.Element {
                                             <NewImageCard handleImageUpload={handleImageUpload} />
                                         </Grid>
                                     )}
-                                    {imagesUploaded.map((image, index) => (
+                                    <Box style={{
+                                        width: '100%', // Take full width of parent
+                                        height: '100%', // Optionally adapt to parent height
+                                        maxWidth: '100%', // Prevent overflow
+                                    }}>
+
+                                        <Box height={800} ref={containerRef}></Box>
+                                        <LightGallery
+                                            container={galleryContainer}
+                                            onInit={onInit}
+                                            plugins={[lgZoom, lgThumbnail]}
+                                            dynamic={true}
+                                            slideDelay={400}
+                                            thumbWidth={130}
+                                            thumbHeight={'100px'}
+                                            thumbMargin={6}
+                                            appendSubHtmlTo={'.lg-item'}
+                                            dynamicEl={imagesUploaded.map((image, index) => ({
+                                                src: image.base64, // Main image source
+                                                responsive: image.base64, // Responsive image (same here, or different sizes if available)
+                                                thumb: image.base64, // Thumbnail (use a smaller image if you have one)
+                                                subHtml: `<h4>Image ${index + 1}</h4>`, // Additional HTML (optional)
+                                            }))}
+                                        />
+                                    </Box>
+
+                                    {/* {imagesUploaded.map((image, index) => (
                                         <Grid item xs={6} lg={3}>
                                             <Card key={index}
                                                 sx={{
@@ -161,14 +182,14 @@ export default function FormMediaStep(): JSX.Element {
                                                         </IconButton>
                                                     </Tooltip>
                                                     <Tooltip title='delete'>
-                                                        <IconButton disabled={!editMode}  size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
+                                                        <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
                                                             <DeleteIcon sx={{ fontSize: 18 }} />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </CardActions>
                                             </Card>
                                         </Grid>
-                                    ))}
+                                    ))} */}
                                     {(loading && processingCount > 0) && (
                                         Array.from({ length: processingCount }).map((_, index) => (
                                             <Grid item xs={6} lg={3} key={`placeholder-${index}`}>
@@ -219,7 +240,7 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
             fileInputRef.current.click();
         }
     };
-    
+
 
     return (
         <label htmlFor="icon-button-file" style={{ display: 'block', cursor: 'pointer' }}>
