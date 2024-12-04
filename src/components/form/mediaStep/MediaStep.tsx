@@ -12,12 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { openSnackbar } from "../../../features/redux/reducers/snackBarSlice";
 import CameraRollIcon from '@mui/icons-material/CameraRoll';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import LightGallery from 'lightgallery/react';
-import lgZoom from 'lightgallery/plugins/zoom';
-import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import { LightGallery as ILightGallery } from 'lightgallery/lightgallery';
-import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
+import "react-image-gallery/styles/css/image-gallery.css";
+import ImageGallery from "react-image-gallery";
 
 export default function FormMediaStep(): JSX.Element {
 
@@ -29,6 +25,8 @@ export default function FormMediaStep(): JSX.Element {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [processingCount, setProcessingCount] = useState(0);
+    const [imagesForGallery, setImagesForGallery] = useState<{ original: string, thumbnail: string, originalTitle: string, thumbnailTitle: string }[]>([]);
+    const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
 
     async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
         const input = event.target as HTMLInputElement;
@@ -79,6 +77,30 @@ export default function FormMediaStep(): JSX.Element {
         }
     }
 
+    function handleDeleteImageUploaded(index: number) {
+        const imagesUploadedFiltered = imagesUploaded.filter((_, i) => i !== index);
+        dispatch(handleInputMethod({
+            path: 'media.images',
+            value: imagesUploadedFiltered,
+        }));
+    }
+
+    function handleEditImageUploadedName(index: number) {
+        const currentName = imagesUploaded[index].name;
+
+        const newName = prompt("Enter a new name for the image:", currentName);
+
+        if (newName === null || newName.trim() === "") return;
+
+        const updatedImagesUploaded = imagesUploaded.map((image, i) =>
+            i === index ? { ...image, name: newName } : image
+        );
+
+        dispatch(handleInputMethod({
+            path: 'media.images',
+            value: updatedImagesUploaded,
+        }));
+    }
 
 
     function fileToBase64(file: File): Promise<string> {
@@ -91,22 +113,22 @@ export default function FormMediaStep(): JSX.Element {
     };
 
 
-    const lightGalleryRef = useRef<ILightGallery>(null);
-    const containerRef = useRef(null);
-    const [galleryContainer, setGalleryContainer] = useState(null);
-
-    const onInit = useCallback((detail) => {
-        if (detail) {
-            lightGalleryRef.current = detail.instance;
-            lightGalleryRef.current.openGallery();
-        }
-    }, []);
-
     useEffect(() => {
-        if (containerRef.current) {
-            setGalleryContainer(containerRef.current);
+        setImagesForGallery(
+            imagesUploaded.map((img) => ({ original: img.base64, thumbnail: img.base64, originalTitle: img.name, thumbnailTitle: img.name }))
+        );
+    }, [imagesUploaded]);
+
+
+    const galleryRef = useRef(null);
+
+    function openGallery(index: number) {
+        setSelectedImageIndex(index)
+        if (galleryRef.current) {
+          galleryRef.current.fullScreen();
         }
-    }, []);
+    };
+
 
     const isMobile = useMediaQuery('(max-width: 1024px)');
 
@@ -130,33 +152,14 @@ export default function FormMediaStep(): JSX.Element {
                                             <NewImageCard handleImageUpload={handleImageUpload} />
                                         </Grid>
                                     )}
-                                    <Box style={{
-                                        width: '100%', // Take full width of parent
-                                        height: '100%', // Optionally adapt to parent height
-                                        maxWidth: '100%', // Prevent overflow
-                                    }}>
+                                    
 
-                                        <Box height={800} ref={containerRef}></Box>
-                                        <LightGallery
-                                            container={galleryContainer}
-                                            onInit={onInit}
-                                            plugins={[lgZoom, lgThumbnail]}
-                                            dynamic={true}
-                                            slideDelay={400}
-                                            thumbWidth={130}
-                                            thumbHeight={'100px'}
-                                            thumbMargin={6}
-                                            appendSubHtmlTo={'.lg-item'}
-                                            dynamicEl={imagesUploaded.map((image, index) => ({
-                                                src: image.base64, // Main image source
-                                                responsive: image.base64, // Responsive image (same here, or different sizes if available)
-                                                thumb: image.base64, // Thumbnail (use a smaller image if you have one)
-                                                subHtml: `<h4>Image ${index + 1}</h4>`, // Additional HTML (optional)
-                                            }))}
-                                        />
+                                    <Box position='absolute' width={0} height={0} overflow='hidden'>
+                                        <ImageGallery ref={galleryRef} items={imagesForGallery} startIndex={selectedImageIndex} showBullets/>
                                     </Box>
 
-                                    {/* {imagesUploaded.map((image, index) => (
+
+                                    {imagesUploaded.map((image, index) => (
                                         <Grid item xs={6} lg={3}>
                                             <Card key={index}
                                                 sx={{
@@ -166,6 +169,7 @@ export default function FormMediaStep(): JSX.Element {
                                                     height: 260, // Set a uniform height for all cards
                                                 }}>
                                                 <CardMedia
+                                                    onClick={() => openGallery(index)}
                                                     sx={{ height: 180 }}
                                                     image={image.base64}
                                                     title={image.name}
@@ -189,7 +193,7 @@ export default function FormMediaStep(): JSX.Element {
                                                 </CardActions>
                                             </Card>
                                         </Grid>
-                                    ))} */}
+                                    ))}
                                     {(loading && processingCount > 0) && (
                                         Array.from({ length: processingCount }).map((_, index) => (
                                             <Grid item xs={6} lg={3} key={`placeholder-${index}`}>
