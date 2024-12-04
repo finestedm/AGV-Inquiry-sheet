@@ -125,6 +125,7 @@ export default function FormMediaStep(): JSX.Element {
     function openGallery(index: number) {
         setSelectedImageIndex(index)
         if (galleryRef.current) {
+            // @ts-ignore
           galleryRef.current.fullScreen();
         }
     };
