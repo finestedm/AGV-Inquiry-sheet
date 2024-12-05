@@ -142,6 +142,7 @@ export default function FormMediaStep(): JSX.Element {
                     <Stack spacing={2}>
                         <Box>
                             <Stack spacing={2}>
+                                <Box>
                                 <Grid container spacing={2}>
                                     {isMobile && editMode && (
                                         <Grid item xs={6} lg={3}>
@@ -225,6 +226,7 @@ export default function FormMediaStep(): JSX.Element {
                                         ))
                                     )}
                                 </Grid>
+                                </Box>
                             </Stack>
                         </Box>
                     </Stack>
