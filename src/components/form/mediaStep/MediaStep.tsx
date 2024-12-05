@@ -130,6 +130,20 @@ export default function FormMediaStep(): JSX.Element {
         }
     };
 
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+          if (e.key === "Delete" && galleryRef.current) {
+            // @ts-ignore
+            handleDeleteImageUploaded(galleryRef.current.getCurrentIndex());
+          }
+        };
+        document.addEventListener("keydown", handleKeyDown);
+    
+        return () => {
+          document.removeEventListener("keydown", handleKeyDown);
+        };
+      }, [handleDeleteImageUploaded]);
+
 
     const isMobile = useMediaQuery('(max-width: 1024px)');
 
@@ -157,7 +171,14 @@ export default function FormMediaStep(): JSX.Element {
                                     
 
                                     <Box position='absolute' width={0} height={0} overflow='hidden'>
-                                        <ImageGallery ref={galleryRef} items={imagesForGallery} startIndex={selectedImageIndex} showBullets/>
+                                        <ImageGallery 
+                                            ref={galleryRef} 
+                                            items={imagesForGallery} 
+                                            startIndex={selectedImageIndex} 
+                                            showBullets
+                                            onSlide={(currentIndex) => setSelectedImageIndex(currentIndex)}
+                                            
+                                        />
                                     </Box>
 
 
