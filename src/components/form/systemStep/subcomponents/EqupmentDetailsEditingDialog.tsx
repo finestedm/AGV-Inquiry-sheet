@@ -1,26 +1,32 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, InputAdornment, InputLabel, Stack, SwipeableDrawer, TextField, useTheme } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, InputAdornment, InputLabel, MenuItem, Select, Stack, SwipeableDrawer, TextField, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { handleDeleteLoad, updateEquipment } from "../../../../features/redux/reducers/formDataSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { updateDeleteLoadDialog } from "../../../../features/redux/reducers/deleteLoadDialogSlice";
 import tinycolor from "tinycolor2";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IEquipment, ISystems } from "../../../../features/interfaces";
-import CustomTextField from "../../CustomTextField";
+import { updateEditEquipmentDrawer } from "../../../../features/redux/reducers/editEquipmentDrawer";
+import availableEquipment from "../../../../data/availableEquipment";
 
-export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingDialogOpen, handleClosingEqDetailsDialog, selectedEq, selectedSystem }: { equipmentDetailsEditingDialogOpen: boolean, handleClosingEqDetailsDialog: () => void, selectedEq: IEquipment["id"], selectedSystem: keyof ISystems }) {
+export default function EquipmentDetailsEditingDialog({ selectedSystem }: { selectedSystem: keyof ISystems }) {
     const { t } = useTranslation()
     const theme = useTheme();
     const dispatch = useDispatch()
+    const equipmentDetailsEditingDialogOpen = useSelector((state: RootState) => state.editEquipmentDrawer.open)
+    const eqId = useSelector((state: RootState) => state.editEquipmentDrawer.eqId)
     const equipments = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment)
-    const eqDetails = useSelector((state: RootState) => equipments.find(eq => eq.id === selectedEq))
+    const eqDetails = useSelector((state: RootState) => equipments.find(eq => eq.id === eqId))
     const [eqTempDetails, setEqTempDetails] = useState(eqDetails)
 
     useEffect(() => {
         setEqTempDetails(eqDetails)
     }, [eqDetails])
+
+    function handleClosingEqDetailsDialog() {
+        dispatch(updateEditEquipmentDrawer({ open: false }))
+    }
 
     function handleEqDetailsChange() {
         if (eqTempDetails) {
@@ -46,6 +52,16 @@ export default function EquipmentDetailsEditingDialog({ equipmentDetailsEditingD
                 <DialogContentText id="alert-dialog-equipment-editing-dialog">
                     {eqTempDetails && (
                         <Stack spacing={3}>
+                            <Box>
+                                <InputLabel>{t(`system.building.existingBuilding.equipment.type`)}</InputLabel>
+                                <Select
+                                    value={eqTempDetails?.type}
+                                    fullWidth
+                                    onChange={(e) => setEqTempDetails({ ...eqTempDetails, type: e.target.value })}
+                                >
+                                    {availableEquipment.map(eq => <MenuItem value={eq}>{eq}</MenuItem>)}
+                                </Select>
+                            </Box>
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.x`)}</InputLabel>
                                 <TextField

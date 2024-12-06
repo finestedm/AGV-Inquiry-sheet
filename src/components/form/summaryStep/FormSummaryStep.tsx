@@ -117,7 +117,6 @@ export default function FormSummaryStep() {
                 </Stack>
             </Stack>
             <SystemsTabs />
-            {/* <NumberOfTrucks /> */}
         </Stack>
     )
 }

@@ -11,6 +11,7 @@ import Flows from "./subcomponents/Flows";
 import AdditionalRemarks from "./subcomponents/AdditionalRemarks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
+import NumberOfTrucks from "../summaryStep/subcomponents/NumberOfTrucks";
 
 export default function FormSystemStep({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
     const isStepSummary = useSelector((state: RootState) => state.steps.currentStep) === 'summary'
@@ -26,11 +27,12 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: key
             }
             <WorkTime selectedSystem={selectedSystem} />
             <WorkConditions selectedSystem={selectedSystem} />
-            <Building selectedSystem={selectedSystem} />
             <Loads selectedSystem={selectedSystem} />
             {(selectedSystem === 'asrs' || selectedSystem === 'lrkprk' || selectedSystem === 'autovna') && <Capacity selectedSystem={selectedSystem} />}
-            {(selectedSystem === ('agv' || 'autovna')) && <Flows selectedSystem={selectedSystem} />}
+            <Building selectedSystem={selectedSystem} />
+            {(selectedSystem === 'agv' || selectedSystem === 'autovna') && <Flows selectedSystem={selectedSystem} />}
             <AdditionalRemarks selectedSystem={selectedSystem} />
+            <NumberOfTrucks />
         </Stack >
     )
 }

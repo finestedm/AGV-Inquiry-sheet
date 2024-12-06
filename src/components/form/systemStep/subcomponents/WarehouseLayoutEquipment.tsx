@@ -6,25 +6,8 @@ import { updateEquipment } from "../../../../features/redux/reducers/formDataSli
 import { Stack, useTheme } from "@mui/material";
 import { Rect, Text, Transformer } from "react-konva";
 import Konva from 'konva';
+import { updateEditEquipmentDrawer } from "../../../../features/redux/reducers/editEquipmentDrawer";
 
-interface CommonProps {
-    onSelect: () => void;
-    shapeRef: React.MutableRefObject<Konva.Rect | null>;
-    commonProps: {
-        id: string;
-        x: number;
-        width: number;
-        y: number;
-        height: number;
-        fill: string;
-        rotation: number;
-        draggable: boolean;
-        onDragEnd: (e: Konva.KonvaEventObject<DragEvent>) => void;
-        onTransformEnd: (e: Konva.KonvaEventObject<Event>) => void
-        opacity: number;
-        onDragMove: (e: Konva.KonvaEventObject<DragEvent>) => void
-    };
-}
 
 export default function EquipmentShape({ equipment, index, isSelected, onSelect, selectedShapeId, canvaToWarehouseRatio, selectedSystem }: 
     { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any, selectedShapeId: number | null, canvaToWarehouseRatio: number, selectedSystem: keyof ISystems }) {
@@ -106,7 +89,11 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
         }
     };
 
-    const commonProps: CommonProps = {
+    function handleDoubleClick() {
+        dispatch(updateEditEquipmentDrawer({ open: true, eqId: id }));  // Dispatch the action on double-click
+    };
+
+    const commonProps = {
         onSelect,
         shapeRef,
         commonProps: {
@@ -121,7 +108,8 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
             onDragEnd: handleDragEnd(index),
             onTransformEnd: onShapeChange(index),
             opacity: .6,
-            onDragMove: handleDragMove
+            onDragMove: handleDragMove,
+            onDblClick: handleDoubleClick, 
         },
     };
 

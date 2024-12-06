@@ -258,8 +258,17 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             },
                         },
                         { field: "distance", headerName: t(`flowTable.header.distance`), minWidth: 130, editable: editMode, type: 'number', description: t(`flowTable.header.distanceDescription`) },
-                        { field: "bidirectional", headerName: t(`flowTable.header.bidirectional`), minWidth: 130, editable: editMode, type: 'boolean', description: t(`flowTable.header.bidirectionalDescription`), valueGetter: (params) => params.value ? <SwapHorizIcon /> : <EastIcon />, renderCell: (params) => <>{params.value}</> }
-                    ]}
+                        {
+                            field: "bidirectional",
+                            headerName: t(`flowTable.header.bidirectional`),
+                            minWidth: 130,
+                            editable: editMode,
+                            type: 'boolean',
+                            description: t(`flowTable.header.bidirectionalDescription`),
+                            renderCell: (params) => {
+                                return params.value ? <SwapHorizIcon /> : <EastIcon />;
+                            },
+                        }]}
 
                     processRowUpdate={(newRow: IFlow, oldRow: IFlow) => {
                         if (editMode) {
