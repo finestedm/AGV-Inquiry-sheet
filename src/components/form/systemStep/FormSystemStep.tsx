@@ -32,7 +32,7 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: key
             <Building selectedSystem={selectedSystem} />
             {(selectedSystem === 'agv' || selectedSystem === 'autovna') && <Flows selectedSystem={selectedSystem} />}
             <AdditionalRemarks selectedSystem={selectedSystem} />
-            <NumberOfTrucks />
+            {/* <NumberOfTrucks /> */}
         </Stack >
     )
 }
