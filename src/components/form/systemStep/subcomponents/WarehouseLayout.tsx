@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text, Transformer } from 'react-konva';
-import { Box, Button, ButtonGroup, Chip, ClickAwayListener, Collapse, Grow, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
+import { Box, Button, ButtonGroup, Chip, ClickAwayListener, Collapse, Grow, ListItemIcon, ListItemText, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { IEquipment, IFlow, ISystems } from '../../../../features/interfaces';
@@ -10,7 +10,7 @@ import randomColor from 'randomcolor'
 import { useTranslation } from 'react-i18next';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { LineStyle, PlaylistAdd } from "@mui/icons-material";
-import availableEquipment from '../../../../data/availableEquipment';
+import availableEquipment, { eqIcons } from '../../../../data/availableEquipment';
 import { updateEquipment } from '../../../../features/redux/reducers/formDataSlice';
 import NoDataAlert from '../../../NoDataAlert';
 import EquipmentShape from './WarehouseLayoutEquipment';
@@ -143,10 +143,10 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         // Generate vertical grid lines and labels
         for (let i = 1; i <= numLinesY; i++) {
             const yPos = i * 10 * gridSpacingY; // Convert meters to canvas pixels
-        
+
             // Avoid adding a line beyond the canvas
             if (yPos > canvaDimensions.height) break;
-        
+
             lines.push(
                 <Line
                     id={`konvaGridY${i}`}
@@ -156,7 +156,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                     strokeWidth={1}
                 />
             );
-        
+
             // Add labels at regular intervals
             if (i % labelIntervalY === 0) {
                 labels.push(
@@ -235,14 +235,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                         <ClickAwayListener onClickAway={handleClose}>
                                             <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
                                                 {availableEquipment.map((eq) => (
-                                                    <MenuItem
-                                                        key={eq}
-                                                        value={eq}
-                                                        selected={eq === equipmentToAdd}
-                                                        onClick={(e) => handleMenuItemClick(e, eq)}
-                                                    >
-                                                        {t(`${eq}`)}
-                                                    </MenuItem>
+                                                    <EqMenuItem eq={eq} handleMenuItemClick={handleMenuItemClick} equipmentToAdd={equipmentToAdd} />
                                                 ))}
                                             </MenuList>
                                         </ClickAwayListener>
@@ -323,3 +316,26 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         )
     }
 };
+
+
+function EqMenuItem({ eq, equipmentToAdd, handleMenuItemClick }: { eq: string, equipmentToAdd: string, handleMenuItemClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => void }) {
+    const EquipmentIcon = eqIcons[eq] || null;
+    const { t } = useTranslation()
+
+    return (
+        <MenuItem
+            key={eq}
+            value={eq}
+            selected={eq === equipmentToAdd}
+            onClick={(e) => handleMenuItemClick(e, eq)}
+            sx={{ textAlign: 'left'}}
+        >
+            <ListItemIcon>
+                <EquipmentIcon style={{ fontSize: 20 }} />
+            </ListItemIcon>
+            <ListItemText>
+                {t(`${eq}`)}
+            </ListItemText>
+        </MenuItem>
+    )
+}
