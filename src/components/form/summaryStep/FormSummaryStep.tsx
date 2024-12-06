@@ -13,6 +13,7 @@ import existingWMSTypes from "../../../data/existingWMSTypes";
 import BoxForTextPair from "./subcomponents/BoxForTextPair";
 import SystemsAccordion from "./subcomponents/SystemTabs";
 import SystemsTabs from "./subcomponents/SystemTabs";
+import NumberOfTrucks from "./subcomponents/NumberOfTrucks";
 
 export default function FormSummaryStep() {
     const formData = useSelector((state: RootState) => state.formData)
@@ -116,6 +117,7 @@ export default function FormSummaryStep() {
                 </Stack>
             </Stack>
             <SystemsTabs />
+            {/* <NumberOfTrucks /> */}
         </Stack>
     )
 }

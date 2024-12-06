@@ -173,6 +173,7 @@
     }
   },
   "system": {
+    "tooHighPickupPoint": "Wybrany system nie może obsługiwać takich wysokości. Co najmniej jeden z obsługiwanych przez system punktów jest zbyt wysoki.",
     "workingConditionsTitle": "Uwaga!",
     "workingConditions": "Warunki uniemożliwiają zastosowanie wybrane systemu",
     "condensationWarningTitle": "Uwaga!",

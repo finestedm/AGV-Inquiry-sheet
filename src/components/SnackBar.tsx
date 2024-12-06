@@ -29,9 +29,7 @@ export default function SimpleSnackbar() {
                 }
             }, 100);
         } else {
-            setProgress(100
-                
-            ); // Reset to 0% when snackbar closes
+            setProgress(100); // Reset to 0% when snackbar closes
         }
 
         return () => clearInterval(progressInterval);

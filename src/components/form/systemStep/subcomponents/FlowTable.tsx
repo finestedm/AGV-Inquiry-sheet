@@ -198,8 +198,8 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             })),
                             renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
                         },
-                        { field: "flowAverage", headerName: t(`flowTable.header.flowAverage`), minWidth: 130, editable: editMode, type: 'number' },
-                        { field: "flowPeak", headerName: t(`flowTable.header.flowPeak`), minWidth: 130, editable: editMode, type: 'number' },
+                        { field: "flowAverage", headerName: `${t(`flowTable.header.flowAverage`)} / h`, minWidth: 150, editable: editMode, type: 'number' },
+                        { field: "flowPeak", headerName: `${t(`flowTable.header.flowPeak`)} / h`, minWidth: 150, editable: editMode, type: 'number' },
                         {
                             field: "loadType",
                             headerName: t(`flowTable.header.loadType`),

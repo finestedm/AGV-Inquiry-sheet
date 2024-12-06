@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Box, Checkbox, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, InputAdornment, InputLabel, Slider, Stack, Switch, TextField, Typography, useTheme, IconButton } from "@mui/material";
+import { Box, Checkbox, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, InputAdornment, InputLabel, Slider, Stack, Switch, TextField, Typography, useTheme, IconButton, Collapse, Alert } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
@@ -178,6 +178,9 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                 </Grid>
                             </Box>
                             <WarehouseLayout selectedSystem={selectedSystem} />
+                            <Collapse in={(selectedSystem === 'agv') && (formData.system[selectedSystem].building.existingBuilding.equipment.filter(eq => eq.zHeight > 5).length >= 1)} >
+                                <Alert id='system.tooHighPickupPoint' severity="error">{t(`system.tooHighPickupPoint`)}</Alert>
+                            </Collapse>
                         </Stack>
                     }
                     <Dialog

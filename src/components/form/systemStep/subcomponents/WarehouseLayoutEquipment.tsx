@@ -22,6 +22,7 @@ interface CommonProps {
         onDragEnd: (e: Konva.KonvaEventObject<DragEvent>) => void;
         onTransformEnd: (e: Konva.KonvaEventObject<Event>) => void
         opacity: number;
+        onDragMove: (e: Konva.KonvaEventObject<DragEvent>) => void
     };
 }
 
@@ -39,6 +40,23 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
     const warehouseEquipment = warehouseData.equipment;
 
     const theme = useTheme();
+
+
+    const SNAP_STEP_METERS = 2.5; // Define the grid step size in meters
+
+    const snapToGrid = (valueInPixels: number) => {
+        const valueInMeters = valueInPixels / canvaToWarehouseRatio; // Convert to meters
+        const snappedValueInMeters = Math.round(valueInMeters / SNAP_STEP_METERS) * SNAP_STEP_METERS; // Snap to nearest step
+        return snappedValueInMeters * canvaToWarehouseRatio; // Convert back to pixels
+    };
+
+    const handleDragMove = (e: Konva.KonvaEventObject<DragEvent>) => {
+        const snappedX = snapToGrid(e.target.x());
+        const snappedY = snapToGrid(e.target.y());
+    
+        e.target.x(snappedX);
+        e.target.y(snappedY);
+    };
 
     const handleDragEnd = (index: number) => (e: Konva.KonvaEventObject<DragEvent>) => {
         const updatedEquipment = warehouseEquipment.map((equipment, i) => {
@@ -102,7 +120,8 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
             draggable: editMode,
             onDragEnd: handleDragEnd(index),
             onTransformEnd: onShapeChange(index),
-            opacity: .6
+            opacity: .6,
+            onDragMove: handleDragMove
         },
     };
 
@@ -112,6 +131,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
         fontSize: 10,
         fill: theme.palette.text.primary,
     };
+
 
     const renderShape = () => {
         switch (type) {
@@ -135,6 +155,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                                 id="transformer"
                                 flipEnabled={false}
                                 rotateLineVisible
+                                onDragMove={handleDragMove}
                                 rotationSnapTolerance={11.25}
                                 boundBoxFunc={(oldBox, newBox) => {
                                     if (Math.abs(newBox.width/canvaToWarehouseRatio) < 5 || Math.abs(newBox.height/canvaToWarehouseRatio) < 5) {

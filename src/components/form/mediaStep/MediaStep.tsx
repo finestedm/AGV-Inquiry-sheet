@@ -197,8 +197,8 @@ export default function FormMediaStep(): JSX.Element {
                                                     image={image.base64}
                                                     title={image.name}
                                                 />
-                                                <CardContent sx={{ flexGrow: 1 }}>
-                                                    <Typography gutterBottom variant="caption">
+                                                <CardContent sx={{ flexGrow: 1, maxHeight: 75, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
+                                                    <Typography gutterBottom variant="caption" sx={{ textOverflow: "ellipsis" }}>
                                                         {image.name}
                                                     </Typography>
                                                 </CardContent>

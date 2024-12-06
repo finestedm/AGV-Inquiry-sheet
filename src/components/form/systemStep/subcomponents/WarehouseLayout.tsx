@@ -46,7 +46,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
             width: 10,
             y: 5,
             height: 10,
-            zHeight: 0, 
+            zHeight: 0,
             rotation: 0,
             type: equipmentToAdd,
             color: randomColor({ luminosity: 'light' }),
@@ -90,7 +90,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
     const canvaToWarehouseRatio = canvaDimensions.width / warehouseData.width;
 
-    const wallThickness = canvaDimensions.width * 0.01; // Assuming 1%
+    const wallThickness = canvaDimensions.width * 0.001; // Assuming 1%
 
 
     function generateGridLines() {
@@ -98,16 +98,22 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         const labels = [];
 
         // Number of grid lines
-        const numLinesX = Math.floor(warehouseData.width / 10);
-        const numLinesY = Math.floor(warehouseData.length / 10);
+        const gridSpacingX = canvaDimensions.width / warehouseData.width;
+        const gridSpacingY = canvaDimensions.height / warehouseData.length;
+        const numLinesX = Math.ceil(warehouseData.width / 10);
+        const numLinesY = Math.ceil(warehouseData.length / 10);
 
         // Display labels for every second line
-        const labelIntervalX = Math.floor(numLinesX / 10) || 1;
-        const labelIntervalY = Math.floor(numLinesY / 10) || 1;
+        const labelIntervalX = Math.ceil(numLinesX / 10) || 1;
+        const labelIntervalY = Math.ceil(numLinesY / 10) || 1;
 
         // Generate horizontal grid lines and labels
-        for (let i = 1; i < numLinesX; i++) {
-            const xPos = i * (canvaDimensions.width / numLinesX);
+        for (let i = 1; i <= numLinesX; i++) {
+            const xPos = i * 10 * gridSpacingX; // Convert meters to canvas pixels
+
+            // Avoid adding a line beyond the canvas
+            if (xPos > canvaDimensions.width) break;
+
             lines.push(
                 <Line
                     id={`konvaGridX${i}`}
@@ -118,7 +124,6 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                 />
             );
 
-            // Add text labels at the start of every second line
             if (i % labelIntervalX === 0) {
                 labels.push(
                     <Text
@@ -134,9 +139,14 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
             }
         }
 
+
         // Generate vertical grid lines and labels
-        for (let i = 1; i < numLinesY; i++) {
-            const yPos = i * (canvaDimensions.height / numLinesY);
+        for (let i = 1; i <= numLinesY; i++) {
+            const yPos = i * 10 * gridSpacingY; // Convert meters to canvas pixels
+        
+            // Avoid adding a line beyond the canvas
+            if (yPos > canvaDimensions.height) break;
+        
             lines.push(
                 <Line
                     id={`konvaGridY${i}`}
@@ -146,14 +156,14 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                     strokeWidth={1}
                 />
             );
-
-            // Add text labels at the start of every second line
+        
+            // Add labels at regular intervals
             if (i % labelIntervalY === 0) {
                 labels.push(
                     <Text
                         key={`labelY${i}`}
-                        x={5}
-                        y={yPos - 10}
+                        x={5} // Offset from the left edge of the canvas
+                        y={yPos - 10} // Slightly above the line
                         fontSize={9}
                         text={`${i * 10}m`}
                         fill={theme.palette.text.secondary}
