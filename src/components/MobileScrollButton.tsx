@@ -1,45 +1,53 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Fab from '@mui/material/Fab';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-import '../style/MobileScrollButton.css'; // Import the CSS file for your animations
+import { Box } from '@mui/material';
 
 const ScrollButton = () => {
-    const [buttonClass, setButtonClass] = useState('scroll-button');
-
-    const handleScroll = () => {
-        if (window.scrollY > 220) { // Adjust the threshold value as needed
-            setButtonClass('scroll-button show')
-        } else {
-            setButtonClass('scroll-button')
-        }
-    };
+    const [isVisible, setIsVisible] = useState(false);
+    const targetRef = useRef(null); // Ref for the target element
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsVisible(!entry.isIntersecting); // Button is visible when target is not in view
+            },
+            { threshold: 0.1 } // Trigger when 10% of the target is visible
+        );
+
+        if (targetRef.current) {
+            observer.observe(targetRef.current);
+        }
+
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            if (targetRef.current) {
+                observer.unobserve(targetRef.current);
+            }
         };
     }, []);
 
     return (
-        <div>
+        <Box>
+            <Box
+                ref={targetRef}
+                position='absolute'
+                top={200}
+                visibility='hidden'
+/>
             <Fab
                 sx={{
                     position: 'fixed',
-                    top: '5%',
-                    left: 'auto', // Set right to auto
-                    right: '25px',    // Center horizontally
+                    top: 50,
+                    right: '25px',
                     transition: 'all .25s ease',
-                    visibility: `${window.scrollY > 200 ? 'visible' : 'collapse'}`,
+                    visibility: isVisible ? 'visible' : 'collapse',
                 }}
-                size='small'
-                className={buttonClass}
+                size="small"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
                 <KeyboardDoubleArrowUpIcon />
             </Fab>
-
-        </div>
+        </Box>
     );
 };
 

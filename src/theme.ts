@@ -199,6 +199,12 @@ theme = createTheme({
         shadow24,
 
     ],
+
+    zIndex: {
+        modal: 1150
+    },
+
+
     components: {
         MuiCard: {
             styleOverrides: {
@@ -637,6 +643,9 @@ export const themeDark = createTheme({
         },
     },
 
+    zIndex: {
+        modal: 1150
+    },
 
     components: {
         MuiCard: {
