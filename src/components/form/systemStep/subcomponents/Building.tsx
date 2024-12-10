@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Box, Checkbox, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, InputAdornment, InputLabel, Slider, Stack, Switch, TextField, Typography, useTheme, IconButton, Collapse, Alert } from "@mui/material";
+import { Box, Checkbox, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, InputAdornment, InputLabel, Slider, Stack, Switch, TextField, Typography, useTheme, IconButton, Collapse, Alert, DialogTitle } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
@@ -37,25 +37,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
         }));
     };
 
-    const handleBlur = () => {
-        const newWidth = +tempDimensions.width;
-        const newLength = +tempDimensions.length;
-
-        try {
-            if (newWidth < newLength) {
-                // Swap the values if the condition is met
-                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newLength.toString() }));
-                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newWidth.toString() }));
-            } else {
-                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newWidth.toString() }));
-                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newLength.toString() }));
-            }
-        } catch (e) {
-            console.log(e)
-        }
-    };
-
-    return (
+        return (
         <InputGroup
             title={t(`system.subheader.building`)}
             extendedOpener={warehouseDialogOpen}
@@ -95,9 +77,83 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                     }
                     {!formData.system[selectedSystem].building.silo &&
                         <Stack spacing={2}>
-                            <Box>
+                            <WarehouseSizeEditingFields selectedSystem={selectedSystem} />
+                            <WarehouseLayout selectedSystem={selectedSystem} />
+                            <Collapse in={(selectedSystem === 'agv') && (formData.system[selectedSystem].building.existingBuilding.equipment.filter(eq => eq.zHeight > 5).length >= 1)} >
+                                <Alert id='system.tooHighPickupPoint' severity="error">{t(`system.tooHighPickupPoint`)}</Alert>
+                            </Collapse>
+                        </Stack>
+                    }
+                    <Dialog
+                        fullScreen
+                        open={warehouseDialogOpen}
+                        onClose={extenderHandler}
+                    >
+                        <DialogTitle>
+                            {t('ui.warehouseDialog.title')}
+                        </DialogTitle>
+                        <IconButton 
+                            aria-label="close" 
+                            onClick={extenderHandler}
+                            sx={{ml: 'auto', position: 'absolute', top: 12, right: 20}}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <DialogContent>
+                            <Stack spacing={3}>
+                                <WarehouseSizeEditingFields selectedSystem={selectedSystem} />
+                            <WarehouseLayout selectedSystem={selectedSystem} />
+                            <Collapse in={(selectedSystem === 'agv') && (formData.system[selectedSystem].building.existingBuilding.equipment.filter(eq => eq.zHeight > 5).length >= 1)} >
+                                <Alert id='system.tooHighPickupPoint' severity="error">{t(`system.tooHighPickupPoint`)}</Alert>
+                            </Collapse>
+                                </Stack>
+                        </DialogContent>
+                    </Dialog>
+                </Stack>
+            }
+        />
 
-                                <Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
+    )
+}
+
+export function WarehouseSizeEditingFields({selectedSystem}: {selectedSystem: keyof ISystems}) {
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
+    const formData = useSelector((state: RootState) => state.formData);
+    const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const [tempDimensions, setTempDimensions] = useState({
+        width: trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width),
+        length: trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.length),
+    });
+
+
+    const handleInputChange = (field: 'width' | 'length') => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTempDimensions((prevDimensions) => ({
+            ...prevDimensions,
+            [field]: e.target.value,
+        }));
+    };
+
+    const handleBlur = () => {
+        const newWidth = +tempDimensions.width;
+        const newLength = +tempDimensions.length;
+
+        try {
+            if (newWidth < newLength) {
+                // Swap the values if the condition is met
+                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newLength.toString() }));
+                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newWidth.toString() }));
+            } else {
+                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newWidth.toString() }));
+                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newLength.toString() }));
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    };
+    return (
+        <Box><Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
                                     <Grid item xs>
                                         <Stack spacing={1} textAlign='left'>
                                             <InputLabel>{t(`system.building.existingBuilding.height`)}</InputLabel>
@@ -176,30 +232,6 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                         </Stack>
                                     </Grid>
                                 </Grid>
-                            </Box>
-                            <WarehouseLayout selectedSystem={selectedSystem} />
-                            <Collapse in={(selectedSystem === 'agv') && (formData.system[selectedSystem].building.existingBuilding.equipment.filter(eq => eq.zHeight > 5).length >= 1)} >
-                                <Alert id='system.tooHighPickupPoint' severity="error">{t(`system.tooHighPickupPoint`)}</Alert>
-                            </Collapse>
-                        </Stack>
-                    }
-                    <Dialog
-                        fullScreen
-                        open={warehouseDialogOpen}
-                        onClose={extenderHandler}
-                    >
-                        <DialogActions>
-                            <IconButton aria-label="close" onClick={extenderHandler}>
-                                <CloseIcon />
-                            </IconButton>
-                        </DialogActions>
-                        <DialogContent>
-                            <WarehouseLayout selectedSystem={selectedSystem} />
-                        </DialogContent>
-                    </Dialog>
-                </Stack>
-            }
-        />
-
+                                </Box>
     )
 }

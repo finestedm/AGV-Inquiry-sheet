@@ -131,6 +131,9 @@
         "cancel": "Anuluj",
         "confirm": "Tak, usuń"
       },
+      "equipmentEditing" : {
+        "title": "Edytuj dane"
+      },
       "copyDialog": {
         "title": "Wybierz dane do skopiowania z innego systemu",
         "noChange": "Bez zmian"
@@ -213,7 +216,16 @@
       "existingBuilding": {
         "height": "Wysokość",
         "width": "Szerokość",
-        "length": "Długość"
+        "length": "Długość",
+        "equipment": {
+          "x": "Pozycja x",
+          "y": "Pozycja y",
+          "width": "Szerokość",
+          "height": "Długość",
+          "type": "Typ",
+          "rotation": "Obrót",
+          "zHeight": "Wysokość"
+        }
       }
     },
     "asrs": {

@@ -196,6 +196,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 
     if (warehouseEquipment) {
         return (
+            <Box>
             <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
                 <Stack spacing={2} direction='row' justifyContent='space-between'>
                     <Box>
@@ -309,6 +310,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                 </Box>
                 <EquipmentDetails selectedSystem={selectedSystem} />
             </Stack>
+            </Box>
         );
     } else {
         return (

@@ -24,12 +24,11 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
 
     const theme = useTheme();
 
-
-    const SNAP_STEP_METERS = 2.5; // Define the grid step size in meters
+    const SNAP_STEP_METERS = 1; // Define the grid step size in meters
 
     const snapToGrid = (valueInPixels: number) => {
         const valueInMeters = valueInPixels / canvaToWarehouseRatio; // Convert to meters
-        const snappedValueInMeters = Math.round(valueInMeters / SNAP_STEP_METERS) * SNAP_STEP_METERS; // Snap to nearest step
+        const snappedValueInMeters = Math.round(valueInMeters / SNAP_STEP_METERS*2) * SNAP_STEP_METERS/2; // Snap to nearest step
         return snappedValueInMeters * canvaToWarehouseRatio; // Convert back to pixels
     };
 
@@ -58,16 +57,14 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
         const updatedEquipment = warehouseEquipment.map((equipment, i) => {
             if (i === index) {
                 const node = e.target
-                const xInMeters = Number((node.x() / canvaToWarehouseRatio).toFixed(1));
-                const yInMeters = Number((node.y() / canvaToWarehouseRatio).toFixed(1));
-                const widthInMeters = Number(((node.width() * node.scaleX()) / canvaToWarehouseRatio).toFixed(1));
-                const heightInMeters = Number(((node.height() * node.scaleY()) / canvaToWarehouseRatio).toFixed(1));
+                const widthInMeters = Math.round(((node.width() * node.scaleX()) / canvaToWarehouseRatio) / SNAP_STEP_METERS) * SNAP_STEP_METERS;
+                const heightInMeters = Math.round(((node.height() * node.scaleY()) / canvaToWarehouseRatio) / SNAP_STEP_METERS) * SNAP_STEP_METERS;
                 const rotation = node.rotation();
                 // Reset scale to avoid compounding
                 node.scaleX(1);
                 node.scaleY(1);
 
-                return { ...equipment, x: xInMeters, y: yInMeters, width: widthInMeters, height: heightInMeters, rotation };
+                return { ...equipment,  width: widthInMeters, height: heightInMeters, rotation };
             }
             
             return equipment;
@@ -131,6 +128,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                             offsetY={height / 2 * canvaToWarehouseRatio}
                             onClick={commonProps.onSelect}
                             onTap={commonProps.onSelect}
+                            onDblTap={commonProps.onSelect}
                             ref={commonProps.shapeRef as React.MutableRefObject<Konva.Rect>}
                             {...commonProps.commonProps}
                         />
@@ -144,9 +142,10 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                                 flipEnabled={false}
                                 rotateLineVisible
                                 onDragMove={handleDragMove}
+                                
                                 rotationSnapTolerance={11.25}
                                 boundBoxFunc={(oldBox, newBox) => {
-                                    if (Math.abs(newBox.width/canvaToWarehouseRatio) < 5 || Math.abs(newBox.height/canvaToWarehouseRatio) < 5) {
+                                    if (Math.abs(newBox.width/canvaToWarehouseRatio) < 1 || Math.abs(newBox.height/canvaToWarehouseRatio) < 1) {
                                         return oldBox;
                                     }
                                     return newBox;
