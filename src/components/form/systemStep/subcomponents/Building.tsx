@@ -85,6 +85,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         </Stack>
                     }
                     <Dialog
+                        sx={{zIndex: 900}}
                         fullScreen
                         open={warehouseDialogOpen}
                         onClose={extenderHandler}

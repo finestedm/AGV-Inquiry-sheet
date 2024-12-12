@@ -179,14 +179,14 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                     onClick={handleEqDetailsChange}
 
                 >
-                    {t("ui.dialog.EquipmentDetailsEditing.confirm")}
+                    {t("ui.dialog.equipmentEditing.confirm")}
                 </Button>
                 <Button
                     variant="outlined"
                     autoFocus
                     onClick={handleClosingEqDetailsDialog}
                 >
-                    {t("ui.dialog.EquipmentDetailsEditing.cancel")}
+                    {t("ui.dialog.equipmentEditing.cancel")}
                 </Button>
             </DialogActions>
         </Drawer >

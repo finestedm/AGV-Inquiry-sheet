@@ -132,7 +132,9 @@
         "confirm": "Tak, usuń"
       },
       "equipmentEditing" : {
-        "title": "Edytuj dane"
+        "title": "Edytuj dane",
+        "confirm": "Tak, zmień dane",
+        "cancel": "Anuluj"
       },
       "copyDialog": {
         "title": "Wybierz dane do skopiowania z innego systemu",

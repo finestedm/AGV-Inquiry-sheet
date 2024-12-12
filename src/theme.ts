@@ -200,10 +200,6 @@ theme = createTheme({
 
     ],
 
-    zIndex: {
-        modal: 1150
-    },
-
 
     components: {
         MuiCard: {
@@ -641,10 +637,6 @@ export const themeDark = createTheme({
             fontWeight: 600,
             letterSpacing: -0.5
         },
-    },
-
-    zIndex: {
-        modal: 1150
     },
 
     components: {
