@@ -151,7 +151,7 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                                 />
                             </Box>
                             <Box>
-                                <InputLabel>{t(`system.building.existingBuilding.zHeight`)}</InputLabel>
+                                <InputLabel>{t(`system.building.existingBuilding.equipment.zHeight`)}</InputLabel>
                                 <TextField
                                     value={eqTempDetails?.zHeight}
                                     fullWidth
