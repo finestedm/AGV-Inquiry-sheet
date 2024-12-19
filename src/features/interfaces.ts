@@ -102,7 +102,7 @@ export interface IEquipment {
     height: number;
     zHeight: number;
     rotation: number;
-    type: TEquipmentType;
+    type: TEquipmentType | string;
     color: string;
 }
 

@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, Select, Stack, SwipeableDrawer, TextField, useTheme } from "@mui/material";
+import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Drawer, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, Select, Stack, SwipeableDrawer, TextField, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { handleDeleteLoad, updateEquipment } from "../../../../features/redux/reducers/formDataSlice";
@@ -54,21 +54,14 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                         <Stack spacing={3}>
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.type`)}</InputLabel>
-                                <Select
+                                <Autocomplete
+                                    freeSolo
                                     value={eqTempDetails?.type}
+                                    options={availableEquipment}
+                                    renderInput={(params) => <TextField {...params} />}
                                     fullWidth
-                                    onChange={(e) => setEqTempDetails({ ...eqTempDetails, type: e.target.value })}
-                                >
-                                    {availableEquipment.map(eq =>
-                                        <MenuItem
-                                            value={eq}
-                                        >
-                                            <ListItemText>
-                                                {eq}
-                                            </ListItemText>
-                                        </MenuItem>
-                                    )}
-                                </Select>
+                                    onChange={(e, v) => v ? setEqTempDetails({ ...eqTempDetails, type: v }) : setEqTempDetails({ ...eqTempDetails, type: 'dock' })}
+                                / >
                             </Box>
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.x`)}</InputLabel>
