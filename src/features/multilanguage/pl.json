@@ -279,7 +279,10 @@
       "officialOffer": "Data oferty",
       "order": "Data zamówienia",
       "implementation": "Data wdrożenia",
-      "launch": "Data uruchomienia 🎉"
+      "launch": "Data uruchomienia 🎉",
+      "startDate": "Data początkowa",
+      "endDate": "Data końcowa",
+      "diff": "Czas trwania"
     },
     "it": {
       "processesDescription": "Opis procesów",

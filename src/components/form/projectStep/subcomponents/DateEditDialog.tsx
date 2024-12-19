@@ -96,6 +96,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                         onChange={(date) => date && setStartDate(date)}
                                     />
                                 </Stack>
+                                {selectedTask.id !== 'order' && 
                                 <Stack spacing={1} textAlign='left'>
                                     <InputLabel>{t(`project.milestones.endDate`)}</InputLabel>
                                     <DatePicker
@@ -105,14 +106,17 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                         onChange={(date) => date && setEndDate(date)}
                                     />
                                 </Stack>
-                                <Stack spacing={1} textAlign='left'>
-                                    <InputLabel>{t(`project.milestones.diff`)}</InputLabel>
-                                    <OutlinedInput
-                                        id=""
-                                        value={`${dayjs(endDate).diff(dayjs(startDate), 'weeks')} weeks`}
-                                        readOnly
-                                    />
-                                </Stack>
+                                }
+                                {selectedTask.id !== 'order' && 
+                                    <Stack spacing={1} textAlign='left'>
+                                        <InputLabel>{t(`project.milestones.diff`)}</InputLabel>
+                                        <OutlinedInput
+                                            id=""
+                                            value={`${dayjs(endDate).diff(dayjs(startDate), 'weeks')} weeks`}
+                                            readOnly
+                                        />
+                                    </Stack>
+                                }
                             </Stack>
                             :
                             selectedTask.id === 'order' ?

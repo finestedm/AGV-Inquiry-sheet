@@ -38,7 +38,7 @@ export default function GanttGraph(): JSX.Element {
     const taskListHeight = 50;
     const headerHeight = 60;
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    const minColumnsWidthPerView = { 'Week': 35, 'Month': 60, 'Year': 200 }
+    const minColumnsWidthPerView = { 'Week': 28, 'Month': 50, 'Year': 175 }
     const columnsWidthDifference = 5
     function handleColumnsWidth(increment: '+' | '-') {
         const newColumnsWidth = increment === '+' ? columnsWidth + columnsWidthDifference : columnsWidth - columnsWidthDifference
@@ -223,7 +223,7 @@ export default function GanttGraph(): JSX.Element {
                             viewMode={viewMode as ViewMode}
                             preStepsCount={2}
                             locale={currentLanguage}
-                            fontSize=".75rem"
+                            fontSize=".65rem"
                             listCellWidth={viewTaskList ? '100px' : ""}
                             columnWidth={columnsWidth}
                             TooltipContent={CustomTooltip}
