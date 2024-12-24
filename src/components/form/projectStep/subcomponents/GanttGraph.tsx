@@ -1,6 +1,6 @@
 import { Box, useTheme, ButtonGroup, Button, IconButton, Select, MenuItem, Stack, Tooltip, Typography, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Grid, useMediaQuery, Toolbar, AppBar, Chip, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import "gantt-task-react/dist/index.css";
-import { Gantt, Task, ViewMode } from "gantt-task-react";
+import { Task, ViewMode } from "gantt-task-react";
 import { handleDateChanges, handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -19,6 +19,10 @@ import dayjs from "dayjs";
 import milestonesLengths, { milestoneOrder } from "../../../../data/milestones";
 import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
 import tinycolor from "tinycolor2";
+import { Gantt } from "wx-react-gantt";
+import { Willow } from "wx-react-gantt";
+import "wx-react-gantt/dist/gantt.css";
+
 
 export default function GanttGraph(): JSX.Element {
 
@@ -135,7 +139,7 @@ export default function GanttGraph(): JSX.Element {
                 id: name,
                 dependencies: name === 'concept' ? [] : [previousMilestone],
                 rowHeight: taskListHeight - 2,
-                name: t(`project.milestones.${name}`),
+                text: t(`project.milestones.${name}`),
                 start,
                 end,
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
@@ -145,6 +149,11 @@ export default function GanttGraph(): JSX.Element {
             };
         });
     })();
+
+    const scales = [
+        { unit: "month", step: 1, format: "MMMM yyy" },
+        { unit: "day", step: 1, format: "d" },
+    ];
 
     function CustomListTable() {
 
@@ -214,25 +223,28 @@ export default function GanttGraph(): JSX.Element {
                         </Box>
                     }
                     <Box height='100%' border={1} style={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius, overflow: 'hidden' }} position='relative'>
-                        <Gantt
-                            tasks={milestones}
-                            barCornerRadius={theme.shape.borderRadius}
-                            barBackgroundSelectedColor={theme.palette.primary.main}
-                            arrowIndent={40}
-                            todayColor={theme.palette.mode === 'light' ? tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String() : tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String()}
-                            viewMode={viewMode as ViewMode}
-                            preStepsCount={2}
-                            locale={currentLanguage}
-                            fontSize=".65rem"
-                            listCellWidth={viewTaskList ? '100px' : ""}
-                            columnWidth={columnsWidth}
-                            TooltipContent={CustomTooltip}
-                            TaskListHeader={() => null}
-                            headerHeight={headerHeight}
-                            TaskListTable={() => null}
-                            onDateChange={(task: Task) => handleDateChange(task as ExtendedTask)}
-                            onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handleDateEditDialogOpen(task as ExtendedTask)}
-                        />
+                        <Willow>
+                            <Gantt
+                                tasks={milestones}
+                                scales={scales}
+                            // barCornerRadius={theme.shape.borderRadius}
+                            // barBackgroundSelectedColor={theme.palette.primary.main}
+                            // arrowIndent={40}
+                            // todayColor={theme.palette.mode === 'light' ? tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String() : tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String()}
+                            // viewMode={viewMode as ViewMode}
+                            // preStepsCount={2}
+                            // locale={currentLanguage}
+                            // fontSize=".65rem"
+                            // listCellWidth={viewTaskList ? '100px' : ""}
+                            // columnWidth={columnsWidth}
+                            // TooltipContent={CustomTooltip}
+                            // TaskListHeader={() => null}
+                            // headerHeight={headerHeight}
+                            // TaskListTable={() => null}
+                            // onDateChange={(task: Task) => handleDateChange(task as ExtendedTask)}
+                            // onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handleDateEditDialogOpen(task as ExtendedTask)}
+                            />
+                        </Willow>
                     </Box>
                 </Stack>
             </Box>
