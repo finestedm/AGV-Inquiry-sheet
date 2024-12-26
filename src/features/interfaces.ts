@@ -164,6 +164,7 @@ export interface IMilestoneDate {
 }
 
 export interface IMilestones {
+    indexOf(name: string): any;
     concept: IMilestoneDate;
     officialOffer: IMilestoneDate;
     order: IMilestoneDate;
@@ -211,6 +212,7 @@ export interface CopySystemDataPayload {
 }
 
 export interface ExtendedTask extends Task {
+    TaskID: keyof IMilestones;
     id: keyof IMilestones;
     name: keyof IMilestones
 }

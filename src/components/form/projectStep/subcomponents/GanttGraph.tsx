@@ -18,9 +18,7 @@ import SwitchRightIcon from '@mui/icons-material/SwitchRight';
 import dayjs from "dayjs";
 import milestonesLengths, { milestoneOrder } from "../../../../data/milestones";
 import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
-import tinycolor from "tinycolor2";
-import { Gantt } from "wx-react-gantt";
-import { Willow } from "wx-react-gantt";
+import { GanttComponent, ColumnsDirective, ColumnDirective, Inject, Edit, Selection, Toolbar } from '@syncfusion/ej2-react-gantt';
 import "wx-react-gantt/dist/gantt.css";
 
 
@@ -131,29 +129,50 @@ export default function GanttGraph(): JSX.Element {
 
 
     const milestones: Task[] = (() => {
-        return Object.entries(formData.project.milestones).map(([name, date]) => {
+        const milestoneEntries = Object.entries(formData.project.milestones);
+        return milestoneEntries.map(([name, date], index) => {
             const start = new Date(date.start);
-            const end = new Date(date.end);
-            const previousMilestone = milestoneOrder[milestoneOrder.indexOf(name as keyof IMilestones) - 1]
+            let end = new Date(date.end);
             return {
-                id: name,
-                dependencies: name === 'concept' ? [] : [previousMilestone],
-                rowHeight: taskListHeight - 2,
-                text: t(`project.milestones.${name}`),
-                start,
-                end,
-                type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
-                progress: 0,
-                isDisabled: !editMode || isTaskUneditable(name as keyof IMilestones),
-                styles: { backgroundColor: backgroundColorForTaskType(name as keyof IMilestones) }
-            };
+                TaskID: name,
+                TaskName: t(`project.milestones.${name}`),
+                StartDate: start,
+                EndDate: end,
+                Predecessor: index > 0 ? milestoneEntries[index - 1][0] : undefined,
+            }
         });
     })();
 
-    const scales = [
-        { unit: "month", step: 1, format: "MMMM yyy" },
-        { unit: "day", step: 1, format: "d" },
-    ];
+    const taskFields: any = {
+        id: 'TaskID',
+        name: 'TaskName',
+        startDate: 'StartDate',
+        endDate: 'EndDate',
+        dependency: 'Predecessor',
+    };
+
+    const editSettings = {
+        allowEditing: editMode,
+        // allowTaskbarEditing: true,
+        allowAdding: false, // Disable adding new tasks if not supported
+        allowDeleting: false, // Disable deletion
+
+    };
+    
+
+    const timelineSettings = {
+        timelineViewMode: viewMode,
+        timelineUnitSize: 80,
+        showTooltip: true
+    };
+
+    const toolbarOptions = ['ZoomIn', 'ZoomOut', 'ZoomToFit'];
+
+    const splitterSettings = {
+        position: "40%"
+    };
+    
+   
 
     function CustomListTable() {
 
@@ -207,46 +226,36 @@ export default function GanttGraph(): JSX.Element {
         );
     }
 
+    function handleRecordDoubleClick(args: any) {
+        const taskData = args.rowData;
+        if (editMode && !isTaskUneditable(taskData.TaskID as keyof IMilestones)) {
+            setSelectedTask(taskData);
+            setDateEditDialogOpen(true);
+        }
+    }
+
     return (
         <Stack spacing={2} className={theme.palette.mode === 'dark' ? 'ganttchart-container-dark' : 'ganttchart-container'} >
             <SizeEditButtons decreaseColumnsWidthButtonDisabled={decreaseColumnsWidthButtonDisabled} handleColumnsWidth={handleColumnsWidth} viewMode={viewMode} setViewMode={setViewMode} />
             <Box>
-                <Stack spacing={1} direction={isMobile ? 'column' : 'row'} flex={1} alignItems='top'>
-                    {viewTaskList &&
-                        <Box>
-                            <CustomListTable />
-                        </Box>
-                    }
-                    {!isMobile &&
-                        <Box top='50%' width={25} position='relative' overflow='visible'>
-                            <Button variant='contained' sx={{ position: 'absolute', top: '50%', zIndex: 3000 }} disableElevation onClick={() => setViewTaskList(!viewTaskList)}><SwitchRightIcon /></Button>
-                        </Box>
-                    }
-                    <Box height='100%' border={1} style={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius, overflow: 'hidden' }} position='relative'>
-                        <Willow>
-                            <Gantt
-                                tasks={milestones}
-                                scales={scales}
-                            // barCornerRadius={theme.shape.borderRadius}
-                            // barBackgroundSelectedColor={theme.palette.primary.main}
-                            // arrowIndent={40}
-                            // todayColor={theme.palette.mode === 'light' ? tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String() : tinycolor(theme.palette.secondary.main).setAlpha(.5).toHex8String()}
-                            // viewMode={viewMode as ViewMode}
-                            // preStepsCount={2}
-                            // locale={currentLanguage}
-                            // fontSize=".65rem"
-                            // listCellWidth={viewTaskList ? '100px' : ""}
-                            // columnWidth={columnsWidth}
-                            // TooltipContent={CustomTooltip}
-                            // TaskListHeader={() => null}
-                            // headerHeight={headerHeight}
-                            // TaskListTable={() => null}
-                            // onDateChange={(task: Task) => handleDateChange(task as ExtendedTask)}
-                            // onDoubleClick={(task: Task) => !isTaskUneditable(task.id as keyof IMilestones) && handleDateEditDialogOpen(task as ExtendedTask)}
-                            />
-                        </Willow>
-                    </Box>
-                </Stack>
+                <GanttComponent
+                    dataSource={milestones}
+                    taskFields={taskFields}
+                    editSettings={editSettings}
+                    allowSelection={true}
+                    timelineSettings={timelineSettings}
+                    toolbar={toolbarOptions}
+                    splitterSettings={splitterSettings} 
+                    recordDoubleClick={(args) => handleRecordDoubleClick(args)}
+                >
+                    <ColumnsDirective>
+                        <ColumnDirective field='TaskName' textAlign="Left"/>
+                        <ColumnDirective field='StartDate' textAlign="Left" width={70} />
+                        <ColumnDirective field='EndDate' textAlign="Left" width={70}/>
+                    </ColumnsDirective>
+                    <Inject services={[Edit, Selection, Toolbar]} />
+                </GanttComponent>
+
             </Box>
             {selectedTask && <DateEditDialog selectedTask={selectedTask} dateEditDialogOpen={dateEditDialogOpen} handleDialogClose={handleDialogClose} />}
         </Stack >

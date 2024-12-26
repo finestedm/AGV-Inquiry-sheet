@@ -12,19 +12,20 @@ import { handleDateChanges } from "../../../../features/redux/reducers/formDataS
 import milestonesLengths, { milestoneOrder } from "../../../../data/milestones";
 
 export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handleDialogClose }: { selectedTask: ExtendedTask, dateEditDialogOpen: boolean, handleDialogClose: () => void }) {
+    console.log(selectedTask)
+
     const dispatch = useDispatch();
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
     const { t } = useTranslation();
     const formData = useSelector((state: RootState) => state.formData);
     const editMode = useSelector((state: RootState) => state.editMode);
-    const taskId = selectedTask.id as keyof IMilestones
+    const taskId = selectedTask.TaskID as keyof IMilestones
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].start) || dayjs(new Date()))
     const [endDate, setEndDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].end) || dayjs(new Date()))
     const { i18n } = useTranslation();
 
     function handleAcceptNewDates() {
-        const taskId = selectedTask.id as keyof IMilestones;
         const dateState = { ...formData.project.milestones };
         let updatedState = { ...dateState, [taskId]: { start: startDate.toDate(), end: endDate.toDate() } };
         const currentIndex = milestoneOrder.indexOf(taskId);
