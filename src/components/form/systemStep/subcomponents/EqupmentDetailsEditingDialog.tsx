@@ -60,8 +60,13 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                                     options={availableEquipment}
                                     renderInput={(params) => <TextField {...params} />}
                                     fullWidth
-                                    onChange={(e, v) => v ? setEqTempDetails({ ...eqTempDetails, type: v }) : setEqTempDetails({ ...eqTempDetails, type: 'dock' })}
-                                / >
+                                    onChange={(e, v) => {
+                                        v && setEqTempDetails({ ...eqTempDetails, type: v });
+                                    }}
+                                    onInputChange={(e, newInputValue) => {
+                                        setEqTempDetails({ ...eqTempDetails, type: newInputValue });
+                                    }}
+                                />
                             </Box>
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.x`)}</InputLabel>

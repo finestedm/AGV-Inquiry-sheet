@@ -137,7 +137,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                             offsetY={height / 2 * canvaToWarehouseRatio}
                             onClick={commonProps.onSelect}
                             onTap={commonProps.onSelect}
-                            onDblTap={commonProps.onSelect}
+                            onDblTap={commonProps.commonProps.onDblClick}
                             ref={commonProps.shapeRef as React.MutableRefObject<Konva.Rect>}
                             {...commonProps.commonProps}
                         />
