@@ -182,7 +182,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                                     <Box display={{ xs: 'none', md: 'block' }}>
                                         <Button
                                             size="small"
-                                            variant="contained"
+                                            variant="outlined"
                                             color="error"
                                             disabled={!editMode}
                                             onClick={handleDeleteSelected}
@@ -205,7 +205,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
 
                                 : ''
                             }
-                            <ButtonGroup disabled={!editMode} variant='contained' size="small" aria-label="split button">
+                            <ButtonGroup disabled={!editMode} variant='outlined' size="small" aria-label="split button">
                                 <Button
                                     aria-controls={open ? 'split-button-menu' : undefined}
                                     aria-expanded={open ? 'true' : undefined}

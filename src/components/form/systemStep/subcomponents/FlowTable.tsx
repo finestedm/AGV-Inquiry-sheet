@@ -291,7 +291,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                         <Box display={{ xs: 'none', md: 'block' }}>
                                             <Button
                                                 size="small"
-                                                variant="contained"
+                                                variant="outlined"
                                                 color="error"
                                                 onClick={handleDeleteSelected}
                                                 endIcon={<GridDeleteIcon />}
@@ -314,7 +314,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 }
                                 <Button
                                     size="small"
-                                    variant='contained'
+                                    variant='outlined'
                                     onClick={() => dispatch(handleAddFlow({ systemName: selectedSystem }))}
                                     endIcon={<PlaylistAdd />}
                                     disabled={!editMode}

@@ -200,7 +200,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
             <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
                 <Stack spacing={2} direction='row' justifyContent='space-between'>
                     <Box>
-                        <ButtonGroup disabled={!editMode} variant='contained' size="small" aria-label="split button">
+                        <ButtonGroup disabled={!editMode} variant='outlined' size="small" aria-label="split button">
                             <Button
                                 aria-controls={open ? 'split-button-menu' : undefined}
                                 aria-expanded={open ? 'true' : undefined}
