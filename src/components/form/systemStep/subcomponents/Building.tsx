@@ -37,7 +37,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
         }));
     };
 
-        return (
+    return (
         <InputGroup
             title={t(`system.subheader.building`)}
             extendedOpener={warehouseDialogOpen}
@@ -85,7 +85,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         </Stack>
                     }
                     <Dialog
-                        sx={{zIndex: 900}}
+                        sx={{ zIndex: 900 }}
                         fullScreen
                         open={warehouseDialogOpen}
                         onClose={extenderHandler}
@@ -93,21 +93,21 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         <DialogTitle>
                             {t('ui.warehouseDialog.title')}
                         </DialogTitle>
-                        <IconButton 
-                            aria-label="close" 
+                        <IconButton
+                            aria-label="close"
                             onClick={extenderHandler}
-                            sx={{ml: 'auto', position: 'absolute', top: 12, right: 20}}
+                            sx={{ ml: 'auto', position: 'absolute', top: 12, right: 20 }}
                         >
                             <CloseIcon />
                         </IconButton>
                         <DialogContent>
                             <Stack spacing={3}>
                                 <WarehouseSizeEditingFields selectedSystem={selectedSystem} />
-                            <WarehouseLayout selectedSystem={selectedSystem} />
-                            <Collapse in={(selectedSystem === 'agv') && (formData.system[selectedSystem].building.existingBuilding.equipment.filter(eq => eq.zHeight > 5).length >= 1)} >
-                                <Alert id='system.tooHighPickupPoint' severity="error">{t(`system.tooHighPickupPoint`)}</Alert>
-                            </Collapse>
-                                </Stack>
+                                <WarehouseLayout selectedSystem={selectedSystem} />
+                                <Collapse in={(selectedSystem === 'agv') && (formData.system[selectedSystem].building.existingBuilding.equipment.filter(eq => eq.zHeight > 5).length >= 1)} >
+                                    <Alert id='system.tooHighPickupPoint' severity="error">{t(`system.tooHighPickupPoint`)}</Alert>
+                                </Collapse>
+                            </Stack>
                         </DialogContent>
                     </Dialog>
                 </Stack>
@@ -117,7 +117,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
     )
 }
 
-export function WarehouseSizeEditingFields({selectedSystem}: {selectedSystem: keyof ISystems}) {
+export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem: keyof ISystems }) {
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const formData = useSelector((state: RootState) => state.formData);
@@ -154,85 +154,86 @@ export function WarehouseSizeEditingFields({selectedSystem}: {selectedSystem: ke
         }
     };
     return (
-        <Box><Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
-                                    <Grid item xs>
-                                        <Stack spacing={1} textAlign='left'>
-                                            <InputLabel>{t(`system.building.existingBuilding.height`)}</InputLabel>
-                                            <TextField
-                                                disabled={!editMode}
-                                                id={`system${[selectedSystem]}.building.existingBuilding.height`}
-                                                size="small"
-                                                fullWidth
-                                                type="number"
-                                                value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.height)}
-                                                onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.height`, value: e.target.value }))}
-                                                inputProps={{
-                                                    min: 1,
-                                                    max: 30,
-                                                }}
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            m
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                            />
-                                        </Stack>
-                                    </Grid>
-                                    <Grid item xs>
-                                        <Stack spacing={1} textAlign='left'>
-                                            <InputLabel>{t(`system.building.existingBuilding.width`)}</InputLabel>
-                                            <TextField
-                                                disabled={!editMode}
-                                                id={`system${[selectedSystem]}.building.existingBuilding.width`}
-                                                size="small"
-                                                fullWidth
-                                                type="number"
-                                                value={trimLeadingZeros(tempDimensions.width)}
-                                                onChange={handleInputChange('width')}
-                                                onBlur={handleBlur}
-                                                inputProps={{
-                                                    min: 5,
-                                                    max: 1000,
-                                                }}
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            m
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                            />
-                                        </Stack>
-                                    </Grid>
-                                    <Grid item xs>
-                                        <Stack spacing={1} textAlign='left'>
-                                            <InputLabel>{t(`system.building.existingBuilding.length`)}</InputLabel>
-                                            <TextField
-                                                disabled={!editMode}
-                                                id={`system${[selectedSystem]}.building.existingBuilding.length`}
-                                                size="small"
-                                                fullWidth
-                                                type="number"
-                                                value={trimLeadingZeros(tempDimensions.length)}
-                                                onChange={handleInputChange('length')}
-                                                onBlur={handleBlur}
-                                                inputProps={{
-                                                    min: 5,
-                                                    max: 1000,
-                                                }}
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            m
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                            />
-                                        </Stack>
-                                    </Grid>
-                                </Grid>
-                                </Box>
+        <Box>
+            <Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
+                <Grid item xs>
+                    <Stack spacing={1} textAlign='left'>
+                        <InputLabel>{t(`system.building.existingBuilding.height`)}</InputLabel>
+                        <TextField
+                            disabled={!editMode}
+                            id={`system${[selectedSystem]}.building.existingBuilding.height`}
+                            size="small"
+                            fullWidth
+                            type="number"
+                            value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.height)}
+                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.height`, value: e.target.value }))}
+                            inputProps={{
+                                min: 1,
+                                max: 30,
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        m
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Stack>
+                </Grid>
+                <Grid item xs>
+                    <Stack spacing={1} textAlign='left'>
+                        <InputLabel>{t(`system.building.existingBuilding.width`)}</InputLabel>
+                        <TextField
+                            disabled={!editMode}
+                            id={`system${[selectedSystem]}.building.existingBuilding.width`}
+                            size="small"
+                            fullWidth
+                            type="number"
+                            value={trimLeadingZeros(tempDimensions.width)}
+                            onChange={handleInputChange('width')}
+                            onBlur={handleBlur}
+                            inputProps={{
+                                min: 5,
+                                max: 1000,
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        m
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Stack>
+                </Grid>
+                <Grid item xs>
+                    <Stack spacing={1} textAlign='left'>
+                        <InputLabel>{t(`system.building.existingBuilding.length`)}</InputLabel>
+                        <TextField
+                            disabled={!editMode}
+                            id={`system${[selectedSystem]}.building.existingBuilding.length`}
+                            size="small"
+                            fullWidth
+                            type="number"
+                            value={trimLeadingZeros(tempDimensions.length)}
+                            onChange={handleInputChange('length')}
+                            onBlur={handleBlur}
+                            inputProps={{
+                                min: 5,
+                                max: 1000,
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        m
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Stack>
+                </Grid>
+            </Grid>
+        </Box>
     )
 }
