@@ -38,7 +38,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
             : 0;
 
         return {
-            id: index + 1, // Sequential number starting from 1 
+            id: flow.id || index + 1, // Sequential number starting from 1 
             stationSource: flow.stationSource,
             stationTarget: flow.stationTarget,
             stationType: flow.stationType,
