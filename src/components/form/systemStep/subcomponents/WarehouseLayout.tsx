@@ -197,119 +197,120 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     if (warehouseEquipment) {
         return (
             <Box>
-            <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
-                <Stack spacing={2} direction='row' justifyContent='space-between'>
-                    <Box>
-                        <ButtonGroup disabled={!editMode} variant='outlined' size="small" aria-label="split button">
-                            <Button
-                                aria-controls={open ? 'split-button-menu' : undefined}
-                                aria-expanded={open ? 'true' : undefined}
-                                aria-label="add loads"
-                                aria-haspopup="menu"
-                                onClick={handleToggle}
-                            >
-                                {t(`${equipmentToAdd}`)}
-                                <Box ref={anchorRef} />
-                                <ArrowDropDownIcon />
-                            </Button>
-                            <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEquipment')}</Box></Button>
-                        </ButtonGroup>
-                        <Popper
-                            sx={{
-                                zIndex: 1,
-                            }}
-                            open={open}
-                            anchorEl={anchorRef.current}
-                            role={undefined}
-                            transition
-                            disablePortal
-                        >
-                            {({ TransitionProps, placement }) => (
-                                <Grow
-                                    {...TransitionProps}
-                                    style={{
-                                        transformOrigin:
-                                            placement === 'bottom' ? 'center top' : 'center bottom',
-                                    }}
+                <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
+                    <Stack spacing={2} direction='row' justifyContent='space-between'>
+                        <Box>
+                            <ButtonGroup disabled={!editMode} variant='outlined' size="small" aria-label="split button">
+                                <Button
+                                    aria-controls={open ? 'split-button-menu' : undefined}
+                                    aria-expanded={open ? 'true' : undefined}
+                                    aria-label="add loads"
+                                    aria-haspopup="menu"
+                                    onClick={handleToggle}
                                 >
-                                    <Paper>
-                                        <ClickAwayListener onClickAway={handleClose}>
-                                            <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
-                                                {availableEquipment.map((eq) => (
-                                                    <EqMenuItem eq={eq} handleMenuItemClick={handleMenuItemClick} equipmentToAdd={equipmentToAdd} />
-                                                ))}
-                                            </MenuList>
-                                        </ClickAwayListener>
-                                    </Paper>
-                                </Grow>
-                            )}
-                        </Popper>
-                    </Box>
-                    <Collapse
-                        in={Boolean(selectedShapeId)}
-                        collapsedSize={0}
-                    >
-                        <Button
-                            size="small"
-                            color='error'
-                            variant='contained'
-                            startIcon={<DeleteIcon />}
-                            onClick={handleEquipmentDelete}
+                                    {t(`${equipmentToAdd}`)}
+                                    <Box ref={anchorRef} />
+                                    <ArrowDropDownIcon />
+                                </Button>
+                                <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEquipment')}</Box></Button>
+                            </ButtonGroup>
+                            <Popper
+                                sx={{
+                                    zIndex: 1,
+                                }}
+                                open={open}
+                                anchorEl={anchorRef.current}
+                                role={undefined}
+                                transition
+                                disablePortal
+                            >
+                                {({ TransitionProps, placement }) => (
+                                    <Grow
+                                        {...TransitionProps}
+                                        style={{
+                                            transformOrigin:
+                                                placement === 'bottom' ? 'center top' : 'center bottom',
+                                        }}
+                                    >
+                                        <Paper>
+                                            <ClickAwayListener onClickAway={handleClose}>
+                                                <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
+                                                    {availableEquipment.map((eq) => (
+                                                        <EqMenuItem eq={eq} handleMenuItemClick={handleMenuItemClick} equipmentToAdd={equipmentToAdd} />
+                                                    ))}
+                                                </MenuList>
+                                            </ClickAwayListener>
+                                        </Paper>
+                                    </Grow>
+                                )}
+                            </Popper>
+                        </Box>
+                        <Collapse
+                            in={Boolean(selectedShapeId)}
+                            collapsedSize={0}
                         >
-                            Usuń wybrany element
-                        </Button>
-                    </Collapse>
-                </Stack>
-                <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={layoutBorderWidth} borderColor={theme.palette.divider}>
-                    <Stage
-                        width={canvaDimensions.width}
-                        height={canvaDimensions.height}
-                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                        onMouseDown={checkDeselect}
-                        onTouchStart={checkDeselect}
-                    >
-                        <Layer>
-                            <Rect
-                                id='konvaBackground'
-                                width={canvaDimensions.width - wallThickness} // Adjusted width with offset
-                                height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
-                                x={(wallThickness / 2)} // Offset from the left border
-                                Y={(wallThickness / 2)} // Offset from the left border
-                                fill={theme.palette.background.default}
-                                opacity={1}
-                            />
-
-                        </Layer>
-                        <Layer>
-                            {generateGridLines()}
-                        </Layer>
-                        <Layer>
-                            {warehouseEquipment.map((equipment: IEquipment, index: number) => (
-                                <EquipmentShape
-                                    isSelected={equipment.id === selectedShapeId}
-                                    onSelect={() => {
-                                        editMode && setSelectedShapeId(equipment.id);
-                                    }}
-                                    key={equipment.id}
-                                    equipment={equipment}
-                                    index={index}
-                                    selectedSystem={selectedSystem}
-                                    canvaToWarehouseRatio={canvaToWarehouseRatio}
-                                    selectedShapeId={selectedShapeId}
+                            <Button
+                                size="small"
+                                color='error'
+                                variant='contained'
+                                disableElevation
+                                startIcon={<DeleteIcon />}
+                                onClick={handleEquipmentDelete}
+                            >
+                                Usuń wybrany element
+                            </Button>
+                        </Collapse>
+                    </Stack>
+                    <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={layoutBorderWidth} borderColor={theme.palette.divider}>
+                        <Stage
+                            width={canvaDimensions.width}
+                            height={canvaDimensions.height}
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            onMouseDown={checkDeselect}
+                            onTouchStart={checkDeselect}
+                        >
+                            <Layer>
+                                <Rect
+                                    id='konvaBackground'
+                                    width={canvaDimensions.width - wallThickness} // Adjusted width with offset
+                                    height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
+                                    x={(wallThickness / 2)} // Offset from the left border
+                                    Y={(wallThickness / 2)} // Offset from the left border
+                                    fill={theme.palette.background.default}
+                                    opacity={1}
                                 />
-                            ))}
-                        </Layer>
-                        <Layer>
-                            {warehouseFlows
-                                .map((flow: IFlow) => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
-                            }
-                        </Layer>
-                        <Layer>
-                        </Layer>
-                    </Stage>
-                </Box>
-                <EquipmentDetails selectedSystem={selectedSystem} />
-            </Stack>
+
+                            </Layer>
+                            <Layer>
+                                {generateGridLines()}
+                            </Layer>
+                            <Layer>
+                                {warehouseEquipment.map((equipment: IEquipment, index: number) => (
+                                    <EquipmentShape
+                                        isSelected={equipment.id === selectedShapeId}
+                                        onSelect={() => {
+                                            editMode && setSelectedShapeId(equipment.id);
+                                        }}
+                                        key={equipment.id}
+                                        equipment={equipment}
+                                        index={index}
+                                        selectedSystem={selectedSystem}
+                                        canvaToWarehouseRatio={canvaToWarehouseRatio}
+                                        selectedShapeId={selectedShapeId}
+                                    />
+                                ))}
+                            </Layer>
+                            <Layer>
+                                {warehouseFlows
+                                    .map((flow: IFlow) => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
+                                }
+                            </Layer>
+                            <Layer>
+                            </Layer>
+                        </Stage>
+                    </Box>
+                    <EquipmentDetails selectedSystem={selectedSystem} />
+                </Stack>
             </Box>
         );
     } else {
@@ -330,7 +331,7 @@ function EqMenuItem({ eq, equipmentToAdd, handleMenuItemClick }: { eq: string, e
             value={eq}
             selected={eq === equipmentToAdd}
             onClick={(e) => handleMenuItemClick(e, eq)}
-            sx={{ textAlign: 'left'}}
+            sx={{ textAlign: 'left' }}
         >
             <ListItemIcon>
                 <EquipmentIcon style={{ fontSize: 20 }} />

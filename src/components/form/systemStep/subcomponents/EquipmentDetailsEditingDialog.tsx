@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IEquipment, ISystems } from "../../../../features/interfaces";
 import { updateEditEquipmentDrawer } from "../../../../features/redux/reducers/editEquipmentDrawer";
 import availableEquipment from "../../../../data/availableEquipment";
+import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
 
 export default function EquipmentDetailsEditingDialog({ selectedSystem }: { selectedSystem: keyof ISystems }) {
     const { t } = useTranslation()
@@ -71,7 +72,7 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.x`)}</InputLabel>
                                 <TextField
-                                    value={eqTempDetails?.x}
+                                    value={trimLeadingZeros(eqTempDetails?.x)}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, x: Number(e.target.value) })}
@@ -87,7 +88,7 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.y`)}</InputLabel>
                                 <TextField
-                                    value={eqTempDetails?.y}
+                                    value={trimLeadingZeros(eqTempDetails?.y)}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, y: Number(e.target.value) })}
@@ -103,7 +104,7 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.rotation`)}</InputLabel>
                                 <TextField
-                                    value={eqTempDetails?.rotation}
+                                    value={trimLeadingZeros(eqTempDetails?.rotation)}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, rotation: Number(e.target.value) })}
@@ -119,7 +120,7 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.width`)}</InputLabel>
                                 <TextField
-                                    value={eqTempDetails?.width}
+                                    value={trimLeadingZeros(eqTempDetails?.width)}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, width: Number(e.target.value) })}
@@ -135,7 +136,7 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.height`)}</InputLabel>
                                 <TextField
-                                    value={eqTempDetails?.height}
+                                    value={trimLeadingZeros(eqTempDetails?.height)}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, height: Number(e.target.value) })}
@@ -151,7 +152,7 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
                             <Box>
                                 <InputLabel>{t(`system.building.existingBuilding.equipment.zHeight`)}</InputLabel>
                                 <TextField
-                                    value={eqTempDetails?.zHeight}
+                                    value={trimLeadingZeros(eqTempDetails?.zHeight)}
                                     fullWidth
                                     type="number"
                                     onChange={(e) => setEqTempDetails({ ...eqTempDetails, zHeight: Number(e.target.value) })}
