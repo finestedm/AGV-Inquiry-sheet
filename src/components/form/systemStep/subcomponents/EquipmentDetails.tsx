@@ -4,7 +4,7 @@ import { RootState } from "../../../../features/redux/store";
 import { IEquipment, ISystems } from "../../../../features/interfaces";
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from "react";
-import EquipmentDetailsEditingDialog from "./EqupmentDetailsEditingDialog";
+import EquipmentDetailsEditingDialog from "./EquipmentDetailsEditingDialog";
 import tinycolor from "tinycolor2";
 import { updateEditEquipmentDrawer } from "../../../../features/redux/reducers/editEquipmentDrawer";
 import { eqIcons } from "../../../../data/availableEquipment";

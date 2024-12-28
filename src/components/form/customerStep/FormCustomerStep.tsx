@@ -128,6 +128,7 @@ export default function FormCustomerStep(): JSX.Element {
                       {selected.map((industry) => (
                         <Chip
                           sx={{ borderRadius: .5 }}
+                          size="small"
                           key={industry}
                           label={industriesTranslated[industries.indexOf(industry)]}
                         />

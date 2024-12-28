@@ -158,7 +158,7 @@
         "fileLoaded": "Wczytano plik",
         "fileLoadError": {
           "other": "Błąd wczytywania pliku",
-          "version": "Wersja pliku różni się od wersji aplikacji"
+          "wrongVersion": "Wersja pliku różni się od wersji aplikacji"
         },
         "fileSaved": "Plik zapisano jako: ",
         "fileSavedToServer": "Plik przesłany pomyślnie",

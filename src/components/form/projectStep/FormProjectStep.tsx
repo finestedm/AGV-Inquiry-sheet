@@ -85,6 +85,7 @@ export default function FormProjectStep(): JSX.Element {
                                             {selected.map((index) => (
                                                 <Chip
                                                     sx={{ borderRadius: .5 }}
+                                                    size="small"
                                                     key={index}
                                                     label={t(`${supplyChainPartsWithIcon[index].name}`)}
                                                 />

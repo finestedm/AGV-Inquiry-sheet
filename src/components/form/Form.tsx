@@ -6,7 +6,6 @@ import FormCustomerStep from "./customerStep/FormCustomerStep";
 import FormSystemSelectorStep from "./systemSelectorStep/FormSystemSelectorStep";
 import { useTranslation } from 'react-i18next';
 import FormProjectStep from "./projectStep/FormProjectStep";
-import FormASRSStep from "./systemStep/FormSystemStep";
 import { IFormData, ISystemData, ISystems } from "../../features/interfaces";
 import { useSelector } from 'react-redux';
 import { RootState } from "../../features/redux/store";
@@ -32,76 +31,6 @@ export default function Form(): JSX.Element {
 
   const formData = useSelector((state: RootState) => state.formData);
   const editMode = useSelector((state: RootState) => state.editMode);
-
-  const [stepsCombined, setStepsCombined] = useState<{ label: string, untranslated: string, component: React.ReactNode }[]>([]);
-
-  useEffect(() => {
-    const newSteps: { label: string, untranslated: string, component: React.ReactNode }[] = [
-      {
-        label: t('steps.sales'),
-        untranslated: "sales",
-        component: <FormSalesUnitStep key="sales" />
-      },
-      {
-        label: t('steps.customer'),
-        untranslated: "customer",
-        component: <FormCustomerStep key="customer" />
-      },
-      {
-        label: t('steps.project'),
-        untranslated: "project",
-        component: <FormProjectStep key="project" />
-      },
-      {
-        label: t('steps.system'),
-        untranslated: "system",
-        component: <FormSystemSelectorStep key="system" />
-      },
-    ];
-
-    if (formData.system.asrs.selected) {
-      newSteps.push({
-        label: t("steps.systems.asrs"),
-        untranslated: "asrs",
-        component: <FormASRSStep key="asrs" selectedSystem='asrs' />,
-      });
-    }
-
-    if (formData.system.lrkprk.selected) {
-      newSteps.push({
-        label: t("steps.systems.lrkprk"),
-        untranslated: "lrkprk",
-        component: <FormASRSStep key="lrkprk" selectedSystem='lrkprk' />,
-      });
-    }
-
-    if (formData.system.agv.selected) {
-      newSteps.push({
-        label: t("steps.systems.agv"),
-        untranslated: "agv",
-        component: <FormASRSStep key="agv" selectedSystem='agv' />,
-      });
-    }
-
-    if (formData.system.autovna.selected) {
-      newSteps.push({
-        label: t("steps.systems.autovna"),
-        untranslated: "autovna",
-        component: <FormASRSStep key="autovna" selectedSystem='autovna' />,
-      });
-    }
-    newSteps.push({
-      label: t('steps.summary'),
-      untranslated: "summary",
-      component: <FormSummaryStep key="summary" />
-    })
-    newSteps.push({
-      label: t('steps.media'),
-      untranslated: "media",
-      component: <FormMediaStep key="media" />
-    })
-    setStepsCombined(newSteps);
-  }, [formData, t]);
 
 
   const constantSteps = initialSteps;

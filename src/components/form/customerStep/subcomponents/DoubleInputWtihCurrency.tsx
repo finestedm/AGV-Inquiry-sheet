@@ -19,7 +19,7 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
     const currencyByLanguage = currencies.filter(currency => currency.countries.includes(currentLanguage))?.[0]?.currency || 'EUR'
 
     return (
-        <Stack spacing={1}>
+        <Stack spacing={1} textAlign='left'>
             <InputLabel>{t(`customer.relations.${inputKey}`)}</InputLabel>
             <Stack direction='row' spacing={1}>
                 <TextField
@@ -35,6 +35,7 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
                 />
                 <Select
                     size="small"
+                    sx={{minWidth: '16ch'}}
                     value={
                         customer.currency
                             ?
