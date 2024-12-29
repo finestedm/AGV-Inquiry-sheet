@@ -17,7 +17,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
 
     const dispatch = useDispatch();
     const editMode = useSelector((state: RootState) => state.editMode);
-    const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding);
+    const warehouseData = useSelector((state: RootState) => state.formData.present.system[selectedSystem].building.existingBuilding);
     const warehouseEquipment = warehouseData.equipment;
 
     const warehouseWidth = warehouseData.width * canvaToWarehouseRatio; // Assuming warehouse width in meters is available

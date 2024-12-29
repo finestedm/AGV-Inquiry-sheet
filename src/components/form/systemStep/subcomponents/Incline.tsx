@@ -12,9 +12,9 @@ import CustomAlert from "../../../CustomAlert";
 
 export default function Incline({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
-    const formData = useSelector((state: RootState) => state.formData)
+    const formData = useSelector((state: RootState) => state.formData.present)
     const incline = formData.system[selectedSystem].building.incline;
-    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const { t } = useTranslation();

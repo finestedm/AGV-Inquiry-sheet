@@ -15,8 +15,8 @@ import theme from "../../../../theme";
 
 export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
-    const formData = useSelector((state: RootState) => state.formData);
-    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const formData = useSelector((state: RootState) => state.formData.present);
+    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const [tempWorkDays, setTempWorkDays] = useState(formData.system[selectedSystem].workTime.workDays)
     const [tempHoursPerShift, setTempHoursPerShift] = useState(formData.system[selectedSystem].workTime.hoursPerShift)

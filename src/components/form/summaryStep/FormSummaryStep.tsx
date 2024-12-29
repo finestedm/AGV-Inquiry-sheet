@@ -16,7 +16,7 @@ import SystemsTabs from "./subcomponents/SystemTabs";
 import NumberOfTrucks from "./subcomponents/NumberOfTrucks";
 
 export default function FormSummaryStep() {
-    const formData = useSelector((state: RootState) => state.formData)
+    const formData = useSelector((state: RootState) => state.formData.present)
     const { t } = useTranslation();
     const theme = useTheme();
     const textRowSpacing = 1

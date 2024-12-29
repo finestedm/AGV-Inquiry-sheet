@@ -14,8 +14,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
-    const formData = useSelector((state: RootState) => state.formData);
-    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const formData = useSelector((state: RootState) => state.formData.present);
+    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const { t } = useTranslation();
@@ -113,9 +113,9 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
 }
 
 export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem: keyof ISystems }) {
-    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const [tempDimensions, setTempDimensions] = useState({

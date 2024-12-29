@@ -15,7 +15,7 @@ export default function FormSalesUnitStep(): JSX.Element {
     const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
     const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
-    const formData = useSelector((state: RootState) => state.formData)
+    const formData = useSelector((state: RootState) => state.formData.present)
 
     return (
         <Stack spacing={5}>

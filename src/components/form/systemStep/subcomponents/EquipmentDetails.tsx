@@ -10,7 +10,7 @@ import { updateEditEquipmentDrawer } from "../../../../features/redux/reducers/e
 import { eqIcons } from "../../../../data/availableEquipment";
 
 export default function EquipmentDetails({ selectedSystem }: { selectedSystem: keyof ISystems }) {
-    const warehouseEquipment = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment)
+    const warehouseEquipment = useSelector((state: RootState) => state.formData.present.system[selectedSystem].building.existingBuilding.equipment)
 
     return (
         <Box>

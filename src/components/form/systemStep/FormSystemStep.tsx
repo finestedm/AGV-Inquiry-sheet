@@ -14,7 +14,7 @@ import { RootState } from "../../../features/redux/store";
 import NumberOfTrucks from "../summaryStep/subcomponents/NumberOfTrucks";
 
 export default function FormSystemStep({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
-    const isStepSummary = useSelector((state: RootState) => state.steps.currentStep) === 'summary'
+    const isStepSummary = useSelector((state: RootState) => state.steps.present.currentStep) === 'summary'
     const { t } = useTranslation();
 
     return (

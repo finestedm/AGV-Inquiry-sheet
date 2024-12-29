@@ -17,7 +17,7 @@ export default function EquipmentDetailsEditingDialog({ selectedSystem }: { sele
     const dispatch = useDispatch()
     const equipmentDetailsEditingDialogOpen = useSelector((state: RootState) => state.editEquipmentDrawer.open)
     const eqId = useSelector((state: RootState) => state.editEquipmentDrawer.eqId)
-    const equipments = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding.equipment)
+    const equipments = useSelector((state: RootState) => state.formData.present.system[selectedSystem].building.existingBuilding.equipment)
     const eqDetails = useSelector((state: RootState) => equipments.find(eq => eq.id === eqId))
     const [eqTempDetails, setEqTempDetails] = useState(eqDetails)
 

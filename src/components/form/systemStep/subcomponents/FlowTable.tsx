@@ -18,11 +18,11 @@ import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
 
-    const formData = useSelector((state: RootState) => state.formData)
+    const formData = useSelector((state: RootState) => state.formData.present)
     const selectedSystemFlow = formData.system[selectedSystem].flow;
     const selectedSystemLoads = formData.system[selectedSystem].loads
     const selectedSystemEquipment = formData.system[selectedSystem].building.existingBuilding.equipment
-    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const theme = useTheme();

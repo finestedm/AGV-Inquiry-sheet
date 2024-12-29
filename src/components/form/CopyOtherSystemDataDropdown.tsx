@@ -40,7 +40,7 @@ import tinycolor from "tinycolor2";
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
-    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary' ;
 
     const { t } = useTranslation();
@@ -75,7 +75,7 @@ function CopyOtherSystemDataDialog({ isOpen, handleClose, selectedSystem }: Copy
     const { t } = useTranslation();
     const theme = useTheme();
     const darkMode = useSelector((state: RootState) => state.darkMode);
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const systems = (Object.keys(initialFormDataState.system) as Array<keyof ISystems>);
     const parts = (Object.keys(initialFormDataState.system[selectedSystem]) as Array<keyof ISystemData>).filter(key => key !== 'selected');
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))

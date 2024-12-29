@@ -24,6 +24,7 @@ import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormD
 import ClearFormDataDialog from "./ClearFormDataDialog";
 import axios from 'axios'
 import BackupIcon from '@mui/icons-material/Backup';
+import { ActionCreators } from "redux-undo";
 
 export default function TopBar(): JSX.Element {
 
@@ -34,8 +35,9 @@ export default function TopBar(): JSX.Element {
     };
 
     const { t, i18n } = useTranslation();
-    const formData = useSelector((state: RootState) => state.formData);
-    const isSummaryStep = useSelector((state: RootState) => state.steps.currentStep) === 'summary';
+    const formDataAll = useSelector((state: RootState) => state.formData);
+    const formData = formDataAll.present
+    const isSummaryStep = useSelector((state: RootState) => state.steps.present.currentStep) === 'summary';
     const isFormUnchaged = formData === initialFormDataState
 
     const dispatch = useDispatch();
@@ -54,6 +56,17 @@ export default function TopBar(): JSX.Element {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    function handleUndo() {
+        dispatch(ActionCreators.undo());
+    };
+
+    function handleRedo() {
+        dispatch(ActionCreators.redo());
+    };
+
+    const canUndo = formDataAll.past.length > 0; 
+    const canRedo = formDataAll.future.length > 0; 
 
     function saveDataToFile() {
         const data = JSON.stringify(formData);
@@ -84,7 +97,7 @@ export default function TopBar(): JSX.Element {
             if (response.status === 200) {
                 setIsResolved(true);  // Set resolved state on success
                 dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSavedToServer')}`, severity: 'success' }));
-                saveDataToFile() 
+                saveDataToFile()
             }
         } catch (error) {
             console.error("Failed to save data:", error);
@@ -226,7 +239,6 @@ export default function TopBar(): JSX.Element {
                             }
                         </Menu>
                     </Box>
-
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'flex-end' }}>
                         <Stack spacing={1.25} direction='row'>
                             <FormControl sx={{ display: { xs: 'none', lg: 'flex' }, border: "none" }}>
@@ -236,7 +248,7 @@ export default function TopBar(): JSX.Element {
                                     onChange={handleLanguageChange}
                                     variant="standard"
                                     color="primary"
-                                    sx={{boxShadow: "none"}}
+                                    sx={{ boxShadow: "none" }}
                                 >
                                     <MenuItem value="en" >
                                         <Stack direction='row' className='flag-container' flex={1} spacing={1} alignItems='center' >
@@ -258,11 +270,11 @@ export default function TopBar(): JSX.Element {
                                     </MenuItem>
                                 </Select>
                             </FormControl>
-                            <Divider orientation="vertical"/>
+                            <Divider orientation="vertical" />
                             <DarkModeSwitch />
-                            <Divider orientation="vertical"/>
+                            <Divider orientation="vertical" />
                             <EditModeSwitch />
-                            <Divider orientation="vertical"/>
+                            <Divider orientation="vertical" />
                             {isSummaryStep &&
                                 <>
                                     <Button variant='text' color="inherit" onClick={() => saveDataToFile()} startIcon={<SaveIcon />}>
@@ -270,15 +282,15 @@ export default function TopBar(): JSX.Element {
                                             <Typography>{t('ui.button.inquiry.save')}</Typography>
                                         </Stack>
                                     </Button>
-                                    <Divider orientation="vertical"/>
+                                    <Divider orientation="vertical" />
                                     <Button variant='text' color="inherit" onClick={() => saveDataToServer()} startIcon={isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}>
-                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
-                                        <Typography>{t('ui.button.inquiry.saveToServer')}</Typography>
-                                    </Stack>
-                                </Button>
-                                <Divider orientation="vertical"/>
+                                        <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                            <Typography>{t('ui.button.inquiry.saveToServer')}</Typography>
+                                        </Stack>
+                                    </Button>
+                                    <Divider orientation="vertical" />
 
-                                </> 
+                                </>
                             }
                             <Button variant='text' color="inherit" startIcon={<UploadIcon />}>
                                 <Stack direction='row' flex={1} spacing={1} alignItems='center' onClick={() => {
@@ -298,22 +310,34 @@ export default function TopBar(): JSX.Element {
                                     />
                                 </Stack>
                             </Button>
-                            <Divider orientation="vertical"/>
-                            {!isFormUnchaged &&
-                                <>
-                                    <Button
-                                        startIcon={<DeleteOutlineIcon />}
-                                        color='error'
-                                        variant='text'
-                                        onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
-                                        >
-                                        <Stack direction='row' flex={1} spacing={1} alignItems='center' >
-                                            <Typography>{t('ui.button.inquiry.clear')}</Typography>
-                                        </Stack>
-                                    </Button>
-                                    <Divider orientation="vertical"/>
-                                </>
-                            }
+                            <Divider orientation="vertical" />
+                            <ButtonGroup
+                                variant='text'
+                            >
+                                <Button
+                                    onClick={handleUndo}
+                                    disabled={!canUndo}
+                                >
+                                    Undo
+                                </Button>
+                                <Button
+                                    startIcon={<DeleteOutlineIcon />}
+                                    disabled={isFormUnchaged}
+                                    color='error'
+                                    onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
+                                >
+                                    <Stack direction='row' flex={1} spacing={1} alignItems='center' >
+                                        <Typography>{t('ui.button.inquiry.clear')}</Typography>
+                                    </Stack>
+                                </Button>
+                                <Button
+                                    onClick={handleRedo}
+                                    disabled={!canRedo}
+                                >
+                                    Redo
+                                </Button>
+                            </ButtonGroup>
+                            <Divider orientation="vertical" />
                         </Stack>
                     </Box>
                 </Toolbar>

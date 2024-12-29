@@ -18,7 +18,7 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const allSteps = useSelector((state: RootState) => state.steps.steps)
+  const allSteps = useSelector((state: RootState) => state.steps.present.steps)
 
   const location = useLocation();  // Use the useLocation hook to get the current path
   const activeStep = location.pathname.split('/').pop();  // Extract the active step from the path

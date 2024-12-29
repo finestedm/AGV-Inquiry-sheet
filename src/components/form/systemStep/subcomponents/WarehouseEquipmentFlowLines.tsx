@@ -7,9 +7,8 @@ import { useEffect, useState } from "react";
 
 export default function EquipmentFlowLines({ flow, canvaToWarehouseRatio, selectedSystem }: { flow: IFlow, canvaToWarehouseRatio: number, selectedSystem: keyof ISystems }) {
     const { id, stationType, stationSource, stationTarget, flowAverage, flowPeak, loadType, distance, bidirectional } = flow;
-    const warehouseData = useSelector((state: RootState) => state.formData.system[selectedSystem].building.existingBuilding)
+    const warehouseData = useSelector((state: RootState) => state.formData.present.system[selectedSystem].building.existingBuilding)
     const warehouseEquipment = warehouseData.equipment;
-    const loads = useSelector((state: RootState) => state.formData.system[selectedSystem].loads)
     const theme = useTheme();
 
     const [points, setPoints] = useState<number[]>();
