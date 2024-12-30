@@ -78,7 +78,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                                 <Alert id='system.tooHighPickupPoint' severity="error">{t(`system.tooHighPickupPoint`)}</Alert>
                             </Collapse>
                         </Stack>
-                    } 
+                    }
                     <Dialog
                         sx={{ zIndex: 900 }}
                         fullScreen
@@ -131,23 +131,15 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
         }));
     };
 
-    const handleBlur = () => {
+    function handleBlur() {
         const newWidth = +tempDimensions.width;
         const newLength = +tempDimensions.length;
 
-        try {
-            if (newWidth < newLength) {
-                // Swap the values if the condition is met
-                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newLength.toString() }));
-                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newWidth.toString() }));
-            } else {
-                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newWidth.toString() }));
-                dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newLength.toString() }));
-            }
-        } catch (e) {
-            console.log(e)
-        }
-    };
+        dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newWidth.toString() }));
+        dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newLength.toString() }));
+
+    }
+
     return (
         <Box>
             <Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
@@ -185,9 +177,8 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
                             size="small"
                             fullWidth
                             type="number"
-                            value={trimLeadingZeros(tempDimensions.width)}
-                            onChange={handleInputChange('width')}
-                            onBlur={handleBlur}
+                            value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width)}
+                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: e.target.value }))}
                             inputProps={{
                                 min: 5,
                                 max: 1000,
@@ -211,9 +202,8 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
                             size="small"
                             fullWidth
                             type="number"
-                            value={trimLeadingZeros(tempDimensions.length)}
-                            onChange={handleInputChange('length')}
-                            onBlur={handleBlur}
+                            value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.length)}
+                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: e.target.value }))}
                             inputProps={{
                                 min: 5,
                                 max: 1000,

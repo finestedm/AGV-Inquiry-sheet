@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './features/localStorage/handleLocalStorage';
 import { setFormData } from './features/redux/reducers/formDataSlice';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { ActionCreators } from 'redux-undo';
 
 // Configure i18next
 i18n
@@ -39,7 +40,7 @@ i18n
 
 function App() {
   const darkMode = useSelector((state: RootState) => state.darkMode)
-  const formData = useSelector((state: RootState) => state.formData);
+  const formData = useSelector((state: RootState) => state.formData.present);
   const dispatch = useDispatch();
   const [initialLoad, setInitialLoad] = useState(true);
 
@@ -74,6 +75,22 @@ function App() {
   //
   //loading and saving data from localStorage
   //
+
+  // Global keydown listener for Ctrl+Z and Ctrl+Y
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "z") {
+        e.preventDefault();
+        dispatch(ActionCreators.undo());
+      } else if (e.ctrlKey && e.key === "y") {
+        e.preventDefault();
+        dispatch(ActionCreators.redo());
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   //
 

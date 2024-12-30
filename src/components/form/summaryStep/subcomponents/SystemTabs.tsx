@@ -1,17 +1,14 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Card, Divider, Paper, Stack, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ISystemData, ISystems } from "../../../../features/interfaces";
-import BoxForTextPair from "./BoxForTextPair";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import FormSystemStep from "../../systemStep/FormSystemStep";
 import { useState } from "react";
 
 export default function SystemsTabs() {
-    const currentStep = useSelector((state: RootState) => state.steps);
     const selectedSystems = useSelector((state: RootState) => (
-        Object.entries(state.formData.system)
+        Object.entries(state.formData.present.system)
             .filter(([systemName, systemData]) => systemData.selected)
             .map(([systemName]) => systemName)
     )) as (keyof ISystems)[];
