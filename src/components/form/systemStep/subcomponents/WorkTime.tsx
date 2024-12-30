@@ -18,9 +18,9 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
     const formData = useSelector((state: RootState) => state.formData.present);
     const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
-    const [tempWorkDays, setTempWorkDays] = useState(formData.system[selectedSystem].workTime.workDays)
-    const [tempHoursPerShift, setTempHoursPerShift] = useState(formData.system[selectedSystem].workTime.hoursPerShift)
-    const [tempShiftsPerDay, setTempShiftsPerDay] = useState(formData.system[selectedSystem].workTime.shiftsPerDay)
+    const [tempWorkDays, setTempWorkDays] = useState(0)
+    const [tempHoursPerShift, setTempHoursPerShift] = useState(0)
+    const [tempShiftsPerDay, setTempShiftsPerDay] = useState(0)
 
     const dispatch = useDispatch();
 
@@ -32,6 +32,12 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
         setCircularValue(tempShiftsPerDay * tempHoursPerShift * tempWorkDays)
     }, [tempShiftsPerDay, tempHoursPerShift, tempWorkDays])
 
+    useEffect(() => {
+        const systemWorkTime = formData.system[selectedSystem]?.workTime || {};
+        setTempWorkDays(systemWorkTime.workDays || 0);
+        setTempHoursPerShift(systemWorkTime.hoursPerShift || 0);
+        setTempShiftsPerDay(systemWorkTime.shiftsPerDay || 0);
+    }, [selectedSystem, formData]);
 
     return (
         <InputGroup
@@ -49,7 +55,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                                         getAriaLabel={() => 'workDays'}
                                         value={tempWorkDays}
                                         onChange={(e, v) => setTempWorkDays(v as number)}
-                                        onChangeCommitted={() => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.workDays`, value: tempWorkDays }))}
+                                        onChangeCommitted={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workTime.workDays`, value: tempWorkDays }))}
                                         valueLabelDisplay="auto"
                                         min={1}
                                         max={7}

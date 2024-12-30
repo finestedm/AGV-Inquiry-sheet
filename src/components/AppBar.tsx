@@ -25,6 +25,8 @@ import ClearFormDataDialog from "./ClearFormDataDialog";
 import axios from 'axios'
 import BackupIcon from '@mui/icons-material/Backup';
 import { ActionCreators } from "redux-undo";
+import RedoIcon from '@mui/icons-material/Redo';
+import UndoIcon from '@mui/icons-material/Undo';
 
 export default function TopBar(): JSX.Element {
 
@@ -65,8 +67,8 @@ export default function TopBar(): JSX.Element {
         dispatch(ActionCreators.redo());
     };
 
-    const canUndo = formDataAll.past.length > 0; 
-    const canRedo = formDataAll.future.length > 0; 
+    const canUndo = formDataAll.past.length > 0;
+    const canRedo = formDataAll.future.length > 0;
 
     function saveDataToFile() {
         const data = JSON.stringify(formData);
@@ -313,12 +315,14 @@ export default function TopBar(): JSX.Element {
                             <Divider orientation="vertical" />
                             <ButtonGroup
                                 variant='text'
+                                color="inherit"
                             >
                                 <Button
                                     onClick={handleUndo}
                                     disabled={!canUndo}
+                                    startIcon={<UndoIcon />}
                                 >
-                                    Undo
+                                    
                                 </Button>
                                 <Button
                                     startIcon={<DeleteOutlineIcon />}
@@ -333,8 +337,9 @@ export default function TopBar(): JSX.Element {
                                 <Button
                                     onClick={handleRedo}
                                     disabled={!canRedo}
+                                    startIcon={<RedoIcon />}
                                 >
-                                    Redo
+                                    
                                 </Button>
                             </ButtonGroup>
                             <Divider orientation="vertical" />

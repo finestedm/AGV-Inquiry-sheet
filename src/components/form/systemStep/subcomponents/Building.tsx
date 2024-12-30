@@ -8,7 +8,7 @@ import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZer
 import { ISystems } from "../../../../features/interfaces";
 import WarehouseLayout from "./WarehouseLayout";
 import Incline from "./Incline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputGroup from "../../InputGroup";
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -119,10 +119,15 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const [tempDimensions, setTempDimensions] = useState({
-        width: trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width),
-        length: trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.length),
+        width: 0,
+        length: 0,
     });
 
+    // useEffect(() => {
+    //     const systemCond = formData.system[selectedSystem]?.building.existingBuilding || {};
+    //     setTempDimensions({})
+    //     setTempHumidity(systemCond.humidity || [0, 5]);
+    // }, [formData, selectedSystem]);
 
     const handleInputChange = (field: 'width' | 'length') => (e: React.ChangeEvent<HTMLInputElement>) => {
         setTempDimensions((prevDimensions) => ({

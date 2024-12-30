@@ -25,7 +25,7 @@ export default function GanttGraph(): JSX.Element {
     const { t, i18n } = useTranslation();
     const currentLanguage = i18n.language;
     const theme = useTheme();
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
     const [columnsWidth, setColumnsWidth] = useState<number>(70)

@@ -24,6 +24,11 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
     const [tempTemperature, setTempTemperature] = useState(formData.system[selectedSystem].workConditions.temperature)
     const [tempHumidity, setTempHumidity] = useState(formData.system[selectedSystem].workConditions.humidity)
 
+    useEffect(() => {
+        const systemCond = formData.system[selectedSystem]?.workConditions || {};
+        setTempTemperature(systemCond.temperature || [20, 30]);
+        setTempHumidity(systemCond.humidity || [0, 5]);
+    }, [formData, selectedSystem]);
 
     return (
         <InputGroup
