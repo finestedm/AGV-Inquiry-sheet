@@ -92,11 +92,6 @@ export default function Form(): JSX.Element {
 
   useEffect(() => {
     const locationFromURL = location.pathname.split('/').pop() || ''
-    dispatch(setCurrentStep(locationFromURL));
-  }, [navigate])
-
-  useEffect(() => {
-    const locationFromURL = location.pathname.split('/').pop() || ''
     if (steps.present.possibleSteps.includes(locationFromURL)) {
       dispatch(setCurrentStep(locationFromURL));
     } else {
