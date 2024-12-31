@@ -5,7 +5,7 @@ import { Box, Checkbox, Dialog, DialogActions, DialogContent, FormControlLabel, 
 import { useTranslation } from "react-i18next";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
-import { ISystems } from "../../../../features/interfaces";
+import { ISystemData, ISystems } from "../../../../features/interfaces";
 import WarehouseLayout from "./WarehouseLayout";
 import Incline from "./Incline";
 import { useEffect, useState } from "react";
@@ -121,15 +121,19 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
     const [tempDimensions, setTempDimensions] = useState({
         width: 0,
         length: 0,
+        height: 0
     });
 
-    // useEffect(() => {
-    //     const systemCond = formData.system[selectedSystem]?.building.existingBuilding || {};
-    //     setTempDimensions({})
-    //     setTempHumidity(systemCond.humidity || [0, 5]);
-    // }, [formData, selectedSystem]);
+    useEffect(() => {
+        const systemCond = formData.system[selectedSystem]?.building.existingBuilding || {};
+        setTempDimensions({
+            width: systemCond.width || 0,
+            length: systemCond.length || 0,
+            height: systemCond.height || 0
+        });
+    }, [formData, selectedSystem]);
 
-    const handleInputChange = (field: 'width' | 'length') => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (field: keyof ISystemData['building']['existingBuilding']) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setTempDimensions((prevDimensions) => ({
             ...prevDimensions,
             [field]: e.target.value,
@@ -139,10 +143,11 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
     function handleBlur() {
         const newWidth = +tempDimensions.width;
         const newLength = +tempDimensions.length;
+        const newHeight = +tempDimensions.height;
 
         dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: newWidth.toString() }));
         dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: newLength.toString() }));
-
+        dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.height`, value: newHeight.toString() }));
     }
 
     return (
@@ -157,8 +162,9 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
                             size="small"
                             fullWidth
                             type="number"
-                            value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.height)}
-                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.height`, value: e.target.value }))}
+                            value={trimLeadingZeros(tempDimensions.height)}
+                            onChange={handleInputChange('height')}
+                            onBlur={handleBlur}
                             inputProps={{
                                 min: 1,
                                 max: 30,
@@ -182,8 +188,9 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
                             size="small"
                             fullWidth
                             type="number"
-                            value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width)}
-                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.width`, value: e.target.value }))}
+                            value={trimLeadingZeros(tempDimensions.width)}
+                            onChange={handleInputChange('width')}
+                            onBlur={handleBlur}
                             inputProps={{
                                 min: 5,
                                 max: 1000,
@@ -207,8 +214,9 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
                             size="small"
                             fullWidth
                             type="number"
-                            value={trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.length)}
-                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.building.existingBuilding.length`, value: e.target.value }))}
+                            value={trimLeadingZeros(tempDimensions.length)}
+                            onChange={handleInputChange('length')}
+                            onBlur={handleBlur}
                             inputProps={{
                                 min: 5,
                                 max: 1000,

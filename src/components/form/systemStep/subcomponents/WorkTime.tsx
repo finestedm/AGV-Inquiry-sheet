@@ -37,7 +37,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
         setTempWorkDays(systemWorkTime.workDays || 0);
         setTempHoursPerShift(systemWorkTime.hoursPerShift || 0);
         setTempShiftsPerDay(systemWorkTime.shiftsPerDay || 0);
-    }, [selectedSystem, formData]);
+    }, [selectedSystem]);
 
     return (
         <InputGroup

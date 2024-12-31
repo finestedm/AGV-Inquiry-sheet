@@ -17,6 +17,7 @@ import EquipmentShape from './WarehouseLayoutEquipment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EquipmentFlowLines from './WarehouseEquipmentFlowLines';
 import EquipmentDetails from './EquipmentDetails';
+import { debounce } from 'lodash';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -78,6 +79,36 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         width: 0,
         height: 0
     })
+
+    const updateCanvaDimensions = () => {
+        if (divRef.current?.offsetHeight && divRef.current?.offsetWidth) {
+            setCanvaDimensions({
+                width: divRef.current.offsetWidth - layoutBorderWidth * 2,
+                height: ((divRef.current.offsetWidth - layoutBorderWidth * 2) * Number(warehouseData.length / warehouseData.width)),
+            });
+        }
+    };
+
+    useEffect(() => {
+        // Initial setup
+        updateCanvaDimensions();
+
+        // Debounced resize handler
+        const handleResize = debounce(() => {
+            updateCanvaDimensions();
+        }, 200); // Adjust debounce delay as needed
+
+        // Add event listener for resize
+        window.addEventListener('resize', handleResize);
+        window.addEventListener('orientationchange', handleResize);
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('orientationchange', handleResize);
+            handleResize.cancel(); // Cancel any pending debounced calls
+        };
+    }, [warehouseData.length, warehouseData.width]);
 
     useEffect(() => {
         if (divRef.current?.offsetHeight && divRef.current?.offsetWidth) {
