@@ -59,9 +59,75 @@ export default function TopBar(): JSX.Element {
         setAnchorElUser(null);
     };
 
+    const pastState = useSelector(
+        (state: RootState) => state.formData.past[state.formData.past.length - 1]
+      );
+
+    function findDifferences(past: any, current: any): any {
+    const differences: any = {};
+    
+    Object.keys({ ...past, ...current }).forEach((key) => {
+        if (typeof past[key] === 'object' && typeof current[key] === 'object' && past[key] && current[key]) {
+        const nestedDiff = findDifferences(past[key], current[key]);
+        if (Object.keys(nestedDiff).length > 0) {
+            differences[key] = nestedDiff;
+        }
+        } else if (past[key] !== current[key]) {
+        differences[key] = { past: past[key], current: current[key] };
+        }
+    });
+    
+    return differences;
+    }
+    
+    function formatDifferences(differences: any, parentKey = ''): string {
+        return Object.entries(differences)
+          .map(([key, value]) => {
+            const fullKey = parentKey ? `${parentKey}.${key}` : key;
+      
+            if (typeof value === 'object' && 'past' in value && 'current' in value) {
+              return `${fullKey}: ${value.past} → ${value.current}`;
+            } else if (typeof value === 'object') {
+              return formatDifferences(value, fullKey);
+            }
+      
+            return '';
+          })
+          .filter(Boolean)
+          .join(', ');
+      }
+      
+      
+
     function handleUndo() {
+        if (pastState && formData) {
+          // Calculate the differences between past and present states
+          const differences = findDifferences(pastState, formData);
+      
+          // Format the differences into a string
+          const formattedDifferences = formatDifferences(differences);
+      
+          // Dispatch the snackbar with the differences
+          dispatch(
+            openSnackbar({
+              message: `${t('ui.snackBar.message.undoChanges')}: ${formattedDifferences}`,
+              severity: 'info',
+            })
+          );
+        } else {
+          dispatch(
+            openSnackbar({
+              message: `${t('ui.snackBar.message.noUndoableStates')}`,
+              severity: 'warning',
+            })
+          );
+        }
+      
+        // Dispatch the undo action
         dispatch(ActionCreators.undo());
-    };
+      }
+      
+
 
     function handleRedo() {
         dispatch(ActionCreators.redo());
