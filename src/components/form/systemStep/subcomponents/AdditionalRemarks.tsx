@@ -9,7 +9,7 @@ import InputGroup from "../../InputGroup";
 
 export default function AdditionalRemarks({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
-    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
 
     const { t } = useTranslation();

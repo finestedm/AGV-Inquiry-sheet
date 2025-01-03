@@ -40,7 +40,7 @@ import tinycolor from "tinycolor2";
 
 export default function CopyOtherSystemDataButton({ selectedSystem }: { selectedSystem: keyof ISystems }): JSX.Element {
     const [copyOtherSystemDataDialogOpen, setCopyOtherSystemDataDialogOpen] = useState<boolean>(false);
-    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary' ;
 
     const { t } = useTranslation();

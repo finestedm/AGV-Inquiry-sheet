@@ -71,14 +71,14 @@ export default function Form(): JSX.Element {
   };
 
   const handleNext = () => {
-    const stepToMoveIndex = steps.present.steps.indexOf(steps.present.currentStep) + 1
-    const stepToMove = steps.present.steps[stepToMoveIndex]
+    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) + 1
+    const stepToMove = steps.steps[stepToMoveIndex]
     navigateToStep(stepToMove)
   };
 
   const handleBack = () => {
-    const stepToMoveIndex = steps.present.steps.indexOf(steps.present.currentStep) - 1
-    const stepToMove = steps.present.steps[stepToMoveIndex]
+    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) - 1
+    const stepToMove = steps.steps[stepToMoveIndex]
     navigateToStep(stepToMove)
   };
 
@@ -87,15 +87,15 @@ export default function Form(): JSX.Element {
   };
 
   useEffect(() => {
-    navigate(`/${steps.present.currentStep}`);
-  }, [steps.present.currentStep])
+    navigate(`/${steps.currentStep}`);
+  }, [steps.currentStep])
 
   useEffect(() => {
     const locationFromURL = location.pathname.split('/').pop() || ''
-    if (steps.present.possibleSteps.includes(locationFromURL)) {
+    if (steps.possibleSteps.includes(locationFromURL)) {
       dispatch(setCurrentStep(locationFromURL));
     } else {
-      dispatch(setCurrentStep(steps.present.steps[0]));
+      dispatch(setCurrentStep(steps.steps[0]));
     }
   }, []);
 
@@ -148,14 +148,14 @@ export default function Form(): JSX.Element {
                 <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Divider sx={{ mb: 4 }} />
                   <Stack direction='row'>
-                    {steps.present.currentStep !== allSteps[0] && (
+                    {steps.currentStep !== allSteps[0] && (
                       <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
                         {t('ui.button.back')}
                       </Button>
                     )}
-                    {steps.present.currentStep !== allSteps[allSteps.length - 1] && (
+                    {steps.currentStep !== allSteps[allSteps.length - 1] && (
                       <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
-                        disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.present.currentStep)}
+                        disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
                       >
                         {t('ui.button.next')}
                       </Button>

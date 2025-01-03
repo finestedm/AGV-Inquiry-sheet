@@ -11,7 +11,7 @@ import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZer
 
 export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof ICustomer, perYear?: boolean }) {
     const customer = useSelector((state: RootState) => state.formData.present.customer)
-    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();

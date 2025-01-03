@@ -11,7 +11,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../features/redux/store";
+import store, { RootState } from "../features/redux/store";
 import { initialFormDataState, resetFormData, setFormData } from "../features/redux/reducers/formDataSlice";
 import DarkModeSwitch from "./DarkModeSwitch";
 import jhLogoDark from '../images/JH_logo.png'
@@ -27,6 +27,7 @@ import BackupIcon from '@mui/icons-material/Backup';
 import { ActionCreators } from "redux-undo";
 import RedoIcon from '@mui/icons-material/Redo';
 import UndoIcon from '@mui/icons-material/Undo';
+import { allPossibleSteps, setCurrentStep } from "../features/redux/reducers/stepsSlice";
 
 export default function TopBar(): JSX.Element {
 
@@ -39,7 +40,7 @@ export default function TopBar(): JSX.Element {
     const { t, i18n } = useTranslation();
     const formDataAll = useSelector((state: RootState) => state.formData);
     const formData = formDataAll.present
-    const isSummaryStep = useSelector((state: RootState) => state.steps.present.currentStep) === 'summary';
+    const isSummaryStep = useSelector((state: RootState) => state.steps.currentStep) === 'summary';
     const isFormUnchaged = formData === initialFormDataState
 
     const dispatch = useDispatch();
@@ -63,58 +64,108 @@ export default function TopBar(): JSX.Element {
         (state: RootState) => state.formData.past[state.formData.past.length - 1]
       );
 
-    function findDifferences(past: any, current: any): any {
-    const differences: any = {};
-    
-    Object.keys({ ...past, ...current }).forEach((key) => {
-        if (typeof past[key] === 'object' && typeof current[key] === 'object' && past[key] && current[key]) {
-        const nestedDiff = findDifferences(past[key], current[key]);
-        if (Object.keys(nestedDiff).length > 0) {
-            differences[key] = nestedDiff;
-        }
-        } else if (past[key] !== current[key]) {
-        differences[key] = { past: past[key], current: current[key] };
-        }
-    });
-    
-    return differences;
-    }
-    
-    function formatDifferences(differences: any, parentKey = ''): string {
-        return Object.entries(differences)
-          .map(([key, value]) => {
-            const fullKey = parentKey ? `${parentKey}.${key}` : key;
+      function findDifferences(past: any, current: any): any {
+        const differences: any = {};
       
-            if (typeof value === 'object' && 'past' in value && 'current' in value) {
-              return `${fullKey}: ${value.past} → ${value.current}`;
-            } else if (typeof value === 'object') {
-              return formatDifferences(value, fullKey);
+        Object.keys({ ...past, ...current }).forEach((key) => {
+          if (typeof past[key] === 'object' && typeof current[key] === 'object' && past[key] && current[key]) {
+            const nestedDiff = findDifferences(past[key], current[key]);
+            if (Object.keys(nestedDiff).length > 0) {
+              differences[key] = nestedDiff;
             }
+          } else if (past[key] !== current[key]) {
+            differences[key] = true; // Simplify to mark as changed
+          }
+        });
       
-            return '';
-          })
-          .filter(Boolean)
-          .join(', ');
+        return differences;
+      }
+        
+      function getChangedKeys(differences: any, parentKey = ''): string[] {
+        return Object.entries(differences).flatMap(([key, value]) => {
+          const fullKey = parentKey ? `${parentKey}.${key}` : key;
+      
+          if (value === true) {
+            // Base case: A changed key
+            return fullKey;
+          } else if (typeof value === 'object') {
+            // Recursive case: Dive deeper
+            return getChangedKeys(value, fullKey);
+          }
+      
+          return [];
+        });
       }
       
       
+      
+      function getChangedPaths(pastState, presentState, basePath = '') {
+        const paths = [];
+      
+        for (const key in presentState) {
+          const currentPath = basePath ? `${basePath}.${key}` : key;
+      
+          if (typeof presentState[key] === 'object' && presentState[key] !== null) {
+            // Recursively check nested objects
+            paths.push(...getChangedPaths(pastState[key], presentState[key], currentPath));
+          } else if (presentState[key] !== pastState[key]) {
+            // Track changes at this path
+            paths.push(currentPath);
+          }
+        }
+      
+        return paths;
+      }
 
-    function handleUndo() {
-        if (pastState && formData) {
-          // Calculate the differences between past and present states
-          const differences = findDifferences(pastState, formData);
+      // Updated mapPathToStep function
+    function mapPathToStep(changedPath: string): string | undefined {
+        // Define the mapping for full paths
+        const stepMap: Record<string, string> = {
+        'sales': 'sales',
+        'customer': 'customer',
+        'project': 'project',
+        'system.asrs': 'asrs',
+        'system.lrkprk': 'lrkprk',
+        'system.agv': 'agv',
+        'system.autovna': 'autovna',
+        'media': 'media',
+        'summary': 'summary',
+        };
+    
+        // Check if the changedPath directly matches a step or is nested within a step
+        const basePath = changedPath.split('.')[0]; // Extract the first part of the path (e.g., 'system', 'sales')
+    
+        if (stepMap[changedPath]) {
+        return stepMap[changedPath]; // Exact match (e.g., 'system.agv' -> 'agv')
+        } else if (stepMap[basePath]) {
+        return stepMap[basePath]; // If the base path matches (e.g., 'system' -> 'system')
+        }
+    
+        return undefined;
+    }
+    
       
-          // Format the differences into a string
-          const formattedDifferences = formatDifferences(differences);
+
+      function handleUndo() {
+        const state = store.getState();
+        const { formData } = state; // Get formData state
+        const pastState = formData.past.length > 0 ? formData.past[formData.past.length - 1] : null
+
+        if (pastState) {
+          // Detect changes between the past and present states
+          const differences = findDifferences(pastState, formData.present); // Compare past and present
+          const changedKeys = getChangedKeys(differences);
       
-          // Dispatch the snackbar with the differences
-          dispatch(
-            openSnackbar({
-              message: `${t('ui.snackBar.message.undoChanges')}: ${formattedDifferences}`,
-              severity: 'info',
-            })
-          );
-        } else {
+          if (changedKeys.length > 0) {
+            dispatch(
+              openSnackbar({
+                message: `${t('ui.snackBar.message.undoChanges')}: ${changedKeys.join(', ')}`,
+                severity: 'info',
+              })
+            );
+            // Dispatch the undo action
+            dispatch(ActionCreators.undo());
+          } else {
           dispatch(
             openSnackbar({
               message: `${t('ui.snackBar.message.noUndoableStates')}`,
@@ -122,16 +173,39 @@ export default function TopBar(): JSX.Element {
             })
           );
         }
-      
-        // Dispatch the undo action
-        dispatch(ActionCreators.undo());
+    }
       }
       
-
-
-    function handleRedo() {
-        dispatch(ActionCreators.redo());
-    };
+      
+      function handleRedo() {
+        const state = store.getState();
+        const { formData } = state; // Get formData state
+        const futureState = formData.future.length > 0 ? formData.future[formData.future.length - 1] : null;
+      
+        if (futureState ) {
+          // Detect changes between the present and future states
+          const differences = findDifferences(formData.present, futureState); // Compare present and future
+          const changedKeys = getChangedKeys(differences);
+      
+            dispatch(
+              openSnackbar({
+                message: `${t('ui.snackBar.message.redoChanges')}: ${changedKeys.join(', ')}`,
+                severity: 'info',
+              })
+            );
+            dispatch(ActionCreators.redo());
+          
+        } else {
+          dispatch(
+            openSnackbar({
+              message: `${t('ui.snackBar.message.noRedoableStates')}`,
+              severity: 'warning',
+            })
+          );
+        }
+      
+      }
+      
 
     const canUndo = formDataAll.past.length > 0;
     const canRedo = formDataAll.future.length > 0;

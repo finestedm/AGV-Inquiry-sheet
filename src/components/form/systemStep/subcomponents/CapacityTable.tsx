@@ -13,7 +13,7 @@ export default function CapacityTable({ selectedSystem }: { selectedSystem: keyo
     const theme = useTheme()
 
     const selectedSystemLoads = useSelector((state: RootState) => state.formData.present.system[selectedSystem].loads);
-    const currentStep = useSelector((state: RootState) => state.steps.present.currentStep);
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
 
