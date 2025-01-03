@@ -60,10 +60,6 @@ export default function TopBar(): JSX.Element {
         setAnchorElUser(null);
     };
 
-    const pastState = useSelector(
-        (state: RootState) => state.formData.past[state.formData.past.length - 1]
-      );
-
       function findDifferences(past: any, current: any): any {
         const differences: any = {};
       
@@ -97,54 +93,15 @@ export default function TopBar(): JSX.Element {
         });
       }
       
-      
-      
-      function getChangedPaths(pastState, presentState, basePath = '') {
-        const paths = [];
-      
-        for (const key in presentState) {
-          const currentPath = basePath ? `${basePath}.${key}` : key;
-      
-          if (typeof presentState[key] === 'object' && presentState[key] !== null) {
-            // Recursively check nested objects
-            paths.push(...getChangedPaths(pastState[key], presentState[key], currentPath));
-          } else if (presentState[key] !== pastState[key]) {
-            // Track changes at this path
-            paths.push(currentPath);
+      function mapPathToStep(changedPath: string) {
+        for (const step of allPossibleSteps) {
+          if (changedPath.startsWith(step) || changedPath.startsWith(`system.${step}`)) {
+            // Handle special cases for 'system.asrs', 'system.agv', etc.
+            return ['agv', 'asrs', 'lrkprk', 'autovna'].includes(changedPath.split('.')[1]) ? changedPath.split('.')[1] : step;
           }
         }
-      
-        return paths;
+        return null; // Return null if no matching step is found
       }
-
-      // Updated mapPathToStep function
-    function mapPathToStep(changedPath: string): string | undefined {
-        // Define the mapping for full paths
-        const stepMap: Record<string, string> = {
-        'sales': 'sales',
-        'customer': 'customer',
-        'project': 'project',
-        'system.asrs': 'asrs',
-        'system.lrkprk': 'lrkprk',
-        'system.agv': 'agv',
-        'system.autovna': 'autovna',
-        'media': 'media',
-        'summary': 'summary',
-        };
-    
-        // Check if the changedPath directly matches a step or is nested within a step
-        const basePath = changedPath.split('.')[0]; // Extract the first part of the path (e.g., 'system', 'sales')
-    
-        if (stepMap[changedPath]) {
-        return stepMap[changedPath]; // Exact match (e.g., 'system.agv' -> 'agv')
-        } else if (stepMap[basePath]) {
-        return stepMap[basePath]; // If the base path matches (e.g., 'system' -> 'system')
-        }
-    
-        return undefined;
-    }
-    
-      
 
       function handleUndo() {
         const state = store.getState();
@@ -157,6 +114,14 @@ export default function TopBar(): JSX.Element {
           const changedKeys = getChangedKeys(differences);
       
           if (changedKeys.length > 0) {
+
+                // Map the changed path to a step
+                const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
+                if (step) {
+                  // Dispatch to change the current step
+                  dispatch(setCurrentStep(step));
+                }
+
             dispatch(
               openSnackbar({
                 message: `${t('ui.snackBar.message.undoChanges')}: ${changedKeys.join(', ')}`,
@@ -182,29 +147,39 @@ export default function TopBar(): JSX.Element {
         const { formData } = state; // Get formData state
         const futureState = formData.future.length > 0 ? formData.future[formData.future.length - 1] : null;
       
-        if (futureState ) {
-          // Detect changes between the present and future states
-          const differences = findDifferences(formData.present, futureState); // Compare present and future
+        if (futureState) {
+          // Detect changes between the future and present states
+          const differences = findDifferences(futureState, formData.present); // Compare future and present
           const changedKeys = getChangedKeys(differences);
       
+          if (changedKeys.length > 0) {
+            // Map the changed path to a step
+            const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
+            if (step) {
+              // Dispatch to change the current step
+              dispatch(setCurrentStep(step));
+            }
+      
+            // Display the changed keys in the snackbar
             dispatch(
               openSnackbar({
                 message: `${t('ui.snackBar.message.redoChanges')}: ${changedKeys.join(', ')}`,
                 severity: 'info',
               })
             );
+            // Dispatch the redo action
             dispatch(ActionCreators.redo());
-          
-        } else {
-          dispatch(
-            openSnackbar({
-              message: `${t('ui.snackBar.message.noRedoableStates')}`,
-              severity: 'warning',
-            })
-          );
+          } else {
+            dispatch(
+              openSnackbar({
+                message: `${t('ui.snackBar.message.noRedoableStates')}`,
+                severity: 'warning',
+              })
+            );
+          }
         }
-      
       }
+      
       
 
     const canUndo = formDataAll.past.length > 0;
