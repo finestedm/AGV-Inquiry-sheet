@@ -18,6 +18,7 @@ import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
 import existingWMSTypes from "../../../data/existingWMSTypes";
 import InputGroup from "../InputGroup";
+import CustomCheckbox from "../CustomCheckbox";
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -187,20 +188,12 @@ export default function FormProjectStep(): JSX.Element {
                     <Stack spacing={2}>
                         <CustomTextField
                             fieldName="project.it.processesDescription"
+                            multiline
                         />
                         <Stack>
-                            <FormControlLabel
-                                id="project.it.existingSystem"
+                            <CustomCheckbox
+                                fieldName="project.it.existingSystem.present"
                                 disabled={!editMode}
-                                control={
-                                    <Checkbox
-                                        checked={formData.project.it.existingSystem.present}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.existingSystem.present', value: e.target.checked }))}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    />
-                                }
-                                labelPlacement="end"
-                                label={t('project.it.existingSystem.present')}
                             />
                         </Stack>
                         {formData.project.it.existingSystem.present &&
@@ -232,18 +225,9 @@ export default function FormProjectStep(): JSX.Element {
                             />
                         }
                         <Stack>
-                            <FormControlLabel
-                                id="project.it.wmsNeeded"
+                            <CustomCheckbox
+                                fieldName="project.it.wmsNeeded"
                                 disabled={!editMode}
-                                control={
-                                    <Checkbox
-                                        checked={formData.project.it.wmsNeeded}
-                                        onChange={(e) => dispatch(handleInputMethod({ path: 'project.it.wmsNeeded', value: e.target.checked }))}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    />
-                                }
-                                labelPlacement="end"
-                                label={t('project.it.wmsNeeded')}
                             />
                         </Stack>
                         <CustomTextField

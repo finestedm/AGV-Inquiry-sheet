@@ -13,6 +13,7 @@ import theme from "../../../../theme";
 import { ISystems } from "../../../../features/interfaces";
 import CustomAlert from "../../../CustomAlert";
 import InputGroup from "../../InputGroup";
+import CustomCheckbox from "../../CustomCheckbox";
 
 export default function WorkConditions({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -86,44 +87,23 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                     <Grid item xs={12} md={6}>
                                         <Box>
                                             <Stack>
-                                                <FormControlLabel
+                                                <CustomCheckbox
                                                     disabled={!editMode}
-                                                    id="system-asrs-workConditions-freezer"
-                                                    control={
-                                                        <Checkbox
-                                                            checked={formData.system[selectedSystem].workConditions.freezer || formData.system[selectedSystem].workConditions.temperature[0] < 0}
-                                                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.freezer`, value: e.target.checked }))}
-                                                            inputProps={{ 'aria-label': 'controlled' }}
-                                                        />
-                                                    }
-                                                    labelPlacement="end"
-                                                    label={<>{t(`system.workConditions.freezer`)} <AcUnit fontSize="small" /></>}
+                                                    fieldName={`system.${selectedSystem}.workConditions.freezer`}
+                                                    label="system.workConditions.freezer"
+                                                    icon={AcUnit}
                                                 />
-                                                <FormControlLabel
+                                                <CustomCheckbox
                                                     disabled={!editMode}
-                                                    id="system-asrs-workConditions-EX"
-                                                    control={
-                                                        <Checkbox
-                                                            checked={formData.system[selectedSystem].workConditions.EX}
-                                                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.EX`, value: e.target.checked }))}
-                                                            inputProps={{ 'aria-label': 'controlled' }}
-                                                        />
-                                                    }
-                                                    labelPlacement="end"
-                                                    label={<>{t(`system.workConditions.EX`)} <Warning fontSize="small" /></>}
+                                                    fieldName={`system.${selectedSystem}.workConditions.EX`}
+                                                    label="system.workConditions.EX"
+                                                    icon={Warning}
                                                 />
-                                                <FormControlLabel
+                                                <CustomCheckbox
                                                     disabled={!editMode}
-                                                    id="system-asrs-workConditions-dangerousMaterials"
-                                                    control={
-                                                        <Checkbox
-                                                            checked={formData.system[selectedSystem].workConditions.dangerousMaterials}
-                                                            onChange={(e) => dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.dangerousMaterials`, value: e.target.checked }))}
-                                                            inputProps={{ 'aria-label': 'controlled' }}
-                                                        />
-                                                    }
-                                                    labelPlacement="end"
-                                                    label={<>{t(`system.workConditions.dangerousMaterials`)} <Whatshot fontSize="small" /></>}
+                                                    fieldName={`system.${selectedSystem}.workConditions.dangerousMaterials`}
+                                                    label="system.workConditions.dangerousMaterials"
+                                                    icon={Whatshot}
                                                 />
                                             </Stack>
                                         </Box>
@@ -137,7 +117,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                         <Grid item xs={12}>
                             <CustomTextField
                                 disabled={!editMode}
-                                fieldName={`system.workConditions.other`}
+                                fieldName={`system.${[selectedSystem]}.workConditions.other`}
                                 fullWidth
                                 multiline
                                 rows={4}

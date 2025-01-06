@@ -1,7 +1,8 @@
-import { TextFieldProps } from "@mui/material";
+import { SvgIconTypeMap, TextFieldProps } from "@mui/material";
 import { Task } from "gantt-task-react";
 import availableEquipment from "../data/availableEquipment";
 import salesEngineersSorted from "../data/salesEngineers";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 export interface ISales {
     salesUnit: string;
@@ -146,7 +147,7 @@ export interface ISystems {
 }
 
 export interface IMedia {
-    images: { base64: string; name: string }[]; 
+    images: { base64: string; name: string }[];
 }
 
 export interface IFormData {
@@ -197,6 +198,8 @@ export interface IHandleAddLoad {
 export interface ICustomFieldProps {
     type?: 'text' | 'number'
     fieldName: string;
+    label?: string;
+    icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string; };
     required?: boolean;
     multiline?: boolean
     rows?: number;
