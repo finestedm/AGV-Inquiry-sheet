@@ -54,6 +54,7 @@ function App() {
       if (savedData.version === formData.version) {
         dispatch(setFormData(savedData));
         setInitialLoad(false); // Set initialLoad to false after loading
+        dispatch(ActionCreators.clearHistory()); // Clear undo/redo history
       } else {
         // Handle version mismatch or other errors if needed
       }
