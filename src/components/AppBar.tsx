@@ -236,7 +236,7 @@ export default function TopBar(): JSX.Element {
                     if (loadedData.version === formData.version) {
                         dispatch(setFormData(loadedData));
                         dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoaded'), severity: 'success' }));
-                        dispatch(ActionCreators.clearHistory()); 
+                        dispatch(ActionCreators.clearHistory());
                     } else {
                         dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoadError.wrongVersion'), severity: 'error' }));
                     }
@@ -287,6 +287,7 @@ export default function TopBar(): JSX.Element {
                         >
                             <MenuItem>
                                 <Select
+                                    disableUnderline
                                     id="language-select"
                                     fullWidth
                                     value={i18n.language}
@@ -359,8 +360,9 @@ export default function TopBar(): JSX.Element {
                     </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'flex-end' }}>
                         <Stack spacing={1.25} direction='row'>
-                            <FormControl sx={{ display: { xs: 'none', lg: 'flex' }, border: "none" }}>
+                            <FormControl sx={{ display: { xs: 'none', lg: 'block' }, border: "none" }} component={Box} alignContent='center'>
                                 <Select
+                                    disableUnderline
                                     id="language-select"
                                     value={i18n.language}
                                     onChange={handleLanguageChange}
