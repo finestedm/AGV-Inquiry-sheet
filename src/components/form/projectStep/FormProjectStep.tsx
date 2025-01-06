@@ -62,7 +62,7 @@ export default function FormProjectStep(): JSX.Element {
             <InputGroup
                 title={t('project.subheader.various')}
                 content={
-                    <Stack spacing={2}>
+                    <Stack spacing={4}>
                         <CustomTextField
                             fieldName="project.goals"
                             multiline
@@ -119,7 +119,7 @@ export default function FormProjectStep(): JSX.Element {
             <InputGroup
                 title={t('project.subheader.investmentType')}
                 content={
-                    <Stack spacing={2}>
+                    <Stack spacing={4}>
                         <ToggleButtonGroup
                             sx={{ display: { xs: 'none', sm: 'flex' } }}
                             color='primary'
@@ -185,7 +185,7 @@ export default function FormProjectStep(): JSX.Element {
             <InputGroup
                 title={t('project.subheader.it')}
                 content={
-                    <Stack spacing={2}>
+                    <Stack spacing={4}>
                         <CustomTextField
                             fieldName="project.it.processesDescription"
                             multiline

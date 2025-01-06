@@ -36,7 +36,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
             extendedOpener={warehouseDialogOpen}
             extendedHandler={extenderHandler}
             content={
-                <Stack spacing={2}>
+                <Stack spacing={4}>
                     <Stack direction='row' alignItems='center'>
                         <Typography color={!editMode ? 'text.disabled' : 'text.primary'} variant='body1'> {t(`system.building.existing`)}</Typography>
                         <Switch
@@ -69,7 +69,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         </Stack>
                     }
                     {!formData.system[selectedSystem].building.silo &&
-                        <Stack spacing={2}>
+                        <Stack spacing={4}>
                             <WarehouseSizeEditingFields selectedSystem={selectedSystem} />
                             <Divider />
                             <InputLabel>{t(`system.building.layout`)}</InputLabel>
@@ -152,7 +152,7 @@ export function WarehouseSizeEditingFields({ selectedSystem }: { selectedSystem:
 
     return (
         <Box>
-            <Grid container direction='row' spacing={2} justifyContent='space-between' alignItems='center'>
+            <Grid container direction='row' spacing={4} justifyContent='space-between' alignItems='center'>
                 <Grid item xs>
                     <Stack spacing={1} textAlign='left'>
                         <InputLabel>{t(`system.building.existingBuilding.height`)}</InputLabel>

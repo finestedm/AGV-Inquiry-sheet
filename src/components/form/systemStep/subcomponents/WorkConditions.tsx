@@ -36,7 +36,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
             title={t(`system.subheader.workConditions`)}
             content={
                 <Box>
-                    <Grid container direction='row' spacing={2}>
+                    <Grid container direction='row' spacing={4}>
                         <Grid item xs={12} md={6}>
                             <Stack spacing={1} textAlign='center'>
                                 <InputLabel>{t(`system.workConditions.temperature`)}</InputLabel>
@@ -75,18 +75,27 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                 </Box>
                             </Stack>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Stack spacing={2}>
+
+                        {
+                            (selectedSystem === 'lrkprk' || selectedSystem === 'autovna' || selectedSystem === 'agv')
+                            &&
+                            <Grid item xs={12}>
                                 <CustomAlert collapseTrigger={(selectedSystem === 'lrkprk' || selectedSystem === 'autovna' || selectedSystem === 'agv') && (formData.system[selectedSystem].workConditions.temperature[0] <= 5)} severity="error" title={t(`system.${selectedSystem}.temperatureWarningTitle`)} text={t(`system.${selectedSystem}.temperatureWarning`)} />
+                            </Grid>
+                        }
+                        {
+                            ((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[1]) <= criticalElectronicsTemperature))
+                            &&
+                            <Grid item xs={12}>
                                 <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[1]) <= criticalElectronicsTemperature))} severity="warning" title={t(`system.condensationWarningTitle`)} text={t(`system.condensationWarning`)} />
-                            </Stack>
-                        </Grid>
+                            </Grid>
+                        }
                         <Grid item xs={12}>
                             <Box>
                                 <Grid container>
                                     <Grid item xs={12} md={6}>
                                         <Box>
-                                            <Stack>
+                                            <Stack spacing={2}>
                                                 <CustomCheckbox
                                                     disabled={!editMode}
                                                     fieldName={`system.${selectedSystem}.workConditions.freezer`}

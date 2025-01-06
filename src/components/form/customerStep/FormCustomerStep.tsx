@@ -48,7 +48,7 @@ export default function FormCustomerStep(): JSX.Element {
       <InputGroup
         title={t('customer.subheader.teleaddress')}
         content={
-          <Stack spacing={2}>
+          <Stack spacing={4}>
             <CustomTextField
               required
               fieldName="customer.name"
@@ -67,7 +67,7 @@ export default function FormCustomerStep(): JSX.Element {
       <InputGroup
         title={t('customer.subheader.contactperson')}
         content={
-          <Stack spacing={2}>
+          <Stack spacing={4}>
             <CustomTextField
               fieldName="customer.contactPerson"
             />
@@ -75,7 +75,7 @@ export default function FormCustomerStep(): JSX.Element {
               fieldName="customer.contactPersonRole"
             />
             <Box>
-              <Grid container spacing={2}>
+              <Grid container spacing={4}>
                 <Grid item xs={12} sm={6}>
                   <Stack spacing={1}>
                     <InputLabel>{t('customer.contactPersonPhone')}</InputLabel>
@@ -106,7 +106,7 @@ export default function FormCustomerStep(): JSX.Element {
       <InputGroup
         title={t('customer.subheader.businessdata')}
         content={
-          <Stack spacing={2}>
+          <Stack spacing={4}>
             <Stack spacing={1}>
               <InputLabel required>{t('customer.industry')}</InputLabel>
               <FormControl>
@@ -183,7 +183,7 @@ export default function FormCustomerStep(): JSX.Element {
             </Stack>
             {(formData.customer.relations === 2 || formData.customer.relations === 3) &&
               <Box>
-                <Grid container direction='row' spacing={2}>
+                <Grid container direction='row' spacing={4}>
                   <Grid item xs={6} lg={4}>
                     <Stack spacing={1}>
                       <InputLabel>{t("customer.relations.input.forklifts")}</InputLabel>

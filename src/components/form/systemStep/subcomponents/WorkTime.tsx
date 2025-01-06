@@ -44,7 +44,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
             title={t(`system.subheader.workTime`)}
             content={
                 <Box>
-                    <Grid container direction='row' spacing={2} rowGap={2}>
+                    <Grid container direction='row' spacing={4} rowGap={2}>
                         <Grid item xs={12} sm={4} lg={3}>
                             <Stack spacing={1} textAlign='center'>
                                 <InputLabel>{t(`system.workTime.workDays`)}</InputLabel>

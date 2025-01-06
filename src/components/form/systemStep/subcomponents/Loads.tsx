@@ -17,7 +17,7 @@ export default function Loads({ selectedSystem }: { selectedSystem: keyof ISyste
         <InputGroup
             title={t(`system.subheader.loads`)}
             content={
-                <Stack spacing={2}>
+                <Stack spacing={4}>
                     <Box>
                         <Stack alignItems='center'>
                             <img style={{ width: '100%', maxWidth: 800 }} src={LoadDimensionPicture} alt="load dimensions" />

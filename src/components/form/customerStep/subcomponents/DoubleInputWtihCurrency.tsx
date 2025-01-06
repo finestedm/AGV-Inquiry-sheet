@@ -1,5 +1,5 @@
 import React from "react";
-import { InputAdornment, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material";
+import { Divider, InputAdornment, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import { RootState } from "../../../../features/redux/store";
@@ -16,6 +16,23 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
     const { t, i18n } = useTranslation();
     const currentLanguage = i18n.language;
 
+
+    const formatNumberWithSpaces = (value: string) => {
+        // Remove all non-digit characters (including spaces and commas)
+        const cleanValue = value.replace(/\D/g, '');
+        // Format the number with spaces every 3 digits
+        return cleanValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        // Remove spaces from the value to process it as a clean number
+        const cleanValue = value.replace(/\D/g, '');
+        dispatch(handleInputMethod({ path: `customer.${inputKey}`, value: cleanValue }));
+    };
+
+    const formattedValue = formatNumberWithSpaces(customer[inputKey] === undefined ? '' : String(customer[inputKey]));
+
     const currencyByLanguage =
         currencies.filter((currency) => currency.countries.includes(currentLanguage))?.[0]?.currency || "EUR";
 
@@ -26,28 +43,19 @@ export function DoubleInputWithCurrency({ inputKey, perYear }: { inputKey: keyof
                 fullWidth
                 size="small"
                 name={inputKey}
-                type="number"
+                type="text"
                 disabled={!editMode}
-                value={
-                    customer[inputKey] === undefined
-                        ? ""
-                        : trimLeadingZeros(Number(customer[inputKey]))
-                }
-                onChange={(e) => {
-                    dispatch(
-                        handleInputMethod({
-                            path: `customer.${inputKey}`,
-                            value: e.target.value.replace(/\D/g, ""),
-                        })
-                    );
-                }}
+                value={formattedValue}
+                onChange={handleInputChange}
                 InputProps={{
                     endAdornment: (
-                        <InputAdornment position="end">
+                        <InputAdornment position="end"
+                            sx={{ minWidth: "12ch", height: "2.4rem" }}
+                        >
+                            <Divider orientation="vertical" />
                             <Select
                                 disableUnderline
                                 size="small"
-                                sx={{ minWidth: "12ch", height: "2.4rem" }}
                                 value={customer.currency ? customer.currency : currencyByLanguage}
                                 disabled={!editMode}
                                 onChange={(e) => {

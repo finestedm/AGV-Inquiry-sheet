@@ -23,7 +23,7 @@ export default function FormSalesUnitStep(): JSX.Element {
             <InputGroup
                 title={t('customer.subheader.teleaddress')}
                 content={
-                    <Stack spacing={2}>
+                    <Stack spacing={4}>
                         <CustomTextField
                             disabled
                             required
