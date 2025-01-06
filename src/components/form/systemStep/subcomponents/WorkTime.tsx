@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Box, CircularProgress, CircularProgressProps, Grid, InputLabel, Slider, Stack, Typography, useTheme } from "@mui/material";
+import { Box, CircularProgress, CircularProgressProps, Grid, InputLabel, LinearProgress, Slider, Stack, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
@@ -11,6 +11,7 @@ import InputGroup from "../../InputGroup";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import theme from "../../../../theme";
+import tinycolor from "tinycolor2";
 
 
 export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISystems }) {
@@ -29,7 +30,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
 
     const [circularValue, setCircularValue] = useState(0)
     useEffect(() => {
-        setCircularValue(tempShiftsPerDay * tempHoursPerShift * tempWorkDays)
+        setCircularValue((((tempShiftsPerDay * tempHoursPerShift * tempWorkDays) - 0) * 100) / (8 * 3 * 7 - 0))
     }, [tempShiftsPerDay, tempHoursPerShift, tempWorkDays])
 
     useEffect(() => {
@@ -105,13 +106,27 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                         <Grid item xs={12} sm={12} lg={3}>
                             <Stack spacing={1} textAlign='left'>
                                 <InputLabel>{t(`system.workTime.hoursPerWeek`)}</InputLabel>
-                                <Stack direction='row' justifyContent='space-evenly' alignItems='center' sx={{ p: '.25rem' }}>
-                                    <Box>
-                                        <ArcProgress
-                                            value={circularValue}
-                                        />
-                                    </Box>
-                                </Stack>
+                                <Box position='relative'>
+                                    <LinearProgress
+                                        color={circularValue < 50 ? 'error' : 'success'}
+                                        variant="determinate"
+                                        value={circularValue}
+                                        sx={{ height: '2rem', borderRadius: theme.shape.borderRadius }}
+                                    />
+                                    <Typography
+                                        variant="h6"
+                                        color={circularValue < 50 ? tinycolor(theme.palette.error.main).lighten(20).toRgbString() : tinycolor(theme.palette.success.main).darken(42).toRgbString()}
+                                        position='absolute'
+                                        top='50%'
+                                        left='50%'
+                                        sx={{
+                                            transform: 'translate(-50%, -50%)', // Center the text
+                                            textAlign: 'center', // Optional: ensure the text is centered if it spans multiple lines
+                                        }}
+                                    >
+                                        {tempShiftsPerDay * tempHoursPerShift * tempWorkDays} h
+                                    </Typography>
+                                </Box>
                             </Stack>
                         </Grid>
                     </Grid>
