@@ -4,7 +4,6 @@ import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
 
-
 const initialFormDataState: IFormData = {
 
     version: '241119beta',
