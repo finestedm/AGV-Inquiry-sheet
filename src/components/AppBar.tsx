@@ -60,127 +60,127 @@ export default function TopBar(): JSX.Element {
         setAnchorElUser(null);
     };
 
-      function findDifferences(past: any, current: any): any {
+    function findDifferences(past: any, current: any): any {
         const differences: any = {};
-      
+
         Object.keys({ ...past, ...current }).forEach((key) => {
-          if (typeof past[key] === 'object' && typeof current[key] === 'object' && past[key] && current[key]) {
-            const nestedDiff = findDifferences(past[key], current[key]);
-            if (Object.keys(nestedDiff).length > 0) {
-              differences[key] = nestedDiff;
+            if (typeof past[key] === 'object' && typeof current[key] === 'object' && past[key] && current[key]) {
+                const nestedDiff = findDifferences(past[key], current[key]);
+                if (Object.keys(nestedDiff).length > 0) {
+                    differences[key] = nestedDiff;
+                }
+            } else if (past[key] !== current[key]) {
+                differences[key] = true; // Simplify to mark as changed
             }
-          } else if (past[key] !== current[key]) {
-            differences[key] = true; // Simplify to mark as changed
-          }
         });
-      
+
         return differences;
-      }
-        
-      function getChangedKeys(differences: any, parentKey = ''): string[] {
+    }
+
+    function getChangedKeys(differences: any, parentKey = ''): string[] {
         return Object.entries(differences).flatMap(([key, value]) => {
-          const fullKey = parentKey ? `${parentKey}.${key}` : key;
-      
-          if (value === true) {
-            // Base case: A changed key
-            return fullKey;
-          } else if (typeof value === 'object') {
-            // Recursive case: Dive deeper
-            return getChangedKeys(value, fullKey);
-          }
-      
-          return [];
+            const fullKey = parentKey ? `${parentKey}.${key}` : key;
+
+            if (value === true) {
+                // Base case: A changed key
+                return fullKey;
+            } else if (typeof value === 'object') {
+                // Recursive case: Dive deeper
+                return getChangedKeys(value, fullKey);
+            }
+
+            return [];
         });
-      }
-      
-      function mapPathToStep(changedPath: string) {
+    }
+
+    function mapPathToStep(changedPath: string) {
         for (const step of allPossibleSteps) {
-          if (changedPath.startsWith(step) || changedPath.startsWith(`system.${step}`)) {
-            // Handle special cases for 'system.asrs', 'system.agv', etc.
-            return ['agv', 'asrs', 'lrkprk', 'autovna'].includes(changedPath.split('.')[1]) ? changedPath.split('.')[1] : step;
-          }
+            if (changedPath.startsWith(step) || changedPath.startsWith(`system.${step}`)) {
+                // Handle special cases for 'system.asrs', 'system.agv', etc.
+                return ['agv', 'asrs', 'lrkprk', 'autovna'].includes(changedPath.split('.')[1]) ? changedPath.split('.')[1] : step;
+            }
         }
         return null; // Return null if no matching step is found
-      }
+    }
 
-      function handleUndo() {
+    function handleUndo() {
         const state = store.getState();
         const { formData } = state; // Get formData state
         const pastState = formData.past.length > 0 ? formData.past[formData.past.length - 1] : null
 
         if (pastState) {
-          // Detect changes between the past and present states
-          const differences = findDifferences(pastState, formData.present); // Compare past and present
-          const changedKeys = getChangedKeys(differences);
-      
-          if (changedKeys.length > 0) {
+            // Detect changes between the past and present states
+            const differences = findDifferences(pastState, formData.present); // Compare past and present
+            const changedKeys = getChangedKeys(differences);
+
+            if (changedKeys.length > 0) {
 
                 // Map the changed path to a step
                 const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
                 if (step) {
-                  // Dispatch to change the current step
-                  dispatch(setCurrentStep(step));
+                    // Dispatch to change the current step
+                    dispatch(setCurrentStep(step));
                 }
 
-            dispatch(
-              openSnackbar({
-                message: `${t('ui.snackBar.message.undoChanges')}: ${changedKeys.join(', ')}`,
-                severity: 'info',
-              })
-            );
-            // Dispatch the undo action
-            dispatch(ActionCreators.undo());
-          } else {
-          dispatch(
-            openSnackbar({
-              message: `${t('ui.snackBar.message.noUndoableStates')}`,
-              severity: 'warning',
-            })
-          );
+                dispatch(
+                    openSnackbar({
+                        message: `${t('ui.snackBar.message.undoChanges')}: ${changedKeys.join(', ')}`,
+                        severity: 'info',
+                    })
+                );
+                // Dispatch the undo action
+                dispatch(ActionCreators.undo());
+            } else {
+                dispatch(
+                    openSnackbar({
+                        message: `${t('ui.snackBar.message.noUndoableStates')}`,
+                        severity: 'warning',
+                    })
+                );
+            }
         }
     }
-      }
-      
-      
-      function handleRedo() {
+
+
+    function handleRedo() {
         const state = store.getState();
         const { formData } = state; // Get formData state
         const futureState = formData.future.length > 0 ? formData.future[formData.future.length - 1] : null;
-      
+
         if (futureState) {
-          // Detect changes between the future and present states
-          const differences = findDifferences(futureState, formData.present); // Compare future and present
-          const changedKeys = getChangedKeys(differences);
-      
-          if (changedKeys.length > 0) {
-            // Map the changed path to a step
-            const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
-            if (step) {
-              // Dispatch to change the current step
-              dispatch(setCurrentStep(step));
+            // Detect changes between the future and present states
+            const differences = findDifferences(futureState, formData.present); // Compare future and present
+            const changedKeys = getChangedKeys(differences);
+
+            if (changedKeys.length > 0) {
+                // Map the changed path to a step
+                const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
+                if (step) {
+                    // Dispatch to change the current step
+                    dispatch(setCurrentStep(step));
+                }
+
+                // Display the changed keys in the snackbar
+                dispatch(
+                    openSnackbar({
+                        message: `${t('ui.snackBar.message.redoChanges')}: ${changedKeys.join(', ')}`,
+                        severity: 'info',
+                    })
+                );
+                // Dispatch the redo action
+                dispatch(ActionCreators.redo());
+            } else {
+                dispatch(
+                    openSnackbar({
+                        message: `${t('ui.snackBar.message.noRedoableStates')}`,
+                        severity: 'warning',
+                    })
+                );
             }
-      
-            // Display the changed keys in the snackbar
-            dispatch(
-              openSnackbar({
-                message: `${t('ui.snackBar.message.redoChanges')}: ${changedKeys.join(', ')}`,
-                severity: 'info',
-              })
-            );
-            // Dispatch the redo action
-            dispatch(ActionCreators.redo());
-          } else {
-            dispatch(
-              openSnackbar({
-                message: `${t('ui.snackBar.message.noRedoableStates')}`,
-                severity: 'warning',
-              })
-            );
-          }
         }
-      }
-      
-      
+    }
+
+
 
     const canUndo = formDataAll.past.length > 0;
     const canRedo = formDataAll.future.length > 0;
@@ -236,6 +236,7 @@ export default function TopBar(): JSX.Element {
                     if (loadedData.version === formData.version) {
                         dispatch(setFormData(loadedData));
                         dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoaded'), severity: 'success' }));
+                        dispatch(ActionCreators.clearHistory()); 
                     } else {
                         dispatch(openSnackbar({ message: t('ui.snackBar.message.fileLoadError.wrongVersion'), severity: 'error' }));
                     }
@@ -437,7 +438,7 @@ export default function TopBar(): JSX.Element {
                                     disabled={!canUndo}
                                     startIcon={<UndoIcon />}
                                 >
-                                    
+
                                 </Button>
                                 <Button
                                     startIcon={<DeleteOutlineIcon />}
@@ -454,7 +455,7 @@ export default function TopBar(): JSX.Element {
                                     disabled={!canRedo}
                                     startIcon={<RedoIcon />}
                                 >
-                                    
+
                                 </Button>
                             </ButtonGroup>
                             <Divider orientation="vertical" />
