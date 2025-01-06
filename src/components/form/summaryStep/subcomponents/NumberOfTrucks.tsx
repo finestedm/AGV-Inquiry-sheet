@@ -5,7 +5,7 @@ import { IFlow } from "../../../../features/interfaces";
 import { useEffect, useState } from "react";
 
 export default function NumberOfTrucks() {
-    const AGVFormData = useSelector((state: RootState) => state.formData.system.agv)
+    const AGVFormData = useSelector((state: RootState) => state.formData.present.system.agv)
     const flows = AGVFormData.flow
     const truckSpeed = 2 // m/s
     const pickUpStationOperationTime = 30 // seconds

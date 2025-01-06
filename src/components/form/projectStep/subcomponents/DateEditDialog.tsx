@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
 import { ExtendedTask, IMilestones } from "../../../../features/interfaces";
 import dayjs, { Dayjs } from "dayjs";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { DateCalendar, DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { handleDateChanges } from "../../../../features/redux/reducers/formDataSlice";
@@ -16,7 +16,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
     const { t } = useTranslation();
-    const formData = useSelector((state: RootState) => state.formData);
+    const formData = useSelector((state: RootState) => state.formData.present);
     const editMode = useSelector((state: RootState) => state.editMode);
     const taskId = selectedTask.id as keyof IMilestones
     const [startDate, setStartDate] = useState<Dayjs>(dayjs(formData.project.milestones[taskId].start) || dayjs(new Date()))
@@ -93,7 +93,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                         value={startDate}
                                         disablePast
                                         disabled={!editMode}
-                                        onChange={(date) => date && setStartDate(date)}
+                                        onChange={(date: SetStateAction<dayjs.Dayjs>) => date && setStartDate(date)}
                                     />
                                 </Stack>
                                 {selectedTask.id !== 'order' && 
@@ -103,7 +103,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                         value={endDate}
                                         disablePast
                                         disabled={!editMode}
-                                        onChange={(date) => date && setEndDate(date)}
+                                        onChange={(date: SetStateAction<dayjs.Dayjs>) => date && setEndDate(date)}
                                     />
                                 </Stack>
                                 }
@@ -128,7 +128,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                     value={startDate}
                                                     disablePast
                                                     disabled={!editMode}
-                                                    onChange={(date) => date && setStartDate(date)}
+                                                    onChange={(date: SetStateAction<dayjs.Dayjs>) => date && setStartDate(date)}
                                                     disableOpenPicker
                                                 />
                                                 <Box flex={1} justifyContent='center'>
@@ -139,7 +139,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                         // views={['month', 'year']}
                                                         // openTo="month"
                                                         value={startDate}
-                                                        onChange={(date) => date && setStartDate(date)}
+                                                        onChange={(date: SetStateAction<dayjs.Dayjs>) => date && setStartDate(date)}
                                                     />
                                                 </Box>
                                             </Stack>
@@ -154,7 +154,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                     value={startDate}
                                                     disablePast
                                                     disabled={!editMode}
-                                                    onChange={(date) => date && setStartDate(date)}
+                                                    onChange={(date: SetStateAction<dayjs.Dayjs>) => date && setStartDate(date)}
                                                     disableOpenPicker
                                                 />
                                                 <Box flex={1} justifyContent='center'>
@@ -165,7 +165,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                         // views={['month', 'year']}
                                                         // openTo="month"
                                                         value={startDate}
-                                                        onChange={(date) => date && setStartDate(date)}
+                                                        onChange={(date: SetStateAction<dayjs.Dayjs>) => date && setStartDate(date)}
                                                     // onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: date, end: formData.project.milestones[taskId].end }))}
                                                     />
                                                 </Box>
@@ -178,7 +178,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                     value={endDate}
                                                     disablePast
                                                     disabled={!editMode}
-                                                    onChange={(date) => date && setEndDate(date)}
+                                                    onChange={(date: SetStateAction<dayjs.Dayjs>) => date && setEndDate(date)}
                                                     disableOpenPicker
                                                 />
                                                 <Box flex={1} justifyContent='center'>
@@ -189,7 +189,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                         // openTo="month"
                                                         disablePast
                                                         value={endDate}
-                                                        onChange={(date) => date && setEndDate(date)}
+                                                        onChange={(date: SetStateAction<dayjs.Dayjs>) => date && setEndDate(date)}
                                                     // onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}
                                                     />
                                                 </Box>
