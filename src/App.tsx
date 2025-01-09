@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Form from './components/form/Form';
 import TopBar from './components/AppBar';
 import { I18nextProvider } from 'react-i18next';
-import i18n from 'i18next';
+import i18n, { t } from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import pl from './features/multilanguage/pl.json'
 import en from './features/multilanguage/en.json'
@@ -12,7 +12,7 @@ import theme, { themeDark } from './theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import MobileScrollButton from './components/MobileScrollButton';
 import { useSelector } from 'react-redux';
-import { RootState } from './features/redux/store';
+import store, { RootState } from './features/redux/store';
 import DeleteLoadWarningDialog from './components/form/systemStep/subcomponents/DeleteLoadWarningDialog';
 import SimpleSnackbar from './components/SnackBar';
 import { useDispatch } from 'react-redux';
@@ -20,6 +20,9 @@ import { loadFormDataFromLocalStorage, saveFormDataToLocalStorage } from './feat
 import { setFormData } from './features/redux/reducers/formDataSlice';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { ActionCreators } from 'redux-undo';
+import { openSnackbar } from './features/redux/reducers/snackBarSlice';
+import { setCurrentStep } from './features/redux/reducers/stepsSlice';
+import { findDifferences, getChangedKeys, mapPathToStep } from './features/undo-redo/methods';
 
 // Configure i18next
 i18n
@@ -82,10 +85,10 @@ function App() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === "z") {
         e.preventDefault();
-        dispatch(ActionCreators.undo());
+        handleUndo();
       } else if (e.ctrlKey && e.key === "y") {
         e.preventDefault();
-        dispatch(ActionCreators.redo());
+        handleRedo();
       }
     };
 
@@ -95,6 +98,87 @@ function App() {
 
   //
 
+  // undo-redo //
+
+  function handleUndo() {
+    const state = store.getState();
+    const { formData } = state; // Get formData state
+    const pastState = formData.past.length > 0 ? formData.past[formData.past.length - 1] : null
+
+    if (pastState) {
+        // Detect changes between the past and present states
+        const differences = findDifferences(pastState, formData.present); // Compare past and present
+        const changedKeys = getChangedKeys(differences);
+
+        if (changedKeys.length > 0) {
+
+            // Map the changed path to a step
+            const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
+            if (step) {
+                // Dispatch to change the current step
+                dispatch(setCurrentStep(step));
+            }
+
+            dispatch(
+                openSnackbar({
+                    message: `${t('ui.snackBar.message.undoChanges')}: ${changedKeys.join(', ')}`,
+                    severity: 'info',
+                })
+            );
+            // Dispatch the undo action
+            dispatch(ActionCreators.undo());
+        } else {
+            dispatch(
+                openSnackbar({
+                    message: `${t('ui.snackBar.message.noUndoableStates')}`,
+                    severity: 'warning',
+                })
+            );
+        }
+    }
+}
+
+
+function handleRedo() {
+    const state = store.getState();
+    const { formData } = state; // Get formData state
+    const futureState = formData.future.length > 0 ? formData.future[formData.future.length - 1] : null;
+
+    if (futureState) {
+        // Detect changes between the future and present states
+        const differences = findDifferences(futureState, formData.present); // Compare future and present
+        const changedKeys = getChangedKeys(differences);
+
+        if (changedKeys.length > 0) {
+            // Map the changed path to a step
+            const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
+            if (step) {
+                // Dispatch to change the current step
+                dispatch(setCurrentStep(step));
+            }
+
+            // Display the changed keys in the snackbar
+            dispatch(
+                openSnackbar({
+                    message: `${t('ui.snackBar.message.redoChanges')}: ${changedKeys.join(', ')}`,
+                    severity: 'info',
+                })
+            );
+            // Dispatch the redo action
+            dispatch(ActionCreators.redo());
+        } else {
+            dispatch(
+                openSnackbar({
+                    message: `${t('ui.snackBar.message.noRedoableStates')}`,
+                    severity: 'warning',
+                })
+            );
+        }
+    }
+}
+
+// udno-redo //
+
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={darkMode ? themeDark : theme}>
@@ -103,7 +187,7 @@ function App() {
           <div className="App">
             <SimpleSnackbar />
             <DeleteLoadWarningDialog />
-            <TopBar />
+            <TopBar handleUndo={handleUndo} handleRedo={handleRedo}/>
             <Form />
             <MobileScrollButton />
           </div>
