@@ -345,7 +345,7 @@ theme = createTheme({
         MuiButtonGroup: {
             styleOverrides: {
                 root: {
-                    boxShadow: shadow1,
+                        boxShadow: 'none',
                 }
             }
         },
@@ -751,6 +751,13 @@ export const themeDark = createTheme({
                     backgroundColor: paperColorDark,
                     border: `${borderStandard} ${customGreyPaletteDark[700]}`,
                     overflow: 'hidden'
+                }
+            }
+        },
+        MuiButtonGroup: {
+            styleOverrides: {
+                root: {
+                        boxShadow: 'none',
                 }
             }
         },
