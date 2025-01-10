@@ -114,37 +114,7 @@ export default function Form(): JSX.Element {
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
-            <Container component='form' maxWidth={false}>
-                <Stack direction='row'>
-                <Drawer
-                  sx={{
-                    width: 300,
-                    '& .MuiDrawer-paper': {
-                      width: 300,
-                      boxSizing: 'border-box',
-                    },
-                  }}
-                  variant="permanent"
-                  anchor="left"
-                >
-                  <Toolbar />
-                  <Divider />
-                  <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                      <ListItem key={text} disablePadding>
-                        {text}
-                      </ListItem>
-                    ))}
-                  </List>
-                  <Divider />
-                  <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                      <ListItem key={text} disablePadding>
-                          {text}
-                      </ListItem>
-                    ))}
-                  </List>
-                </Drawer>
+                
                 <Box width='100%'>
                   <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
                         {/* <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} /> */}
@@ -193,8 +163,6 @@ export default function Form(): JSX.Element {
               </Box>
 
               <ScrollButton />
-              </Stack>
-            </Container >
           </FormikForm>
         )}
       </Formik>

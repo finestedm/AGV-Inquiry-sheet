@@ -9,7 +9,7 @@ import pl from './features/multilanguage/pl.json'
 import en from './features/multilanguage/en.json'
 import de from './features/multilanguage/de.json'
 import theme, { themeDark } from './theme';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { Box, Card, CssBaseline, Divider, Drawer, List, ListItem, Paper, Stack, ThemeProvider, Toolbar } from '@mui/material';
 import MobileScrollButton from './components/MobileScrollButton';
 import { useSelector } from 'react-redux';
 import store, { RootState } from './features/redux/store';
@@ -187,8 +187,42 @@ function handleRedo() {
           <div className="App">
             <SimpleSnackbar />
             <DeleteLoadWarningDialog />
-            <TopBar handleUndo={handleUndo} handleRedo={handleRedo}/>
-            <Form />
+            <Box>
+              <Drawer
+                  sx={{
+                    '& .MuiDrawer-paper': {
+                      backgroundColor: 'transparent',
+                      width: 200,
+                      border: 'none'
+                    }
+                  }}
+                  anchor="left"
+                  variant="permanent"
+                >
+                  <Toolbar />
+                  <Divider />
+                  <List sx={{width: '100%'}}>
+                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                      <ListItem key={text} disablePadding>
+                        {text}
+                      </ListItem>
+                    ))}
+                  </List>
+                  <Divider />
+                  <List>
+                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                      <ListItem key={text} disablePadding>
+                          {text}
+                      </ListItem>
+                    ))}
+                  </List>
+              </Drawer>
+            <Card sx={{p: 2, m: 1, overflow: 'hidden', height: '60%', width: `calc(100% - 225px)`, ml: '215px'}}>
+              <TopBar handleUndo={handleUndo} handleRedo={handleRedo}/>
+              <Form />
+
+            </Card>
+            </Box>
             <MobileScrollButton />
           </div>
         </Router>

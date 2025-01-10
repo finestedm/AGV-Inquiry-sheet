@@ -133,7 +133,7 @@ export default function TopBar({handleUndo, handleRedo}: {handleUndo: () => void
     }
 
     return (
-        <AppBar position="static" color="default">
+        <AppBar position="static" color="default" >
                 <Toolbar disableGutters>
             {/* <Container maxWidth="xl">
                 <Toolbar disableGutters>
