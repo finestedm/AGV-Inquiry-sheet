@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, Container, Divider, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Card, Checkbox, Container, Divider, Drawer, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "../FormStepper";
 import FormSalesUnitStep from "./salesUnitStep/FormSalesUnitStep";
@@ -114,56 +114,86 @@ export default function Form(): JSX.Element {
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
-            <Container component='form' maxWidth='xl'>
-              <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
-                <Box>
-                  <Grid container spacing={6} direction='row'>
-                    <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
-                    <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
-                      <Grid item xs md={8} lg={9}>
-                        <Routes>
-                          <Route path="/sales" element={<FormSalesUnitStep />} />
-                          <Route path="/customer" element={<FormCustomerStep />} />
-                          <Route path="/project" element={<FormProjectStep />} />
-                          <Route path="/system" element={<FormSystemSelectorStep />} />
-                          {Object.keys(systemSteps).map(system => (
-                            <Route
-                              path={`/${system}`}
-                              element={
-                                activeSystemStepNames.includes(system) ?
-                                  <FormSystemStep selectedSystem={system as keyof ISystems} />
-                                  :
-                                  <Navigate to='/' />
-                              }
-                            />
-                          ))}
-                          <Route path="/media" element={<FormMediaStep />} />
-                          <Route path="/summary" element={<FormSummaryStep />} />
-                          <Route path="/*" element={<FormSalesUnitStep />} />
-                        </Routes>
-                      </Grid>
-                    </Grow>
-                  </Grid>
-                </Box>
-                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                  <Divider sx={{ mb: 4 }} />
-                  <Stack direction='row'>
-                    {steps.currentStep !== allSteps[0] && (
-                      <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
-                        {t('ui.button.back')}
-                      </Button>
-                    )}
-                    {steps.currentStep !== allSteps[allSteps.length - 1] && (
-                      <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
-                        disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
-                      >
-                        {t('ui.button.next')}
-                      </Button>
-                    )}
+            <Container component='form' maxWidth={false}>
+                <Stack direction='row'>
+                <Drawer
+                  sx={{
+                    width: 300,
+                    '& .MuiDrawer-paper': {
+                      width: 300,
+                      boxSizing: 'border-box',
+                    },
+                  }}
+                  variant="permanent"
+                  anchor="left"
+                >
+                  <Toolbar />
+                  <Divider />
+                  <List>
+                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                      <ListItem key={text} disablePadding>
+                        {text}
+                      </ListItem>
+                    ))}
+                  </List>
+                  <Divider />
+                  <List>
+                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                      <ListItem key={text} disablePadding>
+                          {text}
+                      </ListItem>
+                    ))}
+                  </List>
+                </Drawer>
+                <Box width='100%'>
+                  <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
+                        {/* <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} /> */}
+                        <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
+                          <Box>
+                            <Routes>
+                              <Route path="/sales" element={<FormSalesUnitStep />} />
+                              <Route path="/customer" element={<FormCustomerStep />} />
+                              <Route path="/project" element={<FormProjectStep />} />
+                              <Route path="/system" element={<FormSystemSelectorStep />} />
+                              {Object.keys(systemSteps).map(system => (
+                                <Route
+                                  path={`/${system}`}
+                                  element={
+                                    activeSystemStepNames.includes(system) ?
+                                      <FormSystemStep selectedSystem={system as keyof ISystems} />
+                                      :
+                                      <Navigate to='/' />
+                                  }
+                                />
+                              ))}
+                              <Route path="/media" element={<FormMediaStep />} />
+                              <Route path="/summary" element={<FormSummaryStep />} />
+                              <Route path="/*" element={<FormSalesUnitStep />} />
+                            </Routes>
+                          </Box>
+                        </Grow>
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                      <Divider sx={{ mb: 4 }} />
+                      <Stack direction='row'>
+                        {steps.currentStep !== allSteps[0] && (
+                          <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
+                            {t('ui.button.back')}
+                          </Button>
+                        )}
+                        {steps.currentStep !== allSteps[allSteps.length - 1] && (
+                          <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
+                            disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
+                          >
+                            {t('ui.button.next')}
+                          </Button>
+                        )}
+                      </Stack>
+                    </Box>
                   </Stack>
-                </Box>
-              </Stack>
+              </Box>
+
               <ScrollButton />
+              </Stack>
             </Container >
           </FormikForm>
         )}

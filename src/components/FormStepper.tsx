@@ -7,10 +7,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 
 interface FormStepperProps {
-  mobile: boolean;
-  handleStepClick: (step: string) => void;
-  handleBack: () => void;
-  handleNext: () => void;
+  mobile?: boolean;
+  handleStepClick?: (step: string) => void;
+  handleBack?: () => void;
+  handleNext?: () => void;
 }
 
 
@@ -40,12 +40,12 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
             position="static"
             activeStep={activeStepIndex || 0}
             nextButton={
-              <Button sx={{borderRadius: 1000}} variant="outlined" color="primary" onClick={() => handleNext()}>
+              <Button sx={{borderRadius: 1000}} variant="outlined" color="primary" onClick={() => console.log('pies')}>
                 <KeyboardArrowRight />
               </Button>
             }
             backButton={
-              <Button sx={{borderRadius: 1000}} variant="outlined" color="primary" onClick={() => handleBack()}>
+              <Button sx={{borderRadius: 1000}} variant="outlined" color="primary" onClick={() => console.log('pies')}>
                 <KeyboardArrowLeft />
               </Button>
             }
@@ -55,13 +55,12 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
     );
   } else {
     return (
-      <Grid item xs sx={{ display: { xs: 'none', md: 'block' } }}>
-        <Card elevation={1} sx={{ p: 3, position: 'sticky', top: 48 }}>
-          <Stepper activeStep={activeStepIndex || 0} orientation="vertical" nonLinear>
+      <Box width='100%'>
+          <Stepper activeStep={activeStepIndex || 0} nonLinear>
             {allSteps.map((label) => (
               <Step key={label}>
                 <StepLabel
-                  onClick={() => handleStepClick(label)}
+                  onClick={() => console.log(label)}
                   sx={{ cursor: 'pointer' }} // Add cursor pointer style
 
                 >
@@ -70,8 +69,7 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
               </Step>
             ))}
           </Stepper>
-        </Card>
-      </Grid>
+          </Box>
     );
   }
 }
