@@ -55,8 +55,8 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
     );
   } else {
     return (
-      <Box width='100%'>
-          <Stepper activeStep={activeStepIndex || 0} nonLinear>
+      <Box width='100%' py={2}>
+          <Stepper activeStep={activeStepIndex || 0} nonLinear alternativeLabel>
             {allSteps.map((label) => (
               <Step key={label}>
                 <StepLabel

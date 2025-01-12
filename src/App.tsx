@@ -23,6 +23,7 @@ import { ActionCreators } from 'redux-undo';
 import { openSnackbar } from './features/redux/reducers/snackBarSlice';
 import { setCurrentStep } from './features/redux/reducers/stepsSlice';
 import { findDifferences, getChangedKeys, mapPathToStep } from './features/undo-redo/methods';
+import Sidebar from './components/Sidebar';
 
 // Configure i18next
 i18n
@@ -106,78 +107,78 @@ function App() {
     const pastState = formData.past.length > 0 ? formData.past[formData.past.length - 1] : null
 
     if (pastState) {
-        // Detect changes between the past and present states
-        const differences = findDifferences(pastState, formData.present); // Compare past and present
-        const changedKeys = getChangedKeys(differences);
+      // Detect changes between the past and present states
+      const differences = findDifferences(pastState, formData.present); // Compare past and present
+      const changedKeys = getChangedKeys(differences);
 
-        if (changedKeys.length > 0) {
+      if (changedKeys.length > 0) {
 
-            // Map the changed path to a step
-            const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
-            if (step) {
-                // Dispatch to change the current step
-                dispatch(setCurrentStep(step));
-            }
-
-            dispatch(
-                openSnackbar({
-                    message: `${t('ui.snackBar.message.undoChanges')}: ${changedKeys.join(', ')}`,
-                    severity: 'info',
-                })
-            );
-            // Dispatch the undo action
-            dispatch(ActionCreators.undo());
-        } else {
-            dispatch(
-                openSnackbar({
-                    message: `${t('ui.snackBar.message.noUndoableStates')}`,
-                    severity: 'warning',
-                })
-            );
+        // Map the changed path to a step
+        const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
+        if (step) {
+          // Dispatch to change the current step
+          dispatch(setCurrentStep(step));
         }
+
+        dispatch(
+          openSnackbar({
+            message: `${t('ui.snackBar.message.undoChanges')}: ${changedKeys.join(', ')}`,
+            severity: 'info',
+          })
+        );
+        // Dispatch the undo action
+        dispatch(ActionCreators.undo());
+      } else {
+        dispatch(
+          openSnackbar({
+            message: `${t('ui.snackBar.message.noUndoableStates')}`,
+            severity: 'warning',
+          })
+        );
+      }
     }
-}
+  }
 
 
-function handleRedo() {
+  function handleRedo() {
     const state = store.getState();
     const { formData } = state; // Get formData state
     const futureState = formData.future.length > 0 ? formData.future[formData.future.length - 1] : null;
 
     if (futureState) {
-        // Detect changes between the future and present states
-        const differences = findDifferences(futureState, formData.present); // Compare future and present
-        const changedKeys = getChangedKeys(differences);
+      // Detect changes between the future and present states
+      const differences = findDifferences(futureState, formData.present); // Compare future and present
+      const changedKeys = getChangedKeys(differences);
 
-        if (changedKeys.length > 0) {
-            // Map the changed path to a step
-            const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
-            if (step) {
-                // Dispatch to change the current step
-                dispatch(setCurrentStep(step));
-            }
-
-            // Display the changed keys in the snackbar
-            dispatch(
-                openSnackbar({
-                    message: `${t('ui.snackBar.message.redoChanges')}: ${changedKeys.join(', ')}`,
-                    severity: 'info',
-                })
-            );
-            // Dispatch the redo action
-            dispatch(ActionCreators.redo());
-        } else {
-            dispatch(
-                openSnackbar({
-                    message: `${t('ui.snackBar.message.noRedoableStates')}`,
-                    severity: 'warning',
-                })
-            );
+      if (changedKeys.length > 0) {
+        // Map the changed path to a step
+        const step = mapPathToStep(changedKeys[0]); // Use the first changed path as an example
+        if (step) {
+          // Dispatch to change the current step
+          dispatch(setCurrentStep(step));
         }
-    }
-}
 
-// udno-redo //
+        // Display the changed keys in the snackbar
+        dispatch(
+          openSnackbar({
+            message: `${t('ui.snackBar.message.redoChanges')}: ${changedKeys.join(', ')}`,
+            severity: 'info',
+          })
+        );
+        // Dispatch the redo action
+        dispatch(ActionCreators.redo());
+      } else {
+        dispatch(
+          openSnackbar({
+            message: `${t('ui.snackBar.message.noRedoableStates')}`,
+            severity: 'warning',
+          })
+        );
+      }
+    }
+  }
+
+  // udno-redo //
 
   return (
     <I18nextProvider i18n={i18n}>
@@ -185,44 +186,15 @@ function handleRedo() {
         <CssBaseline />
         <Router>
           <div className="App">
+            <Stack direction='row'>
+              <Sidebar handleRedo={handleRedo} handleUndo={handleUndo}/>
+              <Card sx={{ p: 2, mt: 1, mb: 1, mr: 1, ml: 0, overflow: 'hidden', height: '60%', width: '100%'}}>
+                <TopBar handleUndo={handleUndo} handleRedo={handleRedo} />
+                <Form />
+              </Card>
+            </Stack>
             <SimpleSnackbar />
             <DeleteLoadWarningDialog />
-            <Box>
-              <Drawer
-                  sx={{
-                    '& .MuiDrawer-paper': {
-                      backgroundColor: 'transparent',
-                      width: 200,
-                      border: 'none'
-                    }
-                  }}
-                  anchor="left"
-                  variant="permanent"
-                >
-                  <Toolbar />
-                  <Divider />
-                  <List sx={{width: '100%'}}>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                      <ListItem key={text} disablePadding>
-                        {text}
-                      </ListItem>
-                    ))}
-                  </List>
-                  <Divider />
-                  <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                      <ListItem key={text} disablePadding>
-                          {text}
-                      </ListItem>
-                    ))}
-                  </List>
-              </Drawer>
-            <Card sx={{p: 2, m: 1, overflow: 'hidden', height: '60%', width: `calc(100% - 225px)`, ml: '215px'}}>
-              <TopBar handleUndo={handleUndo} handleRedo={handleRedo}/>
-              <Form />
-
-            </Card>
-            </Box>
             <MobileScrollButton />
           </div>
         </Router>

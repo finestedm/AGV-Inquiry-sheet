@@ -345,7 +345,7 @@ theme = createTheme({
         MuiButtonGroup: {
             styleOverrides: {
                 root: {
-                        boxShadow: 'none',
+                    boxShadow: 'none',
                 }
             }
         },

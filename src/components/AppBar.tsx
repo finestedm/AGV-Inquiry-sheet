@@ -31,7 +31,7 @@ import { allPossibleSteps, setCurrentStep } from "../features/redux/reducers/ste
 import { findDifferences, getChangedKeys, mapPathToStep } from "../features/undo-redo/methods";
 import FormStepper from "./FormStepper";
 
-export default function TopBar({handleUndo, handleRedo}: {handleUndo: () => void, handleRedo: () => void}): JSX.Element {
+export default function TopBar({ handleUndo, handleRedo }: { handleUndo: () => void, handleRedo: () => void }): JSX.Element {
 
     const theme = useTheme();
 
@@ -134,8 +134,8 @@ export default function TopBar({handleUndo, handleRedo}: {handleUndo: () => void
 
     return (
         <AppBar position="static" color="default" >
-                <Toolbar disableGutters>
-            {/* <Container maxWidth="xl">
+            <Toolbar disableGutters>
+                {/* <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' }, justifyContent: 'flex-end', alignContent: 'flex-end' }}>
@@ -346,8 +346,8 @@ export default function TopBar({handleUndo, handleRedo}: {handleUndo: () => void
                     </Box>
                 </Toolbar>
             </Container> */}
-            <FormStepper />
-</Toolbar>
+                <FormStepper />
+            </Toolbar>
             <ClearFormDataDialog />
 
         </AppBar >

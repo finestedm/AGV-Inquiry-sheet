@@ -116,7 +116,7 @@ export default function Form(): JSX.Element {
           <FormikForm>
                 
                 <Box width='100%'>
-                  <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
+                  <Stack spacing={6} sx={{ mt: 5 }}>
                         {/* <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} /> */}
                         <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
                           <Box>
