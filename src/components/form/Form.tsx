@@ -114,51 +114,52 @@ export default function Form(): JSX.Element {
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
-
             <Box width='100%'>
-              <Stack spacing={6} sx={{ mt: 5 }}>
-                <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
-                  <Box>
-                    <Routes>
-                      <Route path="/sales" element={<FormSalesUnitStep />} />
-                      <Route path="/customer" element={<FormCustomerStep />} />
-                      <Route path="/project" element={<FormProjectStep />} />
-                      <Route path="/system" element={<FormSystemSelectorStep />} />
-                      {Object.keys(systemSteps).map(system => (
-                        <Route
-                          path={`/${system}`}
-                          element={
-                            activeSystemStepNames.includes(system) ?
-                              <FormSystemStep selectedSystem={system as keyof ISystems} />
-                              :
-                              <Navigate to='/' />
-                          }
-                        />
-                      ))}
-                      <Route path="/media" element={<FormMediaStep />} />
-                      <Route path="/summary" element={<FormSummaryStep />} />
-                      <Route path="/*" element={<FormSalesUnitStep />} />
-                    </Routes>
+              <Card sx={{ width: '100%', p: isMobile ? 1 : 6 }}>
+                <Stack spacing={6} sx={{ mt: 5 }}>
+                  <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
+                    <Box>
+                      <Routes>
+                        <Route path="/sales" element={<FormSalesUnitStep />} />
+                        <Route path="/customer" element={<FormCustomerStep />} />
+                        <Route path="/project" element={<FormProjectStep />} />
+                        <Route path="/system" element={<FormSystemSelectorStep />} />
+                        {Object.keys(systemSteps).map(system => (
+                          <Route
+                            path={`/${system}`}
+                            element={
+                              activeSystemStepNames.includes(system) ?
+                                <FormSystemStep selectedSystem={system as keyof ISystems} />
+                                :
+                                <Navigate to='/' />
+                            }
+                          />
+                        ))}
+                        <Route path="/media" element={<FormMediaStep />} />
+                        <Route path="/summary" element={<FormSummaryStep />} />
+                        <Route path="/*" element={<FormSalesUnitStep />} />
+                      </Routes>
+                    </Box>
+                  </Grow>
+                  <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                    <Divider sx={{ mb: 4 }} />
+                    <Stack direction='row'>
+                      {steps.currentStep !== allSteps[0] && (
+                        <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
+                          {t('ui.button.back')}
+                        </Button>
+                      )}
+                      {steps.currentStep !== allSteps[allSteps.length - 1] && (
+                        <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
+                          disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
+                        >
+                          {t('ui.button.next')}
+                        </Button>
+                      )}
+                    </Stack>
                   </Box>
-                </Grow>
-                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                  <Divider sx={{ mb: 4 }} />
-                  <Stack direction='row'>
-                    {steps.currentStep !== allSteps[0] && (
-                      <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
-                        {t('ui.button.back')}
-                      </Button>
-                    )}
-                    {steps.currentStep !== allSteps[allSteps.length - 1] && (
-                      <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
-                        disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
-                      >
-                        {t('ui.button.next')}
-                      </Button>
-                    )}
-                  </Stack>
-                </Box>
-              </Stack>
+                </Stack>
+              </Card>
             </Box>
 
             <ScrollButton />

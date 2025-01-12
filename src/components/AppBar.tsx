@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, Button, ButtonGroup, CircularProgress, Container, Divider, FormControl, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
+import { AppBar, Avatar, Box, Button, ButtonGroup, Card, CircularProgress, Container, Divider, FormControl, IconButton, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Select, Stack, Toolbar, Tooltip, Typography, styled, useMediaQuery, useTheme } from "@mui/material"
 import { saveAs } from 'file-saver';
 import SaveIcon from '@mui/icons-material/Save';
 import UploadIcon from '@mui/icons-material/Upload';
@@ -132,13 +132,13 @@ export default function TopBar({ handleUndo, handleRedo }: { handleUndo: () => v
         dispatch(setEditMode(false))
     }
 
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
     return (
-        <AppBar position="static" color="default" >
-            <Toolbar disableGutters>
-                <FormStepper />
-            </Toolbar>
+        <Box >
+            <FormStepper />
             <ClearFormDataDialog />
 
-        </AppBar >
+        </Box >
     )
 }

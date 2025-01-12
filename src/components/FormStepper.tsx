@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Card, Container, Grid, MobileStepper, Paper, Step, StepLabel, Stepper, useTheme } from "@mui/material";
+import { AppBar, Box, Button, Card, Container, Grid, MobileStepper, Paper, Step, StepLabel, Stepper, useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
@@ -8,17 +8,17 @@ import { RootState } from "../features/redux/store";
 import { setCurrentStep } from "../features/redux/reducers/stepsSlice";
 
 interface FormStepperProps {
-  mobile?: boolean;
   handleStepClick?: (step: string) => void;
   handleBack?: () => void;
   handleNext?: () => void;
 }
 
 
-export default function FormStepper({ mobile, handleStepClick, handleBack, handleNext }: FormStepperProps) {
+export default function FormStepper({ handleStepClick, handleBack, handleNext }: FormStepperProps) {
   const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   const allSteps = useSelector((state: RootState) => state.steps.steps)
 
@@ -28,7 +28,7 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
   const nextStep = activeStep ? allSteps[activeStepIndex + 1] : 'sales'
   const prevStep = activeStep ? allSteps[activeStepIndex - 1] : 'sales'
 
-  if (mobile) {
+  if (isMobile) {
     return (
       <Box sx={{ display: { xs: 'block', md: 'none' } }}>
         <AppBar
@@ -59,21 +59,23 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
     );
   } else {
     return (
-      <Box width='100%' py={2}>
-        <Stepper activeStep={activeStepIndex || 0} nonLinear alternativeLabel>
-          {allSteps.map((label) => (
-            <Step key={label}>
-              <StepLabel
-                onClick={() => dispatch(setCurrentStep(label))}
-                sx={{ cursor: 'pointer' }} // Add cursor pointer style
+      <Card sx={{ width: '100%', px: isMobile ? 0 : 6, pt: 1, mb: 4 }}>
+        <Box width='100%' py={2}>
+          <Stepper activeStep={activeStepIndex || 0} nonLinear alternativeLabel>
+            {allSteps.map((label) => (
+              <Step key={label}>
+                <StepLabel
+                  onClick={() => dispatch(setCurrentStep(label))}
+                  sx={{ cursor: 'pointer' }} // Add cursor pointer style
 
-              >
-                {t(`steps.${label}`)}
-              </StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-      </Box>
+                >
+                  {t(`steps.${label}`)}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Box>
+      </Card>
     );
   }
 }

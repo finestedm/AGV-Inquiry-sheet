@@ -1,6 +1,7 @@
 import { Box, Button, Card, CircularProgress, Collapse, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Stack, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import jhLogo from '../images/Jungheinrich-Logo.svg'
 import jhLogoDark from '../images/JH_logo.png'
+import jhLogoSmall from '../images/Jungheinrich-Logo-J_.svg'
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
@@ -137,11 +138,14 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                 flexShrink: 0
             }}
         >
-            <Toolbar>
-                <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
+            <Toolbar sx={{flex: 1, justifyContent: 'center'}}>
+                {isMobile
+                    ? <img src={jhLogoSmall} height='30' alt='JH_logo' />
+                    : <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo'/>
+                }
 
             </Toolbar>
-            <List sx={{ width: '100%' }} subheader={isMobile ? <Divider /> : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Ustawienia</Typography>}>
+            <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? <Divider /> : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Ustawienia</Typography>}>
                 <ListItem disablePadding>
                     <Select
                         sx={{
@@ -177,7 +181,7 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                     text={editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}
                 />
             </List>
-            <List sx={{ width: '100%' }} subheader={isMobile ? <Divider /> : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Zapytanie</Typography>}>
+            <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? <Divider /> : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Zapytanie</Typography>}>
                 <SidebarListItem
                     onClick={() => {
                         const fileInput = document.getElementById('file-input') as HTMLInputElement;
@@ -216,7 +220,7 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                     />
                 }
             </List>
-            <List sx={{ width: '100%' }} subheader={isMobile ? <Divider /> : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Edycja</Typography>}>
+            <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? <Divider /> : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Edycja</Typography>}>
                 <SidebarListItem
                     onClick={handleUndo}
                     disabled={!canUndo}
@@ -251,7 +255,7 @@ export function SidebarListItem({ onClick, icon, text, disabled = false }: Sideb
 
     return (
         <ListItem disablePadding>
-            <ListItemButton sx={{ color: theme.palette.text.secondary, '&:hover': { color: theme.palette.text.primary } }} onClick={onClick} disabled={disabled}>
+            <ListItemButton sx={{ borderRadius: 1, color: theme.palette.text.secondary, '&:hover': { color: theme.palette.text.primary } }} onClick={onClick} disabled={disabled}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 {!isMobile && <ListItemText primary={text} />}
             </ListItemButton>
