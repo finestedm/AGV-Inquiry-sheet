@@ -9,7 +9,7 @@ import pl from './features/multilanguage/pl.json'
 import en from './features/multilanguage/en.json'
 import de from './features/multilanguage/de.json'
 import theme, { themeDark } from './theme';
-import { Box, Card, CssBaseline, Divider, Drawer, List, ListItem, Paper, Stack, ThemeProvider, Toolbar } from '@mui/material';
+import { Box, Card, CssBaseline, Divider, Drawer, List, ListItem, Paper, Stack, ThemeProvider, Toolbar, useMediaQuery } from '@mui/material';
 import MobileScrollButton from './components/MobileScrollButton';
 import { useSelector } from 'react-redux';
 import store, { RootState } from './features/redux/store';
@@ -179,6 +179,8 @@ function App() {
   }
 
   // udno-redo //
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
 
   return (
     <I18nextProvider i18n={i18n}>
@@ -186,17 +188,27 @@ function App() {
         <CssBaseline />
         <Router>
           <div className="App">
-            <Stack direction='row'>
-              <Sidebar handleRedo={handleRedo} handleUndo={handleUndo}/>
-              <Card sx={{ p: 2, mt: 1, mb: 1, mr: 1, ml: 0, overflow: 'hidden', height: '60%', width: '100%'}}>
-                <TopBar handleUndo={handleUndo} handleRedo={handleRedo} />
-                <Form />
-              </Card>
+            <Stack direction="row" sx={{ height: '100vh' }}> {/* Full height of the screen */}
+              {/* Sidebar: fixed width, always on screen */}
+              <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} />
+
+              {/* Main Content: Takes remaining space and scrolls */}
+              <Box sx={{ flexGrow: 1, p: isMobile ? 0 : 1, height: '100%', overflow: 'auto' }}>
+                <Stack spacing={4}>
+                  <Card sx={{ width: '100%', p: isMobile ? 0 : 1 }}>
+                    <TopBar handleUndo={handleUndo} handleRedo={handleRedo} />
+                  </Card>
+                  <Card sx={{ width: '100%', p: isMobile ? 1 : 3 }}>
+                    <Form />
+                  </Card>
+                </Stack>
+              </Box>
             </Stack>
             <SimpleSnackbar />
             <DeleteLoadWarningDialog />
             <MobileScrollButton />
           </div>
+
         </Router>
       </ThemeProvider>
     </I18nextProvider>

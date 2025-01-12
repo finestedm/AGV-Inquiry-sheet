@@ -128,11 +128,13 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
 
     return (
         <Box
+            position='sticky'
             px={isMobile ? 0.25 : 1}
             sx={{
                 backgroundColor: 'transparent',
                 width: isMobile ? 55 : 'clamp(175px, 300px, 350px)',
-                border: 'none'
+                border: 'none',
+                flexShrink: 0
             }}
         >
             <Toolbar>
@@ -144,7 +146,7 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                     <Select
                         sx={{
                             p: .25, backgroundColor: 'transparent', border: 'none', boxShadow: 'none', '& .MuiInputBase-inputSizeSmall': {
-                                padding: '0px'
+                                padding: '0px', 
                             },
                         }}
                         disableUnderline

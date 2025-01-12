@@ -3,8 +3,9 @@ import { useTranslation } from "react-i18next";
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { useLocation } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
+import { setCurrentStep } from "../features/redux/reducers/stepsSlice";
 
 interface FormStepperProps {
   mobile?: boolean;
@@ -17,12 +18,15 @@ interface FormStepperProps {
 export default function FormStepper({ mobile, handleStepClick, handleBack, handleNext }: FormStepperProps) {
   const { t } = useTranslation();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const allSteps = useSelector((state: RootState) => state.steps.steps)
 
   const location = useLocation();  // Use the useLocation hook to get the current path
   const activeStep = location.pathname.split('/').pop();  // Extract the active step from the path
   const activeStepIndex = activeStep ? allSteps.indexOf(activeStep) : 0;
+  const nextStep = activeStep ? allSteps[activeStepIndex + 1] : 'sales'
+  const prevStep = activeStep ? allSteps[activeStepIndex - 1] : 'sales'
 
   if (mobile) {
     return (
@@ -40,12 +44,12 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
             position="static"
             activeStep={activeStepIndex || 0}
             nextButton={
-              <Button sx={{borderRadius: 1000}} variant="outlined" color="primary" onClick={() => console.log('pies')}>
+              <Button sx={{ borderRadius: 1000 }} variant="outlined" color="primary" onClick={() => dispatch(setCurrentStep(nextStep))}>
                 <KeyboardArrowRight />
               </Button>
             }
             backButton={
-              <Button sx={{borderRadius: 1000}} variant="outlined" color="primary" onClick={() => console.log('pies')}>
+              <Button sx={{ borderRadius: 1000 }} variant="outlined" color="primary" onClick={() => dispatch(setCurrentStep(prevStep))}>
                 <KeyboardArrowLeft />
               </Button>
             }
@@ -56,20 +60,20 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
   } else {
     return (
       <Box width='100%' py={2}>
-          <Stepper activeStep={activeStepIndex || 0} nonLinear alternativeLabel>
-            {allSteps.map((label) => (
-              <Step key={label}>
-                <StepLabel
-                  onClick={() => console.log(label)}
-                  sx={{ cursor: 'pointer' }} // Add cursor pointer style
+        <Stepper activeStep={activeStepIndex || 0} nonLinear alternativeLabel>
+          {allSteps.map((label) => (
+            <Step key={label}>
+              <StepLabel
+                onClick={() => dispatch(setCurrentStep(label))}
+                sx={{ cursor: 'pointer' }} // Add cursor pointer style
 
-                >
-                  {t(`steps.${label}`)}
-                </StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          </Box>
+              >
+                {t(`steps.${label}`)}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </Box>
     );
   }
 }
