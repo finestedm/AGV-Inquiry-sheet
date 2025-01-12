@@ -194,11 +194,12 @@ function App() {
 
               {/* Main Content: Takes remaining space and scrolls */}
               <Box sx={{ flexGrow: 1, p: isMobile ? 0 : 1, height: '100%', overflow: 'auto' }}>
-                <TopBar handleUndo={handleUndo} handleRedo={handleRedo} />
+                <Card sx={{ width: '100%', height: '98vh', overflow: 'scroll' }}>
 
-                <Stack>
+                  <TopBar handleUndo={handleUndo} handleRedo={handleRedo} />
+                  <Divider />
                   <Form />
-                </Stack>
+                </Card>
               </Box>
             </Stack>
             <SimpleSnackbar />

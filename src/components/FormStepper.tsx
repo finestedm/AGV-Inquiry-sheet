@@ -59,7 +59,6 @@ export default function FormStepper({ handleStepClick, handleBack, handleNext }:
     );
   } else {
     return (
-      <Card sx={{ width: '100%', px: isMobile ? 0 : 6, pt: 1, mb: 4 }}>
         <Box width='100%' py={2}>
           <Stepper activeStep={activeStepIndex || 0} nonLinear alternativeLabel>
             {allSteps.map((label) => (
@@ -75,7 +74,6 @@ export default function FormStepper({ handleStepClick, handleBack, handleNext }:
             ))}
           </Stepper>
         </Box>
-      </Card>
     );
   }
 }
