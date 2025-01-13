@@ -194,7 +194,7 @@ function App() {
 
               {/* Main Content: Takes remaining space and scrolls */}
               <Box sx={{ flexGrow: 1, p: isMobile ? 0 : 1, height: '100%', overflow: 'auto' }}>
-                <Card sx={{ width: '100%', height: '98vh', overflow: 'scroll' }}>
+                <Card sx={{ width: '100%', height: '98vh', overflow: 'scroll', pb: isMobile ? 5 : 0, borderRadius: isMobile ? 0 : 1, border: isMobile ? 0 : 1, borderColor: 'grey.200' }}>
 
                   <TopBar handleUndo={handleUndo} handleRedo={handleRedo} />
                   <Divider />

@@ -132,7 +132,9 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                 backgroundColor: 'transparent',
                 width: isMobile ? 55 : 'clamp(175px, 300px, 350px)',
                 border: 'none',
-                flexShrink: 0
+                flexShrink: 0,
+                borderRight: isMobile ? 1 : 0,
+                borderColor: 'grey.200'
             }}
         >
             <Toolbar sx={{flex: 1, justifyContent: 'center'}}>
