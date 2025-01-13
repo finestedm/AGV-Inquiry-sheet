@@ -244,6 +244,7 @@ interface SidebarListItemProps {
     icon: React.ReactNode;
     text: string | React.ReactNode;
     disabled?: boolean;
+    children?: React.ReactNode;
 }
 
 export function SidebarListItem({ onClick, icon, text, disabled = false }: SidebarListItemProps): JSX.Element {
