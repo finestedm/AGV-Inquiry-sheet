@@ -134,7 +134,7 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                 flexShrink: 0,
             }}
         >
-            <Toolbar sx={{ flex: 1, justifyContent: 'center', height: 65, backgroundColor: !darkMode ? 'white' : 'transparent', borderBottom: 1, borderColor: theme.palette.divider }}>
+            <Toolbar sx={{ flex: 1, justifyContent: 'center', height: isMobile ? 57 : 65, backgroundColor: !darkMode ? 'white' : 'transparent', borderBottom: 1, borderColor: theme.palette.divider }}>
                 {isMobile
                     ? <img src={jhLogoSmall} height='30' alt='JH_logo' />
                     : <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />

@@ -190,13 +190,12 @@ function App() {
         <Router>
           <div className="App">
             <Stack direction="row" sx={{ height: '100vh' }}> {/* Full height of the screen */}
-              {/* Sidebar: fixed width, always on screen */}
               <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} />
-              <Box sx={{ flexGrow: 1, height: '100%', overflow: 'auto' }}>
+              <Box sx={{ flexGrow: 1,  overflow: 'hidden' }}>
                 <TopBar />
-                <Card sx={{ width: '100%', height: '98vh', overflowY: 'scroll', overflowX: 'hidden', pb: isMobile ? 5 : 0, borderRadius: 0, border: 0, borderColor: theme.palette.divider }}>
+                <Card sx={{ width: '100%', overflowY: 'scroll', height: isMobile ? 'calc(100% - 112px)': 'calc(100% - 64px)', overflowX: 'hidden', pb: isMobile ? 5 : 0, borderRadius: 0, border: 0, borderColor: theme.palette.divider }}>
                   <FormStepperBar handleUndo={handleUndo} handleRedo={handleRedo} />
-                  <Divider />
+                  {!isMobile && <Divider />}
                   <Form />
                 </Card>
               </Box>
