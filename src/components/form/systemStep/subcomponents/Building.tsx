@@ -11,6 +11,7 @@ import Incline from "./Incline";
 import { useEffect, useState } from "react";
 import InputGroup from "../../InputGroup";
 import CloseIcon from '@mui/icons-material/Close';
+import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
 
 export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -33,6 +34,8 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
     return (
         <InputGroup
             title={t(`system.subheader.building`)}
+            subTitle={t(`system.subheader.buildingSubtitle`)}
+            icon={WarehouseOutlinedIcon}
             extendedOpener={warehouseDialogOpen}
             extendedHandler={extenderHandler}
             content={

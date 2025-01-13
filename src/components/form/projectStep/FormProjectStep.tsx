@@ -12,13 +12,16 @@ import { handleInputMethod } from "../../../features/redux/reducers/formDataSlic
 import { FormikProps, useFormikContext, Field } from 'formik'
 import { IFormData } from "../../../features/interfaces";
 import CustomTextField from "../CustomTextField";
-import WarehouseLayout from "../systemStep/subcomponents/WarehouseLayout";
 import GanttGraph from "./subcomponents/GanttGraph";
 import investmentTypes from "../../../data/investmentType";
 import supplyChainParts from "../../../data/supplyChainParts";
 import existingWMSTypes from "../../../data/existingWMSTypes";
 import InputGroup from "../InputGroup";
 import CustomCheckbox from "../CustomCheckbox";
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
 
 export default function FormProjectStep(): JSX.Element {
 
@@ -61,6 +64,8 @@ export default function FormProjectStep(): JSX.Element {
             <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
             <InputGroup
                 title={t('project.subheader.various')}
+                subTitle={t('project.subheader.various')}
+                icon={AssignmentOutlinedIcon}
                 content={
                     <Stack spacing={4}>
                         <CustomTextField
@@ -118,6 +123,8 @@ export default function FormProjectStep(): JSX.Element {
             />
             <InputGroup
                 title={t('project.subheader.investmentType')}
+                subTitle={t('project.subheader.investmentTypeSubtitle')}
+                icon={HandymanOutlinedIcon}
                 content={
                     <Stack spacing={4}>
                         <ToggleButtonGroup
@@ -178,12 +185,16 @@ export default function FormProjectStep(): JSX.Element {
             />
             <InputGroup
                 title={t('project.subheader.milestones')}
+                subTitle={t('project.subheader.milestonesSubtitle')}
+                icon={CalendarMonthOutlinedIcon}
                 content={
                     <GanttGraph />
                 }
             />
             <InputGroup
                 title={t('project.subheader.it')}
+                subTitle={t('project.subheader.itSubtitle')}
+                icon={DevicesOutlinedIcon}
                 content={
                     <Stack spacing={4}>
                         <CustomTextField

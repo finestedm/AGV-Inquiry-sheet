@@ -14,6 +14,7 @@ import { ISystems } from "../../../../features/interfaces";
 import CustomAlert from "../../../CustomAlert";
 import InputGroup from "../../InputGroup";
 import CustomCheckbox from "../../CustomCheckbox";
+import ThermostatAutoOutlinedIcon from '@mui/icons-material/ThermostatAutoOutlined';
 
 export default function WorkConditions({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -34,6 +35,8 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
     return (
         <InputGroup
             title={t(`system.subheader.workConditions`)}
+            subTitle={t(`system.subheader.workConditionsSubtitle`)}
+            icon={ThermostatAutoOutlinedIcon}
             content={
                 <Box>
                     <Grid container direction='row' spacing={4}>

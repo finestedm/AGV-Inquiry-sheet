@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import FlowTable from "./FlowTable";
 import { ISystems } from "../../../../features/interfaces";
 import InputGroup from "../../InputGroup";
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 
 export default function Flows({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -11,6 +12,8 @@ export default function Flows({ selectedSystem }: { selectedSystem: keyof ISyste
     return (
         <InputGroup
             title={t(`system.subheader.flow`)}
+            subTitle={t(`system.subheader.flowSubtitle`)}
+            icon={AccountTreeOutlinedIcon}
             content={<FlowTable selectedSystem={selectedSystem} />}
         />
     )

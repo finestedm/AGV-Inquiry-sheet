@@ -7,6 +7,7 @@ import LoadDimensionPicture2 from '../../../../images/loadDimensionsPicture2.png
 import LoadTable from "./LoadTable";
 import { ISystems } from "../../../../features/interfaces";
 import InputGroup from "../../InputGroup";
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 
 export default function Loads({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -16,6 +17,8 @@ export default function Loads({ selectedSystem }: { selectedSystem: keyof ISyste
     return (
         <InputGroup
             title={t(`system.subheader.loads`)}
+            subTitle={t(`system.subheader.loadsSubtitle`)}
+            icon={Inventory2OutlinedIcon}
             content={
                 <Stack spacing={4}>
                     <Box>

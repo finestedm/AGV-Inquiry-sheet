@@ -14,6 +14,7 @@ import CameraRollIcon from '@mui/icons-material/CameraRoll';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
+import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 
 export default function FormMediaStep(): JSX.Element {
 
@@ -126,23 +127,23 @@ export default function FormMediaStep(): JSX.Element {
         setSelectedImageIndex(index)
         if (galleryRef.current) {
             // @ts-ignore
-          galleryRef.current.fullScreen();
+            galleryRef.current.fullScreen();
         }
     };
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-          if (e.key === "Delete" && galleryRef.current) {
-            // @ts-ignore
-            handleDeleteImageUploaded(galleryRef.current.getCurrentIndex());
-          }
+            if (e.key === "Delete" && galleryRef.current) {
+                // @ts-ignore
+                handleDeleteImageUploaded(galleryRef.current.getCurrentIndex());
+            }
         };
         document.addEventListener("keydown", handleKeyDown);
-    
+
         return () => {
-          document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("keydown", handleKeyDown);
         };
-      }, [handleDeleteImageUploaded]);
+    }, [handleDeleteImageUploaded]);
 
 
     const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -152,101 +153,103 @@ export default function FormMediaStep(): JSX.Element {
             <Typography variant="h4" textAlign='left'>{t('media.header')}</Typography>
             <InputGroup
                 title={t('media.subheader.images')}
+                subTitle={t('media.subheader.imagesSubtitle')}
+                icon={PhotoOutlinedIcon}
                 content={
                     <Stack spacing={2}>
                         <Box>
                             <Stack spacing={2}>
                                 <Box>
-                                <Grid container spacing={2}>
-                                    {isMobile && editMode && (
-                                        <Grid item xs={6} lg={3}>
-                                            <NewImageCard takePhoto handleImageUpload={handleImageUpload} />
-                                        </Grid>
-                                    )}
-                                    {editMode && (
-                                        <Grid item xs={6} lg={3}>
-                                            <NewImageCard handleImageUpload={handleImageUpload} />
-                                        </Grid>
-                                    )}
-                                    
-
-                                    <Box position='absolute' width={0} height={0} overflow='hidden'>
-                                        <ImageGallery 
-                                            ref={galleryRef} 
-                                            items={imagesForGallery} 
-                                            startIndex={selectedImageIndex} 
-                                            showBullets
-                                            onSlide={(currentIndex) => setSelectedImageIndex(currentIndex)}
-                                            
-                                        />
-                                    </Box>
+                                    <Grid container spacing={2}>
+                                        {isMobile && editMode && (
+                                            <Grid item xs={6} lg={3}>
+                                                <NewImageCard takePhoto handleImageUpload={handleImageUpload} />
+                                            </Grid>
+                                        )}
+                                        {editMode && (
+                                            <Grid item xs={6} lg={3}>
+                                                <NewImageCard handleImageUpload={handleImageUpload} />
+                                            </Grid>
+                                        )}
 
 
-                                    {imagesUploaded.map((image, index) => (
-                                        <Grid item xs={6} lg={3}>
-                                            <Card key={index}
-                                                sx={{
-                                                    display: "flex",
-                                                    flexDirection: "column", // Stack children vertically
-                                                    justifyContent: "space-between", // Ensure consistent spacing
-                                                    height: 260, // Set a uniform height for all cards
-                                                }}>
-                                                <CardMedia
-                                                    onClick={() => openGallery(index)}
-                                                    sx={{ height: 180 }}
-                                                    image={image.base64}
-                                                    title={image.name}
-                                                />
-                                                <CardContent sx={{ flexGrow: 1, maxHeight: 75, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
-                                                    <Typography gutterBottom variant="caption" sx={{ textOverflow: "ellipsis" }}>
-                                                        {image.name}
-                                                    </Typography>
-                                                </CardContent>
-                                                <CardActions disableSpacing sx={{ borderTop: `1px solid ${theme.palette.divider}` }} >
-                                                    <Tooltip title='edit name' sx={{ marginLeft: 'auto' }}>
-                                                        <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
-                                                            <EditIcon sx={{ fontSize: 18 }} />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                    <Tooltip title='delete'>
-                                                        <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
-                                                            <DeleteIcon sx={{ fontSize: 18 }} />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </CardActions>
-                                            </Card>
-                                        </Grid>
-                                    ))}
-                                    {(loading && processingCount > 0) && (
-                                        Array.from({ length: processingCount }).map((_, index) => (
-                                            <Grid item xs={6} lg={3} key={`placeholder-${index}`}>
-                                                <Card
+                                        <Box position='absolute' width={0} height={0} overflow='hidden'>
+                                            <ImageGallery
+                                                ref={galleryRef}
+                                                items={imagesForGallery}
+                                                startIndex={selectedImageIndex}
+                                                showBullets
+                                                onSlide={(currentIndex) => setSelectedImageIndex(currentIndex)}
+
+                                            />
+                                        </Box>
+
+
+                                        {imagesUploaded.map((image, index) => (
+                                            <Grid item xs={6} lg={3}>
+                                                <Card key={index}
                                                     sx={{
                                                         display: "flex",
                                                         flexDirection: "column", // Stack children vertically
                                                         justifyContent: "space-between", // Ensure consistent spacing
-                                                        height: 220, // Set a uniform height for all cards
+                                                        height: 260, // Set a uniform height for all cards
                                                     }}>
                                                     <CardMedia
-                                                        sx={{
-                                                            height: 140,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            alignItems: 'center',
-                                                        }}
-                                                    >
-                                                        <CircularProgress />
-                                                    </CardMedia>
-                                                    <CardContent sx={{ flexGrow: 1 }}>
-                                                        <Typography variant="caption" color='text.secondary'>
-                                                            Processing image {index + 1} of {processingCount}
+                                                        onClick={() => openGallery(index)}
+                                                        sx={{ height: 180 }}
+                                                        image={image.base64}
+                                                        title={image.name}
+                                                    />
+                                                    <CardContent sx={{ flexGrow: 1, maxHeight: 75, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
+                                                        <Typography gutterBottom variant="caption" sx={{ textOverflow: "ellipsis" }}>
+                                                            {image.name}
                                                         </Typography>
                                                     </CardContent>
+                                                    <CardActions disableSpacing sx={{ borderTop: `1px solid ${theme.palette.divider}` }} >
+                                                        <Tooltip title='edit name' sx={{ marginLeft: 'auto' }}>
+                                                            <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
+                                                                <EditIcon sx={{ fontSize: 18 }} />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip title='delete'>
+                                                            <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
+                                                                <DeleteIcon sx={{ fontSize: 18 }} />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </CardActions>
                                                 </Card>
                                             </Grid>
-                                        ))
-                                    )}
-                                </Grid>
+                                        ))}
+                                        {(loading && processingCount > 0) && (
+                                            Array.from({ length: processingCount }).map((_, index) => (
+                                                <Grid item xs={6} lg={3} key={`placeholder-${index}`}>
+                                                    <Card
+                                                        sx={{
+                                                            display: "flex",
+                                                            flexDirection: "column", // Stack children vertically
+                                                            justifyContent: "space-between", // Ensure consistent spacing
+                                                            height: 220, // Set a uniform height for all cards
+                                                        }}>
+                                                        <CardMedia
+                                                            sx={{
+                                                                height: 140,
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                            }}
+                                                        >
+                                                            <CircularProgress />
+                                                        </CardMedia>
+                                                        <CardContent sx={{ flexGrow: 1 }}>
+                                                            <Typography variant="caption" color='text.secondary'>
+                                                                Processing image {index + 1} of {processingCount}
+                                                            </Typography>
+                                                        </CardContent>
+                                                    </Card>
+                                                </Grid>
+                                            ))
+                                        )}
+                                    </Grid>
                                 </Box>
                             </Stack>
                         </Box>
