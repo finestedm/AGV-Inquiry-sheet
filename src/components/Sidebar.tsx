@@ -43,9 +43,6 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
 
     const dispatch = useDispatch();
 
-    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
     const canUndo = formDataAll.past.length > 0;
     const canRedo = formDataAll.future.length > 0;
 
@@ -243,7 +240,7 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
 
 
 interface SidebarListItemProps {
-    onClick?: () => void;
+    onClick: () => void;
     icon: React.ReactNode;
     text: string | React.ReactNode;
     disabled?: boolean;
