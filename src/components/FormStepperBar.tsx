@@ -31,7 +31,7 @@ import { allPossibleSteps, setCurrentStep } from "../features/redux/reducers/ste
 import { findDifferences, getChangedKeys, mapPathToStep } from "../features/undo-redo/methods";
 import FormStepper from "./FormStepper";
 
-export default function TopBar({ handleUndo, handleRedo }: { handleUndo: () => void, handleRedo: () => void }): JSX.Element {
+export default function FormStepperBar({ handleUndo, handleRedo }: { handleUndo: () => void, handleRedo: () => void }): JSX.Element {
 
     const theme = useTheme();
 

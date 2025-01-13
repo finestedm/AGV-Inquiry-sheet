@@ -1,7 +1,7 @@
 import './index.css'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Form from './components/form/Form';
-import TopBar from './components/AppBar';
+import TopBar from './components/FormStepperBar';
 import { I18nextProvider } from 'react-i18next';
 import i18n, { t } from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -9,7 +9,7 @@ import pl from './features/multilanguage/pl.json'
 import en from './features/multilanguage/en.json'
 import de from './features/multilanguage/de.json'
 import theme, { themeDark } from './theme';
-import { Box, Card, CssBaseline, Divider, Drawer, List, ListItem, Paper, Stack, ThemeProvider, Toolbar, useMediaQuery } from '@mui/material';
+import { AppBar, Box, Card, CssBaseline, Divider, Drawer, List, ListItem, Paper, Stack, ThemeProvider, Toolbar, useMediaQuery } from '@mui/material';
 import MobileScrollButton from './components/MobileScrollButton';
 import { useSelector } from 'react-redux';
 import store, { RootState } from './features/redux/store';
@@ -193,9 +193,17 @@ function App() {
               <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} />
 
               {/* Main Content: Takes remaining space and scrolls */}
-              <Box sx={{ flexGrow: 1, p: isMobile ? 0 : 1, height: '100%', overflow: 'auto' }}>
-                <Card sx={{ width: '100%', height: '98vh', overflow: 'scroll', pb: isMobile ? 5 : 0, borderRadius: isMobile ? 0 : 1, border: isMobile ? 0 : 1, borderColor: 'grey.200' }}>
-
+              <Box sx={{ flexGrow: 1, height: '100%', overflow: 'auto' }}>
+                <AppBar
+                  position="relative"
+                  color='default'
+                  sx={{ top: 0, bottom: 'auto', border: 0, backgroundColor: 'white' }}
+                >
+                  <Toolbar >
+                    something
+                  </Toolbar>
+                </AppBar>
+                <Card sx={{ width: '100%', height: '98vh', overflowY: 'scroll', overflowX: 'hidden', pb: isMobile ? 5 : 0, borderRadius: isMobile ? 0 : 1, border: isMobile ? 0 : 1, borderColor: 'grey.200' }}>
                   <TopBar handleUndo={handleUndo} handleRedo={handleRedo} />
                   <Divider />
                   <Form />

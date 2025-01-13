@@ -127,114 +127,115 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
     return (
         <Box
             position='sticky'
-            px={isMobile ? 0.25 : 1}
             sx={{
                 backgroundColor: 'transparent',
-                width: isMobile ? 55 : 'clamp(175px, 300px, 350px)',
+                width: isMobile ? 55 : 325,
                 border: 'none',
                 flexShrink: 0,
                 borderRight: isMobile ? 1 : 0,
                 borderColor: 'grey.200'
             }}
         >
-            <Toolbar sx={{flex: 1, justifyContent: 'center'}}>
+            <Toolbar sx={{ flex: 1, justifyContent: 'center', backgroundColor: 'white', borderBottom: 1, borderColor: 'grey.200' }}>
                 {isMobile
                     ? <img src={jhLogoSmall} height='30' alt='JH_logo' />
-                    : <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo'/>
+                    : <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
                 }
 
             </Toolbar>
-            <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? <Divider /> : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Ustawienia</Typography>}>
-                <ListItem disablePadding>
-                    <Select
-                        sx={{
-                            p: .25, backgroundColor: 'transparent', border: 'none', boxShadow: 'none', '& .MuiInputBase-inputSizeSmall': {
-                                padding: '0px', 
-                            },
-                        }}
-                        disableUnderline
-                        size="small"
-                        fullWidth
-                        value={i18n.language}
-                        renderValue={(val) =>
-                            isMobile
-                                ? <Box borderRadius={1000} width={25} height={25} className='flag-container-mobile'><img src={getFlagByLanguage(val)} alt="flag" /></Box>
-                                : <LanguageMenuItem lang={val as TAvailableLanguages} img={en} />
+            <Box p={isMobile ? 0 : 1.5}>
+                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Ustawienia</Typography>}>
+                    <ListItem disablePadding>
+                        <Select
+                            sx={{
+                                p: .25, backgroundColor: 'transparent', border: 'none', boxShadow: 'none', '& .MuiInputBase-inputSizeSmall': {
+                                    padding: '0px',
+                                },
+                            }}
+                            disableUnderline
+                            size="small"
+                            fullWidth
+                            value={i18n.language}
+                            renderValue={(val) =>
+                                isMobile
+                                    ? <Box borderRadius={1000} width={25} height={25} className='flag-container-mobile'><img src={getFlagByLanguage(val)} alt="flag" /></Box>
+                                    : <LanguageMenuItem lang={val as TAvailableLanguages} img={en} />
 
-                        }
-                    >
-                        <LanguageMenuItem lang="en" img={en} />
-                        <LanguageMenuItem lang="pl" img={pl} />
-                        <LanguageMenuItem lang="de" img={de} />
+                            }
+                        >
+                            <LanguageMenuItem lang="en" img={en} />
+                            <LanguageMenuItem lang="pl" img={pl} />
+                            <LanguageMenuItem lang="de" img={de} />
 
-                    </Select>
-                </ListItem>
-                <SidebarListItem
-                    onClick={() => dispatch(setDarkMode(!darkMode))}
-                    icon={!darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-                    text={darkMode ? t('ui.switch.darkMode.dark') : t('ui.switch.darkMode.light')}
-                />
-                <SidebarListItem
-                    onClick={() => dispatch(setEditMode(!editMode))}
-                    icon={!editMode ? <ModeIcon /> : <ImageSearchIcon />}
-                    text={editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}
-                />
-            </List>
-            <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? <Divider /> : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Zapytanie</Typography>}>
-                <SidebarListItem
-                    onClick={() => {
-                        const fileInput = document.getElementById('file-input') as HTMLInputElement;
-                        if (fileInput) fileInput.click();
-                    }}
-                    icon={<UploadIcon />}
-                    text={t('ui.button.inquiry.load')}
-                />
-                <input
-                    type="file"
-                    accept=".json"
-                    id="file-input"
-                    style={{ display: 'none' }}
-                    onInput={(e) => loadFile(e)}
-                />
-
-                {isSummaryStep && (
-                    <>
-                        <SidebarListItem
-                            onClick={saveDataToFile}
-                            icon={<SaveIcon />}
-                            text={t('ui.button.inquiry.save')}
-                        />
-                        <SidebarListItem
-                            onClick={saveDataToServer}
-                            icon={isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}
-                            text={t('ui.button.inquiry.saveToServer')}
-                        />
-                    </>
-                )}
-                {!isFormUnchaged &&
+                        </Select>
+                    </ListItem>
                     <SidebarListItem
-                        onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
-                        icon={<DeleteOutlineIcon />}
-                        text={t('ui.button.inquiry.clear')}
+                        onClick={() => dispatch(setDarkMode(!darkMode))}
+                        icon={!darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                        text={darkMode ? t('ui.switch.darkMode.dark') : t('ui.switch.darkMode.light')}
                     />
-                }
-            </List>
-            <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? <Divider /> : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Edycja</Typography>}>
-                <SidebarListItem
-                    onClick={handleUndo}
-                    disabled={!canUndo}
-                    icon={<UndoIcon />}
-                    text={t('ui.button.inquiry.undo')}
-                >
-                </SidebarListItem>
-                <SidebarListItem
-                    onClick={handleRedo}
-                    disabled={!canRedo}
-                    icon={<RedoIcon />}
-                    text={t('ui.button.inquiry.redo')}
-                >
-                </SidebarListItem>
-            </List >
+                    <SidebarListItem
+                        onClick={() => dispatch(setEditMode(!editMode))}
+                        icon={!editMode ? <ModeIcon /> : <ImageSearchIcon />}
+                        text={editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}
+                    />
+                </List>
+                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Zapytanie</Typography>}>
+                    <SidebarListItem
+                        onClick={() => {
+                            const fileInput = document.getElementById('file-input') as HTMLInputElement;
+                            if (fileInput) fileInput.click();
+                        }}
+                        icon={<UploadIcon />}
+                        text={t('ui.button.inquiry.load')}
+                    />
+                    <input
+                        type="file"
+                        accept=".json"
+                        id="file-input"
+                        style={{ display: 'none' }}
+                        onInput={(e) => loadFile(e)}
+                    />
+
+                    {isSummaryStep && (
+                        <>
+                            <SidebarListItem
+                                onClick={saveDataToFile}
+                                icon={<SaveIcon />}
+                                text={t('ui.button.inquiry.save')}
+                            />
+                            <SidebarListItem
+                                onClick={saveDataToServer}
+                                icon={isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}
+                                text={t('ui.button.inquiry.saveToServer')}
+                            />
+                        </>
+                    )}
+                    {!isFormUnchaged &&
+                        <SidebarListItem
+                            onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
+                            icon={<DeleteOutlineIcon />}
+                            text={t('ui.button.inquiry.clear')}
+                        />
+                    }
+                </List>
+                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Edycja</Typography>}>
+                    <SidebarListItem
+                        onClick={handleUndo}
+                        disabled={!canUndo}
+                        icon={<UndoIcon />}
+                        text={t('ui.button.inquiry.undo')}
+                    >
+                    </SidebarListItem>
+                    <SidebarListItem
+                        onClick={handleRedo}
+                        disabled={!canRedo}
+                        icon={<RedoIcon />}
+                        text={t('ui.button.inquiry.redo')}
+                    >
+                    </SidebarListItem>
+                </List >
+            </Box>
 
         </Box >
     )
