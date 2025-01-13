@@ -132,18 +132,16 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                 width: isMobile ? 55 : 325,
                 border: 'none',
                 flexShrink: 0,
-                borderRight: isMobile ? 1 : 0,
-                borderColor: 'grey.200'
             }}
         >
-            <Toolbar sx={{ flex: 1, justifyContent: 'center', backgroundColor: 'white', borderBottom: 1, borderColor: 'grey.200' }}>
+            <Toolbar sx={{ flex: 1, justifyContent: 'center', height: 65, backgroundColor: !darkMode ? 'white' : 'transparent', borderBottom: 1, borderColor: theme.palette.divider }}>
                 {isMobile
                     ? <img src={jhLogoSmall} height='30' alt='JH_logo' />
                     : <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
                 }
 
             </Toolbar>
-            <Box p={isMobile ? 0 : 1.5}>
+            <Box p={isMobile ? 0 : 1.5} borderRight={1} borderColor={theme.palette.divider}>
                 <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Ustawienia</Typography>}>
                     <ListItem disablePadding>
                         <Select

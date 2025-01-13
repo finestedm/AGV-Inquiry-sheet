@@ -1,7 +1,6 @@
 import './index.css'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Form from './components/form/Form';
-import TopBar from './components/FormStepperBar';
 import { I18nextProvider } from 'react-i18next';
 import i18n, { t } from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -24,6 +23,8 @@ import { openSnackbar } from './features/redux/reducers/snackBarSlice';
 import { setCurrentStep } from './features/redux/reducers/stepsSlice';
 import { findDifferences, getChangedKeys, mapPathToStep } from './features/undo-redo/methods';
 import Sidebar from './components/Sidebar';
+import FormStepperBar from './components/FormStepperBar';
+import TopBar from './components/TopBar';
 
 // Configure i18next
 i18n
@@ -191,20 +192,10 @@ function App() {
             <Stack direction="row" sx={{ height: '100vh' }}> {/* Full height of the screen */}
               {/* Sidebar: fixed width, always on screen */}
               <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} />
-
-              {/* Main Content: Takes remaining space and scrolls */}
               <Box sx={{ flexGrow: 1, height: '100%', overflow: 'auto' }}>
-                <AppBar
-                  position="relative"
-                  color='default'
-                  sx={{ top: 0, bottom: 'auto', border: 0, backgroundColor: 'white' }}
-                >
-                  <Toolbar >
-                    something
-                  </Toolbar>
-                </AppBar>
-                <Card sx={{ width: '100%', height: '98vh', overflowY: 'scroll', overflowX: 'hidden', pb: isMobile ? 5 : 0, borderRadius: isMobile ? 0 : 1, border: isMobile ? 0 : 1, borderColor: 'grey.200' }}>
-                  <TopBar handleUndo={handleUndo} handleRedo={handleRedo} />
+                <TopBar />
+                <Card sx={{ width: '100%', height: '98vh', overflowY: 'scroll', overflowX: 'hidden', pb: isMobile ? 5 : 0, borderRadius: 0, border: 0, borderColor: theme.palette.divider }}>
+                  <FormStepperBar handleUndo={handleUndo} handleRedo={handleRedo} />
                   <Divider />
                   <Form />
                 </Card>
