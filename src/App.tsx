@@ -180,8 +180,18 @@ function App() {
   }
 
   // udno-redo //
+
+  //sizes//
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const isSmallest = useMediaQuery(theme.breakpoints.only('xs'))
+  //sizes//
+
+  //sidebar open//
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  function handleSidebarOpening() {
+    setSidebarOpen(sidebarOpen => !sidebarOpen)
+  }
+  //sidebar open//
 
 
   return (
@@ -191,14 +201,14 @@ function App() {
         <Router>
           <div className="App">
             <Stack direction="row" sx={{ height: '100vh' }}> {/* Full height of the screen */}
-              <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} />
-              <Box sx={{ flexGrow: 1,  overflow: 'hidden',                 width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)',  }}>
-                <TopBar />
-                <Card sx={{ width: '100%', overflowY: 'scroll', height: isMobile ? 'calc(100% - 112px)': 'calc(100% - 64px)', overflowX: 'hidden', pb: isMobile ? 5 : 0, borderRadius: 0, border: 0, borderColor: theme.palette.divider }}>
+              <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
+              <Box sx={{ flexGrow: 1,  overflow: 'hidden', width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)'}}>
+                <TopBar sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
+                <Box sx={{ width: '100%', overflowY: 'scroll', height: isMobile ? 'calc(100% - 112px)': 'calc(100% - 64px)', overflowX: 'hidden', pb: isMobile ? 5 : 0 }}>
                   <FormStepperBar handleUndo={handleUndo} handleRedo={handleRedo} />
                   {!isMobile && <Divider />}
                   <Form />
-                </Card>
+                </Box>
               </Box>
             </Stack>
             <SimpleSnackbar />

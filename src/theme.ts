@@ -79,7 +79,7 @@ const grey120ColorDark = '#1d1f20'
 const primaryColor = JHYellow;
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
-const backgroundColor = '#f8fafc'
+const backgroundColor = '#f8f8f8'
 const paperColor = '#fff'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
@@ -375,8 +375,8 @@ theme = createTheme({
                     },
                     '&.MuiButton-containedPrimary': {
 
-                        color: tinycolor(primaryColor).darken(25).toHex8String(),
-                        backgroundColor: tinycolor(primaryColor).lighten(12).setAlpha(.45).toHex8String(),
+                        color: 'white',
+                        backgroundColor: primaryColor,
                         boxShadow: 'none',
                         '&:hover': {
                             color: tinycolor(primaryColor).darken(15).toHex8String(),

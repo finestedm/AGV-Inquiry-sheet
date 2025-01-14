@@ -1,7 +1,6 @@
 import { Box, Card, CardContent, CardHeader, Divider, Grid, Stack, Typography, useTheme, IconButton, SvgIconTypeMap } from "@mui/material";
 import React, { ReactNode } from "react";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { OverridableComponent } from "@mui/material/OverridableComponent";
 import tinycolor from "tinycolor2";
 
 export default function InputGroup({ title, content, subTitle, extendedOpener, extendedHandler, icon }: { title: string, content: ReactNode, subTitle?: string, extendedOpener?: boolean, extendedHandler?: () => void, icon?: React.ElementType }) {

@@ -132,10 +132,8 @@ export default function FormStepperBar({ handleUndo, handleRedo }: { handleUndo:
         dispatch(setEditMode(false))
     }
 
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-
     return (
-        <Box >
+        <Box sx={{backgroundColor: theme.palette.background.paper}}>
             <FormStepper />
             <ClearFormDataDialog />
 

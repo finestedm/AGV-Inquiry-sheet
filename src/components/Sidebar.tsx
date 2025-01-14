@@ -29,7 +29,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
 
-export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => void, handleRedo: () => void }): JSX.Element {
+export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSidebarOpening }: { handleUndo: () => void, handleRedo: () => void, sidebarOpen: boolean, handleSidebarOpening: () => void }): JSX.Element {
     const theme = useTheme();
     const darkMode = useSelector((state: RootState) => state.darkMode);
     const editMode = useSelector((state: RootState) => state.editMode);
@@ -128,7 +128,8 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
     return (
         <Drawer
             variant={isSmallest ? 'temporary' : "persistent"}
-            open
+            open={sidebarOpen || !isSmallest}
+            onClose={handleSidebarOpening}
             sx={{
                 backgroundColor: 'transparent',
                 width: isMobile ? isSmallest ? 275 : 55 : 275,
@@ -136,8 +137,6 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                 flexShrink: 0,
                 '& .MuiDrawer-paper': {
                     width: isMobile ? isSmallest ? 275 : 55 : 275,
-                    backgroundColor: 'transparent',
-
                 }
             }}
         >
@@ -148,8 +147,8 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                 }
 
             </Toolbar>
-            <Box p={isMobile ? 0 : 1.5} >
-                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Ustawienia</Typography>}>
+            <Box p={(isMobile && !isSmallest) ? 0 : 1.5} >
+                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Ustawienia</Typography>}>
                     <ListItem disablePadding>
                         <Select
                             sx={{
@@ -185,7 +184,7 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                         text={editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}
                     />
                 </List>
-                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Zapytanie</Typography>}>
+                <List sx={{ width: '100%', pb: 2 }} subheader={!isMobile && !isSmallest  ?  <Typography component='h6' textAlign='left' pb={.5} variant="caption">Zapytanie</Typography> : ''}>
                     <SidebarListItem
                         onClick={() => {
                             const fileInput = document.getElementById('file-input') as HTMLInputElement;
@@ -224,7 +223,7 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                         />
                     }
                 </List>
-                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Edycja</Typography>}>
+                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest  ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Edycja</Typography>}>
                     <SidebarListItem
                         onClick={handleUndo}
                         disabled={!canUndo}
@@ -258,12 +257,13 @@ interface SidebarListItemProps {
 export function SidebarListItem({ onClick, icon, text, disabled = false }: SidebarListItemProps): JSX.Element {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isSmallest = useMediaQuery(theme.breakpoints.only('xs'))
 
     return (
         <ListItem disablePadding>
             <ListItemButton sx={{ borderRadius: 1, color: theme.palette.text.secondary, '&:hover': { color: theme.palette.text.primary } }} onClick={onClick} disabled={disabled}>
                 <ListItemIcon>{icon}</ListItemIcon>
-                {!isMobile && <ListItemText primary={text} />}
+                {!(isMobile && !isSmallest) && <ListItemText primary={text} />}
             </ListItemButton>
         </ListItem>
     )
