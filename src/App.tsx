@@ -181,6 +181,7 @@ function App() {
 
   // udno-redo //
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const isSmallest = useMediaQuery(theme.breakpoints.only('xs'))
 
 
   return (
@@ -191,7 +192,7 @@ function App() {
           <div className="App">
             <Stack direction="row" sx={{ height: '100vh' }}> {/* Full height of the screen */}
               <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} />
-              <Box sx={{ flexGrow: 1,  overflow: 'hidden' }}>
+              <Box sx={{ flexGrow: 1,  overflow: 'hidden',                 width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)',  }}>
                 <TopBar />
                 <Card sx={{ width: '100%', overflowY: 'scroll', height: isMobile ? 'calc(100% - 112px)': 'calc(100% - 64px)', overflowX: 'hidden', pb: isMobile ? 5 : 0, borderRadius: 0, border: 0, borderColor: theme.palette.divider }}>
                   <FormStepperBar handleUndo={handleUndo} handleRedo={handleRedo} />

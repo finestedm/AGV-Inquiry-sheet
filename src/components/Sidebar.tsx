@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { initialFormDataState, setFormData } from "../features/redux/reducers/formDataSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { openSnackbar } from "../features/redux/reducers/snackBarSlice";
 import axios from "axios";
 import { ActionCreators } from "redux-undo";
@@ -34,6 +34,7 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
     const darkMode = useSelector((state: RootState) => state.darkMode);
     const editMode = useSelector((state: RootState) => state.editMode);
     const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isSmallest = useMediaQuery(theme.breakpoints.only('xs'))
 
     const { t, i18n } = useTranslation();
     const formDataAll = useSelector((state: RootState) => state.formData);
@@ -125,23 +126,27 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
 
 
     return (
-        <Box
-            position='sticky'
+        <Drawer
+            variant={isSmallest ? 'temporary' : "persistent"}
+            open
             sx={{
                 backgroundColor: 'transparent',
-                width: isMobile ? 55 : 325,
+                width: isMobile ? isSmallest ? 275 : 55 : 275,
                 border: 'none',
                 flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                    width: isMobile ? isSmallest ? 275 : 55 : 275,
+                }
             }}
         >
-            <Toolbar sx={{ flex: 1, justifyContent: 'center', height: isMobile ? 57 : 65, backgroundColor: !darkMode ? 'white' : 'transparent', borderBottom: 1, borderColor: theme.palette.divider }}>
+            <Toolbar sx={{ flex: 1, justifyContent: 'center', maxHeight: 65, backgroundColor: !darkMode ? 'white' : 'transparent', borderBottom: 1, borderColor: theme.palette.divider }}>
                 {isMobile
                     ? <img src={jhLogoSmall} height='30' alt='JH_logo' />
                     : <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
                 }
 
             </Toolbar>
-            <Box p={isMobile ? 0 : 1.5} borderRight={1} borderColor={theme.palette.divider}>
+            <Box p={isMobile ? 0 : 1.5} >
                 <List sx={{ width: '100%', pb: 2 }} subheader={isMobile ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Ustawienia</Typography>}>
                     <ListItem disablePadding>
                         <Select
@@ -235,7 +240,7 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                 </List >
             </Box>
 
-        </Box >
+        </Drawer >
     )
 }
 
