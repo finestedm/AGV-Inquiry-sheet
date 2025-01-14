@@ -12,7 +12,7 @@ export default function TopBar({sidebarOpen, handleSidebarOpening}: {sidebarOpen
         <AppBar
             position="relative"
             color='default'
-            sx={{ top: 0, bottom: 'auto', borderBottom: 1, borderColor: theme.palette.divider, backgroundColor: !darkMode ? 'white' : 'transparent' }}
+            sx={{ top: 0, bottom: 'auto', borderBottom: 1, borderColor: theme.palette.divider, backgroundColor: theme.palette.background.paper }}
         >
             <Toolbar>
                 {isSmallest &&

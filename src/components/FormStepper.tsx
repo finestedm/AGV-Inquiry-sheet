@@ -7,14 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import { setCurrentStep } from "../features/redux/reducers/stepsSlice";
 
-interface FormStepperProps {
-  handleStepClick?: (step: string) => void;
-  handleBack?: () => void;
-  handleNext?: () => void;
-}
-
-
-export default function FormStepper({ handleStepClick, handleBack, handleNext }: FormStepperProps) {
+export default function FormStepper() {
   const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -65,8 +58,7 @@ export default function FormStepper({ handleStepClick, handleBack, handleNext }:
               <Step key={label}>
                 <StepLabel
                   onClick={() => dispatch(setCurrentStep(label))}
-                  sx={{ cursor: 'pointer' }} // Add cursor pointer style
-
+                  sx={{ cursor: 'pointer', }} // Add cursor pointer style
                 >
                   {t(`steps.${label}`)}
                 </StepLabel>
