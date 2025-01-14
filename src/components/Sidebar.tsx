@@ -136,6 +136,8 @@ export default function Sidebar({ handleUndo, handleRedo }: { handleUndo: () => 
                 flexShrink: 0,
                 '& .MuiDrawer-paper': {
                     width: isMobile ? isSmallest ? 275 : 55 : 275,
+                    backgroundColor: 'transparent',
+
                 }
             }}
         >
