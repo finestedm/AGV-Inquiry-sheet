@@ -13,6 +13,7 @@ export default function FormStepper() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const darkMode = useSelector((state: RootState) => state.darkMode);
 
   const allSteps = useSelector((state: RootState) => state.steps.steps);
 
@@ -66,7 +67,7 @@ export default function FormStepper() {
           display: "flex",
           flexGrow: 1,
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "stretch",
           width: "100%",
           gap: "2px",
           backgroundColor: theme.palette.divider
@@ -89,10 +90,10 @@ export default function FormStepper() {
         backgroundColor: isActive
           ? theme.palette.primary.main
           : isCompleted
-          ? tinycolor(theme.palette.primary.main).lighten(45).toHexString()
+          ? darkMode ? tinycolor(theme.palette.primary.main).darken(35).toHexString() : tinycolor(theme.palette.primary.main).lighten(45).toHexString()
           : theme.palette.background.paper,
         color: isActive
-          ? theme.palette.primary.contrastText
+          ? theme.palette.background.paper
           : theme.palette.text.primary,
         cursor: "pointer",
         clipPath:
