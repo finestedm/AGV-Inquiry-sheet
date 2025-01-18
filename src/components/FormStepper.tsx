@@ -23,12 +23,12 @@ export default function FormStepper() {
 
   if (isMobile) {
     return (
-      <Box sx={{ display: { xs: "block", md: "none" } }}>
+      <Box sx={{ display: { xs: "block", md: "none" }}}>
         <AppBar
           className="mobile-stepper"
           position="fixed"
           color="default"
-          sx={{ top: "auto", bottom: 0, borderTop: 1, borderColor: theme.palette.divider }}
+          sx={{ top: "auto", bottom: 0, borderTop: 1, borderColor: theme.palette.divider, zIndex: '1210 !important' }}
         >
           <MobileStepper
             sx={{ backgroundColor: "transparent" }}
