@@ -152,20 +152,25 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                     <ListItem disablePadding>
                         <Select
                             sx={{
-                                p: .25, backgroundColor: 'transparent', border: 'none', boxShadow: 'none', '& .MuiInputBase-inputSizeSmall': {
+                                p: .25,
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                boxShadow: 'none',
+                                height: 45,
+                                '& .MuiInputBase-inputSizeSmall': {
                                     padding: '0px',
+                                    minWidth: '20px'
+                                },
+                                '& .MuiOutlinedInput-notchedOutline': {
+                                    border: 'none'
                                 },
                             }}
                             disableUnderline
                             size="small"
+                            renderValue={val => <LanguageMenuItem lang={val as TAvailableLanguages} img={en} />}
                             fullWidth
                             value={i18n.language}
-                            renderValue={(val) =>
-                                isMobile
-                                    ? <Box borderRadius={1000} width={25} height={25} className='flag-container-mobile'><img src={getFlagByLanguage(val)} alt="flag" /></Box>
-                                    : <LanguageMenuItem lang={val as TAvailableLanguages} img={en} />
-
-                            }
+                            
                         >
                             <LanguageMenuItem lang="en" img={en} />
                             <LanguageMenuItem lang="pl" img={pl} />
