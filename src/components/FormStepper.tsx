@@ -39,7 +39,7 @@ export default function FormStepper() {
             nextButton={
               <Button
                 sx={{ borderRadius: 1000 }}
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 onClick={() => dispatch(setCurrentStep(allSteps[activeStepIndex + 1] || allSteps[0]))}
               >
@@ -49,7 +49,7 @@ export default function FormStepper() {
             backButton={
               <Button
                 sx={{ borderRadius: 1000 }}
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 onClick={() => dispatch(setCurrentStep(allSteps[activeStepIndex - 1] || allSteps[0]))}
               >
@@ -66,6 +66,7 @@ export default function FormStepper() {
         sx={{
           display: "flex",
           flexGrow: 1,
+          height: 64,
           justifyContent: "center",
           alignItems: "stretch",
           width: "100%",
