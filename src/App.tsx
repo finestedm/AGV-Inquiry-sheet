@@ -45,6 +45,7 @@ i18n
 
 function App() {
   const darkMode = useSelector((state: RootState) => state.darkMode)
+  const editMode = useSelector((state: RootState) => state.editMode)
   const formData = useSelector((state: RootState) => state.formData.present);
   const dispatch = useDispatch();
   const [initialLoad, setInitialLoad] = useState(true);
@@ -193,6 +194,18 @@ function App() {
   }
   //sidebar open//
 
+  function navigateToStep(step: string) {
+    const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
+
+    if (editMode && elementsWithAriaInvalid.length > 0) {
+      const element = elementsWithAriaInvalid[0];
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+        dispatch(setCurrentStep(step));
+  };
+  }
+
 
   return (
     <I18nextProvider i18n={i18n}>
@@ -205,9 +218,9 @@ function App() {
               <Box sx={{ flexGrow: 1,  overflow: 'hidden', width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)'}}>
                 <TopBar sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
                 <Box sx={{ width: '100%', overflowY: 'scroll', height:  '100%', overflowX: 'hidden', pb: isMobile ? 5 : 0 }}>
-                  <FormStepperBar handleUndo={handleUndo} handleRedo={handleRedo} />
+                  <FormStepperBar navigateToStep={navigateToStep}/>
                   {!isMobile && <Divider />}
-                  <Form />
+                  <Form navigateToStep={navigateToStep}/>
                 </Box>
               </Box>
             </Stack>

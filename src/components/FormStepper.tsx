@@ -8,7 +8,7 @@ import { RootState } from "../features/redux/store";
 import { setCurrentStep } from "../features/redux/reducers/stepsSlice";
 import tinycolor from "tinycolor2";
 
-export default function FormStepper() {
+export default function FormStepper({ navigateToStep  }: { navigateToStep: (step: string) => void}) {
   const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export default function FormStepper() {
                 sx={{ borderRadius: 1000 }}
                 variant="contained"
                 color="primary"
-                onClick={() => dispatch(setCurrentStep(allSteps[activeStepIndex + 1] || allSteps[0]))}
+                onClick={() => navigateToStep(allSteps[activeStepIndex + 1] || allSteps[0])}
               >
                 <KeyboardArrowRight />
               </Button>
@@ -51,7 +51,7 @@ export default function FormStepper() {
                 sx={{ borderRadius: 1000 }}
                 variant="contained"
                 color="primary"
-                onClick={() => dispatch(setCurrentStep(allSteps[activeStepIndex - 1] || allSteps[0]))}
+                onClick={() => navigateToStep(allSteps[activeStepIndex - 1] || allSteps[0])}
               >
                 <KeyboardArrowLeft />
               </Button>
@@ -105,7 +105,7 @@ export default function FormStepper() {
             : "polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 10px 50%)",
         marginLeft: index > 0 ? "-10px" : "0", // Overlaps the blocks slightly to remove gaps
       }}
-      onClick={() => dispatch(setCurrentStep(label))}
+      onClick={() => navigateToStep(label)}
     >
       {t(`steps.${label}`)}
     </Box>

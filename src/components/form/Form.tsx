@@ -21,7 +21,7 @@ import { useDispatch } from "react-redux";
 import currentStep, { backStep, initialSteps, nextStep, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
 import FormMediaStep from "./mediaStep/MediaStep";
 
-export default function Form(): JSX.Element {
+export default function Form({ navigateToStep  }: { navigateToStep: (step: string) => void}): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -52,38 +52,16 @@ export default function Form(): JSX.Element {
     dispatch(updateSteps(allSteps));
   }, [formData.present.system])
 
-  const [grow, setGrow] = useState<boolean>(true);
-
-  const navigateToStep = (step: string) => {
-    const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
-
-    if (editMode && elementsWithAriaInvalid.length > 0) {
-      const element = elementsWithAriaInvalid[0];
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setGrow(false)
-      setTimeout(() => {
-        dispatch(setCurrentStep(step));
-        setGrow(true);
-      }, 300)
-    }
-  };
-
-  const handleNext = () => {
+  function handleNext () {
     const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) + 1
     const stepToMove = steps.steps[stepToMoveIndex]
     navigateToStep(stepToMove)
   };
 
-  const handleBack = () => {
+  function handleBack () {
     const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) - 1
     const stepToMove = steps.steps[stepToMoveIndex]
     navigateToStep(stepToMove)
-  };
-
-  const handleStepClick = (step: string) => {
-    navigateToStep(step);
   };
 
   useEffect(() => {
@@ -116,7 +94,6 @@ export default function Form(): JSX.Element {
           <FormikForm>
             <Box width='100%' p={isMobile ? 1 : 4}>
               <Stack spacing={6} sx={{ mt: 5 }}>
-                <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
                   <Box>
                     <Routes>
                       <Route path="/sales" element={<FormSalesUnitStep />} />
@@ -139,7 +116,6 @@ export default function Form(): JSX.Element {
                       <Route path="/*" element={<FormSalesUnitStep />} />
                     </Routes>
                   </Box>
-                </Grow>
                 <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                   <Divider sx={{ mb: 4 }} />
                   <Stack direction='row'>
