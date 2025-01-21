@@ -15,8 +15,11 @@
     },
     "subheader": {
       "teleaddress": "Dane ogólne",
+      "teleaddressSubtitle": "Wprowadź dane kontaktowe",
       "contactperson": "Osoba kontaktowa",
-      "businessdata": "Dane biznesowe"
+      "contactpersonSubtitle": "Dane dotyczące osoby kontaktowej ze strony inwestora",
+      "businessdata": "Dane biznesowe",
+      "businessdataSubtitle": "Poziom współpracy z JH oraz dane finansowe"
     },
     "relations": {
       "type": "Poziom współpracy",
@@ -189,10 +192,15 @@
     "manyLoadsWarning": "Duże różnice pomiędzy wymiarami ładunków mogą być problematyczne dla wybranego systemu.",
     "subheader": {
       "workTime": "Czas pracy",
+      "workTimeSubtitle": "Określenie tygodniowej sumy godzin pracy magazynu",
       "workConditions": "Warunki pracy",
+      "workConditionsSubtitle": "Warunki występujące w strefie pracy systemu",
       "building": "Budynek",
+      "buildingSubtitle": "Informacje o magazynie oraz szkic rozmieszczenia stref",
       "loads": "Ładunki",
+      "loadsSubtitle": "Jakie ładunki będą obsługiwane przez oferowany system",
       "flow": "Przepływy",
+      "flowSubtitle": "Zarys przepływu towaru na magazynie",
       "capacity": "Pojemność",
       "additionalRemarks": "Dodatkowe uwagi"
     },
@@ -252,7 +260,10 @@
       "description": "Wózki automatyczne AGV (z ang. Automated Guided Vehicles) to systemy transportowe pozwalające na zdalną obsługę. Wyposażono je w rozbudowany system czujników, który wykrywa wszelkie przeszkody wokół pojazdu. Modele AVG potrafią samodzielnie zwalniać, przyspieszać i reagować na niespodziewane czynniki pojawiające się podczas jazdy. W razie konieczności mogą całkowicie się zatrzymać.",
       "temperatureWarning": "Wózki automatyczne AGV nie mogą pracować w temperaturze poniżej 5C",
       "temperatureWarningTitle": "Uwaga!",
-      "additionalRemarks": "Dodatkowe uwagi"
+      "additionalRemarks": "Dodatkowe uwagi",
+      "workConditions": {
+        "other": "Inne uwagi"
+      }
     },
     "autovna": {
       "header": "Dane systemu AutoVNA",
@@ -313,9 +324,12 @@
     },
     "subheader": {
       "investmentType": "Typ inwestycji",
+      "investmentTypeSubtitle": "Jest to nowy projekt czy rozwinięcie istniejącej instalacji?",
       "milestones": "Ramy czasowe",
+      "milestonesSubtitle": "Określenie harmonogramu kolejnych etapów ofertowania i implementacji",
       "various": "Dane ogólne",
-      "it": "IT oraz informacje o procesie"
+      "it": "IT oraz informacje o procesie",
+      "itSubtitle": "Występujące oprogramowanie oraz wymagania z nim związane"
     }
   },
   "loadTable": {
@@ -451,6 +465,13 @@
           }
         }
       }
+    }
+  },
+  "sidebar": {
+    "sectionTitle": {
+      "inquiry": "Zapytanie",
+      "edit": "Edycja",
+      "settings":"Ustawienia"
     }
   }
 }

@@ -148,7 +148,7 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
 
             </Toolbar>
             <Box p={(isMobile && !isSmallest) ? 0 : 1.5} >
-                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Ustawienia</Typography>}>
+                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.settings')}</Typography>}>
                     <ListItem disablePadding>
                         <Select
                             sx={{
@@ -189,7 +189,7 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                         text={editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}
                     />
                 </List>
-                <List sx={{ width: '100%', pb: 2 }} subheader={!isMobile && !isSmallest  ?  <Typography component='h6' textAlign='left' pb={.5} variant="caption">Zapytanie</Typography> : ''}>
+                <List sx={{ width: '100%', pb: 2 }} subheader={!isMobile && !isSmallest ? <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.inquiry')}</Typography> : ''}>
                     <SidebarListItem
                         onClick={() => {
                             const fileInput = document.getElementById('file-input') as HTMLInputElement;
@@ -228,7 +228,7 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                         />
                     }
                 </List>
-                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest  ? '' : <Typography component='h6' textAlign='left' pb={.5} variant="caption">Edycja</Typography>}>
+                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest  ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.edit')}</Typography>}>
                     <SidebarListItem
                         onClick={handleUndo}
                         disabled={!canUndo}
