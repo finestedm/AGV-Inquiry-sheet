@@ -114,7 +114,7 @@ export default function Form(): JSX.Element {
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
-            <Box width='100%' p={isMobile ? 1 : 4} sx={{ overflow: 'scroll'}}>
+            <Box width='100%' p={isMobile ? 1 : 4}>
               <Stack spacing={6} sx={{ mt: 5 }}>
                 <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
                   <Box>

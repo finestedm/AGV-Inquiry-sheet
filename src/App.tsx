@@ -204,7 +204,7 @@ function App() {
               <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
               <Box sx={{ flexGrow: 1,  overflow: 'hidden', width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)'}}>
                 <TopBar sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
-                <Box sx={{ width: '100%', overflowY: 'scroll', height: 'calc(100% - 64px)', overflowX: 'hidden', pb: isMobile ? 5 : 0 }}>
+                <Box sx={{ width: '100%', overflowY: 'scroll', height:  '100%', overflowX: 'hidden', pb: isMobile ? 5 : 0 }}>
                   <FormStepperBar handleUndo={handleUndo} handleRedo={handleRedo} />
                   {!isMobile && <Divider />}
                   <Form />
