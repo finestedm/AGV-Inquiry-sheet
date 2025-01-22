@@ -220,7 +220,6 @@ function App() {
                 <TopBar sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
                 <Box sx={{ width: '100%', height: isMobile ? isSmallest ? 'calc(100% - 112px)' : 'calc(100% - 52px)' : '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
                   <FormStepperBar navigateToStep={navigateToStep}/>
-                  {!isMobile && <Divider />}
                   <Form navigateToStep={navigateToStep}/>
                 </Box>
               </Box>

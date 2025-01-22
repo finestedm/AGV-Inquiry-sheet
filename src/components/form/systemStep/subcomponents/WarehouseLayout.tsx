@@ -226,8 +226,6 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         }
     };
 
-    console.log(warehouseData.width  && warehouseData.length )
-
     if (warehouseEquipment) {
         return (
             <Box>

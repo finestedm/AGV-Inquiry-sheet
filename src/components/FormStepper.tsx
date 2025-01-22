@@ -72,7 +72,9 @@ export default function FormStepper({ navigateToStep  }: { navigateToStep: (step
           alignItems: "stretch",
           width: "100%",
           gap: "2px",
-          backgroundColor: theme.palette.divider
+          backgroundColor: theme.palette.divider,
+          borderBottom: 1,
+          borderColor: theme.palette.divider,
         }}
       >
        {allSteps.map((label, index) => {
