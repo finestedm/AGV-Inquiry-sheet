@@ -13,6 +13,7 @@ export default function FormStepper({ navigateToStep  }: { navigateToStep: (step
   const theme = useTheme();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallest = useMediaQuery(theme.breakpoints.only("xs"));
   const darkMode = useSelector((state: RootState) => state.darkMode);
 
   const allSteps = useSelector((state: RootState) => state.steps.steps);
@@ -28,7 +29,7 @@ export default function FormStepper({ navigateToStep  }: { navigateToStep: (step
           className="mobile-stepper"
           position="fixed"
           color="default"
-          sx={{ top: "auto", bottom: 0, borderTop: 1, borderColor: theme.palette.divider, zIndex: '1210 !important' }}
+          sx={{ top: "auto", bottom: 0, borderTop: 1, borderColor: theme.palette.divider, zIndex: isSmallest ? 1100 : '1210 !important' }}
         >
           <MobileStepper
             sx={{ backgroundColor: "transparent" }}

@@ -1,4 +1,4 @@
-import { Box, Button, Card, CircularProgress, Collapse, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Stack, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Avatar, Box, Button, Card, CircularProgress, Collapse, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Stack, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import jhLogo from '../images/Jungheinrich-Logo.svg'
 import jhLogoDark from '../images/JH_logo.png'
 import jhLogoSmall from '../images/Jungheinrich-Logo-J_.svg'
@@ -27,6 +27,7 @@ import UndoIcon from '@mui/icons-material/Undo';
 import SaveIcon from '@mui/icons-material/Save';
 import UploadIcon from '@mui/icons-material/Upload';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ContactSupportOutlinedIcon from '@mui/icons-material/ContactSupportOutlined';
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
 
 export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSidebarOpening }: { handleUndo: () => void, handleRedo: () => void, sidebarOpen: boolean, handleSidebarOpening: () => void }): JSX.Element {
@@ -140,13 +141,17 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                 }
             }}
         >
-            <Toolbar sx={{ flex: 1, justifyContent: 'center', maxHeight: 65, backgroundColor: !darkMode ? 'white' : 'transparent', borderBottom: 1, borderColor: theme.palette.divider }}>
+            <Stack justifyContent='center' height='100%'>
+            <Box>
+                <Toolbar sx={{ flex: 1, justifyContent: 'center', maxHeight: 65, backgroundColor: !darkMode ? 'white' : 'transparent', borderBottom: 1, borderColor: theme.palette.divider }}>
                 {isMobile
                     ? <img src={jhLogoSmall} height='30' alt='JH_logo' />
                     : <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
                 }
 
-            </Toolbar>
+                </Toolbar>
+            </Box>
+            <Box flexGrow={1}>
             <Box p={(isMobile && !isSmallest) ? 0 : 1.5} >
                 <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.settings')}</Typography>}>
                     <ListItem disablePadding>
@@ -245,6 +250,17 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                     </SidebarListItem>
                 </List >
             </Box>
+            </Box>
+            <Box p={(isMobile && !isSmallest) ? 0 : 1.5} mb={isMobile && !isSmallest ? 8 : 0}>
+            <List sx={{ width: '100%' }} subheader={isMobile && !isSmallest  ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.help')}</Typography>}>
+            <SidebarListItem
+                        onClick={() => console.log('pomoc')}
+                        icon={<ContactSupportOutlinedIcon />}
+                        text={t('ui.button.help.contact')}
+                    />
+            </List>
+            </Box>
+            </Stack>
 
         </Drawer >
     )

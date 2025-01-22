@@ -20,7 +20,7 @@ import { setFormData } from './features/redux/reducers/formDataSlice';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { ActionCreators } from 'redux-undo';
 import { openSnackbar } from './features/redux/reducers/snackBarSlice';
-import { setCurrentStep } from './features/redux/reducers/stepsSlice';
+import { allPossibleSteps, setCurrentStep } from './features/redux/reducers/stepsSlice';
 import { findDifferences, getChangedKeys, mapPathToStep } from './features/undo-redo/methods';
 import Sidebar from './components/Sidebar';
 import FormStepperBar from './components/FormStepperBar';
@@ -47,6 +47,7 @@ function App() {
   const darkMode = useSelector((state: RootState) => state.darkMode)
   const editMode = useSelector((state: RootState) => state.editMode)
   const formData = useSelector((state: RootState) => state.formData.present);
+  const currentStep = useSelector((state: RootState) => state.steps.currentStep);
   const dispatch = useDispatch();
   const [initialLoad, setInitialLoad] = useState(true);
 
@@ -196,8 +197,8 @@ function App() {
 
   function navigateToStep(step: string) {
     const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
-
-    if (editMode && elementsWithAriaInvalid.length > 0) {
+    const isGoingBack = allPossibleSteps.indexOf(step) < allPossibleSteps.indexOf(currentStep)
+    if (editMode && elementsWithAriaInvalid.length > 0 && !isGoingBack) {
       const element = elementsWithAriaInvalid[0];
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
@@ -217,7 +218,7 @@ function App() {
               <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
               <Box sx={{ flexGrow: 1,  overflow: 'hidden', width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)'}}>
                 <TopBar sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
-                <Box sx={{ width: '100%', overflowY: 'scroll', height:  '100%', overflowX: 'hidden', pb: isMobile ? 5 : 0 }}>
+                <Box sx={{ width: '100%', height: isMobile ? isSmallest ? 'calc(100% - 112px)' : 'calc(100% - 52px)' : '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
                   <FormStepperBar navigateToStep={navigateToStep}/>
                   {!isMobile && <Divider />}
                   <Form navigateToStep={navigateToStep}/>
