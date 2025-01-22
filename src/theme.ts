@@ -603,7 +603,7 @@ export const themeDark = createTheme({
 
     typography: {
         fontFamily: [
-            'Roboto', // Primary font
+            'Inter', // Primary font
             'sans-serif',
         ].join(','),
         fontWeightRegular: 500,

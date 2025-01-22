@@ -256,7 +256,7 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
             <SidebarListItem
                         onClick={() => console.log('pomoc')}
                         icon={<ContactSupportOutlinedIcon />}
-                        text={t('ui.button.help.contact')}
+                        text={t('ui.button.inquiry.contact')}
                     />
             </List>
             </Box>

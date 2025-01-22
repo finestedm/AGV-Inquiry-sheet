@@ -264,6 +264,7 @@ export default function FormMediaStep(): JSX.Element {
 export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void, takePhoto?: boolean }) {
     const theme = useTheme();
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
 
     function triggerFileInput() {
         if (fileInputRef.current) {
@@ -303,7 +304,7 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
                 </CardMedia>
                 <CardContent sx={{ backgroundColor: theme.palette.primary.main, height: 45, p: 0, alignContent: 'center' }}>
                     <Typography variant="button" textAlign="center" color={theme.palette.primary.contrastText}>
-                        {takePhoto ? 'Take Photo' : 'Select Images'}
+                        {takePhoto ? t('ui.button.takePhoto') : t('ui.button.selectImage')}
                     </Typography>
                 </CardContent>
                 {takePhoto ?

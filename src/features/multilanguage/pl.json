@@ -61,7 +61,8 @@
   "media": {
     "header": "Media",
     "subheader": {
-      "images": "Zdjęcia"
+      "images": "Zdjęcia",
+      "imagesSubtitle": "Dodaj zdjęcia magazynu, ładunków itp."
     }
   },
   "steps": {
@@ -91,11 +92,16 @@
       "back": "Wstecz",
       "next": "Dalej",
       "addNewEquipment": "Dodaj wyposażenie",
+      "takePhoto": "Zrób zdjęcie",
+      "selectImage": "Dodaj zdjęcie",
       "inquiry": {
         "load": "Wczytaj zapytanie",
         "save": "Zapisz zapytanie",
+        "undo": "Cofnij",
+        "redo": "Powtórz",
         "saveToServer": "Wyślij na serwer",
-        "clear": "Wymaż dane"
+        "clear": "Wymaż dane",
+        "contact": "Kontakt"
       },
       "copyDialog": {
         "accept": "Tak, skopiuj dane",
@@ -202,7 +208,8 @@
       "flow": "Przepływy",
       "flowSubtitle": "Zarys przepływu towaru na magazynie",
       "capacity": "Pojemność",
-      "additionalRemarks": "Dodatkowe uwagi"
+      "additionalRemarks": "Dodatkowe uwagi",
+      "additionalRemarksSubtitle": "Dodatkowe informacje opisujące warunki pracy, aspekty techniczne, specyfikę magazynu itp."
     },
     "workTime": {
       "workDays": "Dni pracy w tygodniu",
@@ -223,6 +230,7 @@
       "existing": "Istniejący",
       "silo": "Magazyn silosowy",
       "incline": "Maks. pochył (np. ramp)",
+      "layout": "Szkic",
       "existingBuilding": {
         "height": "Wysokość",
         "width": "Szerokość",
@@ -471,7 +479,8 @@
     "sectionTitle": {
       "inquiry": "Zapytanie",
       "edit": "Edycja",
-      "settings":"Ustawienia"
+      "settings":"Ustawienia",
+      "help": "Pomoc"
     }
   }
 }
