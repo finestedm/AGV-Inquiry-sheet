@@ -13,7 +13,7 @@ export default function InputGroup({ title, content, subTitle, extendedOpener, e
                     <Stack direction='row' spacing={1} justifyContent='space-between'>
                         <Box>
                             <Stack direction='row' spacing={1}>
-                                <Box position='relative' borderRadius={1} width={48} height={48} sx={{ backgroundColor: tinycolor(theme.palette.primary.main).setAlpha(.25).toHex8String() }}>
+                                <Box position='relative' borderRadius={1} minWidth={48} height={48} sx={{ backgroundColor: tinycolor(theme.palette.primary.main).setAlpha(.25).toHex8String() }}>
                                     {icon && React.createElement(icon, { sx: { color: theme.palette.primary.main, fontSize: 40, position: 'absolute', left: 4, top: 4 } })}
                                 </Box>
                                 <Box>

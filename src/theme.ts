@@ -374,13 +374,11 @@ theme = createTheme({
                         },
                     },
                     '&.MuiButton-containedPrimary': {
-
                         color: 'white',
                         backgroundColor: primaryColor,
                         boxShadow: 'none',
                         '&:hover': {
-                            color: tinycolor(primaryColor).darken(15).toHex8String(),
-                            backgroundColor: tinycolor(primaryColor).setAlpha(.45).toHex8String(),
+                            backgroundColor: tinycolor(primaryColor).setAlpha(.6).toHex8String(),
                         }
                     },
 
