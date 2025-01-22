@@ -189,9 +189,11 @@
   "system": {
     "tooHighPickupPoint": "Wybrany system nie może obsługiwać takich wysokości. Co najmniej jeden z obsługiwanych przez system punktów jest zbyt wysoki.",
     "workingConditionsTitle": "Uwaga!",
-    "workingConditions": "Warunki uniemożliwiają zastosowanie wybrane systemu",
+    "workingConditions": "Warunki uniemożliwiają zastosowanie wybranego systemu",
     "condensationWarningTitle": "Uwaga!",
     "condensationWarning": "Panujące warunki mogą powodowac kondensacje",
+    "noWarehouseDimensionsTitle": "Brak wymiarów magazynu",
+    "noWarehouseDimensions": "Do wygenerowania szkicu magazynu konieczne jest wskazanie jego wymiarów",
     "inclineWarningTitle": "Wysoki pochył",
     "inclineWarning": "Zastosowanie wózka automatycznego może nie być możliwe.",
     "manyLoadsWarningTitle": "Uwaga",
@@ -208,6 +210,7 @@
       "flow": "Przepływy",
       "flowSubtitle": "Zarys przepływu towaru na magazynie",
       "capacity": "Pojemność",
+      "capacitySubtitle": "Wskaż ilości ładunków, które powinien pomieścić system",
       "additionalRemarks": "Dodatkowe uwagi",
       "additionalRemarksSubtitle": "Dodatkowe informacje opisujące warunki pracy, aspekty techniczne, specyfikę magazynu itp."
     },

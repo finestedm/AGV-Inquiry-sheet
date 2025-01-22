@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text, Transformer } from 'react-konva';
-import { Box, Button, ButtonGroup, Chip, ClickAwayListener, Collapse, Grow, ListItemIcon, ListItemText, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
+import { Box, Button, ButtonGroup, Chip, ClickAwayListener, Collapse, Grow, InputLabel, ListItemIcon, ListItemText, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
 import { IEquipment, IFlow, ISystems } from '../../../../features/interfaces';
@@ -18,6 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EquipmentFlowLines from './WarehouseEquipmentFlowLines';
 import EquipmentDetails from './EquipmentDetails';
 import { debounce } from 'lodash';
+import CustomAlert from '../../../CustomAlert';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -225,10 +226,64 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
         }
     };
 
+    console.log(warehouseData.width  && warehouseData.length )
+
     if (warehouseEquipment) {
         return (
             <Box>
+            {warehouseData.width>0 && warehouseData.length>0
+            ?
                 <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
+                    <InputLabel>{t(`system.building.layout`)}</InputLabel>
+                    <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={layoutBorderWidth} borderColor={theme.palette.divider}>
+                        <Stage
+                            width={canvaDimensions.width}
+                            height={canvaDimensions.height}
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            onMouseDown={checkDeselect}
+                            onTouchStart={checkDeselect}
+                        >
+                            <Layer>
+                                <Rect
+                                    id='konvaBackground'
+                                    width={canvaDimensions.width - wallThickness} // Adjusted width with offset
+                                    height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
+                                    x={(wallThickness / 2)} // Offset from the left border
+                                    Y={(wallThickness / 2)} // Offset from the left border
+                                    fill={theme.palette.background.paper}
+                                    opacity={1}
+                                />
+
+                            </Layer>
+                            <Layer>
+                                {generateGridLines()}
+                            </Layer>
+                            <Layer>
+                                {warehouseEquipment.map((equipment: IEquipment, index: number) => (
+                                    <EquipmentShape
+                                        isSelected={equipment.id === selectedShapeId}
+                                        onSelect={() => {
+                                            editMode && setSelectedShapeId(equipment.id);
+                                        }}
+                                        key={equipment.id}
+                                        equipment={equipment}
+                                        index={index}
+                                        selectedSystem={selectedSystem}
+                                        canvaToWarehouseRatio={canvaToWarehouseRatio}
+                                        selectedShapeId={selectedShapeId}
+                                    />
+                                ))}
+                            </Layer>
+                            <Layer>
+                                {warehouseFlows
+                                    .map((flow: IFlow) => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
+                                }
+                            </Layer>
+                            <Layer>
+                            </Layer>
+                        </Stage>
+                    </Box>
+                    <EquipmentDetails selectedSystem={selectedSystem} />
                     <Stack spacing={2} direction='row' justifyContent='space-between'>
                         <Box>
                             <ButtonGroup disabled={!editMode} variant='outlined' size="small" aria-label="split button">
@@ -292,56 +347,10 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                             </Button>
                         </Collapse>
                     </Stack>
-                    <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={layoutBorderWidth} borderColor={theme.palette.divider}>
-                        <Stage
-                            width={canvaDimensions.width}
-                            height={canvaDimensions.height}
-                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                            onMouseDown={checkDeselect}
-                            onTouchStart={checkDeselect}
-                        >
-                            <Layer>
-                                <Rect
-                                    id='konvaBackground'
-                                    width={canvaDimensions.width - wallThickness} // Adjusted width with offset
-                                    height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
-                                    x={(wallThickness / 2)} // Offset from the left border
-                                    Y={(wallThickness / 2)} // Offset from the left border
-                                    fill={theme.palette.background.default}
-                                    opacity={1}
-                                />
-
-                            </Layer>
-                            <Layer>
-                                {generateGridLines()}
-                            </Layer>
-                            <Layer>
-                                {warehouseEquipment.map((equipment: IEquipment, index: number) => (
-                                    <EquipmentShape
-                                        isSelected={equipment.id === selectedShapeId}
-                                        onSelect={() => {
-                                            editMode && setSelectedShapeId(equipment.id);
-                                        }}
-                                        key={equipment.id}
-                                        equipment={equipment}
-                                        index={index}
-                                        selectedSystem={selectedSystem}
-                                        canvaToWarehouseRatio={canvaToWarehouseRatio}
-                                        selectedShapeId={selectedShapeId}
-                                    />
-                                ))}
-                            </Layer>
-                            <Layer>
-                                {warehouseFlows
-                                    .map((flow: IFlow) => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
-                                }
-                            </Layer>
-                            <Layer>
-                            </Layer>
-                        </Stage>
-                    </Box>
-                    <EquipmentDetails selectedSystem={selectedSystem} />
                 </Stack>
+            : 
+                <CustomAlert collapseTrigger={!!warehouseData.width && !!warehouseData.length} severity='warning' title={t('system.noWarehouseDimensionsTitle')} text={t('system.noWarehouseDimensions')} />
+            } 
             </Box>
         );
     } else {

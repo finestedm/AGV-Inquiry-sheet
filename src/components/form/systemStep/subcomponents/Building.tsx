@@ -79,7 +79,6 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         <Stack spacing={4}>
                             <WarehouseSizeEditingFields selectedSystem={selectedSystem} />
                             <Divider />
-                            <InputLabel>{t(`system.building.layout`)}</InputLabel>
                             <WarehouseLayout selectedSystem={selectedSystem} />
                             <Collapse in={(selectedSystem === 'agv') && (formData.system[selectedSystem].building.existingBuilding.equipment.filter(eq => eq.zHeight > 5).length >= 1)} >
                                 <Alert id='system.tooHighPickupPoint' severity="error">{t(`system.tooHighPickupPoint`)}</Alert>
