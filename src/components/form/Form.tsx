@@ -18,7 +18,7 @@ import FormSummaryStep from "./summaryStep/FormSummaryStep";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useDispatch } from "react-redux";
-import currentStep, { backStep, initialSteps, nextStep, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
+import { initialSteps, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
 import FormMediaStep from "./mediaStep/MediaStep";
 
 export default function Form({ navigateToStep  }: { navigateToStep: (step: string) => void}): JSX.Element {
@@ -31,7 +31,8 @@ export default function Form({ navigateToStep  }: { navigateToStep: (step: strin
 
   const formData = useSelector((state: RootState) => state.formData);
   const editMode = useSelector((state: RootState) => state.editMode);
-
+  const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+  const allActiveSteps = useSelector((state: RootState) => state.steps.steps);
 
   const constantSteps = initialSteps;
   const steps = useSelector((state: RootState) => state.steps)
@@ -51,18 +52,6 @@ export default function Form({ navigateToStep  }: { navigateToStep: (step: strin
   useEffect(() => {
     dispatch(updateSteps(allSteps));
   }, [formData.present.system])
-
-  function handleNext () {
-    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) + 1
-    const stepToMove = steps.steps[stepToMoveIndex]
-    navigateToStep(stepToMove)
-  };
-
-  function handleBack () {
-    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) - 1
-    const stepToMove = steps.steps[stepToMoveIndex]
-    navigateToStep(stepToMove)
-  };
 
   useEffect(() => {
     navigate(`/${steps.currentStep}`);
@@ -120,12 +109,12 @@ export default function Form({ navigateToStep  }: { navigateToStep: (step: strin
                   <Divider sx={{ mb: 4 }} />
                   <Stack direction='row'>
                     {steps.currentStep !== allSteps[0] && (
-                      <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
+                      <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={() => navigateToStep(allActiveSteps[allActiveSteps.indexOf(currentStep)-1])} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
                         {t('ui.button.back')}
                       </Button>
                     )}
                     {steps.currentStep !== allSteps[allSteps.length - 1] && (
-                      <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
+                      <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={() => navigateToStep(allActiveSteps[allActiveSteps.indexOf(currentStep)+1])} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
                         disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
                       >
                         {t('ui.button.next')}

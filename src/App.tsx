@@ -203,7 +203,7 @@ function App() {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-        dispatch(setCurrentStep(step));
+      dispatch(setCurrentStep(step));
   };
   }
 
