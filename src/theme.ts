@@ -84,7 +84,7 @@ const paperColor = '#fff'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
 const textPrimaryColor = '#101828'
-const textSecondaryColor = '#667085'
+const textSecondaryColor = '#727984'
 const greyLightMinus10BlackColor = '#EAEFF1'
 const greyLightColor = '#C0CBCE'
 

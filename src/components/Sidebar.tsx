@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CircularProgress, Collapse, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Stack, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Avatar, Box, Button, Card, CircularProgress, Collapse, Dialog, DialogContent, DialogContentText, DialogTitle, Divider, Drawer, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, Stack, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import jhLogo from '../images/Jungheinrich-Logo.svg'
 import jhLogoDark from '../images/JH_logo.png'
 import jhLogoSmall from '../images/Jungheinrich-Logo-J_.svg'
@@ -28,7 +28,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import UploadIcon from '@mui/icons-material/Upload';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ContactSupportOutlinedIcon from '@mui/icons-material/ContactSupportOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
+import tinycolor from "tinycolor2";
+import placeholderPhoto from '../images/bio-portrait-placeholder.webp'
 
 export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSidebarOpening }: { handleUndo: () => void, handleRedo: () => void, sidebarOpen: boolean, handleSidebarOpening: () => void }): JSX.Element {
     const theme = useTheme();
@@ -115,16 +118,16 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
         dispatch(setEditMode(false))
     }
 
-    const getFlagByLanguage = (language: string): string => {
-        const flags: Record<string, string> = {
-            en: en,
-            pl: pl,
-            de: de,
-        };
+    // help contact dialog //
+    const [helpDialogOpen, setHelpDialogOpen] = useState(false);
 
-        return flags[language] || '';
-    };
+    function handleHelpDialogOpening() {
+        setHelpDialogOpen(true)
+    }
 
+    function handleHelpDialogClosing() {
+        setHelpDialogOpen(!helpDialogOpen)
+    }
 
     return (
         <Drawer
@@ -254,14 +257,14 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
             <Box p={(isMobile && !isSmallest) ? 0 : 1.5} mb={isMobile && !isSmallest ? 8 : 0}>
             <List sx={{ width: '100%' }} subheader={isMobile && !isSmallest  ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.help')}</Typography>}>
             <SidebarListItem
-                        onClick={() => console.log('pomoc')}
+                        onClick={handleHelpDialogOpening}
                         icon={<ContactSupportOutlinedIcon />}
                         text={t('ui.button.inquiry.contact')}
                     />
             </List>
             </Box>
             </Stack>
-
+            <HelpDialog helpDialogOpen={helpDialogOpen} handleHelpDialogClosing={handleHelpDialogClosing} />
         </Drawer >
     )
 }
@@ -324,5 +327,53 @@ export function LanguageMenuItem({ lang, img }: { lang: TAvailableLanguages, img
                 <Typography>{fullLangName()}</Typography>
             </Stack>
         </MenuItem>
+    )
+}
+
+function HelpDialog({helpDialogOpen, handleHelpDialogClosing}: {helpDialogOpen: boolean, handleHelpDialogClosing: () => void}) {
+    const theme = useTheme();
+    const { t } = useTranslation();
+
+    return (
+        <Dialog
+            open={helpDialogOpen}
+            onClose={handleHelpDialogClosing}
+        >
+            <DialogTitle>
+                {t("ui.dialog.contact.title")}
+            </DialogTitle>
+            <DialogContent sx={{p: 2}}>
+                <DialogContentText>
+                    <Stack spacing={3} direction='row'>
+                            <Card sx={{position: 'relative'}}>
+                                <Avatar sx={{ height: 200, width: 200}} variant="square" src={placeholderPhoto}/>
+                                <Box position='absolute' bottom="0" width='100%' sx={{backgroundColor: tinycolor(theme.palette.background.paper).setAlpha(.5).toHex8String(), backdropFilter: 'blur(2px)'}}>
+                                    <Typography textAlign='center' variant="body1" fontSize='120%'>Paweł S</Typography>
+                                    <Typography textAlign='center' variant="body1" color="text.secondary">Bugs, technical questions</Typography>
+                                </Box>
+                            </Card>
+                            <Card sx={{position: 'relative'}}>
+                                <Avatar sx={{ height: 200, width: 200}} variant="square" src={placeholderPhoto}/>
+                                <Box position='absolute' bottom="0" width='100%' sx={{backgroundColor: tinycolor(theme.palette.background.paper).setAlpha(.5).toHex8String(), backdropFilter: 'blur(2px)'}}>
+                                    <Typography textAlign='center' variant="body1" fontSize='120%'>Artur T</Typography>
+                                    <Typography textAlign='center' variant="body1" color="text.secondary">AGV questions</Typography>
+                                </Box>
+                            </Card>
+                    </Stack>
+                </DialogContentText>
+                <IconButton
+          aria-label="close"
+          onClick={handleHelpDialogClosing}
+          sx={(theme) => ({
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: theme.palette.grey[500],
+          })}
+        >
+          <CloseIcon />
+        </IconButton>
+            </DialogContent>
+        </Dialog>
     )
 }
