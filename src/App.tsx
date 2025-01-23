@@ -113,7 +113,7 @@ function App() {
       // Detect changes between the past and present states
       const differences = findDifferences(pastState, formData.present); // Compare past and present
       const changedKeys = getChangedKeys(differences);
-
+      console.log(differences)
       if (changedKeys.length > 0) {
 
         // Map the changed path to a step
