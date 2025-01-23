@@ -129,6 +129,19 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
         setHelpDialogOpen(!helpDialogOpen)
     }
 
+    function returnFlag(lang: string) {
+        switch (lang) {
+            case 'pl':
+                return pl
+            case 'en':
+                return en
+            case 'de':
+                return de
+            default:
+                break;
+        }
+    }
+
     return (
         <Drawer
             variant={isSmallest ? 'temporary' : "persistent"}
@@ -145,124 +158,125 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
             }}
         >
             <Stack justifyContent='center' height='100%'>
-            <Box>
-                <Toolbar sx={{ flex: 1, justifyContent: 'center', maxHeight: 65, backgroundColor: !darkMode ? 'white' : 'transparent', borderBottom: 1, borderColor: theme.palette.divider }}>
-                {isMobile
-                    ? <img src={jhLogoSmall} height='30' alt='JH_logo' />
-                    : <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
-                }
+                <Box>
+                    <Toolbar sx={{ flex: 1, justifyContent: 'center', maxHeight: 65, backgroundColor: !darkMode ? 'white' : 'transparent', borderBottom: 1, borderColor: theme.palette.divider }}>
+                        {isMobile
+                            ? <img src={jhLogoSmall} height='30' alt='JH_logo' />
+                            : <img src={theme.palette.mode === 'dark' ? jhLogoDark : jhLogo} height='25' alt='JH_logo' />
+                        }
 
-                </Toolbar>
-            </Box>
-            <Box flexGrow={1}>
-            <Box p={(isMobile && !isSmallest) ? 0 : 1.5} >
-                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.settings')}</Typography>}>
-                    <ListItem disablePadding>
-                        <Select
-                            sx={{
-                                p: .25,
-                                backgroundColor: 'transparent',
-                                border: 'none',
-                                boxShadow: 'none',
-                                height: 45,
-                                '& .MuiInputBase-inputSizeSmall': {
-                                    padding: '0px',
-                                    minWidth: '20px'
-                                },
-                                '& .MuiOutlinedInput-notchedOutline': {
-                                    border: 'none'
-                                },
-                            }}
-                            disableUnderline
-                            size="small"
-                            renderValue={val => <LanguageMenuItem lang={val as TAvailableLanguages} img={en} />}
-                            fullWidth
-                            value={i18n.language}
-                            
-                        >
-                            <LanguageMenuItem lang="en" img={en} />
-                            <LanguageMenuItem lang="pl" img={pl} />
-                            <LanguageMenuItem lang="de" img={de} />
+                    </Toolbar>
+                </Box>
+                <Box flexGrow={1}>
+                    <Box p={(isMobile && !isSmallest) ? 0 : 1.5} >
+                        <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.settings')}</Typography>}>
+                            <ListItem disablePadding>
+                                <Select
+                                    sx={{
+                                        p: .25,
+                                        backgroundColor: 'transparent',
+                                        border: 'none',
+                                        boxShadow: 'none',
+                                        height: 45,
+                                        '& .MuiInputBase-inputSizeSmall': {
+                                            padding: '0px',
+                                            minWidth: '20px'
+                                        },
+                                        '& .MuiOutlinedInput-notchedOutline': {
+                                            border: 'none',
+                                            width: '40 !important'
+                                        },
+                                    }}
+                                    disableUnderline
+                                    size="small"
+                                    renderValue={val => <LanguageMenuItem lang={val as TAvailableLanguages} img={returnFlag(val) || pl} />}
+                                    fullWidth
+                                    value={i18n.language}
 
-                        </Select>
-                    </ListItem>
-                    <SidebarListItem
-                        onClick={() => dispatch(setDarkMode(!darkMode))}
-                        icon={!darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-                        text={darkMode ? t('ui.switch.darkMode.dark') : t('ui.switch.darkMode.light')}
-                    />
-                    <SidebarListItem
-                        onClick={() => dispatch(setEditMode(!editMode))}
-                        icon={!editMode ? <ModeIcon /> : <ImageSearchIcon />}
-                        text={editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}
-                    />
-                </List>
-                <List sx={{ width: '100%', pb: 2 }} subheader={!isMobile && !isSmallest ? <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.inquiry')}</Typography> : ''}>
-                    <SidebarListItem
-                        onClick={() => {
-                            const fileInput = document.getElementById('file-input') as HTMLInputElement;
-                            if (fileInput) fileInput.click();
-                        }}
-                        icon={<UploadIcon />}
-                        text={t('ui.button.inquiry.load')}
-                    />
-                    <input
-                        type="file"
-                        accept=".json"
-                        id="file-input"
-                        style={{ display: 'none' }}
-                        onInput={(e) => loadFile(e)}
-                    />
+                                >
+                                    <LanguageMenuItem lang="en" img={en} />
+                                    <LanguageMenuItem lang="pl" img={pl} />
+                                    <LanguageMenuItem lang="de" img={de} />
 
-                    {isSummaryStep && (
-                        <>
+                                </Select>
+                            </ListItem>
                             <SidebarListItem
-                                onClick={saveDataToFile}
-                                icon={<SaveIcon />}
-                                text={t('ui.button.inquiry.save')}
+                                onClick={() => dispatch(setDarkMode(!darkMode))}
+                                icon={!darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                                text={darkMode ? t('ui.switch.darkMode.dark') : t('ui.switch.darkMode.light')}
                             />
                             <SidebarListItem
-                                onClick={saveDataToServer}
-                                icon={isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}
-                                text={t('ui.button.inquiry.saveToServer')}
+                                onClick={() => dispatch(setEditMode(!editMode))}
+                                icon={!editMode ? <ModeIcon /> : <ImageSearchIcon />}
+                                text={editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}
                             />
-                        </>
-                    )}
-                    {!isFormUnchaged &&
+                        </List>
+                        <List sx={{ width: '100%', pb: 2 }} subheader={!isMobile && !isSmallest ? <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.inquiry')}</Typography> : ''}>
+                            <SidebarListItem
+                                onClick={() => {
+                                    const fileInput = document.getElementById('file-input') as HTMLInputElement;
+                                    if (fileInput) fileInput.click();
+                                }}
+                                icon={<UploadIcon />}
+                                text={t('ui.button.inquiry.load')}
+                            />
+                            <input
+                                type="file"
+                                accept=".json"
+                                id="file-input"
+                                style={{ display: 'none' }}
+                                onInput={(e) => loadFile(e)}
+                            />
+
+                            {isSummaryStep && (
+                                <>
+                                    <SidebarListItem
+                                        onClick={saveDataToFile}
+                                        icon={<SaveIcon />}
+                                        text={t('ui.button.inquiry.save')}
+                                    />
+                                    <SidebarListItem
+                                        onClick={saveDataToServer}
+                                        icon={isWaiting ? <CircularProgress size={16} /> : <BackupIcon />}
+                                        text={t('ui.button.inquiry.saveToServer')}
+                                    />
+                                </>
+                            )}
+                            {!isFormUnchaged &&
+                                <SidebarListItem
+                                    onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
+                                    icon={<DeleteOutlineIcon />}
+                                    text={t('ui.button.inquiry.clear')}
+                                />
+                            }
+                        </List>
+                        <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.edit')}</Typography>}>
+                            <SidebarListItem
+                                onClick={handleUndo}
+                                disabled={!canUndo}
+                                icon={<UndoIcon />}
+                                text={t('ui.button.inquiry.undo')}
+                            >
+                            </SidebarListItem>
+                            <SidebarListItem
+                                onClick={handleRedo}
+                                disabled={!canRedo}
+                                icon={<RedoIcon />}
+                                text={t('ui.button.inquiry.redo')}
+                            >
+                            </SidebarListItem>
+                        </List >
+                    </Box>
+                </Box>
+                <Box p={(isMobile && !isSmallest) ? 0 : 1.5} mb={isMobile && !isSmallest ? 8 : 0}>
+                    <List sx={{ width: '100%' }} subheader={isMobile && !isSmallest ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.help')}</Typography>}>
                         <SidebarListItem
-                            onClick={() => { dispatch(updateClearFormDataDialog({ open: true })) }}
-                            icon={<DeleteOutlineIcon />}
-                            text={t('ui.button.inquiry.clear')}
+                            onClick={handleHelpDialogOpening}
+                            icon={<ContactSupportOutlinedIcon />}
+                            text={t('ui.button.inquiry.contact')}
                         />
-                    }
-                </List>
-                <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest  ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.edit')}</Typography>}>
-                    <SidebarListItem
-                        onClick={handleUndo}
-                        disabled={!canUndo}
-                        icon={<UndoIcon />}
-                        text={t('ui.button.inquiry.undo')}
-                    >
-                    </SidebarListItem>
-                    <SidebarListItem
-                        onClick={handleRedo}
-                        disabled={!canRedo}
-                        icon={<RedoIcon />}
-                        text={t('ui.button.inquiry.redo')}
-                    >
-                    </SidebarListItem>
-                </List >
-            </Box>
-            </Box>
-            <Box p={(isMobile && !isSmallest) ? 0 : 1.5} mb={isMobile && !isSmallest ? 8 : 0}>
-            <List sx={{ width: '100%' }} subheader={isMobile && !isSmallest  ? '' : <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.help')}</Typography>}>
-            <SidebarListItem
-                        onClick={handleHelpDialogOpening}
-                        icon={<ContactSupportOutlinedIcon />}
-                        text={t('ui.button.inquiry.contact')}
-                    />
-            </List>
-            </Box>
+                    </List>
+                </Box>
             </Stack>
             <HelpDialog helpDialogOpen={helpDialogOpen} handleHelpDialogClosing={handleHelpDialogClosing} />
         </Drawer >
@@ -296,7 +310,9 @@ export function SidebarListItem({ onClick, icon, text, disabled = false }: Sideb
 type TAvailableLanguages = 'en' | 'pl' | 'de'
 
 export function LanguageMenuItem({ lang, img }: { lang: TAvailableLanguages, img: string }) {
-
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isSmallest = useMediaQuery(theme.breakpoints.only('xs'))
     const { t, i18n } = useTranslation();
 
     const handleLanguageChange = (e: TAvailableLanguages) => {
@@ -308,13 +324,10 @@ export function LanguageMenuItem({ lang, img }: { lang: TAvailableLanguages, img
         switch (lang) {
             case 'en':
                 return 'English'
-                break;
             case 'pl':
                 return 'Polish'
-                break;
             case 'de':
                 return 'German'
-                break;
             default:
                 break;
         }
@@ -324,13 +337,13 @@ export function LanguageMenuItem({ lang, img }: { lang: TAvailableLanguages, img
         <MenuItem value={lang} onClick={() => handleLanguageChange(lang)}>
             <Stack direction="row" spacing={3.5} alignItems="center">
                 <img src={img} alt={lang} style={{ width: 24, height: 16 }} />
-                <Typography>{fullLangName()}</Typography>
+                {!(isMobile && !isSmallest) && <Typography>{fullLangName()}</Typography>}
             </Stack>
         </MenuItem>
     )
 }
 
-function HelpDialog({helpDialogOpen, handleHelpDialogClosing}: {helpDialogOpen: boolean, handleHelpDialogClosing: () => void}) {
+function HelpDialog({ helpDialogOpen, handleHelpDialogClosing }: { helpDialogOpen: boolean, handleHelpDialogClosing: () => void }) {
     const theme = useTheme();
     const { t } = useTranslation();
 
@@ -342,37 +355,37 @@ function HelpDialog({helpDialogOpen, handleHelpDialogClosing}: {helpDialogOpen: 
             <DialogTitle>
                 {t("ui.dialog.contact.title")}
             </DialogTitle>
-            <DialogContent sx={{p: 2}}>
+            <DialogContent sx={{ p: 2 }}>
                 <DialogContentText>
                     <Stack spacing={3} direction='row'>
-                            <Card sx={{position: 'relative'}}>
-                                <Avatar sx={{ height: 200, width: 200}} variant="square" src={placeholderPhoto}/>
-                                <Box position='absolute' bottom="0" width='100%' sx={{backgroundColor: tinycolor(theme.palette.background.paper).setAlpha(.5).toHex8String(), backdropFilter: 'blur(2px)'}}>
-                                    <Typography textAlign='center' variant="body1" fontSize='120%'>Paweł S</Typography>
-                                    <Typography textAlign='center' variant="body1" color="text.secondary">Bugs, technical questions</Typography>
-                                </Box>
-                            </Card>
-                            <Card sx={{position: 'relative'}}>
-                                <Avatar sx={{ height: 200, width: 200}} variant="square" src={placeholderPhoto}/>
-                                <Box position='absolute' bottom="0" width='100%' sx={{backgroundColor: tinycolor(theme.palette.background.paper).setAlpha(.5).toHex8String(), backdropFilter: 'blur(2px)'}}>
-                                    <Typography textAlign='center' variant="body1" fontSize='120%'>Artur T</Typography>
-                                    <Typography textAlign='center' variant="body1" color="text.secondary">AGV questions</Typography>
-                                </Box>
-                            </Card>
+                        <Card sx={{ position: 'relative' }}>
+                            <Avatar sx={{ height: 200, width: 200 }} variant="square" src={placeholderPhoto} />
+                            <Box position='absolute' bottom="0" width='100%' sx={{ backgroundColor: tinycolor(theme.palette.background.paper).setAlpha(.5).toHex8String(), backdropFilter: 'blur(2px)' }}>
+                                <Typography textAlign='center' variant="body1" fontSize='120%'>Paweł S</Typography>
+                                <Typography textAlign='center' variant="body1" color="text.secondary">Bugs, technical questions</Typography>
+                            </Box>
+                        </Card>
+                        <Card sx={{ position: 'relative' }}>
+                            <Avatar sx={{ height: 200, width: 200 }} variant="square" src={placeholderPhoto} />
+                            <Box position='absolute' bottom="0" width='100%' sx={{ backgroundColor: tinycolor(theme.palette.background.paper).setAlpha(.5).toHex8String(), backdropFilter: 'blur(2px)' }}>
+                                <Typography textAlign='center' variant="body1" fontSize='120%'>Artur T</Typography>
+                                <Typography textAlign='center' variant="body1" color="text.secondary">AGV questions</Typography>
+                            </Box>
+                        </Card>
                     </Stack>
                 </DialogContentText>
                 <IconButton
-          aria-label="close"
-          onClick={handleHelpDialogClosing}
-          sx={(theme) => ({
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: theme.palette.grey[500],
-          })}
-        >
-          <CloseIcon />
-        </IconButton>
+                    aria-label="close"
+                    onClick={handleHelpDialogClosing}
+                    sx={(theme) => ({
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                        color: theme.palette.grey[500],
+                    })}
+                >
+                    <CloseIcon />
+                </IconButton>
             </DialogContent>
         </Dialog>
     )
