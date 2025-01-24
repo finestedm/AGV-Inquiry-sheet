@@ -192,7 +192,7 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                                     }}
                                     disableUnderline
                                     size="small"
-                                    IconComponent= {() => null }
+                                    IconComponent={() => null}
                                     renderValue={val =>
                                         !(isMobile && !isSmallest)
                                             ? <LanguageMenuItem lang={val as TAvailableLanguages} img={returnFlag(val) || pl} />
@@ -219,7 +219,7 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                                 text={editMode ? t('ui.switch.editMode.edit') : t('ui.switch.editMode.read')}
                             />
                         </List>
-                        <List sx={{ width: '100%', pb: 2 }} subheader={!isMobile && !isSmallest ? <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.inquiry')}</Typography> : ''}>
+                        <List sx={{ width: '100%', pb: 2 }} subheader={isMobile && !isSmallest ? <Typography component='h6' color="text.secondary" textAlign='left' pb={.5} variant="caption">{t('sidebar.sectionTitle.inquiry')}</Typography> : ''}>
                             <SidebarListItem
                                 onClick={() => {
                                     const fileInput = document.getElementById('file-input') as HTMLInputElement;
