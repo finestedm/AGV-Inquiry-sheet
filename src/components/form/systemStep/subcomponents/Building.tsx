@@ -92,7 +92,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         onClose={extenderHandler}
                     >
                         <DialogTitle>
-                            {t('ui.warehouseDialog.title')}
+                            {t('ui.dialog.warehouse.title')}
                         </DialogTitle>
                         <IconButton
                             aria-label="close"
@@ -101,7 +101,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         >
                             <CloseIcon />
                         </IconButton>
-                        <DialogContent>
+                        <DialogContent sx={{ p: isMobile ? 0.5 : 2 }}>
                             <Stack spacing={3}>
                                 <WarehouseSizeEditingFields selectedSystem={selectedSystem} />
                                 <WarehouseLayout selectedSystem={selectedSystem} />

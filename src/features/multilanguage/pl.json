@@ -160,6 +160,12 @@
         "selectDates": "Zmień daty dla: ",
         "start": "początkowa",
         "end": "końcowa"
+      },
+      "warehouse": {
+        "title": "Edycja szkicu magazynu"
+      },
+      "contact": {
+        "title": "Osoby kontaktowe"
       }
     },
     "snackBar": {
