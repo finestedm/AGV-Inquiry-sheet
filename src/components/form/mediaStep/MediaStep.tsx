@@ -30,51 +30,53 @@ export default function FormMediaStep(): JSX.Element {
     const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
 
     async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
-        const input = event.target as HTMLInputElement;
-        if (!input.files || input.files.length === 0) return;
+        if (!loading) {
+            const input = event.target as HTMLInputElement;
+            if (!input.files || input.files.length === 0) return;
 
-        const files = Array.from(input.files);
-        setProcessingCount(files.length); // Update the count
-        setLoading(true); // Start loading
+            const files = Array.from(input.files);
+            setProcessingCount(files.length); // Update the count
+            setLoading(true); // Start loading
 
-        try {
-            const compressedFiles = await Promise.all(
-                files.map(async (file) => {
-                    const options = {
-                        maxSizeMB: 0.75,
-                        useWebWorker: true,
-                    };
-                    const compressedFile = await imageCompression(file, options);
-                    const base64 = await fileToBase64(compressedFile);
+            try {
+                const compressedFiles = await Promise.all(
+                    files.map(async (file) => {
+                        const options = {
+                            maxSizeMB: 0.75,
+                            useWebWorker: true,
+                        };
+                        const compressedFile = await imageCompression(file, options);
+                        const base64 = await fileToBase64(compressedFile);
 
-                    const nameWithoutExtension = file.name.split('.')[0]
+                        const nameWithoutExtension = file.name.split('.')[0]
 
-                    return { base64, name: nameWithoutExtension };
-                })
-            );
+                        return { base64, name: nameWithoutExtension };
+                    })
+                );
 
-            const uniqueNewImages = compressedFiles.filter((newImage) => {
-                const isDuplicate = imagesUploaded.some((existingImage) => {
-                    const isMatch = existingImage.base64 === newImage.base64;
-                    if (isMatch) {
-                        dispatch(openSnackbar({ message: `${t('ui.snackBar.message.duplicateImageFound')}`, severity: 'warning' }));
-                    }
-                    return isMatch;
+                const uniqueNewImages = compressedFiles.filter((newImage) => {
+                    const isDuplicate = imagesUploaded.some((existingImage) => {
+                        const isMatch = existingImage.base64 === newImage.base64;
+                        if (isMatch) {
+                            dispatch(openSnackbar({ message: `${t('ui.snackBar.message.duplicateImageFound')}`, severity: 'warning' }));
+                        }
+                        return isMatch;
+                    });
+                    return !isDuplicate;
                 });
-                return !isDuplicate;
-            });
 
-            dispatch(handleInputMethod({
-                path: 'media.images',
-                value: [...imagesUploaded, ...uniqueNewImages],
-            }));
+                dispatch(handleInputMethod({
+                    path: 'media.images',
+                    value: [...imagesUploaded, ...uniqueNewImages],
+                }));
 
-        } catch (error) {
-            console.error('Error while compressing or converting image:', error);
-        } finally {
-            setLoading(false); // End loading
-            setProcessingCount(0); // Reset count after processing
-            input.value = "";
+            } catch (error) {
+                console.error('Error while compressing or converting image:', error);
+            } finally {
+                setLoading(false); // End loading
+                setProcessingCount(0); // Reset count after processing
+                input.value = "";
+            }
         }
     }
 
@@ -163,12 +165,12 @@ export default function FormMediaStep(): JSX.Element {
                                     <Grid container spacing={2}>
                                         {isMobile && editMode && (
                                             <Grid item xs={6} lg={3}>
-                                                <NewImageCard takePhoto handleImageUpload={handleImageUpload} />
+                                                <NewImageCard takePhoto handleImageUpload={handleImageUpload} loading={loading} />
                                             </Grid>
                                         )}
                                         {editMode && (
                                             <Grid item xs={6} lg={3}>
-                                                <NewImageCard handleImageUpload={handleImageUpload} />
+                                                <NewImageCard handleImageUpload={handleImageUpload} loading={loading} />
                                             </Grid>
                                         )}
 
@@ -261,7 +263,7 @@ export default function FormMediaStep(): JSX.Element {
     )
 }
 
-export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void, takePhoto?: boolean }) {
+export function NewImageCard({ handleImageUpload, takePhoto, loading }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void, takePhoto?: boolean, loading: boolean }) {
     const theme = useTheme();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
@@ -297,12 +299,12 @@ export function NewImageCard({ handleImageUpload, takePhoto }: { handleImageUplo
                 >
                     {takePhoto
                         ?
-                        <CameraAltIcon sx={{ fontSize: 50, color: theme.palette.primary.main }} />
+                        <CameraAltIcon sx={{ fontSize: 50, color: !loading ? theme.palette.primary.main : theme.palette.action.disabled }} />
                         :
-                        <CameraRollIcon sx={{ fontSize: 50, color: theme.palette.primary.main }} />
+                        <CameraRollIcon sx={{ fontSize: 50, color: !loading ? theme.palette.primary.main : theme.palette.action.disabled }} />
                     }
                 </CardMedia>
-                <CardContent sx={{ backgroundColor: theme.palette.primary.main, height: 45, p: 0, alignContent: 'center' }}>
+                <CardContent sx={{ backgroundColor: !loading ? theme.palette.primary.main : theme.palette.action.disabled, height: 45, p: 0, alignContent: 'center' }}>
                     <Typography variant="button" textAlign="center" color={theme.palette.primary.contrastText}>
                         {takePhoto ? t('ui.button.takePhoto') : t('ui.button.selectImage')}
                     </Typography>
