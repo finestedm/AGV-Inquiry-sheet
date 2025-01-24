@@ -184,12 +184,20 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                                         },
                                         '& .MuiOutlinedInput-notchedOutline': {
                                             border: 'none',
-                                            width: '40 !important'
+                                            minWidth: '0 !important'
                                         },
+                                        '& .MuiInputBase-root': {
+                                            minWidth: '0 !important'
+                                        }
                                     }}
                                     disableUnderline
                                     size="small"
-                                    renderValue={val => <LanguageMenuItem lang={val as TAvailableLanguages} img={returnFlag(val) || pl} />}
+                                    IconComponent= {() => null }
+                                    renderValue={val =>
+                                        !(isMobile && !isSmallest)
+                                            ? <LanguageMenuItem lang={val as TAvailableLanguages} img={returnFlag(val) || pl} />
+                                            : <Box height={25} width={50} textAlign='center'><img height={25} width={25} src={returnFlag(val) || pl} /></Box>
+                                    }
                                     fullWidth
                                     value={i18n.language}
 
@@ -307,12 +315,11 @@ export function SidebarListItem({ onClick, icon, text, disabled = false }: Sideb
     )
 }
 
+
 type TAvailableLanguages = 'en' | 'pl' | 'de'
 
 export function LanguageMenuItem({ lang, img }: { lang: TAvailableLanguages, img: string }) {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-    const isSmallest = useMediaQuery(theme.breakpoints.only('xs'))
     const { t, i18n } = useTranslation();
 
     const handleLanguageChange = (e: TAvailableLanguages) => {
@@ -337,7 +344,7 @@ export function LanguageMenuItem({ lang, img }: { lang: TAvailableLanguages, img
         <MenuItem value={lang} onClick={() => handleLanguageChange(lang)}>
             <Stack direction="row" spacing={3.5} alignItems="center">
                 <img src={img} alt={lang} style={{ width: 24, height: 16 }} />
-                {!(isMobile && !isSmallest) && <Typography>{fullLangName()}</Typography>}
+                <Typography>{fullLangName()}</Typography>
             </Stack>
         </MenuItem>
     )

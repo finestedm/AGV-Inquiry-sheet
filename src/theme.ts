@@ -261,7 +261,6 @@ theme = createTheme({
         MuiInputBase: {
             styleOverrides: {
                 root: {
-                    minWidth: "12ch",
                     borderColor: '#000',
                     backgroundColor: paperColor,
                     boxShadow: shadow1,
@@ -708,12 +707,8 @@ export const themeDark = createTheme({
         MuiInputBase: {
             styleOverrides: {
                 root: {
-                    minWidth: "12ch",
                     borderColor: '#000',
                     backgroundColor: paperColorDark,
-                    // boxShadow: shadow1,
-                    // color: textPrimaryColorDark
-
                 },
                 input: {
                 }
