@@ -200,11 +200,16 @@ function App() {
     const isGoingBack = allPossibleSteps.indexOf(step) < allPossibleSteps.indexOf(currentStep)
     if (editMode && elementsWithAriaInvalid.length > 0 && !isGoingBack) {
       const element = elementsWithAriaInvalid[0];
+      dispatch(
+        openSnackbar({
+          message: `${t('ui.snackBar.message.formNotComplete')}`,
+          severity: 'error',
+        }))
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       dispatch(setCurrentStep(step));
-  };
+    };
   }
 
 
@@ -216,11 +221,11 @@ function App() {
           <div className="App">
             <Stack direction="row" sx={{ height: '100vh' }}> {/* Full height of the screen */}
               <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
-              <Box sx={{ flexGrow: 1,  overflow: 'hidden', width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)'}}>
+              <Box sx={{ flexGrow: 1, overflow: 'hidden', width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)' }}>
                 <TopBar sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
                 <Box sx={{ width: '100%', height: isMobile ? isSmallest ? 'calc(100% - 112px)' : 'calc(100% - 52px)' : '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
-                  <FormStepperBar navigateToStep={navigateToStep}/>
-                  <Form navigateToStep={navigateToStep}/>
+                  <FormStepperBar navigateToStep={navigateToStep} />
+                  <Form navigateToStep={navigateToStep} />
                 </Box>
               </Box>
             </Stack>
