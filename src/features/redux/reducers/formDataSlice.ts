@@ -197,6 +197,76 @@ const initialFormDataState: IFormData = {
             loads: [],
             flow: [emptyFlow],
             additionalRemarks: '',
+        },
+        mpb: {
+            selected: true,
+            workConditions: {
+                temperature: [20, 30],
+                freezer: false,
+                dangerousMaterials: false,
+                other: '',
+            },
+            building: {
+                new: false,
+                silo: false,
+                existingBuilding: {
+                    height: 0,
+                    width: 0,
+                    length: 0,
+                    equipment: [],
+                    columnX: 0,
+                    columnY: 0,
+                    columnGridX: 0,
+                    columnGridY: 0
+                },
+                incline: 0,
+                layout: false
+            },
+            loads: [],
+            flow: [emptyFlow],
+            rackConfigs: [],
+            levelConfigs: [],
+            accessories: { decking: 'none', protection: undefined, endProtection: undefined, backProtection: undefined },
+            guidance: undefined,
+            floor: '',
+            forklift: '',
+            additionalRemarks: '',
+
+        },
+        mobile: {
+            selected: true,
+            workConditions: {
+                temperature: [20, 30],
+                freezer: false,
+                dangerousMaterials: false,
+                other: '',
+            },
+            building: {
+                new: false,
+                silo: false,
+                existingBuilding: {
+                    height: 0,
+                    width: 0,
+                    length: 0,
+                    equipment: [],
+                    columnX: 0,
+                    columnY: 0,
+                    columnGridX: 0,
+                    columnGridY: 0
+                },
+                incline: 0,
+                layout: false
+            },
+            loads: [],
+            flow: [emptyFlow],
+            rackConfigs: [],
+            levelConfigs: [],
+            accessories: { decking: 'none', protection: undefined, endProtection: undefined, backProtection: undefined },
+            guidance: undefined,
+            floor: '',
+            forklift: '',
+            additionalRemarks: '',
+
         }
     },
     media: {

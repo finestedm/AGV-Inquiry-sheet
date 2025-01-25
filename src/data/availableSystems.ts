@@ -29,6 +29,20 @@ const availableSystems: ISystem[] = [
         label: ('system.autovna.label'),
         labelShort: 'system.autovna.labelshort',
         description: 'system.autovna.description'
+    },
+    {
+        url: 'https://www.jungheinrich.cn/resource/image/541672/landscape_ratio16x10/750/469/c7d514ecb2cce052105a89c86396a92b/2F274C04399B4D9A89056F7A564042BA/stage-automated-high-rack-stacker.jpg',
+        alt: 'mpb',
+        label: ('system.mpb.label'),
+        labelShort: 'system.mpb.labelshort',
+        description: 'system.mpb.description'
+    },
+    {
+        url: 'https://www.jungheinrich.cn/resource/image/541672/landscape_ratio16x10/750/469/c7d514ecb2cce052105a89c86396a92b/2F274C04399B4D9A89056F7A564042BA/stage-automated-high-rack-stacker.jpg',
+        alt: 'mobile',
+        label: ('system.mobile.label'),
+        labelShort: 'system.mobile.labelshort',
+        description: 'system.mobile.description'
     }
 ]
 

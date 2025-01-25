@@ -3,6 +3,10 @@ import { Task } from "gantt-task-react";
 import availableEquipment from "../data/availableEquipment";
 import salesEngineersSorted from "../data/salesEngineers";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { TGuidanceType } from "../data/guidanceType";
+import { TForklift } from "../data/forklifts";
+import floorTypes from "../data/floorTypes";
+import rackAccessories, { TRackAccessory } from "../data/rackAccessories";
 
 export interface ISales {
     salesUnit: string;
@@ -139,11 +143,69 @@ export interface ISystemData {
     // [key: string]: any;
 }
 
+export type TRackConfig = 
+    {
+        id: number;
+        quantity: number;
+        depth: number;
+        load: number;
+        bays: (TBay['id'])[];
+    }
+
+export type TBay = {
+    id: number;
+    quantity: number;
+    width: number;
+    config: TLevelsConfig['id'];
+}
+
+export type TLevelsConfig = { id: number; levels: TLevelsDetails[] };
+
+export type TLevelsDetails = {id: number, height: number, accessory: string}
+
+export interface IRacksData {
+    selected: boolean;
+    workConditions: {
+        temperature: number[];
+        freezer: boolean;
+        dangerousMaterials: boolean;
+        other: string;
+    },
+    building: {
+        new: boolean;
+        silo: boolean;
+        existingBuilding: {
+            height: number;
+            width: number;
+            length: number;
+            equipment: IEquipment[];
+            columnX: number;
+            columnY: number;
+            columnGridX: number;
+            columnGridY: number;
+        },
+        incline: number;
+        layout: boolean;
+    },
+    loads: ILoad[];
+    flow: IFlow[];
+    rackConfigs: TRackConfig[];
+    levelConfigs: TLevelsConfig[];
+    accessories: {[key in keyof typeof rackAccessories]: (TRackAccessory['shortName'] | undefined)};
+    guidance: TGuidanceType['shortName'] | undefined;
+    forklift: TForklift['shortName'],
+    floor: typeof floorTypes[number] | '',
+    additionalRemarks: string;
+    // [key: string]: any;
+}
+
 export interface ISystems {
     asrs: ISystemData;
     lrkprk: ISystemData;
     agv: ISystemData;
     autovna: ISystemData;
+    mpb: IRacksData;
+    mobile: IRacksData
 }
 
 export interface IMedia {
