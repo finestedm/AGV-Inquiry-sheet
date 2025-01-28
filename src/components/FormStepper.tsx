@@ -67,7 +67,7 @@ export default function FormStepper({ navigateToStep  }: { navigateToStep: (step
         sx={{
           display: "flex",
           flexGrow: 1,
-          height: 65,
+          height: 64,
           justifyContent: "center",
           alignItems: "stretch",
           width: "100%",

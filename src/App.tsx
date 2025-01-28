@@ -197,20 +197,25 @@ function App() {
 
   function navigateToStep(step: string) {
     const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
-    const isGoingBack = allPossibleSteps.indexOf(step) < allPossibleSteps.indexOf(currentStep)
+    const isGoingBack = allPossibleSteps.indexOf(step) < allPossibleSteps.indexOf(currentStep);
+    
     if (editMode && elementsWithAriaInvalid.length > 0 && !isGoingBack) {
       const element = elementsWithAriaInvalid[0];
       dispatch(
         openSnackbar({
           message: `${t('ui.snackBar.message.formNotComplete')}`,
           severity: 'error',
-        }))
+        })
+      );
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 0); // Delays the scroll action to avoid conflict
       dispatch(setCurrentStep(step));
-    };
+    }
   }
+  
 
 
   return (
