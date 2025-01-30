@@ -49,7 +49,7 @@ export default function SimpleSnackbar() {
                 {snackBarState.message}
                 <LinearProgress
                     sx={{ position: 'absolute', bottom: 0, left: 0, width: '100%' }}
-                    color={snackBarState.severity === 'success' ? 'success' : 'error'}
+                    color={snackBarState.severity as AlertColor}
                     variant="determinate"
                     value={progress}
                 />

@@ -125,7 +125,7 @@ function App() {
 
         dispatch(
           openSnackbar({
-            message: `${t('ui.snackBar.message.undoChanges')}: ${changedKeys.join(', ')}`,
+            message: `${t('ui.snackBar.message.undoChanges')}: ${changedKeys.map(key => t(key)).join(', ')}`,
             severity: 'info',
           })
         );

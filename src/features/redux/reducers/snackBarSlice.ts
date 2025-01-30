@@ -1,5 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { resetFormData } from './formDataSlice';
+import { LinearProgressProps } from '@mui/material';
+
+
+interface SnackbarState {
+    open: boolean;
+    message: string;
+    severity: LinearProgressProps["color"]
+    openedTimestamp: number;
+    autoHideDuration: number;
+}
 
 const snackbarSlice = createSlice({
     name: 'snackbar',

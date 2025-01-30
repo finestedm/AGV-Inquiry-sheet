@@ -179,7 +179,10 @@
         "fileSavedToServer": "Plik przesłany pomyślnie",
         "errorSaving": "Błąd przesyłania pliku",
         "duplicateImageFound": "Jeden z obrazów jest już dodany",
-        "formNotComplete": "Na tej stronie są nieuzupełnione wymagane dane"
+        "formNotComplete": "Na tej stronie są nieuzupełnione wymagane dane",
+        "undoChanges": "Cofnięto zmianę",
+        "redoChanges": "Przywrócono zmianę"
+
       }
     },
     "tooltip": {
