@@ -123,7 +123,7 @@ export default function Form({ navigateToStep, saveDataToFile, saveDataToServer,
                       </Button>
                     )}
                     {steps.currentStep === 'summary' && (
-                      <ButtonGroup color="info" sx={{ml: 'auto'}}>
+                      <ButtonGroup color="secondary" sx={{ml: 'auto'}}>
                         <Button endIcon={<SaveIcon />} disableElevation variant="contained" onClick={() => saveDataToFile()} sx={{ fontWeight: 700, letterSpacing: '-0.03rem' }}                        >
                           {t('ui.button.inquiry.save')}
                         </Button>
