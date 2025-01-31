@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, Container, Divider, Drawer, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, ButtonGroup, Card, Checkbox, Container, Divider, Drawer, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "../FormStepper";
 import FormSalesUnitStep from "./salesUnitStep/FormSalesUnitStep";
@@ -20,8 +20,10 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useDispatch } from "react-redux";
 import { initialSteps, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
 import FormMediaStep from "./mediaStep/MediaStep";
+import SaveIcon from '@mui/icons-material/Save';
+import UploadIcon from '@mui/icons-material/Upload';
 
-export default function Form({ navigateToStep  }: { navigateToStep: (step: string) => void}): JSX.Element {
+export default function Form({ navigateToStep, saveDataToFile, saveDataToServer, isWaiting  }: { navigateToStep: (step: string) => void, saveDataToFile: () => void, saveDataToServer: () => void, isWaiting: boolean}): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -119,6 +121,16 @@ export default function Form({ navigateToStep  }: { navigateToStep: (step: strin
                       >
                         {t('ui.button.next')}
                       </Button>
+                    )}
+                    {steps.currentStep === 'summary' && (
+                      <ButtonGroup color="info" sx={{ml: 'auto'}}>
+                        <Button endIcon={<SaveIcon />} disableElevation variant="contained" onClick={() => saveDataToFile()} sx={{ fontWeight: 700, letterSpacing: '-0.03rem' }}                        >
+                          {t('ui.button.inquiry.save')}
+                        </Button>
+                        <Button endIcon={<UploadIcon />} disableElevation variant="contained" onClick={() => saveDataToServer()} sx={{ fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}                        >
+                          {t('ui.button.inquiry.saveToServer')}
+                        </Button>
+                      </ButtonGroup>
                     )}
                   </Stack>
                 </Box>

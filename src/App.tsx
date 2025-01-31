@@ -25,6 +25,9 @@ import { findDifferences, getChangedKeys, mapPathToStep } from './features/undo-
 import Sidebar from './components/Sidebar';
 import FormStepperBar from './components/FormStepperBar';
 import TopBar from './components/TopBar';
+import { saveAs } from 'file-saver';
+import axios from "axios";
+import dayjs from "dayjs";
 
 // Configure i18next
 i18n
@@ -229,6 +232,49 @@ function App() {
   }
   
 
+  // save data to server or disk //
+
+      function saveDataToFile() {
+          const data = JSON.stringify(formData);
+          const blob = new Blob([data], { type: 'application/json' });
+          const fileName = `${formData.customer.name}-${dayjs().format('YYYY-MM-DD-HH-mm')}.json`;
+          saveAs(blob, fileName);
+          dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')} ${fileName}`, severity: 'success' }));
+      };
+  
+      const [isWaiting, setIsWaiting] = useState(false);
+      const [isResolved, setIsResolved] = useState(false);
+  
+      async function saveDataToServer() {
+          try {
+              setIsWaiting(true);       // Set waiting state
+              setIsResolved(false);     // Reset resolved state
+  
+              const response = await axios.post(
+                  `${import.meta.env.VITE_SERVER_URL}`,
+                  formData,
+                  {
+                      headers: {
+                          'Content-Type': 'application/json',
+                      }
+                  }
+              );
+  
+              if (response.status === 200) {
+                  setIsResolved(true);  // Set resolved state on success
+                  dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSavedToServer')}`, severity: 'success' }));
+                  setTimeout(() => saveDataToFile(), 5000)
+              }
+          } catch (error) {
+              console.error("Failed to save data:", error);
+              dispatch(openSnackbar({ message: `${t('ui.snackBar.message.errorSaving')}. Error: ${error}`, severity: 'error' }));
+          } finally {
+              setIsWaiting(false);      // Reset waiting state
+          }
+      };
+
+  // save data to server or disk //
+
 
   return (
     <I18nextProvider i18n={i18n}>
@@ -237,12 +283,12 @@ function App() {
         <Router>
           <div className="App">
             <Stack direction="row" sx={{ height: '100vh' }}> {/* Full height of the screen */}
-              <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
+              <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} saveDataToFile={saveDataToFile} saveDataToServer={saveDataToServer} isWaiting={isWaiting} />
               <Box sx={{ flexGrow: 1, overflow: 'hidden', width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)' }}>
                 <TopBar sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
                 <Box id="form-box" sx={{ width: '100%', height: isMobile ? isSmallest ? 'calc(100% - 112px)' : 'calc(100% - 52px)' : '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
                   <FormStepperBar navigateToStep={navigateToStep} />
-                  <Form navigateToStep={navigateToStep} />
+                  <Form navigateToStep={navigateToStep} saveDataToFile={saveDataToFile} saveDataToServer={saveDataToServer} isWaiting={isWaiting} />
                 </Box>
               </Box>
             </Stack>

@@ -8,11 +8,8 @@ import { RootState } from "../features/redux/store";
 import { initialFormDataState, setFormData } from "../features/redux/reducers/formDataSlice";
 import { useEffect, useState } from "react";
 import { openSnackbar } from "../features/redux/reducers/snackBarSlice";
-import axios from "axios";
 import { ActionCreators } from "redux-undo";
 import { setEditMode } from "../features/redux/reducers/editModeSlice";
-import { saveAs } from 'file-saver';
-import dayjs from "dayjs";
 import pl from '../images/poland.svg'
 import en from '../images/uk.svg'
 import de from '../images/germany.svg'
@@ -33,7 +30,7 @@ import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormD
 import tinycolor from "tinycolor2";
 import placeholderPhoto from '../images/bio-portrait-placeholder.webp'
 
-export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSidebarOpening }: { handleUndo: () => void, handleRedo: () => void, sidebarOpen: boolean, handleSidebarOpening: () => void }): JSX.Element {
+export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSidebarOpening, saveDataToFile, saveDataToServer, isWaiting }: { handleUndo: () => void, handleRedo: () => void, sidebarOpen: boolean, handleSidebarOpening: () => void, saveDataToFile: () => void, saveDataToServer: () => void, isWaiting: boolean }): JSX.Element {
     const theme = useTheme();
     const darkMode = useSelector((state: RootState) => state.darkMode);
     const editMode = useSelector((state: RootState) => state.editMode);
@@ -50,45 +47,6 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
 
     const canUndo = formDataAll.past.length > 0;
     const canRedo = formDataAll.future.length > 0;
-
-    function saveDataToFile() {
-        const data = JSON.stringify(formData);
-        const blob = new Blob([data], { type: 'application/json' });
-        const fileName = `${formData.customer.name}-${dayjs().format('YYYY-MM-DD-HH-mm')}.json`;
-        saveAs(blob, fileName);
-        dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSaved')} ${fileName}`, severity: 'success' }));
-    };
-
-    const [isWaiting, setIsWaiting] = useState(false);
-    const [isResolved, setIsResolved] = useState(false);
-
-    async function saveDataToServer() {
-        try {
-            setIsWaiting(true);       // Set waiting state
-            setIsResolved(false);     // Reset resolved state
-
-            const response = await axios.post(
-                `${import.meta.env.VITE_SERVER_URL}`,
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                }
-            );
-
-            if (response.status === 200) {
-                setIsResolved(true);  // Set resolved state on success
-                dispatch(openSnackbar({ message: `${t('ui.snackBar.message.fileSavedToServer')}`, severity: 'success' }));
-                setTimeout(() => saveDataToFile(), 5000)
-            }
-        } catch (error) {
-            console.error("Failed to save data:", error);
-            dispatch(openSnackbar({ message: `${t('ui.snackBar.message.errorSaving')}. Error: ${error}`, severity: 'error' }));
-        } finally {
-            setIsWaiting(false);      // Reset waiting state
-        }
-    };
 
     function loadFile(e: React.FormEvent<HTMLInputElement>) {
         const fileInput = e.target as HTMLInputElement;
