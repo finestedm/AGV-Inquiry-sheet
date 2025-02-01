@@ -287,7 +287,7 @@ function App() {
               <Box sx={{ flexGrow: 1, overflow: 'hidden', width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)' }}>
                 <TopBar sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
                 <Box id="form-box" sx={{ width: '100%', height: isMobile ? isSmallest ? 'calc(100% - 112px)' : 'calc(100% - 52px)' : '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
-                  <FormStepperBar navigateToStep={navigateToStep} />
+                  <FormStepperBar navigateToStep={navigateToStep} saveDataToServer={saveDataToServer}/>
                   <Form navigateToStep={navigateToStep} saveDataToFile={saveDataToFile} saveDataToServer={saveDataToServer} isWaiting={isWaiting} />
                 </Box>
               </Box>

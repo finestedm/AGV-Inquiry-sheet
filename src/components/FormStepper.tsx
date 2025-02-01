@@ -5,10 +5,10 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
-import { setCurrentStep } from "../features/redux/reducers/stepsSlice";
+import UploadIcon from '@mui/icons-material/Upload';
 import tinycolor from "tinycolor2";
 
-export default function FormStepper({ navigateToStep  }: { navigateToStep: (step: string) => void}) {
+export default function FormStepper({ navigateToStep, saveDataToServer }: { navigateToStep: (step: string) => void, saveDataToServer: () => void }) {
   const { t } = useTranslation();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -22,9 +22,11 @@ export default function FormStepper({ navigateToStep  }: { navigateToStep: (step
   const activeStep = location.pathname.split("/").pop(); // Extract the active step from the path
   const activeStepIndex = activeStep ? allSteps.indexOf(activeStep) : 0;
 
+  const isLastStep = activeStepIndex === allSteps.length - 1;
+
   if (isMobile) {
     return (
-      <Box sx={{ display: { xs: "block", md: "none" }}}>
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
         <AppBar
           className="mobile-stepper"
           position="fixed"
@@ -38,14 +40,25 @@ export default function FormStepper({ navigateToStep  }: { navigateToStep: (step
             position="static"
             activeStep={activeStepIndex || 0}
             nextButton={
-              <Button
-                sx={{ borderRadius: 1000 }}
-                variant="contained"
-                color="primary"
-                onClick={() => navigateToStep(allSteps[activeStepIndex + 1] || allSteps[0])}
-              >
-                <KeyboardArrowRight />
-              </Button>
+              isLastStep
+                ? <Button
+                  sx={{ borderRadius: 1000 }}
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => saveDataToServer()}
+                  startIcon={<UploadIcon />}
+                >
+                  {t('ui.button.inquiry.saveToServer')}
+                </Button>
+                :
+                <Button
+                  sx={{ borderRadius: 1000 }}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => navigateToStep(allSteps[activeStepIndex + 1] || allSteps[0])}
+                >
+                  <KeyboardArrowRight />
+                </Button>
             }
             backButton={
               <Button
@@ -77,43 +90,43 @@ export default function FormStepper({ navigateToStep  }: { navigateToStep: (step
           borderColor: theme.palette.divider,
         }}
       >
-       {allSteps.map((label, index) => {
-  const isActive = index === activeStepIndex;
-  const isCompleted = index < activeStepIndex;
+        {allSteps.map((label, index) => {
+          const isActive = index === activeStepIndex;
+          const isCompleted = index < activeStepIndex;
 
-  return (
-    <Box
-      key={label}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexGrow: isActive ? 1: 0,
-        px: 3,
-        py: 1,
-        backgroundColor: isActive
-          ? theme.palette.primary.main
-          : isCompleted
-          ? darkMode ? tinycolor(theme.palette.primary.main).darken(35).toHexString() : tinycolor(theme.palette.primary.main).lighten(45).toHexString()
-          : theme.palette.background.paper,
-        color: isActive
-          ? theme.palette.background.paper
-          : theme.palette.text.primary,
-        cursor: "pointer",
-        clipPath:
-          index === 0
-            ? "polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 0% 50%)"
-            : index === allSteps.length - 1
-            ? "polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 10px 50%)"
-            : "polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 10px 50%)",
-        marginLeft: index > 0 ? "-10px" : "0", // Overlaps the blocks slightly to remove gaps
-      }}
-      onClick={() => navigateToStep(label)}
-    >
-      {t(`steps.${label}`)}
-    </Box>
-  );
-})}
+          return (
+            <Box
+              key={label}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexGrow: isActive ? 1 : 0,
+                px: 3,
+                py: 1,
+                backgroundColor: isActive
+                  ? theme.palette.primary.main
+                  : isCompleted
+                    ? darkMode ? tinycolor(theme.palette.primary.main).darken(35).toHexString() : tinycolor(theme.palette.primary.main).lighten(45).toHexString()
+                    : theme.palette.background.paper,
+                color: isActive
+                  ? theme.palette.background.paper
+                  : theme.palette.text.primary,
+                cursor: "pointer",
+                clipPath:
+                  index === 0
+                    ? "polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 0% 50%)"
+                    : index === allSteps.length - 1
+                      ? "polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 10px 50%)"
+                      : "polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 10px 50%)",
+                marginLeft: index > 0 ? "-10px" : "0", // Overlaps the blocks slightly to remove gaps
+              }}
+              onClick={() => navigateToStep(label)}
+            >
+              {t(`steps.${label}`)}
+            </Box>
+          );
+        })}
 
       </Box>
     );
