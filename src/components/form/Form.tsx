@@ -23,7 +23,7 @@ import FormMediaStep from "./mediaStep/MediaStep";
 import SaveIcon from '@mui/icons-material/Save';
 import UploadIcon from '@mui/icons-material/Upload';
 
-export default function Form({ navigateToStep, saveDataToFile, saveDataToServer, isWaiting  }: { navigateToStep: (step: string) => void, saveDataToFile: () => void, saveDataToServer: () => void, isWaiting: boolean}): JSX.Element {
+export default function Form({ navigateToStep, saveDataToFile, saveDataToServer, isWaiting }: { navigateToStep: (step: string) => void, saveDataToFile: () => void, saveDataToServer: () => void, isWaiting: boolean }): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -85,49 +85,49 @@ export default function Form({ navigateToStep, saveDataToFile, saveDataToServer,
           <FormikForm>
             <Box width='100%' p={isMobile ? 1 : 4}>
               <Stack spacing={6} sx={{ mt: 5 }}>
-                  <Box>
-                    <Routes>
-                      <Route path="/sales" element={<FormSalesUnitStep />} />
-                      <Route path="/customer" element={<FormCustomerStep />} />
-                      <Route path="/project" element={<FormProjectStep />} />
-                      <Route path="/system" element={<FormSystemSelectorStep />} />
-                      {Object.keys(systemSteps).map(system => (
-                        <Route
-                          path={`/${system}`}
-                          element={
-                            activeSystemStepNames.includes(system) ?
-                              <FormSystemStep selectedSystem={system as keyof ISystems} />
-                              :
-                              <Navigate to='/' />
-                          }
-                        />
-                      ))}
-                      <Route path="/media" element={<FormMediaStep />} />
-                      <Route path="/summary" element={<FormSummaryStep />} />
-                      <Route path="/*" element={<FormSalesUnitStep />} />
-                    </Routes>
-                  </Box>
+                <Box>
+                  <Routes>
+                    <Route path="/sales" element={<FormSalesUnitStep />} />
+                    <Route path="/customer" element={<FormCustomerStep />} />
+                    <Route path="/project" element={<FormProjectStep />} />
+                    <Route path="/system" element={<FormSystemSelectorStep />} />
+                    {Object.keys(systemSteps).map(system => (
+                      <Route
+                        path={`/${system}`}
+                        element={
+                          activeSystemStepNames.includes(system) ?
+                            <FormSystemStep selectedSystem={system as keyof ISystems} />
+                            :
+                            <Navigate to='/' />
+                        }
+                      />
+                    ))}
+                    <Route path="/media" element={<FormMediaStep />} />
+                    <Route path="/summary" element={<FormSummaryStep />} />
+                    <Route path="/*" element={<FormSalesUnitStep />} />
+                  </Routes>
+                </Box>
                 <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                   <Divider sx={{ mb: 4 }} />
                   <Stack direction='row'>
                     {steps.currentStep !== allSteps[0] && (
-                      <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={() => navigateToStep(allActiveSteps[allActiveSteps.indexOf(currentStep)-1])} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
+                      <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={() => navigateToStep(allActiveSteps[allActiveSteps.indexOf(currentStep) - 1])} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
                         {t('ui.button.back')}
                       </Button>
                     )}
                     {steps.currentStep !== allSteps[allSteps.length - 1] && (
-                      <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={() => navigateToStep(allActiveSteps[allActiveSteps.indexOf(currentStep)+1])} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
+                      <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={() => navigateToStep(allActiveSteps[allActiveSteps.indexOf(currentStep) + 1])} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
                         disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
                       >
                         {t('ui.button.next')}
                       </Button>
                     )}
                     {steps.currentStep === 'summary' && (
-                      <ButtonGroup color="secondary" sx={{ml: 'auto'}}>
-                        <Button endIcon={<SaveIcon />} disableElevation variant="contained" onClick={() => saveDataToFile()} sx={{ fontWeight: 700, letterSpacing: '-0.03rem' }}                        >
+                      <ButtonGroup color="secondary" sx={{ ml: 'auto' }}>
+                        <Button startIcon={<SaveIcon />} disableElevation variant="contained" onClick={() => saveDataToFile()} sx={{ fontWeight: 700, letterSpacing: '-0.03rem' }}                        >
                           {t('ui.button.inquiry.save')}
                         </Button>
-                        <Button endIcon={<UploadIcon />} disableElevation variant="contained" onClick={() => saveDataToServer()} sx={{ fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}                        >
+                        <Button startIcon={<UploadIcon />} disableElevation variant="contained" onClick={() => saveDataToServer()} sx={{ fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}                        >
                           {t('ui.button.inquiry.saveToServer')}
                         </Button>
                       </ButtonGroup>
