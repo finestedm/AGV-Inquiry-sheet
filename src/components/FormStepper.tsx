@@ -84,10 +84,11 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
           justifyContent: "center",
           alignItems: "stretch",
           width: "100%",
-          gap: "2px",
-          backgroundColor: theme.palette.divider,
+          gap: "4px",
+          // backgroundColor: theme.palette.divider,
           borderBottom: 1,
           borderColor: theme.palette.divider,
+          py: 1
         }}
       >
         {allSteps.map((label, index) => {
@@ -107,7 +108,7 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
                 backgroundColor: isActive
                   ? theme.palette.primary.main
                   : isCompleted
-                    ? darkMode ? tinycolor(theme.palette.primary.main).darken(35).toHexString() : tinycolor(theme.palette.primary.main).lighten(45).toHexString()
+                    ? darkMode ? tinycolor(theme.palette.primary.main).darken(35).toHexString() : tinycolor(theme.palette.primary.main).lighten(41).toHexString()
                     : theme.palette.background.paper,
                 color: isActive
                   ? theme.palette.background.paper
