@@ -1,9 +1,7 @@
-export function calculateDewPoint(temperatureCelsius: number, humidity: number): number {
-    const a = 17.625;
-    const b = 243.04;
-
-    const gamma = (a * temperatureCelsius) / (b + temperatureCelsius) + Math.log(humidity / 100);
-    const dewPointCelsius = (b * gamma) / (a - gamma);
-
-    return dewPointCelsius;
+export function calculateDewPoint(temperature: number, humidity: number): number {
+    const a = 17.27;
+    const b = 237.7;
+    const alpha = ((a * temperature) / (b + temperature)) + Math.log(humidity / 100);
+    const dewPoint = (b * alpha) / (a - alpha);
+    return dewPoint
 }

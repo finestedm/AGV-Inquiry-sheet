@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, Container, Divider, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, ButtonGroup, Card, Checkbox, Container, Divider, Drawer, Fade, FormControl, Grid, Grow, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Slide, Stack, StepButton, TextField, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { cloneElement, useEffect, useState } from "react";
 import FormStepper from "../FormStepper";
 import FormSalesUnitStep from "./salesUnitStep/FormSalesUnitStep";
@@ -18,10 +18,12 @@ import FormSummaryStep from "./summaryStep/FormSummaryStep";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useDispatch } from "react-redux";
-import currentStep, { backStep, initialSteps, nextStep, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
+import { initialSteps, setCurrentStep, updateSteps } from "../../features/redux/reducers/stepsSlice";
 import FormMediaStep from "./mediaStep/MediaStep";
+import SaveIcon from '@mui/icons-material/Save';
+import UploadIcon from '@mui/icons-material/Upload';
 
-export default function Form(): JSX.Element {
+export default function Form({ navigateToStep, saveDataToFile, saveDataToServer, isWaiting }: { navigateToStep: (step: string) => void, saveDataToFile: () => void, saveDataToServer: () => void, isWaiting: boolean }): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -31,7 +33,8 @@ export default function Form(): JSX.Element {
 
   const formData = useSelector((state: RootState) => state.formData);
   const editMode = useSelector((state: RootState) => state.editMode);
-
+  const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+  const allActiveSteps = useSelector((state: RootState) => state.steps.steps);
 
   const constantSteps = initialSteps;
   const steps = useSelector((state: RootState) => state.steps)
@@ -51,40 +54,6 @@ export default function Form(): JSX.Element {
   useEffect(() => {
     dispatch(updateSteps(allSteps));
   }, [formData.present.system])
-
-  const [grow, setGrow] = useState<boolean>(true);
-
-  const navigateToStep = (step: string) => {
-    const elementsWithAriaInvalid = document.querySelectorAll(`[aria-invalid="true"]`);
-
-    if (editMode && elementsWithAriaInvalid.length > 0) {
-      const element = elementsWithAriaInvalid[0];
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setGrow(false)
-      setTimeout(() => {
-        dispatch(setCurrentStep(step));
-        setGrow(true);
-      }, 300)
-    }
-  };
-
-  const handleNext = () => {
-    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) + 1
-    const stepToMove = steps.steps[stepToMoveIndex]
-    navigateToStep(stepToMove)
-  };
-
-  const handleBack = () => {
-    const stepToMoveIndex = steps.steps.indexOf(steps.currentStep) - 1
-    const stepToMove = steps.steps[stepToMoveIndex]
-    navigateToStep(stepToMove)
-  };
-
-  const handleStepClick = (step: string) => {
-    navigateToStep(step);
-  };
 
   useEffect(() => {
     navigate(`/${steps.currentStep}`);
@@ -114,57 +83,61 @@ export default function Form(): JSX.Element {
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
-            <Container component='form' maxWidth='xl'>
-              <Stack spacing={6} sx={{ mb: 10, mt: 5 }}>
+            <Box width='100%' p={isMobile ? 1 : 4}>
+              <Stack spacing={6} sx={{ mt: 5 }}>
                 <Box>
-                  <Grid container spacing={6} direction='row'>
-                    <FormStepper mobile={isMobile} handleStepClick={handleStepClick} handleBack={handleBack} handleNext={handleNext} />
-                    <Grow in={grow} style={{ transformOrigin: '0 0 0' }}>
-                      <Grid item xs md={8} lg={9}>
-                        <Routes>
-                          <Route path="/sales" element={<FormSalesUnitStep />} />
-                          <Route path="/customer" element={<FormCustomerStep />} />
-                          <Route path="/project" element={<FormProjectStep />} />
-                          <Route path="/system" element={<FormSystemSelectorStep />} />
-                          {Object.keys(systemSteps).map(system => (
-                            <Route
-                              path={`/${system}`}
-                              element={
-                                activeSystemStepNames.includes(system) ?
-                                  <FormSystemStep selectedSystem={system as keyof ISystems} />
-                                  :
-                                  <Navigate to='/' />
-                              }
-                            />
-                          ))}
-                          <Route path="/media" element={<FormMediaStep />} />
-                          <Route path="/summary" element={<FormSummaryStep />} />
-                          <Route path="/*" element={<FormSalesUnitStep />} />
-                        </Routes>
-                      </Grid>
-                    </Grow>
-                  </Grid>
+                  <Routes>
+                    <Route path="/sales" element={<FormSalesUnitStep />} />
+                    <Route path="/customer" element={<FormCustomerStep />} />
+                    <Route path="/project" element={<FormProjectStep />} />
+                    <Route path="/system" element={<FormSystemSelectorStep />} />
+                    {Object.keys(systemSteps).map(system => (
+                      <Route
+                        path={`/${system}`}
+                        element={
+                          activeSystemStepNames.includes(system) ?
+                            <FormSystemStep selectedSystem={system as keyof ISystems} />
+                            :
+                            <Navigate to='/' />
+                        }
+                      />
+                    ))}
+                    <Route path="/media" element={<FormMediaStep />} />
+                    <Route path="/summary" element={<FormSummaryStep />} />
+                    <Route path="/*" element={<FormSalesUnitStep />} />
+                  </Routes>
                 </Box>
-                <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                   <Divider sx={{ mb: 4 }} />
                   <Stack direction='row'>
                     {steps.currentStep !== allSteps[0] && (
-                      <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={handleBack} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
+                      <Button startIcon={<NavigateBeforeIcon />} disableElevation variant="contained" onClick={() => navigateToStep(allActiveSteps[allActiveSteps.indexOf(currentStep) - 1])} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem' }}>
                         {t('ui.button.back')}
                       </Button>
                     )}
                     {steps.currentStep !== allSteps[allSteps.length - 1] && (
-                      <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={handleNext} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
+                      <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={() => navigateToStep(allActiveSteps[allActiveSteps.indexOf(currentStep) + 1])} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
                         disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
                       >
                         {t('ui.button.next')}
                       </Button>
                     )}
+                    {steps.currentStep === 'summary' && (
+                      <ButtonGroup color="secondary" sx={{ ml: 'auto' }}>
+                        <Button startIcon={<SaveIcon />} disableElevation variant="contained" onClick={() => saveDataToFile()} sx={{ fontWeight: 700, letterSpacing: '-0.03rem' }}                        >
+                          {t('ui.button.inquiry.save')}
+                        </Button>
+                        <Button startIcon={<UploadIcon />} disableElevation variant="contained" onClick={() => saveDataToServer()} sx={{ fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}                        >
+                          {t('ui.button.inquiry.saveToServer')}
+                        </Button>
+                      </ButtonGroup>
+                    )}
                   </Stack>
                 </Box>
               </Stack>
-              <ScrollButton />
-            </Container >
+            </Box>
+
+            <ScrollButton />
           </FormikForm>
         )}
       </Formik>

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Box, Checkbox, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, InputAdornment, InputLabel, Slider, Stack, Switch, TextField, Typography, useTheme, IconButton, Collapse, Alert, DialogTitle, Divider } from "@mui/material";
+import { Box, Checkbox, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, InputAdornment, InputLabel, Slider, Stack, Switch, TextField, Typography, useTheme, IconButton, Collapse, Alert, DialogTitle, Divider, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
 import trimLeadingZeros from "../../../../features/variousMethods/trimLeadingZero";
@@ -11,6 +11,7 @@ import Incline from "./Incline";
 import { useEffect, useState } from "react";
 import InputGroup from "../../InputGroup";
 import CloseIcon from '@mui/icons-material/Close';
+import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
 
 export default function Building({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -19,6 +20,10 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const { t } = useTranslation();
+    const theme = useTheme();
+
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const isSmallest = useMediaQuery(theme.breakpoints.only('xs'))
 
     const [tempDimensions, setTempDimensions] = useState({
         width: trimLeadingZeros(formData.system[selectedSystem].building.existingBuilding.width),
@@ -33,6 +38,8 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
     return (
         <InputGroup
             title={t(`system.subheader.building`)}
+            subTitle={t(`system.subheader.buildingSubtitle`)}
+            icon={WarehouseOutlinedIcon}
             extendedOpener={warehouseDialogOpen}
             extendedHandler={extenderHandler}
             content={
@@ -72,7 +79,6 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         <Stack spacing={4}>
                             <WarehouseSizeEditingFields selectedSystem={selectedSystem} />
                             <Divider />
-                            <InputLabel>{t(`system.building.layout`)}</InputLabel>
                             <WarehouseLayout selectedSystem={selectedSystem} />
                             <Collapse in={(selectedSystem === 'agv') && (formData.system[selectedSystem].building.existingBuilding.equipment.filter(eq => eq.zHeight > 5).length >= 1)} >
                                 <Alert id='system.tooHighPickupPoint' severity="error">{t(`system.tooHighPickupPoint`)}</Alert>
@@ -80,13 +86,13 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         </Stack>
                     }
                     <Dialog
-                        sx={{ zIndex: 900 }}
+                        sx={{ zIndex: 900, width: isMobile ? isSmallest ? '100%' : 'calc(100% - 55px)' : 'calc(100% - 275px)', marginLeft: isMobile ? isSmallest ? 0 : '55px' : '275px' }}
                         fullScreen
                         open={warehouseDialogOpen}
                         onClose={extenderHandler}
                     >
                         <DialogTitle>
-                            {t('ui.warehouseDialog.title')}
+                            {t('ui.dialog.warehouse.title')}
                         </DialogTitle>
                         <IconButton
                             aria-label="close"
@@ -95,7 +101,7 @@ export default function Building({ selectedSystem }: { selectedSystem: keyof ISy
                         >
                             <CloseIcon />
                         </IconButton>
-                        <DialogContent>
+                        <DialogContent sx={{ p: isMobile ? 0.5 : 2 }}>
                             <Stack spacing={3}>
                                 <WarehouseSizeEditingFields selectedSystem={selectedSystem} />
                                 <WarehouseLayout selectedSystem={selectedSystem} />

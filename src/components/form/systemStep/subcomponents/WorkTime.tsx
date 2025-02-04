@@ -12,7 +12,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import theme from "../../../../theme";
 import tinycolor from "tinycolor2";
-
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 
 export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -43,6 +43,8 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
     return (
         <InputGroup
             title={t(`system.subheader.workTime`)}
+            subTitle={t(`system.subheader.workTimeSubtitle`)}
+            icon={AccessTimeOutlinedIcon}
             content={
                 <Box>
                     <Grid container direction='row' spacing={4} rowGap={2}>

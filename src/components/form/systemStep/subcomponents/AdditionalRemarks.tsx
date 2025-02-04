@@ -6,6 +6,7 @@ import { Box, Grid, Stack, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import CustomTextField from "../../CustomTextField";
 import InputGroup from "../../InputGroup";
+import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 
 export default function AdditionalRemarks({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -17,6 +18,8 @@ export default function AdditionalRemarks({ selectedSystem }: { selectedSystem: 
     return (
         <InputGroup
             title={t(`system.subheader.additionalRemarks`)}
+            subTitle={t(`system.subheader.additionalRemarksSubtitle`)}
+            icon={AnnouncementOutlinedIcon}
             content={
                 <Box>
                     <CustomTextField

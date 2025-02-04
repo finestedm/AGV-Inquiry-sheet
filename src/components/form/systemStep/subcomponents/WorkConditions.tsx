@@ -14,16 +14,19 @@ import { ISystems } from "../../../../features/interfaces";
 import CustomAlert from "../../../CustomAlert";
 import InputGroup from "../../InputGroup";
 import CustomCheckbox from "../../CustomCheckbox";
+import ThermostatAutoOutlinedIcon from '@mui/icons-material/ThermostatAutoOutlined';
+import { isCondensationRisk } from "../../../../features/variousMethods/isCondensationRisk";
 
 export default function WorkConditions({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const formData = useSelector((state: RootState) => state.formData.present);
+    const workConditions = formData.system[selectedSystem].workConditions;
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const dispatch = useDispatch();
     const { t } = useTranslation();
-    const [tempTemperature, setTempTemperature] = useState(formData.system[selectedSystem].workConditions.temperature)
-    const [tempHumidity, setTempHumidity] = useState(formData.system[selectedSystem].workConditions.humidity)
+    const [tempTemperature, setTempTemperature] = useState(workConditions.temperature)
+    const [tempHumidity, setTempHumidity] = useState(workConditions.humidity)
 
     useEffect(() => {
         const systemCond = formData.system[selectedSystem]?.workConditions || {};
@@ -34,6 +37,8 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
     return (
         <InputGroup
             title={t(`system.subheader.workConditions`)}
+            subTitle={t(`system.subheader.workConditionsSubtitle`)}
+            icon={ThermostatAutoOutlinedIcon}
             content={
                 <Box>
                     <Grid container direction='row' spacing={4}>
@@ -84,7 +89,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                             </Grid>
                         }
                         {
-                            ((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[1]) <= criticalElectronicsTemperature))
+                            isCondensationRisk(workConditions.temperature,workConditions.humidity)
                             &&
                             <Grid item xs={12}>
                                 <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[1]) <= criticalElectronicsTemperature))} severity="warning" title={t(`system.condensationWarningTitle`)} text={t(`system.condensationWarning`)} />

@@ -210,7 +210,7 @@ export default function GanttGraph(): JSX.Element {
                     }
                     {!isMobile &&
                         <Box top='50%' width={25} position='relative' overflow='visible'>
-                            <Button variant='contained' sx={{ position: 'absolute', top: '50%', zIndex: 3000 }} disableElevation onClick={() => setViewTaskList(!viewTaskList)}><SwitchRightIcon /></Button>
+                            <Button variant='contained' sx={{ position: 'absolute', top: '50%', zIndex: 1100 }} disableElevation onClick={() => setViewTaskList(!viewTaskList)}><SwitchRightIcon /></Button>
                         </Box>
                     }
                     <Box height='100%' border={1} style={{ borderColor: theme.palette.divider, borderRadius: theme.shape.borderRadius, overflow: 'hidden' }} position='relative'>

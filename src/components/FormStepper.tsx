@@ -1,51 +1,72 @@
-import { AppBar, Box, Button, Card, Container, Grid, MobileStepper, Paper, Step, StepLabel, Stepper, useTheme } from "@mui/material";
+import { AppBar, Box, Button, MobileStepper, Stepper, useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useLocation } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
+import UploadIcon from '@mui/icons-material/Upload';
+import tinycolor from "tinycolor2";
 
-interface FormStepperProps {
-  mobile: boolean;
-  handleStepClick: (step: string) => void;
-  handleBack: () => void;
-  handleNext: () => void;
-}
-
-
-export default function FormStepper({ mobile, handleStepClick, handleBack, handleNext }: FormStepperProps) {
+export default function FormStepper({ navigateToStep, saveDataToServer }: { navigateToStep: (step: string) => void, saveDataToServer: () => void }) {
   const { t } = useTranslation();
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallest = useMediaQuery(theme.breakpoints.only("xs"));
+  const darkMode = useSelector((state: RootState) => state.darkMode);
 
-  const allSteps = useSelector((state: RootState) => state.steps.steps)
+  const allSteps = useSelector((state: RootState) => state.steps.steps);
 
-  const location = useLocation();  // Use the useLocation hook to get the current path
-  const activeStep = location.pathname.split('/').pop();  // Extract the active step from the path
+  const location = useLocation();
+  const activeStep = location.pathname.split("/").pop(); // Extract the active step from the path
   const activeStepIndex = activeStep ? allSteps.indexOf(activeStep) : 0;
 
-  if (mobile) {
+  const isLastStep = activeStepIndex === allSteps.length - 1;
+
+  if (isMobile) {
     return (
-      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+      <Box sx={{ display: { xs: "block", md: "none" } }}>
         <AppBar
           className="mobile-stepper"
           position="fixed"
-          color='default'
-          sx={{ top: 'auto', bottom: 0, borderTop: 1, borderColor: theme.palette.divider }}
+          color="default"
+          sx={{ top: "auto", bottom: 0, borderTop: 1, borderColor: theme.palette.divider, zIndex: isSmallest ? 1100 : '1210 !important' }}
         >
           <MobileStepper
             sx={{ backgroundColor: "transparent" }}
-            variant="dots" // Use "dots" for dots style, "text" for text label style
+            variant="dots"
             steps={allSteps.length}
             position="static"
             activeStep={activeStepIndex || 0}
             nextButton={
-              <Button sx={{borderRadius: 1000}} variant="outlined" color="primary" onClick={() => handleNext()}>
-                <KeyboardArrowRight />
-              </Button>
+              isLastStep
+                ? <Button
+                  sx={{ borderRadius: 1000 }}
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => saveDataToServer()}
+                  startIcon={<UploadIcon />}
+                >
+                  {t('ui.button.inquiry.saveToServer')}
+                </Button>
+                :
+                <Button
+                  sx={{ borderRadius: 1000 }}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => navigateToStep(allSteps[activeStepIndex + 1] || allSteps[0])}
+                >
+                  <KeyboardArrowRight />
+                </Button>
             }
             backButton={
-              <Button sx={{borderRadius: 1000}} variant="outlined" color="primary" onClick={() => handleBack()}>
+              <Button
+                sx={{ borderRadius: 1000 }}
+                variant="contained"
+                color="primary"
+                onClick={() => navigateToStep(allSteps[activeStepIndex - 1] || allSteps[0])}
+              >
                 <KeyboardArrowLeft />
               </Button>
             }
@@ -55,23 +76,60 @@ export default function FormStepper({ mobile, handleStepClick, handleBack, handl
     );
   } else {
     return (
-      <Grid item xs sx={{ display: { xs: 'none', md: 'block' } }}>
-        <Card elevation={1} sx={{ p: 3, position: 'sticky', top: 48 }}>
-          <Stepper activeStep={activeStepIndex || 0} orientation="vertical" nonLinear>
-            {allSteps.map((label) => (
-              <Step key={label}>
-                <StepLabel
-                  onClick={() => handleStepClick(label)}
-                  sx={{ cursor: 'pointer' }} // Add cursor pointer style
+      <Box
+        sx={{
+          display: "flex",
+          flexGrow: 1,
+          height: 65,
+          justifyContent: "center",
+          alignItems: "stretch",
+          width: "100%",
+          gap: "4px",
+          // backgroundColor: theme.palette.divider,
+          borderBottom: 1,
+          borderColor: theme.palette.divider,
+          py: 1
+        }}
+      >
+        {allSteps.map((label, index) => {
+          const isActive = index === activeStepIndex;
+          const isCompleted = index < activeStepIndex;
 
-                >
-                  {t(`steps.${label}`)}
-                </StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Card>
-      </Grid>
+          return (
+            <Box
+              key={label}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexGrow: isActive ? 1 : 0,
+                px: 3,
+                py: 1,
+                backgroundColor: isActive
+                  ? theme.palette.primary.main
+                  : isCompleted
+                    ? darkMode ? tinycolor(theme.palette.primary.main).darken(35).toHexString() : tinycolor(theme.palette.primary.main).lighten(41).toHexString()
+                    : theme.palette.background.paper,
+                color: isActive
+                  ? theme.palette.background.paper
+                  : theme.palette.text.primary,
+                cursor: "pointer",
+                clipPath:
+                  index === 0
+                    ? "polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 0% 50%)"
+                    : index === allSteps.length - 1
+                      ? "polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 10px 50%)"
+                      : "polygon(0% 0%, calc(100% - 10px) 0%, 100% 50%, calc(100% - 10px) 100%, 0% 100%, 10px 50%)",
+                marginLeft: index > 0 ? "-10px" : "0", // Overlaps the blocks slightly to remove gaps
+              }}
+              onClick={() => navigateToStep(label)}
+            >
+              {t(`steps.${label}`)}
+            </Box>
+          );
+        })}
+
+      </Box>
     );
   }
 }

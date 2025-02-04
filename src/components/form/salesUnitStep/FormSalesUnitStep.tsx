@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { handleInputMethod } from "../../../features/redux/reducers/formDataSlice";
 import salesEngineersSorted from "../../../data/salesEngineers";
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 
 export default function FormSalesUnitStep(): JSX.Element {
     const { t } = useTranslation();
@@ -22,6 +23,8 @@ export default function FormSalesUnitStep(): JSX.Element {
             <Typography variant="h4" textAlign='left'>{t('sales.header')}</Typography>
             <InputGroup
                 title={t('customer.subheader.teleaddress')}
+                subTitle={t('customer.subheader.teleaddressSubtitle')}
+                icon={AssignmentOutlinedIcon}
                 content={
                     <Stack spacing={4}>
                         <CustomTextField

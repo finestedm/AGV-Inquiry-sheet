@@ -79,12 +79,12 @@ const grey120ColorDark = '#1d1f20'
 const primaryColor = JHYellow;
 const secondaryColor = '#009697'
 const successColor = '#70AE6E'
-const backgroundColor = '#f8fafc'
+const backgroundColor = '#f8f8f8'
 const paperColor = '#fff'
 const infoColor = '#009697'
 const errorColor = '#cc0000'
 const textPrimaryColor = '#101828'
-const textSecondaryColor = '#667085'
+const textSecondaryColor = '#727984'
 const greyLightMinus10BlackColor = '#EAEFF1'
 const greyLightColor = '#C0CBCE'
 
@@ -261,7 +261,6 @@ theme = createTheme({
         MuiInputBase: {
             styleOverrides: {
                 root: {
-                    minWidth: "12ch",
                     borderColor: '#000',
                     backgroundColor: paperColor,
                     boxShadow: shadow1,
@@ -345,7 +344,7 @@ theme = createTheme({
         MuiButtonGroup: {
             styleOverrides: {
                 root: {
-                        boxShadow: 'none',
+                    boxShadow: 'none',
                 }
             }
         },
@@ -374,13 +373,11 @@ theme = createTheme({
                         },
                     },
                     '&.MuiButton-containedPrimary': {
-
-                        color: tinycolor(primaryColor).darken(25).toHex8String(),
-                        backgroundColor: tinycolor(primaryColor).lighten(12).setAlpha(.45).toHex8String(),
+                        color: 'white',
+                        backgroundColor: primaryColor,
                         boxShadow: 'none',
                         '&:hover': {
-                            color: tinycolor(primaryColor).darken(15).toHex8String(),
-                            backgroundColor: tinycolor(primaryColor).setAlpha(.45).toHex8String(),
+                            backgroundColor: tinycolor(primaryColor).setAlpha(.6).toHex8String(),
                         }
                     },
 
@@ -605,7 +602,7 @@ export const themeDark = createTheme({
 
     typography: {
         fontFamily: [
-            'Roboto', // Primary font
+            'Inter', // Primary font
             'sans-serif',
         ].join(','),
         fontWeightRegular: 500,
@@ -710,12 +707,8 @@ export const themeDark = createTheme({
         MuiInputBase: {
             styleOverrides: {
                 root: {
-                    minWidth: "12ch",
                     borderColor: '#000',
                     backgroundColor: paperColorDark,
-                    // boxShadow: shadow1,
-                    // color: textPrimaryColorDark
-
                 },
                 input: {
                 }

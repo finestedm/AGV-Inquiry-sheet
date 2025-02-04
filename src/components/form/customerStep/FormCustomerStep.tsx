@@ -14,6 +14,9 @@ import CustomTextField from "../CustomTextField";
 import industries from "../../../data/industries";
 import { DoubleInputWithCurrency } from "./subcomponents/DoubleInputWtihCurrency";
 import InputGroup from "../InputGroup";
+import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
+import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 
 //props for the insdustries select
 const ITEM_HEIGHT = 48;
@@ -47,6 +50,8 @@ export default function FormCustomerStep(): JSX.Element {
       <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
       <InputGroup
         title={t('customer.subheader.teleaddress')}
+        subTitle={t('customer.subheader.teleaddressSubtitle')}
+        icon={FmdGoodOutlinedIcon}
         content={
           <Stack spacing={4}>
             <CustomTextField
@@ -66,6 +71,8 @@ export default function FormCustomerStep(): JSX.Element {
       />
       <InputGroup
         title={t('customer.subheader.contactperson')}
+        subTitle={t('customer.subheader.contactpersonSubtitle')}
+        icon={ContactsOutlinedIcon}
         content={
           <Stack spacing={4}>
             <CustomTextField
@@ -105,6 +112,8 @@ export default function FormCustomerStep(): JSX.Element {
       />
       <InputGroup
         title={t('customer.subheader.businessdata')}
+        subTitle={t('customer.subheader.businessdataSubtitle')}
+        icon={MonetizationOnOutlinedIcon}
         content={
           <Stack spacing={4}>
             <Stack spacing={1}>
