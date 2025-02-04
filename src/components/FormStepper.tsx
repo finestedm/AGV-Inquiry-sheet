@@ -88,7 +88,7 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
           // backgroundColor: theme.palette.divider,
           borderBottom: 1,
           borderColor: theme.palette.divider,
-          py: 1
+          p: 1
         }}
       >
         {allSteps.map((label, index) => {
@@ -103,7 +103,7 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
                 alignItems: "center",
                 justifyContent: "center",
                 flexGrow: isActive ? 1 : 0,
-                px: 3,
+                px: 1.4,
                 py: 1,
                 backgroundColor: isActive
                   ? theme.palette.primary.main
