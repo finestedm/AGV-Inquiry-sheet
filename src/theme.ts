@@ -131,7 +131,7 @@ theme = createTheme({
         grey: customGreyPalette
     },
     shape: {
-        borderRadius: 6
+        borderRadius: 1
     },
 
     typography: {

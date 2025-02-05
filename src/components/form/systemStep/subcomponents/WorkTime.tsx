@@ -113,7 +113,7 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                                         color={circularValue < 50 ? 'error' : 'success'}
                                         variant="determinate"
                                         value={circularValue}
-                                        sx={{ height: '2rem', borderRadius: theme.shape.borderRadius }}
+                                        sx={{ height: '2rem', borderRadius: 1000 }}
                                     />
                                     <Typography
                                         variant="h6"
