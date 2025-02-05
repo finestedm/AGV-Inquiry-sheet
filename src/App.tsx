@@ -223,12 +223,12 @@ function App() {
         // Wait for the fade-out to complete, then change the step and fade back in
         setTimeout(() => {
           dispatch(setCurrentStep(step)); // Change the step
-        }, 250); // Match the duration of the fade-out
+        }, 175); // Match the duration of the fade-out
         setTimeout(() => {
           formBox.style.opacity = '1'; // Fade in
           contentBox.scrollTo({ top: 0, behavior: 'smooth' });
 
-        }, 300); // Match the duration of the fade-out
+        }, 325); // Match the duration of the fade-out
       }
     }
   }
