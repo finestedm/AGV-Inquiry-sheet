@@ -213,7 +213,9 @@ function App() {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       const formBox = document.querySelector('#form-box') as HTMLElement;
-      if (formBox) {
+      const contentBox = document.querySelector('#content-box') as HTMLElement;
+
+      if (formBox && contentBox) {
         // Fade out
         formBox.style.transition = 'opacity 0.25s ease-out';
         formBox.style.opacity = '0';
@@ -224,7 +226,7 @@ function App() {
         }, 250); // Match the duration of the fade-out
         setTimeout(() => {
           formBox.style.opacity = '1'; // Fade in
-          formBox && formBox.scrollTo({ top: 0, behavior: 'smooth' });
+          contentBox.scrollTo({ top: 0, behavior: 'smooth' });
 
         }, 300); // Match the duration of the fade-out
       }
@@ -286,7 +288,7 @@ function App() {
               <Sidebar handleRedo={handleRedo} handleUndo={handleUndo} sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} saveDataToFile={saveDataToFile} saveDataToServer={saveDataToServer} isWaiting={isWaiting} />
               <Box sx={{ flexGrow: 1, overflow: 'hidden', width: isMobile ? isSmallest ? 'calc(100% - 275px)' : 'calc(100% - 55px)' : 'calc(100% - 275px)' }}>
                 <TopBar sidebarOpen={sidebarOpen} handleSidebarOpening={handleSidebarOpening} />
-                <Box id="form-box" sx={{ width: '100%', height: isMobile ? isSmallest ? 'calc(100% - 112px)' : 'calc(100% - 52px)' : '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
+                <Box id="content-box" sx={{ width: '100%', height: isMobile ? isSmallest ? 'calc(100% - 112px)' : 'calc(100% - 52px)' : '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
                   <FormStepperBar navigateToStep={navigateToStep} saveDataToServer={saveDataToServer}/>
                   <Form navigateToStep={navigateToStep} saveDataToFile={saveDataToFile} saveDataToServer={saveDataToServer} isWaiting={isWaiting} />
                 </Box>
