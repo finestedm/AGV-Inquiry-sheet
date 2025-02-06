@@ -9,7 +9,7 @@ const initialFormDataState: IFormData = {
 
     version: '241119beta',
     sales: {
-        salesUnit: 'S1-PL',
+        salesUnit: '',
         contactPerson: '',
         contactPersonRole: '',
         OPNumber: '',

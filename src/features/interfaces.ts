@@ -3,9 +3,10 @@ import { Task } from "gantt-task-react";
 import availableEquipment from "../data/availableEquipment";
 import salesEngineersSorted from "../data/salesEngineers";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
+import salesUnits from "../data/salesUnits";
 
 export interface ISales {
-    salesUnit: string;
+    salesUnit: typeof  salesUnits[number] | null;
     contactPerson: string;
     contactPersonRole: string;
     OPNumber: string;

@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
   sales: Yup.object({
+    salesUnit: Yup.string().required('helperText.sales.salesUnit.required'),
     contactPerson: Yup.string().required('helperText.sales.contactPerson.required'),
     OPNumber: Yup.string()
       .matches(/^4\d{7}$/, 'helperText.customer.OPNumber.format')

@@ -441,6 +441,9 @@
     "sales": {
       "contactPerson": {
         "required": "Podaj osobę wprowadzającą dane"
+      },
+      "salesUnit":{
+        "required": "Podaj jednostkę sprzedażową"
       }
     },
     "customer": {
