@@ -13,7 +13,9 @@ export default function CustomCheckbox(props: ICustomFieldProps) {
     const formikProps: FormikProps<IFormData> = useFormikContext();
 
     const dispatch = useDispatch();
-    const editMode = useSelector((state: RootState) => state.editMode);
+
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const field = formikProps.getFieldProps(fieldName);
 
     // Utility to dynamically access nested properties based on fieldName path

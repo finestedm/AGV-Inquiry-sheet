@@ -918,6 +918,15 @@ export const themeDark = createTheme({
                             backgroundColor: tinycolor(primaryColorDark).lighten(25).setAlpha(.25).toHex8String(),
                         }
                     },
+                    '&.MuiButton-containedSecondary': {
+                        color: tinycolor(secondaryColorDark).lighten(15).toHex8String(),
+                        backgroundColor: tinycolor(secondaryColorDark).darken(20).toHex8String(),
+                        boxShadow: 'none',
+                        '&:hover': {
+                            color: tinycolor(secondaryColorDark).lighten(12).toHex8String(),
+                            backgroundColor: tinycolor(secondaryColorDark).lighten(25).setAlpha(.25).toHex8String(),
+                        }
+                    },
                     '&.MuiButton-contained.Mui-disabled': {
                         color: customGreyPaletteDark[600],
                         backgroundColor: customGreyPaletteDark[700]

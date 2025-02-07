@@ -37,6 +37,8 @@ function EquipmentDetailsChip({ eq }: { eq: IEquipment }) {
     const darkMode = useSelector((state: RootState) => state.darkMode)
     const dispatch = useDispatch();
     const EquipmentIcon = eqIcons[eq.type] || null;
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';    
 
     return (
         <Chip
@@ -93,7 +95,7 @@ function EquipmentDetailsChip({ eq }: { eq: IEquipment }) {
                         }}
                     />
                 </Box>}
-            onDelete={() => dispatch(updateEditEquipmentDrawer({ open: true, eqId: eq.id }))}
+            onDelete={() => editMode && dispatch(updateEditEquipmentDrawer({ open: true, eqId: eq.id }))}
         />
     )
 }

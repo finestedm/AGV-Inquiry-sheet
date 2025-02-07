@@ -16,7 +16,8 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
     const trRef = useRef<Konva.Transformer | null>(null);
 
     const dispatch = useDispatch();
-    const editMode = useSelector((state: RootState) => state.editMode);
+    const currentStep = useSelector((state: RootState) => state.steps.currentStep);
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const warehouseData = useSelector((state: RootState) => state.formData.present.system[selectedSystem].building.existingBuilding);
     const warehouseEquipment = warehouseData.equipment;
 
@@ -61,7 +62,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
             return equipment;
         });
 
-        dispatch(updateEquipment({ updatedEquipment, selectedSystem }));
+        editMode && dispatch(updateEquipment({ updatedEquipment, selectedSystem }));
     };
 
     const onShapeChange = (index: number) => (e: Konva.KonvaEventObject<Event>) => {
@@ -80,24 +81,24 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
             return equipment;
         });
 
-        dispatch(updateEquipment({ updatedEquipment, selectedSystem }));
+        editMode && dispatch(updateEquipment({ updatedEquipment, selectedSystem }));
     };
 
     useEffect(() => {
-        if (isSelected && shapeRef.current) {
+        if (isSelected && shapeRef.current && editMode) {
             attachTransformer();
         }
     }, [isSelected]);
 
     const attachTransformer = () => {
-        if (trRef.current && shapeRef.current) {
+        if (trRef.current && shapeRef.current && editMode ) {
             trRef.current.nodes([shapeRef.current]);
             trRef.current.getLayer()?.batchDraw();
         }
     };
 
     function handleDoubleClick() {
-        dispatch(updateEditEquipmentDrawer({ open: true, eqId: id }));  // Dispatch the action on double-click
+        editMode && dispatch(updateEditEquipmentDrawer({ open: true, eqId: id }));  // Dispatch the action on double-click
     };
 
     const commonProps = {

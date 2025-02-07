@@ -246,8 +246,8 @@
       "layout": "Szkic",
       "existingBuilding": {
         "height": "Wysokość",
-        "width": "Szerokość",
-        "length": "Długość",
+        "width": "Dłuższy bok",
+        "length": "Krótszy bok",
         "equipment": {
           "x": "Pozycja x",
           "y": "Pozycja y",
