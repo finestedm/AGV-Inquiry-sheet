@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Chip, FormControl, FormHelperText, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Checkbox, Chip, FormControl, FormHelperText, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Toolbar, Typography, useTheme } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
 import { MuiTelInput } from 'mui-tel-input'
@@ -46,8 +46,9 @@ export default function FormCustomerStep(): JSX.Element {
   const industriesTranslated = industries.map(industry => t(`industry.${industry}`))
 
   return (
+  <Box>
+    <Typography minHeight={64} alignContent='center' variant="h4" textAlign='left'>{t('customer.header')}</Typography>
     <Stack spacing={5}>
-      <Typography variant="h4" textAlign='left'>{t('customer.header')}</Typography>
       <InputGroup
         title={t('customer.subheader.teleaddress')}
         subTitle={t('customer.subheader.teleaddressSubtitle')}
@@ -252,5 +253,6 @@ export default function FormCustomerStep(): JSX.Element {
         }
       />
     </Stack>
+    </Box>
   )
 }

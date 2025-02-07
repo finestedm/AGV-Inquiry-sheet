@@ -8,8 +8,9 @@ export default function FormSystemSelectorStep(): JSX.Element {
   const { t } = useTranslation()
 
   return (
+    <Box>
+      <Typography minHeight={64} alignContent='center' variant="h4" textAlign='left'>{t('steps.systems.header')}</Typography>
     <Stack spacing={2}>
-      <Typography variant="h4" textAlign='left'>{t('steps.systems.header')}</Typography>
       <Box>
         <Grid container spacing={3}>
           {
@@ -20,5 +21,7 @@ export default function FormSystemSelectorStep(): JSX.Element {
         </Grid>
       </Box>
     </Stack>
+    </Box>
+ 
   )
 }

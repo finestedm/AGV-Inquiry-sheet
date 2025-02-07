@@ -39,8 +39,9 @@ export default function FormSalesUnitStep(): JSX.Element {
     }, [formData.sales.salesUnit])
 
     return (
+        <Box>
+            <Typography minHeight={64} alignContent='center' variant="h4" textAlign='left'>{t('sales.header')}</Typography>
         <Stack spacing={5}>
-            <Typography variant="h4" textAlign='left'>{t('sales.header')}</Typography>
             <InputGroup
                 title={t('customer.subheader.teleaddress')}
                 subTitle={t('customer.subheader.teleaddressSubtitle')}
@@ -119,5 +120,7 @@ export default function FormSalesUnitStep(): JSX.Element {
                 }
             />
         </Stack>
+        </Box>
+
     )
 }

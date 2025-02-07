@@ -83,8 +83,8 @@ export default function Form({ navigateToStep, saveDataToFile, saveDataToServer,
       >
         {(formikProps: FormikProps<IFormData>) => (
           <FormikForm>
-            <Box width='100%' p={isMobile ? 1 : 4} id="form-box">
-              <Stack spacing={6} sx={{ mt: 5 }}>
+            <Box width='100%' px={isMobile ? 1 : 4} pb={4} id="form-box">
+              <Stack spacing={4}>
                 <Box>
                   <Routes>
                     <Route path="/sales" element={<FormSalesUnitStep />} />

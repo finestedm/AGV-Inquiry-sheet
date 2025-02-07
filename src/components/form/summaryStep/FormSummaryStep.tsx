@@ -36,8 +36,9 @@ export default function FormSummaryStep() {
     }
 
     return (
+        <Box>
+            <Typography minHeight={64} alignContent='center' variant="h4" textAlign='left'>{t('summary.header')}</Typography>
         <Stack spacing={8} textAlign='left'>
-            <Typography variant="h4">{t('summary.header')}</Typography>
             <Stack spacing={2} className='summary-sales'>
                 <CustomHeaderWithDivider headerText='sales.header' />
                 <Typography>
@@ -118,6 +119,8 @@ export default function FormSummaryStep() {
             </Stack>
             <SystemsTabs />
         </Stack>
+        </Box>
+
     )
 }
 

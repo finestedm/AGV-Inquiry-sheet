@@ -151,8 +151,9 @@ export default function FormMediaStep(): JSX.Element {
     const isMobile = useMediaQuery('(max-width: 1024px)');
 
     return (
+        <Box>
+            <Typography minHeight={64} alignContent='center' variant="h4" textAlign='left'>{t('media.header')}</Typography>
         <Stack spacing={5}>
-            <Typography variant="h4" textAlign='left'>{t('media.header')}</Typography>
             <InputGroup
                 title={t('media.subheader.images')}
                 subTitle={t('media.subheader.imagesSubtitle')}
@@ -259,6 +260,7 @@ export default function FormMediaStep(): JSX.Element {
                 }
             />
         </Stack >
+        </Box>
 
     )
 }

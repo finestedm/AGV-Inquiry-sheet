@@ -60,8 +60,9 @@ export default function FormProjectStep(): JSX.Element {
     const existingWMSTypesTranslated = existingWMSTypes.map(wms => t(`project.it.existingSystem.label.${wms}`))
 
     return (
+        <Box>
+            <Typography minHeight={64} alignContent='center' variant="h4" textAlign='left'>{t('project.header')}</Typography>
         <Stack spacing={5}>
-            <Typography variant="h4" textAlign='left'>{t('project.header')}</Typography>
             <InputGroup
                 title={t('project.subheader.various')}
                 subTitle={t('project.subheader.various')}
@@ -248,6 +249,7 @@ export default function FormProjectStep(): JSX.Element {
                 }
             />
         </Stack >
+        </Box>
 
     )
 }

@@ -18,13 +18,14 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: key
     const { t } = useTranslation();
 
     return (
-        <Stack spacing={5}>
+        <Box>
             {!isStepSummary &&
                 <Stack direction='row' justifyContent='space-between'>
-                    <Typography variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
+                    <Typography minHeight={64} alignContent='center' variant="h4" textAlign='left'>{t(`system.${selectedSystem}.header`)}</Typography>
                     <CopyOtherSystemDataButton selectedSystem={selectedSystem} />
                 </Stack>
             }
+        <Stack spacing={5}>
             <WorkTime selectedSystem={selectedSystem} />
             <WorkConditions selectedSystem={selectedSystem} />
             <Loads selectedSystem={selectedSystem} />
@@ -34,6 +35,7 @@ export default function FormSystemStep({ selectedSystem }: { selectedSystem: key
             <AdditionalRemarks selectedSystem={selectedSystem} />
             {/* <NumberOfTrucks /> */}
         </Stack >
+        </Box>
     )
 }
 
