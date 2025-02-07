@@ -1,4 +1,4 @@
-const salesEngineers = ['Michał T.', 'Krzysztof G.', 'Marcin R.', 'Krystian N.', 'Bartosz M.', 'Marcin G.', 'Mariusz Ś']
+const salesEngineers = ['Michał T.', 'Krzysztof G.', 'Marcin R.', 'Krystian N.', 'Bartosz M.', 'Marcin G.', 'Mariusz Ś', 'Rafał P.']
 
 const salesEngineersSorted = salesEngineers.sort((a, b) => {
     // Extract the last name's first letter
