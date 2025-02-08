@@ -34,10 +34,10 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
       const activeStepElement = parent.children[activeStepIndex] as HTMLElement | undefined;
 
       if (activeStepElement) {
-        const parentWidth = parent.clientWidth + 275;
+        const parentWidth = parent.clientWidth;
         console.log(parent.clientWidth)
         const stepWidth = activeStepElement.offsetWidth;
-        const stepOffsetLeft = activeStepElement.offsetLeft;
+        const stepOffsetLeft = activeStepElement.offsetLeft + 275;
 
         // Center the active step within the parent
         parent.scrollLeft = stepOffsetLeft - (parentWidth / 2) + (stepWidth / 2);
