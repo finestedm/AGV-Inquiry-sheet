@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../features/redux/store";
 import UploadIcon from '@mui/icons-material/Upload';
 import tinycolor from "tinycolor2";
+import { useEffect, useRef, useState } from "react";
 
 export default function FormStepper({ navigateToStep, saveDataToServer }: { navigateToStep: (step: string) => void, saveDataToServer: () => void }) {
   const { t } = useTranslation();
@@ -23,6 +24,26 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
   const activeStepIndex = activeStep ? allSteps.indexOf(activeStep) : 0;
 
   const isLastStep = activeStepIndex === allSteps.length - 1;
+
+  const stepperRef = useRef<HTMLDivElement>(null); // Ref for the stepper container
+  const stepRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (stepperRef.current) {
+      const parent = stepperRef.current;
+      const activeStepElement = parent.children[activeStepIndex] as HTMLElement | undefined;
+
+      if (activeStepElement) {
+        const parentWidth = parent.clientWidth + 275;
+        console.log(parent.clientWidth)
+        const stepWidth = activeStepElement.offsetWidth;
+        const stepOffsetLeft = activeStepElement.offsetLeft;
+
+        // Center the active step within the parent
+        parent.scrollLeft = stepOffsetLeft - (parentWidth / 2) + (stepWidth / 2);
+      }
+    }
+  }, [activeStepIndex]);
 
   if (isMobile) {
     return (
@@ -77,6 +98,7 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
   } else {
     return (
       <Box
+        ref={stepperRef}
         sx={{
           display: "flex",
           flexGrow: 1,
@@ -88,7 +110,10 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
           // backgroundColor: theme.palette.divider,
           borderBottom: 1,
           borderColor: theme.palette.divider,
-          p: 1
+          p: 1,
+          overflowX: "scroll",
+          scrollBehavior: "smooth",
+          scrollbarWidth: "none",
         }}
       >
         {allSteps.map((label, index) => {
@@ -98,18 +123,21 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
           return (
             <Box
               key={label}
+              ref={stepRef}
               sx={{
                 display: "flex",
+                flexShrink: 0,
                 alignItems: "center",
                 justifyContent: "center",
                 flexGrow: isActive ? 1 : 0,
-                px: 1.4,
+                minWidth: 100,
+                px: 4,
                 py: 1,
                 backgroundColor: isActive
                   ? theme.palette.primary.main
                   : isCompleted
                     ? darkMode ? tinycolor(theme.palette.primary.main).darken(35).toHexString() : tinycolor(theme.palette.primary.main).lighten(41).toHexString()
-                    : theme.palette.background.paper,
+                    : theme.palette.grey[100],
                 color: isActive
                   ? theme.palette.background.paper
                   : theme.palette.text.primary,
