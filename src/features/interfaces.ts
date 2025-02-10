@@ -147,8 +147,11 @@ export interface ISystems {
     autovna: ISystemData;
 }
 
+export type TAcceptedFileFormats = "application/pdf" | "application/acad" | "image/vnd.dwg" | "application/dwg"
+
 export interface IMedia {
     images: { base64: string; name: string }[];
+    files: {base64: string; name: string, type: TAcceptedFileFormats}[];
 }
 
 export interface IFormData {

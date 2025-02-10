@@ -201,7 +201,8 @@ const initialFormDataState: IFormData = {
         }
     },
     media: {
-        images: []
+        images: [],
+        files: []
     }
 }
 

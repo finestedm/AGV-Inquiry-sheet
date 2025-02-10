@@ -22,12 +22,43 @@ export default function FormMediaStep(): JSX.Element {
     const theme = useTheme();
     const formData = useSelector((state: RootState) => state.formData.present);
     const imagesUploaded = formData.media.images;
+    const filesUploaded = formData.media.files;
     const editMode = useSelector((state: RootState) => state.editMode);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [processingCount, setProcessingCount] = useState(0);
     const [imagesForGallery, setImagesForGallery] = useState<{ original: string, thumbnail: string, originalTitle: string, thumbnailTitle: string }[]>([]);
     const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
+
+    async function handleFileUpload(event: ChangeEvent<HTMLInputElement>) {
+        if (!loading) {
+            const input = event.target as HTMLInputElement;
+            if (!input.files || input.files.length === 0) return;
+
+            const files = Array.from(input.files);
+            setLoading(true);
+
+            try {
+                const processedFiles = await Promise.all(
+                    files.map(async (file) => {
+                        const base64 = await fileToBase64(file);
+                        return { base64, name: file.name, type: file.type };
+                    })
+                );
+
+                dispatch(handleInputMethod({
+                    path: "media.files",
+                    value: [...filesUploaded, ...processedFiles],
+                }));
+            } catch (error) {
+                console.error("Error while processing files:", error);
+            } finally {
+                setLoading(false);
+                input.value = "";
+            }
+        }
+    }
+
 
     async function handleImageUpload(event: ChangeEvent<HTMLInputElement>) {
         if (!loading) {
@@ -166,12 +197,12 @@ export default function FormMediaStep(): JSX.Element {
                                     <Grid container spacing={2}>
                                         {isMobile && editMode && (
                                             <Grid item xs={6} lg={3}>
-                                                <NewImageCard takePhoto handleImageUpload={handleImageUpload} loading={loading} />
+                                                <NewFileCard takePhoto type='images' handleFileUpload={handleImageUpload} loading={loading} />
                                             </Grid>
                                         )}
                                         {editMode && (
                                             <Grid item xs={6} lg={3}>
-                                                <NewImageCard handleImageUpload={handleImageUpload} loading={loading} />
+                                                <NewFileCard type='images' handleFileUpload={handleImageUpload} loading={loading} />
                                             </Grid>
                                         )}
 
@@ -259,13 +290,106 @@ export default function FormMediaStep(): JSX.Element {
                     </Stack>
                 }
             />
+             <InputGroup
+                title={t('media.subheader.files')}
+                subTitle={t('media.subheader.filesSubtitle')}
+                icon={PhotoOutlinedIcon}
+                content={
+                    <Stack spacing={2}>
+                        <Box>
+                            <Stack spacing={2}>
+                                <Box>
+                                    <Grid container spacing={2}>
+                                        {editMode && (
+                                            <Grid item xs={6} lg={3}>
+                                                <NewFileCard type='files' handleFileUpload={handleFileUpload} loading={loading} />
+                                            </Grid>
+                                        )}
+                                        {filesUploaded.map((file, index) => (
+                                            <Grid item xs={6} lg={3}>
+                                                <Card key={index}
+                                                    sx={{
+                                                        display: "flex",
+                                                        flexDirection: "column", // Stack children vertically
+                                                        justifyContent: "space-between", // Ensure consistent spacing
+                                                        height: 260, // Set a uniform height for all cards
+                                                    }}>
+                                                    {file.type === "application/pdf" ? (
+                                                        <iframe
+                                                            src={file.base64}
+                                                            style={{ width: "100%", height: "180px", border: "none" }}
+                                                            
+                                                        ></iframe>
+                                                    ) : (
+                                                        <CardMedia
+                                                            sx={{ height: 180 }}
+                                                            image={file.base64}
+                                                            title={file.name}
+                                                        />
+                                                    )}
+                                                    <CardContent sx={{ flexGrow: 1, maxHeight: 75, textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>
+                                                        <Typography gutterBottom variant="caption" sx={{ textOverflow: "ellipsis" }}>
+                                                            {file.name}
+                                                        </Typography>
+                                                    </CardContent>
+                                                    <CardActions disableSpacing sx={{ borderTop: `1px solid ${theme.palette.divider}` }} >
+                                                        <Tooltip title='edit name' sx={{ marginLeft: 'auto' }}>
+                                                            <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
+                                                                <EditIcon sx={{ fontSize: 18 }} />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip title='delete'>
+                                                            <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
+                                                                <DeleteIcon sx={{ fontSize: 18 }} />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </CardActions>
+                                                </Card>
+                                            </Grid>
+                                        ))}
+                                        {(loading && processingCount > 0) && (
+                                            Array.from({ length: processingCount }).map((_, index) => (
+                                                <Grid item xs={6} lg={3} key={`placeholder-${index}`}>
+                                                    <Card
+                                                        sx={{
+                                                            display: "flex",
+                                                            flexDirection: "column", // Stack children vertically
+                                                            justifyContent: "space-between", // Ensure consistent spacing
+                                                            height: 220, // Set a uniform height for all cards
+                                                        }}>
+                                                        <CardMedia
+                                                            sx={{
+                                                                height: 140,
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                            }}
+                                                        >
+                                                            <CircularProgress />
+                                                        </CardMedia>
+                                                        <CardContent sx={{ flexGrow: 1 }}>
+                                                            <Typography variant="caption" color='text.secondary'>
+                                                                Processing image {index + 1} of {processingCount}
+                                                            </Typography>
+                                                        </CardContent>
+                                                    </Card>
+                                                </Grid>
+                                            ))
+                                        )}
+                                    </Grid>
+                                </Box>
+                            </Stack>
+                        </Box>
+                    </Stack>
+                }
+            />
         </Stack >
         </Box>
 
     )
 }
 
-export function NewImageCard({ handleImageUpload, takePhoto, loading }: { handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void, takePhoto?: boolean, loading: boolean }) {
+export function NewFileCard({ type, handleFileUpload, takePhoto, loading }: { type: 'files' | 'images', handleFileUpload?: (e: React.ChangeEvent<HTMLInputElement>) => void, takePhoto?: boolean, loading: boolean }) {
     const theme = useTheme();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
@@ -311,26 +435,38 @@ export function NewImageCard({ handleImageUpload, takePhoto, loading }: { handle
                         {takePhoto ? t('ui.button.takePhoto') : t('ui.button.selectImage')}
                     </Typography>
                 </CardContent>
-                {takePhoto ?
-                    <input
-                        ref={fileInputRef}
-                        accept="image/*"
-                        id="taking-image-input"
-                        type="file"
-                        capture="environment"
-                        onChange={handleImageUpload}
-                        style={{ display: 'none' }}
-                    />
+                {type === 'images' 
+                    ?
+                    takePhoto ?
+                        <input
+                            ref={fileInputRef}
+                            accept="image/*"
+                            id="taking-image-input"
+                            type="file"
+                            capture="environment"
+                            onChange={handleFileUpload}
+                            style={{ display: 'none' }}
+                        />
+                        :
+                        <input
+                            ref={fileInputRef}
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            id="uploadding-image-input"
+                            type="file"
+                            multiple
+                            onChange={handleFileUpload}
+                        />
                     :
                     <input
-                        ref={fileInputRef}
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        id="uploadding-image-input"
-                        type="file"
-                        multiple
-                        onChange={handleImageUpload}
-                    />
+                            ref={fileInputRef}
+                            accept=".pdf, .dwg, .dxf"
+                            id="taking-image-input"
+                            type="file"
+                            capture="environment"
+                            onChange={handleFileUpload}
+                            style={{ display: 'none' }}
+                        />
                 }
             </Card>
         </label>
