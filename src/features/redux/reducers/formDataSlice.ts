@@ -106,7 +106,7 @@ const initialFormDataState: IFormData = {
                 incline: 0
             },
             loads: [],
-            flow: [emptyFlow],
+            flow: [],
             additionalRemarks: '',
         },
         lrkprk: {
@@ -136,7 +136,7 @@ const initialFormDataState: IFormData = {
                 incline: 0
             },
             loads: [],
-            flow: [emptyFlow],
+            flow: [],
             additionalRemarks: '',
         },
         agv: {
@@ -166,7 +166,7 @@ const initialFormDataState: IFormData = {
                 incline: 0
             },
             loads: [],
-            flow: [emptyFlow],
+            flow: [],
             additionalRemarks: '',
         },
         autovna: {
@@ -196,7 +196,7 @@ const initialFormDataState: IFormData = {
                 incline: 0
             },
             loads: [],
-            flow: [emptyFlow],
+            flow: [],
             additionalRemarks: '',
         }
     },

@@ -410,6 +410,13 @@
       "distanceDescription": "Droga pomiędzy punktem załadunku, a stacją odkładczą",
       "bidirectional": "Przepływ dwukierunkowy",
       "bidirectionalDescription": "Czy ruch odbywa się w obu kierunkach?"
+    },
+    "additional": {
+      "noEquipment": "Brak wyposażenia" 
+    },
+    "noRowsOverlay": {
+      "t1": "Dodaj pierwszy przepływ",
+      "t2": "Później zdefiniuj punkt początkowy i końcowy oraz ilość i typ ładunków."
     }
   },
   "ganttGraph": {

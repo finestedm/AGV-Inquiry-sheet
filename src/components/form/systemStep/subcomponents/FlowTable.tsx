@@ -184,7 +184,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 value: equipment.id,
                                 label: <EquipmentChip equipment={equipment} />
                             })),
-                            renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
+                            renderCell: (params) => selectedSystemEquipment.length === 0 ? <Box textAlign='left'>{t('flowTable.additional.noEquipment')}</Box> : <Box textAlign='left'>{params.formattedValue}</Box>
                         },
                         {
                             field: "stationTarget",
@@ -196,7 +196,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 value: equipment.id,
                                 label: <EquipmentChip equipment={equipment} />
                             })),
-                            renderCell: (params) => <Box textAlign='left'>{params.formattedValue}</Box>
+                            renderCell: (params) => selectedSystemEquipment.length === 0 ? <Box textAlign='left'>{t('flowTable.additional.noEquipment')}</Box> : <Box textAlign='left'>{params.formattedValue}</Box>
                         },
                         { field: "flowAverage", headerName: `${t(`flowTable.header.flowAverage`)} / h`, minWidth: 150, editable: editMode, type: 'number' },
                         { field: "flowPeak", headerName: `${t(`flowTable.header.flowPeak`)} / h`, minWidth: 150, editable: editMode, type: 'number' },
@@ -333,8 +333,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                     height: '100%',
                                 }}
                             >
-                                <Typography variant="h6">Add first flow.</Typography>
-                            </Box>
+                            <Typography variant="h6">{t('flowTable.noRowsOverlay.t1')}<Typography color='text.secondary'>{t('flowTable.noRowsOverlay.t2')}</Typography></Typography>                            </Box>
                         )
                     }}
                     onRowSelectionModelChange={(newRowSelectionModel) => { editMode && setRowSelectionModel(newRowSelectionModel) }}
