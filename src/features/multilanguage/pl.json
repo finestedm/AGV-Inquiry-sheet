@@ -412,7 +412,8 @@
       "bidirectionalDescription": "Czy ruch odbywa się w obu kierunkach?"
     },
     "additional": {
-      "noEquipment": "Brak wyposażenia" 
+      "noEquipment": "Brak wyposażenia" ,
+      "noLoadsSelected": "Brak wybranych ładunków"
     },
     "noRowsOverlay": {
       "t1": "Dodaj pierwszy przepływ",

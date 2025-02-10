@@ -234,7 +234,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                 const loadIds = params.value as number[];
 
                                 if (loadIds.length === 0) {
-                                    return 'No loads selected';
+                                    return t('flowTable.additional.noLoadsSelected');
                                 } else if (loadIds.length === 1) {
                                     const loadId = loadIds[0];
                                     const loadName = selectedSystemLoads.find((load) => load.id === loadId)?.name || 'Load not found';
