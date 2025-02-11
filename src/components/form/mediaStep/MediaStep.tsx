@@ -15,6 +15,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
+import ArchitectureIcon from '@mui/icons-material/Architecture';
 
 export default function FormMediaStep(): JSX.Element {
 
@@ -119,6 +120,14 @@ export default function FormMediaStep(): JSX.Element {
         }));
     }
 
+    function handleDeleteFileUploaded(index: number) {
+        const filesUploadedFiltered = filesUploaded.filter((_, i) => i !== index);
+        dispatch(handleInputMethod({
+            path: 'media.files',
+            value: filesUploadedFiltered,
+        }));
+    }
+
     function handleEditImageUploadedName(index: number) {
         const currentName = imagesUploaded[index].name;
 
@@ -136,6 +145,22 @@ export default function FormMediaStep(): JSX.Element {
         }));
     }
 
+    function handleEditFileUploadedName(index: number) {
+        const currentName = filesUploaded[index].name;
+
+        const newName = prompt("Enter a new name for the file:", currentName);
+
+        if (newName === null || newName.trim() === "") return;
+
+        const updatedFilesUploaded = filesUploaded.map((image, i) =>
+            i === index ? { ...image, name: newName } : image
+        );
+
+        dispatch(handleInputMethod({
+            path: 'media.files',
+            value: updatedFilesUploaded,
+        }));
+    }
 
     function fileToBase64(file: File): Promise<string> {
         return new Promise((resolve, reject) => {
@@ -334,12 +359,12 @@ export default function FormMediaStep(): JSX.Element {
                                                     </CardContent>
                                                     <CardActions disableSpacing sx={{ borderTop: `1px solid ${theme.palette.divider}` }} >
                                                         <Tooltip title='edit name' sx={{ marginLeft: 'auto' }}>
-                                                            <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditImageUploadedName(index)}>
+                                                            <IconButton disabled={!editMode} size="small" aria-label="edit" onClick={() => handleEditFileUploadedName(index)}>
                                                                 <EditIcon sx={{ fontSize: 18 }} />
                                                             </IconButton>
                                                         </Tooltip>
                                                         <Tooltip title='delete'>
-                                                            <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteImageUploaded(index)}>
+                                                            <IconButton disabled={!editMode} size="small" color='error' aria-label="delete" onClick={() => handleDeleteFileUploaded(index)}>
                                                                 <DeleteIcon sx={{ fontSize: 18 }} />
                                                             </IconButton>
                                                         </Tooltip>
@@ -423,7 +448,10 @@ export function NewFileCard({ type, handleFileUpload, takePhoto, loading }: { ty
                     }}
                     title="Upload"
                 >
-                    {takePhoto
+                    {type === "files" ?
+                    <ArchitectureIcon sx={{ fontSize: 50, color: !loading ? theme.palette.primary.main : theme.palette.action.disabled }} />
+                    :
+                    takePhoto
                         ?
                         <CameraAltIcon sx={{ fontSize: 50, color: !loading ? theme.palette.primary.main : theme.palette.action.disabled }} />
                         :
@@ -432,7 +460,7 @@ export function NewFileCard({ type, handleFileUpload, takePhoto, loading }: { ty
                 </CardMedia>
                 <CardContent sx={{ backgroundColor: !loading ? theme.palette.primary.main : theme.palette.action.disabled, height: 45, p: 0, alignContent: 'center' }}>
                     <Typography variant="button" textAlign="center" color={theme.palette.primary.contrastText}>
-                        {takePhoto ? t('ui.button.takePhoto') : t('ui.button.selectImage')}
+                        {type === "files" ? t('ui.button.selectFile') : takePhoto ? t('ui.button.takePhoto') : t('ui.button.selectImage')}
                     </Typography>
                 </CardContent>
                 {type === 'images' 
