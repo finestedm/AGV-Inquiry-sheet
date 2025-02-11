@@ -296,8 +296,8 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     boxShadow: shadow1,
-                    padding: 3,
-                    backgroundColor: customGreyPalette[100],
+                    padding: 2,
+                    backgroundColor: paperColor,
                     border: `${borderStandard} ${customGreyPalette[300]}`,
                     overflow: 'hidden',
                     '&.MuiToggleButtonGroup-error': {
@@ -322,17 +322,16 @@ theme = createTheme({
                         border: 'none'
                     },
                     "&.Mui-selected": {
-                        backgroundColor: paperColor,
+                        backgroundColor: customGreyPalette[200],
                         color: textPrimaryColor,
-                        boxShadow: shadow3,
+                        boxShadow: shadow4,
                     },
                     "&.Mui-selected:hover": {
-                        backgroundColor: paperColor,
+                        backgroundColor: customGreyPalette[300],
                         color: textPrimaryColor,
-                        boxShadow: shadow3,
                     },
                     "&:hover": {
-                        backgroundColor: customGreyPalette[50],
+                        backgroundColor: customGreyPalette[100],
                         color: textPrimaryColor,
                     },
                     "&.Mui-error": {
