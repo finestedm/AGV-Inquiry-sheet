@@ -13,6 +13,7 @@ import { setEditMode } from "../features/redux/reducers/editModeSlice";
 import pl from '../images/poland.svg'
 import en from '../images/uk.svg'
 import de from '../images/germany.svg'
+import es from '../images/Flag_of_Spain.svg'
 import { setDarkMode } from "../features/redux/reducers/darkModeSlice";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -29,6 +30,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { updateClearFormDataDialog } from "../features/redux/reducers/clearFormDataDialogSlice";
 import tinycolor from "tinycolor2";
 import placeholderPhoto from '../images/bio-portrait-placeholder.webp'
+import { TAvailableLanguages } from "../features/interfaces";
 
 export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSidebarOpening, saveDataToFile, saveDataToServer, isWaiting }: { handleUndo: () => void, handleRedo: () => void, sidebarOpen: boolean, handleSidebarOpening: () => void, saveDataToFile: () => void, saveDataToServer: () => void, isWaiting: boolean }): JSX.Element {
     const theme = useTheme();
@@ -95,6 +97,8 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                 return en
             case 'de':
                 return de
+            case 'es':
+                return es
             default:
                 break;
         }
@@ -163,7 +167,7 @@ export default function Sidebar({ handleUndo, handleRedo, sidebarOpen, handleSid
                                     <LanguageMenuItem lang="en" img={en} />
                                     <LanguageMenuItem lang="pl" img={pl} />
                                     <LanguageMenuItem lang="de" img={de} />
-
+                                    <LanguageMenuItem lang="es" img={es} />
                                 </Select>
                             </ListItem>
                             <SidebarListItem
@@ -273,12 +277,8 @@ export function SidebarListItem({ onClick, icon, text, disabled = false }: Sideb
     )
 }
 
-
-type TAvailableLanguages = 'en' | 'pl' | 'de'
-
 export function LanguageMenuItem({ lang, img }: { lang: TAvailableLanguages, img: string }) {
-    const theme = useTheme();
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
 
     const handleLanguageChange = (e: TAvailableLanguages) => {
         i18n.changeLanguage(e);
@@ -293,6 +293,8 @@ export function LanguageMenuItem({ lang, img }: { lang: TAvailableLanguages, img
                 return 'Polish'
             case 'de':
                 return 'German'
+            case 'es':
+                return 'Spanish'
             default:
                 break;
         }

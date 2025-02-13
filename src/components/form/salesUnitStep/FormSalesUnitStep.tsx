@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { handleInputMethod } from "../../../features/redux/reducers/formDataSlice";
 import salesEngineersSorted from "../../../data/salesEngineers";
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
-import salesUnits, { salesUnitLangueage } from "../../../data/salesUnits";
+import salesUnits, { salesUnitLanguage } from "../../../data/salesUnits";
 import { useEffect, useState } from "react";
 
 export default function FormSalesUnitStep(): JSX.Element {
@@ -22,7 +22,7 @@ export default function FormSalesUnitStep(): JSX.Element {
 
     function correspondLanguageToSalesUnit() {
         if (formData.sales.salesUnit === '') { // prevents selected salesUnit from being overwritten
-            const matchedEntry = Object.entries(salesUnitLangueage).find(([key, value]) => value === i18n.language);
+            const matchedEntry = Object.entries(salesUnitLanguage).find(([key, value]) => value === i18n.language);
             if (matchedEntry) {
                 dispatch(handleInputMethod({ path: 'sales.salesUnit', value: matchedEntry[0] as string }))
             }
