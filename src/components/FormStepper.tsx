@@ -136,7 +136,7 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
                   ? theme.palette.primary.main
                   : isCompleted
                     ? darkMode ? tinycolor(theme.palette.primary.main).darken(35).toHexString() : tinycolor(theme.palette.primary.main).lighten(41).toHexString()
-                    : theme.palette.grey[100],
+                    : theme.palette.divider,
                 color: isActive
                   ? theme.palette.background.paper
                   : theme.palette.text.primary,
