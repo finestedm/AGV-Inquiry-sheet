@@ -482,7 +482,7 @@
     },
     "project": {
       "supplyChainParts": {
-        "number": "Wybierz co najmniej jedną część łańcucha dostaw"
+        "number": "Wybierz co najmniej jeden obszar do zautomazyzowania"
       },
       "investmentLocation": {
         "required": "Podaj gdzie realizowana będzie inwestycja"
