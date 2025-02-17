@@ -16,6 +16,7 @@ import InputGroup from "../../InputGroup";
 import CustomCheckbox from "../../CustomCheckbox";
 import ThermostatAutoOutlinedIcon from '@mui/icons-material/ThermostatAutoOutlined';
 import { isCondensationRisk } from "../../../../features/variousMethods/isCondensationRisk";
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
 
 export default function WorkConditions({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -89,7 +90,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                             </Grid>
                         }
                         {
-                            isCondensationRisk(workConditions.temperature,workConditions.humidity)
+                            isCondensationRisk(workConditions.temperature, workConditions.humidity)
                             &&
                             <Grid item xs={12}>
                                 <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.humidity[1] > 15 && calculateDewPoint(formData.system[selectedSystem].workConditions.temperature[0], formData.system[selectedSystem].workConditions.humidity[1]) <= criticalElectronicsTemperature))} severity="warning" title={t(`system.condensationWarningTitle`)} text={t(`system.condensationWarning`)} />
@@ -100,7 +101,7 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                 <Grid container>
                                     <Grid item xs={12} md={6}>
                                         <Box>
-                                            <Stack spacing={2}>
+                                            <Stack spacing={1}>
                                                 <CustomCheckbox
                                                     disabled={!editMode}
                                                     fieldName={`system.${selectedSystem}.workConditions.freezer`}
@@ -119,11 +120,17 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                                     label="system.workConditions.dangerousMaterials"
                                                     icon={Whatshot}
                                                 />
+                                                <CustomCheckbox
+                                                    disabled={!editMode}
+                                                    fieldName={`system.${selectedSystem}.workConditions.outside`}
+                                                    label="system.workConditions.outside"
+                                                    icon={WbSunnyIcon}
+                                                />
                                             </Stack>
                                         </Box>
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.EX || formData.system[selectedSystem].workConditions.dangerousMaterials || formData.system[selectedSystem].workConditions.temperature[0] <= 5))} severity="error" title={t(`system.workingConditionsTitle`)} text={t(`system.workingConditions`)} />
+                                        <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.EX || formData.system[selectedSystem].workConditions.dangerousMaterials || formData.system[selectedSystem].workConditions.temperature[0] <= 5 || formData.system[selectedSystem].workConditions.outside || formData.system[selectedSystem].workConditions.freezer))} severity="error" title={t(`system.workingConditionsTitle`)} text={t(`system.workingConditions`)} />
                                     </Grid>
                                 </Grid>
                             </Box>

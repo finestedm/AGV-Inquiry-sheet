@@ -120,6 +120,7 @@ export interface ISystemData {
         humidity: number[];
         freezer: boolean;
         EX: boolean;
+        outside: boolean;
         dangerousMaterials: boolean;
         other: string;
     },
