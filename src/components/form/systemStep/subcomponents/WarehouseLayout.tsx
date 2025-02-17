@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text, Transformer } from 'react-konva';
+import Konva, { Stage, Layer, Rect, Line, Image, Circle, Text, Transformer, Shape } from 'react-konva';
 import { Box, Button, ButtonGroup, Chip, ClickAwayListener, Collapse, Grow, InputLabel, ListItemIcon, ListItemText, MenuItem, MenuList, Paper, Popper, Stack, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../features/redux/store';
@@ -19,20 +19,39 @@ import EquipmentFlowLines from './WarehouseEquipmentFlowLines';
 import EquipmentDetails from './EquipmentDetails';
 import { debounce } from 'lodash';
 import CustomAlert from '../../../CustomAlert';
+import * as pdfjsLib from "pdfjs-dist";
+import pdfWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
+import samplepdf from '../../../../images/sample.pdf';
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
     const divRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch();
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
-    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';    
+    const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';
     const warehouseData = useSelector((state: RootState) => state.formData.present.system[selectedSystem].building.existingBuilding)
     const warehouseFlows = useSelector((state: RootState) => state.formData.present.system[selectedSystem].flow)
     const warehouseEquipment = warehouseData.equipment;
     const [isMobile, setIsMobile] = useState<boolean>(false)
+    useEffect(() => { navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false) }, [])
+
+    const [bgImage, setBgImage] = useState<string | null>(null);
+    const [pdfCanvas, setPdfCanvas] = useState<HTMLCanvasElement | null>(null);
+
     useEffect(() => {
-        navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false)
-    }, [])
+        const loadPdfPage = async () => {
+            const pdfUrl = samplepdf; // Change this to your actual PDF file
+            const loadingTask = pdfjsLib.getDocument(pdfUrl);
+            const pdf = await loadingTask.promise;
+            const { canvas } = await getPdfImageCanvas(pdf);
+            setPdfCanvas(canvas);
+        };
+
+        loadPdfPage();
+    }, []);
+
     const [open, setOpen] = React.useState(false);
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -230,126 +249,136 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     if (warehouseEquipment) {
         return (
             <Box>
-            {warehouseData.width>0 && warehouseData.length>0
-            ?
-                <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
-                    <InputLabel>{t(`system.building.layout`)}</InputLabel>
-                    <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={layoutBorderWidth} borderColor={theme.palette.divider}>
-                        <Stage
-                            width={canvaDimensions.width}
-                            height={canvaDimensions.height}
-                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                            onMouseDown={checkDeselect}
-                            onTouchStart={checkDeselect}
-                        >
-                            <Layer>
-                                <Rect
-                                    id='konvaBackground'
-                                    width={canvaDimensions.width - wallThickness} // Adjusted width with offset
-                                    height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
-                                    x={(wallThickness / 2)} // Offset from the left border
-                                    Y={(wallThickness / 2)} // Offset from the left border
-                                    fill={theme.palette.background.paper}
-                                    opacity={1}
-                                />
-
-                            </Layer>
-                            <Layer>
-                                {generateGridLines()}
-                            </Layer>
-                            <Layer>
-                                {warehouseEquipment.map((equipment: IEquipment, index: number) => (
-                                    <EquipmentShape
-                                        isSelected={equipment.id === selectedShapeId}
-                                        onSelect={() => {
-                                            editMode && setSelectedShapeId(equipment.id);
-                                        }}
-                                        key={equipment.id}
-                                        equipment={equipment}
-                                        index={index}
-                                        selectedSystem={selectedSystem}
-                                        canvaToWarehouseRatio={canvaToWarehouseRatio}
-                                        selectedShapeId={selectedShapeId}
+                {warehouseData.width > 0 && warehouseData.length > 0
+                    ?
+                    <Stack spacing={2} ref={divRef} sx={{ minHeight: 50 }}>
+                        <InputLabel>{t(`system.building.layout`)}</InputLabel>
+                        <Box borderRadius={1} sx={{ overflow: 'hidden' }} flex={1} justifyContent='center' alignItems='center' border={layoutBorderWidth} borderColor={theme.palette.divider}>
+                            <Stage
+                                width={canvaDimensions.width}
+                                height={canvaDimensions.height}
+                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                onMouseDown={checkDeselect}
+                                onTouchStart={checkDeselect}
+                            >
+                                <Layer>
+                                    <Rect
+                                        id='konvaBackground'
+                                        width={canvaDimensions.width - wallThickness} // Adjusted width with offset
+                                        height={canvaDimensions.height - wallThickness} // Adjusted height with offset and equal thickness on all sides
+                                        x={(wallThickness / 2)} // Offset from the left border
+                                        Y={(wallThickness / 2)} // Offset from the left border
+                                        fill={theme.palette.background.paper}
+                                        opacity={1}
                                     />
-                                ))}
-                            </Layer>
-                            <Layer>
-                                {warehouseFlows
-                                    .map((flow: IFlow) => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
-                                }
-                            </Layer>
-                            <Layer>
-                            </Layer>
-                        </Stage>
-                    </Box>
-                    <EquipmentDetails selectedSystem={selectedSystem} />
-                    <Stack spacing={2} direction='row' justifyContent='space-between'>
-                        <Box>
-                            <ButtonGroup disabled={!editMode} variant='outlined' size="small" aria-label="split button">
-                                <Button
-                                    aria-controls={open ? 'split-button-menu' : undefined}
-                                    aria-expanded={open ? 'true' : undefined}
-                                    aria-label="add loads"
-                                    aria-haspopup="menu"
-                                    onClick={handleToggle}
-                                >
-                                    {t(`${equipmentToAdd}`)}
-                                    <Box ref={anchorRef} />
-                                    <ArrowDropDownIcon />
-                                </Button>
-                                <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEquipment')}</Box></Button>
-                            </ButtonGroup>
-                            <Popper
-                                sx={{
-                                    zIndex: 1,
-                                }}
-                                open={open}
-                                anchorEl={anchorRef.current}
-                                role={undefined}
-                                transition
-                                disablePortal
-                            >
-                                {({ TransitionProps, placement }) => (
-                                    <Grow
-                                        {...TransitionProps}
-                                        style={{
-                                            transformOrigin:
-                                                placement === 'bottom' ? 'center top' : 'center bottom',
-                                        }}
-                                    >
-                                        <Paper>
-                                            <ClickAwayListener onClickAway={handleClose}>
-                                                <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
-                                                    {availableEquipment.map((eq) => (
-                                                        <EqMenuItem eq={eq} handleMenuItemClick={handleMenuItemClick} equipmentToAdd={equipmentToAdd} />
-                                                    ))}
-                                                </MenuList>
-                                            </ClickAwayListener>
-                                        </Paper>
-                                    </Grow>
-                                )}
-                            </Popper>
+                                </Layer>
+                                <Layer>
+                                    {pdfCanvas && (
+                                        <Shape
+                                            width={canvaDimensions.width}
+                                            height={canvaDimensions.height}
+                                            sceneFunc={(context) => {
+                                                context.drawImage(pdfCanvas, 10, 10);
+                                            }}
+                                        />
+                                    )}
+                                </Layer>
+                                <Layer>
+                                    {generateGridLines()}
+                                </Layer>
+                                <Layer>
+                                    {warehouseEquipment.map((equipment: IEquipment, index: number) => (
+                                        <EquipmentShape
+                                            isSelected={equipment.id === selectedShapeId}
+                                            onSelect={() => {
+                                                editMode && setSelectedShapeId(equipment.id);
+                                            }}
+                                            key={equipment.id}
+                                            equipment={equipment}
+                                            index={index}
+                                            selectedSystem={selectedSystem}
+                                            canvaToWarehouseRatio={canvaToWarehouseRatio}
+                                            selectedShapeId={selectedShapeId}
+                                        />
+                                    ))}
+                                </Layer>
+                                <Layer>
+                                    {warehouseFlows
+                                        .map((flow: IFlow) => <EquipmentFlowLines flow={flow} selectedSystem={selectedSystem} canvaToWarehouseRatio={canvaToWarehouseRatio} />)
+                                    }
+                                </Layer>
+                                <Layer>
+                                </Layer>
+                            </Stage>
                         </Box>
-                        <Collapse
-                            in={Boolean(selectedShapeId)}
-                            collapsedSize={0}
-                        >
-                            <Button
-                                size="small"
-                                color='error'
-                                variant='contained'
-                                disableElevation
-                                startIcon={<DeleteIcon />}
-                                onClick={handleEquipmentDelete}
+                        <EquipmentDetails selectedSystem={selectedSystem} />
+                        <Stack spacing={2} direction='row' justifyContent='space-between'>
+                            <Box>
+                                <ButtonGroup disabled={!editMode} variant='outlined' size="small" aria-label="split button">
+                                    <Button
+                                        aria-controls={open ? 'split-button-menu' : undefined}
+                                        aria-expanded={open ? 'true' : undefined}
+                                        aria-label="add loads"
+                                        aria-haspopup="menu"
+                                        onClick={handleToggle}
+                                    >
+                                        {t(`${equipmentToAdd}`)}
+                                        <Box ref={anchorRef} />
+                                        <ArrowDropDownIcon />
+                                    </Button>
+                                    <Button onClick={handleClick} endIcon={<PlaylistAdd />}><Box display={{ xs: 'none', md: 'inline-block' }}>{t('ui.button.addNewEquipment')}</Box></Button>
+                                </ButtonGroup>
+                                <Popper
+                                    sx={{
+                                        zIndex: 1,
+                                    }}
+                                    open={open}
+                                    anchorEl={anchorRef.current}
+                                    role={undefined}
+                                    transition
+                                    disablePortal
+                                >
+                                    {({ TransitionProps, placement }) => (
+                                        <Grow
+                                            {...TransitionProps}
+                                            style={{
+                                                transformOrigin:
+                                                    placement === 'bottom' ? 'center top' : 'center bottom',
+                                            }}
+                                        >
+                                            <Paper>
+                                                <ClickAwayListener onClickAway={handleClose}>
+                                                    <MenuList dense={isMobile} id="split-button-menu" autoFocusItem>
+                                                        {availableEquipment.map((eq) => (
+                                                            <EqMenuItem eq={eq} handleMenuItemClick={handleMenuItemClick} equipmentToAdd={equipmentToAdd} />
+                                                        ))}
+                                                    </MenuList>
+                                                </ClickAwayListener>
+                                            </Paper>
+                                        </Grow>
+                                    )}
+                                </Popper>
+                            </Box>
+                            <Collapse
+                                in={Boolean(selectedShapeId)}
+                                collapsedSize={0}
                             >
-                                Usuń wybrany element
-                            </Button>
-                        </Collapse>
+                                <Button
+                                    size="small"
+                                    color='error'
+                                    variant='contained'
+                                    disableElevation
+                                    startIcon={<DeleteIcon />}
+                                    onClick={handleEquipmentDelete}
+                                >
+                                    Usuń wybrany element
+                                </Button>
+                            </Collapse>
+                        </Stack>
                     </Stack>
-                </Stack>
-            : 
-                <CustomAlert collapseTrigger={!!warehouseData.width && !!warehouseData.length} severity='warning' title={t('system.noWarehouseDimensionsTitle')} text={t('system.noWarehouseDimensions')} />
-            } 
+                    :
+                    <CustomAlert collapseTrigger={!!warehouseData.width && !!warehouseData.length} severity='warning' title={t('system.noWarehouseDimensionsTitle')} text={t('system.noWarehouseDimensions')} />
+                }
             </Box>
         );
     } else {
@@ -381,3 +410,21 @@ function EqMenuItem({ eq, equipmentToAdd, handleMenuItemClick }: { eq: string, e
         </MenuItem>
     )
 }
+
+
+const getPdfImageCanvas = async (pdf: any) => {
+    const pdfPage = await pdf.getPage(1);
+    const viewport = pdfPage.getViewport({ scale: 1.333 });
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    if (context) {
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const renderContext = {
+            canvasContext: context,
+            viewport,
+        };
+        await pdfPage.render(renderContext).promise;
+    }
+    return { canvas, width: viewport.width, height: viewport.height };
+};
