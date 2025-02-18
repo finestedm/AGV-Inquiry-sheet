@@ -19,11 +19,7 @@ import EquipmentFlowLines from './WarehouseEquipmentFlowLines';
 import EquipmentDetails from './EquipmentDetails';
 import { debounce } from 'lodash';
 import CustomAlert from '../../../CustomAlert';
-import * as pdfjsLib from "pdfjs-dist";
-import pdfWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
-import samplepdf from '../../../../images/sample.pdf';
+import warehouseDrawing from '../../../../images/warehouse.jpg'
 
 export default function WarehouseLayout({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -36,20 +32,12 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
     const warehouseEquipment = warehouseData.equipment;
     const [isMobile, setIsMobile] = useState<boolean>(false)
     useEffect(() => { navigator.maxTouchPoints > 0 ? setIsMobile(true) : setIsMobile(false) }, [])
-
-    const [bgImage, setBgImage] = useState<string | null>(null);
-    const [pdfCanvas, setPdfCanvas] = useState<HTMLCanvasElement | null>(null);
-
+    
+    const [backgroundImage, setBackgroundImage] = useState<HTMLImageElement | null>(null);
     useEffect(() => {
-        const loadPdfPage = async () => {
-            const pdfUrl = samplepdf; // Change this to your actual PDF file
-            const loadingTask = pdfjsLib.getDocument(pdfUrl);
-            const pdf = await loadingTask.promise;
-            const { canvas } = await getPdfImageCanvas(pdf);
-            setPdfCanvas(canvas);
-        };
-
-        loadPdfPage();
+        const img = new window.Image();
+        img.src = warehouseDrawing;
+        img.onload = () => setBackgroundImage(img);
     }, []);
 
     const [open, setOpen] = React.useState(false);
@@ -273,15 +261,12 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                     />
                                 </Layer>
                                 <Layer>
-                                    {pdfCanvas && (
-                                        <Shape
+                                        {backgroundImage && <Image
                                             width={canvaDimensions.width}
                                             height={canvaDimensions.height}
-                                            sceneFunc={(context) => {
-                                                context.drawImage(pdfCanvas, 10, 10);
-                                            }}
+                                            image={backgroundImage}
                                         />
-                                    )}
+                                        }
                                 </Layer>
                                 <Layer>
                                     {generateGridLines()}
