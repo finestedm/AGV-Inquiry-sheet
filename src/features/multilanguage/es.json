@@ -1,0 +1,511 @@
+{
+    "customer": {
+      "header": "Customer Data",
+      "name": "Company / customer",
+      "sapNumber": "Customer SAP number",
+      "industry": "Industry",
+      "industryNameOther": "Name of the other industry",
+      "contactPerson": "First and last name",
+      "contactPersonRole": "Contace person role",
+      "contactPersonPhone": "Contact phone",
+      "contactPersonMail": "Contact email",
+      "address": "Addres",
+      "currency": {
+        "perYear": "/ year"
+      },
+      "subheader": {
+        "teleaddress": "General information",
+        "teleaddressSubtitle": "Input contact information",
+        "contactperson": "Contact person",
+        "contactpersonSubtitle": "Data about the investors contant person",
+        "businessdata": "Business data",
+        "businessdataSubtitle": "Level of cooperation with JH and financial data"
+      },
+      "relations": {
+        "type": "Level of cooperation",
+        "salesHistoryValue": "Annual turnover",
+        "creditManagement": "Credit management value",
+        "2": "JH customer",
+        "1": "New customer",
+        "3": "JH KAM customer",
+        "4": "competitors customer",
+        "input": {
+          "owned": "Owned warehouse equipment: ",
+          "forklifts": "Number of JH forklifts",
+          "other": "Other JH products",
+          "racks": "Number of JH racks"
+        }
+      }
+    },
+    "industry": {
+      "production": "Production",
+      "trade": "Trade",
+      "logistics": "Logistics",
+      "pharmaceutical": "Pharmaceutical",
+      "beverage": "Beverage",
+      "clothing": "Clothing",
+      "chemical": "Chemical",
+      "food": "Food",
+      "automotive": "Automotive",
+      "other": "Other"
+    },
+    "sales": {
+      "salesUnit": "Sales unit",
+      "OPNumber": "Opportunity number (OP) - if available",
+      "header": "Sales unit data",
+      "unit": "Sales unit",
+      "contactPerson": "JH Contact / sales person",
+      "contactPersonRole": "JH contact persons role",
+      "salesEngineer": "Sales engineer assigned"
+    },
+    "media": {
+      "header": "Media",
+      "subheader": {
+        "images": "Pictures",
+        "imagesSubtitle": "Add images of loads, warehouse etc."
+      }
+    },
+    "steps": {
+      "sales": "Sales unit",
+      "customer": "Customer",
+      "system": "System selection",
+      "project": "Project",
+      "media": "Media",
+      "summary": "Summary",
+      "asrs": "ASRS",
+      "lrkprk": "LRK / PRK",
+      "agv": "AGV",
+      "autovna": "AutoVNA",
+      "systems": {
+        "asrs": "ASRS",
+        "lrkprk": "LRK / PRK",
+        "agv": "AGV",
+        "autovna": "AutoVNA",
+        "header": "System selection:"
+      }
+    },
+    "summary": {
+      "header": "Summary"
+    },
+    "ui": {
+      "button": {
+        "back": "Back",
+        "next": "Next",
+        "addNewEquipment": "Add equipment",
+        "takePhoto": "Take photo",
+        "selectImage": "Add photo",
+        "inquiry": {
+          "load": "Load inquiry",
+          "save": "Save inquiry",
+          "undo": "Undo",
+          "redo": "Redo",
+          "saveToServer": "Send to server",
+          "clear": "Erase data",
+          "contact": "Contact"
+        },
+        "copyDialog": {
+          "accept": "Yes, copy data",
+          "cancel": "Cancel"
+        },
+        "dateEditDialog": {
+          "accept": "Yes, change dates",
+          "cancel": "Cancel"
+        },
+        "table": {
+          "newload": "Add new load"
+        },
+        "readmore": "Learn more",
+        "addNewLoad": "Add",
+        "deleteSelectedLoads": "Delete selected",
+        "addNewFlow": "Add"
+      },
+      "helperText": {
+        "loadDimensionsTip": "Provide dimensions in milimeters!"
+      },
+      "switch": {
+        "darkMode": {
+          "dark": "Dark mode",
+          "light": "Day mode"
+        },
+        "editMode": {
+          "edit": "Edit mode",
+          "read": "Preview mode"
+        }
+      },
+      "dialog": {
+        "loadDelete": {
+          "title": "Caution",
+          "description1": "This load is being used in one of the flows in 'Flow table'.",
+          "description2": "Are you sure you want to delete it?",
+          "cancel": "Cancel",
+          "confirm": "Yes, delete"
+        },
+        "equipmentEditing" : {
+          "title": "Edit data",
+          "confirm": "Yes, change data",
+          "cancel": "Cancel"
+        },
+        "copyDialog": {
+          "title": "Choose which data to copy from other system",
+          "noChange": "No changes"
+        },
+        "clearForm": {
+          "title": "Erase data",
+          "description1": "Looks like you've already inputed some data into the form.",
+          "description2": "Are you sure you want to erase them?",
+          "cancel": "Cancel",
+          "confirm": "Yes, clear data"
+        },
+        "ganttGraph": {
+          "selectDates": "Change dates for: ",
+          "start": "Start",
+          "end": "End"
+        },
+        "warehouse": {
+          "title": "Edit warehouse sketch"
+        },
+        "contact": {
+          "title": "Contacts"
+        }
+      },
+      "snackBar": {
+        "message": {
+          "fileLoaded": "File loaded",
+          "fileLoadError": {
+            "other": "Error reading file",
+            "wrongVersion": "File was saved in a different app version and is not compatible."
+          },
+          "fileSaved": "Save file as: ",
+          "fileSavedToServer": "Inquiry was succesfully sent.",
+          "errorSaving": "Error while sending inquiry file.",
+          "duplicateImageFound": "At least one of the provided files already exist.",
+          "formNotComplete": "There is some data missing on this page.",
+          "undoChanges": "Changes undone",
+          "redoChanges": "Changes restored"
+  
+        }
+      },
+      "tooltip": {
+        "copyOtherSystemData": "Copy data from other system",
+        "darkMode": "Switch day / night mode",
+        "editMode": "Change edit / preview mode"
+      },
+      "table": {
+        "head": {
+          "part": "part"
+        }
+      }
+    },
+    "system": {
+      "tooHighPickupPoint": "Selected system might not be suitable for usage on such heights.",
+      "workingConditionsTitle": "Caution!",
+      "workingConditions": "These conditions might not be suitable for the selected system.",
+      "condensationWarningTitle": "Caution!",
+      "condensationWarning": "These conditions might result in condensation.",
+      "noWarehouseDimensionsTitle": "No warehouse dimensions",
+      "noWarehouseDimensions": "To generate sketch you need to provide warehouse dimensions",
+      "inclineWarningTitle": "High incline",
+      "inclineWarning": "Usage of AGV might not be possible.",
+      "manyLoadsWarningTitle": "Caution",
+      "manyLoadsWarning": "Big differences between different loads might be problematic for selected system.",
+      "subheader": {
+        "workTime": "Work time",
+        "workTimeSubtitle": "Total weekly working hours",
+        "workConditions": "Working conditions",
+        "workConditionsSubtitle": "Conditions in the working area",
+        "building": "Building",
+        "buildingSubtitle": "Information about the warehouse and a different areas",
+        "loads": "Loads",
+        "loadsSubtitle": "What loads are to be used in the offered system",
+        "flow": "Flows",
+        "flowSubtitle": "Flows on the warehouse sketch",
+        "capacity": "Capacity",
+        "capacitySubtitle": "Provide number of loads which the system should store",
+        "additionalRemarks": "Additional remarks",
+        "additionalRemarksSubtitle": "Additional information like working conditions, technical aspects, special informations..."
+      },
+      "workTime": {
+        "workDays": "Working days per week",
+        "shiftsPerDay": "Shifts per day",
+        "hoursPerShift": "Working hours per shift",
+        "hoursPerWeek": "Working hours per week"
+      },
+      "workConditions": {
+        "temperature": "Temperature",
+        "humidity": "Humidity",
+        "freezer": "Cold storage area",
+        "EX": "Explosion risk area",
+        "dangerousMaterials": "Dangerous materials",
+        "other": "Other remarks"
+      },
+      "building": {
+        "new": "New builing",
+        "existing": "Existing",
+        "silo": "SILO warehouse",
+        "incline": "Max incline",
+        "layout": "Sketch",
+        "existingBuilding": {
+          "height": "Height",
+          "width": "Longer side",
+          "length": "Shorter side",
+          "equipment": {
+            "x": "X position",
+            "y": "Y position",
+            "width": "Width",
+            "height": "Lenght",
+            "type": "Type",
+            "rotation": "Rotation",
+            "zHeight": "Height"
+          }
+        }
+      },
+     "asrs": {
+        "header": "ASRS System Data",
+        "label": "Automated Storage and Retrieval Systems",
+        "labelshort": "ASRS",
+        "description": "Automated pallet warehouses integrate racks, software, and stacker cranes into a compact system. Maximum dynamics and precision are key here, along with optimal energy efficiency. When all elements work together perfectly, an investment in an automated solution quickly pays off.",
+        "additionalRemarks": "Additional Information"
+      },
+      "lrkprk": {
+        "header": "Automated Rack Data",
+        "label": "Vertical Lift and Carousel Racks",
+        "labelshort": "LRK & PRK",
+        "description": "Thanks to its modular design, the height of the LRK rack can be adjusted to current needs both before and after installation. Additionally, integrating the rack into any warehouse management system allows for even greater efficiency.",
+        "temperatureWarning": "Automated racks cannot operate at temperatures below 5°C",
+        "temperatureWarningTitle": "Warning!"
+      },
+      "agv": {
+        "header": "Automated Vehicle Data",
+        "label": "Automated Guided Vehicles (AGV)",
+        "labelshort": "AGV",
+        "description": "Automated Guided Vehicles (AGV) are transport systems that enable remote operation. They are equipped with an advanced sensor system that detects any obstacles around the vehicle. AGV models can independently slow down, accelerate, and react to unexpected factors encountered during operation. If necessary, they can come to a complete stop.",
+        "temperatureWarning": "AGV automated vehicles cannot operate at temperatures below 5°C",
+        "temperatureWarningTitle": "Warning!",
+        "additionalRemarks": "Additional Remarks",
+        "workConditions": {
+          "other": "Other Notes"
+        }
+      },
+      "autovna": {
+        "header": "AutoVNA System Data",
+        "label": "Automated Vehicles for Narrow Aisles",
+        "labelshort": "AutoVNA",
+        "description": "Automated high-rack vehicles are perfect for an automated warehouse with narrow working aisles, where racks, software, and transport devices are also present. When fully integrated, they work efficiently and safely 24/7.",
+        "temperatureWarning": "AutoVNA automated vehicles cannot operate at temperatures below 5°C",
+        "temperatureWarningTitle": "Warning!"
+      }
+    },
+    "project": {
+      "header": "Project Information",
+      "goals": "Project Goals",
+      "supplyChainParts": {
+        "header": "Automation Includes:",
+        "production": "Production",
+        "storage": "Storage",
+        "distribution": "Distribution",
+        "finishedGoods": "Finished Goods",
+        "components": "Raw Materials"
+      },
+      "milestones": {
+        "concept": "Concept Preparation",
+        "officialOffer": "Offer Date",
+        "order": "Order Date",
+        "implementation": "Implementation Date",
+        "launch": "Launch Date 🎉",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "diff": "Duration"
+      },
+      "it": {
+        "processesDescription": "Process Description",
+        "existingSystem": {
+          "present": "Is a WMS system present?",
+          "name": "Existing WMS System",
+          "existingOther": "Other",
+          "label": {
+            "SAP-WM": "SAP-WM",
+            "SAP-EWM": "SAP-EWM",
+            "other": "Other"
+          }
+        },
+        "wmsNeeded": "Is a WMS required?",
+        "wmsNeededAlt": "WMS Required",
+        "additionalInformation": "Other Information"
+      },
+      "investmentLocation": "Investment Location",
+      "tender": "Investment in the Form of a Tender",
+      "consultingCompany": "Managed by a Consulting Company",
+      "competitor": "Other Bidders",
+      "investmentType": {
+        "new": "New Project",
+        "expansion": "Expansion",
+        "modification": "Modification",
+        "exchange": "Replacement",
+        "retrofit": "Retrofit"
+      },
+      "subheader": {
+        "investmentType": "Type of Investment",
+        "investmentTypeSubtitle": "Is this a new project or an extension of an existing installation?",
+        "milestones": "Timeline",
+        "milestonesSubtitle": "Defining the schedule for the next stages of bidding and implementation",
+        "various": "General Data",
+        "it": "IT and Process Information",
+        "itSubtitle": "Existing software and related requirements"
+      }
+    },
+    "loadTable": {
+      "header": {
+        "index": "Number",
+        "name": "Name",
+        "length": "Length",
+        "width": "Width",
+        "height": "Height",
+        "weightMin": "Min. Weight",
+        "weightMax": "Max. Weight",
+        "overhang": "Overhang",
+        "overhangDescription": "Does the load extend beyond the pallet?",
+        "material": "Material",
+        "loadSide": "Loading Side",
+        "secured": "Secured?",
+        "securedDesciption": "Is the load secured, e.g., with stretch film?"
+      },
+      "noRowsOverlay": {
+        "t1": "Add the first load",
+        "t2": "You can use predefined loads!"
+      },
+      "loadContainerMaterial": {
+        "wood": "Wooden",
+        "metal": "Metal",
+        "plastic": "Plastic"
+      },
+      "loadsToAdd": {
+        "placeholder": "Select load",
+        "empty": "No data",
+        "euro": "Euro Pallet",
+        "klt_600x400": "KLT Container 600x400",
+        "us_standard": "US Pallet",
+        "half_euro": "Half EUR Pallet",
+        "industrial_1200x1000": "Industrial 1200x1000",
+        "industrial_1200x1200": "Industrial 1200x1200",
+        "gitterbox_1235x835": "Gitterbox"
+      }
+    },
+   "flowTable": {
+      "flowStationTypes": {
+        "floor": "Floor",
+        "conveyor": "Conveyor",
+        "pallet wrapper": "Pallet Wrapper",
+        "rack": "Rack"
+      },
+      "header": {
+        "stationSource": "Source Station",
+        "stationTarget": "Unloading Station",
+        "flowAverage": "Average Flow",
+        "flowPeak": "Peak Flow",
+        "loadType": "Load",
+        "loadTypeDescription": "Loads transported in this stage",
+        "loadTypeNone": "No loads selected",
+        "loadTypeMultiple": "Multiple types",
+        "distance": "Distance",
+        "distanceDescription": "Path between the loading point and the drop-off station",
+        "bidirectional": "Bidirectional Flow",
+        "bidirectionalDescription": "Does movement occur in both directions?"
+      },
+      "additional": {
+        "noEquipment": "No Equipment",
+        "noLoadsSelected": "No Loads Selected"
+      },
+      "noRowsOverlay": {
+        "t1": "Add the first flow",
+        "t2": "Later, define the start and end point, as well as the quantity and type of loads."
+      }
+    },
+    "ganttGraph": {
+      "tableHeader": {
+        "step": "Stage",
+        "dateRange": "Time Range",
+        "edit": "Edit"
+      },
+      "timeSizeToggleButton": {
+        "Week": "Week",
+        "Month": "Month",
+        "Year": "Year"
+      }
+    },
+    "capacityTable": {
+      "header": {
+        "index": "Number",
+        "load": "Load Type",
+        "capacity": "Capacity",
+        "capacityDescription": "How many loads should the system accommodate?"
+      },
+      "timeSizeToggleButton": {
+        "Week": "Week",
+        "Month": "Month",
+        "Year": "Year"
+      }
+    },
+  "helperText": {
+      "sales": {
+        "contactPerson": {
+          "required": "Enter the person entering the data"
+        },
+        "salesUnit": {
+          "required": "Enter the sales unit"
+        }
+      },
+      "customer": {
+        "name": {
+          "required": "Company name required"
+        },
+        "address": {
+          "required": "Address required"
+        },
+        "sapNumber": {
+          "format": "SAP number must start with 4 and be 8 digits long"
+        },
+        "OPNumber": {
+          "format": "OP number must start with 4 and be 8 digits long"
+        },
+        "contactPersonMail": {
+          "format": "Invalid format"
+        },
+        "industryName": {
+          "number": "Select at least one industry"
+        },
+        "industryNameOther": {
+          "required": "Enter the name of another industry if selected from the list above"
+        },
+        "relations": {
+          "number": "Select the type of relationship"
+        }
+      },
+      "project": {
+        "supplyChainParts": {
+          "number": "Select at least one area to automate"
+        },
+        "investmentLocation": {
+          "required": "Specify where the investment will be implemented"
+        },
+        "investmentType": {
+          "required": "Field required"
+        },
+        "it": {
+          "existingSystem": {
+            "existingOther": {
+              "required": "Enter the name of the client's WMS system"
+            }
+          }
+        }
+      }
+    },
+    "sidebar": {
+      "sectionTitle": {
+        "inquiry": "Inquiry",
+        "edit": "Edit",
+        "settings": "Settings",
+        "help": "Help"
+      }
+    }
+  }
+  

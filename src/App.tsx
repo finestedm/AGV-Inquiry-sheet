@@ -7,6 +7,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import pl from './features/multilanguage/pl.json'
 import en from './features/multilanguage/en.json'
 import de from './features/multilanguage/de.json'
+import es from './features/multilanguage/es.json'
 import theme, { themeDark } from './theme';
 import { AppBar, Box, Card, CssBaseline, Divider, Drawer, List, ListItem, Paper, Stack, ThemeProvider, Toolbar, useMediaQuery } from '@mui/material';
 import MobileScrollButton from './components/MobileScrollButton';
@@ -33,11 +34,12 @@ import dayjs from "dayjs";
 i18n
   .use(LanguageDetector)
   .init({
-    supportedLngs: ['de', 'en', 'pl'],
+    supportedLngs: ['de', 'en', 'pl', 'es'],
     resources: {
       pl: { translation: pl },
       en: { translation: en },
-      de: { translation: de }
+      de: { translation: de },
+      es: { translation: es }
     },
     fallbackLng: 'en', // Fallback to English if the user's language is not supported
     // debug: true, // Enable debug mode for development
