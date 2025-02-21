@@ -47,13 +47,13 @@ export default function FormCustomerStep(): JSX.Element {
 
   const [phonePrefix, setPhonePrefix] = useState<MuiTelInputCountry>('PL')
   
-  useEffect(() => {
-    const lang = i18n.language
-    switch (lang) {
-      case 'de':
+  useEffect(() => { // set phone prefix based on selected sales unit
+    const salesUnit = formData.sales.salesUnit
+    switch (salesUnit) {
+      case 'S1-DE':
         setPhonePrefix('DE')
         break
-      case 'es':
+      case 'S3-ES':
         setPhonePrefix('ES')
         break
       default:
