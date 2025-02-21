@@ -62,10 +62,6 @@ export default function FormCustomerStep(): JSX.Element {
     }
   }, [])
 
-  useEffect(() => {
-    console.log(i18n.language)
-  }, [i18n.language])
-
   return (
   <Box>
     <Typography minHeight={64} alignContent='center' variant="h4" textAlign='left'>{t('customer.header')}</Typography>
