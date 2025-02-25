@@ -3,6 +3,7 @@ import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilest
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
+import milestonesLengths from '../../../data/milestones';
 
 
 const initialFormDataState: IFormData = {
@@ -44,14 +45,14 @@ const initialFormDataState: IFormData = {
             concept: (() => {
                 const startDate = new Date();
                 const endDate = new Date(startDate);
-                endDate.setMonth(startDate.getMonth() + 1);
+                endDate.setDate(startDate.getDate() + milestonesLengths.concept.min * 7);
                 return { start: startDate, end: endDate };
             })(),
             officialOffer: (() => {
                 const startDate = new Date();
-                startDate.setMonth(startDate.getMonth() + 1);
+                startDate.setDate(startDate.getDate() + milestonesLengths.concept.min * 7);
                 const endDate = new Date(startDate);
-                endDate.setMonth(startDate.getMonth() + 3);
+                endDate.setDate(startDate.getDate() + milestonesLengths.officialOffer.min * 7);
                 return { start: startDate, end: endDate };
             })(),
             order: {
