@@ -308,9 +308,9 @@
     },
     "milestones": {
       "concept": "Concept Preparation",
-      "officialOffer": "Offer Date",
+      "officialOffer": "Offer Preparation",
       "order": "Order Date",
-      "implementation": "Implementation Date",
+      "implementation": "Implementation Phase",
       "launch": "Launch Date 🎉",
       "startDate": "Start Date",
       "endDate": "End Date",
