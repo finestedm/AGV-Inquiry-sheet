@@ -236,6 +236,7 @@
       "freezer": "Cold storage area",
       "EX": "Explosion risk area",
       "dangerousMaterials": "Dangerous materials",
+      "outside": "Working outside",
       "other": "Other remarks"
     },
     "building": {

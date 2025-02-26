@@ -235,6 +235,7 @@
       "humidity": "Wilgotność",
       "freezer": "Strefa chłodnicza",
       "EX": "Strefa zagrożona wybuchem",
+      "outside": "Praca na zewnątrz",
       "dangerousMaterials": "Materiały niebezpieczne",
       "other": "Inne uwagi"
     },
