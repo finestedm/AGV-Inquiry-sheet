@@ -197,9 +197,9 @@
     }
   },
   "system": {
-    "tooHighPickupPoint": "Selected system might not be suitable for usage on such heights.",
+    "tooHighPickupPoint": "Selected system might not be suitable for usage on such heights. This should be discussed.",
     "workingConditionsTitle": "Caution!",
-    "workingConditions": "These conditions might not be suitable for the selected system.",
+    "workingConditions": "These conditions might not be suitable for the selected system. This should be discussed.",
     "condensationWarningTitle": "Caution!",
     "condensationWarning": "These conditions might result in condensation.",
     "noWarehouseDimensionsTitle": "No warehouse dimensions",

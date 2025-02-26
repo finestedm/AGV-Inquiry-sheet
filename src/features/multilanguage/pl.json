@@ -199,7 +199,7 @@
   "system": {
     "tooHighPickupPoint": "Wybrany system nie może obsługiwać takich wysokości. Co najmniej jeden z obsługiwanych przez system punktów jest zbyt wysoki.",
     "workingConditionsTitle": "Uwaga!",
-    "workingConditions": "Warunki uniemożliwiają zastosowanie wybranego systemu",
+    "workingConditions": "Warunki mogą uniemożliwiać zastosowanie wybranego systemu. Do omówienia.",
     "condensationWarningTitle": "Uwaga!",
     "condensationWarning": "Panujące warunki mogą powodowac kondensacje",
     "noWarehouseDimensionsTitle": "Brak wymiarów magazynu",
@@ -237,7 +237,8 @@
       "EX": "Strefa zagrożona wybuchem",
       "outside": "Praca na zewnątrz",
       "dangerousMaterials": "Materiały niebezpieczne",
-      "other": "Inne uwagi"
+      "other": "Inne uwagi",
+      "floor": "Typ posadzki"
     },
     "building": {
       "new": "Nowy budynek",
@@ -507,5 +508,10 @@
       "settings":"Ustawienia",
       "help": "Pomoc"
     }
+  },
+  "floorType": {
+    "Pave": "Kostka brukowa",
+    "Concrete": "Beton",
+    "Industrial": "Posadzka przemysłowa"
   }
 }

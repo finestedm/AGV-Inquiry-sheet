@@ -4,6 +4,7 @@ import availableEquipment from "../data/availableEquipment";
 import salesEngineersSorted from "../data/salesEngineers";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import salesUnits from "../data/salesUnits";
+import floorTypes from "../data/floorTypes";
 
 export interface ISales {
     salesUnit: typeof  salesUnits[number] | null;
@@ -123,6 +124,7 @@ export interface ISystemData {
         outside: boolean;
         dangerousMaterials: boolean;
         other: string;
+        floorType: number;
     },
     building: {
         new: boolean;
