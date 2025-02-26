@@ -94,8 +94,8 @@ export default function GanttGraph(): JSX.Element {
             const endDate = isOneDayMilestone
                 ? startDate
                 : id === milestone
-                    ? dayjs(end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(end)
-                    : dayjs(updatedState[milestone].end).diff(startDate, 'months') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'month') : dayjs(updatedState[milestone].end);
+                    ? dayjs(end).diff(startDate, 'weeks') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'weeks') : dayjs(end)
+                    : dayjs(updatedState[milestone].end).diff(startDate, 'weeks') < milestonesLengths[milestone].min ? startDate.add(milestonesLengths[milestone].min, 'weeks') : dayjs(updatedState[milestone].end);
 
             updatedState = {
                 ...updatedState,
