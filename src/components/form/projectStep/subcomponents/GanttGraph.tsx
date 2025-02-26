@@ -117,11 +117,44 @@ export default function GanttGraph(): JSX.Element {
     function backgroundColorForTaskType(name: keyof IMilestones) {
         switch (name) {
             case 'order':
-                return theme.palette.error.main;
+                return theme.palette.error.light;
             case 'launch':
-                return theme.palette.success.main;
+                return theme.palette.success.light;
             default:
-                return theme.palette.mode === 'light' ? customGreyPalette[500] : customGreyPaletteDark[500]
+                return theme.palette.primary.main
+        }
+    }
+
+    function backgroundColorForTaskTypeSelected(name: keyof IMilestones) {
+        switch (name) {
+            case 'order':
+                return theme.palette.error.dark;
+            case 'launch':
+                return theme.palette.success.dark;
+            default:
+                return theme.palette.primary.dark
+        }
+    }
+
+    function progressColorForTaskType(name: keyof IMilestones) {
+        switch (name) {
+            case 'order':
+                return theme.palette.error.dark;
+            case 'launch':
+                return theme.palette.success.dark;
+            default:
+                return theme.palette.mode === 'light' ? customGreyPalette[300] : customGreyPaletteDark[500]
+        }
+    }
+
+    function progressColorForTaskTypeSelected(name: keyof IMilestones) {
+        switch (name) {
+            case 'order':
+                return theme.palette.error.light;
+            case 'launch':
+                return theme.palette.success.light;
+            default:
+                return theme.palette.mode === 'light' ? customGreyPalette[400] : customGreyPaletteDark[700]
         }
     }
 
@@ -130,6 +163,7 @@ export default function GanttGraph(): JSX.Element {
         return Object.entries(formData.project.milestones).map(([name, date]) => {
             const start = new Date(date.start);
             const end = new Date(date.end);
+            const diffWeeks = dayjs(end).diff(start, 'week', true);
             const previousMilestone = milestoneOrder[milestoneOrder.indexOf(name as keyof IMilestones) - 1]
             return {
                 id: name,
@@ -139,9 +173,14 @@ export default function GanttGraph(): JSX.Element {
                 start,
                 end,
                 type: (name === 'order' || name === 'launch') ? 'milestone' : 'task',
-                progress: 0,
+                progress: (milestonesLengths[name as keyof IMilestones].min / diffWeeks)*100,
                 isDisabled: !editMode || isTaskUneditable(name as keyof IMilestones),
-                styles: { backgroundColor: backgroundColorForTaskType(name as keyof IMilestones) }
+                styles: { 
+                    progressColor: progressColorForTaskType(name as keyof IMilestones), 
+                    progressSelectedColor: progressColorForTaskTypeSelected(name as keyof IMilestones), 
+                    backgroundColor: backgroundColorForTaskType(name as keyof IMilestones),
+                    backgroundSelectedColor: backgroundColorForTaskTypeSelected(name as keyof IMilestones)
+                }
             };
         });
     })();
