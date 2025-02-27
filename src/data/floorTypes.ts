@@ -1,3 +1,3 @@
-const floorTypes = ['Concrete', 'Industrial', 'Pave']
+const floorTypes = ['Paved', 'Tiles', 'Concrete', 'Industrial']
 
 export default floorTypes

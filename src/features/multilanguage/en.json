@@ -512,6 +512,7 @@
   "floorType": {
     "Pave": "Paved",
     "Concrete": "Concrete",
-    "Industrial": "Industrial floor"
+    "Industrial": "Industrial floor",
+    "Tiles": "Tiles"
   }
 }
