@@ -235,6 +235,7 @@
       "humidity": "Humidity",
       "freezer": "Cold storage area",
       "EX": "Explosion risk area",
+      "floor": "Floor type",
       "dangerousMaterials": "Dangerous materials",
       "outside": "Working outside",
       "other": "Other remarks"
@@ -507,5 +508,10 @@
       "settings": "Settings",
       "help": "Help"
     }
+  },
+  "floorType": {
+    "Pave": "Paved",
+    "Concrete": "Concrete",
+    "Industrial": "Industrial floor"
   }
 }
