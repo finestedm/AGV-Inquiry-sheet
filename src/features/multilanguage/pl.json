@@ -200,6 +200,7 @@
     "tooHighPickupPoint": "Wybrany system nie może obsługiwać takich wysokości. Co najmniej jeden z obsługiwanych przez system punktów jest zbyt wysoki.",
     "workingConditionsTitle": "Uwaga!",
     "workingConditions": "Warunki mogą uniemożliwiać zastosowanie wybranego systemu. Do omówienia.",
+    "workingConditionsFloor": "Ten rodzaj posadzki może nie być odpowiedni dla wybranego systemu. Do omówienia.",
     "condensationWarningTitle": "Uwaga!",
     "condensationWarning": "Panujące warunki mogą powodowac kondensacje",
     "noWarehouseDimensionsTitle": "Brak wymiarów magazynu",
@@ -499,6 +500,15 @@
           }
         }
       }
+    },
+    "system": {
+      "agv": {
+        "workConditions": {
+          "floorType": {
+            "required": "Zaznacz rodzaj posadzki"
+          }
+        }
+      }
     }
   },
   "sidebar": {
@@ -510,7 +520,7 @@
     }
   },
   "floorType": {
-    "Pave": "Kostka brukowa",
+    "Paved": "Kostka brukowa",
     "Concrete": "Beton",
     "Industrial": "Posadzka przemysłowa",
     "Tiles": "Kafelki"

@@ -192,7 +192,10 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                         </Box>
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.EX || formData.system[selectedSystem].workConditions.dangerousMaterials || formData.system[selectedSystem].workConditions.temperature[0] <= 5 || formData.system[selectedSystem].workConditions.outside || formData.system[selectedSystem].workConditions.freezer))} severity="error" title={t(`system.workingConditionsTitle`)} text={t(`system.workingConditions`)} />
+                                        <Stack spacing={2}>
+                                            <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.EX || formData.system[selectedSystem].workConditions.dangerousMaterials || formData.system[selectedSystem].workConditions.temperature[0] <= 5 || formData.system[selectedSystem].workConditions.outside || formData.system[selectedSystem].workConditions.freezer))} severity="error" title={t(`system.workingConditionsTitle`)} text={t(`system.workingConditions`)} />
+                                            <CustomAlert collapseTrigger={formData.system[selectedSystem].workConditions.floorType !== null && formData.system[selectedSystem].workConditions.floorType !== 0} severity="error" title={t(`system.workingConditionsTitle`)} text={t(`system.workingConditionsFloor`)} />
+                                        </Stack>
                                     </Grid>
                                 </Grid>
                             </Box>

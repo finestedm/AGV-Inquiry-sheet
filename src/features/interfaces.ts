@@ -124,7 +124,7 @@ export interface ISystemData {
         outside: boolean;
         dangerousMaterials: boolean;
         other: string;
-        floorType: number;
+        floorType: number | null;
     },
     building: {
         new: boolean;
