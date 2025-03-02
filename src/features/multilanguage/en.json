@@ -200,6 +200,7 @@
     "tooHighPickupPoint": "Selected system might not be suitable for usage on such heights. This should be discussed.",
     "workingConditionsTitle": "Caution!",
     "workingConditions": "These conditions might not be suitable for the selected system. This should be discussed.",
+    "workingConditionsFloor": "This type of floor might not be suitable for the selected system. This should be discussed.",
     "condensationWarningTitle": "Caution!",
     "condensationWarning": "These conditions might result in condensation.",
     "noWarehouseDimensionsTitle": "No warehouse dimensions",
@@ -235,6 +236,7 @@
       "humidity": "Humidity",
       "freezer": "Cold storage area",
       "EX": "Explosion risk area",
+      "floor": "Floor type",
       "dangerousMaterials": "Dangerous materials",
       "outside": "Working outside",
       "other": "Other remarks"
@@ -498,6 +500,15 @@
           }
         }
       }
+    },
+    "system": {
+      "agv": {
+        "workConditions": {
+          "floorType": {
+            "required": "Select type of floor"
+          }
+        }
+      }
     }
   },
   "sidebar": {
@@ -507,5 +518,11 @@
       "settings": "Settings",
       "help": "Help"
     }
+  },
+  "floorType": {
+    "Paved": "Paved",
+    "Concrete": "Concrete",
+    "Industrial": "Industrial floor",
+    "Tiles": "Tiles"
   }
 }

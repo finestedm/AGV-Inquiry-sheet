@@ -42,6 +42,13 @@ const validationSchema = Yup.object({
         }),
       }),
   })
-  })
+  }),
+  system: Yup.object({
+    agv: Yup.object({
+      workConditions: Yup.object({
+        floorType: Yup.string().required('helperText.system.agv.workConditions.floorType.required'),
+      }),
+    }),
+  }),
 })
 export default validationSchema

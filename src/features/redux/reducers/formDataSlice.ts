@@ -102,6 +102,7 @@ const initialFormDataState: IFormData = {
                 outside: false,
                 dangerousMaterials: false,
                 other: '',
+                floorType: null
             },
             building: {
                 new: false,
@@ -133,6 +134,7 @@ const initialFormDataState: IFormData = {
                 outside: false,
                 dangerousMaterials: false,
                 other: '',
+                floorType: null
             },
             building: {
                 new: false,
@@ -164,6 +166,7 @@ const initialFormDataState: IFormData = {
                 outside: false,
                 dangerousMaterials: false,
                 other: '',
+                floorType: null
             },
             building: {
                 new: false,
@@ -195,6 +198,7 @@ const initialFormDataState: IFormData = {
                 outside: false,
                 dangerousMaterials: false,
                 other: '',
+                floorType: null
             },
             building: {
                 new: false,
