@@ -117,7 +117,7 @@ export default function Form({ navigateToStep, saveDataToFile, saveDataToServer,
                     )}
                     {steps.currentStep !== allSteps[allSteps.length - 1] && (
                       <Button endIcon={<NavigateNextIcon />} disableElevation variant="contained" onClick={() => navigateToStep(allActiveSteps[allActiveSteps.indexOf(currentStep) + 1])} sx={{ color: theme.palette.background.default, fontWeight: 700, letterSpacing: '-0.03rem', ml: 'auto' }}
-                        disabled={editMode && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
+                        disabled={editMode && currentStep !== 'system' && !!Object.keys(formikProps.errors).includes(steps.currentStep)}
                       >
                         {t('ui.button.next')}
                       </Button>
