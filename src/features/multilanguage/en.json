@@ -416,7 +416,8 @@
     },
     "additional": {
       "noEquipment": "No Equipment",
-      "noLoadsSelected": "No Loads Selected"
+      "noLoadsSelected": "No Loads Selected",
+      "noLoadsFound": "No Loads Found"
     },
     "noRowsOverlay": {
       "t1": "Add the first flow",

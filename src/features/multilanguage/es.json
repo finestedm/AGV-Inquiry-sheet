@@ -1,5 +1,5 @@
 {
-  "customer": {
+"customer": {
     "header": "Datos del Cliente",
     "name": "Empresa / cliente",
     "sapNumber": "Número SAP del cliente",
@@ -56,7 +56,7 @@
     "unit": "Unidad de ventas",
     "contactPerson": "Contacto de JH / vendedor",
     "contactPersonRole": "Rol de la persona de contacto de JH",
-    "salesEngineer": "Ingeniero de ventas asignado"
+    "salesEngineer": "Comercial asignado"
   },
   "project": {
     "header": "Información del proyecto",
@@ -77,7 +77,7 @@
       "launch": "Fecha de lanzamiento 🎉",
       "startDate": "Fecha de inicio",
       "endDate": "Fecha de finalización",
-      "diff": "Duración"
+      "diff": "Duración total"
     },
     "it": {
       "processesDescription": "Descripción del proceso",
@@ -146,13 +146,13 @@
     "header": "Resumen"
   },
   "system": {
-    "tooHighPickupPoint": "El sistema seleccionado puede no ser adecuado para su uso en tales alturas. Esto debe discutirse.",
+    "tooHighPickupPoint": "El sistema seleccionado puede no ser adecuado para su uso en tales alturas. Esto debe evaluarse.",
     "workingConditionsTitle": "¡Precaución!",
-    "workingConditions": "Estas condiciones pueden no ser adecuadas para el sistema seleccionado. Esto debe discutirse.",
-    "workingConditionsFloor": "Este tipo de piso puede no ser adecuado para el sistema seleccionado. Esto debe discutirse.",
+    "workingConditions": "Estas condiciones pueden no ser adecuadas para el sistema seleccionado. Esto debe evaluarse.",
+    "workingConditionsFloor": "Este tipo de suelo puede no ser adecuado. Esto debe evaluarse.",
     "condensationWarningTitle": "¡Precaución!",
     "condensationWarning": "Estas condiciones pueden provocar condensación.",
-    "noWarehouseDimensionsTitle": "No hay dimensiones del almacén",
+    "noWarehouseDimensionsTitle": "No se han introducido las dimensiones del almacén",
     "noWarehouseDimensions": "Para generar el esquema, necesitas proporcionar las dimensiones del almacén",
     "inclineWarningTitle": "Inclinación alta",
     "inclineWarning": "El uso de AGV puede no ser posible.",
@@ -166,7 +166,7 @@
       "building": "Edificio",
       "buildingSubtitle": "Información sobre el almacén y otras áreas",
       "loads": "Cargas",
-      "loadsSubtitle": "Qué cargas se utilizarán en el sistema ofrecido",
+      "loadsSubtitle": "Qué cargas se transportarán en el Mobile Robot",
       "flow": "Flujos",
       "flowSubtitle": "Flujos en el esquema del almacén",
       "capacity": "Capacidad",
@@ -181,14 +181,14 @@
       "hoursPerWeek": "Horas de trabajo por semana"
     },
     "workConditions": {
-      "temperature": "Temperatura",
-      "humidity": "Humedad",
-      "freezer": "Área de congelación",
-      "EX": "Área de riesgo de explosión",
-      "floor": "Tipo de suelo",
-      "dangerousMaterials": "Materiales peligrosos",
-      "outside": "Trabajo en el exterior",
-      "other": "Otros comentarios"
+    "temperature": "Temperatura",
+    "humidity": "Humedad",
+    "freezer": "Área de congelación",
+    "EX": "Área de riesgo de explosión",
+    "floor": "Tipo de suelo",
+    "dangerousMaterials": "Materiales peligrosos",
+    "outside": "Trabajo en el exterior",
+    "other": "Otros comentarios"
   },
   "building": {
     "new": "Edificio nuevo",
@@ -219,7 +219,7 @@
     "additionalRemarks": "Información adicional"
   },
   "lrkprk": {
-    "header": "Datos de estantería automatizada",
+    "header": "Datos de la estantería automatizada",
     "label": "Estanterías de elevación vertical y carrouseles",
     "labelshort": "LRK & PRK",
     "description": "Gracias a su diseño modular, la altura de la estantería LRK se puede ajustar según las necesidades actuales, tanto antes como después de la instalación. Además, la integración de la estantería en cualquier sistema de gestión de almacenes permite una mayor eficiencia.",
@@ -274,8 +274,8 @@
     },
     "loadsToAdd": {
       "placeholder": "Seleccionar carga",
-      "empty": "No hay datos",
-      "euro": "Paleta Euro",
+      "empty": "Personalizada",
+      "euro": "Paleta EUR",
       "klt_600x400": "Contenedor KLT 600x400",
       "us_standard": "Paleta US",
       "half_euro": "Media paleta EUR",
@@ -292,8 +292,8 @@
       "rack": "Estantería"
     },
     "header": {
-      "stationSource": "Estación de origen",
-      "stationTarget": "Estación de descarga",
+      "stationSource": "Estación de recogida",
+      "stationTarget": "Estación de entrega",
       "flowAverage": "Flujo promedio",
       "flowPeak": "Flujo máximo",
       "loadType": "Carga",
@@ -414,9 +414,9 @@
     "Paved": "Pavimentado",
     "Concrete": "Hormigón",
     "Industrial": "Suelo industrial",
-    "Tiles": "Rachola"
+    "Tiles": "Baldosas"
   },
-"ui": {
+  "ui": {
     "button": {
       "back": "Atrás",
       "next": "Siguiente",
@@ -424,7 +424,7 @@
       "takePhoto": "Tomar foto",
       "selectImage": "Añadir foto",
       "inquiry": {
-        "load": "Consulta de carga",
+        "load": "Cargar consulta",
         "save": "Guardar consulta",
         "undo": "Deshacer",
         "redo": "Rehacer",

@@ -237,7 +237,7 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                     return t('flowTable.additional.noLoadsSelected');
                                 } else if (loadIds.length === 1) {
                                     const loadId = loadIds[0];
-                                    const loadName = selectedSystemLoads.find((load) => load.id === loadId)?.name || 'Load not found';
+                                    const loadName = selectedSystemLoads.find((load) => load.id === loadId)?.name || t('flowTable.additional.noLoadsFound');
                                     return <Chip
                                         label={loadName}
                                         color='primary'
