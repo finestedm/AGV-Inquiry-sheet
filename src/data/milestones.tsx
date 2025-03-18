@@ -11,7 +11,7 @@ const milestonesLengths: TMilestonesLengths = {
     'concept': { min: 1, typical: 2 },
     'officialOffer': { min: 3, typical: 4 },
     'order': { min: 0, typical: 0 },
-    'implementation': { min: 8, typical: 12},
+    'implementation': { min: 35, typical: 52},
     'launch': { min: 0, typical: 0},
 }
 

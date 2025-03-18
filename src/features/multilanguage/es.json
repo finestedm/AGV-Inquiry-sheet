@@ -1,0 +1,527 @@
+{
+  "customer": {
+    "header": "Datos del Cliente",
+    "name": "Empresa / cliente",
+    "sapNumber": "Número SAP del cliente",
+    "industry": "Industria",
+    "industryNameOther": "Nombre de otra industria",
+    "contactPerson": "Nombre y apellido",
+    "contactPersonRole": "Rol de la persona de contacto",
+    "contactPersonPhone": "Teléfono de contacto",
+    "contactPersonMail": "Correo electrónico de contacto",
+    "address": "Dirección",
+    "currency": {
+      "perYear": "/ año"
+    },
+    "subheader": {
+      "teleaddress": "Información general",
+      "teleaddressSubtitle": "Introduzca información de contacto",
+      "contactperson": "Persona de contacto",
+      "contactpersonSubtitle": "Datos sobre la persona de contacto de los inversores",
+      "businessdata": "Datos comerciales",
+      "businessdataSubtitle": "Nivel de cooperación con JH y datos financieros"
+    },
+    "relations": {
+      "type": "Nivel de cooperación",
+      "salesHistoryValue": "Volumen de negocio anual",
+      "creditManagement": "Valor de gestión de crédito",
+      "2": "Cliente JH",
+      "1": "Nuevo cliente",
+      "3": "Cliente KAM de JH",
+      "4": "Cliente de competidores",
+      "input": {
+        "owned": "Equipos de almacén propios: ",
+        "forklifts": "Número de carretillas elevadoras JH",
+        "other": "Otros productos JH",
+        "racks": "Número de estanterías JH"
+      }
+    }
+  },
+  "industry": {
+    "production": "Producción",
+    "trade": "Comercio",
+    "logistics": "Logística",
+    "pharmaceutical": "Farmacéutica",
+    "beverage": "Bebidas",
+    "clothing": "Ropa",
+    "chemical": "Química",
+    "food": "Alimentos",
+    "automotive": "Automotriz",
+    "other": "Otro"
+  },
+  "sales": {
+    "salesUnit": "Unidad de ventas",
+    "OPNumber": "Número de oportunidad (OP) - si está disponible",
+    "header": "Datos de la unidad de ventas",
+    "unit": "Unidad de ventas",
+    "contactPerson": "Contacto de JH / vendedor",
+    "contactPersonRole": "Rol de la persona de contacto de JH",
+    "salesEngineer": "Ingeniero de ventas asignado"
+  },
+  "project": {
+    "header": "Información del proyecto",
+    "goals": "Objetivos del proyecto",
+    "supplyChainParts": {
+      "header": "La automatización incluye:",
+      "production": "Producción",
+      "storage": "Almacenamiento",
+      "distribution": "Distribución",
+      "finishedGoods": "Productos terminados",
+      "components": "Materiales crudos"
+    },
+    "milestones": {
+      "concept": "Preparación del concepto",
+      "officialOffer": "Preparación de la oferta",
+      "order": "Fecha de pedido",
+      "implementation": "Fase de implementación",
+      "launch": "Fecha de lanzamiento 🎉",
+      "startDate": "Fecha de inicio",
+      "endDate": "Fecha de finalización",
+      "diff": "Duración"
+    },
+    "it": {
+      "processesDescription": "Descripción del proceso",
+      "existingSystem": {
+        "present": "¿Existe un sistema WMS?",
+        "name": "Sistema WMS existente",
+        "existingOther": "Otro",
+        "label": {
+          "SAP-WM": "SAP-WM",
+          "SAP-EWM": "SAP-EWM",
+          "other": "Otro"
+        }
+      },
+      "wmsNeeded": "¿Se necesita un WMS?",
+      "wmsNeededAlt": "WMS requerido",
+      "additionalInformation": "Otra información"
+    },
+    "investmentLocation": "Ubicación de la inversión",
+    "tender": "Inversión en forma de licitación",
+    "consultingCompany": "Gestionado por una empresa de consultoría",
+    "competitor": "Otros licitantes",
+    "investmentType": {
+      "new": "Nuevo proyecto",
+      "expansion": "Expansión",
+      "modification": "Modificación",
+      "exchange": "Reemplazo",
+      "retrofit": "Modernización"
+    },
+    "subheader": {
+      "investmentType": "Tipo de inversión",
+      "investmentTypeSubtitle": "¿Es este un nuevo proyecto o una extensión de una instalación existente?",
+      "milestones": "Cronograma",
+      "milestonesSubtitle": "Definición del calendario para las siguientes etapas de licitación e implementación",
+      "various": "Datos generales",
+      "it": "Información de IT y procesos",
+      "itSubtitle": "Software existente y requisitos relacionados"
+    }
+  },
+  "media": {
+    "header": "Medios",
+    "subheader": {
+      "images": "Imágenes",
+      "imagesSubtitle": "Añadir imágenes de cargas, almacenes, etc."
+    }
+  },
+  "steps": {
+    "sales": "Unidad de ventas",
+    "customer": "Cliente",
+    "system": "Selección de sistema",
+    "project": "Proyecto",
+    "media": "Medios",
+    "summary": "Resumen",
+    "asrs": "ASRS",
+    "lrkprk": "LRK / PRK",
+    "agv": "AGV",
+    "autovna": "AutoVNA",
+    "systems": {
+      "asrs": "ASRS",
+      "lrkprk": "LRK / PRK",
+      "agv": "AGV",
+      "autovna": "AutoVNA",
+      "header": "Selección de sistema:"
+    }
+  },
+  "summary": {
+    "header": "Resumen"
+  },
+  "system": {
+    "tooHighPickupPoint": "El sistema seleccionado puede no ser adecuado para su uso en tales alturas. Esto debe discutirse.",
+    "workingConditionsTitle": "¡Precaución!",
+    "workingConditions": "Estas condiciones pueden no ser adecuadas para el sistema seleccionado. Esto debe discutirse.",
+    "workingConditionsFloor": "Este tipo de piso puede no ser adecuado para el sistema seleccionado. Esto debe discutirse.",
+    "condensationWarningTitle": "¡Precaución!",
+    "condensationWarning": "Estas condiciones pueden provocar condensación.",
+    "noWarehouseDimensionsTitle": "No hay dimensiones del almacén",
+    "noWarehouseDimensions": "Para generar el esquema, necesitas proporcionar las dimensiones del almacén",
+    "inclineWarningTitle": "Inclinación alta",
+    "inclineWarning": "El uso de AGV puede no ser posible.",
+    "manyLoadsWarningTitle": "Precaución",
+    "manyLoadsWarning": "Las grandes diferencias entre las cargas pueden ser problemáticas para el sistema seleccionado.",
+    "subheader": {
+      "workTime": "Tiempo de trabajo",
+      "workTimeSubtitle": "Horas totales de trabajo semanales",
+      "workConditions": "Condiciones de trabajo",
+      "workConditionsSubtitle": "Condiciones en el área de trabajo",
+      "building": "Edificio",
+      "buildingSubtitle": "Información sobre el almacén y otras áreas",
+      "loads": "Cargas",
+      "loadsSubtitle": "Qué cargas se utilizarán en el sistema ofrecido",
+      "flow": "Flujos",
+      "flowSubtitle": "Flujos en el esquema del almacén",
+      "capacity": "Capacidad",
+      "capacitySubtitle": "Proporcionar número de cargas que el sistema debe almacenar",
+      "additionalRemarks": "Observaciones adicionales",
+      "additionalRemarksSubtitle": "Información adicional como condiciones de trabajo, aspectos técnicos, información especial..."
+    },
+    "workTime": {
+      "workDays": "Días laborables por semana",
+      "shiftsPerDay": "Turnos por día",
+      "hoursPerShift": "Horas de trabajo por turno",
+      "hoursPerWeek": "Horas de trabajo por semana"
+    },
+    "workConditions": {
+      "temperature": "Temperatura",
+      "humidity": "Humedad",
+      "freezer": "Área de congelación",
+      "EX": "Área de riesgo de explosión",
+      "floor": "Tipo de suelo",
+      "dangerousMaterials": "Materiales peligrosos",
+      "outside": "Trabajo en el exterior",
+      "other": "Otros comentarios"
+  },
+  "building": {
+    "new": "Edificio nuevo",
+    "existing": "Existente",
+    "silo": "Almacén SILO",
+    "incline": "Inclinación máxima",
+    "layout": "Plano",
+    "existingBuilding": {
+      "height": "Altura",
+      "width": "Lado más largo",
+      "length": "Lado más corto",
+      "equipment": {
+        "x": "Posición X",
+        "y": "Posición Y",
+        "width": "Anchura",
+        "height": "Longitud",
+        "type": "Tipo",
+        "rotation": "Rotación",
+        "zHeight": "Altura"
+      }
+    }
+  },
+  "asrs": {
+    "header": "Datos del sistema ASRS",
+    "label": "Sistemas automatizados de almacenamiento y recuperación",
+    "labelshort": "ASRS",
+    "description": "Los almacenes automatizados de palets integran estanterías, software y grúas apiladoras en un sistema compacto. La máxima dinámica y precisión son clave, junto con la eficiencia energética óptima. Cuando todos los elementos funcionan en perfecta armonía, una inversión en una solución automatizada se amortiza rápidamente.",
+    "additionalRemarks": "Información adicional"
+  },
+  "lrkprk": {
+    "header": "Datos de estantería automatizada",
+    "label": "Estanterías de elevación vertical y carrouseles",
+    "labelshort": "LRK & PRK",
+    "description": "Gracias a su diseño modular, la altura de la estantería LRK se puede ajustar según las necesidades actuales, tanto antes como después de la instalación. Además, la integración de la estantería en cualquier sistema de gestión de almacenes permite una mayor eficiencia.",
+    "temperatureWarning": "Las estanterías automatizadas no pueden operar a temperaturas inferiores a 5°C",
+    "temperatureWarningTitle": "¡Advertencia!"
+  },
+  "agv": {
+    "header": "Datos del vehículo automatizado",
+    "label": "Vehículos automatizados guiados (AGV)",
+    "labelshort": "AGV",
+    "description": "Los vehículos automatizados guiados (AGV) son sistemas de transporte que permiten operación remota. Están equipados con un sistema de sensores avanzado que detecta cualquier obstáculo alrededor del vehículo. Los modelos AGV pueden frenar, acelerar y reaccionar a factores inesperados durante la operación. Si es necesario, pueden detenerse por completo.",
+    "temperatureWarning": "Los vehículos automatizados AGV no pueden operar a temperaturas inferiores a 5°C",
+    "temperatureWarningTitle": "¡Advertencia!",
+    "additionalRemarks": "Comentarios adicionales",
+    "workConditions": {
+      "other": "Otros comentarios"
+    }
+  },
+  "autovna": {
+    "header": "Datos del sistema AutoVNA",
+    "label": "Vehículos automatizados para pasillos estrechos",
+    "labelshort": "AutoVNA",
+    "description": "Los vehículos automatizados de estanterías altas son perfectos para un almacén automatizado con pasillos de trabajo estrechos, donde también están presentes estanterías, software y dispositivos de transporte. Cuando están completamente integrados, trabajan de manera eficiente y segura las 24 horas del día, los 7 días de la semana.",
+    "temperatureWarning": "Los vehículos automatizados AutoVNA no pueden operar a temperaturas inferiores a 5°C",
+    "temperatureWarningTitle": "¡Advertencia!"
+  }
+},
+  "loadTable": {
+    "header": {
+      "index": "Número",
+      "name": "Nombre",
+      "length": "Longitud",
+      "width": "Anchura",
+      "height": "Altura",
+      "weightMin": "Peso mínimo",
+      "weightMax": "Peso máximo",
+      "overhang": "Sobresaliente",
+      "overhangDescription": "¿Se extiende la carga más allá de la paleta?",
+      "material": "Material",
+      "loadSide": "Lado de carga",
+      "secured": "¿Asegurado?",
+      "securedDesciption": "¿Está la carga asegurada, por ejemplo, con film estirable?"
+    },
+    "noRowsOverlay": {
+      "t1": "Añadir la primera carga",
+      "t2": "¡Puedes usar cargas predefinidas!"
+    },
+    "loadContainerMaterial": {
+      "wood": "Madera",
+      "metal": "Metal",
+      "plastic": "Plástico"
+    },
+    "loadsToAdd": {
+      "placeholder": "Seleccionar carga",
+      "empty": "No hay datos",
+      "euro": "Paleta Euro",
+      "klt_600x400": "Contenedor KLT 600x400",
+      "us_standard": "Paleta US",
+      "half_euro": "Media paleta EUR",
+      "industrial_1200x1000": "Industrial 1200x1000",
+      "industrial_1200x1200": "Industrial 1200x1200",
+      "gitterbox_1235x835": "Gitterbox"
+    }
+  },
+  "flowTable": {
+    "flowStationTypes": {
+      "floor": "Suelo",
+      "conveyor": "Transportador",
+      "pallet wrapper": "Envoltura de paletas",
+      "rack": "Estantería"
+    },
+    "header": {
+      "stationSource": "Estación de origen",
+      "stationTarget": "Estación de descarga",
+      "flowAverage": "Flujo promedio",
+      "flowPeak": "Flujo máximo",
+      "loadType": "Carga",
+      "loadTypeDescription": "Cargas transportadas en esta etapa",
+      "loadTypeNone": "No se seleccionaron cargas",
+      "loadTypeMultiple": "Múltiples tipos",
+      "distance": "Distancia",
+      "distanceDescription": "Camino entre el punto de carga y la estación de descarga",
+      "bidirectional": "Flujo bidireccional",
+      "bidirectionalDescription": "¿El movimiento ocurre en ambas direcciones?"
+    },
+    "additional": {
+      "noEquipment": "Sin equipo",
+      "noLoadsSelected": "No se han seleccionado cargas"
+    },
+    "noRowsOverlay": {
+      "t1": "Añadir el primer flujo",
+      "t2": "Más tarde, define el punto de inicio y final, así como la cantidad y tipo de cargas."
+    }
+  },
+  "ganttGraph": {
+    "tableHeader": {
+      "step": "Etapa",
+      "dateRange": "Rango de fechas",
+      "edit": "Editar"
+    },
+    "timeSizeToggleButton": {
+      "Week": "Semana",
+      "Month": "Mes",
+      "Year": "Año"
+    }
+  },
+  "capacityTable": {
+    "header": {
+      "index": "Número",
+      "load": "Tipo de carga",
+      "capacity": "Capacidad",
+      "capacityDescription": "¿Cuántas cargas debe acomodar el sistema?"
+    },
+    "timeSizeToggleButton": {
+      "Week": "Semana",
+      "Month": "Mes",
+      "Year": "Año"
+    }
+  },
+  "helperText": {
+    "sales": {
+      "contactPerson": {
+        "required": "Introduce la persona que introduce los datos"
+      },
+      "salesUnit": {
+        "required": "Introduce la unidad de ventas"
+      }
+    },
+    "customer": {
+      "name": {
+        "required": "Nombre de la empresa requerido"
+      },
+      "address": {
+        "required": "Dirección requerida"
+      },
+      "sapNumber": {
+        "format": "El número SAP debe comenzar con 4 y tener 8 dígitos"
+      },
+      "OPNumber": {
+        "format": "El número OP debe comenzar con 4 y tener 8 dígitos"
+      },
+      "contactPersonMail": {
+        "format": "Formato no válido"
+      },
+      "industryName": {
+        "number": "Selecciona al menos una industria"
+      },
+      "industryNameOther": {
+        "required": "Introduce el nombre de otra industria si se seleccionó de la lista anterior"
+      },
+      "relations": {
+        "number": "Selecciona el tipo de relación"
+      }
+    },
+    "project": {
+      "supplyChainParts": {
+        "number": "Selecciona al menos una área para automatizar"
+      },
+      "investmentLocation": {
+        "required": "Especifica dónde se implementará la inversión"
+      },
+      "investmentType": {
+        "required": "Campo obligatorio"
+      },
+      "it": {
+        "existingSystem": {
+          "existingOther": {
+            "required": "Introduce el nombre del sistema WMS del cliente"
+          }
+        }
+      }
+    },
+    "system": {
+      "agv": {
+        "workConditions": {
+          "floorType": {
+            "required": "Selecciona tipo de suelo"
+          }
+        }
+      }
+    }
+  },
+  "sidebar": {
+    "sectionTitle": {
+      "inquiry": "Consulta",
+      "edit": "Editar",
+      "settings": "Configuración",
+      "help": "Ayuda"
+    }
+  },
+  "floorType": {
+    "Paved": "Pavimentado",
+    "Concrete": "Hormigón",
+    "Industrial": "Suelo industrial",
+    "Tiles": "Rachola"
+  },
+"ui": {
+    "button": {
+      "back": "Atrás",
+      "next": "Siguiente",
+      "addNewEquipment": "Añadir equipo",
+      "takePhoto": "Tomar foto",
+      "selectImage": "Añadir foto",
+      "inquiry": {
+        "load": "Consulta de carga",
+        "save": "Guardar consulta",
+        "undo": "Deshacer",
+        "redo": "Rehacer",
+        "saveToServer": "Enviar al servidor",
+        "clear": "Borrar datos",
+        "contact": "Contacto"
+      },
+      "copyDialog": {
+        "accept": "Sí, copiar datos",
+        "cancel": "Cancelar"
+      },
+      "dateEditDialog": {
+        "accept": "Sí, cambiar fechas",
+        "cancel": "Cancelar"
+      },
+      "table": {
+        "newload": "Añadir nueva carga"
+      },
+      "readmore": "Leer más",
+      "addNewLoad": "Añadir",
+      "deleteSelectedLoads": "Eliminar seleccionados",
+      "addNewFlow": "Añadir"
+    },
+    "helperText": {
+      "loadDimensionsTip": "¡Proporcione las dimensiones en milímetros!"
+    },
+    "switch": {
+      "darkMode": {
+        "dark": "Modo oscuro",
+        "light": "Modo claro"
+      },
+      "editMode": {
+        "edit": "Modo edición",
+        "read": "Modo vista previa"
+      }
+    },
+    "dialog": {
+      "loadDelete": {
+        "title": "Precaución",
+        "description1": "Esta carga está siendo utilizada en uno de los flujos en la 'Tabla de flujo'.",
+        "description2": "¿Estás seguro de que deseas eliminarla?",
+        "cancel": "Cancelar",
+        "confirm": "Sí, eliminar"
+      },
+      "equipmentEditing" : {
+        "title": "Editar datos",
+        "confirm": "Sí, cambiar datos",
+        "cancel": "Cancelar"
+      },
+      "copyDialog": {
+        "title": "Elige qué datos copiar de otro sistema",
+        "noChange": "Sin cambios"
+      },
+      "clearForm": {
+        "title": "Borrar datos",
+        "description1": "Parece que ya has introducido algunos datos en el formulario.",
+        "description2": "¿Estás seguro de que deseas borrarlos?",
+        "cancel": "Cancelar",
+        "confirm": "Sí, borrar datos"
+      },
+      "ganttGraph": {
+        "selectDates": "Cambiar fechas para: ",
+        "start": "Inicio",
+        "end": "Fin"
+      },
+      "warehouse": {
+        "title": "Editar esquema del almacén"
+      },
+      "contact": {
+        "title": "Contactos"
+      }
+    },
+    "snackBar": {
+      "message": {
+        "fileLoaded": "Archivo cargado",
+        "fileLoadError": {
+          "other": "Error al leer el archivo",
+          "wrongVersion": "El archivo se guardó en una versión diferente de la aplicación y no es compatible."
+        },
+        "fileSaved": "Archivo guardado como: ",
+        "fileSavedToServer": "Consulta enviada con éxito.",
+        "errorSaving": "Error al enviar el archivo de consulta.",
+        "duplicateImageFound": "Al menos uno de los archivos proporcionados ya existe.",
+        "formNotComplete": "Faltan algunos datos en esta página.",
+        "undoChanges": "Cambios deshechos",
+        "redoChanges": "Cambios restaurados"
+      }
+    },
+    "tooltip": {
+      "copyOtherSystemData": "Copiar datos de otro sistema",
+      "darkMode": "Cambiar modo día/noche",
+      "editMode": "Cambiar modo edición/vista previa"
+    },
+    "table": {
+      "head": {
+        "part": "Parte"
+      }
+    }
+  }
+}

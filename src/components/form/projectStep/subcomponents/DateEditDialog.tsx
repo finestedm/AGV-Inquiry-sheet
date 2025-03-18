@@ -28,31 +28,31 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
         const dateState = { ...formData.project.milestones };
         let updatedState = { ...dateState, [taskId]: { start: startDate.toDate(), end: endDate.toDate() } };
         const currentIndex = milestoneOrder.indexOf(taskId);
-    
+
         function validateMilestone(milestone: keyof IMilestones) {
             const isOneDayMilestone = milestone === 'order' || milestone === 'launch';
             const previousMilestone = milestoneOrder[milestoneOrder.indexOf(milestone) - 1];
             const previousMilestoneEndDate = previousMilestone ? dayjs(updatedState[previousMilestone].end) : dayjs();
-    
+
             // Start date calculation
             const calculatedStartDate = milestone === 'launch'
                 ? previousMilestoneEndDate
                 : taskId === milestone
                     ? dayjs(startDate).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(startDate)
                     : dayjs(updatedState[milestone].start).isBefore(previousMilestoneEndDate) ? previousMilestoneEndDate : dayjs(updatedState[milestone].start);
-    
-    
+
+
             // End date calculation
             const calculatedEndDate = isOneDayMilestone
                 ? calculatedStartDate
                 : taskId === milestone
-                    ? dayjs(endDate).diff(calculatedStartDate, 'months') < milestonesLengths[milestone].min
-                        ? calculatedStartDate.add(milestonesLengths[milestone].min, 'month')
+                    ? dayjs(endDate).diff(calculatedStartDate, 'weeks') < milestonesLengths[milestone].min
+                        ? calculatedStartDate.add(milestonesLengths[milestone].min, 'week')
                         : dayjs(endDate)
-                    : dayjs(updatedState[milestone].end).diff(calculatedStartDate, 'months') < milestonesLengths[milestone].min
-                        ? calculatedStartDate.add(milestonesLengths[milestone].min, 'month')
+                    : dayjs(updatedState[milestone].end).diff(calculatedStartDate, 'weeks') < milestonesLengths[milestone].min
+                        ? calculatedStartDate.add(milestonesLengths[milestone].min, 'week')
                         : dayjs(updatedState[milestone].end);
-    
+
 
             // Update state
             updatedState = {
@@ -63,16 +63,16 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                 },
             };
         }
-    
+
         milestoneOrder.slice(currentIndex).forEach((milestone) => {
             validateMilestone(milestone);
         });
-    
+
         dispatch(handleDateChanges(updatedState));
         handleDialogClose();
     }
-    
-    
+
+
 
     if (selectedTask && formData.project.milestones[taskId]) {
         return (
@@ -96,18 +96,19 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                         onChange={(date: any) => date && setStartDate(date)}
                                     />
                                 </Stack>
-                                {selectedTask.id !== 'order' && 
-                                <Stack spacing={1} textAlign='left'>
-                                    <InputLabel>{t(`project.milestones.endDate`)}</InputLabel>
-                                    <DatePicker
-                                        value={endDate}
-                                        disablePast
-                                        disabled={!editMode}
-                                        onChange={(date: any) => date && setEndDate(date)}
-                                    />
-                                </Stack>
+                                {selectedTask.id !== 'order' &&
+                                    <Stack spacing={1} textAlign='left'>
+                                        <InputLabel>{t(`project.milestones.endDate`)}</InputLabel>
+                                        <DatePicker
+                                            value={endDate}
+                                            disablePast
+                                            minDate={dayjs(startDate).add(milestonesLengths[taskId]?.min || 0, 'week')}
+                                            disabled={!editMode}
+                                            onChange={(date: any) => date && setEndDate(date)}
+                                        />
+                                    </Stack>
                                 }
-                                {selectedTask.id !== 'order' && 
+                                {selectedTask.id !== 'order' &&
                                     <Stack spacing={1} textAlign='left'>
                                         <InputLabel>{t(`project.milestones.diff`)}</InputLabel>
                                         <OutlinedInput
@@ -178,6 +179,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                     value={endDate}
                                                     disablePast
                                                     disabled={!editMode}
+                                                    minDate={dayjs(startDate).add(milestonesLengths[taskId]?.min || 0, 'week')}
                                                     onChange={(date: any) => date && setEndDate(date)}
                                                     disableOpenPicker
                                                 />
@@ -188,6 +190,7 @@ export default function DateEditDialog({ selectedTask, dateEditDialogOpen, handl
                                                         // views={['month', 'year']}
                                                         // openTo="month"
                                                         disablePast
+                                                        minDate={dayjs(startDate).add(milestonesLengths[taskId]?.min || 0, 'week')}
                                                         value={endDate}
                                                         onChange={(date: any) => date && setEndDate(date)}
                                                     // onChange={(date) => dispatch(handleDateChanges({ id: selectedTask.id, start: formData.project.milestones[taskId].start, end: date }))}

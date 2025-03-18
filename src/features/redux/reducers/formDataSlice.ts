@@ -3,6 +3,7 @@ import { IFormData, ILoad, ILoadsTypes, IFlow, LoadFieldValue, ISystems, IMilest
 import { loadsToAdd } from '../../../data/typicalLoadSizes';
 import { emptyFlow } from '../../../data/flowStations';
 import generateRandomId from '../../variousMethods/generateRandomId';
+import milestonesLengths from '../../../data/milestones';
 
 
 const initialFormDataState: IFormData = {
@@ -44,28 +45,35 @@ const initialFormDataState: IFormData = {
             concept: (() => {
                 const startDate = new Date();
                 const endDate = new Date(startDate);
-                endDate.setMonth(startDate.getMonth() + 1);
+                endDate.setDate(startDate.getDate() + milestonesLengths.concept.typical * 7);
                 return { start: startDate, end: endDate };
             })(),
             officialOffer: (() => {
                 const startDate = new Date();
-                startDate.setMonth(startDate.getMonth() + 1);
+                startDate.setDate(startDate.getDate() + milestonesLengths.concept.typical * 7);
                 const endDate = new Date(startDate);
-                endDate.setMonth(startDate.getMonth() + 3);
+                endDate.setDate(startDate.getDate() + milestonesLengths.officialOffer.typical * 7);
                 return { start: startDate, end: endDate };
             })(),
-            order: {
-                start: new Date(new Date().getFullYear(), new Date().getMonth() + 6, new Date().getDate()),
-                end: new Date(new Date().getFullYear(), new Date().getMonth() + 6, new Date().getDate())
-            },
-            implementation: {
-                start: new Date(new Date().getFullYear(), new Date().getMonth() + 12, new Date().getDate()),
-                end: new Date(new Date().getFullYear(), new Date().getMonth() + 18, new Date().getDate())
-            },
-            launch: {
-                start: new Date(new Date().getFullYear(), new Date().getMonth() + 18, new Date().getDate()),
-                end: new Date(new Date().getFullYear(), new Date().getMonth() + 18, new Date().getDate())
-            },
+            order: (() => {
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() + (milestonesLengths.concept.typical + milestonesLengths.officialOffer.typical) * 7);
+                const endDate = startDate;
+                return { start: startDate, end: endDate };
+            })(),
+            implementation: (() => {
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() + (milestonesLengths.concept.typical + milestonesLengths.officialOffer.typical)*7);
+                const endDate = new Date();
+                endDate.setDate(startDate.getDate() + (milestonesLengths.concept.typical + milestonesLengths.officialOffer.typical + milestonesLengths.implementation.typical) * 7);
+                return { start: startDate, end: endDate };
+            })(),
+            launch: (() => {
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() + (milestonesLengths.concept.typical + milestonesLengths.officialOffer.typical + milestonesLengths.implementation.typical)*7);
+                const endDate = startDate;
+                return { start: startDate, end: endDate };
+            })(),
         },
         it: {
             processesDescription: '',
@@ -94,6 +102,7 @@ const initialFormDataState: IFormData = {
                 outside: false,
                 dangerousMaterials: false,
                 other: '',
+                floorType: null
             },
             building: {
                 new: false,
@@ -125,6 +134,7 @@ const initialFormDataState: IFormData = {
                 outside: false,
                 dangerousMaterials: false,
                 other: '',
+                floorType: null
             },
             building: {
                 new: false,
@@ -156,6 +166,7 @@ const initialFormDataState: IFormData = {
                 outside: false,
                 dangerousMaterials: false,
                 other: '',
+                floorType: null
             },
             building: {
                 new: false,
@@ -187,6 +198,7 @@ const initialFormDataState: IFormData = {
                 outside: false,
                 dangerousMaterials: false,
                 other: '',
+                floorType: null
             },
             building: {
                 new: false,

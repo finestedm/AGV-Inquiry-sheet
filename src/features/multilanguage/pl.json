@@ -199,7 +199,8 @@
   "system": {
     "tooHighPickupPoint": "Wybrany system nie może obsługiwać takich wysokości. Co najmniej jeden z obsługiwanych przez system punktów jest zbyt wysoki.",
     "workingConditionsTitle": "Uwaga!",
-    "workingConditions": "Warunki uniemożliwiają zastosowanie wybranego systemu",
+    "workingConditions": "Warunki mogą uniemożliwiać zastosowanie wybranego systemu. Do omówienia.",
+    "workingConditionsFloor": "Ten rodzaj posadzki może nie być odpowiedni dla wybranego systemu. Do omówienia.",
     "condensationWarningTitle": "Uwaga!",
     "condensationWarning": "Panujące warunki mogą powodowac kondensacje",
     "noWarehouseDimensionsTitle": "Brak wymiarów magazynu",
@@ -235,8 +236,10 @@
       "humidity": "Wilgotność",
       "freezer": "Strefa chłodnicza",
       "EX": "Strefa zagrożona wybuchem",
+      "outside": "Praca na zewnątrz",
       "dangerousMaterials": "Materiały niebezpieczne",
-      "other": "Inne uwagi"
+      "other": "Inne uwagi",
+      "floor": "Typ posadzki"
     },
     "building": {
       "new": "Nowy budynek",
@@ -308,9 +311,9 @@
     },
     "milestones": {
       "concept": "Przygotowanie koncepcji",
-      "officialOffer": "Data oferty",
-      "order": "Data zamówienia",
-      "implementation": "Data wdrożenia",
+      "officialOffer": "Przygotowanie oferty",
+      "order": "Data złożenia zamówienia",
+      "implementation": "Faza wdrożenia",
       "launch": "Data uruchomienia 🎉",
       "startDate": "Data początkowa",
       "endDate": "Data końcowa",
@@ -497,6 +500,15 @@
           }
         }
       }
+    },
+    "system": {
+      "agv": {
+        "workConditions": {
+          "floorType": {
+            "required": "Zaznacz rodzaj posadzki"
+          }
+        }
+      }
     }
   },
   "sidebar": {
@@ -506,5 +518,11 @@
       "settings":"Ustawienia",
       "help": "Pomoc"
     }
+  },
+  "floorType": {
+    "Paved": "Kostka brukowa",
+    "Concrete": "Beton",
+    "Industrial": "Posadzka przemysłowa",
+    "Tiles": "Kafelki"
   }
 }

@@ -4,7 +4,6 @@ import { RootState } from "../features/redux/store";
 import MenuIcon from '@mui/icons-material/Menu';
 
 export default function TopBar({ sidebarOpen, handleSidebarOpening }: { sidebarOpen: boolean, handleSidebarOpening: () => void }) {
-    const darkMode = useSelector((state: RootState) => state.darkMode)
     const theme = useTheme();
     const isSmallest = useMediaQuery(theme.breakpoints.only('xs'))
 

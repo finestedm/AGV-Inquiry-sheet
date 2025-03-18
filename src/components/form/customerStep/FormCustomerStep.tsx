@@ -1,7 +1,7 @@
 import { Box, Button, Checkbox, Chip, FormControl, FormHelperText, Grid, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, Stack, TextField, Toolbar, Typography, useTheme } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import EmailIcon from '@mui/icons-material/Email';
-import { MuiTelInput } from 'mui-tel-input'
+import { MuiTelInput, MuiTelInputCountry } from 'mui-tel-input'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../features/redux/store";
@@ -34,7 +34,7 @@ export default function FormCustomerStep(): JSX.Element {
 
   const formikProps: FormikProps<IFormData> = useFormikContext(); // Access formikProps from context
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
 
   const formData = useSelector((state: RootState) => state.formData.present);
@@ -44,6 +44,23 @@ export default function FormCustomerStep(): JSX.Element {
   const dispatch = useDispatch();
 
   const industriesTranslated = industries.map(industry => t(`industry.${industry}`))
+
+  const [phonePrefix, setPhonePrefix] = useState<MuiTelInputCountry>('PL')
+  
+  useEffect(() => { // set phone prefix based on selected sales unit
+    const salesUnit = formData.sales.salesUnit
+    switch (salesUnit) {
+      case 'S1-DE':
+        setPhonePrefix('DE')
+        break
+      case 'S3-ES':
+        setPhonePrefix('ES')
+        break
+      default:
+        setPhonePrefix('PL')
+        break
+    }
+  }, [])
 
   return (
   <Box>
@@ -88,7 +105,8 @@ export default function FormCustomerStep(): JSX.Element {
                   <Stack spacing={1}>
                     <InputLabel>{t('customer.contactPersonPhone')}</InputLabel>
                     <MuiTelInput
-                      defaultCountry="PL"
+                      defaultCountry={phonePrefix}
+                      onlyCountries={['PL', 'DE', 'ES', 'AT']}
                       continents={['EU']}
                       size="small"
                       value={formData.customer.contactPersonPhone}

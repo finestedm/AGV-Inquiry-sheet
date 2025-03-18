@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../features/redux/store";
-import { Alert, Box, Checkbox, Collapse, FormControlLabel, Grid, InputLabel, Slider, Stack, Typography, useTheme } from "@mui/material";
+import { Alert, Box, Checkbox, Collapse, FormControlLabel, FormHelperText, Grid, InputLabel, Slider, Stack, ToggleButton, ToggleButtonGroup, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { handleInputMethod } from "../../../../features/redux/reducers/formDataSlice";
@@ -10,13 +10,15 @@ import { AcUnit, Warning, Whatshot } from "@mui/icons-material";
 import CustomTextField from "../../CustomTextField";
 import { criticalElectronicsTemperature } from "../../../../data/criticalElectronicsTemperature";
 import theme from "../../../../theme";
-import { ISystems } from "../../../../features/interfaces";
+import { IFormData, ISystems } from "../../../../features/interfaces";
 import CustomAlert from "../../../CustomAlert";
 import InputGroup from "../../InputGroup";
 import CustomCheckbox from "../../CustomCheckbox";
 import ThermostatAutoOutlinedIcon from '@mui/icons-material/ThermostatAutoOutlined';
 import { isCondensationRisk } from "../../../../features/variousMethods/isCondensationRisk";
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import floorTypes from "../../../../data/floorTypes";
+import { FormikProps, useFormikContext } from "formik";
 
 export default function WorkConditions({ selectedSystem }: { selectedSystem: keyof ISystems }) {
 
@@ -28,6 +30,8 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
     const { t } = useTranslation();
     const [tempTemperature, setTempTemperature] = useState(workConditions.temperature)
     const [tempHumidity, setTempHumidity] = useState(workConditions.humidity)
+
+    const formikProps: FormikProps<IFormData> = useFormikContext();
 
     useEffect(() => {
         const systemCond = formData.system[selectedSystem]?.workConditions || {};
@@ -43,6 +47,64 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
             content={
                 <Box>
                     <Grid container direction='row' spacing={4}>
+                    <Grid item xs={12}>
+                            <Stack spacing={1}>
+                                <InputLabel>{t(`system.workConditions.floor`)}</InputLabel>
+                                <ToggleButtonGroup
+                                    sx={{ display: { xs: 'none', sm: 'flex' } }}
+                                    color='primary'
+                                    disabled={!editMode}
+                                    exclusive
+                                    fullWidth
+                                    aria-label="floor type buttons"
+                                    onChange={(e, v) => {
+                                        dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.floorType`, value: v }))
+                                        formikProps.setFieldValue(`system.${selectedSystem}.workConditions.floorType`, v);
+                                    }}
+                                >
+                                    {floorTypes.map((floorType) => (
+                                        <ToggleButton
+                                            className="buttongroup-deep"
+                                            sx={{ color: Boolean(formikProps.errors.system?.[selectedSystem]?.workConditions?.floorType) ? theme.palette.error.main : '', borderColor: Boolean(formikProps.errors.system?.[selectedSystem]?.workConditions?.floorType) ? theme.palette.error.main : '' }}
+                                            value={floorTypes.indexOf(floorType)}
+                                            color="primary"
+                                            key={floorType}
+                                            selected={formData.system[selectedSystem].workConditions.floorType === floorTypes.indexOf(floorType)}
+                                        >
+                                            {t(`floorType.${floorType}`)}
+                                            </ToggleButton>
+                                    ))}
+                                </ToggleButtonGroup>
+                                <ToggleButtonGroup
+                                    sx={{ display: { sm: 'none' } }}
+                                    size="small"
+                                    className="buttongroup-deep"
+                                    exclusive
+                                    disabled={!editMode}
+                                    aria-label="investment type buttons"
+                                    orientation="vertical"
+                                    fullWidth
+                                    color='primary'
+                                    onChange={(e, v) => {
+                                        dispatch(handleInputMethod({ path: `system.${selectedSystem}.workConditions.floorType`, value: v }))
+                                        formikProps.setFieldValue(`system.${selectedSystem}.workConditions.floorType`, v);
+                                    }}
+                                >
+                                    {floorTypes.map((floorType) => (
+                                        <ToggleButton
+                                            className="buttongroup-deep"
+                                            value={floorTypes.indexOf(floorType)}
+                                            key={floorType}
+                                            color="primary"
+                                            selected={formData.system[selectedSystem].workConditions.floorType === floorTypes.indexOf(floorType)}
+                                        >
+                                            {t(`floorType.${floorType}`)}
+                                        </ToggleButton>
+                                    ))}
+                                </ToggleButtonGroup>
+                                {formikProps.errors.system?.[selectedSystem]?.workConditions?.floorType && <FormHelperText error>{t(`${formikProps.errors.system?.[selectedSystem]?.workConditions?.floorType}`)}</ FormHelperText>}
+                            </Stack>
+                        </Grid>
                         <Grid item xs={12} md={6}>
                             <Stack spacing={1} textAlign='center'>
                                 <InputLabel>{t(`system.workConditions.temperature`)}</InputLabel>
@@ -130,7 +192,10 @@ export default function WorkConditions({ selectedSystem }: { selectedSystem: key
                                         </Box>
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.EX || formData.system[selectedSystem].workConditions.dangerousMaterials || formData.system[selectedSystem].workConditions.temperature[0] <= 5 || formData.system[selectedSystem].workConditions.outside || formData.system[selectedSystem].workConditions.freezer))} severity="error" title={t(`system.workingConditionsTitle`)} text={t(`system.workingConditions`)} />
+                                        <Stack spacing={2}>
+                                            <CustomAlert collapseTrigger={((formData.system[selectedSystem].workConditions.EX || formData.system[selectedSystem].workConditions.dangerousMaterials || formData.system[selectedSystem].workConditions.temperature[0] <= 5 || formData.system[selectedSystem].workConditions.outside || formData.system[selectedSystem].workConditions.freezer))} severity="error" title={t(`system.workingConditionsTitle`)} text={t(`system.workingConditions`)} />
+                                            <CustomAlert collapseTrigger={formData.system[selectedSystem].workConditions.floorType !== null && formData.system[selectedSystem].workConditions.floorType !== 0} severity="error" title={t(`system.workingConditionsTitle`)} text={t(`system.workingConditionsFloor`)} />
+                                        </Stack>
                                     </Grid>
                                 </Grid>
                             </Box>

@@ -113,6 +113,7 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
           overflowX: "scroll",
           scrollBehavior: "smooth",
           scrollbarWidth: "none",
+          "&::-webkit-scrollbar": { display: "none" }
         }}
       >
         {allSteps.map((label, index) => {
