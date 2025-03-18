@@ -29,8 +29,11 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
     const { t } = useTranslation();
 
     const [circularValue, setCircularValue] = useState(0)
+    const [isWorthIt, setIsWorthIt] = useState(false)
+
     useEffect(() => {
         setCircularValue((((tempShiftsPerDay * tempHoursPerShift * tempWorkDays) - 0) * 100) / (8 * 3 * 7 - 0))
+        setIsWorthIt((tempShiftsPerDay * tempHoursPerShift * tempWorkDays) >= minimalReasonableWeekWorkHours)
     }, [tempShiftsPerDay, tempHoursPerShift, tempWorkDays])
 
     useEffect(() => {
@@ -110,14 +113,14 @@ export default function WorkTime({ selectedSystem }: { selectedSystem: keyof ISy
                                 <InputLabel>{t(`system.workTime.hoursPerWeek`)}</InputLabel>
                                 <Box position='relative'>
                                     <LinearProgress
-                                        color={circularValue < 50 ? 'error' : 'success'}
+                                        color={!isWorthIt ? 'error' : 'success'}
                                         variant="determinate"
                                         value={circularValue}
                                         sx={{ height: '2rem', borderRadius: 1000 }}
                                     />
                                     <Typography
                                         variant="h6"
-                                        color={circularValue < 50 ? tinycolor(theme.palette.error.main).lighten(20).toRgbString() : tinycolor(theme.palette.success.main).darken(42).toRgbString()}
+                                        color={!isWorthIt ? tinycolor(theme.palette.error.main).lighten(20).toRgbString() : tinycolor(theme.palette.success.main).darken(42).toRgbString()}
                                         position='absolute'
                                         top='50%'
                                         left='50%'

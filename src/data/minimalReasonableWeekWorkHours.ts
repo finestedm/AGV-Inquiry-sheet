@@ -1,1 +1,1 @@
-export const minimalReasonableWeekWorkHours = 60
+export const minimalReasonableWeekWorkHours = 80
