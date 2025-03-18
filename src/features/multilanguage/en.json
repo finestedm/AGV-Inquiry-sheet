@@ -117,7 +117,8 @@
       "readmore": "Learn more",
       "addNewLoad": "Add",
       "deleteSelectedLoads": "Delete selected",
-      "addNewFlow": "Add"
+      "addNewFlow": "Add",
+      "deleteSelectedEquipment": "Delete selected equipment"
     },
     "helperText": {
       "loadDimensionsTip": "Provide dimensions in milimeters!"
@@ -247,6 +248,16 @@
       "silo": "SILO warehouse",
       "incline": "Max incline",
       "layout": "Sketch",
+      "equipment": {
+        "dock": "Dock",
+        "wall": "Wall",  
+        "gate": "Gate", 
+        "storage area": "Storage area",
+        "racking area": "Racking area",  
+        "charging stations": "Charging stations", 
+        "pickup station": "Pickup station", 
+        "unload station": "Unload station"
+      },
       "existingBuilding": {
         "height": "Height",
         "width": "Longer side",

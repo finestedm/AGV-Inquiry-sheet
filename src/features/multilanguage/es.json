@@ -196,6 +196,16 @@
     "silo": "Almacén SILO",
     "incline": "Inclinación máxima",
     "layout": "Plano",
+    "equipment": {
+        "dock": "Dock",
+        "wall": "Wall",  
+        "gate": "Gate", 
+        "storage area": "Storage area",
+        "racking area": "Racking area",  
+        "charging stations": "Charging stations", 
+        "pickup station": "Pickup station", 
+        "unload station": "Unload station"
+      },
     "existingBuilding": {
       "height": "Altura",
       "width": "Lado más largo",
@@ -307,7 +317,8 @@
     },
     "additional": {
       "noEquipment": "Sin equipo",
-      "noLoadsSelected": "No se han seleccionado cargas"
+      "noLoadsSelected": "No se han seleccionado cargas",
+      "noLoadsFound": "Carga o encontrada"
     },
     "noRowsOverlay": {
       "t1": "Añadir el primer flujo",
@@ -446,7 +457,8 @@
       "readmore": "Leer más",
       "addNewLoad": "Añadir",
       "deleteSelectedLoads": "Eliminar seleccionados",
-      "addNewFlow": "Añadir"
+      "addNewFlow": "Añadir",
+      "deleteSelectedEquipment": "Eliminar seleccionados"
     },
     "helperText": {
       "loadDimensionsTip": "¡Proporcione las dimensiones en milímetros!"

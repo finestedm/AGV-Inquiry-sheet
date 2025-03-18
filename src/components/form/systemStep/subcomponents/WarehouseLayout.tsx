@@ -342,7 +342,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                 startIcon={<DeleteIcon />}
                                 onClick={handleEquipmentDelete}
                             >
-                                Usuń wybrany element
+                                {t('ui.button.deleteSelectedEquipment')}
                             </Button>
                         </Collapse>
                     </Stack>
@@ -363,7 +363,7 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
 function EqMenuItem({ eq, equipmentToAdd, handleMenuItemClick }: { eq: string, equipmentToAdd: string, handleMenuItemClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, type: string) => void }) {
     const EquipmentIcon = eqIcons[eq] || null;
     const { t } = useTranslation()
-
+    console.log(eq)
     return (
         <MenuItem
             key={eq}
@@ -376,7 +376,7 @@ function EqMenuItem({ eq, equipmentToAdd, handleMenuItemClick }: { eq: string, e
                 <EquipmentIcon style={{ fontSize: 20 }} />
             </ListItemIcon>
             <ListItemText>
-                {t(`${eq}`)}
+                {t(`system.building.equipment.${eq}`)}
             </ListItemText>
         </MenuItem>
     )
