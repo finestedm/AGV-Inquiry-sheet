@@ -197,14 +197,14 @@
     "incline": "Inclinación máxima",
     "layout": "Plano",
     "equipment": {
-        "dock": "Dock",
-        "wall": "Wall",  
-        "gate": "Gate", 
-        "storage area": "Storage area",
-        "racking area": "Racking area",  
-        "charging stations": "Charging stations", 
-        "pickup station": "Pickup station", 
-        "unload station": "Unload station"
+        "dock": "Muelle",
+        "wall": "Pared",  
+        "gate": "Puerta", 
+        "storage area": "Área de almacenamiento",
+        "racking area": "Área de estantería",  
+        "charging stations": "Estaciones de carga", 
+        "pickup station": "Estación de recogida", 
+        "unload station": "Estación de entrega"
       },
     "existingBuilding": {
       "height": "Altura",
