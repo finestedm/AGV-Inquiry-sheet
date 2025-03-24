@@ -7,6 +7,7 @@ import { Stack, useTheme } from "@mui/material";
 import { Rect, Text, Transformer } from "react-konva";
 import Konva from 'konva';
 import { updateEditEquipmentDrawer } from "../../../../features/redux/reducers/editEquipmentDrawer";
+import { useTranslation } from "react-i18next";
 
 export default function EquipmentShape({ equipment, index, isSelected, onSelect, selectedShapeId, canvaToWarehouseRatio, selectedSystem }:
     { equipment: IEquipment, index: number, isSelected: boolean, onSelect: any, selectedShapeId: number | null, canvaToWarehouseRatio: number, selectedSystem: keyof ISystems }) {
@@ -14,6 +15,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
     const { id, x, width, y, height, zHeight, rotation, type, color } = equipment;
     const shapeRef = useRef<Konva.Rect | null>(null);
     const trRef = useRef<Konva.Transformer | null>(null);
+    const { t } = useTranslation();
 
     const dispatch = useDispatch();
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
@@ -142,7 +144,7 @@ export default function EquipmentShape({ equipment, index, isSelected, onSelect,
                             ref={commonProps.shapeRef as React.MutableRefObject<Konva.Rect>}
                             {...commonProps.commonProps}
                         />
-                        <Text {...textProps} y={textProps.y - 20} text={type} />
+                        <Text {...textProps} y={textProps.y - 20} text={t(`system.building.equipment.${type}`, { defaultValue: type })} />
                         <Text {...textProps} y={textProps.y - 10} text={`${Number(width).toFixed(1)}m x ${Number(height).toFixed(1)}m`} />
                         <Text {...textProps} text={`${Number(zHeight).toFixed(2)}m`} />
                         {isSelected && (

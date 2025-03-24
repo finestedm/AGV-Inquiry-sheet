@@ -16,7 +16,7 @@ export default function ClearFormDataDialog() {
 
     function handleReset() {
         dispatch(resetFormData())
-        dispatch(openSnackbar({ message: 'Form data has been reset!' }));
+        dispatch(openSnackbar({ message: t('ui.snackBar.message.clearForm') }));
         dispatch(updateClearFormDataDialog({ open: false }))
     }
 

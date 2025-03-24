@@ -292,8 +292,8 @@ export default function WarehouseLayout({ selectedSystem }: { selectedSystem: ke
                                     aria-label="add loads"
                                     aria-haspopup="menu"
                                     onClick={handleToggle}
-                                >
-                                    {t(`${equipmentToAdd}`)}
+                                    >
+                                                        {t(`system.building.equipment.${equipmentToAdd}`)}
                                     <Box ref={anchorRef} />
                                     <ArrowDropDownIcon />
                                 </Button>

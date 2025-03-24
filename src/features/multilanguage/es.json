@@ -522,7 +522,8 @@
         "duplicateImageFound": "Al menos uno de los archivos proporcionados ya existe.",
         "formNotComplete": "Faltan algunos datos en esta página.",
         "undoChanges": "Cambios deshechos",
-        "redoChanges": "Cambios restaurados"
+        "redoChanges": "Cambios restaurados",
+        "clearForm": "Datos borrados"
       }
     },
     "tooltip": {

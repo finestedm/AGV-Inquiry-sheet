@@ -182,7 +182,8 @@
         "duplicateImageFound": "At least one of the provided files already exist.",
         "formNotComplete": "There is some data missing on this page.",
         "undoChanges": "Changes undone",
-        "redoChanges": "Changes restored"
+        "redoChanges": "Changes restored",
+        "clearForm": "Form cleared"
 
       }
     },

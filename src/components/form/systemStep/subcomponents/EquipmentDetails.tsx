@@ -8,6 +8,7 @@ import EquipmentDetailsEditingDialog from "./EquipmentDetailsEditingDialog";
 import tinycolor from "tinycolor2";
 import { updateEditEquipmentDrawer } from "../../../../features/redux/reducers/editEquipmentDrawer";
 import { eqIcons } from "../../../../data/availableEquipment";
+import { useTranslation } from "react-i18next";
 
 export default function EquipmentDetails({ selectedSystem }: { selectedSystem: keyof ISystems }) {
     const warehouseEquipment = useSelector((state: RootState) => state.formData.present.system[selectedSystem].building.existingBuilding.equipment)
@@ -39,7 +40,8 @@ function EquipmentDetailsChip({ eq }: { eq: IEquipment }) {
     const EquipmentIcon = eqIcons[eq.type] || null;
     const currentStep = useSelector((state: RootState) => state.steps.currentStep);
     const editMode = useSelector((state: RootState) => state.editMode) && currentStep !== 'summary';    
-
+    const { t } = useTranslation();
+    
     return (
         <Chip
             sx={{
@@ -48,9 +50,11 @@ function EquipmentDetailsChip({ eq }: { eq: IEquipment }) {
             }}
             label={
                 <Typography variant="caption">
-                    <Typography fontWeight={700} variant="caption">{eq.type}</Typography>, {eq.height} x {eq.width}, H={eq.zHeight}
+                    <Typography fontWeight={700} variant="caption">{t(`system.building.equipment.${eq.type}`, { defaultValue: eq.type })}</Typography>, {eq.height} x {eq.width}, H={eq.zHeight}
                 </Typography>
             }
+
+
             avatar={
                 <Box
                     sx={{
