@@ -16,14 +16,18 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallest = useMediaQuery(theme.breakpoints.only("xs"));
   const darkMode = useSelector((state: RootState) => state.darkMode);
+  const editMode = useSelector((state: RootState) => state.editMode);
 
-  const allSteps = useSelector((state: RootState) => state.steps.steps);
+  const steps = useSelector((state: RootState) => state.steps);
+  const allSteps = steps.steps
+  const currentStep = steps.currentStep
 
   const location = useLocation();
   const activeStep = location.pathname.split("/").pop(); // Extract the active step from the path
   const activeStepIndex = activeStep ? allSteps.indexOf(activeStep) : 0;
 
-  const isLastStep = activeStep === 'summary';
+  const isSummaryStep = activeStep === 'summary';
+  const isLastStep = activeStepIndex === allSteps.length -1
 
   const stepperRef = useRef<HTMLDivElement>(null); // Ref for the stepper container
   const stepRef = useRef<HTMLDivElement>(null);
@@ -60,13 +64,14 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
             position="static"
             activeStep={activeStepIndex || 0}
             nextButton={
-              isLastStep
+              isSummaryStep
                 ? <Button
                   sx={{ borderRadius: 1000 }}
                   variant="contained"
                   color="secondary"
                   onClick={() => saveDataToServer()}
                   startIcon={<UploadIcon />}
+                  
                 >
                   {t('ui.button.inquiry.saveToServer')}
                 </Button>
@@ -75,6 +80,7 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
                   sx={{ borderRadius: 1000 }}
                   variant="contained"
                   color="primary"
+                  disabled={editMode && isLastStep}
                   onClick={() => navigateToStep(allSteps[activeStepIndex + 1] || allSteps[0])}
                 >
                   <KeyboardArrowRight />
