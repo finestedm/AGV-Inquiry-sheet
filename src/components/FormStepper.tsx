@@ -23,7 +23,7 @@ export default function FormStepper({ navigateToStep, saveDataToServer }: { navi
   const activeStep = location.pathname.split("/").pop(); // Extract the active step from the path
   const activeStepIndex = activeStep ? allSteps.indexOf(activeStep) : 0;
 
-  const isLastStep = activeStepIndex === allSteps.length - 1;
+  const isLastStep = activeStep === 'summary';
 
   const stepperRef = useRef<HTMLDivElement>(null); // Ref for the stepper container
   const stepRef = useRef<HTMLDivElement>(null);
