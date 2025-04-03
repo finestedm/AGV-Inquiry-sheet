@@ -4,7 +4,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/AGV-Inquiry-sheet/",
+  base: "/",
   reactRefresh.configs.vite,
   plugins: [react()],
   test: {
