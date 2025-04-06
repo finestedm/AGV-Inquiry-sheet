@@ -123,7 +123,25 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                 rows={rows}
                 columns={[
                     { field: "index", headerName: t('loadTable.header.index'), width: 50, type: 'number' },
-                    { field: "name", headerName: t('loadTable.header.name'), minWidth: 130, editable: editMode, type: 'string' },
+                    {
+                        field: "name",
+                        headerName: t('loadTable.header.name'),
+                        minWidth: 130,
+                        editable: editMode,
+                        type: 'string',
+                        renderCell: (params) => {
+                            // below part seaches for the load name in the loadsToAdd object and returns the translated name if it is found. If not it returns the custom name
+                            const loadName = params.value;
+
+                            const matched = Object.values(loadsToAdd).find(load => load.name === loadName);
+                            const labelKey = matched?.label;
+
+                            const translated = labelKey ? t(labelKey) : loadName;
+                            const displayName = translated === labelKey ? loadName : translated;
+
+                            return displayName;
+                        }
+                    },
                     { field: "length", headerName: t('loadTable.header.length'), minWidth: 90, editable: editMode, type: 'number', description: 'Load length in mm' },
                     { field: "width", headerName: t('loadTable.header.width'), minWidth: 90, editable: editMode, type: 'number', description: 'Load width in mm' },
                     { field: "height", headerName: t('loadTable.header.height'), minWidth: 80, editable: editMode, type: 'number', description: 'Load height in mm' },
@@ -160,7 +178,7 @@ export default function LoadTable({ selectedSystem }: { selectedSystem: keyof IS
                     },
                     { field: 'secured', headerName: t('loadTable.header.secured'), width: 100, editable: editMode, type: 'boolean', description: t('loadTable.header.securedDescription') },
                 ]}
-                
+
                 processRowUpdate={(newRow: any, oldRow: any) => {
                     if (editMode) {
                         dispatch(handleLoadChange({ newRow, selectedSystem }));

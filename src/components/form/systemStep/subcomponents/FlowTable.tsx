@@ -14,6 +14,7 @@ import tinycolor from "tinycolor2";
 import NoDataAlert from "../../../NoDataAlert";
 import EquipmentChip from "./EquipmentChip";
 import { customGreyPalette, customGreyPaletteDark } from "../../../../theme";
+import { loadsToAdd } from "../../../../data/typicalLoadSizes";
 
 export default function FlowTable({ selectedSystem }: { selectedSystem: keyof ISystems },) {
     const { t } = useTranslation()
@@ -213,11 +214,16 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                                     return t(`flowTable.header.loadTypeNone`);
                                 } else if (value.length === 1) {
                                     const loadId = value[0];
-                                    return selectedSystemLoads.find((load) => load.id === loadId)?.name || 'Load unnamed';
+                                    const load = selectedSystemLoads.find((l) => l.id === loadId);
+                                    const labelKey = Object.values(loadsToAdd).find((l) => l.name === load?.name)?.label;
+                                    const translated = labelKey ? t(labelKey) : load?.name;
+                            
+                                    return translated ?? t(`flowTable.header.loadUnnamed`);
                                 } else {
                                     return t(`flowTable.header.loadTypeMultiple`);
                                 }
-                            },
+                            },                            
+                            
                             valueOptions: selectedSystemLoads.map((load) => ({
                                 value: load.id,
                                 label:
@@ -232,30 +238,35 @@ export default function FlowTable({ selectedSystem }: { selectedSystem: keyof IS
                             })),
                             renderCell: (params) => {
                                 const loadIds = params.value as number[];
-
+                            
                                 if (loadIds.length === 0) {
                                     return t('flowTable.additional.noLoadsSelected');
                                 } else if (loadIds.length === 1) {
                                     const loadId = loadIds[0];
-                                    const loadName = selectedSystemLoads.find((load) => load.id === loadId)?.name || t('flowTable.additional.noLoadsFound');
-                                    return <Chip
-                                        label={loadName}
-                                        color='primary'
-                                        variant="filled"
-                                        size="small"
-                                    />;
+                                    const load = selectedSystemLoads.find((l) => l.id === loadId);
+                                    const labelKey = Object.values(loadsToAdd).find((l) => l.name === load?.name)?.label;
+                                    const translated = labelKey ? t(labelKey) : load?.name;
+                            
+                                    return (
+                                        <Chip
+                                            label={translated ?? t('flowTable.additional.noLoadsFound')}
+                                            color='primary'
+                                            variant="filled"
+                                            size="small"
+                                        />
+                                    );
                                 } else {
                                     return (
                                         <Chip
                                             avatar={<Avatar>{loadIds.length}</Avatar>}
                                             color='primary'
-                                            label="Multiple loads"
+                                            label={t('flowTable.header.loadTypeMultiple')}
                                             variant="filled"
                                             size="small"
                                         />
                                     );
                                 }
-                            },
+                            }                            
                         },
                         { field: "distance", headerName: t(`flowTable.header.distance`), minWidth: 130, editable: editMode, type: 'number', description: t(`flowTable.header.distanceDescription`) },
                         {
